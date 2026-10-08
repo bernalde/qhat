@@ -10,7 +10,7 @@ import numpy as np
 import pytest
 
 from qualtran import Bloq, QBit, Register, Signature
-from qualtran.bloqs.basic_gates import CNOT, Hadamard, OnEach, ZPowGate
+from qualtran.bloqs.basic_gates import CNOT, Hadamard, OnEach, Ry, ZPowGate
 from qualtran.bloqs.phase_estimation import TextbookQPE
 from qualtran.bloqs.qft.qft_text_book import QFTTextBook
 from qualtran.cirq_interop.t_complexity_protocol import t_complexity
@@ -18,8 +18,9 @@ from qualtran.resource_counting import get_cost_value, QubitCount
 from qualtran.resource_counting._qubit_counts import _cbloq_max_width
 
 from qhat.common.flexible_qpe import FlexibleQPE
-from qhat.common.qpe_window_state import RectangularWindowState
+from qhat.common.qpe_window_state import QPEWindowStateBase, RectangularWindowState
 from qhat.common.trotter_flattened import Trotterization
+from qhat.common.trotter_original import build_ramped_trotterized_unitary
 
 
 @attrs.frozen
@@ -37,20 +38,46 @@ class TwoQubitPlainBloq(Bloq):
         return {'a': a, 'b': b}
 
 
+@attrs.frozen
+class RyWindowState(QPEWindowStateBase):
+    """A window state with a non-symmetric matrix (Ry on each qubit), for orientation tests."""
+
+    bitsize: int
+
+    @property
+    def m_bits(self):
+        return self.bitsize
+
+    @cached_property
+    def signature(self):
+        return Signature([self.m_register])
+
+    @classmethod
+    def from_requirements(cls, phase_error, probability_of_failure):
+        raise NotImplementedError
+
+    @classmethod
+    def from_num_phase_qubits(cls, num_phase_qubits):
+        return cls(num_phase_qubits)
+
+    def build_composite_bloq(self, bb, qpe_reg):
+        return {'qpe_reg': bb.add(OnEach(self.m_bits, Ry(0.7)), q=qpe_reg)}
+
+
 def small_trotterization():
     return Trotterization.from_method(
         pauli_terms=[("XZ", 0.5), ("ZY", 0.3)], method="second order", time=0.3, num_steps=2
     )
 
 
+def small_original_trotterization():
+    return build_ramped_trotterized_unitary(
+        [("XZ", 0.5), ("ZY", 0.3)], "second order", timestep=0.3, numsteps=2)
+
+
 def generic_tensor_contract(bloq):
     """Contract the decomposition, bypassing the optimized tensor_contract."""
     return bloq.decompose_bloq().tensor_contract()
-
-
-def phase_blocks(qpe):
-    """Return the target-register blocks W[k] of the controlled-power part of a FlexibleQPE."""
-    return qpe._phase_blocks()
 
 
 # -------------------------------------------------------------------------------------------------
@@ -227,11 +254,25 @@ class TestTensorContraction:
     @pytest.mark.parametrize("unitary", [
         ZPowGate(exponent=2 * 0.234),
         small_trotterization(),
+        small_original_trotterization(),
         TwoQubitPlainBloq(),
-    ], ids=["zpow", "trotterization", "plain-bloq"])
+    ], ids=["zpow", "trotterization", "original-trotterization", "plain-bloq"])
     @pytest.mark.parametrize("m", [1, 3])
     def test_optimized_matches_decomposition(self, unitary, m):
         qpe = FlexibleQPE(unitary, m)
+        np.testing.assert_allclose(
+            qpe.tensor_contract(), generic_tensor_contract(qpe), atol=1e-12)
+
+    @pytest.mark.parametrize("m", [2, 3])
+    def test_optimized_matches_decomposition_with_nonsymmetric_components(self, m):
+        """Default prep and inverse QFT have symmetric matrices, which would hide a transposed
+        P or Q in tensor_contract; these do not."""
+        prep = RyWindowState(m)
+        qft_inv = QFTTextBook(m, with_reverse=False).adjoint()
+        for component in (prep, qft_inv):  # guard: components really are non-symmetric
+            mat = component.tensor_contract()
+            assert not np.allclose(mat, mat.T)
+        qpe = FlexibleQPE(small_trotterization(), m, prep, qft_inv)
         np.testing.assert_allclose(
             qpe.tensor_contract(), generic_tensor_contract(qpe), atol=1e-12)
 
@@ -245,13 +286,16 @@ class TestTensorContraction:
     def test_plain_bloq_blocks_are_unitary_powers(self):
         qpe = FlexibleQPE(TwoQubitPlainBloq(), 3)
         u = TwoQubitPlainBloq().tensor_contract()
-        for k, block in enumerate(phase_blocks(qpe)):
+        for k, block in enumerate(qpe._phase_blocks()):
             np.testing.assert_allclose(block, np.linalg.matrix_power(u, k), atol=1e-12)
 
-    @pytest.mark.parametrize("combine_terms", [True, False])
-    def test_trotterization_unitary_powers_are_matrix_powers(self, combine_terms):
-        """tensor_contract squares U's matrix, so Trotterization.__pow__ must give exactly U^k."""
-        u = attrs.evolve(small_trotterization(), combine_terms=combine_terms)
+    @pytest.mark.parametrize("u", [
+        small_trotterization(),
+        attrs.evolve(small_trotterization(), combine_terms=False),
+        small_original_trotterization(),
+    ], ids=["flattened-combined", "flattened-separate", "original"])
+    def test_trotterization_unitary_powers_are_matrix_powers(self, u):
+        """tensor_contract squares U's matrix, so a Trotter __pow__ must give exactly U^k."""
         qpe = FlexibleQPE(u, 3)
         umat = u.tensor_contract()
         for j in range(3):
