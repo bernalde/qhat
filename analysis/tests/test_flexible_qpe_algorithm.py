@@ -3,8 +3,10 @@ Tests for QPE construction in analysis/algorithm.py: the "QPE: QHAT flexible" an
 "QPE: qualtran textbook" methods and phase-register sizing.
 """
 
+import functools
 import math
 
+import numpy as np
 import pytest
 from qualtran.bloqs.phase_estimation import TextbookQPE
 
@@ -13,6 +15,17 @@ from qhat.analysis.config_types import AlgorithmConfiguration
 from qhat.common.flexible_qpe import FlexibleQPE
 from qhat.common.pauli_string_evolution import PauliStringEvolution
 from qhat.common.trotter_flattened import Trotterization
+
+PAULIS = {"I": np.eye(2), "X": np.array([[0, 1], [1, 0]]),
+          "Y": np.array([[0, -1j], [1j, 0]]), "Z": np.diag([1, -1])}
+
+# Commuting terms, so one Trotter step is exact. Eigenstates are the Bell states, with energies
+# -1, 0, 0.4 and 0.6; the one-norm bound is [-1, 1].
+BELL_TERMS = [("ZZ", 0.5), ("XX", 0.3), ("YY", 0.2)]
+
+
+def hamiltonian_matrix(terms):
+    return sum(c * functools.reduce(np.kron, [PAULIS[p] for p in s]) for s, c in terms)
 
 
 def make_config(method="QPE: QHAT flexible", **kwargs):
@@ -157,6 +170,28 @@ def test_driver_evolution_time_gives_P0_precision_bits(method, W, dE):
     assert phase_qubits(algorithm) == P0 + math.ceil(math.log2(2 + 1 / (2 * p_fail)))
 
 
-def test_tensor_contract_shape(unitary):
-    algorithm = build_algorithm(make_config(num_phase_qubits=2), unitary)
-    assert algorithm.tensor_contract().shape == (2**4, 2**4)
+@pytest.mark.parametrize("Elo, Ehi", [(-1.0, 1.0), (-1.05, 0.65)], ids=["one-norm", "off-center"])
+@pytest.mark.parametrize("dE, p_fail", [(0.1, 0.1), (0.15, 0.05)])
+def test_energy_estimates_meet_requirements(Elo, Ehi, dE, p_fail):
+    """End to end: window, t = 2 pi / (hi - lo), QPE sized from (dE, p_fail), decoded energies.
+
+    For each eigenstate, Pr[|E_est - E| > dE] <= p_fail. U = exp(-i H t), so a phase-register
+    value k decodes to the energy in [lo, hi) congruent to -(k / 2^m) (hi - lo).
+    """
+    config = make_config(energy_error=dE, probability_of_failure=p_fail)
+    lo, hi = qpe_energy_window(config, Elo, Ehi)
+    t = 2 * math.pi / (hi - lo)
+    u = Trotterization.from_method(pauli_terms=BELL_TERMS, method="first order", time=t,
+                                   num_steps=1)
+    qpe = build_algorithm(config, u)
+    m, n = qpe.num_ancilla_qubits, qpe.num_state_qubits
+    energies, states = np.linalg.eigh(hamiltonian_matrix(BELL_TERMS))
+    assert Elo <= energies.min() and energies.max() < Ehi  # guard: test Hamiltonian fits
+
+    k = np.arange(2**m)
+    estimates = lo + np.mod(-k / 2**m * (hi - lo) - lo, hi - lo)
+    mat = qpe.tensor_contract()
+    for E, psi in zip(energies, states.T):
+        out = mat @ np.kron(np.eye(2**m)[0], psi)  # qpe_reg starts in |0>
+        probs = np.sum(np.abs(out.reshape(2**m, 2**n))**2, axis=1)
+        assert probs[np.abs(estimates - E) > dE].sum() <= p_fail
