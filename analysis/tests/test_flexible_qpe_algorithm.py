@@ -89,6 +89,11 @@ class TestPhaseQubits:
         assert isinstance(algorithm, qpe_class)
         assert phase_qubits(algorithm) == 5
 
+    def test_explicit_num_phase_qubits_needs_no_conversion(self, unitary, method, qpe_class):
+        """With num_phase_qubits set, energy_error is not converted (this unitary cannot)."""
+        config = make_config(method=method, num_phase_qubits=3, energy_error=0.05)
+        assert phase_qubits(build_algorithm(config, unitary)) == 3
+
     def test_from_energy_error_and_probability_of_failure(self, trotter, method, qpe_class):
         dE, p_fail = 0.05, 0.1
         algorithm = build_algorithm(

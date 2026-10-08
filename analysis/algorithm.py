@@ -64,12 +64,25 @@ class NewQubitizationQPE(QubitizationQPE):
 
 # -------------------------------------------------------------------------------------------------
 
-def qpe_requirements(config_algorithm: AlgorithmConfiguration, phase_error):
+def qpe_phase_error(config_algorithm: AlgorithmConfiguration, unitary):
+    """Phase error (in turns) corresponding to algorithm.energy_error for this unitary."""
+    if config_algorithm.energy_error is None:
+        return None
+    if not hasattr(unitary, "phase_error_from_energy_error"):
+        raise ValueError(
+            f"Cannot size QPE from algorithm.energy_error: the unitary ({type(unitary).__name__}) "
+            "does not provide phase_error_from_energy_error().  Set algorithm.num_phase_qubits.")
+    return unitary.phase_error_from_energy_error(config_algorithm.energy_error)
+
+# -------------------------------------------------------------------------------------------------
+
+def qpe_requirements(config_algorithm: AlgorithmConfiguration, unitary):
     """Check and return `(phase_error, probability_of_failure)` for sizing a non-qubitized QPE.
 
-    Used when `algorithm.num_phase_qubits` is not set. `phase_error` is in turns (see
+    Used only when `algorithm.num_phase_qubits` is not set. `phase_error` is in turns (see
     `qpe_phase_error`).
     """
+    phase_error = qpe_phase_error(config_algorithm, unitary)
     if phase_error is None:
         raise ValueError(
             "QPE needs either algorithm.num_phase_qubits or algorithm.energy_error.")
@@ -88,8 +101,7 @@ def qpe_requirements(config_algorithm: AlgorithmConfiguration, phase_error):
 
 def build_qpe_qualtran_textbook(
         config_algorithm: AlgorithmConfiguration,
-        unitary,
-        phase_error):
+        unitary):
 
     logger.verbose("Build a QPE algorithm with Qualtran's \"textbook\" method.")
 
@@ -146,7 +158,7 @@ def build_qpe_qualtran_textbook(
         logger.verbose(f"-- using user-specified number of phase qubits ({P})")
         qpe = TextbookQPE(unitary, P)
     else:
-        phase_error, probability_of_failure = qpe_requirements(config_algorithm, phase_error)
+        phase_error, probability_of_failure = qpe_requirements(config_algorithm, unitary)
         qpe = TextbookQPE.from_precision_and_delta(
                 unitary, precision_bits(phase_error), probability_of_failure)
     logger.verbose(f"-- number of phase qubits = {qpe.m_bits}")
@@ -161,8 +173,7 @@ INVERSE_QFTS = {"textbook": None}
 
 def build_qpe_qhat_flexible(
         config_algorithm: AlgorithmConfiguration,
-        unitary,
-        phase_error):
+        unitary):
 
     logger.verbose("Build a QPE algorithm with QHAT's FlexibleQPE.")
 
@@ -180,7 +191,7 @@ def build_qpe_qhat_flexible(
         logger.verbose(f"-- using user-specified number of phase qubits ({P})")
         qpe = FlexibleQPE.from_num_phase_qubits(unitary, P, **components)
     else:
-        phase_error, probability_of_failure = qpe_requirements(config_algorithm, phase_error)
+        phase_error, probability_of_failure = qpe_requirements(config_algorithm, unitary)
         qpe = FlexibleQPE.from_requirements(
                 unitary, phase_error, probability_of_failure, **components)
     logger.verbose(f"-- number of phase qubits = {qpe.num_ancilla_qubits}")
@@ -246,18 +257,6 @@ def build_controlled_time_evolution(
 
 # -------------------------------------------------------------------------------------------------
 
-def qpe_phase_error(config_algorithm: AlgorithmConfiguration, unitary):
-    """Phase error (in turns) corresponding to algorithm.energy_error for this unitary."""
-    if config_algorithm.energy_error is None:
-        return None
-    if not hasattr(unitary, "phase_error_from_energy_error"):
-        raise ValueError(
-            f"Cannot size QPE from algorithm.energy_error: the unitary ({type(unitary).__name__}) "
-            "does not provide phase_error_from_energy_error().  Set algorithm.num_phase_qubits.")
-    return unitary.phase_error_from_energy_error(config_algorithm.energy_error)
-
-# -------------------------------------------------------------------------------------------------
-
 def build_algorithm(
         config_algorithm: AlgorithmConfiguration,
         unitary):
@@ -265,11 +264,9 @@ def build_algorithm(
     logger.info("Beginning to construct quantum algorithm.")
 
     if config_algorithm.method.lower() in ("qpe: qualtran textbook",):
-        return build_qpe_qualtran_textbook(
-                config_algorithm, unitary, qpe_phase_error(config_algorithm, unitary))
+        return build_qpe_qualtran_textbook(config_algorithm, unitary)
     elif config_algorithm.method.lower() in ("qpe: qhat flexible",):
-        return build_qpe_qhat_flexible(
-                config_algorithm, unitary, qpe_phase_error(config_algorithm, unitary))
+        return build_qpe_qhat_flexible(config_algorithm, unitary)
     elif config_algorithm.method.lower() in ("qpe: qualtran qubitization",):
         # TODO: This may be more specialized (for LCU only?), but I'm not yet sure of the details.
         return build_qpe_qualtran_qubitized(config_algorithm, unitary)
