@@ -19,7 +19,7 @@ from qualtran.resource_counting import get_cost_value, QubitCount
 from qualtran.resource_counting._qubit_counts import _cbloq_max_width
 
 from qhat.common.flexible_qpe import FlexibleQPE
-from qhat.common.qpe_window_state import QPEWindowStateBase, RectangularWindowState
+from qhat.common.qpe_window_state import precision_bits, QPEWindowStateBase, RectangularWindowState
 from qhat.common.trotter_flattened import Trotterization
 from qhat.common.trotter_original import build_ramped_trotterized_unitary
 
@@ -93,6 +93,20 @@ def generic_tensor_contract(bloq):
 # -------------------------------------------------------------------------------------------------
 # Window states
 # -------------------------------------------------------------------------------------------------
+
+class TestPrecisionBits:
+
+    @pytest.mark.parametrize("phase_error, n", [
+        (0.75, 1), (0.5, 1), (0.3, 2), (0.25, 2), (0.1, 4), (2**-10, 10),
+    ])
+    def test_smallest_n_with_two_to_minus_n_at_most_phase_error(self, phase_error, n):
+        assert precision_bits(phase_error) == n
+
+    @pytest.mark.parametrize("phase_error", [0.0, 1.0, -0.1, 1.5])
+    def test_out_of_range_raises(self, phase_error):
+        with pytest.raises(ValueError, match="phase_error"):
+            precision_bits(phase_error)
+
 
 class TestRectangularWindowState:
 
