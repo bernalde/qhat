@@ -12,6 +12,7 @@ from qualtran.bloqs.phase_estimation import TextbookQPE
 
 from qhat.analysis.algorithm import build_algorithm, qpe_energy_window
 from qhat.analysis.config_types import AlgorithmConfiguration
+from qhat.analysis.resource_estimation import estimate_resources
 from qhat.common.flexible_qpe import FlexibleQPE
 from qhat.common.pauli_string_evolution import PauliStringEvolution
 from qhat.common.trotter_flattened import Trotterization
@@ -195,3 +196,23 @@ def test_energy_estimates_meet_requirements(Elo, Ehi, dE, p_fail):
         out = mat @ np.kron(np.eye(2**m)[0], psi)  # qpe_reg starts in |0>
         probs = np.sum(np.abs(out.reshape(2**m, 2**n))**2, axis=1)
         assert probs[np.abs(estimates - E) > dE].sum() <= p_fail
+
+
+class TestConfigurationAndResources:
+
+    def test_toml_saves_flexible_components(self):
+        table = make_config(ancilla_prep="rectangular", qft_inv="textbook")._generate_TOML_table()
+        assert table["ancilla_prep"] == "rectangular"
+        assert table["qft_inv"] == "textbook"
+
+    def test_toml_omits_unset_components(self):
+        table = make_config()._generate_TOML_table()
+        assert "ancilla_prep" not in table
+        assert "qft_inv" not in table
+
+    @pytest.mark.parametrize("estimator", ["pyLIQTR", "qualtran"])
+    def test_resource_estimators_accept_flexible_qpe(self, trotter, estimator):
+        algorithm = build_algorithm(make_config(num_phase_qubits=3), trotter)
+        resources = estimate_resources(estimator, algorithm)[estimator.lower()]
+        assert resources["qubit_count"] == 3 + 2
+        assert resources["T_count"] > 0
