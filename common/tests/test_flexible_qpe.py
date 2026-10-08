@@ -8,6 +8,7 @@ from unittest import mock
 import attrs
 import numpy as np
 import pytest
+import sympy
 
 from qualtran import Bloq, QBit, Register, Signature
 from qualtran.bloqs.basic_gates import CNOT, Hadamard, OnEach, Ry, ZPowGate
@@ -36,6 +37,15 @@ class TwoQubitPlainBloq(Bloq):
         a, b = bb.add(CNOT(), ctrl=a, target=b)
         b = bb.add(ZPowGate(exponent=0.11), q=b)
         return {'a': a, 'b': b}
+
+
+@attrs.frozen
+class QpeRegNameClashBloq(Bloq):
+    """A plain Bloq whose register is named like FlexibleQPE's phase register."""
+
+    @cached_property
+    def signature(self):
+        return Signature([Register('qpe_reg', QBit())])
 
 
 @attrs.frozen
@@ -186,6 +196,15 @@ class TestConstruction:
     def test_mismatched_qft_inv_raises(self):
         with pytest.raises(ValueError, match="qft_inv"):
             FlexibleQPE(ZPowGate(exponent=0.1), 3, qft_inv=QFTTextBook(2).adjoint())
+
+    def test_unitary_register_named_qpe_reg_raises(self):
+        with pytest.raises(ValueError, match="qpe_reg"):
+            FlexibleQPE(QpeRegNameClashBloq(), 3)
+
+    def test_symbolic_size_cannot_decompose(self):
+        qpe = FlexibleQPE(small_trotterization(), sympy.Symbol('m'))
+        with pytest.raises(NotImplementedError, match="symbolic"):
+            qpe.decompose_bloq()
 
     def test_unitary_power_fast_forwards_when_available(self):
         qpe = FlexibleQPE(small_trotterization(), 3)
@@ -388,3 +407,13 @@ class TestResourceEstimation:
         from_decomposition = _cbloq_max_width(
             qpe.decompose_bloq()._binst_graph, lambda b: get_cost_value(b, QubitCount()))
         assert get_cost_value(qpe, QubitCount()) == from_decomposition == 3 + 2
+
+    def test_symbolic_call_graph_repeats_controlled_unitary(self):
+        u = small_trotterization()
+        m = sympy.Symbol('m')
+        qpe = FlexibleQPE(u, m)
+        assert dict(qpe.build_call_graph(None)) == {
+            RectangularWindowState(m): 1,
+            u.controlled(): 2**m - 1,
+            QFTTextBook(m, with_reverse=True).adjoint(): 1,
+        }
