@@ -1,0 +1,887 @@
+{
+  "case": "H2S_s1.00",
+  "protocol": "corrected-low-energy-states-v1",
+  "source_design_sha256": "992f4fbfd97c9d9fdbe6a9bedfb15ec13a682cd9dba6471dd044c7efadb3bf68",
+  "coefficient_policy": "molecular-unit-weight-v1",
+  "coefficient_cutoff": 1e-12,
+  "hamiltonian_sha256": "4389de6a118a9a39720b8ab1ded7245a525cc8178265513b68df4d7bc09cef83",
+  "ordered_schedule_sha256": {
+    "fermionic_signed": "4820df6aa6f74e1c8a52afd9b38a335741c9a3383687c2b6297ae138d6d417d1",
+    "jw_signed": "07dc07e96671d6b727c3327443bb48e22ec7068178f8bf5923439481dc81f2a7",
+    "jw_magnitude": "cc0081dfac77010d53a9bd92c53fc1e248e1f782ab0eaba661d36e134f68bfa8"
+  },
+  "n_qubits": 10,
+  "n_electrons": 4,
+  "N_alpha": 2,
+  "N_beta": 2,
+  "sector_dimension": 100,
+  "full_hilbert_dimension": 1024,
+  "sector_convention": "interleaved alpha/beta modes, q0 most significant; fixes particle number and spin projection, not total spin",
+  "pauli_count": 251,
+  "nominal_exponential_count": 25100,
+  "time": 1.0,
+  "steps": 100,
+  "state_preparation": {
+    "sector_ground": {
+      "complex128_little_endian_sha256": "ac726b641ecc52eb0c88ae08244754f33a94134152ad255d8b5081bfd796a5b1",
+      "norm": 0.9999999999999999,
+      "energy_identity_free_hartree": -1.5458185780411682,
+      "energy_standard_deviation_hartree": 3.4257921142779343e-15,
+      "hf_overlap_magnitude": 0.9973498295080141,
+      "hf_fidelity": 0.9947066824196648,
+      "eigenvalue_residual_interpretation": "eigenvector residual"
+    },
+    "sector_next": {
+      "complex128_little_endian_sha256": "f231cfea78b93330ef725f35b6c8305f2655fb8ce7ddea440c82f01fdd3144b2",
+      "norm": 0.9999999999999999,
+      "energy_identity_free_hartree": -1.3035527964147873,
+      "energy_standard_deviation_hartree": 1.4327671032935585e-15,
+      "hf_overlap_magnitude": 9.435444647168975e-20,
+      "hf_fidelity": 8.902761568978966e-39,
+      "eigenvalue_residual_interpretation": "eigenvector residual"
+    },
+    "equal_coherent": {
+      "complex128_little_endian_sha256": "8f3fe08dc3f7f65b9c373d302137ef6588cdad5badf339633e9545c42116f8d2",
+      "norm": 0.9999999999999998,
+      "energy_identity_free_hartree": -1.4246856872279774,
+      "energy_standard_deviation_hartree": 0.12113289081319042,
+      "hf_overlap_magnitude": 0.7052328276603638,
+      "hf_fidelity": 0.4973533412098323,
+      "eigenvalue_residual_interpretation": "energy standard deviation, generally nonzero"
+    }
+  },
+  "spectrum": {
+    "eigenvalues_identity_free_hartree": [
+      -1.545818578041167,
+      -1.3035527964147873,
+      -1.2798258462151266,
+      -1.2737079854560367,
+      -1.2336200816629992,
+      -1.2187978059940967,
+      -1.1686008443779308,
+      -1.1228842270275639,
+      -1.1144267489493034,
+      -0.9912416636751437,
+      -0.9759114857851471,
+      -0.9593732433760048,
+      -0.9314826510009876,
+      -0.9285830120713688,
+      -0.9117212237721707,
+      -0.8836075345646525,
+      -0.8770046500727388,
+      -0.8691040247234479,
+      -0.8444331732984655,
+      -0.8277963797112328,
+      -0.8187845869373905,
+      -0.8098362744025821,
+      -0.7931513401565026,
+      -0.7829780883128111,
+      -0.7679351898370274,
+      -0.7195224921658531,
+      -0.7097479803721315,
+      -0.7013232247084545,
+      -0.7003629530741112,
+      -0.6687859952571965,
+      -0.6524902403865128,
+      -0.6236085181085652,
+      -0.6186706627953124,
+      -0.61545058692406,
+      -0.5944559681064737,
+      -0.5927005955328876,
+      -0.5846941617589169,
+      -0.574438559593463,
+      -0.5712518881725198,
+      -0.5646758637090644,
+      -0.5609859110974961,
+      -0.5324307161505628,
+      -0.5315142990602985,
+      -0.5293849131153324,
+      -0.5211902200545583,
+      -0.4942884107340585,
+      -0.4696862984868605,
+      -0.43638830941003415,
+      -0.42989611447538156,
+      -0.39157506930931396,
+      -0.3859593784719185,
+      -0.37572468163884276,
+      -0.3707291209312461,
+      -0.3295296520016192,
+      -0.3183132630593254,
+      -0.2930626210909574,
+      -0.2806575863088404,
+      -0.27800852239364937,
+      -0.27039852230314965,
+      -0.26074142089673547,
+      -0.24210677857177554,
+      -0.22020263021649178,
+      -0.2038774039008907,
+      -0.20200698702158648,
+      -0.18482660958412678,
+      -0.18147004738025874,
+      -0.13949828873423453,
+      -0.130674562070194,
+      -0.09117811620384429,
+      -0.09042926526948998,
+      -0.08097738266510157,
+      -0.07594836354072199,
+      -0.07583507371449846,
+      -0.06989899409012346,
+      -0.04637255265421125,
+      -0.04327143423217772,
+      -0.03585241509349335,
+      -0.026513574905320247,
+      0.0008701356319870124,
+      0.031788280081345266,
+      0.04579111480263254,
+      0.06818327218259546,
+      0.08276620812479585,
+      0.10963465858520172,
+      0.16065089217741324,
+      0.19546141126249184,
+      0.20839770351317266,
+      0.23428400672844307,
+      0.25700275424531427,
+      0.2589606561489469,
+      0.27160810173952177,
+      0.3117527433500594,
+      0.40728991068794246,
+      0.4643114606256148,
+      0.4878945689334997,
+      0.5310961888041201,
+      0.6774699088471674,
+      0.6810135158526026,
+      0.8072700831097698,
+      0.8535669562266535
+    ],
+    "first_gap_hartree": 0.2422657816263798,
+    "second_gap_hartree": 0.023726950199660646,
+    "numerical_clusters": [
+      {
+        "start": 0,
+        "stop": 1,
+        "multiplicity": 1,
+        "minimum_energy": -1.545818578041167,
+        "maximum_energy": -1.545818578041167
+      },
+      {
+        "start": 1,
+        "stop": 2,
+        "multiplicity": 1,
+        "minimum_energy": -1.3035527964147873,
+        "maximum_energy": -1.3035527964147873
+      },
+      {
+        "start": 2,
+        "stop": 3,
+        "multiplicity": 1,
+        "minimum_energy": -1.2798258462151266,
+        "maximum_energy": -1.2798258462151266
+      },
+      {
+        "start": 3,
+        "stop": 4,
+        "multiplicity": 1,
+        "minimum_energy": -1.2737079854560367,
+        "maximum_energy": -1.2737079854560367
+      },
+      {
+        "start": 4,
+        "stop": 5,
+        "multiplicity": 1,
+        "minimum_energy": -1.2336200816629992,
+        "maximum_energy": -1.2336200816629992
+      },
+      {
+        "start": 5,
+        "stop": 6,
+        "multiplicity": 1,
+        "minimum_energy": -1.2187978059940967,
+        "maximum_energy": -1.2187978059940967
+      },
+      {
+        "start": 6,
+        "stop": 7,
+        "multiplicity": 1,
+        "minimum_energy": -1.1686008443779308,
+        "maximum_energy": -1.1686008443779308
+      },
+      {
+        "start": 7,
+        "stop": 8,
+        "multiplicity": 1,
+        "minimum_energy": -1.1228842270275639,
+        "maximum_energy": -1.1228842270275639
+      },
+      {
+        "start": 8,
+        "stop": 9,
+        "multiplicity": 1,
+        "minimum_energy": -1.1144267489493034,
+        "maximum_energy": -1.1144267489493034
+      },
+      {
+        "start": 9,
+        "stop": 10,
+        "multiplicity": 1,
+        "minimum_energy": -0.9912416636751437,
+        "maximum_energy": -0.9912416636751437
+      },
+      {
+        "start": 10,
+        "stop": 11,
+        "multiplicity": 1,
+        "minimum_energy": -0.9759114857851471,
+        "maximum_energy": -0.9759114857851471
+      },
+      {
+        "start": 11,
+        "stop": 12,
+        "multiplicity": 1,
+        "minimum_energy": -0.9593732433760048,
+        "maximum_energy": -0.9593732433760048
+      },
+      {
+        "start": 12,
+        "stop": 13,
+        "multiplicity": 1,
+        "minimum_energy": -0.9314826510009876,
+        "maximum_energy": -0.9314826510009876
+      },
+      {
+        "start": 13,
+        "stop": 14,
+        "multiplicity": 1,
+        "minimum_energy": -0.9285830120713688,
+        "maximum_energy": -0.9285830120713688
+      },
+      {
+        "start": 14,
+        "stop": 15,
+        "multiplicity": 1,
+        "minimum_energy": -0.9117212237721707,
+        "maximum_energy": -0.9117212237721707
+      },
+      {
+        "start": 15,
+        "stop": 16,
+        "multiplicity": 1,
+        "minimum_energy": -0.8836075345646525,
+        "maximum_energy": -0.8836075345646525
+      },
+      {
+        "start": 16,
+        "stop": 17,
+        "multiplicity": 1,
+        "minimum_energy": -0.8770046500727388,
+        "maximum_energy": -0.8770046500727388
+      },
+      {
+        "start": 17,
+        "stop": 18,
+        "multiplicity": 1,
+        "minimum_energy": -0.8691040247234479,
+        "maximum_energy": -0.8691040247234479
+      },
+      {
+        "start": 18,
+        "stop": 19,
+        "multiplicity": 1,
+        "minimum_energy": -0.8444331732984655,
+        "maximum_energy": -0.8444331732984655
+      },
+      {
+        "start": 19,
+        "stop": 20,
+        "multiplicity": 1,
+        "minimum_energy": -0.8277963797112328,
+        "maximum_energy": -0.8277963797112328
+      },
+      {
+        "start": 20,
+        "stop": 21,
+        "multiplicity": 1,
+        "minimum_energy": -0.8187845869373905,
+        "maximum_energy": -0.8187845869373905
+      },
+      {
+        "start": 21,
+        "stop": 22,
+        "multiplicity": 1,
+        "minimum_energy": -0.8098362744025821,
+        "maximum_energy": -0.8098362744025821
+      },
+      {
+        "start": 22,
+        "stop": 23,
+        "multiplicity": 1,
+        "minimum_energy": -0.7931513401565026,
+        "maximum_energy": -0.7931513401565026
+      },
+      {
+        "start": 23,
+        "stop": 24,
+        "multiplicity": 1,
+        "minimum_energy": -0.7829780883128111,
+        "maximum_energy": -0.7829780883128111
+      },
+      {
+        "start": 24,
+        "stop": 25,
+        "multiplicity": 1,
+        "minimum_energy": -0.7679351898370274,
+        "maximum_energy": -0.7679351898370274
+      },
+      {
+        "start": 25,
+        "stop": 26,
+        "multiplicity": 1,
+        "minimum_energy": -0.7195224921658531,
+        "maximum_energy": -0.7195224921658531
+      },
+      {
+        "start": 26,
+        "stop": 27,
+        "multiplicity": 1,
+        "minimum_energy": -0.7097479803721315,
+        "maximum_energy": -0.7097479803721315
+      },
+      {
+        "start": 27,
+        "stop": 28,
+        "multiplicity": 1,
+        "minimum_energy": -0.7013232247084545,
+        "maximum_energy": -0.7013232247084545
+      },
+      {
+        "start": 28,
+        "stop": 29,
+        "multiplicity": 1,
+        "minimum_energy": -0.7003629530741112,
+        "maximum_energy": -0.7003629530741112
+      },
+      {
+        "start": 29,
+        "stop": 30,
+        "multiplicity": 1,
+        "minimum_energy": -0.6687859952571965,
+        "maximum_energy": -0.6687859952571965
+      },
+      {
+        "start": 30,
+        "stop": 31,
+        "multiplicity": 1,
+        "minimum_energy": -0.6524902403865128,
+        "maximum_energy": -0.6524902403865128
+      },
+      {
+        "start": 31,
+        "stop": 32,
+        "multiplicity": 1,
+        "minimum_energy": -0.6236085181085652,
+        "maximum_energy": -0.6236085181085652
+      },
+      {
+        "start": 32,
+        "stop": 33,
+        "multiplicity": 1,
+        "minimum_energy": -0.6186706627953124,
+        "maximum_energy": -0.6186706627953124
+      },
+      {
+        "start": 33,
+        "stop": 34,
+        "multiplicity": 1,
+        "minimum_energy": -0.61545058692406,
+        "maximum_energy": -0.61545058692406
+      },
+      {
+        "start": 34,
+        "stop": 35,
+        "multiplicity": 1,
+        "minimum_energy": -0.5944559681064737,
+        "maximum_energy": -0.5944559681064737
+      },
+      {
+        "start": 35,
+        "stop": 36,
+        "multiplicity": 1,
+        "minimum_energy": -0.5927005955328876,
+        "maximum_energy": -0.5927005955328876
+      },
+      {
+        "start": 36,
+        "stop": 37,
+        "multiplicity": 1,
+        "minimum_energy": -0.5846941617589169,
+        "maximum_energy": -0.5846941617589169
+      },
+      {
+        "start": 37,
+        "stop": 38,
+        "multiplicity": 1,
+        "minimum_energy": -0.574438559593463,
+        "maximum_energy": -0.574438559593463
+      },
+      {
+        "start": 38,
+        "stop": 39,
+        "multiplicity": 1,
+        "minimum_energy": -0.5712518881725198,
+        "maximum_energy": -0.5712518881725198
+      },
+      {
+        "start": 39,
+        "stop": 40,
+        "multiplicity": 1,
+        "minimum_energy": -0.5646758637090644,
+        "maximum_energy": -0.5646758637090644
+      },
+      {
+        "start": 40,
+        "stop": 41,
+        "multiplicity": 1,
+        "minimum_energy": -0.5609859110974961,
+        "maximum_energy": -0.5609859110974961
+      },
+      {
+        "start": 41,
+        "stop": 42,
+        "multiplicity": 1,
+        "minimum_energy": -0.5324307161505628,
+        "maximum_energy": -0.5324307161505628
+      },
+      {
+        "start": 42,
+        "stop": 43,
+        "multiplicity": 1,
+        "minimum_energy": -0.5315142990602985,
+        "maximum_energy": -0.5315142990602985
+      },
+      {
+        "start": 43,
+        "stop": 44,
+        "multiplicity": 1,
+        "minimum_energy": -0.5293849131153324,
+        "maximum_energy": -0.5293849131153324
+      },
+      {
+        "start": 44,
+        "stop": 45,
+        "multiplicity": 1,
+        "minimum_energy": -0.5211902200545583,
+        "maximum_energy": -0.5211902200545583
+      },
+      {
+        "start": 45,
+        "stop": 46,
+        "multiplicity": 1,
+        "minimum_energy": -0.4942884107340585,
+        "maximum_energy": -0.4942884107340585
+      },
+      {
+        "start": 46,
+        "stop": 47,
+        "multiplicity": 1,
+        "minimum_energy": -0.4696862984868605,
+        "maximum_energy": -0.4696862984868605
+      },
+      {
+        "start": 47,
+        "stop": 48,
+        "multiplicity": 1,
+        "minimum_energy": -0.43638830941003415,
+        "maximum_energy": -0.43638830941003415
+      },
+      {
+        "start": 48,
+        "stop": 49,
+        "multiplicity": 1,
+        "minimum_energy": -0.42989611447538156,
+        "maximum_energy": -0.42989611447538156
+      },
+      {
+        "start": 49,
+        "stop": 50,
+        "multiplicity": 1,
+        "minimum_energy": -0.39157506930931396,
+        "maximum_energy": -0.39157506930931396
+      },
+      {
+        "start": 50,
+        "stop": 51,
+        "multiplicity": 1,
+        "minimum_energy": -0.3859593784719185,
+        "maximum_energy": -0.3859593784719185
+      },
+      {
+        "start": 51,
+        "stop": 52,
+        "multiplicity": 1,
+        "minimum_energy": -0.37572468163884276,
+        "maximum_energy": -0.37572468163884276
+      },
+      {
+        "start": 52,
+        "stop": 53,
+        "multiplicity": 1,
+        "minimum_energy": -0.3707291209312461,
+        "maximum_energy": -0.3707291209312461
+      },
+      {
+        "start": 53,
+        "stop": 54,
+        "multiplicity": 1,
+        "minimum_energy": -0.3295296520016192,
+        "maximum_energy": -0.3295296520016192
+      },
+      {
+        "start": 54,
+        "stop": 55,
+        "multiplicity": 1,
+        "minimum_energy": -0.3183132630593254,
+        "maximum_energy": -0.3183132630593254
+      },
+      {
+        "start": 55,
+        "stop": 56,
+        "multiplicity": 1,
+        "minimum_energy": -0.2930626210909574,
+        "maximum_energy": -0.2930626210909574
+      },
+      {
+        "start": 56,
+        "stop": 57,
+        "multiplicity": 1,
+        "minimum_energy": -0.2806575863088404,
+        "maximum_energy": -0.2806575863088404
+      },
+      {
+        "start": 57,
+        "stop": 58,
+        "multiplicity": 1,
+        "minimum_energy": -0.27800852239364937,
+        "maximum_energy": -0.27800852239364937
+      },
+      {
+        "start": 58,
+        "stop": 59,
+        "multiplicity": 1,
+        "minimum_energy": -0.27039852230314965,
+        "maximum_energy": -0.27039852230314965
+      },
+      {
+        "start": 59,
+        "stop": 60,
+        "multiplicity": 1,
+        "minimum_energy": -0.26074142089673547,
+        "maximum_energy": -0.26074142089673547
+      },
+      {
+        "start": 60,
+        "stop": 61,
+        "multiplicity": 1,
+        "minimum_energy": -0.24210677857177554,
+        "maximum_energy": -0.24210677857177554
+      },
+      {
+        "start": 61,
+        "stop": 62,
+        "multiplicity": 1,
+        "minimum_energy": -0.22020263021649178,
+        "maximum_energy": -0.22020263021649178
+      },
+      {
+        "start": 62,
+        "stop": 63,
+        "multiplicity": 1,
+        "minimum_energy": -0.2038774039008907,
+        "maximum_energy": -0.2038774039008907
+      },
+      {
+        "start": 63,
+        "stop": 64,
+        "multiplicity": 1,
+        "minimum_energy": -0.20200698702158648,
+        "maximum_energy": -0.20200698702158648
+      },
+      {
+        "start": 64,
+        "stop": 65,
+        "multiplicity": 1,
+        "minimum_energy": -0.18482660958412678,
+        "maximum_energy": -0.18482660958412678
+      },
+      {
+        "start": 65,
+        "stop": 66,
+        "multiplicity": 1,
+        "minimum_energy": -0.18147004738025874,
+        "maximum_energy": -0.18147004738025874
+      },
+      {
+        "start": 66,
+        "stop": 67,
+        "multiplicity": 1,
+        "minimum_energy": -0.13949828873423453,
+        "maximum_energy": -0.13949828873423453
+      },
+      {
+        "start": 67,
+        "stop": 68,
+        "multiplicity": 1,
+        "minimum_energy": -0.130674562070194,
+        "maximum_energy": -0.130674562070194
+      },
+      {
+        "start": 68,
+        "stop": 69,
+        "multiplicity": 1,
+        "minimum_energy": -0.09117811620384429,
+        "maximum_energy": -0.09117811620384429
+      },
+      {
+        "start": 69,
+        "stop": 70,
+        "multiplicity": 1,
+        "minimum_energy": -0.09042926526948998,
+        "maximum_energy": -0.09042926526948998
+      },
+      {
+        "start": 70,
+        "stop": 71,
+        "multiplicity": 1,
+        "minimum_energy": -0.08097738266510157,
+        "maximum_energy": -0.08097738266510157
+      },
+      {
+        "start": 71,
+        "stop": 72,
+        "multiplicity": 1,
+        "minimum_energy": -0.07594836354072199,
+        "maximum_energy": -0.07594836354072199
+      },
+      {
+        "start": 72,
+        "stop": 73,
+        "multiplicity": 1,
+        "minimum_energy": -0.07583507371449846,
+        "maximum_energy": -0.07583507371449846
+      },
+      {
+        "start": 73,
+        "stop": 74,
+        "multiplicity": 1,
+        "minimum_energy": -0.06989899409012346,
+        "maximum_energy": -0.06989899409012346
+      },
+      {
+        "start": 74,
+        "stop": 75,
+        "multiplicity": 1,
+        "minimum_energy": -0.04637255265421125,
+        "maximum_energy": -0.04637255265421125
+      },
+      {
+        "start": 75,
+        "stop": 76,
+        "multiplicity": 1,
+        "minimum_energy": -0.04327143423217772,
+        "maximum_energy": -0.04327143423217772
+      },
+      {
+        "start": 76,
+        "stop": 77,
+        "multiplicity": 1,
+        "minimum_energy": -0.03585241509349335,
+        "maximum_energy": -0.03585241509349335
+      },
+      {
+        "start": 77,
+        "stop": 78,
+        "multiplicity": 1,
+        "minimum_energy": -0.026513574905320247,
+        "maximum_energy": -0.026513574905320247
+      },
+      {
+        "start": 78,
+        "stop": 79,
+        "multiplicity": 1,
+        "minimum_energy": 0.0008701356319870124,
+        "maximum_energy": 0.0008701356319870124
+      },
+      {
+        "start": 79,
+        "stop": 80,
+        "multiplicity": 1,
+        "minimum_energy": 0.031788280081345266,
+        "maximum_energy": 0.031788280081345266
+      },
+      {
+        "start": 80,
+        "stop": 81,
+        "multiplicity": 1,
+        "minimum_energy": 0.04579111480263254,
+        "maximum_energy": 0.04579111480263254
+      },
+      {
+        "start": 81,
+        "stop": 82,
+        "multiplicity": 1,
+        "minimum_energy": 0.06818327218259546,
+        "maximum_energy": 0.06818327218259546
+      },
+      {
+        "start": 82,
+        "stop": 83,
+        "multiplicity": 1,
+        "minimum_energy": 0.08276620812479585,
+        "maximum_energy": 0.08276620812479585
+      },
+      {
+        "start": 83,
+        "stop": 84,
+        "multiplicity": 1,
+        "minimum_energy": 0.10963465858520172,
+        "maximum_energy": 0.10963465858520172
+      },
+      {
+        "start": 84,
+        "stop": 85,
+        "multiplicity": 1,
+        "minimum_energy": 0.16065089217741324,
+        "maximum_energy": 0.16065089217741324
+      },
+      {
+        "start": 85,
+        "stop": 86,
+        "multiplicity": 1,
+        "minimum_energy": 0.19546141126249184,
+        "maximum_energy": 0.19546141126249184
+      },
+      {
+        "start": 86,
+        "stop": 87,
+        "multiplicity": 1,
+        "minimum_energy": 0.20839770351317266,
+        "maximum_energy": 0.20839770351317266
+      },
+      {
+        "start": 87,
+        "stop": 88,
+        "multiplicity": 1,
+        "minimum_energy": 0.23428400672844307,
+        "maximum_energy": 0.23428400672844307
+      },
+      {
+        "start": 88,
+        "stop": 89,
+        "multiplicity": 1,
+        "minimum_energy": 0.25700275424531427,
+        "maximum_energy": 0.25700275424531427
+      },
+      {
+        "start": 89,
+        "stop": 90,
+        "multiplicity": 1,
+        "minimum_energy": 0.2589606561489469,
+        "maximum_energy": 0.2589606561489469
+      },
+      {
+        "start": 90,
+        "stop": 91,
+        "multiplicity": 1,
+        "minimum_energy": 0.27160810173952177,
+        "maximum_energy": 0.27160810173952177
+      },
+      {
+        "start": 91,
+        "stop": 92,
+        "multiplicity": 1,
+        "minimum_energy": 0.3117527433500594,
+        "maximum_energy": 0.3117527433500594
+      },
+      {
+        "start": 92,
+        "stop": 93,
+        "multiplicity": 1,
+        "minimum_energy": 0.40728991068794246,
+        "maximum_energy": 0.40728991068794246
+      },
+      {
+        "start": 93,
+        "stop": 94,
+        "multiplicity": 1,
+        "minimum_energy": 0.4643114606256148,
+        "maximum_energy": 0.4643114606256148
+      },
+      {
+        "start": 94,
+        "stop": 95,
+        "multiplicity": 1,
+        "minimum_energy": 0.4878945689334997,
+        "maximum_energy": 0.4878945689334997
+      },
+      {
+        "start": 95,
+        "stop": 96,
+        "multiplicity": 1,
+        "minimum_energy": 0.5310961888041201,
+        "maximum_energy": 0.5310961888041201
+      },
+      {
+        "start": 96,
+        "stop": 97,
+        "multiplicity": 1,
+        "minimum_energy": 0.6774699088471674,
+        "maximum_energy": 0.6774699088471674
+      },
+      {
+        "start": 97,
+        "stop": 98,
+        "multiplicity": 1,
+        "minimum_energy": 0.6810135158526026,
+        "maximum_energy": 0.6810135158526026
+      },
+      {
+        "start": 98,
+        "stop": 99,
+        "multiplicity": 1,
+        "minimum_energy": 0.8072700831097698,
+        "maximum_energy": 0.8072700831097698
+      },
+      {
+        "start": 99,
+        "stop": 100,
+        "multiplicity": 1,
+        "minimum_energy": 0.8535669562266535,
+        "maximum_energy": 0.8535669562266535
+      }
+    ],
+    "selected_eigenvector_clusters": [
+      {
+        "start": 0,
+        "stop": 1,
+        "multiplicity": 1,
+        "minimum_energy": -1.545818578041167,
+        "maximum_energy": -1.545818578041167,
+        "canonical_index_within_cluster": 0
+      },
+      {
+        "start": 1,
+        "stop": 2,
+        "multiplicity": 1,
+        "minimum_energy": -1.3035527964147873,
+        "maximum_energy": -1.3035527964147873,
+        "canonical_index_within_cluster": 0
+      }
+    ],
+    "selected_vectors_same_numerical_eigenspace": false,
+    "selected_vector_inner_product_abs": 2.112469236718195e-21
+  },
+  "discarded_global_scalar": [
+    -397.0857496926338,
+    0.0
+  ],
+  "reference_hermiticity_frobenius": 0.0,
+  "reference_off_sector_frobenius": 2.6874220530932865e-17
+}

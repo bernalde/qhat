@@ -1,0 +1,63 @@
+{
+  "protocol": "corrected-low-energy-states-v1",
+  "git_head": "e8069d51e565e1f7341b2fc0e8efd30742d21a93",
+  "git_status_porcelain": "?? numerical_audit/low_energy_state_sensitivity.py\n?? numerical_audit/results/low-energy-tsr0y436/\n?? numerical_audit/test_low_energy_state_sensitivity.py\n",
+  "source_hashes": {
+    "numerical_audit/low_energy_state_sensitivity.py": "29c825a8bc5cff94d81a05dbb6af2672200a34abc24a5286e5a15399c4d13ef4",
+    "numerical_audit/test_low_energy_state_sensitivity.py": "39fa61483622aad97bcf94e2f7b538b6ad8ff0561a0b54a175e1e1d13f779bda",
+    "numerical_audit/initial_state_sensitivity.py": "c565916e0c4a46e2025cb11eb96e20498bc57b7969439aba5c4f646342ad1237",
+    "analysis/state_metrics.py": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+    "analysis/benchmark_b2_active_spaces_matrix_free.py": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1",
+    "analysis/benchmark_b2_signed_coefficient_baseline.py": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76",
+    "analysis/benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c",
+    "analysis/benchmark_b2_coloring_robustness.py": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+  },
+  "source_campaign": "numerical_audit/results/controlled-blocks-b53wa_g3",
+  "source_manifest_sha256": "867a5a2cfe344a84de1d0dc5f4db6de5bf519c95322ff1504511fe243c2fab23",
+  "cases": [
+    "CH2O_s1.00",
+    "CH2O_s1.25",
+    "H2S_s1.00",
+    "H2S_s1.25",
+    "HCN_s1.00",
+    "HCN_s1.25",
+    "SiH4_s1.00",
+    "SiH4_s1.25"
+  ],
+  "orders": [
+    "fermionic_signed",
+    "jw_signed",
+    "jw_magnitude"
+  ],
+  "source_order_mapping": {
+    "fermionic_signed": "block_signed",
+    "jw_signed": "jw_signed",
+    "jw_magnitude": "jw_magnitude"
+  },
+  "states": [
+    "sector_ground",
+    "sector_next",
+    "equal_coherent"
+  ],
+  "time": 1.0,
+  "steps": 100,
+  "expected_trotter_evaluations": 72,
+  "degeneracy_cluster_max_span_hartree": 1e-10,
+  "coordinate_basis_acceptance_norm": 1e-10,
+  "phase_tie_absolute": 1e-12,
+  "degeneracy_rule": "Cluster sorted eigenvalues while total span <= 1e-10 Ha. In each cluster project ascending coordinate vectors with the eigenspace projector, twice modified Gram-Schmidt, accept norm > 1e-10. Keep all declared states, including ground/next in one cluster.",
+  "phase_rule": "Earliest coordinate within 1e-12 of largest magnitude made real-positive; coherent vector (ground+next)/sqrt(2).",
+  "all_case_initial_vectors_frozen_before_any_trotter_evaluation": true,
+  "metric": "normalized_full_state_v2; E from phase-aligned residual; I=E(2-E); no postselection",
+  "winner_tie_absolute_tolerance": 1e-12,
+  "ratio_floor": 1e-12,
+  "product_order": "chronological; subsequent exponentials act on the left",
+  "threads": 1,
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "openfermion": "1.8.1",
+    "numba": "0.68.0"
+  }
+}

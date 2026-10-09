@@ -1,0 +1,571 @@
+{
+  "protocol": "corrected-low-energy-states-v1",
+  "completed_records": 72,
+  "expected_records": 72,
+  "elapsed_seconds": 9.869658928000717,
+  "counts_by_state": {
+    "sector_ground": {
+      "winner_counts_including_ties": {
+        "jw_signed": 6,
+        "fermionic_signed": 2
+      },
+      "signed_win_tie_loss": {
+        "jw_signed": {
+          "loss": 6,
+          "win": 2
+        },
+        "jw_magnitude": {
+          "win": 5,
+          "loss": 3
+        }
+      }
+    },
+    "sector_next": {
+      "winner_counts_including_ties": {
+        "fermionic_signed": 1,
+        "jw_signed": 6,
+        "jw_magnitude": 1
+      },
+      "signed_win_tie_loss": {
+        "jw_signed": {
+          "win": 2,
+          "loss": 6
+        },
+        "jw_magnitude": {
+          "win": 4,
+          "loss": 4
+        }
+      }
+    },
+    "equal_coherent": {
+      "winner_counts_including_ties": {
+        "fermionic_signed": 2,
+        "jw_signed": 5,
+        "jw_magnitude": 1
+      },
+      "signed_win_tie_loss": {
+        "jw_signed": {
+          "win": 3,
+          "loss": 5
+        },
+        "jw_magnitude": {
+          "win": 4,
+          "loss": 4
+        }
+      }
+    },
+    "all_states": {
+      "winner_counts_including_ties": {
+        "jw_signed": 17,
+        "fermionic_signed": 5,
+        "jw_magnitude": 2
+      },
+      "signed_win_tie_loss": {
+        "jw_signed": {
+          "loss": 17,
+          "win": 7
+        },
+        "jw_magnitude": {
+          "win": 13,
+          "loss": 11
+        }
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "case": "CH2O_s1.00",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 1.8742341215514098e-07,
+        "jw_signed": 1.7682802861572087e-07,
+        "jw_magnitude": 5.628370436819307e-07
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 1.059919140774033,
+        "jw_magnitude": 0.33299764871385634
+      }
+    },
+    {
+      "case": "CH2O_s1.00",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 1.7480574935292208e-08,
+        "jw_signed": 4.6729730743368366e-08,
+        "jw_magnitude": 1.0682808874541715e-07
+      },
+      "winner_set": [
+        "fermionic_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 0.3740782293673489,
+        "jw_magnitude": 0.16363275932933988
+      }
+    },
+    {
+      "case": "CH2O_s1.00",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 1.0245202717769574e-07,
+        "jw_signed": 1.1177899243071405e-07,
+        "jw_magnitude": 3.348331095831973e-07
+      },
+      "winner_set": [
+        "fermionic_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 0.9165588716609732,
+        "jw_magnitude": 0.30597937971316147
+      }
+    },
+    {
+      "case": "CH2O_s1.25",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 1.2778685126161957e-07,
+        "jw_signed": 1.9862396864705377e-07,
+        "jw_magnitude": 1.5557577037846528e-07
+      },
+      "winner_set": [
+        "fermionic_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 0.6433606786333591,
+        "jw_magnitude": 0.8213801606172715
+      }
+    },
+    {
+      "case": "CH2O_s1.25",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 5.057284729642028e-08,
+        "jw_signed": 7.97453779957066e-09,
+        "jw_magnitude": 4.761752599870314e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 6.341790404347078,
+        "jw_magnitude": 1.0620637304381926
+      }
+    },
+    {
+      "case": "CH2O_s1.25",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 9.105021685003289e-08,
+        "jw_signed": 1.0301605952457796e-07,
+        "jw_magnitude": 1.0157338819017112e-07
+      },
+      "winner_set": [
+        "fermionic_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 0.8838448807907449,
+        "jw_magnitude": 0.8963983428372381
+      }
+    },
+    {
+      "case": "H2S_s1.00",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 4.3388254828667684e-08,
+        "jw_signed": 4.411841943771379e-09,
+        "jw_magnitude": 4.284157273581859e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 9.834498919419145,
+        "jw_magnitude": 1.0127605514442757
+      }
+    },
+    {
+      "case": "H2S_s1.00",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 2.3874664973489096e-08,
+        "jw_signed": 2.0647188780285385e-09,
+        "jw_magnitude": 2.0910672041770823e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 11.563155269004666,
+        "jw_magnitude": 1.1417454649854126
+      }
+    },
+    {
+      "case": "H2S_s1.00",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 3.3631460003500575e-08,
+        "jw_signed": 3.2382804184130365e-09,
+        "jw_magnitude": 3.187612249163351e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 10.385592245893926,
+        "jw_magnitude": 1.05506747291261
+      }
+    },
+    {
+      "case": "H2S_s1.25",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 1.2388131766531466e-07,
+        "jw_signed": 1.6994701596346077e-08,
+        "jw_magnitude": 8.259702732259799e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 7.289408228971175,
+        "jw_magnitude": 1.4998277986624533
+      }
+    },
+    {
+      "case": "H2S_s1.25",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 9.550073740533134e-08,
+        "jw_signed": 2.0370423392442897e-08,
+        "jw_magnitude": 8.178461470108125e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 4.688205815140818,
+        "jw_magnitude": 1.1677103053475504
+      }
+    },
+    {
+      "case": "H2S_s1.25",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 1.0969102754180184e-07,
+        "jw_signed": 1.8682562514229773e-08,
+        "jw_magnitude": 8.219082105885064e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 5.871305259021855,
+        "jw_magnitude": 1.334589752586367
+      }
+    },
+    {
+      "case": "HCN_s1.00",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 3.3705964190004005e-07,
+        "jw_signed": 7.353350088680107e-08,
+        "jw_magnitude": 2.824294619987258e-07
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 4.583756217712473,
+        "jw_magnitude": 1.1934294655901045
+      }
+    },
+    {
+      "case": "HCN_s1.00",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 1.403869945326514e-07,
+        "jw_signed": 2.2623223942367506e-08,
+        "jw_magnitude": 1.8302559132824698e-07
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 6.205437160074365,
+        "jw_magnitude": 0.76703478193317
+      }
+    },
+    {
+      "case": "HCN_s1.00",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 2.4688632826545227e-07,
+        "jw_signed": 4.876376472896661e-08,
+        "jw_magnitude": 2.3271242866971993e-07
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 5.062905410147652,
+        "jw_magnitude": 1.060907359683177
+      }
+    },
+    {
+      "case": "HCN_s1.25",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 1.0657307587889755e-07,
+        "jw_signed": 3.869823710913875e-07,
+        "jw_magnitude": 1.1984845986439614e-07
+      },
+      "winner_set": [
+        "fermionic_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 0.27539517001339026,
+        "jw_magnitude": 0.8892319183699218
+      }
+    },
+    {
+      "case": "HCN_s1.25",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 7.358758075442875e-08,
+        "jw_signed": 9.582203253876859e-08,
+        "jw_magnitude": 3.5681771073357134e-08
+      },
+      "winner_set": [
+        "jw_magnitude"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "win",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 0.7679609668544235,
+        "jw_magnitude": 2.062329826710175
+      }
+    },
+    {
+      "case": "HCN_s1.25",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 8.864042520603253e-08,
+        "jw_signed": 2.4136037177760987e-07,
+        "jw_magnitude": 7.773127212531834e-08
+      },
+      "winner_set": [
+        "jw_magnitude"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "win",
+        "jw_magnitude": "loss"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 0.3672534333337292,
+        "jw_magnitude": 1.1403444557439695
+      }
+    },
+    {
+      "case": "SiH4_s1.00",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 4.509101714645215e-08,
+        "jw_signed": 3.291571165151626e-10,
+        "jw_magnitude": 5.059311251069549e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 136.98934303422553,
+        "jw_magnitude": 0.8912481345542798
+      }
+    },
+    {
+      "case": "SiH4_s1.00",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 3.083388824803111e-08,
+        "jw_signed": 2.863693864871495e-10,
+        "jw_magnitude": 3.110184244561267e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 107.67173344282995,
+        "jw_magnitude": 0.9913846198002538
+      }
+    },
+    {
+      "case": "SiH4_s1.00",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 3.5479022836504265e-08,
+        "jw_signed": 3.198480831497922e-10,
+        "jw_magnitude": 4.084664089861265e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 110.92460672927848,
+        "jw_magnitude": 0.8685909552408092
+      }
+    },
+    {
+      "case": "SiH4_s1.25",
+      "initial_state": "sector_ground",
+      "E": {
+        "fermionic_signed": 6.694828044133905e-08,
+        "jw_signed": 5.220140376962055e-09,
+        "jw_magnitude": 6.838703797980959e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 12.824996189144759,
+        "jw_magnitude": 0.9789615462085766
+      }
+    },
+    {
+      "case": "SiH4_s1.25",
+      "initial_state": "sector_next",
+      "E": {
+        "fermionic_signed": 2.586274514800876e-08,
+        "jw_signed": 3.029865898788748e-09,
+        "jw_magnitude": 2.58730622008389e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 8.535937236809039,
+        "jw_magnitude": 0.9996012434573823
+      }
+    },
+    {
+      "case": "SiH4_s1.25",
+      "initial_state": "equal_coherent",
+      "E": {
+        "fermionic_signed": 4.6317392080786306e-08,
+        "jw_signed": 4.038042425177195e-09,
+        "jw_magnitude": 4.7143544486453274e-08
+      },
+      "winner_set": [
+        "jw_signed"
+      ],
+      "signed_vs_comparator": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "signed_over_comparator": {
+        "jw_signed": 11.470258903670096,
+        "jw_magnitude": 0.9824758105342639
+      }
+    }
+  ],
+  "max_norm_defect": 4.097833183891453e-13,
+  "max_spin_projection_sector_leakage_by_order": {
+    "fermionic_signed": 2.7255069861449943e-36,
+    "jw_signed": 3.736728002636075e-09,
+    "jw_magnitude": 4.347273193893387e-10
+  },
+  "max_particle_number_leakage_by_order": {
+    "fermionic_signed": 2.725500144305242e-36,
+    "jw_signed": 3.736728002636075e-09,
+    "jw_magnitude": 4.347273193893387e-10
+  },
+  "winner_tie_absolute_tolerance": 1e-12,
+  "ratio_floor": 1e-12,
+  "scope": "Descriptive paired controls on eight frozen Hamiltonians from four molecular families. States and geometries are not independent molecular samples. Sector low-energy does not assert a total-spin quantum number or full-system chemical ground state."
+}

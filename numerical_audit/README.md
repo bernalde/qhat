@@ -118,6 +118,35 @@ tolerance. The explicit construction reports floating Hermiticity and number-
 commutator residuals; it does not turn floating-point truncation into a Lean
 certificate of exact conservation.
 
+## Low-energy-state follow-up
+
+The authorized corrected-policy low-energy control completed **72 Trotter
+evaluations** across eight ten-qubit Hamiltonians, three initial states and
+three fixed orderings at `T=1`, `r=100`; see the
+[complete report](results/low-energy-tsr0y436/report.md) and
+[predeclared implementation](low_energy_state_sensitivity.py). The states are
+the ground and next eigenvectors in the `(N_alpha,N_beta)=(2,2)` sector and
+their equal coherent superposition with a frozen phase convention. This fixes
+spin projection, not total spin. All selected low-energy eigenvalues were
+nondegenerate at the declared `1e-10` Hartree tolerance.
+
+Among the 24 case/state comparisons, the proposed ordering was best in **5**,
+JW signed in **17**, and JW magnitude in **2**, with no ties at the fixed
+`1e-12` absolute error tolerance. The proposed ordering beat JW signed in
+7/24 and JW magnitude in 13/24. Its sector leakage remained below `2.73e-36`,
+while its state-error ranking remained mixed. These are paired descriptive
+controls on four molecular families; states and geometries are not independent
+molecular samples. They do not support a general accuracy advantage.
+
+All eight initial-state designs were frozen before the first tested evolution.
+Exact and approximate final vectors are saved for independent recomputation;
+corrected Hamiltonian/schedule hashes match the earlier controlled campaign.
+Full-space sparse exponential references agree with independent sector
+diagonalization within `2.69e-14`, and maximum norm defect is `4.10e-13`.
+Six focused tests cover deterministic degeneracy resolution, phases, immutable
+inputs, and full-state circuit accuracy with retained leakage. Reproduction:
+`python -m qhat.numerical_audit.low_energy_state_sensitivity`.
+
 ## Reproduce
 
 Use Python 3.12 and an editable checkout. The focused environment is recorded
