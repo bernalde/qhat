@@ -1,0 +1,35 @@
+{
+  "version": "exploratory-class-bch-l1-v1",
+  "cases": [
+    "CH2O_s1.00",
+    "CH2O_s1.25",
+    "H2S_s1.00",
+    "H2S_s1.25",
+    "HCN_s1.00",
+    "HCN_s1.25",
+    "SiH4_s1.00",
+    "SiH4_s1.25"
+  ],
+  "expected_rows": 10,
+  "parent_manifest_sha256": "69085a15233366da583bd15eede74005e31b196c07b626aef577670e0debf9a0",
+  "source_sha256": {
+    "/tmp/followup-class-staging/bch_order_supplement.py": "2c59f0ab39e42609d5673b30be8f1f9f318882afbf4162aa3070d6621732af22",
+    "/tmp/followup-class-staging/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3",
+    "/tmp/followup-class-staging/bch_supplement_protocol.md": "846c257b032193f4d230841f5c584323712d1f7353e5646bc8aba2a4800396bd",
+    "/tmp/followup-class-staging/recheck_saved.py": "a518a0f678c15b2e3484ac9342b708c969b33a303c2a212c97ab834a3525ede0"
+  },
+  "scope": "Exploratory supplement after suffix-l1 diagnosis; no tuning to errors; separate from original106rows",
+  "initial_order": "class_lex",
+  "adjacent_passes": 2,
+  "acceptance": "strict exact integer globalBCH-l1 decrease",
+  "methods": [
+    "class_bch_l1"
+  ],
+  "T": 1.0,
+  "steps": 100,
+  "anchor_case": "HCN_s1.00",
+  "anchor_steps": [
+    50,
+    200
+  ]
+}

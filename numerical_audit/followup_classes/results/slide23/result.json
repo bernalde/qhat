@@ -1,0 +1,317 @@
+{
+  "parents": [
+    [
+      0,
+      1,
+      1
+    ],
+    [
+      2,
+      3,
+      2
+    ],
+    [
+      0,
+      2,
+      3
+    ],
+    [
+      1,
+      3,
+      5
+    ]
+  ],
+  "weighted_JW_expansions": [
+    [
+      [
+        [
+          [
+            0,
+            "Y"
+          ],
+          [
+            1,
+            "Y"
+          ]
+        ],
+        0.5
+      ],
+      [
+        [
+          [
+            0,
+            "X"
+          ],
+          [
+            1,
+            "X"
+          ]
+        ],
+        0.5
+      ]
+    ],
+    [
+      [
+        [
+          [
+            2,
+            "Y"
+          ],
+          [
+            3,
+            "Y"
+          ]
+        ],
+        1.0
+      ],
+      [
+        [
+          [
+            2,
+            "X"
+          ],
+          [
+            3,
+            "X"
+          ]
+        ],
+        1.0
+      ]
+    ],
+    [
+      [
+        [
+          [
+            0,
+            "Y"
+          ],
+          [
+            1,
+            "Z"
+          ],
+          [
+            2,
+            "Y"
+          ]
+        ],
+        1.5
+      ],
+      [
+        [
+          [
+            0,
+            "X"
+          ],
+          [
+            1,
+            "Z"
+          ],
+          [
+            2,
+            "X"
+          ]
+        ],
+        1.5
+      ]
+    ],
+    [
+      [
+        [
+          [
+            1,
+            "Y"
+          ],
+          [
+            2,
+            "Z"
+          ],
+          [
+            3,
+            "Y"
+          ]
+        ],
+        2.5
+      ],
+      [
+        [
+          [
+            1,
+            "X"
+          ],
+          [
+            2,
+            "Z"
+          ],
+          [
+            3,
+            "X"
+          ]
+        ],
+        2.5
+      ]
+    ]
+  ],
+  "checks": {
+    "within_color_commutators": [
+      0.0,
+      0.0
+    ],
+    "between_color_commutator_frobenius": 20.0,
+    "grouped_minus_contiguous_frobenius": 3.973170068274193e-16,
+    "pauli_minus_contiguous_frobenius": 6.281902941027859e-16,
+    "interleaved_minus_contiguous_frobenius": 0.2840966448637457
+  },
+  "runs": [
+    {
+      "ordering": "grouped_contiguous",
+      "T": 1.0,
+      "steps": 1,
+      "rotations": 8,
+      "overlap_magnitude": 0.5609382482097093,
+      "fidelity": 0.3146517183045774,
+      "one_minus_overlap": 0.4390617517902908,
+      "infidelity": 0.6853482816954226,
+      "phase_aligned_distance": 0.9370824422539255,
+      "normalized_phase_sensitive_distance": 0.9370824422539255,
+      "exact_norm": 0.9999999999999999,
+      "approx_norm": 1.0000000000000002,
+      "relative_norm_drift": 4.440892098500626e-16,
+      "norm_preserved": true,
+      "particle_number_leakage": 3.129636159629257e-33,
+      "spin_sector_leakage": 3.129636159629257e-33,
+      "inside_sector_infidelity": 0.6853482816954224,
+      "outside_sector_infidelity": 3.129636159629257e-33,
+      "naive_unnormalized_one_minus_overlap": 0.4390617517902907,
+      "naive_normalized_one_minus_overlap": 0.4390617517902907,
+      "below_analysis_floor": false,
+      "conditional_sector_infidelity": 0.6853482816954228
+    },
+    {
+      "ordering": "interleaved",
+      "T": 1.0,
+      "steps": 1,
+      "rotations": 8,
+      "overlap_magnitude": 0.45846482703700775,
+      "fidelity": 0.21018999763007343,
+      "one_minus_overlap": 0.5415351729629927,
+      "infidelity": 0.7898100023699269,
+      "phase_aligned_distance": 1.0407066570008983,
+      "normalized_phase_sensitive_distance": 1.0407066570008983,
+      "exact_norm": 0.9999999999999999,
+      "approx_norm": 1.0,
+      "relative_norm_drift": 2.220446049250313e-16,
+      "norm_preserved": true,
+      "particle_number_leakage": 3.28542839752151e-33,
+      "spin_sector_leakage": 3.28542839752151e-33,
+      "inside_sector_infidelity": 0.7898100023699268,
+      "outside_sector_infidelity": 3.28542839752151e-33,
+      "naive_unnormalized_one_minus_overlap": 0.5415351729629925,
+      "naive_normalized_one_minus_overlap": 0.5415351729629923,
+      "below_analysis_floor": false,
+      "conditional_sector_infidelity": 0.7898100023699269
+    },
+    {
+      "ordering": "grouped_contiguous",
+      "T": 1.0,
+      "steps": 10,
+      "rotations": 80,
+      "overlap_magnitude": 0.9968531114707633,
+      "fidelity": 0.993716125848942,
+      "one_minus_overlap": 0.003146888529236824,
+      "infidelity": 0.006283874151058206,
+      "phase_aligned_distance": 0.07933332879990382,
+      "normalized_phase_sensitive_distance": 0.07933332879990382,
+      "exact_norm": 0.9999999999999999,
+      "approx_norm": 1.0000000000000002,
+      "relative_norm_drift": 4.440892098500626e-16,
+      "norm_preserved": true,
+      "particle_number_leakage": 4.0926011318228735e-33,
+      "spin_sector_leakage": 4.0926011318228735e-33,
+      "inside_sector_infidelity": 0.0062838741510582025,
+      "outside_sector_infidelity": 4.0926011318228735e-33,
+      "naive_unnormalized_one_minus_overlap": 0.0031468885292367244,
+      "naive_normalized_one_minus_overlap": 0.0031468885292367244,
+      "below_analysis_floor": false,
+      "conditional_sector_infidelity": 0.006283874151058206
+    },
+    {
+      "ordering": "interleaved",
+      "T": 1.0,
+      "steps": 10,
+      "rotations": 80,
+      "overlap_magnitude": 0.9715524105630231,
+      "fidelity": 0.943914086470821,
+      "one_minus_overlap": 0.02844758943697697,
+      "infidelity": 0.05608591352917914,
+      "phase_aligned_distance": 0.23852710301756894,
+      "normalized_phase_sensitive_distance": 0.23852710301756894,
+      "exact_norm": 0.9999999999999999,
+      "approx_norm": 1.0000000000000004,
+      "relative_norm_drift": 6.661338147750939e-16,
+      "norm_preserved": true,
+      "particle_number_leakage": 1.4653222239127435e-33,
+      "spin_sector_leakage": 1.4653222239127435e-33,
+      "inside_sector_infidelity": 0.05608591352917916,
+      "outside_sector_infidelity": 1.4653222239127435e-33,
+      "naive_unnormalized_one_minus_overlap": 0.028447589436976672,
+      "naive_normalized_one_minus_overlap": 0.028447589436976894,
+      "below_analysis_floor": false,
+      "conditional_sector_infidelity": 0.05608591352917914
+    },
+    {
+      "ordering": "grouped_contiguous",
+      "T": 1.0,
+      "steps": 100,
+      "rotations": 800,
+      "overlap_magnitude": 0.9999705034732407,
+      "fidelity": 0.9999410078165264,
+      "one_minus_overlap": 2.9496526759410698e-05,
+      "infidelity": 5.899218347373053e-05,
+      "phase_aligned_distance": 0.0076806935571484295,
+      "normalized_phase_sensitive_distance": 0.007680693557148421,
+      "exact_norm": 0.9999999999999999,
+      "approx_norm": 1.0000000000000036,
+      "relative_norm_drift": 3.774758283725532e-15,
+      "norm_preserved": true,
+      "particle_number_leakage": 1.474540113671467e-34,
+      "spin_sector_leakage": 1.474540113671467e-34,
+      "inside_sector_infidelity": 5.8992183473731075e-05,
+      "outside_sector_infidelity": 1.474540113671467e-34,
+      "naive_unnormalized_one_minus_overlap": 2.9496526755989905e-05,
+      "naive_normalized_one_minus_overlap": 2.9496526759320574e-05,
+      "below_analysis_floor": false,
+      "conditional_sector_infidelity": 5.899218347373053e-05
+    },
+    {
+      "ordering": "interleaved",
+      "T": 1.0,
+      "steps": 100,
+      "rotations": 800,
+      "overlap_magnitude": 0.99969000538224,
+      "fidelity": 0.999380106861143,
+      "one_minus_overlap": 0.0003099946177600803,
+      "infidelity": 0.0006198931388571204,
+      "phase_aligned_distance": 0.024899583039082414,
+      "normalized_phase_sensitive_distance": 0.024899583039082414,
+      "exact_norm": 0.9999999999999999,
+      "approx_norm": 1.0000000000000036,
+      "relative_norm_drift": 3.774758283725532e-15,
+      "norm_preserved": true,
+      "particle_number_leakage": 1.0060346711593315e-33,
+      "spin_sector_leakage": 1.0060346711593315e-33,
+      "inside_sector_infidelity": 0.0006198931388571192,
+      "outside_sector_infidelity": 1.0060346711593315e-33,
+      "naive_unnormalized_one_minus_overlap": 0.0003099946177567148,
+      "naive_normalized_one_minus_overlap": 0.00030999461776004544,
+      "below_analysis_floor": false,
+      "conditional_sector_infidelity": 0.0006198931388571201
+    }
+  ],
+  "source_sha256": {
+    "/tmp/followup-class-staging/slide23_example.py": "cc6d61c1d7c5ac1d7db01eb3b7a074087055329dbb76a8a123b56968ada8dd45",
+    "/tmp/followup-class-staging/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3"
+  },
+  "state": "one particle |1000>, fixed before execution",
+  "product_convention": "chronological; later factors multiply left",
+  "interpretation": "Pedagogical operator and implementation example, not molecular accuracy evidence. Grouping contiguous commuting parents changes no circuit."
+}

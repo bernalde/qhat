@@ -1,0 +1,126 @@
+{
+  "policy_summary": {
+    "historical_policy": {
+      "cases": 15,
+      "best_method_sets": {
+        "fermionic_signed+jw_magnitude+jw_signed": 2,
+        "jw_magnitude+jw_signed": 2,
+        "jw_signed": 5,
+        "fermionic_signed": 4,
+        "jw_magnitude": 2
+      },
+      "new_convention": {
+        "jw_signed": {
+          "tie": 2,
+          "loss": 8,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "historical_convention": {
+        "jw_signed": {
+          "tie": 1,
+          "loss": 9,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "median_ratio": {
+        "jw_signed": 2.3622366507128936,
+        "jw_magnitude": 1.0000000000001221
+      }
+    },
+    "unpruned": {
+      "cases": 15,
+      "best_method_sets": {
+        "fermionic_signed+jw_magnitude+jw_signed": 2,
+        "jw_magnitude+jw_signed": 2,
+        "jw_signed": 5,
+        "fermionic_signed": 4,
+        "jw_magnitude": 2
+      },
+      "new_convention": {
+        "jw_signed": {
+          "tie": 2,
+          "loss": 8,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "historical_convention": {
+        "jw_signed": {
+          "tie": 1,
+          "loss": 9,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "median_ratio": {
+        "jw_signed": 2.3622366507128936,
+        "jw_magnitude": 1.0000000000001221
+      }
+    }
+  },
+  "low_energy_outcomes": {
+    "historical_policy": {
+      "jw_signed": {
+        "loss": 4,
+        "win": 2
+      },
+      "jw_magnitude": {
+        "win": 5,
+        "loss": 1
+      }
+    },
+    "unpruned": {
+      "jw_signed": {
+        "loss": 4,
+        "win": 2
+      },
+      "jw_magnitude": {
+        "win": 5,
+        "loss": 1
+      }
+    }
+  },
+  "validation": {
+    "max_reference_split_distance": 4.8254127770527304e-15,
+    "max_affine_full_sample_distance": 0.0,
+    "max_reference_off_spin_sector_frobenius": 7.792442607243671e-17,
+    "max_dense_pilot_distance": 3.7170592637564554e-14,
+    "max_low_energy_dense_product_distance": 1.2631967801141352e-13,
+    "max_low_energy_reference_dense_eigh_distance": 5.4508808602176836e-15,
+    "peak_RSS_GiB": 4.0284271240234375,
+    "max_norm_defect": 7.639444632445702e-13
+  },
+  "max_leakage_by_order": {
+    "fermionic_signed": {
+      "particle_number_leakage": 1.3125094369854068e-35,
+      "spin_sector_leakage": 1.312730603633737e-35
+    },
+    "jw_signed": {
+      "particle_number_leakage": 1.1236797843462546e-07,
+      "spin_sector_leakage": 1.1239914865879306e-07
+    },
+    "jw_magnitude": {
+      "particle_number_leakage": 1.7611992900865936e-13,
+      "spin_sector_leakage": 1.7611992911320163e-13
+    }
+  }
+}

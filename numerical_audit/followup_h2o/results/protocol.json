@@ -1,0 +1,40 @@
+{
+  "version": "h2o-reconstruction-sweep-v1",
+  "protocol_sha256": "410983a4bc49d554ad9132f7a71ac60ddd09c4e07a0dace1a2c0ef89c99bd82c",
+  "source_sha256": {
+    "run_h2o_sweep.py": "b0517c216153b1a3ce0389c8fe128c11f2e66ab2cc033a9c5f8c543e04d7abec",
+    "PROTOCOL.md": "410983a4bc49d554ad9132f7a71ac60ddd09c4e07a0dace1a2c0ef89c99bd82c",
+    "analysis/benchmark_b2_active_spaces_matrix_free.py": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1",
+    "analysis/benchmark_b2_signed_coefficient_baseline.py": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/fermionic_ownership.py": "fbdcc336de39ece67f901a4380be1a933a7f05df610b68d584d45746b1112e2e",
+    "analysis/state_metrics.py": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+    "analysis/benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c",
+    "numerical_audit/reference_tools.py": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+  },
+  "reconstruction_manifest_sha256": "43e3ff2123b37978457a8a2473efbc3256fed8c1cb3ec8f0b00c31a785550284",
+  "methods": [
+    "fermionic_signed",
+    "jw_signed",
+    "jw_magnitude"
+  ],
+  "anchors": [
+    "H2O_s-1.00_sto-6g_as-004-004",
+    "H2O_s-1.00_hgbs-5_as-004-008",
+    "H2O_s-1.00_hgbs-5_as-006-010"
+  ],
+  "primary_steps": 100,
+  "T": 1.0,
+  "planned_rows": 126,
+  "coefficient_cutoff": 1e-12,
+  "tie_absolute": 1e-12,
+  "analysis_floor": 1e-12,
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "packages": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "numba": "0.68.0",
+    "openfermion": "1.8.1"
+  },
+  "address_space_limit_bytes": 12884901888
+}

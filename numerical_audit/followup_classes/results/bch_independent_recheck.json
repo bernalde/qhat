@@ -1,0 +1,101 @@
+{
+  "status": "passed",
+  "rows": 10,
+  "checks": [
+    {
+      "case": "CH2O_s1.00",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 1.2256760255431459e-15,
+      "error_absolute_difference": 1.7361528440752987e-19,
+      "reference_distance": 1.5067610158217356e-15
+    },
+    {
+      "case": "CH2O_s1.25",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 1.8205862081099813e-17,
+      "error_absolute_difference": 4.615006073555852e-19,
+      "reference_distance": 1.7911536117384247e-15
+    },
+    {
+      "case": "H2S_s1.00",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 4.3054453289450194e-17,
+      "error_absolute_difference": 6.16084120229495e-21,
+      "reference_distance": 5.217322841713698e-16
+    },
+    {
+      "case": "H2S_s1.25",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 2.0215451770385084e-16,
+      "error_absolute_difference": 5.976876234063157e-20,
+      "reference_distance": 4.35944642136898e-16
+    },
+    {
+      "case": "HCN_s1.00",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 4.331970808413205e-17,
+      "error_absolute_difference": 2.3404579123820386e-19,
+      "reference_distance": 8.364004006117806e-16
+    },
+    {
+      "case": "HCN_s1.00",
+      "ordering": "class_bch_l1",
+      "r": 50,
+      "role": "exploratory_convergence",
+      "state_distance": 2.643742308401377e-17,
+      "error_absolute_difference": 4.690444945420688e-19,
+      "reference_distance": 8.364004006117806e-16
+    },
+    {
+      "case": "HCN_s1.00",
+      "ordering": "class_bch_l1",
+      "r": 200,
+      "role": "exploratory_convergence",
+      "state_distance": 9.289563231387387e-17,
+      "error_absolute_difference": 1.0896284773038523e-19,
+      "reference_distance": 8.364004006117806e-16
+    },
+    {
+      "case": "HCN_s1.25",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 2.754666620186965e-16,
+      "error_absolute_difference": 1.1080249741270316e-19,
+      "reference_distance": 5.29125701034096e-16
+    },
+    {
+      "case": "SiH4_s1.00",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 1.489285785124046e-17,
+      "error_absolute_difference": 9.07053172501148e-20,
+      "reference_distance": 1.8142106567230022e-15
+    },
+    {
+      "case": "SiH4_s1.25",
+      "ordering": "class_bch_l1",
+      "r": 100,
+      "role": "exploratory_primary",
+      "state_distance": 1.1274659947729645e-16,
+      "error_absolute_difference": 5.67399578097074e-19,
+      "reference_distance": 3.758843176500442e-15
+    }
+  ],
+  "seconds": 1.3126289380015805,
+  "max_state_distance": 1.2256760255431459e-15,
+  "max_metric_absolute_difference": 5.67399578097074e-19,
+  "source_sha256": "a518a0f678c15b2e3484ac9342b708c969b33a303c2a212c97ab834a3525ede0",
+  "scope": "Independent NumPy/SciPy full-closure coefficient/reference/circuit replay; no QHAT imports. It checks these saved designs, not the physical molecular tensor-generation assumptions."
+}

@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "low_energy_rejects_wrong_import_root",
+      "return_code": 1,
+      "rejection": "Imported unintended QHAT checkout"
+    },
+    {
+      "name": "resume_rejects_changed_protocol",
+      "return_code": 1,
+      "rejection": "Resume protocol/source/input mismatch"
+    },
+    {
+      "name": "python_O_rejects_tampered_states",
+      "return_code": 1,
+      "rejection": "State archive hash mismatch"
+    }
+  ]
+}
