@@ -119,9 +119,14 @@ numerical diagnostic, not an exact or certified bound.
 ## 4. One headline correlation needs a narrower interpretation
 
 The reported full-panel case-centered correlation is reproduced:
-`r = 0.8346046649216678`, using 40 plotted alternative/reference rows.
-There are exactly **two alternatives per case**, JW signed and JW magnitude.
-Let
+`r = 0.8346046649216678`, computed by centering the 40 raw
+alternative/reference rows within case. The original figure plots those
+**uncentered** ratios: `make_plot` in
+`analysis/analyze_cancellation_hypothesis_validation.py` uses the raw
+aggregated log ratios, while `fixed_effect_correlation` separately centers
+them for this statistic. Both plotted panels retain the fermionic reference;
+the right panel repeats the JW-magnitude subset of the left. There are
+exactly **two alternatives per case**, JW signed and JW magnitude. Let
 
 `x_j = log(R_JW,j / R_ferm)` and `y_j = log(E_JW,j / E_ferm)`.
 

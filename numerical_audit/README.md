@@ -46,9 +46,12 @@ different execution paths.
 
 3. **One correlation has been overinterpreted.** Centering the two
    JW/fermionic log ratios within each case cancels the fermionic reference
-   exactly. The resulting 40 plotted points are 20 dependent positive/negative
-   JW contrasts, not 40 independent tests of the fermionic mechanism. The
-   separate direct ratio correlation remains a descriptive association.
+   exactly. The 40 centered observations used for that statistic are 20
+   dependent positive/negative JW contrasts, not 40 independent tests of the
+   fermionic mechanism. The original figure instead plots the uncentered
+   alternative/fermionic log ratios: both panels retain the fermionic
+   reference, and the right panel repeats the JW-magnitude subset of the left.
+   The separate direct ratio correlation remains a descriptive association.
    See [provenance and statistics](provenance_and_statistics.md).
 
 4. **The comparator matters.** Archived counts reproduce as 84 wins, 29 ties
