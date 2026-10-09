@@ -1,0 +1,103 @@
+{
+  "protocol_sha256": "9b5b8acd5f87e1dffdda794c40e453482a720f9e1b10e11601226b95f60624b3",
+  "source_design_sha256": "dc478efc0845027af219e1e941c89148672ba132f6faae6f9957fc5c591fd067",
+  "script_sha256": "6cd46d6b234157cb45c743cb920aab1fbbf74f3e5db25d318f79eb57016e40f9",
+  "case": "H2O_s-1.00_hgbs-5_as-006-008",
+  "n_qubits": 14,
+  "n_electrons": 6,
+  "time": 1.0,
+  "steps": 100,
+  "state_info": {
+    "sector_ground": {
+      "norm": 0.9999999999999999,
+      "energy_identity_free_hartree": -3.4238678617862353,
+      "energy_std_hartree": 4.0018165522452084e-15,
+      "S2_expectation": 2.297965442863164e-31,
+      "S2_variance": 5.5627243633781305e-31,
+      "particle_number_leakage": 0.0,
+      "spin_sector_leakage": 0.0,
+      "state_sha256": "defd1f4d7681c13ff4c55478613aa0fd162a1f2f9373550b073db2c67391b5bf",
+      "HF_fidelity": 0.9999780539170532
+    },
+    "sector_next_distinct_energy": {
+      "norm": 0.9999999999999998,
+      "energy_identity_free_hartree": -3.0724534537400157,
+      "energy_std_hartree": 6.214675249361125e-15,
+      "S2_expectation": 1.9999999999999998,
+      "S2_variance": 7.597305377804924e-25,
+      "particle_number_leakage": 0.0,
+      "spin_sector_leakage": 0.0,
+      "state_sha256": "63166eb586ef9d5f2885cdc7c6b05c1ef18c072668ee54e2700bca67892abd44",
+      "HF_fidelity": 3.5971348301103176e-38
+    },
+    "equal_coherent": {
+      "norm": 0.9999999999999998,
+      "energy_identity_free_hartree": -3.248160657763125,
+      "energy_std_hartree": 0.17570720402310883,
+      "S2_expectation": 0.9999999999999999,
+      "S2_variance": 1.0,
+      "particle_number_leakage": 0.0,
+      "spin_sector_leakage": 0.0,
+      "state_sha256": "a076379beb0a3c3804906661bb0e628c358eee269a36440628b1264154ca1d34",
+      "HF_fidelity": 0.49998902695852654
+    }
+  },
+  "spectrum": {
+    "computed_low_eigenvalues": [
+      -3.4238678617862326,
+      -3.0724534537400165,
+      -3.0674309750681124,
+      -3.006264265798003,
+      -2.999697170209438,
+      -2.98524068711725,
+      -2.985179686520918,
+      -2.9817022442745937,
+      -2.98114358783216,
+      -2.9781155175818808,
+      -2.977954744551747,
+      -2.9228238137750084,
+      -2.9227183360496864,
+      -2.918589221375435,
+      -2.9185444885881004,
+      -2.916378243338184
+    ],
+    "selected_clusters": [
+      {
+        "start": 0,
+        "stop": 1,
+        "minimum": -3.4238678617862326,
+        "maximum": -3.4238678617862326
+      },
+      {
+        "start": 1,
+        "stop": 2,
+        "minimum": -3.0724534537400165,
+        "maximum": -3.0724534537400165
+      }
+    ],
+    "next_means": "First canonical vector of next distinct energy cluster, not second listed eigenvector.",
+    "independent_arpack_low_eigenvalues": [
+      -3.423867861786221,
+      -3.0724534537399952,
+      -3.0674309750680986,
+      -3.0062642657979564
+    ],
+    "max_dense_arpack_eigenvalue_difference": 4.6629367034256575e-14,
+    "elapsed_seconds": 0.2925776060001226
+  },
+  "initial_states_file_sha256": "c2b6f01d5a96b35b02eba61300fdb74ee1111e95bd7f1ececafb6a731cd44fcb",
+  "hamiltonian_sha256": "414eca2ce108d882b3df9182beba96694fa6f54621c3f06b91138bc0fe1fff2e",
+  "ordered_schedule_sha256": {
+    "fermionic_signed": "1076447e320fcde379f7b268811d2ee63b5cc57f15e024bd474d8584afc4c631",
+    "jw_signed": "3f6f44fdea7e725bdf22ff10eaa5f4041ea3869b6c40a9e7adaf095f1c3360cb",
+    "jw_magnitude": "87f5899de60e9b764b617c31e8a875d53c0aeb7f991aef47527bd79b9135315c"
+  },
+  "propagation_space": "Full Hilbert space, no projection/postselection",
+  "checks_before_evolution": {
+    "hermiticity_frobenius": 0.0,
+    "off_spin_sector_frobenius": 2.488169344339016e-16,
+    "full_dimension": 16384,
+    "sector_dimension": 1225,
+    "H_nnz": 784516
+  }
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "case": "14q",
+    "command": "systemd-run --user --scope -q -p MemoryMax=6G -p MemorySwapMax=0 env PYTHONPATH=/home/bernalde/repos /tmp/qhat-h2o-venv/bin/python /tmp/ordering-large-state-control/run_state_control.py --case H2O_s-1.00_hgbs-5_as-006-008 --output /tmp/ordering-large-state-control/14q",
+    "exit_code": 0
+  },
+  {
+    "case": "16q",
+    "command": "systemd-run --user --scope -q -p MemoryMax=6G -p MemorySwapMax=0 env PYTHONPATH=/home/bernalde/repos /tmp/qhat-h2o-venv/bin/python /tmp/ordering-large-state-control/run_state_control.py --case H2O_s-1.00_hgbs-5_as-006-010 --output /tmp/ordering-large-state-control/16q",
+    "exit_code": 0
+  },
+  {
+    "check": "independent_saved_recheck",
+    "command": "/tmp/qhat-h2o-venv/bin/python -O /tmp/ordering-large-state-control/recheck_saved.py --root /tmp/ordering-large-state-control --output /tmp/ordering-large-state-control/independent_saved_recheck.json",
+    "exit_code": 0
+  }
+]

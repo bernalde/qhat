@@ -1,0 +1,41 @@
+{
+  "source_sha256": {
+    "analysis/benchmark_b2_active_spaces_matrix_free.py": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1",
+    "analysis/benchmark_b2_signed_coefficient_baseline.py": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/fermionic_ownership.py": "fbdcc336de39ece67f901a4380be1a933a7f05df610b68d584d45746b1112e2e",
+    "analysis/state_metrics.py": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+    "numerical_audit/reference_tools.py": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432",
+    "analysis/benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c",
+    "run_gauge.py": "b4dd3386711c6c7f627153f3ea6d081a1963e0527a4fbd0e8dca6534166190f0",
+    "PROTOCOL.md": "451204a648154debd5b93aea2a34b57f3ae552c72b7a6009aef32bc2bf3b03fe"
+  },
+  "qhat_commit": "0be7d4857537668eec957dabaa8438ea5c0d33f2",
+  "cases": [
+    "H2O_s-1.00_sto-6g_as-006-004",
+    "H2O_s-1.00_hgbs-5_as-004-008",
+    "H2O_s-1.00_hgbs-5_as-006-008",
+    "H2O_s-1.00_hgbs-5_as-006-010"
+  ],
+  "methods": [
+    "fermionic_signed",
+    "jw_signed",
+    "jw_magnitude"
+  ],
+  "T": 1.0,
+  "r": 100,
+  "tensor_policy": "historical_policy",
+  "cutoff": 1e-12,
+  "pattern_description": "PROTOCOL.md",
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "packages": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "numba": "0.68.0",
+    "openfermion": "1.8.1"
+  },
+  "planned_resorted_rows": 72,
+  "planned_fixed_control_rows": 60,
+  "max_qubits": 16,
+  "max_threads": 2
+}

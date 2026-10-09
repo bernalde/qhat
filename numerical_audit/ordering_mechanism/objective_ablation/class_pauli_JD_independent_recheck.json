@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "rows": 8,
+  "checks": [
+    {
+      "case": "CH2O_s1.00",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 1.4017017633342824e-16,
+      "error_absolute_difference": 5.5084024941437495e-21,
+      "reference_distance": 1.5067610158217356e-15
+    },
+    {
+      "case": "CH2O_s1.25",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 4.669562311929721e-16,
+      "error_absolute_difference": 1.8134280569000026e-20,
+      "reference_distance": 1.7911536117384247e-15
+    },
+    {
+      "case": "H2S_s1.00",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 1.2647599706158552e-16,
+      "error_absolute_difference": 3.3344425973836814e-22,
+      "reference_distance": 5.217322841713698e-16
+    },
+    {
+      "case": "H2S_s1.25",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 2.033577932763894e-17,
+      "error_absolute_difference": 6.810798368608492e-22,
+      "reference_distance": 4.35944642136898e-16
+    },
+    {
+      "case": "HCN_s1.00",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 4.7056251579903785e-17,
+      "error_absolute_difference": 2.1824333281599082e-20,
+      "reference_distance": 8.364004006117806e-16
+    },
+    {
+      "case": "HCN_s1.25",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 1.6619731611846364e-16,
+      "error_absolute_difference": 1.2659172094511536e-20,
+      "reference_distance": 5.29125701034096e-16
+    },
+    {
+      "case": "SiH4_s1.00",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 7.808633353086773e-18,
+      "error_absolute_difference": 4.865502212431051e-21,
+      "reference_distance": 1.8142106567230022e-15
+    },
+    {
+      "case": "SiH4_s1.25",
+      "ordering": "class_pauli_JD",
+      "r": 100,
+      "role": "ablation",
+      "state_distance": 1.690705797253791e-17,
+      "error_absolute_difference": 2.183281188287775e-20,
+      "reference_distance": 3.758843176500442e-15
+    }
+  ],
+  "seconds": 1.0497561800002586,
+  "max_state_distance": 4.669562311929721e-16,
+  "max_metric_absolute_difference": 2.183281188287775e-20,
+  "source_sha256": "a518a0f678c15b2e3484ac9342b708c969b33a303c2a212c97ab834a3525ede0",
+  "scope": "Independent NumPy/SciPy full-closure coefficient/reference/circuit replay; no QHAT imports. It checks these saved designs, not the physical molecular tensor-generation assumptions."
+}

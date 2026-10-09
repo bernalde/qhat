@@ -1,0 +1,35 @@
+{
+  "version": "h2o-large-state-control-v1",
+  "status": "frozen before any new approximate evolution",
+  "qhat_commit": "0be7d4857537668eec957dabaa8438ea5c0d33f2",
+  "case_plan": [
+    "H2O_s-1.00_hgbs-5_as-006-008",
+    "H2O_s-1.00_hgbs-5_as-006-010"
+  ],
+  "execution_rule": "Run 14q first; extend 16q only if measured resource cost is manageable, never based on observed errors.",
+  "tensor_policy": "historical_policy",
+  "target": "Exact retained binary64 Pauli Hamiltonian and three chronological schedules frozen in followup_h2o/results design.json; common scalar omitted.",
+  "states": [
+    "sector_ground",
+    "sector_next_distinct_energy",
+    "equal_coherent"
+  ],
+  "state_sector": "Full Nalpha=Nbeta=3 sector; interleaved alpha/beta modes, q0 most significant.",
+  "state_selection": "Dense scipy.linalg.eigh lowest 16 eigenvectors, increasing selected range if first two clusters not complete; energy-cluster span tolerance 1e-10 Hartree. Select the first coordinate-projector canonical vector of the ground cluster and of the next distinct-energy cluster. Fix phase at the earliest component within 1e-12 of maximal magnitude; twice modified Gram-Schmidt, projection norm >1e-10. Equal coherent is their positive equal superposition. No total-spin assumption.",
+  "state_freeze": "Save initial_states.npz plus hashes and design before any approximate-state errors.",
+  "propagation_space": "Full 2^n Hilbert space, preserving all number/spin leakage and any minute off-sector target entries.",
+  "time": 1.0,
+  "steps": 100,
+  "methods": [
+    "fermionic_signed",
+    "jw_signed",
+    "jw_magnitude"
+  ],
+  "reference": "Independent sparse assembly from written Pauli letters, scipy expm_multiply on full Hilbert space. Compare with eigenphase prediction and split-time reference; measure rather than ignore full-H off-sector residual.",
+  "checks": "Independent tensor-axis Pauli actions and sampled products vs QHAT; source hashes; normalized stable overlap E; infidelity; phase-sensitive and aligned norm; particle/spin leakage; S2 expectation/variance; normalized energy drift relative to exact evolved state; eigensolver residuals; HF archived state comparison.",
+  "tie_absolute": 1e-12,
+  "ratio_floor": 1e-12,
+  "threads": 2,
+  "RSS_cap_GiB": 6,
+  "scope": "Two related reconstructed active-space models selected for previous HF success. Not independent molecules, not unbiased discovery test, and not a new ordering rule."
+}

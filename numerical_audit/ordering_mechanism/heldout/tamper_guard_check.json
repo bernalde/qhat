@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/tmp/qhat-h2o-venv/bin/python",
+    "-O",
+    "/tmp/ordering-heldout-validation/recheck_validation.py",
+    "--results",
+    "/tmp/heldout-tamper-_mt4w_vz",
+    "--output",
+    "/tmp/heldout-tamper-_mt4w_vz/must_not_exist.json"
+  ],
+  "returncode": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/ordering-heldout-validation/recheck_validation.py\", line 88, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/tmp/ordering-heldout-validation/recheck_validation.py\", line 73, in main\n    require(abs(E-row['one_minus_overlap'])<1e-16,'Independent stable metric mismatch')\n  File \"/tmp/ordering-heldout-validation/recheck_validation.py\", line 10, in require\n    if not ok:raise RuntimeError(message)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Independent stable metric mismatch\n",
+  "mode": "python -O",
+  "source_artifacts_changed": false
+}

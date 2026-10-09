@@ -1,0 +1,522 @@
+{
+  "status": "passed",
+  "rows_checked": 132,
+  "artifact_files_checked": 115,
+  "qhat_imported": false,
+  "independent_propagation_performed_by_this_script": false,
+  "exact_complete_class_magnitude_controls": 24,
+  "wrong_sign_negative_controls_rejected": 18,
+  "max_metric_difference": 2.710505431213761e-20,
+  "max_fixed_state_distance": 0.0,
+  "max_leakage_difference": 0.0,
+  "cases": [
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "n_qubits": 10,
+      "closed_dimension": 64,
+      "mask_classes": 35,
+      "all_complete_mask_coefficient_magnitudes_exactly_invariant": true,
+      "parent_order_distinct": 3,
+      "owner_changed_paulis": [
+        0,
+        36,
+        36,
+        0,
+        32,
+        32
+      ],
+      "block_partition_changed": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "methods": {
+        "fermionic_signed": {
+          "E_by_gauge": [
+            1.4506024652502905e-06,
+            1.4492612792890446e-06,
+            1.4492612792890446e-06,
+            1.4506024652502905e-06,
+            1.458087780705244e-06,
+            1.458087780705244e-06
+          ],
+          "E_min": 1.4492612792890446e-06,
+          "E_max": 1.458087780705244e-06,
+          "E_max_over_min": 1.0060903451588312,
+          "distinct_word_orders": 3,
+          "changed_order_positions": [
+            0,
+            237,
+            237,
+            0,
+            239,
+            239
+          ]
+        },
+        "jw_signed": {
+          "E_by_gauge": [
+            1.8454170417332432e-06,
+            1.7335200844323796e-06,
+            1.7335200844323796e-06,
+            1.8454170417332432e-06,
+            1.2349000355350606e-06,
+            1.2349000355350606e-06
+          ],
+          "E_min": 1.2349000355350606e-06,
+          "E_max": 1.8454170417332432e-06,
+          "E_max_over_min": 1.494385771018021,
+          "distinct_word_orders": 3,
+          "changed_order_positions": [
+            0,
+            204,
+            204,
+            0,
+            208,
+            208
+          ]
+        },
+        "jw_magnitude": {
+          "E_by_gauge": [
+            1.366369055508988e-06,
+            1.366369055508988e-06,
+            1.366369055508988e-06,
+            1.366369055508988e-06,
+            1.366369055508988e-06,
+            1.366369055508988e-06
+          ],
+          "E_min": 1.366369055508988e-06,
+          "E_max": 1.366369055508988e-06,
+          "E_max_over_min": 1.0,
+          "distinct_word_orders": 1,
+          "changed_order_positions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "owned_vs_jw_magnitude": {
+        "wins": 0,
+        "ties": 0,
+        "losses": 6,
+        "E_owned_over_other_by_gauge": [
+          1.061647626899692,
+          1.0606660575675715,
+          1.0606660575675715,
+          1.061647626899692,
+          1.0671258799564147,
+          1.0671258799564147
+        ]
+      },
+      "owned_vs_jw_signed": {
+        "wins": 4,
+        "ties": 0,
+        "losses": 2,
+        "E_owned_over_other_by_gauge": [
+          0.786056719129386,
+          0.8360222026291595,
+          0.8360222026291595,
+          0.786056719129386,
+          1.180733451087383,
+          1.180733451087383
+        ]
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "n_qubits": 12,
+      "closed_dimension": 256,
+      "mask_classes": 80,
+      "all_complete_mask_coefficient_magnitudes_exactly_invariant": true,
+      "parent_order_distinct": 4,
+      "owner_changed_paulis": [
+        0,
+        80,
+        80,
+        80,
+        80,
+        0
+      ],
+      "block_partition_changed": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "methods": {
+        "fermionic_signed": {
+          "E_by_gauge": [
+            5.796386568477297e-10,
+            3.320495151787557e-10,
+            8.108132453678071e-10,
+            7.9849255175736e-10,
+            7.9849255175736e-10,
+            5.796386568477297e-10
+          ],
+          "E_min": 3.320495151787557e-10,
+          "E_max": 8.108132453678071e-10,
+          "E_max_over_min": 2.441844388573534,
+          "distinct_word_orders": 4,
+          "changed_order_positions": [
+            0,
+            466,
+            520,
+            508,
+            508,
+            0
+          ]
+        },
+        "jw_signed": {
+          "E_by_gauge": [
+            2.0062702430705882e-10,
+            1.4641375555404118e-09,
+            7.719822460332551e-10,
+            8.580858399257516e-10,
+            8.580858399257516e-10,
+            2.0062702430705882e-10
+          ],
+          "E_min": 2.0062702430705882e-10,
+          "E_max": 1.4641375555404118e-09,
+          "E_max_over_min": 7.2978082618598545,
+          "distinct_word_orders": 4,
+          "changed_order_positions": [
+            0,
+            460,
+            484,
+            484,
+            484,
+            0
+          ]
+        },
+        "jw_magnitude": {
+          "E_by_gauge": [
+            4.440864956171629e-10,
+            4.440864956171629e-10,
+            4.440864956171629e-10,
+            4.440864956171629e-10,
+            4.440864956171629e-10,
+            4.440864956171629e-10
+          ],
+          "E_min": 4.440864956171629e-10,
+          "E_max": 4.440864956171629e-10,
+          "E_max_over_min": 1.0,
+          "distinct_word_orders": 1,
+          "changed_order_positions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "owned_vs_jw_magnitude": {
+        "wins": 1,
+        "ties": 0,
+        "losses": 5,
+        "E_owned_over_other_by_gauge": [
+          1.3052381969917484,
+          0.7477136063714224,
+          1.8258002739781378,
+          1.7980563688334326,
+          1.7980563688334326,
+          1.3052381969917484
+        ]
+      },
+      "owned_vs_jw_signed": {
+        "wins": 3,
+        "ties": 0,
+        "losses": 3,
+        "E_owned_over_other_by_gauge": [
+          2.889135493335111,
+          0.2267884693772482,
+          1.0503003787121798,
+          0.9305509013252705,
+          0.9305509013252705,
+          2.889135493335111
+        ]
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "n_qubits": 14,
+      "closed_dimension": 1024,
+      "mask_classes": 138,
+      "all_complete_mask_coefficient_magnitudes_exactly_invariant": true,
+      "parent_order_distinct": 6,
+      "owner_changed_paulis": [
+        0,
+        104,
+        128,
+        152,
+        136,
+        152
+      ],
+      "block_partition_changed": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "methods": {
+        "fermionic_signed": {
+          "E_by_gauge": [
+            9.109707345013289e-10,
+            8.903175481850109e-10,
+            3.115085448885112e-09,
+            3.1531869569941188e-09,
+            2.9903818439613552e-09,
+            2.986833882854719e-09
+          ],
+          "E_min": 8.903175481850109e-10,
+          "E_max": 3.1531869569941188e-09,
+          "E_max_over_min": 3.5416430501927794,
+          "distinct_word_orders": 6,
+          "changed_order_positions": [
+            0,
+            768,
+            799,
+            807,
+            823,
+            833
+          ]
+        },
+        "jw_signed": {
+          "E_by_gauge": [
+            6.708166832994244e-09,
+            6.794687933140308e-09,
+            6.865659694721119e-09,
+            7.080179039448352e-09,
+            4.998006420442122e-09,
+            4.688652429707676e-09
+          ],
+          "E_min": 4.688652429707676e-09,
+          "E_max": 7.080179039448352e-09,
+          "E_max_over_min": 1.5100669426011986,
+          "distinct_word_orders": 6,
+          "changed_order_positions": [
+            0,
+            790,
+            795,
+            773,
+            849,
+            849
+          ]
+        },
+        "jw_magnitude": {
+          "E_by_gauge": [
+            1.7879839646109137e-09,
+            1.7879839646109137e-09,
+            1.7879839646109137e-09,
+            1.7879839646109137e-09,
+            1.7879839646109137e-09,
+            1.7879839646109137e-09
+          ],
+          "E_min": 1.7879839646109137e-09,
+          "E_max": 1.7879839646109137e-09,
+          "E_max_over_min": 1.0,
+          "distinct_word_orders": 1,
+          "changed_order_positions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "owned_vs_jw_magnitude": {
+        "wins": 2,
+        "ties": 0,
+        "losses": 4,
+        "E_owned_over_other_by_gauge": [
+          0.5094960315818977,
+          0.4979449289293567,
+          1.7422334375146318,
+          1.7635431969213937,
+          1.6724880665314565,
+          1.6705037304429569
+        ]
+      },
+      "owned_vs_jw_signed": {
+        "wins": 6,
+        "ties": 0,
+        "losses": 0,
+        "E_owned_over_other_by_gauge": [
+          0.1358002502294222,
+          0.13103141114731545,
+          0.4537197570803348,
+          0.44535412726509205,
+          0.5983149264735893,
+          0.6370346123184353
+        ]
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "n_qubits": 16,
+      "closed_dimension": 4096,
+      "mask_classes": 247,
+      "all_complete_mask_coefficient_magnitudes_exactly_invariant": true,
+      "parent_order_distinct": 6,
+      "owner_changed_paulis": [
+        0,
+        216,
+        216,
+        260,
+        260,
+        272
+      ],
+      "block_partition_changed": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "methods": {
+        "fermionic_signed": {
+          "E_by_gauge": [
+            2.1049805984161283e-09,
+            2.358462298108107e-07,
+            2.2505522670199086e-07,
+            2.2603502789241876e-07,
+            2.3681310307027826e-07,
+            2.390618487226009e-07
+          ],
+          "E_min": 2.1049805984161283e-09,
+          "E_max": 2.390618487226009e-07,
+          "E_max_over_min": 113.5696209753575,
+          "distinct_word_orders": 6,
+          "changed_order_positions": [
+            0,
+            1501,
+            1376,
+            1424,
+            1421,
+            1499
+          ]
+        },
+        "jw_signed": {
+          "E_by_gauge": [
+            2.2855493016191658e-07,
+            1.7444188993139934e-08,
+            1.2603917095514947e-08,
+            1.4556948453502566e-08,
+            1.951017844991262e-08,
+            1.8263446306415535e-08
+          ],
+          "E_min": 1.2603917095514947e-08,
+          "E_max": 2.2855493016191658e-07,
+          "E_max_over_min": 18.133642773899783,
+          "distinct_word_orders": 6,
+          "changed_order_positions": [
+            0,
+            1519,
+            1467,
+            1450,
+            1498,
+            1519
+          ]
+        },
+        "jw_magnitude": {
+          "E_by_gauge": [
+            3.007444970528516e-07,
+            3.007444970528516e-07,
+            3.007444970528516e-07,
+            3.007444970528516e-07,
+            3.007444970528516e-07,
+            3.007444970528516e-07
+          ],
+          "E_min": 3.007444970528516e-07,
+          "E_max": 3.007444970528516e-07,
+          "E_max_over_min": 1.0,
+          "distinct_word_orders": 1,
+          "changed_order_positions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "owned_vs_jw_magnitude": {
+        "wins": 6,
+        "ties": 0,
+        "losses": 0,
+        "E_owned_over_other_by_gauge": [
+          0.006999232301983592,
+          0.7842079643085341,
+          0.7483269981908949,
+          0.7515849171221786,
+          0.7874228968141741,
+          0.7949001596547556
+        ]
+      },
+      "owned_vs_jw_signed": {
+        "wins": 1,
+        "ties": 0,
+        "losses": 5,
+        "E_owned_over_other_by_gauge": [
+          0.00920995489760332,
+          13.52004555233603,
+          17.855974852617514,
+          15.527638132017442,
+          12.137926040924494,
+          13.08963514945281
+        ]
+      }
+    }
+  ],
+  "producer_checks": [
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "n_qubits": 10,
+      "closed_dimension": 64,
+      "input_sha256": "4734c1a4f939136b921bb6a7acf9760bf930639245fb74c35bd327d14f9d567c",
+      "original_state_archive_sha256": "0ee449bdaee375267fc73b03f6c5b22c2dde93a70795cd8b312607afa54e7afd",
+      "original_design_sha256": "9515fd63e197364bd1c8bf75f678f72f0940570701c07f299b31469991936682",
+      "independent_dense_reference_distance": 2.7517394189198346e-15,
+      "independent_dense_H_distance": 0.0
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "n_qubits": 12,
+      "closed_dimension": 256,
+      "input_sha256": "06e490bddea190c57c46a01a18d2d7e39bb2716363c641fcfee6797ee9bf3786",
+      "original_state_archive_sha256": "dc26374fd20bf281fa4e1f2f4d33495735647545cf5094efc1400cdf69787189",
+      "original_design_sha256": "0f8faa90121e02ecdb9e1896c245b33eb2851b222f9e308c9b890483532262c5"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "n_qubits": 14,
+      "closed_dimension": 1024,
+      "input_sha256": "364be2284dc2cac1c22f44f09a76b93aa7e30454009da715164ceed82f1fb046",
+      "original_state_archive_sha256": "f0772db29089741265f816d649fa12f1dde264a925521819ac1d9972a1f8e8fb",
+      "original_design_sha256": "dc478efc0845027af219e1e941c89148672ba132f6faae6f9957fc5c591fd067"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "n_qubits": 16,
+      "closed_dimension": 4096,
+      "input_sha256": "6776b0cb8278273a18248d9f6f14b9faf95d9749e3c3a052660afe5352ea9aba",
+      "original_state_archive_sha256": "461b4d327b34d0e6b1156ada7e975f05f73195e5a5e8bb966411f0857b045dac",
+      "original_design_sha256": "0546536ef8ab067c1295eda07850e7d82e3443549a9a9f2903d7d4533ba04c05"
+    }
+  ]
+}

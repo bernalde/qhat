@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/tmp/qhat-h2o-venv/bin/python",
+    "-O",
+    "/tmp/ordering-large-state-control/recheck_saved.py",
+    "--root",
+    "/tmp/state-control-tamper-hrceyuky",
+    "--output",
+    "/tmp/state-control-tamper-hrceyuky/should_not_exist.json"
+  ],
+  "returncode": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/ordering-large-state-control/recheck_saved.py\", line 59, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/tmp/ordering-large-state-control/recheck_saved.py\", line 45, in main\n    require(md<1e-16,'Independent metric mismatch');require(ld<1e-20,'Independent leakage mismatch')\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ordering-large-state-control/recheck_saved.py\", line 8, in require\n    if not x:raise RuntimeError(msg)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Independent metric mismatch\n",
+  "expected_rejection": "Independent metric mismatch",
+  "mode": "python -O",
+  "source_artifacts_modified": false
+}

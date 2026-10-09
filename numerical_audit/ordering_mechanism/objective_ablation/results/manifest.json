@@ -1,0 +1,35 @@
+{
+  "cases": [
+    "CH2O_s1.00",
+    "CH2O_s1.25",
+    "H2S_s1.00",
+    "H2S_s1.25",
+    "HCN_s1.00",
+    "HCN_s1.25",
+    "SiH4_s1.00",
+    "SiH4_s1.25"
+  ],
+  "source_sha256": {
+    "run.py": "6ad84b74c9189e6569c5e4a627360762b6ea16fa64e018a1f0fffadc2ce7c64d",
+    "phase2_reference.py": "58263730c8c35b2dedbad845574c3f4f4286af5c0328940d001af85ddd18ecd7",
+    "PROTOCOL.md": "9b1c83750df65339fd5162a5a5e0d3e7107f5b5c402772dedb59289c0b59954e",
+    "analysis/benchmark_b2_active_spaces_matrix_free.py": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1",
+    "analysis/benchmark_b2_signed_coefficient_baseline.py": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76",
+    "analysis/benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c",
+    "analysis/state_metrics.py": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+    "numerical_audit/reference_tools.py": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432",
+    "numerical_audit/run_frozen_audit.py": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+  },
+  "parent_manifest_sha256": "69085a15233366da583bd15eede74005e31b196c07b626aef577670e0debf9a0",
+  "phase2_manifest_sha256": "89b467b58e3a808aa066c0aead43e9c788fc9088844a01b1b34deacc73ac8d4b",
+  "qhat_commit": "0be7d4857537668eec957dabaa8438ea5c0d33f2",
+  "methods": [
+    "class_refined_J0",
+    "class_pauli_JD"
+  ],
+  "expected_rows": 16,
+  "T": 1.0,
+  "r": 100,
+  "threads": 1,
+  "status": "exploratory objective/partition ablation; not held-out"
+}

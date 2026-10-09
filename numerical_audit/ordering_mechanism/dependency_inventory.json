@@ -1,0 +1,65 @@
+{
+  "scope": "Post-run inventory of the unchanged reviewed dependency checkout; not a retroactive import attestation. Candidate drivers independently replayed. Later drivers must enforce their import root at run time.",
+  "qhat_root": "/home/bernalde/repos/qhat",
+  "qhat_commit": "0be7d4857537668eec957dabaa8438ea5c0d33f2",
+  "qhat_status": "",
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "packages": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "numba": "0.68.0",
+    "openfermion": "1.8.1"
+  },
+  "files": {
+    "analysis/__init__.py": {
+      "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c",
+      "bytes": 47,
+      "module": "qhat.analysis"
+    },
+    "analysis/benchmark_L_sweep_trotter.py": {
+      "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c",
+      "bytes": 59542,
+      "module": "qhat.analysis.benchmark_L_sweep_trotter"
+    },
+    "analysis/benchmark_b2_active_spaces_matrix_free.py": {
+      "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1",
+      "bytes": 45618,
+      "module": "qhat.analysis.benchmark_b2_active_spaces_matrix_free"
+    },
+    "analysis/benchmark_b2_coloring_robustness.py": {
+      "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b",
+      "bytes": 50790,
+      "module": "qhat.analysis.benchmark_b2_coloring_robustness"
+    },
+    "analysis/benchmark_b2_signed_coefficient_baseline.py": {
+      "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76",
+      "bytes": 28754,
+      "module": "qhat.analysis.benchmark_b2_signed_coefficient_baseline"
+    },
+    "analysis/benchmark_fermionic_structure_ablation.py": {
+      "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca",
+      "bytes": 43477,
+      "module": "qhat.analysis.benchmark_fermionic_structure_ablation"
+    },
+    "analysis/state_metrics.py": {
+      "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+      "bytes": 3422,
+      "module": "qhat.analysis.state_metrics"
+    },
+    "numerical_audit/__init__.py": {
+      "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca",
+      "bytes": 85,
+      "module": "qhat.numerical_audit"
+    },
+    "numerical_audit/reference_tools.py": {
+      "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432",
+      "bytes": 3632,
+      "module": "qhat.numerical_audit.reference_tools"
+    },
+    "numerical_audit/run_frozen_audit.py": {
+      "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb",
+      "bytes": 16542,
+      "module": "qhat.numerical_audit.run_frozen_audit"
+    }
+  }
+}

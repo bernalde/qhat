@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/tmp/qhat-h2o-venv/bin/python",
+    "-O",
+    "/tmp/ordering-gauge-experiment/recheck_gauge.py",
+    "--results",
+    "/tmp/gauge-tamper-mih4xoem/results",
+    "--output",
+    "/tmp/gauge-tamper-mih4xoem/should-not-exist.json"
+  ],
+  "returncode": 1,
+  "tampered_file": "protocol.json",
+  "expected_rejection": "Artifact hash mismatch: protocol.json",
+  "rejected_under_python_optimized": true,
+  "original_file_unchanged": true,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/ordering-gauge-experiment/recheck_gauge.py\", line 98, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/tmp/ordering-gauge-experiment/recheck_gauge.py\", line 25, in main\n    for rel,h in manifest.items():require(sha(root/rel)==h,'Artifact hash mismatch: '+rel)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ordering-gauge-experiment/recheck_gauge.py\", line 14, in require\n    if not x:raise RuntimeError(msg)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Artifact hash mismatch: protocol.json\n"
+}
