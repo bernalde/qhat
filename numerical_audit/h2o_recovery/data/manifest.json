@@ -1,0 +1,423 @@
+{
+  "bases": {
+    "hgbs-5": {
+      "case_count": 9,
+      "files_sha256": {
+        "basis_definition.json": "5027a4a4c84388e09ce3ede6d6ef1864f76fb77a59b2516d7a645a7129b2da62",
+        "configs/H2O_s-1.00_hgbs-5_as-002-002.relocated.py": "b6646da3c54c31ad14cce3da285f6a153337811fc6274fd09198e5f844080c95",
+        "configs/H2O_s-1.00_hgbs-5_as-002-002_JW.config": "43f09df3cb954396f7e0a38dc88fa67e54c5637b2b7ba15a1c58748548bbcb2d",
+        "configs/H2O_s-1.00_hgbs-5_as-002-004.relocated.py": "8e886a304331ef2e85cbb17eb6ba603ea1deb6764b7862822bae126a6f58ef62",
+        "configs/H2O_s-1.00_hgbs-5_as-002-004_JW.config": "ad6656a61de055ef0a4cdf31fcdc1a8b43d2baa91c77539a1a13a740e09af4d1",
+        "configs/H2O_s-1.00_hgbs-5_as-004-004.relocated.py": "9f18a451505895d4dc6d3a7e761711f2d89dbb92bd4d67e80bc2d81e3ec6de91",
+        "configs/H2O_s-1.00_hgbs-5_as-004-004_JW.config": "7918c4d7111dc5cc0265ad04ecb81958009d01345259c448548355a42214d2c1",
+        "configs/H2O_s-1.00_hgbs-5_as-004-006.relocated.py": "1b39509306a3b8b64bad30cdef772a994b24290230b99e00a6e282959aab62d9",
+        "configs/H2O_s-1.00_hgbs-5_as-004-006_JW.config": "cab6c826bb5091029178a7f24fce56efe1ec7bc21976275368066fe66c0e262c",
+        "configs/H2O_s-1.00_hgbs-5_as-004-008.relocated.py": "e81fd5c6074319e045b516a1b70dcc9e71a820e7ae112004b23a871214f6aea4",
+        "configs/H2O_s-1.00_hgbs-5_as-004-008_JW.config": "6e6a73134943feddbfb239ae1a3db48c2290c79925d92597efa958ca6789aec5",
+        "configs/H2O_s-1.00_hgbs-5_as-006-008.relocated.py": "191407f9b450e36a1281859ea4fd1a000a0e54f408ce83d790cecc940344704b",
+        "configs/H2O_s-1.00_hgbs-5_as-006-008_JW.config": "32a2750779dca4566b4401979a26d1b37c7775040440f180052680a291ff08d5",
+        "configs/H2O_s-1.00_hgbs-5_as-006-010.relocated.py": "d93c067a21445c4e50083b0d56d401fb3f9a35269ed235615de8253a1e5cd064",
+        "configs/H2O_s-1.00_hgbs-5_as-006-010_JW.config": "2a95fdf61f656151d40cc893251d09a5ef29730531f2f929007ed6a897228ced",
+        "configs/H2O_s-1.00_hgbs-5_as-008-010.relocated.py": "767c6d3c8ae36e1a74906b62ef89f3f684a3471264f14b78008c5e5c8387b651",
+        "configs/H2O_s-1.00_hgbs-5_as-008-010_JW.config": "7fca4b20ceaa0176dcd210257ea4cdeb616ad364c4ee565667c55da9734c55b4",
+        "configs/H2O_s-1.00_hgbs-5_as-008-012.relocated.py": "f21be79ebc56862688e1cc8d3b7ac9ace04df4bc264025460afe6a7c59fa1e18",
+        "configs/H2O_s-1.00_hgbs-5_as-008-012_JW.config": "1efa747b31352a30bb2ab7df17c5993cad8a99f2bf7e736e79309202973815bf",
+        "generation.log": "6f3a0ade2d762dab1227d9ba1d4c61187be3bf27bc2c00fd1bd27034feeaa408",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-002-002.tensors.npz": "dac80ab969d1d5f91e060cc883c81f44128f70baaaee1f9250517f4d0d11674f",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-002-004.tensors.npz": "88605b63b7b1f500d324e53d37b49440c067db5563083e85c233d29aa9940bca",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-004-004.tensors.npz": "413d0affc8ef6e293396cd58d303f07373758c32f2166511ed9c5a810ccdc3cb",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-004-006.tensors.npz": "69a618804de49e8f5fd668308c487bce495b0fa2b1ade7dbeae9853f9e737e7d",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-004-008.tensors.npz": "06e490bddea190c57c46a01a18d2d7e39bb2716363c641fcfee6797ee9bf3786",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-006-008.tensors.npz": "364be2284dc2cac1c22f44f09a76b93aa7e30454009da715164ceed82f1fb046",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-006-010.tensors.npz": "6776b0cb8278273a18248d9f6f14b9faf95d9749e3c3a052660afe5352ea9aba",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-008-010.tensors.npz": "305d57ce94acfcefbeca7f64f6d999a7fcffa26d48d333507601621619249fac",
+        "historical_policy/H2O_s-1.00_hgbs-5_as-008-012.tensors.npz": "7d1e09c3c2afa602ed2ddeba00b5cae3113257cd201e6926467dce5771a4427a",
+        "orbitals.npz": "9c9d900baf58bd6a1b39c546a1785a55a120a06795c596bc209f51000c415111",
+        "source/historical_qhat_hamgen.py": "d6a2ff3a0d92ec10c347b4cff1fca622cdb93307fd8d24f6c947977c172d7f24",
+        "source/historical_qhat_hamgen_types.py": "1bc77bcccac046a287248f336d7079d50300aa2823b14edfb5fcbc6364c1aab5",
+        "source/openfermion_molecular_data.py": "c00bb495b909f9713e628ca14747f0278cf894986477cb63ab547d61822018bc",
+        "source/openfermionpyscf_driver.py": "f092eed5b9792bf5ba54b78fe8614a5d261d1eba700dec33f3923f4a81e89add",
+        "source/qhat_hamgen.py": "639273083e7a55d2146386d8fa3ba3d9dc1fec38a0160f7973c19d719dbaebd3",
+        "source/qhat_hamgen_types.py": "392f211032dcd996ca84b16e39b92633913b482c464a321db1af193019990d98",
+        "source/recovery_driver.py": "01689a55b16d00b21caab023ae58e75f481ff513fbef8a6e614d5fa6ea121a53",
+        "summary.json": "f5cf84cbfcdd82dd6cfddc01dd4c40de21ef2831fe51d4887a2916b51a099db3",
+        "unpruned/H2O_s-1.00_hgbs-5_as-002-002.tensors.npz": "5a38a6bf5d7a98732cb88fb012328d4208f231f09a504f10d3ef86e0464b0ad8",
+        "unpruned/H2O_s-1.00_hgbs-5_as-002-004.tensors.npz": "3a64fe0e8dd3914b7e2455cc3e2648ded5dced1db83f6d57f471f2d36287c70c",
+        "unpruned/H2O_s-1.00_hgbs-5_as-004-004.tensors.npz": "df153234bd9080ba441074534517c7fd886d69a439f9a4262246f05933eda6aa",
+        "unpruned/H2O_s-1.00_hgbs-5_as-004-006.tensors.npz": "66ab087a532ff2ad90e3c2a837b1f21f78cee0125f5703a3a1430dd04355838e",
+        "unpruned/H2O_s-1.00_hgbs-5_as-004-008.tensors.npz": "65bfef1e01cbeeaccbdceced510e05225b2c16b403fb070cdf34fa8ffdb10ec4",
+        "unpruned/H2O_s-1.00_hgbs-5_as-006-008.tensors.npz": "e0997f37c33f8bdd898cda9048ab9bb8a84e8304e08286aceb0a69ad784868e7",
+        "unpruned/H2O_s-1.00_hgbs-5_as-006-010.tensors.npz": "34af6fb19a1c24cc725df08dfa0116cd32656262d59e9d8f16ec22084d6656e0",
+        "unpruned/H2O_s-1.00_hgbs-5_as-008-010.tensors.npz": "51429396919c407b211230ba5b3e7c330d470364e78410641dbf40646aafe8cf",
+        "unpruned/H2O_s-1.00_hgbs-5_as-008-012.tensors.npz": "086eb670e9f4453d3752b43014d04f5d70372a30669df1283c90ef374b298ece"
+      },
+      "optional_cache_sha256": {
+        "hf_molecule.hdf5": "37d98d75455054f8da8bb2b8a1a4be5bc9c8202d737dd04883879af3d9f24edb"
+      }
+    },
+    "sto-6g": {
+      "case_count": 6,
+      "files_sha256": {
+        "basis_definition.json": "0d6dd1c431ede9a9b4a69395e7c1a3753a41f3e4f9514cf2c97edc7f1985791f",
+        "configs/H2O_s-1.00_sto-6g_as-002-002.relocated.py": "f2b3ed4f35ec9d0b6dfef7bce11a3868b39d089992ced5158aa97a02525095ef",
+        "configs/H2O_s-1.00_sto-6g_as-002-002_JW.config": "700c023f97bd58f24e96c0c53cf1fb5c85101c2efa32e8c2040fb008f559d627",
+        "configs/H2O_s-1.00_sto-6g_as-002-004.relocated.py": "40b15bad0c4af30b3b4944bb47f053088509979c05659b8c7df46579ff82c67d",
+        "configs/H2O_s-1.00_sto-6g_as-002-004_JW.config": "3631bb873b5819e64dd36ab1c72963a6f8d1580306d4651ea17089808c68b24f",
+        "configs/H2O_s-1.00_sto-6g_as-004-004.relocated.py": "c0773d0ccbed7375081b6bee00c4a1cd771b3d548e20e384085d8853530b0dcf",
+        "configs/H2O_s-1.00_sto-6g_as-004-004_JW.config": "196a584b1e6a5e80a2f817c5c0439dd4d03e12e302d265e196677469baf18c37",
+        "configs/H2O_s-1.00_sto-6g_as-006-004.relocated.py": "0321953b90bdac656a97f57aee6efa0b47fc525256bbdb167d60a9c69ac21da8",
+        "configs/H2O_s-1.00_sto-6g_as-006-004_JW.config": "ba8ea77f150cd61f000f98305f7927c6d0cc69a3413dd200ee53a8bd89acc533",
+        "configs/H2O_s-1.00_sto-6g_as-008-004.relocated.py": "b74ab686dc7b711e89ca7d08074f94672d4af751822b52806a0b86d9af504856",
+        "configs/H2O_s-1.00_sto-6g_as-008-004_JW.config": "e00eaaf76c1867599befdd3867491eee138ec0b3b627f670acc70d968a148f46",
+        "configs/H2O_s-1.00_sto-6g_as-010-004.relocated.py": "2a43303a5ba70fa77b68910d29d6aba643169ab3a05298f68c1d091ed731da5c",
+        "configs/H2O_s-1.00_sto-6g_as-010-004_JW.config": "17d4afec865fd09cbc741533121012eaecf34b7e5746235cb4addf22873d0605",
+        "generation.log": "52f39d12303ff3b7820fc42a9eb0c369629c22bd599220e777aaf39a10261590",
+        "historical_policy/H2O_s-1.00_sto-6g_as-002-002.tensors.npz": "427baa6b3dd62e20fd9bc6eac77cda63e659ec16fcdde2362020d46a81a210d1",
+        "historical_policy/H2O_s-1.00_sto-6g_as-002-004.tensors.npz": "31368026e3e3296088ef426df9bdf19324b5f8a635275d11e84e125ea22008ce",
+        "historical_policy/H2O_s-1.00_sto-6g_as-004-004.tensors.npz": "376a2ca98e2d7784b108b1c62507c5c0b7909fcd830c7e1760247ecbcdb8118d",
+        "historical_policy/H2O_s-1.00_sto-6g_as-006-004.tensors.npz": "4734c1a4f939136b921bb6a7acf9760bf930639245fb74c35bd327d14f9d567c",
+        "historical_policy/H2O_s-1.00_sto-6g_as-008-004.tensors.npz": "2bc8cb9ee9d7edada603b81d45a6bfba98ad56fb7b18eaa75688dc63774e3ebe",
+        "historical_policy/H2O_s-1.00_sto-6g_as-010-004.tensors.npz": "156f5922dd736a851550f7af3e248aa7385c455738b5168fdeee4691a8f0ccf4",
+        "orbitals.npz": "c88af10ee0bb7923a4a52e87755d01e36184adb668baab9da34baac920396451",
+        "source/historical_qhat_hamgen.py": "d6a2ff3a0d92ec10c347b4cff1fca622cdb93307fd8d24f6c947977c172d7f24",
+        "source/historical_qhat_hamgen_types.py": "1bc77bcccac046a287248f336d7079d50300aa2823b14edfb5fcbc6364c1aab5",
+        "source/openfermion_molecular_data.py": "c00bb495b909f9713e628ca14747f0278cf894986477cb63ab547d61822018bc",
+        "source/openfermionpyscf_driver.py": "f092eed5b9792bf5ba54b78fe8614a5d261d1eba700dec33f3923f4a81e89add",
+        "source/qhat_hamgen.py": "639273083e7a55d2146386d8fa3ba3d9dc1fec38a0160f7973c19d719dbaebd3",
+        "source/qhat_hamgen_types.py": "392f211032dcd996ca84b16e39b92633913b482c464a321db1af193019990d98",
+        "source/recovery_driver.py": "01689a55b16d00b21caab023ae58e75f481ff513fbef8a6e614d5fa6ea121a53",
+        "summary.json": "c5d2c6666f1822d60f55ff7471424c9d4cd9ea5a9ba85885de86aa19510fd210",
+        "unpruned/H2O_s-1.00_sto-6g_as-002-002.tensors.npz": "a64c3fad226c009a783134f7adf610972e8a27a84d8cc3d5a3171c8ddff5db5c",
+        "unpruned/H2O_s-1.00_sto-6g_as-002-004.tensors.npz": "23f98569a92510b1c65a3795c324be307967534b2c59ecf667b383ef517c0db6",
+        "unpruned/H2O_s-1.00_sto-6g_as-004-004.tensors.npz": "f1ac880007ca9d33d1b280a1aacb045898aef429261d15078a3335c42254bc5a",
+        "unpruned/H2O_s-1.00_sto-6g_as-006-004.tensors.npz": "3faab1d34efaddb837cc724627396339a2a8d55e5864a373e06522665125a5a6",
+        "unpruned/H2O_s-1.00_sto-6g_as-008-004.tensors.npz": "21b3ccf7a3370d85ed20e0308f7cd3a705d12d847aa6acd6233bc240a12440d5",
+        "unpruned/H2O_s-1.00_sto-6g_as-010-004.tensors.npz": "b499a51d701b49036bfe5220468289e675df324026e7364f171314bdaa3035a5"
+      },
+      "optional_cache_sha256": {
+        "hf_molecule.hdf5": "2f79bffddebb117201fcdcc69cabad9856af0eb3b2c4bdddb9b002c7c4c58c23"
+      }
+    }
+  },
+  "provenance": {
+    "address_space_mb": 12288,
+    "charge": 0,
+    "geometry_angstrom": [
+      [
+        "O",
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      [
+        "H",
+        [
+          0.757540797781,
+          0.0,
+          0.587079636589
+        ]
+      ],
+      [
+        "H",
+        [
+          -0.757540797781,
+          0.0,
+          0.587079636589
+        ]
+      ]
+    ],
+    "historical_configuration_sha256": {
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-002-002_JW.config": "43f09df3cb954396f7e0a38dc88fa67e54c5637b2b7ba15a1c58748548bbcb2d",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-002-004_JW.config": "ad6656a61de055ef0a4cdf31fcdc1a8b43d2baa91c77539a1a13a740e09af4d1",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-004-004_JW.config": "7918c4d7111dc5cc0265ad04ecb81958009d01345259c448548355a42214d2c1",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-004-006_JW.config": "cab6c826bb5091029178a7f24fce56efe1ec7bc21976275368066fe66c0e262c",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-004-008_JW.config": "6e6a73134943feddbfb239ae1a3db48c2290c79925d92597efa958ca6789aec5",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-006-008_JW.config": "32a2750779dca4566b4401979a26d1b37c7775040440f180052680a291ff08d5",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-006-010_JW.config": "2a95fdf61f656151d40cc893251d09a5ef29730531f2f929007ed6a897228ced",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-008-010_JW.config": "7fca4b20ceaa0176dcd210257ea4cdeb616ad364c4ee565667c55da9734c55b4",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/hgbs-5/H2O_s-1.00_hgbs-5_as-008-012_JW.config": "1efa747b31352a30bb2ab7df17c5993cad8a99f2bf7e736e79309202973815bf",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/sto-6g/H2O_s-1.00_sto-6g_as-002-002_JW.config": "700c023f97bd58f24e96c0c53cf1fb5c85101c2efa32e8c2040fb008f559d627",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/sto-6g/H2O_s-1.00_sto-6g_as-002-004_JW.config": "3631bb873b5819e64dd36ab1c72963a6f8d1580306d4651ea17089808c68b24f",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/sto-6g/H2O_s-1.00_sto-6g_as-004-004_JW.config": "196a584b1e6a5e80a2f817c5c0439dd4d03e12e302d265e196677469baf18c37",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/sto-6g/H2O_s-1.00_sto-6g_as-006-004_JW.config": "ba8ea77f150cd61f000f98305f7927c6d0cc69a3413dd200ee53a8bd89acc533",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/sto-6g/H2O_s-1.00_sto-6g_as-008-004_JW.config": "e00eaaf76c1867599befdd3867491eee138ec0b3b627f670acc70d968a148f46",
+      "hamiltonian_generator/polyatomic_library/H2O/s-1.00/sto-6g/H2O_s-1.00_sto-6g_as-010-004_JW.config": "17d4afec865fd09cbc741533121012eaecf34b7e5746235cb4addf22873d0605"
+    },
+    "historical_generator_function_ast_identical": {
+      "apply_active_space": true,
+      "define_active_orbitals": true,
+      "my_run_pyscf": true
+    },
+    "historical_qhat_commit": "89c701652c4c64918825e279e84a7bea5924822a",
+    "historical_spinorb_integral_cutoff": 1e-08,
+    "max_memory_mb": 4096,
+    "multiplicity": 1,
+    "orbital_convention": "PySCF canonical RHF spatial orbitals; alpha/beta interleaved",
+    "orbital_gauge": "Unmodified PySCF eigenvector signs; MO coefficients retained",
+    "packages": [
+      [
+        "annotated-types",
+        "0.8.0"
+      ],
+      [
+        "argcomplete",
+        "3.7.2"
+      ],
+      [
+        "attrs",
+        "26.1.0"
+      ],
+      [
+        "basis_set_exchange",
+        "0.12"
+      ],
+      [
+        "certifi",
+        "2026.7.22"
+      ],
+      [
+        "charset-normalizer",
+        "3.5.2"
+      ],
+      [
+        "cirq-core",
+        "1.7.0"
+      ],
+      [
+        "colorama",
+        "0.4.6"
+      ],
+      [
+        "contourpy",
+        "1.4.0"
+      ],
+      [
+        "cycler",
+        "0.12.1"
+      ],
+      [
+        "Deprecated",
+        "1.3.1"
+      ],
+      [
+        "deprecation",
+        "2.1.0"
+      ],
+      [
+        "duet",
+        "0.2.9"
+      ],
+      [
+        "flexcache",
+        "0.3"
+      ],
+      [
+        "flexparser",
+        "0.4"
+      ],
+      [
+        "fonttools",
+        "4.66.1"
+      ],
+      [
+        "h5py",
+        "3.16.0"
+      ],
+      [
+        "idna",
+        "3.20"
+      ],
+      [
+        "iniconfig",
+        "2.3.1"
+      ],
+      [
+        "jsonschema",
+        "4.26.0"
+      ],
+      [
+        "jsonschema-specifications",
+        "2025.9.1"
+      ],
+      [
+        "kiwisolver",
+        "1.5.1"
+      ],
+      [
+        "llvmlite",
+        "0.50.0"
+      ],
+      [
+        "matplotlib",
+        "3.11.2"
+      ],
+      [
+        "mendeleev",
+        "1.3.0"
+      ],
+      [
+        "mpmath",
+        "1.3.0"
+      ],
+      [
+        "networkx",
+        "3.7"
+      ],
+      [
+        "numba",
+        "0.68.0"
+      ],
+      [
+        "numpy",
+        "2.5.3"
+      ],
+      [
+        "openfermion",
+        "1.8.1"
+      ],
+      [
+        "openfermionpyscf",
+        "0.5"
+      ],
+      [
+        "packaging",
+        "26.3"
+      ],
+      [
+        "pandas",
+        "3.0.6"
+      ],
+      [
+        "pillow",
+        "12.3.0"
+      ],
+      [
+        "Pint",
+        "0.24.4"
+      ],
+      [
+        "platformdirs",
+        "4.12.4"
+      ],
+      [
+        "pluggy",
+        "1.6.0"
+      ],
+      [
+        "PubChemPy",
+        "1.0.5"
+      ],
+      [
+        "pydantic",
+        "2.14.0"
+      ],
+      [
+        "pydantic_core",
+        "2.50.0"
+      ],
+      [
+        "pyfiglet",
+        "0.8.post1"
+      ],
+      [
+        "Pygments",
+        "2.21.0"
+      ],
+      [
+        "pyparsing",
+        "3.3.3"
+      ],
+      [
+        "pyscf",
+        "2.14.0"
+      ],
+      [
+        "pytest",
+        "9.1.1"
+      ],
+      [
+        "python-dateutil",
+        "2.9.0.post0"
+      ],
+      [
+        "referencing",
+        "0.37.0"
+      ],
+      [
+        "regex",
+        "2026.9.29"
+      ],
+      [
+        "requests",
+        "2.34.2"
+      ],
+      [
+        "rpds-py",
+        "2026.9.1"
+      ],
+      [
+        "scipy",
+        "1.18.1"
+      ],
+      [
+        "setuptools",
+        "84.0.0"
+      ],
+      [
+        "six",
+        "1.17.0"
+      ],
+      [
+        "SQLAlchemy",
+        "2.1.4"
+      ],
+      [
+        "sympy",
+        "1.14.0"
+      ],
+      [
+        "tqdm",
+        "4.70.1"
+      ],
+      [
+        "typing-inspection",
+        "0.4.4"
+      ],
+      [
+        "typing_extensions",
+        "4.16.0"
+      ],
+      [
+        "Unidecode",
+        "1.4.0"
+      ],
+      [
+        "urllib3",
+        "2.8.0"
+      ],
+      [
+        "wrapt",
+        "2.5.0"
+      ]
+    ],
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "purpose": "reconstruction; original H2O tensors are unavailable",
+    "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+    "qhat_commit": "09e3ffb93d31b3d96a1981ea6f48331997075113",
+    "schema_version": 1,
+    "source_sha256": {
+      "historical_qhat_hamgen": "d6a2ff3a0d92ec10c347b4cff1fca622cdb93307fd8d24f6c947977c172d7f24",
+      "historical_qhat_hamgen_types": "1bc77bcccac046a287248f336d7079d50300aa2823b14edfb5fcbc6364c1aab5",
+      "openfermion_molecular_data": "c00bb495b909f9713e628ca14747f0278cf894986477cb63ab547d61822018bc",
+      "openfermionpyscf_driver": "f092eed5b9792bf5ba54b78fe8614a5d261d1eba700dec33f3923f4a81e89add",
+      "qhat_hamgen": "639273083e7a55d2146386d8fa3ba3d9dc1fec38a0160f7973c19d719dbaebd3",
+      "qhat_hamgen_types": "392f211032dcd996ca84b16e39b92633913b482c464a321db1af193019990d98",
+      "recovery_driver": "01689a55b16d00b21caab023ae58e75f481ff513fbef8a6e614d5fa6ea121a53"
+    },
+    "threads": 2,
+    "total_electrons": 10
+  },
+  "provenance_sha256": "734563252092677f8ca48577803b8949190b7a57e00429435283b9d0ee934f7f"
+}

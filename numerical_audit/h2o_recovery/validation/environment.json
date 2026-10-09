@@ -1,0 +1,36 @@
+{
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "executable": "/tmp/qhat-h2o-venv/bin/python",
+  "script_sha256": "964f6c826fafbcdadc9c86e683125a865a6a39f7454a311b88fa1508b0edbcd2",
+  "memory_limit_bytes": 12884901888,
+  "thread_environment": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "NUMBA_NUM_THREADS": "2"
+  },
+  "packages": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "openfermion": "1.8.1",
+    "numba": "0.68.0",
+    "pyscf": "2.14.0",
+    "openfermionpyscf": "0.5"
+  },
+  "qhat_import_sources": {
+    "evolution": {
+      "path": "/home/bernalde/repos/qhat/analysis/benchmark_b2_active_spaces_matrix_free.py",
+      "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+    },
+    "baseline": {
+      "path": "/home/bernalde/repos/qhat/analysis/benchmark_b2_signed_coefficient_baseline.py",
+      "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+    }
+  },
+  "qhat_policy_source_sha256": {
+    "fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "fermionic_ownership.py": "fbdcc336de39ece67f901a4380be1a933a7f05df610b68d584d45746b1112e2e",
+    "state_metrics.py": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+    "benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+  },
+  "interpretation": "Reconstructed inputs and bounded integration validation, not historical replication."
+}
