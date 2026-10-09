@@ -1,0 +1,7 @@
+# The tensor fixtures are deliberately versioned for reproducibility.
+!fixtures/**/*.npz
+!results/initial-state-*/*.initial_states.npz
+# Completed results.json contains these incremental checkpoint rows.
+results/frozen-*/*.T*.r*.json
+results/explicit-*/*.T*.r*.json
+results/initial-state-*/results.jsonl

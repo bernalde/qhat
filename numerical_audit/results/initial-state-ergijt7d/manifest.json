@@ -1,0 +1,50 @@
+{
+  "git_head": "d3eea1ea458908f75d317794a80400a07896c2a8",
+  "source_hashes": {
+    "numerical_audit/initial_state_sensitivity.py": "c565916e0c4a46e2025cb11eb96e20498bc57b7969439aba5c4f646342ad1237",
+    "analysis/state_metrics.py": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+    "analysis/benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c",
+    "analysis/benchmark_b2_active_spaces_matrix_free.py": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1",
+    "analysis/benchmark_b2_signed_coefficient_baseline.py": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76",
+    "analysis/benchmark_b2_coloring_robustness.py": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+  },
+  "fixture_manifest_sha256": "cf3b2b126af479233792eb03eac342e21a0b9438eb23cbb884db76f6a2679b22",
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "openfermion": "1.8.1",
+    "numba": "0.68.0"
+  },
+  "cases": [
+    "CH2O_s1.00",
+    "CH2O_s1.25",
+    "H2S_s1.00",
+    "H2S_s1.25",
+    "HCN_s1.00",
+    "HCN_s1.25",
+    "SiH4_s1.00",
+    "SiH4_s1.25"
+  ],
+  "orders": [
+    "fermionic_signed",
+    "jw_signed",
+    "jw_magnitude"
+  ],
+  "base_seeds": [
+    2026100901,
+    2026100902,
+    2026100903,
+    2026100904,
+    2026100905
+  ],
+  "time": 1.0,
+  "steps": 100,
+  "initial_state_count_per_case": 6,
+  "threads": 1,
+  "max_seconds": 900.0,
+  "product_order": "Chronological: subsequent Pauli exponentials act on the left.",
+  "metric": "normalized_full_state_v2; no postselection",
+  "winner_tie_absolute_tolerance": 1e-12,
+  "reference": "Independent sum of unit-Pauli sparse matrices and frozen hexadecimal coefficients; full-space expm_multiply crosschecked against independent sector eigh."
+}

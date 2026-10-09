@@ -1,0 +1,61 @@
+{
+  "script_sha256": "ba85989c4ef50cfadbe34874bb7657b32cf9bb56b1c86741ac93bc02981b13bb",
+  "tensor_path": "codex_external_validation/runs/transfer-vtrgy3ds/inputs/HCN/s-1.00/6-31g/HCN_s1.00_6-31g_as-004-006.tensors.npz",
+  "tensor_sha256": "09ede69f377f917bda17a6cb1a4a95ff855594cbaff4cf4e93d5214d0bdc6093",
+  "source_files": {
+    "benchmark_b2_active_spaces_matrix_free.py": "7cd5a9998942d8a9977f0074454b4503ccbae9fdc0284abca540f28b8b1abfcd",
+    "benchmark_b2_signed_coefficient_baseline.py": "c80563d75b91dc52066ebfa9703300cc4d5b08708c0e7f561738dfe53d5adc20"
+  },
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "openfermion": "1.8.1",
+    "numba": "0.68.0"
+  },
+  "qubits": 10,
+  "retained_pauli_terms": 435,
+  "fermionic_constant": -87.95276331963628,
+  "jw_identity_coefficient": -91.41784865006764,
+  "reference_minus_retained_scalar": -3.4650853304313642,
+  "matrix_identity_relation_frobenius_residual": 1.726892895253817e-12,
+  "sector_checks": [
+    {
+      "spin_preserving": false,
+      "sector_dimension": 210,
+      "max_norm_drift": 1.1102230246251565e-16,
+      "sector_embedding_vs_full_space_residual": 2.7997242103856427e-16,
+      "retained_pauli_reference_after_scalar_phase_residual": 1.983760084633982e-14,
+      "raw_unaligned_vector_difference": 1.1960598557990907
+    },
+    {
+      "spin_preserving": true,
+      "sector_dimension": 100,
+      "max_norm_drift": 1.1102230246251565e-16,
+      "sector_embedding_vs_full_space_residual": 3.731472712674276e-16,
+      "retained_pauli_reference_after_scalar_phase_residual": 1.9741972701800387e-14,
+      "raw_unaligned_vector_difference": 1.1960598557990907
+    }
+  ],
+  "chronological_pauli_checks": [
+    {
+      "ordering": "fermionic_signed_coefficient_lexicographic",
+      "sparse_matrix_oracle_residual": 0.0,
+      "forward_vs_reverse_distance": 0.0011132541470431987,
+      "nominal_exponentials": 435
+    },
+    {
+      "ordering": "signed_coefficient_lexicographic",
+      "sparse_matrix_oracle_residual": 0.0,
+      "forward_vs_reverse_distance": 0.0005591589866537017,
+      "nominal_exponentials": 435
+    },
+    {
+      "ordering": "jw_magnitude_descending_lexicographic",
+      "sparse_matrix_oracle_residual": 0.0,
+      "forward_vs_reverse_distance": 0.001030074375522679,
+      "nominal_exponentials": 435
+    }
+  ],
+  "generic_complex_state_with_odd_Y_oracle_residual": 9.388364480094342e-17,
+  "interpretation": "Independent OpenFermion sparse-matrix action agrees with historical simulator and sector reference up to the known scalar offset for this frozen HCN input. This validates these conventions for the checked case, not all archived tensors or historical output provenance."
+}

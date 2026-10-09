@@ -1,0 +1,3654 @@
+{
+  "precision_policy": "molecular-unit-weight-v1",
+  "final_pauli_cutoff": 1e-12,
+  "explicit_intermediate_cutoff": 0,
+  "scope": "Numerical difference only; no assertion that any added terms improve accuracy or preserve exact molecular symmetries after cutoff.",
+  "manifest_sha256": "cf3b2b126af479233792eb03eac342e21a0b9438eb23cbb884db76f6a2679b22",
+  "source_hashes": {
+    "numerical_audit/audit_coefficient_precision.py": "cf152d8adf1199998f9ef5da396d93f6f7622163e3aff9527bfca4ab6c2ac1df",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+  },
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "openfermion": "1.8.1"
+  },
+  "rows": [
+    {
+      "case": "f2",
+      "n_qubits": 16,
+      "tensor_sha256": "0e35f45a47e83ac97c379f370135e534e1ec5218a258a97e965c211839e339a6",
+      "raw_interaction_conversion": {
+        "left_terms": 3289,
+        "right_terms": 3289,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 1177,
+        "right_terms": 1177,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 68,
+        "coefficient_l1_difference": 4.3647268958835195e-16,
+        "max_coefficient_difference": 2.7755575615628914e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                2,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                8,
+                0
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                1
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                13,
+                0
+              ],
+              [
+                9,
+                0
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 1176,
+        "right_terms": 1176,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 142,
+        "coefficient_l1_difference": 5.219403468453843e-15,
+        "max_coefficient_difference": 8.881784197001252e-16,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -8.881784197001252e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -8.881784197001252e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -8.881784197001252e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -8.881784197001252e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                10,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -4.440892098500626e-16,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 1177,
+        "right_terms": 1177,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 66,
+        "coefficient_l1_difference": 9.130744120858236e-16,
+        "max_coefficient_difference": 4.440892098500626e-16,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                6,
+                "Z"
+              ]
+            ],
+            "difference": [
+              4.440892098500626e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "Z"
+              ]
+            ],
+            "difference": [
+              4.440892098500626e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "X"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "Y"
+              ],
+              [
+                4,
+                "Y"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "Z"
+              ],
+              [
+                9,
+                "Z"
+              ],
+              [
+                10,
+                "X"
+              ]
+            ],
+            "difference": [
+              -1.734723475976807e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "X"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "Y"
+              ],
+              [
+                6,
+                "Y"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "Z"
+              ],
+              [
+                9,
+                "Z"
+              ],
+              [
+                10,
+                "Z"
+              ],
+              [
+                11,
+                "Z"
+              ],
+              [
+                12,
+                "X"
+              ]
+            ],
+            "difference": [
+              -1.734723475976807e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Y"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "X"
+              ],
+              [
+                4,
+                "X"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "Z"
+              ],
+              [
+                9,
+                "Z"
+              ],
+              [
+                10,
+                "Y"
+              ]
+            ],
+            "difference": [
+              -1.734723475976807e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.8445941800000583
+    },
+    {
+      "case": "nh3",
+      "n_qubits": 16,
+      "tensor_sha256": "aac8b1614ae045a3bb0b21a94f8a3b0621c209a6121595d4efda807418b9d2b9",
+      "raw_interaction_conversion": {
+        "left_terms": 15013,
+        "right_terms": 15013,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 5121,
+        "right_terms": 5265,
+        "new_terms": 144,
+        "missing_terms": 0,
+        "changed_terms": 492,
+        "coefficient_l1_difference": 4.196825580435807e-12,
+        "max_coefficient_difference": 3.6211271069348794e-13,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                14,
+                1
+              ],
+              [
+                10,
+                1
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                12,
+                0
+              ]
+            ],
+            "difference": [
+              -3.6211271069348794e-13,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                14,
+                1
+              ],
+              [
+                12,
+                1
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                10,
+                0
+              ]
+            ],
+            "difference": [
+              -3.6211271069348794e-13,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                15,
+                1
+              ],
+              [
+                11,
+                1
+              ],
+              [
+                15,
+                0
+              ],
+              [
+                13,
+                0
+              ]
+            ],
+            "difference": [
+              -3.6211271069348794e-13,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                15,
+                1
+              ],
+              [
+                13,
+                1
+              ],
+              [
+                15,
+                0
+              ],
+              [
+                11,
+                0
+              ]
+            ],
+            "difference": [
+              -3.6211271069348794e-13,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                12,
+                1
+              ],
+              [
+                10,
+                1
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                12,
+                0
+              ]
+            ],
+            "difference": [
+              -2.2292966626348554e-13,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 5098,
+        "right_terms": 5124,
+        "new_terms": 28,
+        "missing_terms": 2,
+        "changed_terms": 670,
+        "coefficient_l1_difference": 3.6208370537485127e-07,
+        "max_coefficient_difference": 2.00338983706891e-08,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                6,
+                "X"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "X"
+              ],
+              [
+                10,
+                "X"
+              ],
+              [
+                11,
+                "Z"
+              ],
+              [
+                12,
+                "Z"
+              ],
+              [
+                13,
+                "Z"
+              ],
+              [
+                14,
+                "X"
+              ]
+            ],
+            "difference": [
+              -2.00338983706891e-08,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                "Y"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "Y"
+              ],
+              [
+                10,
+                "Y"
+              ],
+              [
+                11,
+                "Z"
+              ],
+              [
+                12,
+                "Z"
+              ],
+              [
+                13,
+                "Z"
+              ],
+              [
+                14,
+                "Y"
+              ]
+            ],
+            "difference": [
+              -2.00338983706891e-08,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "X"
+              ],
+              [
+                8,
+                "Z"
+              ],
+              [
+                9,
+                "X"
+              ],
+              [
+                11,
+                "X"
+              ],
+              [
+                12,
+                "Z"
+              ],
+              [
+                13,
+                "Z"
+              ],
+              [
+                14,
+                "Z"
+              ],
+              [
+                15,
+                "X"
+              ]
+            ],
+            "difference": [
+              -2.00338983706891e-08,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "Y"
+              ],
+              [
+                8,
+                "Z"
+              ],
+              [
+                9,
+                "Y"
+              ],
+              [
+                11,
+                "Y"
+              ],
+              [
+                12,
+                "Z"
+              ],
+              [
+                13,
+                "Z"
+              ],
+              [
+                14,
+                "Z"
+              ],
+              [
+                15,
+                "Y"
+              ]
+            ],
+            "difference": [
+              -2.00338983706891e-08,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                "X"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "X"
+              ],
+              [
+                10,
+                "Y"
+              ],
+              [
+                11,
+                "Z"
+              ],
+              [
+                12,
+                "Z"
+              ],
+              [
+                13,
+                "Z"
+              ],
+              [
+                14,
+                "Y"
+              ]
+            ],
+            "difference": [
+              -2.003389808096042e-08,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 5125,
+        "right_terms": 5125,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 166,
+        "coefficient_l1_difference": 3.0612077763213794e-16,
+        "max_coefficient_difference": 1.1102230246251565e-16,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.1102230246251565e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.1102230246251565e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                "Z"
+              ]
+            ],
+            "difference": [
+              6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "Z"
+              ]
+            ],
+            "difference": [
+              6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                10,
+                "Z"
+              ]
+            ],
+            "difference": [
+              6.938893903907228e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 3.4494655999988026
+    },
+    {
+      "case": "li2",
+      "n_qubits": 12,
+      "tensor_sha256": "4ca3edb6fdfa2edcba2bb844af15b3ec639fa105dce0b013252fd1d825f970ba",
+      "raw_interaction_conversion": {
+        "left_terms": 949,
+        "right_terms": 949,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 327,
+        "right_terms": 327,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 32,
+        "coefficient_l1_difference": 4.444144705018083e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                2,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 326,
+        "right_terms": 326,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 40,
+        "coefficient_l1_difference": 9.727190840996824e-16,
+        "max_coefficient_difference": 4.440892098500626e-16,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -4.440892098500626e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.220446049250313e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.1102230246251565e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ],
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 327,
+        "right_terms": 327,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 14,
+        "coefficient_l1_difference": 1.5417354892743873e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                10,
+                "Z"
+              ]
+            ],
+            "difference": [
+              6.938893903907228e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.07273524499942141
+    },
+    {
+      "case": "HCN_s1.00",
+      "n_qubits": 10,
+      "tensor_sha256": "09ede69f377f917bda17a6cb1a4a95ff855594cbaff4cf4e93d5214d0bdc6093",
+      "raw_interaction_conversion": {
+        "left_terms": 1279,
+        "right_terms": 1279,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 436,
+        "right_terms": 436,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 18,
+        "coefficient_l1_difference": 2.671474153004283e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                1
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                5,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                1
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                5,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                6,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 435,
+        "right_terms": 435,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 35,
+        "coefficient_l1_difference": 6.74807432154978e-16,
+        "max_coefficient_difference": 1.5265566588595902e-16,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.5265566588595902e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -9.71445146547012e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 436,
+        "right_terms": 436,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 20,
+        "coefficient_l1_difference": 2.914335439641036e-16,
+        "max_coefficient_difference": 4.163336342344337e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -4.163336342344337e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -4.163336342344337e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.16145908200087433
+    },
+    {
+      "case": "HCN_s1.25",
+      "n_qubits": 10,
+      "tensor_sha256": "9035636f062b4115ac12a5d9cb94a48bf5fdf299c661a23a4279d636e7307f2c",
+      "raw_interaction_conversion": {
+        "left_terms": 1279,
+        "right_terms": 1279,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 436,
+        "right_terms": 436,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 24,
+        "coefficient_l1_difference": 1.9949319973733282e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "difference": [
+              6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 435,
+        "right_terms": 435,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 42,
+        "coefficient_l1_difference": 4.518954654919582e-16,
+        "max_coefficient_difference": 7.806255641895632e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              7.806255641895632e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              7.806255641895632e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 436,
+        "right_terms": 436,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 12,
+        "coefficient_l1_difference": 1.2836953722228372e-16,
+        "max_coefficient_difference": 2.7755575615628914e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                8,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -8.673617379884035e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.04484714300087944
+    },
+    {
+      "case": "CH2O_s1.00",
+      "n_qubits": 10,
+      "tensor_sha256": "5e23e6160069c192f5d11ddb24fa1a72fdd4f4c69816e16f996f935ab9c885d9",
+      "raw_interaction_conversion": {
+        "left_terms": 727,
+        "right_terms": 727,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 252,
+        "right_terms": 252,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 28,
+        "coefficient_l1_difference": 6.661338147750939e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                4,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                1
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                1
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 251,
+        "right_terms": 251,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 44,
+        "coefficient_l1_difference": 4.557985933129061e-16,
+        "max_coefficient_difference": 4.163336342344337e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              4.163336342344337e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 252,
+        "right_terms": 252,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 8,
+        "coefficient_l1_difference": 8.391724815037804e-17,
+        "max_coefficient_difference": 2.7755575615628914e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                6,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "X"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "X"
+              ],
+              [
+                4,
+                "X"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "X"
+              ]
+            ],
+            "difference": [
+              -1.6263032587282567e-19,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.038831867999761016
+    },
+    {
+      "case": "CH2O_s1.25",
+      "n_qubits": 10,
+      "tensor_sha256": "04f3c613db471c1886166993006d7a9e611bbe800fe52fcbc8db36f578b857dc",
+      "raw_interaction_conversion": {
+        "left_terms": 727,
+        "right_terms": 727,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 252,
+        "right_terms": 252,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 16,
+        "coefficient_l1_difference": 2.5717275531356165e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                1
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                5,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                6,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                1
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                7,
+                0
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 251,
+        "right_terms": 251,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 40,
+        "coefficient_l1_difference": 5.520757462296189e-16,
+        "max_coefficient_difference": 8.326672684688674e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              8.326672684688674e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -4.163336342344337e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -4.163336342344337e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "X"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "Z"
+              ],
+              [
+                3,
+                "Z"
+              ],
+              [
+                4,
+                "X"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 252,
+        "right_terms": 252,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 14,
+        "coefficient_l1_difference": 1.5287250632045613e-16,
+        "max_coefficient_difference": 2.7755575615628914e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                6,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.028470167999330442
+    },
+    {
+      "case": "H2S_s1.00",
+      "n_qubits": 10,
+      "tensor_sha256": "aede4f4edfb5a2b30ff2be422113adb3fc3495a493e499c58886281ea4944d8c",
+      "raw_interaction_conversion": {
+        "left_terms": 727,
+        "right_terms": 727,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 252,
+        "right_terms": 252,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 20,
+        "coefficient_l1_difference": 5.273559366969494e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                4,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                1
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 251,
+        "right_terms": 251,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 34,
+        "coefficient_l1_difference": 7.337880303381894e-16,
+        "max_coefficient_difference": 1.5959455978986625e-16,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.5959455978986625e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.5959455978986625e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 252,
+        "right_terms": 252,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 10,
+        "coefficient_l1_difference": 2.7755575615628914e-17,
+        "max_coefficient_difference": 6.938893903907228e-18,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "X"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "Z"
+              ],
+              [
+                3,
+                "Z"
+              ],
+              [
+                4,
+                "Z"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "X"
+              ]
+            ],
+            "difference": [
+              -1.734723475976807e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Y"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "Z"
+              ],
+              [
+                3,
+                "Z"
+              ],
+              [
+                4,
+                "Z"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "Y"
+              ]
+            ],
+            "difference": [
+              -1.734723475976807e-18,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                1,
+                "X"
+              ],
+              [
+                2,
+                "Z"
+              ],
+              [
+                3,
+                "Z"
+              ],
+              [
+                4,
+                "Z"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "X"
+              ]
+            ],
+            "difference": [
+              -1.734723475976807e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.03959756599942921
+    },
+    {
+      "case": "H2S_s1.25",
+      "n_qubits": 10,
+      "tensor_sha256": "bbd07b8edda200f19d980ba91a3053f51448fe149f8e0601eb03751658ab326a",
+      "raw_interaction_conversion": {
+        "left_terms": 811,
+        "right_terms": 811,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 276,
+        "right_terms": 276,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 22,
+        "coefficient_l1_difference": 6.140921104957897e-16,
+        "max_coefficient_difference": 5.551115123125783e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                2,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "difference": [
+              5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 275,
+        "right_terms": 275,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 36,
+        "coefficient_l1_difference": 4.688090193827321e-16,
+        "max_coefficient_difference": 7.632783294297951e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              7.632783294297951e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              4.85722573273506e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              4.163336342344337e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -2.7755575615628914e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 276,
+        "right_terms": 276,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 18,
+        "coefficient_l1_difference": 8.890457814381136e-17,
+        "max_coefficient_difference": 1.3877787807814457e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-18,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.05669829000180471
+    },
+    {
+      "case": "SiH4_s1.00",
+      "n_qubits": 10,
+      "tensor_sha256": "8166aeb7b6015859eb07e44e4e96507c1cc6949b5cd1e8863e0f468d98c1a309",
+      "raw_interaction_conversion": {
+        "left_terms": 2551,
+        "right_terms": 2551,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 840,
+        "right_terms": 876,
+        "new_terms": 36,
+        "missing_terms": 0,
+        "changed_terms": 82,
+        "coefficient_l1_difference": 1.705851172123518e-14,
+        "max_coefficient_difference": 1.4190580134576525e-15,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "difference": [
+              -1.4190580134576525e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                1
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "difference": [
+              -1.4190580134576525e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              -1.4190580134576525e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                5,
+                0
+              ]
+            ],
+            "difference": [
+              -1.4190580134576525e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              -1.0318352075544546e-15,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 839,
+        "right_terms": 839,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 98,
+        "coefficient_l1_difference": 7.830650190776556e-16,
+        "max_coefficient_difference": 9.71445146547012e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              9.71445146547012e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -6.938893903907228e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -5.551115123125783e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              4.163336342344337e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              4.163336342344337e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 840,
+        "right_terms": 840,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 36,
+        "coefficient_l1_difference": 6.245004513516506e-17,
+        "max_coefficient_difference": 1.3877787807814457e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                0,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                1,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              -1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                0,
+                "X"
+              ],
+              [
+                1,
+                "Z"
+              ],
+              [
+                2,
+                "Z"
+              ],
+              [
+                3,
+                "Z"
+              ],
+              [
+                4,
+                "X"
+              ]
+            ],
+            "difference": [
+              -6.505213034913027e-19,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.11565122600040922
+    },
+    {
+      "case": "SiH4_s1.25",
+      "n_qubits": 10,
+      "tensor_sha256": "aee0ae27acce148602540dc455f6c15aef0b7f3f9ec3863f116d3e74b29f0865",
+      "raw_interaction_conversion": {
+        "left_terms": 2391,
+        "right_terms": 2391,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 0,
+        "coefficient_l1_difference": 0.0,
+        "max_coefficient_difference": 0,
+        "largest_differences": []
+      },
+      "normal_ordering": {
+        "left_terms": 796,
+        "right_terms": 828,
+        "new_terms": 32,
+        "missing_terms": 0,
+        "changed_terms": 58,
+        "coefficient_l1_difference": 1.0300682968264821e-14,
+        "max_coefficient_difference": 1.0830095500957704e-15,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                6,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            "difference": [
+              1.0830095500957704e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                7,
+                1
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                7,
+                0
+              ]
+            ],
+            "difference": [
+              1.0830095500957704e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                1
+              ],
+              [
+                6,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                4,
+                0
+              ]
+            ],
+            "difference": [
+              1.0830095500957704e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                9,
+                1
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                5,
+                0
+              ]
+            ],
+            "difference": [
+              1.0830095500957704e-15,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            "difference": [
+              3.7339922820400773e-16,
+              0.0
+            ]
+          }
+        ]
+      },
+      "identity_free_jw": {
+        "left_terms": 795,
+        "right_terms": 795,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 96,
+        "coefficient_l1_difference": 2.9790623093384205e-15,
+        "max_coefficient_difference": 2.706168622523819e-16,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                4,
+                "X"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "X"
+              ]
+            ],
+            "difference": [
+              2.706168622523819e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                4,
+                "Y"
+              ],
+              [
+                5,
+                "Z"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "Y"
+              ]
+            ],
+            "difference": [
+              2.706168622523819e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "X"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "Z"
+              ],
+              [
+                9,
+                "X"
+              ]
+            ],
+            "difference": [
+              2.706168622523819e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Y"
+              ],
+              [
+                6,
+                "Z"
+              ],
+              [
+                7,
+                "Z"
+              ],
+              [
+                8,
+                "Z"
+              ],
+              [
+                9,
+                "Y"
+              ]
+            ],
+            "difference": [
+              2.706168622523819e-16,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "X"
+              ],
+              [
+                3,
+                "Z"
+              ],
+              [
+                4,
+                "X"
+              ]
+            ],
+            "difference": [
+              -9.194034422677078e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jw_direct_vs_exact_normal_then_jw": {
+        "left_terms": 796,
+        "right_terms": 796,
+        "new_terms": 0,
+        "missing_terms": 0,
+        "changed_terms": 28,
+        "coefficient_l1_difference": 1.3379054808471125e-16,
+        "max_coefficient_difference": 2.7755575615628914e-17,
+        "largest_differences": [
+          {
+            "word": [
+              [
+                4,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                5,
+                "Z"
+              ]
+            ],
+            "difference": [
+              2.7755575615628914e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                2,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                3,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          },
+          {
+            "word": [
+              [
+                8,
+                "Z"
+              ]
+            ],
+            "difference": [
+              1.3877787807814457e-17,
+              0.0
+            ]
+          }
+        ]
+      },
+      "seconds": 0.08389942200119549
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "case": "tiny_leakage",
+    "before": {
+      "state_overlap_abs": 1.0,
+      "state_infidelity": 0.0,
+      "state_vector_2norm_error": 0.0,
+      "phase_aligned_state_2norm_error": 0.0,
+      "particle_number_leakage": 0.0,
+      "spin_sector_leakage": 0.0
+    },
+    "after": {
+      "state_overlap_abs": 1.0,
+      "one_minus_overlap": 5.0000000000000005e-21,
+      "state_infidelity": 1.0000000000000001e-20,
+      "state_vector_2norm_error": 1e-10,
+      "phase_aligned_state_2norm_error": 1e-10,
+      "particle_number_leakage": 1.0000000000000001e-20,
+      "spin_sector_leakage": 1.0000000000000001e-20,
+      "exact_state_norm": 1.0,
+      "approximate_state_norm": 1.0,
+      "exact_state_norm_defect": 0.0,
+      "approximate_state_norm_defect": 0.0,
+      "state_norm_valid": true,
+      "state_metric_version": "normalized_full_state_v2"
+    }
+  },
+  {
+    "case": "norm_drift",
+    "before": {
+      "state_overlap_abs": 1.0,
+      "state_infidelity": 0.0,
+      "state_vector_2norm_error": 0.0,
+      "phase_aligned_state_2norm_error": 0.0,
+      "particle_number_leakage": 0.0,
+      "spin_sector_leakage": 0.0
+    },
+    "after": {
+      "error": "State norm drift exceeds tolerance; overlap comparison would conceal invalid propagation (exact norm=1, approximate norm=1.000001, tolerance=1e-08)."
+    }
+  },
+  {
+    "case": "quarter_leakage",
+    "before": {
+      "state_overlap_abs": 0.8660254037844386,
+      "state_infidelity": 0.2500000000000001,
+      "state_vector_2norm_error": 0.5176380902050416,
+      "phase_aligned_state_2norm_error": 0.5176380902050416,
+      "particle_number_leakage": 0.2500000000000001,
+      "spin_sector_leakage": 0.2500000000000001
+    },
+    "after": {
+      "state_overlap_abs": 0.8660254037844388,
+      "one_minus_overlap": 0.13397459621556138,
+      "state_infidelity": 0.25000000000000006,
+      "state_vector_2norm_error": 0.5176380902050416,
+      "phase_aligned_state_2norm_error": 0.5176380902050416,
+      "particle_number_leakage": 0.25000000000000006,
+      "spin_sector_leakage": 0.25000000000000006,
+      "exact_state_norm": 1.0,
+      "approximate_state_norm": 0.9999999999999999,
+      "exact_state_norm_defect": 0.0,
+      "approximate_state_norm_defect": 1.1102230246251565e-16,
+      "state_norm_valid": true,
+      "state_metric_version": "normalized_full_state_v2"
+    }
+  }
+]

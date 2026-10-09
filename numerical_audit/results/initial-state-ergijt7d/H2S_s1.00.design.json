@@ -1,0 +1,75 @@
+{
+  "case": "H2S_s1.00",
+  "case_index": 2,
+  "n_qubits": 10,
+  "n_electrons": 4,
+  "N_alpha": 2,
+  "N_beta": 2,
+  "physical_sector_dimension": 100,
+  "full_hilbert_dimension": 1024,
+  "time": 1.0,
+  "steps": 100,
+  "pauli_count": 251,
+  "nominal_exponential_count": 25100,
+  "source_fixture_hashes": {
+    "previous_results.json": "f5b9905d238c5f476ddbf28961c6bf7b917c49bc93b0cfe74013ab52ed14ddd6",
+    "setup.json": "75d3efbec0c85ae4bda7e49c11215f71b2237615f6451a9fd850a9cffed654aa",
+    "operators.json": "ce22646162d006e087c63cac1d40823d32792dcd773c98ebbf65e5994ca1d2e6",
+    "H2S_s1.00_6-31g_as-004-006.tensors.npz": "aede4f4edfb5a2b30ff2be422113adb3fc3495a493e499c58886281ea4944d8c"
+  },
+  "hamiltonian_sha256": "dba890f2401a6e9ec5645f3202348a7fc195fe42f89f169c3c5a4cc63975249f",
+  "ordered_schedule_sha256": {
+    "fermionic_signed": "9610e533a34ed5466247fe0ed4ab55123f6fd4282df99848c58429b6c0d8dbb5",
+    "jw_signed": "ed5be0eec0c82cfa9c7ad64e79d879b38c2350fab77ddcb5dc38a4915bef7b95",
+    "jw_magnitude": "deaf667edfa3911ab3413400a0bf03802c125a8c1381fac507712980ab635cf8"
+  },
+  "initial_states": [
+    {
+      "name": "hf",
+      "seed_sequence_entropy": null,
+      "complex128_little_endian_sha256": "bf54fce4428c5afdcd87f546fd76bd9a00585359c7903c8763b95590c82e1643"
+    },
+    {
+      "name": "haar_2026100901",
+      "seed_sequence_entropy": [
+        2026100901,
+        2
+      ],
+      "complex128_little_endian_sha256": "2d7e71bc1df3e569edd9c3e729fa71f5b10ccab3dcd1a3f0f185ee4bfe5c2c3b"
+    },
+    {
+      "name": "haar_2026100902",
+      "seed_sequence_entropy": [
+        2026100902,
+        2
+      ],
+      "complex128_little_endian_sha256": "be64c2c053ccede6585717702a8774e928ad52de8ebe148f3d87e665a7f22153"
+    },
+    {
+      "name": "haar_2026100903",
+      "seed_sequence_entropy": [
+        2026100903,
+        2
+      ],
+      "complex128_little_endian_sha256": "ac049f5d8b4d7f1c7095149957aed9d40501d4ee0fb3b71c47a2099a047a16e2"
+    },
+    {
+      "name": "haar_2026100904",
+      "seed_sequence_entropy": [
+        2026100904,
+        2
+      ],
+      "complex128_little_endian_sha256": "f7a82f8fc2dff7bc1166bf12d4210b4ea2ff411d916371bc7a337868a823f676"
+    },
+    {
+      "name": "haar_2026100905",
+      "seed_sequence_entropy": [
+        2026100905,
+        2
+      ],
+      "complex128_little_endian_sha256": "c62c28953d4e122fe99fc712925baa3b4eeff5b78d02245de0ef8e312a4ac0de"
+    }
+  ],
+  "state_sampling": "Independent complex Gaussian amplitudes normalized in the full fixed-spin sector; Haar on that sector. SeedSequence([base_seed, sorted_case_index]).",
+  "identity_convention": "Exactly the same frozen identity-free Hamiltonian for reference and each approximation."
+}
