@@ -257,7 +257,9 @@ class Trotterization(Bloq):
 
     Attributes:
         pauli_terms: Sequence of (pauli_string, h_i) tuples defining the Hamiltonian.
-            Example: [("XY", 0.5), ("ZI", 0.3), ("IZ", 0.2)]
+            Example: [("XY", 0.5), ("ZI", 0.3), ("IZ", 0.2)]. This is
+            chronological application order: the first term acts on the state
+            first and appears on the right in the corresponding matrix product.
         coefficients: Sequence of coefficients for the ramped method.
             Example: (0.5, 0.5) for second-order, (s2, s2, k, s2, s2) for fourth-order
         time: Total evolution time.
@@ -378,7 +380,10 @@ class Trotterization(Bloq):
                 # silly application of multi-step Trotterization, so something odd is already
                 # happening.  But the best resolution is to combine all the steps together.
                 idx = self._repeat_core[0][0]
-                coeff = self._repeat_core[0][1] * self.num_steps
+                # Reducing num_steps to one also changes dt from time/r to
+                # time. The per-step coefficient must therefore stay unchanged:
+                # r * (time/r) * coefficient = time * coefficient.
+                coeff = self._repeat_core[0][1]
                 object.__setattr__(self, "_repeat_core", ((idx, coeff),))
                 object.__setattr__(self, "num_steps", 1)
             else:
@@ -472,8 +477,10 @@ class Trotterization(Bloq):
     def expanded_sequence(self) -> List[Tuple[int, float]]:
         """Expanded sequence of (term_index, coefficient) pairs.
 
-        This expands all steps and ramps into a flat list. If combine_terms is True,
-        adjacent identical terms are combined for efficiency.
+        Entries are in chronological application order, so their evolution
+        matrices multiply from right to left. This expands all steps and ramps
+        into a flat list. If combine_terms is True, adjacent identical term
+        indices are combined for efficiency; no nonadjacent terms are reordered.
         """
         sequence = list()
         sequence.extend(self._prologue)

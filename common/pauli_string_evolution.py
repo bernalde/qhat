@@ -19,7 +19,7 @@ import numpy as np
 from scipy.linalg import expm
 
 from cirq import DensePauliString as CirqDensePauliString
-from cirq import LineQubit, PauliStringPhasorGate
+from cirq import GlobalPhaseGate, PauliStringPhasorGate
 from qualtran import Bloq, BloqBuilder, QBit, Register, Side, Signature, SoquetT
 from qualtran.cirq_interop import CirqGateAsBloq
 from qualtran.cirq_interop.t_complexity_protocol import TComplexity, t_complexity
@@ -98,50 +98,38 @@ class PauliStringEvolution(Bloq):
 
         return U
 
-    def add_my_tensors(
-        self,
-        tn: 'qtn.TensorNetwork',
-        tag: object,
-        *,
-        incoming: Dict[str, 'SoquetT'],
-        outgoing: Dict[str, 'SoquetT'],
-    ):
-        """Add tensors representing this bloq to the tensor network."""
+    def my_tensors(self, incoming, outgoing):
+        """Supply the exact unitary through Qualtran's tensor protocol.
+
+        Each shaped QBit connection has one bit index, zero. Preserve the global
+        phase so tensor simulation and controlled circuit evolution agree.
+        """
         import quimb.tensor as qtn
 
-        # Get the unitary matrix for this operation
-        unitary = self._compute_unitary_matrix()
-
-        # With shape=(n,), incoming['q'] is an array of Soquets
-        import_idx = [incoming['q'][i] for i in range(self.num_qubits)]
-        export_idx = [outgoing['q'][i] for i in range(self.num_qubits)]
-
-        # Add the unitary as a tensor to the network
-        tn.add(
-            qtn.Tensor(
-                data=unitary.reshape([2] * (2 * self.num_qubits)),
-                inds=tuple(export_idx + import_idx),
-                tags=[self.pretty_name(), tag],
-            )
-        )
+        return [qtn.Tensor(
+            data=self._compute_unitary_matrix().reshape([2] * (2 * self.num_qubits)),
+            inds=[(outgoing['q'][i], 0) for i in range(self.num_qubits)]
+                 + [(incoming['q'][i], 0) for i in range(self.num_qubits)],
+            tags=[str(self)],
+        )]
 
     def _build_cirq_gate(self):
         """Build the corresponding Cirq gate for resource estimation."""
-        # Create a Cirq DensePauliString directly from the Pauli string
-        # We use coefficient=1.0 as the base, and scale via the power parameter below
-        cirq_pauli = CirqDensePauliString(self.pauli_string, coefficient=1.0)
+        # The parity gate acts only on the nonidentity support. Passing idle
+        # positions through a parity decomposition can rotate the wrong Pauli.
+        support_string = self.pauli_string.replace('I', '')
+        if not support_string:
+            return GlobalPhaseGate(np.exp(-1j * self.coefficient * self.time / self.hbar))
+        cirq_pauli = CirqDensePauliString(support_string, coefficient=1.0)
 
-        # PauliStringPhasorGate implements exp(-i * exponent * P / 2) where P has eigenvalues ±1
-        # We want exp(-i * coefficient * time / hbar * P)
-        # So we need: exponent / 2 = coefficient * time / hbar
-        # Therefore: exponent = 2 * coefficient * time / hbar
-        # And power = exponent / π (since PauliString**power gives exponent = π * power)
-        power = 2.0 * self.coefficient * self.time / (self.hbar * np.pi)
-
-        # Create the PauliStringPhasorGate from the base Pauli string
-        exp_gate = PauliStringPhasorGate(cirq_pauli) ** power
-
-        return exp_gate
+        # Cirq phases the -1 and +1 eigenspaces by exp(i*pi*exponent).
+        # Setting both exponents implements exp(-i*theta*P) exactly. Using the
+        # default positive-eigenspace exponent of zero would introduce an
+        # extra exp(i*theta), which changes controlled evolution and energies.
+        half_turns = self.coefficient * self.time / (self.hbar * np.pi)
+        return PauliStringPhasorGate(
+            cirq_pauli, exponent_neg=half_turns, exponent_pos=-half_turns,
+        )
 
     def build_composite_bloq(self, bb: BloqBuilder, **soqs: SoquetT) -> Dict[str, SoquetT]:
         """Decompose into a Cirq gate for resource estimation.
@@ -154,8 +142,17 @@ class PauliStringEvolution(Bloq):
         # Wrap it as a Bloq
         gate_bloq = CirqGateAsBloq(cirq_gate)
 
-        # Add it to the bloq builder
-        return bb.add_d(gate_bloq, **soqs)
+        # Keep identity positions as idle wires. CirqGateAsBloq uses a scalar
+        # QBit for support size one and a shaped register for larger support.
+        support = [i for i, char in enumerate(self.pauli_string) if char != 'I']
+        q = np.array(soqs['q'], dtype=object, copy=True)
+        if not support:
+            bb.add(gate_bloq)
+        elif len(support) == 1:
+            q[support[0]] = bb.add(gate_bloq, q=q[support[0]])
+        else:
+            q[support] = bb.add(gate_bloq, q=q[support])
+        return {'q': q}
 
     def _t_complexity_(self) -> TComplexity:
         """Return the T-complexity for resource estimation."""

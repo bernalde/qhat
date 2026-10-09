@@ -13,9 +13,9 @@ Hamiltonians can be supplied in two ways (mutually exclusive):
   --pauli-file -- JSON file with Pauli strings directly (spin models, custom H)
 
 Initial state notes:
-  --psi0 zero  always gives fidelity 1.0 for chemistry (vacuum is eigenstate of
-               particle-conserving H) and for all-Z Hamiltonians. Use --psi0 hf
-               for chemistry or --psi0 file with a non-eigenstate for spin models.
+  --psi0 zero  can be uninformative when every product-formula block preserves
+               the vacuum. This does not follow from conservation by H alone.
+               Use --psi0 hf for chemistry and report the chosen initial state.
   --psi0 hf    fermionic systems only; cannot be used with --pauli-file.
 
 Usage
@@ -27,17 +27,22 @@ Usage
 """
 
 import argparse
+import os as _os
 import sys
+import warnings
 from typing import Dict, List, Tuple
 
 import numpy as np
 from scipy.linalg import expm
 
-from qhat.analysis.configuration import load_configuration
-from qhat.analysis.hamiltonian import get_physical_hamiltonian
+from qhat.analysis.state_metrics import normalized_state, state_error_metrics
+
+_ANALYSIS_DIR = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "analysis")
 
 
 def _load_state_from_config(config_file: str):
+    from qhat.analysis.configuration import load_configuration
+
     # load_configuration() calls argparse internally, so temporarily isolate
     # sys.argv to just the config path before calling it.
     # Resolve any relative filename in config_hamiltonian to absolute so that
@@ -47,10 +52,10 @@ def _load_state_from_config(config_file: str):
     saved_argv   = sys.argv[:]
     try:
         sys.argv = [sys.argv[0], config_file]
-        state = load_configuration()
+        state, _, _ = load_configuration()
     finally:
         sys.argv = saved_argv
-    if hasattr(state.config_hamiltonian, "filename"):
+    if getattr(state.config_hamiltonian, "filename", None) is not None:
         fname = state.config_hamiltonian.filename
         if not _os.path.isabs(fname):
             state.config_hamiltonian.filename = _os.path.join(config_dir, fname)
@@ -102,7 +107,18 @@ def exact_evolution(H: np.ndarray, t: float) -> np.ndarray:
     return expm(-1j * t * H)
 
 
+def _validate_trotter_inputs(term_matrices, t, n_steps):
+    if isinstance(n_steps, (bool, np.bool_)) or not isinstance(n_steps, (int, np.integer)) or n_steps <= 0:
+        raise ValueError("n_steps must be a positive integer.")
+    if not np.isfinite(t):
+        raise ValueError("Evolution time must be finite.")
+    if not term_matrices:
+        raise ValueError("At least one term matrix is required (use a zero matrix for H=0).")
+
+
 def trotter_1st_order(term_matrices: List[np.ndarray], t: float, n_steps: int) -> np.ndarray:
+    """Apply the listed terms chronologically, with each new factor on the left."""
+    _validate_trotter_inputs(term_matrices, t, n_steps)
     dt   = t / n_steps
     dim  = term_matrices[0].shape[0]
     step = np.eye(dim, dtype=complex)
@@ -115,6 +131,8 @@ def trotter_1st_order(term_matrices: List[np.ndarray], t: float, n_steps: int) -
 
 
 def trotter_2nd_order(term_matrices: List[np.ndarray], t: float, n_steps: int) -> np.ndarray:
+    """Apply a forward half sweep followed by the reverse half sweep."""
+    _validate_trotter_inputs(term_matrices, t, n_steps)
     dt  = t / n_steps
     dim = term_matrices[0].shape[0]
     fwd = np.eye(dim, dtype=complex)
@@ -131,10 +149,17 @@ def trotter_2nd_order(term_matrices: List[np.ndarray], t: float, n_steps: int) -
 
 
 def state_fidelity(U_exact: np.ndarray, U_approx: np.ndarray, psi0: np.ndarray) -> float:
-    psi_e = U_exact  @ psi0
-    psi_a = U_approx @ psi0
-    ov    = np.vdot(psi_e, psi_a)
-    return float(np.real(ov * np.conj(ov)))
+    """Normalized squared-overlap fidelity; not the manuscript's 1-|overlap|.
+
+    This remains a float-returning compatibility helper. For comparisons use
+    state_error_metrics directly to retain stable small errors and norm checks.
+    """
+    psi0 = normalized_state(psi0, dimension=U_exact.shape[1])
+    metrics = state_error_metrics(U_exact @ psi0, U_approx @ psi0)
+    if max(abs(metrics["exact_norm"] - 1), abs(metrics["approx_norm"] - 1)) > 1e-8:
+        warnings.warn("Evolution changes the state norm; fidelity alone cannot certify valid evolution.",
+                      RuntimeWarning, stacklevel=2)
+    return metrics["fidelity"]
 
 
 _SEP = "=" * 65
@@ -163,10 +188,17 @@ def _print_fidelity_table(results, psi0, n_steps_1st, n_steps_2nd):
         print("\n[fidelity] No approximate methods to compare.")
         return
     print(f"\n{_SEP}\n  Fidelity summary  (state fidelity vs exact)\n{_SEP}")
-    print(f"  {'Method':<42} {'State F':>12}")
-    print(f"  {'-' * 55}")
+    print("  F = squared overlap; E = 1 - |overlap| (manuscript metric).")
+    print(f"  {'Method':<34} {'State F':>12} {'E':>12} {'1-F':>12} {'norm defect':>12}")
+    psi0 = normalized_state(psi0, dimension=U_exact.shape[1])
     for label, U_approx in rows:
-        print(f"  {label:<42} {state_fidelity(U_exact, U_approx, psi0):>12.10f}")
+        metrics = state_error_metrics(U_exact @ psi0, U_approx @ psi0)
+        norm_defect = max(abs(metrics['exact_norm'] - 1), abs(metrics['approx_norm'] - 1))
+        print(f"  {label:<34} {metrics['fidelity']:>12.10f} "
+              f"{metrics['one_minus_overlap']:>12.4e} {metrics['infidelity']:>12.4e} "
+              f"{norm_defect:>12.4e}")
+        if norm_defect > 1e-8:
+            print("  [warning] Norm drift: overlap alone is not a valid propagation check.")
     print()
 
 
@@ -177,7 +209,9 @@ def run(pauli_dict, n_qubits, t, methods, n_steps_1st, n_steps_2nd,
     if psi0 is None:
         psi0 = np.zeros(dim, dtype=complex)
         psi0[0] = 1.0
-    psi0 = psi0 / np.linalg.norm(psi0)
+    psi0 = normalized_state(psi0, dimension=dim)
+    if not np.isfinite(t):
+        raise ValueError("Evolution time must be finite.")
 
     run_methods = set(methods)
     if compute_fidelity and "exact" not in run_methods:
@@ -187,7 +221,9 @@ def run(pauli_dict, n_qubits, t, methods, n_steps_1st, n_steps_2nd,
     print(f"\nBuilding Hamiltonian for {n_qubits} qubits "
           f"({dim}x{dim} matrix, {len(pauli_dict)} Pauli terms) ...")
     H             = build_hamiltonian_matrix(pauli_dict, n_qubits)
-    term_matrices = build_term_matrices(pauli_dict, n_qubits)
+    term_matrices = build_term_matrices(pauli_dict, n_qubits) or [np.zeros_like(H)]
+    if not np.all(np.isfinite(H)) or not np.allclose(H, H.conj().T, rtol=1e-12, atol=1e-12):
+        raise ValueError("The Hamiltonian must be finite and Hermitian.")
     print(f"Hamiltonian spectral norm : {np.linalg.norm(H, ord=2):.6f}")
     print(f"Evolution time t          : {t}")
     print(f"Methods requested         : {sorted(run_methods)}")
@@ -228,32 +264,44 @@ def make_zero_state(n_qubits: int) -> np.ndarray:
     return psi0
 
 
-def make_hartree_fock_state(n_qubits: int, n_electrons: int) -> np.ndarray:
-    if not (1 <= n_electrons <= n_qubits):
-        raise ValueError(f"n_electrons={n_electrons} must be in [1, {n_qubits}].")
+def make_hartree_fock_state(n_qubits: int, n_electrons: int, encoding="JW") -> np.ndarray:
+    """Encode a lowest-orbital occupation determinant, with qubit zero leftmost.
+
+    This is a reference determinant, not a self-consistent HF calculation.
+    BK bits are transported with the same binary code used by OpenFermion.
+    Custom encodings require a supplied state instead of an assumed bit map.
+    """
+    if not isinstance(n_electrons, (int, np.integer)) or not (0 <= n_electrons <= n_qubits):
+        raise ValueError(f"n_electrons={n_electrons} must be an integer in [0, {n_qubits}].")
+    occupations = np.zeros(n_qubits, dtype=int)
+    occupations[:n_electrons] = 1
+    if encoding in ("JW", "jordan-wigner"):
+        bits = occupations
+    elif encoding in ("BK", "bravyi-kitaev"):
+        from openfermion import bravyi_kitaev_code
+        bits = np.asarray(bravyi_kitaev_code(n_qubits).encoder @ occupations).ravel() % 2
+    else:
+        raise ValueError(f"No reference-state transform for encoding {encoding!r}; use --psi0 file.")
+    index = sum(int(bit) << (n_qubits - 1 - q) for q, bit in enumerate(bits))
     psi0 = np.zeros(2 ** n_qubits, dtype=complex)
-    psi0[(2 ** n_electrons - 1) << (n_qubits - n_electrons)] = 1.0
+    psi0[index] = 1.0
     return psi0
 
 
 def make_file_state(path: str, n_qubits: int, key: str = "psi0") -> np.ndarray:
     dim = 2 ** n_qubits
     if path.endswith(".npz"):
-        archive = np.load(path)
-        if key not in archive:
-            raise KeyError(f'Key "{key}" not found in "{path}". '
-                           f'Available: {list(archive.keys())}. Use --psi0-key.')
-        vec = archive[key].astype(complex).ravel()
+        with np.load(path) as archive:
+            if key not in archive:
+                raise KeyError(f'Key "{key}" not found in "{path}". '
+                               f'Available: {list(archive.keys())}. Use --psi0-key.')
+            vec = archive[key].astype(complex)
     else:
-        vec = np.load(path).astype(complex).ravel()
-    if vec.shape[0] != dim:
-        raise ValueError(f'Vector length {vec.shape[0]} != {dim} (2**{n_qubits}).')
-    if np.linalg.norm(vec) == 0:
-        raise ValueError("Loaded state vector is the zero vector.")
-    return vec / np.linalg.norm(vec)
+        vec = np.load(path).astype(complex)
+    return normalized_state(vec, dimension=dim)
 
 
-def build_initial_state(args, n_qubits: int, using_pauli_file: bool) -> Tuple[np.ndarray, str]:
+def build_initial_state(args, n_qubits: int, using_pauli_file: bool, encoding="JW") -> Tuple[np.ndarray, str]:
     choice = args.psi0
 
     if choice == "hf" and using_pauli_file:
@@ -266,10 +314,10 @@ def build_initial_state(args, n_qubits: int, using_pauli_file: bool) -> Tuple[np
     if choice == "hf":
         if args.n_electrons is None:
             raise ValueError("--n-electrons is required when --psi0=hf.")
-        psi0 = make_hartree_fock_state(n_qubits, args.n_electrons)
+        psi0 = make_hartree_fock_state(n_qubits, args.n_electrons, encoding=encoding)
         idx  = int(np.argmax(np.abs(psi0)))
         return psi0, (f"Hartree-Fock reference ({args.n_electrons} electrons, "
-                      f"qubits 0-{args.n_electrons-1} occupied, basis index {idx})")
+                      f"orbitals 0-{args.n_electrons-1} occupied, {encoding} encoding, basis index {idx})")
 
     if choice == "file":
         if args.psi0_file is None:
@@ -289,7 +337,7 @@ def _parse_args() -> argparse.Namespace:
         description=(
             "Time-evolution of a QHAT Pauli-string Hamiltonian.\n\n"
             "--psi0 choices:\n"
-            "  zero   |0...0> (default) -- always gives fidelity 1.0 for chemistry\n"
+            "  zero   |0...0> (default) -- can be an uninformative vacuum test\n"
             "  hf     Hartree-Fock reference (requires --n-electrons; fermionic only)\n"
             "  file   arbitrary state from .npy/.npz (requires --psi0-file)"
         ),
@@ -300,7 +348,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--method", choices=["exact", "trotter1", "trotter2", "all"],
                         default="all", help="Evolution method (default: all)")
     parser.add_argument("--time", type=float, default=1.0, metavar="T",
-                        help="Evolution time in Hartree^-1 (default: 1.0)")
+                        help="Evolution parameter t/hbar in inverse Hamiltonian-energy units (default: 1.0)")
     parser.add_argument("--steps-1st", type=int, default=10, metavar="N", dest="steps_1st",
                         help="Trotter steps for 1st-order (default: 10)")
     parser.add_argument("--steps-2nd", type=int, default=5, metavar="N", dest="steps_2nd",
@@ -325,6 +373,8 @@ def _parse_args() -> argparse.Namespace:
 
 if __name__ == "__main__":
 
+    from qhat.common.logging_utils import configure_logging
+    configure_logging(level="warning")
     args    = _parse_args()
     methods = ["exact", "trotter1", "trotter2"] if args.method == "all" else [args.method]
 
@@ -335,18 +385,22 @@ if __name__ == "__main__":
         print(f'\nLoading Hamiltonian from Pauli file "{args.pauli_file}" ...')
         pauli_dict, n_qubits = load_pauli_file(args.pauli_file)
         using_pauli_file = True
+        encoding = "JW"  # HF construction is rejected for bare Pauli input.
     else:
+        from qhat.analysis.hamiltonian import get_physical_hamiltonian
+        from openfermion import InteractionOperator
         config_file = args.configuration_file or _os.path.join(_ANALYSIS_DIR, "config.py")
         print(f'\nLoading Hamiltonian from config file "{config_file}" ...')
         state                = _load_state_from_config(config_file)
         physical_hamiltonian = get_physical_hamiltonian(state.config_hamiltonian)
         n_qubits         = physical_hamiltonian.num_qubits()
         pauli_dict       = physical_hamiltonian.get_all_pauli_strings(return_as="tuples")
-        using_pauli_file = False
+        using_pauli_file = not isinstance(physical_hamiltonian.get_core_operator(), InteractionOperator)
+        encoding = state.config_hamiltonian.fermion_to_qubit_transform
 
     print(f"  -> {n_qubits} qubits, {len(pauli_dict)} Pauli terms loaded.")
 
-    psi0, psi0_label = build_initial_state(args, n_qubits, using_pauli_file)
+    psi0, psi0_label = build_initial_state(args, n_qubits, using_pauli_file, encoding=encoding)
     print(f"  -> Initial state : {psi0_label}")
 
     results = run(

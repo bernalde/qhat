@@ -1,10 +1,12 @@
 import numpy as np
 import logging
+from scipy.optimize import linear_sum_assignment
 
 from qhat.analysis.config_types import AnalysisConfiguration
 from qhat.analysis.file_io import load_state
 from qhat.analysis.matrix_operations import compute_unitarity_error
 from qhat.analysis.utils import normalize_string_or_list_to_list
+from qhat.analysis.state_metrics import normalized_state, state_error_metrics
 
 logger = logging.getLogger(__name__)
 
@@ -15,8 +17,11 @@ def _compute_eigenvalue_errors(exact_op, approx_op) -> dict:
     Compute eigenenergy errors between exact and approximate Hamiltonians.
 
     Strategy: Convert H_exact → U_exact, then compare U eigenvalues directly.
-    This avoids the ill-conditioned inverse problem (U → H via logarithm) which
-    amplifies numerical errors by 1/t.
+    This avoids independently taking two logarithms. Phase residuals still
+    have a 1/t sensitivity, and infer energies only modulo 2*pi/(t/hbar).
+    The returned signed errors use the principal phase branch. Matching is a
+    bijection maximizing total squared eigenvector overlap, not a unique
+    physical eigenstate identification at degeneracies or avoided crossings.
 
     The ratio λ_U_approx / λ_U_exact = exp(-i*ΔE*t/ℏ) directly encodes the
     energy error ΔE, which we recover via: ΔE = -angle(ratio) * ℏ/t
@@ -35,20 +40,23 @@ def _compute_eigenvalue_errors(exact_op, approx_op) -> dict:
     if approx_op is None:
         raise ValueError("missing approximate operator")
 
+    tevol_hbar = exact_op.tevol_hbar
+    if tevol_hbar is None or not np.isfinite(tevol_hbar) or tevol_hbar == 0:
+        raise ValueError("A finite, nonzero tevol_hbar is required for eigenvalue errors.")
+    approx_time = approx_op.tevol_hbar
+    if approx_time is not None and not np.isclose(approx_time, tevol_hbar, rtol=1e-12, atol=0):
+        raise ValueError("Exact and approximate operators must use the same tevol_hbar.")
+
     # Get exact H eigendecomposition first (native form for exact_op)
-    exact_H_data = exact_op.get(operator_type="Hamiltonian",
+    exact_H_data = exact_op.get(operator_type="hamiltonian",
                                  energy_shifted=False,
                                  representation="eigendecomposition")
     exact_H_eigenvalues = exact_H_data["eigenvalues"]
     exact_H_eigenvectors = exact_H_data["eigenvectors"]
 
-    # Get exact U eigendecomposition (converted from H, but well-conditioned H→U)
-    # H and U share the same eigenvectors (they commute)
-    exact_U_data = exact_op.get(operator_type="time_evolution",
-                                 energy_shifted=False,
-                                 representation="eigendecomposition")
-    exact_U_eigenvalues = exact_U_data["eigenvalues"]
-    exact_U_eigenvectors = exact_U_data["eigenvectors"]
+    # Use the H eigenbasis explicitly. A separate eigendecomposition of U can
+    # rotate phase-degenerate eigenspaces and need not retain the H ordering.
+    exact_U_eigenvalues = np.exp(-1j * exact_H_eigenvalues * tevol_hbar)
 
     # Get approximate U eigendecomposition (native form for approx_op - NO conversion!)
     approx_U_data = approx_op.get(operator_type="time_evolution",
@@ -57,29 +65,27 @@ def _compute_eigenvalue_errors(exact_op, approx_op) -> dict:
     approx_U_eigenvalues = approx_U_data["eigenvalues"]
     approx_U_eigenvectors = approx_U_data["eigenvectors"]
 
-    # Match approximate U eigenvectors to exact U eigenvectors by overlap
-    # For each exact eigenvector, find the best matching approximate eigenvector
-    overlaps = np.abs(exact_U_eigenvectors.conj().T @ approx_U_eigenvectors)  # [n_exact, n_approx]
-    approx_indices = np.argmax(overlaps, axis=1)  # Best match for each exact state
-
-    # Reorder approximate U eigenvalues to match exact ordering
-    approx_U_eigenvalues = approx_U_eigenvalues[approx_indices]
-
-    logger.debug(f"Eigenvector matching: min overlap = {overlaps.max(axis=1).min():.6f}, "
-                 f"mean overlap = {overlaps.max(axis=1).mean():.6f}")
-
-    # Sort everything by exact H eigenvalue for nice reporting
-    energy_sort_indices = np.argsort(exact_H_eigenvalues)
-    exact_H_eigenvalues = exact_H_eigenvalues[energy_sort_indices]
-    exact_U_eigenvalues = exact_U_eigenvalues[energy_sort_indices]
-    approx_U_eigenvalues = approx_U_eigenvalues[energy_sort_indices]
-
-    # Verify same dimension
     if len(exact_U_eigenvalues) != len(approx_U_eigenvalues):
         raise ValueError(
             f"Dimension mismatch: exact operator has {len(exact_U_eigenvalues)} eigenstates, "
             f"approximate operator has {len(approx_U_eigenvalues)} eigenstates."
         )
+
+    overlaps = np.abs(exact_H_eigenvectors.conj().T @ approx_U_eigenvectors)
+    rows, cols = linear_sum_assignment(-(overlaps**2))
+    approx_indices = np.empty(len(rows), dtype=int)
+    approx_indices[rows] = cols
+    matched_overlaps = overlaps[np.arange(len(rows)), approx_indices]
+    approx_U_eigenvalues = approx_U_eigenvalues[approx_indices]
+    logger.debug("Bijective eigenvector matching: min overlap %.6f, mean overlap %.6f",
+                 matched_overlaps.min(), matched_overlaps.mean())
+
+    energy_sort_indices = np.argsort(exact_H_eigenvalues)
+    exact_H_eigenvalues = exact_H_eigenvalues[energy_sort_indices]
+    exact_U_eigenvalues = exact_U_eigenvalues[energy_sort_indices]
+    approx_U_eigenvalues = approx_U_eigenvalues[energy_sort_indices]
+    approx_indices = approx_indices[energy_sort_indices]
+    matched_overlaps = matched_overlaps[energy_sort_indices]
 
     # Compute energy errors from U eigenvalue ratios
     # ratio = λ_U_approx / λ_U_exact = exp(-i*ΔE*t/ℏ)
@@ -88,19 +94,24 @@ def _compute_eigenvalue_errors(exact_op, approx_op) -> dict:
     phase_error = np.angle(ratio)  # ∈ (-π, π]
 
     # Convert phase error to energy error
-    if exact_op.tevol_hbar is None:
-        raise ValueError("tevol_hbar is required for eigenvalue error calculation")
-    energy_errors = -phase_error / exact_op.tevol_hbar
+    energy_errors = -phase_error / tevol_hbar
 
     # Relative errors (use exact H eigenvalues as reference)
-    relative_errors = energy_errors / np.abs(exact_H_eigenvalues)
+    # Relative energies depend on the chosen energy zero; do not silently
+    # report an infinity or 0/0 at zero reference energy.
+    relative_defined = np.abs(exact_H_eigenvalues) > 0
+    relative_errors = np.full_like(energy_errors, np.nan, dtype=float)
+    np.divide(energy_errors, np.abs(exact_H_eigenvalues), out=relative_errors,
+              where=relative_defined)
+    max_relative = (float(np.max(np.abs(relative_errors[relative_defined])))
+                    if relative_defined.any() else float('nan'))
 
     num_eigenstates = len(exact_H_eigenvalues)
     logger.info(f"Computed errors for {num_eigenstates} eigenstates (sorted by energy)")
     logger.verbose(f"  Ground state: exact={exact_H_eigenvalues[0]:.6e}, error={energy_errors[0]:.6e}, rel_err={relative_errors[0]:.6e}")
     logger.verbose(f"  Highest state: exact={exact_H_eigenvalues[-1]:.6e}, error={energy_errors[-1]:.6e}, rel_err={relative_errors[-1]:.6e}")
     logger.info(f"  Max absolute energy error: {np.abs(energy_errors).max():.6e}")
-    logger.info(f"  Max relative energy error: {np.abs(relative_errors).max():.6e}")
+    logger.info(f"  Max relative energy error (defined entries): {max_relative:.6e}")
 
     # Also log phase errors for comparison with matrix norms
     max_phase_error = np.abs(phase_error).max()
@@ -112,7 +123,13 @@ def _compute_eigenvalue_errors(exact_op, approx_op) -> dict:
             'absolute_errors': energy_errors.tolist(),
             'relative_errors': relative_errors.tolist(),
             'max_absolute_error': float(np.abs(energy_errors).max()),
-            'max_relative_error': float(np.abs(relative_errors).max())
+            'max_relative_error': max_relative,
+            'relative_error_defined': relative_defined.tolist(),
+            'matched_approx_indices': approx_indices.tolist(),
+            'matched_eigenvector_overlaps': matched_overlaps.tolist(),
+            'matching': 'bijective_maximum_squared_overlap',
+            'phase_branch': 'principal; energy errors are modulo 2*pi/abs(tevol_hbar)',
+            'energy_alias_period': float(2 * np.pi / abs(tevol_hbar)),
         }
     }
 
@@ -178,13 +195,18 @@ def _compute_state_dependent_errors(exact_unitary_matrix, approx_unitary_matrix,
         state_files: List of file paths containing quantum states to evolve
 
     Returns:
-        Dictionary with state-dependent error metrics
+        Dictionary with state-dependent error metrics. Legacy absolute_error and
+        relative_error are phase-sensitive vector distances. Additional normalized
+        one_minus_overlap (the manuscript metric), infidelity, and phase-aligned
+        distance are invariant under global phase. Norm defects are reported
+        independently so normalization cannot hide invalid propagation.
     """
+    state_files = normalize_string_or_list_to_list(state_files)
     logger.info(f"Computing state-dependent errors for {len(state_files)} state(s)")
 
     state_errors = []
 
-    for state_file in normalize_string_or_list_to_list(state_files):
+    for state_file in state_files:
         logger.verbose(f"Processing {state_file}")
 
         # Load state
@@ -194,12 +216,28 @@ def _compute_state_dependent_errors(exact_unitary_matrix, approx_unitary_matrix,
             logger.error(f"Failed to load state from {state_file}: {e}")
             raise
 
+        # Validate input but preserve its scale for the legacy absolute_error.
+        normalized_state(initial_state, dimension=exact_unitary_matrix.shape[1])
+
         # Apply exact time evolution operator: U_exact |ψ⟩
         exact_final = exact_unitary_matrix @ initial_state
 
         # Apply approximate time evolution operator: U_approx |ψ⟩
         approx_final = approx_unitary_matrix @ initial_state
 
+        metrics = state_error_metrics(exact_final, approx_final)
+        input_norm = float(np.linalg.norm(initial_state))
+        metrics["input_norm"] = input_norm
+        metrics["exact_norm_defect"] = abs(metrics["exact_norm"] / input_norm - 1.0)
+        metrics["approx_norm_defect"] = abs(metrics["approx_norm"] / input_norm - 1.0)
+        if max(metrics["exact_norm_defect"], metrics["approx_norm_defect"]) > 1e-8:
+            logger.warning(
+                "Evolution changes the state norm; normalized overlap metrics do not "
+                "certify valid unitary evolution (exact defect %.3e, approximate defect %.3e).",
+                metrics["exact_norm_defect"], metrics["approx_norm_defect"],
+            )
+
+        # Legacy fields intentionally retain phase-sensitive, unnormalized semantics.
         # Compute error: ||U_exact|ψ⟩ - U_approx|ψ⟩||
         diff = exact_final - approx_final
         absolute_error = np.linalg.norm(diff)
@@ -210,7 +248,8 @@ def _compute_state_dependent_errors(exact_unitary_matrix, approx_unitary_matrix,
         state_errors.append({
             'input_file': state_file,
             'absolute_error': float(absolute_error),
-            'relative_error': float(relative_error)
+            'relative_error': float(relative_error),
+            **metrics,
         })
 
     return {'state_errors': state_errors}
@@ -237,6 +276,10 @@ def _save_error_results(results: dict, config_general=None) -> str:
         save_dict['eigenenergy_absolute_errors'] = np.array(results['eigenenergy_errors']['absolute_errors'])
         save_dict['eigenenergy_relative_errors'] = np.array(results['eigenenergy_errors']['relative_errors'])
         save_dict['eigenenergy_num'] = results['eigenenergy_errors']['num_eigenstates']
+        for key in ('relative_error_defined', 'matched_approx_indices',
+                    'matched_eigenvector_overlaps', 'matching', 'phase_branch', 'energy_alias_period'):
+            if key in results['eigenenergy_errors']:
+                save_dict[f'eigenenergy_{key}'] = np.asarray(results['eigenenergy_errors'][key])
 
     if 'matrix_frobenius_error' in results:
         save_dict['matrix_frobenius_error'] = results['matrix_frobenius_error']
@@ -249,7 +292,18 @@ def _save_error_results(results: dict, config_general=None) -> str:
         state_relative = [s['relative_error'] for s in results['state_errors']]
         save_dict['state_absolute_errors'] = np.array(state_absolute)
         save_dict['state_relative_errors'] = np.array(state_relative)
-        # Note: filenames are in results dict, not saved to npz
+        save_dict['state_input_files'] = np.asarray([str(s['input_file']) for s in results['state_errors']])
+        # Preserve stable, explicitly named metrics rather than requiring a
+        # downstream subtraction of nearly equal floating-point numbers.
+        metric_keys = (
+            'overlap_magnitude', 'fidelity', 'infidelity', 'one_minus_overlap',
+            'phase_aligned_distance', 'normalized_phase_sensitive_distance',
+            'input_norm', 'exact_norm', 'approx_norm', 'relative_norm_drift',
+            'norm_preserved', 'exact_norm_defect', 'approx_norm_defect',
+        )
+        for key in metric_keys:
+            if all(key in s for s in results['state_errors']):
+                save_dict[f'state_{key}'] = np.asarray([s[key] for s in results['state_errors']])
 
     if save_dict:
         np.savez(output_file, **save_dict)
@@ -290,11 +344,6 @@ def error_analysis(
     Returns:
         Dictionary with error metrics
     """
-    from qhat.analysis.matrix_operations import PauliStringOperator
-    from qhat.analysis.file_io import load_eigendecomposition, load_state
-    from qhat.analysis.operators import OperatorRepresentation
-    import scipy.linalg
-
     logger.info("Starting error analysis")
 
     results = {}
