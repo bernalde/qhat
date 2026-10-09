@@ -1,0 +1,101 @@
+{
+  "protocol_version": "frozen-owned-block-permutations-v1",
+  "cases": [
+    "CH2O_s1.00",
+    "CH2O_s1.25",
+    "H2S_s1.00",
+    "H2S_s1.25",
+    "HCN_s1.00",
+    "HCN_s1.25",
+    "SiH4_s1.00",
+    "SiH4_s1.25",
+    "f2",
+    "li2",
+    "nh3"
+  ],
+  "random_seeds": [
+    2026100901,
+    2026100902,
+    2026100903,
+    2026100904,
+    2026100905,
+    2026100906,
+    2026100907,
+    2026100908,
+    2026100909,
+    2026100910,
+    2026100911,
+    2026100912,
+    2026100913,
+    2026100914,
+    2026100915,
+    2026100916,
+    2026100917,
+    2026100918,
+    2026100919,
+    2026100920
+  ],
+  "times": [
+    0.25,
+    1.0
+  ],
+  "primary_steps": 100,
+  "convergence_cases": [
+    "HCN_s1.00",
+    "li2",
+    "f2"
+  ],
+  "convergence_times": [
+    1.0
+  ],
+  "convergence_steps": [
+    50,
+    200
+  ],
+  "expected_rows": 728,
+  "deterministic_block_orders": [
+    "block_signed",
+    "block_parent_magnitude",
+    "block_l1",
+    "block_reverse_signed"
+  ],
+  "external_pauli_comparators": [
+    "jw_signed",
+    "jw_magnitude"
+  ],
+  "ownership_frozen_once_per_case": true,
+  "intrablock_pauli_order_frozen": true,
+  "coefficient_cutoff": 1e-12,
+  "coefficient_policy": "molecular-unit-weight-v1",
+  "metric": "normalized_full_state_v2; stable one_minus_overlap; no postselection",
+  "tie_absolute": 1e-12,
+  "analysis_floor": 1e-12,
+  "primary_random_summary": "median and empirical IQR; signed midrank using fixed absolute tie tolerance",
+  "product_order": "chronological; later entries multiply on the left",
+  "formula_order": 1,
+  "fixture_manifest_sha256": "cf3b2b126af479233792eb03eac342e21a0b9438eb23cbb884db76f6a2679b22",
+  "source_hashes": {
+    "numerical_audit/controlled_block_orders.py": "798f58ae086daef382a209b5f32bdf7d95a2324a334f8b104dbf4ed7ece5aa5f",
+    "numerical_audit/reference_tools.py": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432",
+    "numerical_audit/run_frozen_audit.py": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb",
+    "numerical_audit/controlled_block_protocol.md": "c0d2f0908aaaf1ff6385e1ef4560f2f0d6b5d4e28a5ceaefe9a9f4c67ac8779e",
+    "numerical_audit/test_controlled_block_orders.py": "34ce8b9f7ea1c8773ebeff3ab9099b294d4c9e4960bdeb752bc0ebf7c7d8ea89",
+    "numerical_audit/plot_controlled_block_orders.py": "81e3dec03ac41507782fb8d2f35a886c7976a6013165cbe015fb7e1bfe0e6305",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/fermionic_ownership.py": "fbdcc336de39ece67f901a4380be1a933a7f05df610b68d584d45746b1112e2e",
+    "analysis/state_metrics.py": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635",
+    "analysis/benchmark_b2_active_spaces_matrix_free.py": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1",
+    "analysis/benchmark_b2_signed_coefficient_baseline.py": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76",
+    "analysis/benchmark_L_sweep_trotter.py": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c",
+    "analysis/benchmark_b2_coloring_robustness.py": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+  },
+  "python_version": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "openfermion": "1.8.1",
+    "numba": "0.68.0"
+  },
+  "git_head_before_run": "7cf88bb8228f7e2a8194dea636b81b02cc95707d",
+  "prepare_only": false
+}
