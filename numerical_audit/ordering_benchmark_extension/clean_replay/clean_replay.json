@@ -1,0 +1,734 @@
+{
+  "status": "passed",
+  "archive_sha256": "d7f2ae431585e3ed93bb612c06d4558fdc162b196f0111f78b1ae7cc983f8f43",
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "python_executable": "/home/bernalde/repos/fermionic-ordering-research/archive-replay-venv/bin/python",
+  "clean_environment": {
+    "status": "installed_and_imports_passed",
+    "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+    "executable": "/home/bernalde/repos/fermionic-ordering-research/archive-replay-venv/bin/python",
+    "requirements_sha256": "e0c17fc410d0068d5d88b5c85de6a5c37786bca51f7bd3453deab969ad359dab",
+    "installation": "new uv environment; uv pip sync --offline from cached pinned wheels",
+    "packages": {
+      "Deprecated": "1.3.1",
+      "Pint": "0.24.4",
+      "PubChemPy": "1.0.5",
+      "Pygments": "2.21.0",
+      "SQLAlchemy": "2.1.4",
+      "Unidecode": "1.4.0",
+      "annotated-types": "0.8.0",
+      "argcomplete": "3.7.2",
+      "attrs": "26.1.0",
+      "basis_set_exchange": "0.12",
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.2",
+      "cirq-core": "1.7.0",
+      "colorama": "0.4.6",
+      "contourpy": "1.4.0",
+      "cycler": "0.12.1",
+      "deprecation": "2.1.0",
+      "duet": "0.2.9",
+      "flexcache": "0.3",
+      "flexparser": "0.4",
+      "fonttools": "4.66.1",
+      "h5py": "3.16.0",
+      "idna": "3.20",
+      "iniconfig": "2.3.1",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "kiwisolver": "1.5.1",
+      "llvmlite": "0.50.0",
+      "matplotlib": "3.11.2",
+      "mendeleev": "1.3.0",
+      "mpmath": "1.3.0",
+      "networkx": "3.7",
+      "numba": "0.68.0",
+      "numpy": "2.5.3",
+      "openfermion": "1.8.1",
+      "openfermionpyscf": "0.5",
+      "packaging": "26.3",
+      "pandas": "3.0.6",
+      "pillow": "12.3.0",
+      "platformdirs": "4.12.4",
+      "pluggy": "1.6.0",
+      "pydantic": "2.14.0",
+      "pydantic_core": "2.50.0",
+      "pyfiglet": "0.8.post1",
+      "pyparsing": "3.3.3",
+      "pyscf": "2.14.0",
+      "pytest": "9.1.1",
+      "python-dateutil": "2.9.0.post0",
+      "referencing": "0.37.0",
+      "regex": "2026.9.29",
+      "requests": "2.34.2",
+      "rpds-py": "2026.9.1",
+      "scipy": "1.18.1",
+      "setuptools": "84.0.0",
+      "six": "1.17.0",
+      "sympy": "1.14.0",
+      "tqdm": "4.70.1",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0",
+      "urllib3": "2.8.0",
+      "wrapt": "2.5.0"
+    },
+    "scope": "fresh installation/import smoke check; archived-code propagation checks are separate"
+  },
+  "commands": [
+    {
+      "arguments": [
+        "-O",
+        "extension/independent/check_references.py",
+        "--qhat-root",
+        "qhat",
+        "--output",
+        "fresh/references"
+      ],
+      "returncode": 0,
+      "seconds": 6.5213047349998305
+    },
+    {
+      "arguments": [
+        "-O",
+        "extension/independent/check_partitions.py",
+        "--qhat-root",
+        "qhat",
+        "--output",
+        "fresh/partitions.json"
+      ],
+      "returncode": 0,
+      "seconds": 2.373754084000211
+    },
+    {
+      "arguments": [
+        "-O",
+        "extension/independent/objective_check.py",
+        "--campaign",
+        "extension/optimized",
+        "--output",
+        "fresh/objectives"
+      ],
+      "returncode": 0,
+      "seconds": 21.130578086999776
+    },
+    {
+      "arguments": [
+        "-O",
+        "extension/packaging/replay_one.py",
+        "--extension",
+        "extension",
+        "--qhat-root",
+        "qhat",
+        "--campaign",
+        "fixed",
+        "--case",
+        "CH2O_s1.00",
+        "--ordering",
+        "jw_magnitude",
+        "--budget",
+        "2",
+        "--output",
+        "fresh/production_0.json"
+      ],
+      "returncode": 0,
+      "seconds": 6.432280618000732
+    },
+    {
+      "arguments": [
+        "-O",
+        "extension/packaging/replay_one.py",
+        "--extension",
+        "extension",
+        "--qhat-root",
+        "qhat",
+        "--campaign",
+        "optimized",
+        "--case",
+        "CH2O_s1.00",
+        "--ordering",
+        "strang_class_refined_response",
+        "--budget",
+        "2",
+        "--output",
+        "fresh/production_1.json"
+      ],
+      "returncode": 0,
+      "seconds": 1.720250106000094
+    },
+    {
+      "arguments": [
+        "-O",
+        "extension/packaging/replay_one.py",
+        "--extension",
+        "extension",
+        "--qhat-root",
+        "qhat",
+        "--campaign",
+        "optimized",
+        "--case",
+        "nh3_coeff1p00",
+        "--ordering",
+        "class_refined_response",
+        "--budget",
+        "10",
+        "--output",
+        "fresh/production_2.json"
+      ],
+      "returncode": 0,
+      "seconds": 5.0015692250008215
+    },
+    {
+      "arguments": [
+        "-O",
+        "extension/packaging/replay_one.py",
+        "--extension",
+        "extension",
+        "--qhat-root",
+        "qhat",
+        "--campaign",
+        "published/v2",
+        "--case",
+        "f2_coeff1p00",
+        "--ordering",
+        "tranter_v2_l1_first_order",
+        "--budget",
+        "10",
+        "--output",
+        "fresh/production_3.json"
+      ],
+      "returncode": 0,
+      "seconds": 2.1004288620006264
+    },
+    {
+      "arguments": [
+        "-O",
+        "extension/packaging/replay_one.py",
+        "--extension",
+        "extension",
+        "--qhat-root",
+        "qhat",
+        "--campaign",
+        "published/v2",
+        "--case",
+        "nh3_coeff1p00",
+        "--ordering",
+        "tranter_v2_l1_strang",
+        "--budget",
+        "2",
+        "--output",
+        "fresh/production_4.json"
+      ],
+      "returncode": 0,
+      "seconds": 3.4275814880002144
+    },
+    {
+      "arguments": [
+        "extension/analysis/summarize.py",
+        "--root",
+        "extension",
+        "--output",
+        "fresh/analysis"
+      ],
+      "returncode": 0,
+      "seconds": 1.349272602000383
+    },
+    {
+      "arguments": [
+        "extension/analysis/timings.py",
+        "--root",
+        "extension",
+        "--output",
+        "fresh/analysis"
+      ],
+      "returncode": 0,
+      "seconds": 1.6848695360004058
+    },
+    {
+      "arguments": [
+        "extension/analysis/render.py",
+        "--analysis",
+        "fresh/analysis",
+        "--output",
+        "fresh/figures"
+      ],
+      "returncode": 0,
+      "seconds": 3.3199427210001886
+    }
+  ],
+  "fresh_reference_cases": 14,
+  "reference_cache_comparisons": [
+    {
+      "case": "CH2O_s1.00",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "CH2O_s1.25",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "H2S_s1.00",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "H2S_s1.25",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "HCN_s1.00",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "HCN_s1.25",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "SiH4_s1.00",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "SiH4_s1.25",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "f2_coeff1p00",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "f2_coeff1p25",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "li2_coeff1p00",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "li2_coeff1p25",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "nh3_coeff1p00",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    },
+    {
+      "case": "nh3_coeff1p25",
+      "differences": {
+        "initial": 0.0,
+        "exact": 0.0
+      }
+    }
+  ],
+  "fresh_production_replays": [
+    {
+      "status": "passed",
+      "case": "CH2O_s1.00",
+      "ordering": "jw_magnitude",
+      "budget_units": 2,
+      "steps": 2,
+      "state_distance": 0.0,
+      "metrics": {
+        "overlap_magnitude": 0.9988099393573148,
+        "fidelity": 0.9976212949589628,
+        "one_minus_overlap": 0.00119006064268532,
+        "infidelity": 0.0023787050410373715,
+        "phase_aligned_distance": 0.048786486708622914,
+        "normalized_phase_sensitive_distance": 0.049079540474574045,
+        "exact_norm": 0.9999999999999994,
+        "approx_norm": 0.9999999999999956,
+        "relative_norm_drift": 3.885780586188048e-15,
+        "norm_preserved": true,
+        "particle_number_leakage": 1.4637088052951249e-22,
+        "spin_sector_leakage": 2.4401559587617818e-21,
+        "inside_sector_infidelity": 0.0023787050410373706,
+        "outside_sector_infidelity": 2.4401559587617818e-21,
+        "naive_unnormalized_one_minus_overlap": 0.0011900606426903382,
+        "naive_normalized_one_minus_overlap": 0.0011900606426852312,
+        "below_analysis_floor": false,
+        "conditional_sector_infidelity": 0.0023787050410373715
+      },
+      "seconds": 0.43013452899958793,
+      "imported_qhat_modules": {
+        "qhat.numerical_audit": {
+          "path": "numerical_audit/__init__.py",
+          "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca"
+        },
+        "qhat.analysis": {
+          "path": "analysis/__init__.py",
+          "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+        },
+        "qhat.analysis.benchmark_L_sweep_trotter": {
+          "path": "analysis/benchmark_L_sweep_trotter.py",
+          "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+        },
+        "qhat.analysis.state_metrics": {
+          "path": "analysis/state_metrics.py",
+          "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635"
+        },
+        "qhat.analysis.benchmark_b2_active_spaces_matrix_free": {
+          "path": "analysis/benchmark_b2_active_spaces_matrix_free.py",
+          "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+        },
+        "qhat.analysis.benchmark_b2_coloring_robustness": {
+          "path": "analysis/benchmark_b2_coloring_robustness.py",
+          "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+        },
+        "qhat.analysis.benchmark_b2_signed_coefficient_baseline": {
+          "path": "analysis/benchmark_b2_signed_coefficient_baseline.py",
+          "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+        },
+        "qhat.analysis.benchmark_fermionic_structure_ablation": {
+          "path": "analysis/benchmark_fermionic_structure_ablation.py",
+          "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca"
+        },
+        "qhat.numerical_audit.reference_tools": {
+          "path": "numerical_audit/reference_tools.py",
+          "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+        },
+        "qhat.numerical_audit.run_frozen_audit": {
+          "path": "numerical_audit/run_frozen_audit.py",
+          "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+        }
+      },
+      "extension_design_sha256": "167029cb678e7053b666a561b9c58074c8bedf41bf124bf2eb055ddb68596a1f",
+      "state_sha256": "3ca7ae8b1355a5af06d684a418149506e13d02db235c394eec0b15b24c8d7237",
+      "scope": "fresh propagation of one frozen schedule; archive code imports explicitly checked"
+    },
+    {
+      "status": "passed",
+      "case": "CH2O_s1.00",
+      "ordering": "strang_class_refined_response",
+      "budget_units": 2,
+      "steps": 1,
+      "state_distance": 7.565515497081313e-16,
+      "metrics": {
+        "overlap_magnitude": 0.9999985997216024,
+        "fidelity": 0.9999971994451656,
+        "one_minus_overlap": 1.4002783977483448e-06,
+        "infidelity": 2.8005548347170983e-06,
+        "phase_aligned_distance": 0.00167348641927465,
+        "normalized_phase_sensitive_distance": 0.0018089893561528344,
+        "exact_norm": 0.9999999999999994,
+        "approx_norm": 0.9999999999999966,
+        "relative_norm_drift": 2.886579864025407e-15,
+        "norm_preserved": true,
+        "particle_number_leakage": 3.142320779841167e-36,
+        "spin_sector_leakage": 3.1427890888833996e-36,
+        "inside_sector_infidelity": 2.800554834717104e-06,
+        "outside_sector_infidelity": 3.15670858006704e-36,
+        "naive_unnormalized_one_minus_overlap": 1.400278401786359e-06,
+        "naive_normalized_one_minus_overlap": 1.4002783975675115e-06,
+        "below_analysis_floor": false,
+        "conditional_sector_infidelity": 2.800554834717098e-06
+      },
+      "seconds": 0.08682109799974569,
+      "imported_qhat_modules": {
+        "qhat.numerical_audit": {
+          "path": "numerical_audit/__init__.py",
+          "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca"
+        },
+        "qhat.analysis": {
+          "path": "analysis/__init__.py",
+          "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+        },
+        "qhat.analysis.benchmark_L_sweep_trotter": {
+          "path": "analysis/benchmark_L_sweep_trotter.py",
+          "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+        },
+        "qhat.analysis.state_metrics": {
+          "path": "analysis/state_metrics.py",
+          "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635"
+        },
+        "qhat.analysis.benchmark_b2_active_spaces_matrix_free": {
+          "path": "analysis/benchmark_b2_active_spaces_matrix_free.py",
+          "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+        },
+        "qhat.analysis.benchmark_b2_coloring_robustness": {
+          "path": "analysis/benchmark_b2_coloring_robustness.py",
+          "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+        },
+        "qhat.analysis.benchmark_b2_signed_coefficient_baseline": {
+          "path": "analysis/benchmark_b2_signed_coefficient_baseline.py",
+          "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+        },
+        "qhat.analysis.benchmark_fermionic_structure_ablation": {
+          "path": "analysis/benchmark_fermionic_structure_ablation.py",
+          "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca"
+        },
+        "qhat.numerical_audit.reference_tools": {
+          "path": "numerical_audit/reference_tools.py",
+          "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+        },
+        "qhat.numerical_audit.run_frozen_audit": {
+          "path": "numerical_audit/run_frozen_audit.py",
+          "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+        }
+      },
+      "extension_design_sha256": "6d6fb0787327affd75ea25906328a4f3a9d9b17f29642f228c186cd88a90c637",
+      "state_sha256": "84a7bfa0d560086c17ea5974773280d9fa2e889e8050ed9646e2f32a17a83d8a",
+      "scope": "fresh propagation of one frozen schedule; archive code imports explicitly checked"
+    },
+    {
+      "status": "passed",
+      "case": "nh3_coeff1p00",
+      "ordering": "class_refined_response",
+      "budget_units": 10,
+      "steps": 10,
+      "state_distance": 0.0,
+      "metrics": {
+        "overlap_magnitude": 0.9999999764444222,
+        "fidelity": 0.9999999528888449,
+        "one_minus_overlap": 2.355558144469107e-08,
+        "infidelity": 4.7111162334516726e-08,
+        "phase_aligned_distance": 0.0002170510605580681,
+        "normalized_phase_sensitive_distance": 0.00021705149044572728,
+        "exact_norm": 1.0000000000000002,
+        "approx_norm": 0.9999999999999474,
+        "relative_norm_drift": 5.284661597215745e-14,
+        "norm_preserved": true,
+        "particle_number_leakage": 1.409393944803799e-35,
+        "spin_sector_leakage": 1.4094028345287555e-35,
+        "inside_sector_infidelity": 4.71111623345166e-08,
+        "outside_sector_infidelity": 1.3399734191306345e-35,
+        "naive_unnormalized_one_minus_overlap": 2.3555630224159074e-08,
+        "naive_normalized_one_minus_overlap": 2.3555577821632312e-08,
+        "below_analysis_floor": false,
+        "conditional_sector_infidelity": 4.711116233451658e-08
+      },
+      "seconds": 1.9997960769997007,
+      "imported_qhat_modules": {
+        "qhat.numerical_audit": {
+          "path": "numerical_audit/__init__.py",
+          "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca"
+        },
+        "qhat.analysis": {
+          "path": "analysis/__init__.py",
+          "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+        },
+        "qhat.analysis.benchmark_L_sweep_trotter": {
+          "path": "analysis/benchmark_L_sweep_trotter.py",
+          "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+        },
+        "qhat.analysis.state_metrics": {
+          "path": "analysis/state_metrics.py",
+          "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635"
+        },
+        "qhat.analysis.benchmark_b2_active_spaces_matrix_free": {
+          "path": "analysis/benchmark_b2_active_spaces_matrix_free.py",
+          "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+        },
+        "qhat.analysis.benchmark_b2_coloring_robustness": {
+          "path": "analysis/benchmark_b2_coloring_robustness.py",
+          "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+        },
+        "qhat.analysis.benchmark_b2_signed_coefficient_baseline": {
+          "path": "analysis/benchmark_b2_signed_coefficient_baseline.py",
+          "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+        },
+        "qhat.analysis.benchmark_fermionic_structure_ablation": {
+          "path": "analysis/benchmark_fermionic_structure_ablation.py",
+          "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca"
+        },
+        "qhat.numerical_audit.reference_tools": {
+          "path": "numerical_audit/reference_tools.py",
+          "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+        },
+        "qhat.numerical_audit.run_frozen_audit": {
+          "path": "numerical_audit/run_frozen_audit.py",
+          "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+        }
+      },
+      "extension_design_sha256": "3cfef30d4dc6a2ccabfbbfe3eb553250fabbaacf4df068975abd6bf88996779b",
+      "state_sha256": "5feb881f91141e3b9aa8b85fde4cfca3bd00b0e2a24630d4edcfafc255165b2d",
+      "scope": "fresh propagation of one frozen schedule; archive code imports explicitly checked"
+    },
+    {
+      "status": "passed",
+      "case": "f2_coeff1p00",
+      "ordering": "tranter_v2_l1_first_order",
+      "budget_units": 10,
+      "steps": 10,
+      "state_distance": 0.0,
+      "metrics": {
+        "overlap_magnitude": 0.9999984535153584,
+        "fidelity": 0.9999969070331085,
+        "one_minus_overlap": 1.5464846423524963e-06,
+        "infidelity": 3.0929668930902437e-06,
+        "phase_aligned_distance": 0.0017586839638505244,
+        "normalized_phase_sensitive_distance": 0.0017586930144658625,
+        "exact_norm": 0.9999999999999938,
+        "approx_norm": 0.9999999999999633,
+        "relative_norm_drift": 3.0531133177191805e-14,
+        "norm_preserved": true,
+        "particle_number_leakage": 2.4587693094071633e-06,
+        "spin_sector_leakage": 2.4587693094071633e-06,
+        "inside_sector_infidelity": 6.341975836830836e-07,
+        "outside_sector_infidelity": 2.4587693094071633e-06,
+        "naive_unnormalized_one_minus_overlap": 1.5464846847557112e-06,
+        "naive_normalized_one_minus_overlap": 1.5464846415680356e-06,
+        "below_analysis_floor": false,
+        "conditional_sector_infidelity": 6.341991430324716e-07
+      },
+      "seconds": 0.31807027000013477,
+      "imported_qhat_modules": {
+        "qhat.numerical_audit": {
+          "path": "numerical_audit/__init__.py",
+          "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca"
+        },
+        "qhat.analysis": {
+          "path": "analysis/__init__.py",
+          "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+        },
+        "qhat.analysis.benchmark_L_sweep_trotter": {
+          "path": "analysis/benchmark_L_sweep_trotter.py",
+          "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+        },
+        "qhat.analysis.state_metrics": {
+          "path": "analysis/state_metrics.py",
+          "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635"
+        },
+        "qhat.analysis.benchmark_b2_active_spaces_matrix_free": {
+          "path": "analysis/benchmark_b2_active_spaces_matrix_free.py",
+          "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+        },
+        "qhat.analysis.benchmark_b2_coloring_robustness": {
+          "path": "analysis/benchmark_b2_coloring_robustness.py",
+          "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+        },
+        "qhat.analysis.benchmark_b2_signed_coefficient_baseline": {
+          "path": "analysis/benchmark_b2_signed_coefficient_baseline.py",
+          "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+        },
+        "qhat.analysis.benchmark_fermionic_structure_ablation": {
+          "path": "analysis/benchmark_fermionic_structure_ablation.py",
+          "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca"
+        },
+        "qhat.numerical_audit.reference_tools": {
+          "path": "numerical_audit/reference_tools.py",
+          "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+        },
+        "qhat.numerical_audit.run_frozen_audit": {
+          "path": "numerical_audit/run_frozen_audit.py",
+          "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+        }
+      },
+      "extension_design_sha256": "616529d10259f3f25b24106c94eb97ddc2fd2c20b8d9add784ee1b1b68e21df0",
+      "state_sha256": "538e0a16ac578bd321aa615a779e6267a3c20246f2995b36a0e6bf94860ccf7a",
+      "scope": "fresh propagation of one frozen schedule; archive code imports explicitly checked"
+    },
+    {
+      "status": "passed",
+      "case": "nh3_coeff1p00",
+      "ordering": "tranter_v2_l1_strang",
+      "budget_units": 2,
+      "steps": 1,
+      "state_distance": 1.9500684573722117e-18,
+      "metrics": {
+        "overlap_magnitude": 0.9999972071040992,
+        "fidelity": 0.9999944142159988,
+        "one_minus_overlap": 2.7928959083876107e-06,
+        "infidelity": 5.585784016507666e-06,
+        "phase_aligned_distance": 0.0023634279800271514,
+        "normalized_phase_sensitive_distance": 0.002510003537132352,
+        "exact_norm": 1.0000000000000002,
+        "approx_norm": 1.000000000000007,
+        "relative_norm_drift": 6.8833827526759706e-15,
+        "norm_preserved": true,
+        "particle_number_leakage": 7.947745130649272e-08,
+        "spin_sector_leakage": 7.948673418859407e-08,
+        "inside_sector_infidelity": 5.5062972823191e-06,
+        "outside_sector_infidelity": 7.948673418859426e-08,
+        "naive_unnormalized_one_minus_overlap": 2.792895893444225e-06,
+        "naive_normalized_one_minus_overlap": 2.792895900771697e-06,
+        "below_analysis_floor": false,
+        "conditional_sector_infidelity": 5.5062977199966825e-06
+      },
+      "seconds": 0.46258443999977317,
+      "imported_qhat_modules": {
+        "qhat.numerical_audit": {
+          "path": "numerical_audit/__init__.py",
+          "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca"
+        },
+        "qhat.analysis": {
+          "path": "analysis/__init__.py",
+          "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+        },
+        "qhat.analysis.benchmark_L_sweep_trotter": {
+          "path": "analysis/benchmark_L_sweep_trotter.py",
+          "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+        },
+        "qhat.analysis.state_metrics": {
+          "path": "analysis/state_metrics.py",
+          "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635"
+        },
+        "qhat.analysis.benchmark_b2_active_spaces_matrix_free": {
+          "path": "analysis/benchmark_b2_active_spaces_matrix_free.py",
+          "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+        },
+        "qhat.analysis.benchmark_b2_coloring_robustness": {
+          "path": "analysis/benchmark_b2_coloring_robustness.py",
+          "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+        },
+        "qhat.analysis.benchmark_b2_signed_coefficient_baseline": {
+          "path": "analysis/benchmark_b2_signed_coefficient_baseline.py",
+          "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+        },
+        "qhat.analysis.benchmark_fermionic_structure_ablation": {
+          "path": "analysis/benchmark_fermionic_structure_ablation.py",
+          "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca"
+        },
+        "qhat.numerical_audit.reference_tools": {
+          "path": "numerical_audit/reference_tools.py",
+          "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+        },
+        "qhat.numerical_audit.run_frozen_audit": {
+          "path": "numerical_audit/run_frozen_audit.py",
+          "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+        }
+      },
+      "extension_design_sha256": "2c938acc83389f40698ef64c3d9a4ccc334e1c5a02b2dc59a6f0e16d472baa3f",
+      "state_sha256": "84bb881b44fd03aacd16a14212a6429dab6b06533596dc46fca83e6a9101f4d6",
+      "scope": "fresh propagation of one frozen schedule; archive code imports explicitly checked"
+    }
+  ],
+  "maximum_production_state_difference": 7.565515497081313e-16,
+  "analysis_and_tables_byte_identical": true,
+  "scope": "Fresh exact pinned installation, archived-code import containment, 14 independent target references and partitions, 56 independent objectives, five fresh production circuits, and full non-propagating analysis/table regeneration. This is not full regeneration of every molecular evolution."
+}

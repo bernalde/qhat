@@ -1,0 +1,34 @@
+# Independent read-only review of expanded manuscript claims
+
+Reviewed the manuscript versions hashed below against the optimized scientific sources, all 728 completed optimized rows, frozen designs, runtime reports, and the completed fixed campaign. No manuscript was edited by this reviewer. The enclosing root audit supplies independent molecular evolution and objective replay; this review independently reconstructs the numerical summaries from raw rows and checks their interpretation.
+
+## Conclusions and checked claims
+
+- All fourteen targets have seven first-order budgets for each of four arms and six feasible symmetric budgets for each of four controls. Input and source provenance bind the schedules frozen before propagation. Eight development cases and six coefficient-scaled follow-ups are correctly distinguished from fourteen independent geometries.
+- At requested work 100U, conserving JD versus J0 gives 4 wins, 10 ties and no losses at the stated absolute error tolerance 1e-12; their median error ratio is exactly 1. The two frozen unit orders agree in 9 cases. The text correctly gives diagonal weighting a limited empirical role.
+- Versus the individual-Pauli search with the same two starts and ten accepted insertions, conserving JD wins 4 and loses 10, median ratio 1.1699523082976535. Matching examined insertion destinations instead gives 14 wins and median ratio 0.18284027516288923. Neither count matching nor the shared accepted-move limit implies equal wall time or equal pair setup.
+- Every deterministic comparator currently in the fixed results (22 in total, including the four added prescriptions beyond the 18 basic fixed controls) loses to the conserving candidate in all 14 cases at 100U. Independently recomputed median error ratios are 0.046485995117826626 for signed Paulis, 0.024459441295543678 for magnitude Paulis, and 0.0518119549064598 for magnitude ordering of the same refined units. This supports an effect of coherent search beyond the partition alone, on these targets.
+- Conserving-order Strang and complete-class-label Strang each beat the first-order conserving candidate in all fourteen cases at 100U. Magnitude-Pauli Strang has twelve wins and two floor-level ties. The manuscript correctly separates formula order from the benefit of ordering.
+- At 10U, conserving-order Strang versus magnitude-Pauli Strang gives 13 wins and 1 loss, median ratio 0.10248637255100437. Against signed-Pauli and complete-class-label Strang it wins all 14, medians 0.06300865210164236 and 0.09890858865916499. All three ratios have fourteen comparator denominators above 1e-12. This transfer is empirical: JD optimizes a first-order score, not a second-order error operator.
+- Maximum candidate particle-number leakage at 100U is 1.531315304655917e-34; unrestricted Pauli JD gives 3.7727625877941456e-10. The structural proof guarantees exact conservation only for completed units, and observed tiny leakage is presented correctly as a numerical consistency check.
+- All aggregate classical work counts and the NH3 runtime comparison agree with the design metadata. The manuscript correctly calls these concurrent, single-thread wall times descriptive and explicitly separates shared setup and unequal propagation timer boundaries. There is no supported end-to-end speedup claim.
+- The abstract and conclusion accurately present improvements relative to fixed and evaluation-matched controls while acknowledging the stronger unrestricted Pauli search and higher-order formulas. They do not claim universal state, time, basis, geometry, or compilation-cost superiority.
+
+## Findings communicated to the manuscript maintainer
+
+1. **Uniform endpoint compilation sensitivity.** The existing symmetric cost formula is correct for the emitted circuits and declared commuting units. It is not a uniform maximal commuting-endpoint compiler: adjacent singleton diagonal or other commuting words can permit further exact fusion. The new, separate `boundary_sensitivity.py` and evidence files retain existing states, steps and errors, then apply the same maximal commuting prefix/suffix rule to every symmetric family. The original rows and schedules remain untouched. No new, larger-budget saturation errors are inferred. The least-tested-work conclusions are threshold dependent and do not establish universal Strang superiority. This scope should accompany the primary emitted-cost comparison.
+2. **Complete-class versus refined-label symmetric equivalence.** All fourteen literal flattened label-order lists agree. Contiguous commuting diagonal half-exponentials combine exactly, so complete-class label Strang and refined-label Strang are the same unitary at every same step count. Consequently, this particular label control is already a valid same-order diagonal-refinement equivalence check. Optimizing the two different movable-unit partitions could still choose different orders.
+3. **Rounding only.** The reviewed findings text prints the 10U magnitude-Strang median as 0.103, versus the raw 0.102486... (three-significant-figure rounding is 0.102). Leakage printed as 1.54e-34 and 3.78e-10 would round to 1.53e-34 and 3.77e-10 from the actual maxima. These do not affect conclusions and were sent to the maintainer for alignment.
+4. **Published V2 coverage remains separate.** Its final numerical claims require its own completed rows and independent checks. No V2 empirical conclusion was inferred from its incomplete campaign during this review. The boundary sensitivity is rerunnable after final V2 completion and records its own exact coverage.
+
+## Proof/source correspondence
+
+`SOURCE_PROOF_CORRESPONDENCE.md` separately checks the conserving partition, destination-amplitude formula, real variance and sinc weighting, reversal invariance, insertion-update signs, orbital sign covariance, and sufficient diagonal-transport rank guard against implementation. No mathematical defect was found. The distinction between written proofs and the limited matrix-level Lean bridge is explicit. The incremental floating-point screen remains an engineering safeguard supported by exact positive rescoring and finite tests; it is not a formally proved floating-point bound or global search optimality theorem.
+
+## Reviewed manuscript hashes
+
+- `main.tex`: `66946085fe6c1dc554bbaf20fee8d46605ff3f66c70258dd2144dcc69ed0e6d8`
+- `theory/conserving_ordering_method.tex`: `5220f0e8b9c118a994c9ef4b1f59efcfc465bdfda92ae9e4dccf012b12053638`
+- `theory/expanded_ordering_benchmarks.tex`: `ade0c176b30b30cf9fc4060bdc071897b169f259ef4437ec5373197d421feb1a`
+- `theory/expanded_benchmark_methods.tex`: `0dab94ca5a529691e4a58a2db11ce2000db98bafea09b84106fc02c3b930111e`
+- `theory/expanded_benchmark_evidence/findings.tex`: `d40d372a354bd7513e738d00ede1609f1e6b52f5ae71040d34bcf7c9695bbc64`

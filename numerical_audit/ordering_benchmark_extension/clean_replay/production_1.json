@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "case": "CH2O_s1.00",
+  "ordering": "strang_class_refined_response",
+  "budget_units": 2,
+  "steps": 1,
+  "state_distance": 7.565515497081313e-16,
+  "metrics": {
+    "overlap_magnitude": 0.9999985997216024,
+    "fidelity": 0.9999971994451656,
+    "one_minus_overlap": 1.4002783977483448e-06,
+    "infidelity": 2.8005548347170983e-06,
+    "phase_aligned_distance": 0.00167348641927465,
+    "normalized_phase_sensitive_distance": 0.0018089893561528344,
+    "exact_norm": 0.9999999999999994,
+    "approx_norm": 0.9999999999999966,
+    "relative_norm_drift": 2.886579864025407e-15,
+    "norm_preserved": true,
+    "particle_number_leakage": 3.142320779841167e-36,
+    "spin_sector_leakage": 3.1427890888833996e-36,
+    "inside_sector_infidelity": 2.800554834717104e-06,
+    "outside_sector_infidelity": 3.15670858006704e-36,
+    "naive_unnormalized_one_minus_overlap": 1.400278401786359e-06,
+    "naive_normalized_one_minus_overlap": 1.4002783975675115e-06,
+    "below_analysis_floor": false,
+    "conditional_sector_infidelity": 2.800554834717098e-06
+  },
+  "seconds": 0.08682109799974569,
+  "imported_qhat_modules": {
+    "qhat.numerical_audit": {
+      "path": "numerical_audit/__init__.py",
+      "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca"
+    },
+    "qhat.analysis": {
+      "path": "analysis/__init__.py",
+      "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+    },
+    "qhat.analysis.benchmark_L_sweep_trotter": {
+      "path": "analysis/benchmark_L_sweep_trotter.py",
+      "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+    },
+    "qhat.analysis.state_metrics": {
+      "path": "analysis/state_metrics.py",
+      "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635"
+    },
+    "qhat.analysis.benchmark_b2_active_spaces_matrix_free": {
+      "path": "analysis/benchmark_b2_active_spaces_matrix_free.py",
+      "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+    },
+    "qhat.analysis.benchmark_b2_coloring_robustness": {
+      "path": "analysis/benchmark_b2_coloring_robustness.py",
+      "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+    },
+    "qhat.analysis.benchmark_b2_signed_coefficient_baseline": {
+      "path": "analysis/benchmark_b2_signed_coefficient_baseline.py",
+      "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+    },
+    "qhat.analysis.benchmark_fermionic_structure_ablation": {
+      "path": "analysis/benchmark_fermionic_structure_ablation.py",
+      "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca"
+    },
+    "qhat.numerical_audit.reference_tools": {
+      "path": "numerical_audit/reference_tools.py",
+      "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+    },
+    "qhat.numerical_audit.run_frozen_audit": {
+      "path": "numerical_audit/run_frozen_audit.py",
+      "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+    }
+  },
+  "extension_design_sha256": "6d6fb0787327affd75ea25906328a4f3a9d9b17f29642f228c186cd88a90c637",
+  "state_sha256": "84a7bfa0d560086c17ea5974773280d9fa2e889e8050ed9646e2f32a17a83d8a",
+  "scope": "fresh propagation of one frozen schedule; archive code imports explicitly checked"
+}
