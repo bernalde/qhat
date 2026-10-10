@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "python_optimized": true,
+  "source_sha256": "2970b679c68fe59c9ff83cb1fdbad9cb9fd1fd40b7072eca6233b83265352eb5",
+  "checks": [
+    {
+      "probe": "valid frozen fixture",
+      "status": "accepted"
+    },
+    {
+      "probe": "tamper designs/CH2O_s1.00.json",
+      "status": "rejected",
+      "message": "Frozen design changed"
+    },
+    {
+      "probe": "tamper inputs/CH2O_s1.00.npz",
+      "status": "rejected",
+      "message": "Frozen inputs changed"
+    },
+    {
+      "probe": "tamper PROTOCOL.md",
+      "status": "rejected",
+      "message": "Frozen source changed"
+    }
+  ]
+}

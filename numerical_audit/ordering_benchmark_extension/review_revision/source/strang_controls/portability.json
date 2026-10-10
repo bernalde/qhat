@@ -1,0 +1,263 @@
+{
+  "status": "passed",
+  "case": "CH2O_s1.00",
+  "fresh_production_states": 30,
+  "reused_states": 6,
+  "independent_replays": 36,
+  "max_state_distance": 0.0,
+  "bitwise_equal_states": 36,
+  "independent_max_state_distance": 1.4912222281250566e-14,
+  "commands": [
+    {
+      "command": [
+        "run.py",
+        "freeze",
+        "--archive-root",
+        "/home/bernalde/repos/fermionic-ordering-research/extension-clean-replay"
+      ],
+      "seconds": 6.6072820230037905,
+      "log_sha256": "b40a8fd9fb57a94346c1ff40e4af2e70e8bd206172192aa3f2a73cb9a338c7af"
+    },
+    {
+      "command": [
+        "run.py",
+        "run",
+        "--archive-root",
+        "/home/bernalde/repos/fermionic-ordering-research/extension-clean-replay",
+        "--cases",
+        "CH2O_s1.00"
+      ],
+      "seconds": 2.720613957004389,
+      "log_sha256": "46c094fc6f82c3d27de60b708f7f7389fb08c588c0dc1ac06af12a8abf1d03a4"
+    },
+    {
+      "command": [
+        "independent_verify.py",
+        "--cases",
+        "CH2O_s1.00"
+      ],
+      "seconds": 1.0864744409918785,
+      "log_sha256": "025b170359e84eb9c95c1eade41fa7599149d3b7691e08b8fe0e7ce6b0b262ea"
+    }
+  ],
+  "checks": [
+    {
+      "ordering": "class_refined_response__forward",
+      "budget_units": 2,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__forward",
+      "budget_units": 5,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__forward",
+      "budget_units": 10,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__forward",
+      "budget_units": 20,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__forward",
+      "budget_units": 50,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__forward",
+      "budget_units": 100,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__reverse",
+      "budget_units": 2,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__reverse",
+      "budget_units": 5,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__reverse",
+      "budget_units": 10,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__reverse",
+      "budget_units": 20,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__reverse",
+      "budget_units": 50,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_refined_response__reverse",
+      "budget_units": 100,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__forward",
+      "budget_units": 2,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__forward",
+      "budget_units": 5,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__forward",
+      "budget_units": 10,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__forward",
+      "budget_units": 20,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__forward",
+      "budget_units": 50,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__forward",
+      "budget_units": 100,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__reverse",
+      "budget_units": 2,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__reverse",
+      "budget_units": 5,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__reverse",
+      "budget_units": 10,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__reverse",
+      "budget_units": 20,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__reverse",
+      "budget_units": 50,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD__reverse",
+      "budget_units": 100,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__forward",
+      "budget_units": 2,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__forward",
+      "budget_units": 5,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__forward",
+      "budget_units": 10,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__forward",
+      "budget_units": 20,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__forward",
+      "budget_units": 50,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__forward",
+      "budget_units": 100,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__reverse",
+      "budget_units": 2,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__reverse",
+      "budget_units": 5,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__reverse",
+      "budget_units": 10,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__reverse",
+      "budget_units": 20,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__reverse",
+      "budget_units": 50,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "ordering": "class_pauli_JD_budget__reverse",
+      "budget_units": 100,
+      "state_distance": 0.0,
+      "bitwise_equal": true
+    }
+  ],
+  "source_sha256": "93a16d5b25736554e2744427e3e99baa812cb961f75d4fa56fc8fcbf139a8741",
+  "scope": "Fresh-directory execution using copied identical sources and the original immutable archive with exclusively bound QHAT imports; exact pinned existing environment, not a new package installation."
+}

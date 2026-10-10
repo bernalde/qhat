@@ -1,0 +1,162 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "valid-external-identity",
+      "expected_pass": true,
+      "exit_code": 0,
+      "stdout": "{\"status\": \"passed\", \"archive_sha256\": \"a818d66aab12575ad1767d028d5e1ee9e6c78ea34b454ca6961ae29a21e282ad\", \"manifest_sha256\": \"86ab408d0ac27d6ce7239811e59cc2dc68d6a509d5eb54fa5cd59f4a572057c0\", \"members\": 2, \"zip_entries_including_manifest\": 3, \"uncompressed_bytes\": 9, \"identity_mode\": \"external_sha256\", \"scope\": \"byte integrity; no simulation or proof checking\"}",
+      "stderr_tail": []
+    },
+    {
+      "name": "explicit-integrity-only",
+      "expected_pass": true,
+      "exit_code": 0,
+      "stdout": "{\"status\": \"passed\", \"archive_sha256\": \"a818d66aab12575ad1767d028d5e1ee9e6c78ea34b454ca6961ae29a21e282ad\", \"manifest_sha256\": \"86ab408d0ac27d6ce7239811e59cc2dc68d6a509d5eb54fa5cd59f4a572057c0\", \"members\": 2, \"zip_entries_including_manifest\": 3, \"uncompressed_bytes\": 9, \"identity_mode\": \"integrity_only\", \"scope\": \"byte integrity; no simulation or proof checking\"}",
+      "stderr_tail": []
+    },
+    {
+      "name": "reject-missing-identity-mode",
+      "expected_pass": false,
+      "exit_code": 2,
+      "stdout": "",
+      "stderr_tail": [
+        "verify_archive.py: error: one of the arguments --expected-sha256 --integrity-only is required"
+      ]
+    },
+    {
+      "name": "reject-wrong-archive-digest",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Archive SHA-256 mismatch"
+      ]
+    },
+    {
+      "name": "reject-wrong-manifest-digest",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Manifest SHA-256 mismatch"
+      ]
+    },
+    {
+      "name": "reject-wrong-member-count",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Inventory member count mismatch"
+      ]
+    },
+    {
+      "name": "reject-changed-member-under-O",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Member digest/size mismatch a.txt"
+      ]
+    },
+    {
+      "name": "reject-joint-member-manifest-change",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Archive SHA-256 mismatch"
+      ]
+    },
+    {
+      "name": "reject-missing-member",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Unlisted or missing members"
+      ]
+    },
+    {
+      "name": "reject-unlisted-member",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Unlisted or missing members"
+      ]
+    },
+    {
+      "name": "reject-duplicate-member",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Duplicate member"
+      ]
+    },
+    {
+      "name": "reject-unsafe-path",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Unsafe member ../a.txt"
+      ]
+    },
+    {
+      "name": "reject-symlink",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: Symlink member"
+      ]
+    },
+    {
+      "name": "valid-single-namespace",
+      "expected_pass": true,
+      "exit_code": 0,
+      "stdout": "{\"status\": \"passed\", \"scope\": \"namespace/path check only; no numerical replay\", \"qhat_namespace_paths\": [\"/tmp/archive-support-test-b_6n8sk2/extracted/qhat\"], \"module_paths\": {}}",
+      "stderr_tail": []
+    },
+    {
+      "name": "reject-merged-namespace",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: QHAT namespace must have exactly one archived path; got [PosixPath('/tmp/archive-support-test-b_6n8sk2/extracted/qhat'), PosixPath('/tmp/archive-support-test-b_6n8sk2/live/qhat')]"
+      ]
+    },
+    {
+      "name": "guarded-delegation-mock",
+      "expected_pass": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr_tail": []
+    },
+    {
+      "name": "reject-late-import-before-final-output",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: QHAT module escaped archive: qhat.late_escape: /tmp/outside-qhat.py"
+      ]
+    },
+    {
+      "name": "reject-module-outside-archive",
+      "expected_pass": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_tail": [
+        "ValueError: QHAT module escaped archive: qhat.escaped: /tmp/archive-support-test-b_6n8sk2/live/outside.py"
+      ]
+    }
+  ],
+  "count": 18,
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+  "scope": "adversarial -O verifier and namespace tests; no molecular propagation"
+}

@@ -1,0 +1,2403 @@
+{
+  "protocol": "h2o-reconstruction-sweep-v1",
+  "hf_rows": 126,
+  "low_energy_rows": 36,
+  "primary_cases": 15,
+  "tensor_policies": 2,
+  "reporter_revision": "review6-dynamic-v2",
+  "state_spin_summary": {
+    "equal_coherent": {
+      "designs": 4,
+      "S2_expectation_min": 0.9999999999999997,
+      "S2_expectation_max": 0.9999999999999998,
+      "S2_variance_min": 0.9999999999999993,
+      "S2_variance_max": 0.9999999999999998,
+      "spin_label": "not assigned"
+    },
+    "sector_ground": {
+      "designs": 4,
+      "S2_expectation_min": 1.2870920760572263e-32,
+      "S2_expectation_max": 1.9733634924316168e-32,
+      "S2_variance_min": 2.5742004330680117e-32,
+      "S2_variance_max": 3.955987770655481e-32,
+      "spin_label": "singlet"
+    },
+    "sector_next": {
+      "designs": 4,
+      "S2_expectation_min": 2.0,
+      "S2_expectation_max": 2.0,
+      "S2_variance_min": 8.851414700912495e-29,
+      "S2_variance_max": 3.925140029906812e-24,
+      "spin_label": "triplet"
+    }
+  },
+  "policy_summary": {
+    "historical_policy": {
+      "cases": 15,
+      "best_method_sets": {
+        "fermionic_signed+jw_magnitude+jw_signed": 2,
+        "jw_magnitude+jw_signed": 2,
+        "jw_signed": 5,
+        "fermionic_signed": 4,
+        "jw_magnitude": 2
+      },
+      "new_convention": {
+        "jw_signed": {
+          "tie": 2,
+          "loss": 8,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "historical_convention": {
+        "jw_signed": {
+          "tie": 1,
+          "loss": 9,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "median_ratio": {
+        "jw_signed": 2.3622366507128936,
+        "jw_magnitude": 1.0000000000001221
+      }
+    },
+    "unpruned": {
+      "cases": 15,
+      "best_method_sets": {
+        "fermionic_signed+jw_magnitude+jw_signed": 2,
+        "jw_magnitude+jw_signed": 2,
+        "jw_signed": 5,
+        "fermionic_signed": 4,
+        "jw_magnitude": 2
+      },
+      "new_convention": {
+        "jw_signed": {
+          "tie": 2,
+          "loss": 8,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "historical_convention": {
+        "jw_signed": {
+          "tie": 1,
+          "loss": 9,
+          "win": 5
+        },
+        "jw_magnitude": {
+          "tie": 4,
+          "loss": 6,
+          "win": 5
+        }
+      },
+      "median_ratio": {
+        "jw_signed": 2.3622366507128936,
+        "jw_magnitude": 1.0000000000001221
+      }
+    }
+  },
+  "coefficient_policy_sensitivity": [
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-002",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 4
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-004",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 6
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-004",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 8
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-006",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 10
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 12
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 14
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 16
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-010",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 18
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-012",
+      "retained_H_difference_coefficient_l1": 4.6298516173992775e-12,
+      "same_retained_H": false,
+      "same_schedule": {
+        "fermionic_signed": false,
+        "jw_signed": false,
+        "jw_magnitude": false
+      },
+      "max_primary_E_difference": 9.740878893424454e-21,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [
+        [
+          [
+            [
+              8,
+              "X"
+            ],
+            [
+              9,
+              "Z"
+            ],
+            [
+              10,
+              "Z"
+            ],
+            [
+              11,
+              "Z"
+            ],
+            [
+              12,
+              "Z"
+            ],
+            [
+              13,
+              "Z"
+            ],
+            [
+              14,
+              "Z"
+            ],
+            [
+              15,
+              "Z"
+            ],
+            [
+              16,
+              "Z"
+            ],
+            [
+              17,
+              "Z"
+            ],
+            [
+              18,
+              "X"
+            ]
+          ],
+          1.1574629043498194e-12
+        ],
+        [
+          [
+            [
+              8,
+              "Y"
+            ],
+            [
+              9,
+              "Z"
+            ],
+            [
+              10,
+              "Z"
+            ],
+            [
+              11,
+              "Z"
+            ],
+            [
+              12,
+              "Z"
+            ],
+            [
+              13,
+              "Z"
+            ],
+            [
+              14,
+              "Z"
+            ],
+            [
+              15,
+              "Z"
+            ],
+            [
+              16,
+              "Z"
+            ],
+            [
+              17,
+              "Z"
+            ],
+            [
+              18,
+              "Y"
+            ]
+          ],
+          1.1574629043498194e-12
+        ],
+        [
+          [
+            [
+              9,
+              "X"
+            ],
+            [
+              10,
+              "Z"
+            ],
+            [
+              11,
+              "Z"
+            ],
+            [
+              12,
+              "Z"
+            ],
+            [
+              13,
+              "Z"
+            ],
+            [
+              14,
+              "Z"
+            ],
+            [
+              15,
+              "Z"
+            ],
+            [
+              16,
+              "Z"
+            ],
+            [
+              17,
+              "Z"
+            ],
+            [
+              18,
+              "Z"
+            ],
+            [
+              19,
+              "X"
+            ]
+          ],
+          1.1574629043498194e-12
+        ],
+        [
+          [
+            [
+              9,
+              "Y"
+            ],
+            [
+              10,
+              "Z"
+            ],
+            [
+              11,
+              "Z"
+            ],
+            [
+              12,
+              "Z"
+            ],
+            [
+              13,
+              "Z"
+            ],
+            [
+              14,
+              "Z"
+            ],
+            [
+              15,
+              "Z"
+            ],
+            [
+              16,
+              "Z"
+            ],
+            [
+              17,
+              "Z"
+            ],
+            [
+              18,
+              "Z"
+            ],
+            [
+              19,
+              "Y"
+            ]
+          ],
+          1.1574629043498194e-12
+        ]
+      ],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 20
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-002",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 4
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-004",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 6
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 8
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 10
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-008-004",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 12
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-010-004",
+      "retained_H_difference_coefficient_l1": 0.0,
+      "same_retained_H": true,
+      "same_schedule": {
+        "fermionic_signed": true,
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "max_primary_E_difference": 0.0,
+      "same_outcomes": {
+        "jw_signed": true,
+        "jw_magnitude": true
+      },
+      "added_pauli_coefficients": [],
+      "removed_pauli_coefficients": [],
+      "historical_qubits": 14
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-002",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 4,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.31550634041062e-12,
+        "jw_signed": 2.3155063377807204e-12,
+        "jw_magnitude": 2.3155063404104314e-12
+      },
+      "outcomes": {
+        "jw_signed": "tie",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "tie",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 1.0000000011357773,
+        "jw_magnitude": 1.0000000000000815
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-002",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 4,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.31550634041062e-12,
+        "jw_signed": 2.3155063377807204e-12,
+        "jw_magnitude": 2.3155063404104314e-12
+      },
+      "outcomes": {
+        "jw_signed": "tie",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "tie",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 1.0000000011357773,
+        "jw_magnitude": 1.0000000000000815
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-004",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 6,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.3723000805246455e-12,
+        "jw_signed": 1.933780903446775e-12,
+        "jw_magnitude": 2.372300080524356e-12
+      },
+      "outcomes": {
+        "jw_signed": "tie",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 1.2267677668634813,
+        "jw_magnitude": 1.0000000000001221
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-004",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 6,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.3723000805246455e-12,
+        "jw_signed": 1.933780903446775e-12,
+        "jw_magnitude": 2.372300080524356e-12
+      },
+      "outcomes": {
+        "jw_signed": "tie",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 1.2267677668634813,
+        "jw_magnitude": 1.0000000000001221
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-004",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 3.863683485682863e-11,
+        "jw_signed": 2.612075926537002e-12,
+        "jw_magnitude": 3.1625338566486177e-12
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 14.791620130296893,
+        "jw_magnitude": 12.217050190815232
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-004",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 3.863683485682863e-11,
+        "jw_signed": 2.612075926537002e-12,
+        "jw_magnitude": 3.1625338566486177e-12
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 14.791620130296893,
+        "jw_magnitude": 12.217050190815232
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-006",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 10,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 5.7369655780905395e-11,
+        "jw_signed": 3.729321226445202e-12,
+        "jw_magnitude": 4.1326713697412505e-12
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 15.383404190040848,
+        "jw_magnitude": 13.881978664201734
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-006",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 10,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 5.7369655780905395e-11,
+        "jw_signed": 3.729321226445202e-12,
+        "jw_magnitude": 4.1326713697412505e-12
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 15.383404190040848,
+        "jw_magnitude": 13.881978664201734
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "steps": 50,
+      "errors": {
+        "fermionic_signed": 2.318596927016882e-09,
+        "jw_signed": 8.026156304135779e-10,
+        "jw_magnitude": 1.7762095972431934e-09
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.888801113706367,
+        "jw_magnitude": 1.3053622334973942
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 5.796386568477297e-10,
+        "jw_signed": 2.0062702430705882e-10,
+        "jw_magnitude": 4.440864956171629e-10
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.889135493335111,
+        "jw_magnitude": 1.3052381969917484
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "steps": 200,
+      "errors": {
+        "fermionic_signed": 1.4490892968403707e-10,
+        "jw_signed": 5.0154464294126615e-11,
+        "jw_magnitude": 1.1102719803275465e-10
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.889252865592002,
+        "jw_magnitude": 1.3051660516667891
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "steps": 50,
+      "errors": {
+        "fermionic_signed": 2.318596927016882e-09,
+        "jw_signed": 8.026156304135779e-10,
+        "jw_magnitude": 1.7762095972431934e-09
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.888801113706367,
+        "jw_magnitude": 1.3053622334973942
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 5.796386568477297e-10,
+        "jw_signed": 2.0062702430705882e-10,
+        "jw_magnitude": 4.440864956171629e-10
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.889135493335111,
+        "jw_magnitude": 1.3052381969917484
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "steps": 200,
+      "errors": {
+        "fermionic_signed": 1.4490892968403707e-10,
+        "jw_signed": 5.0154464294126615e-11,
+        "jw_magnitude": 1.1102719803275465e-10
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.889252865592002,
+        "jw_magnitude": 1.3051660516667891
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 14,
+      "n_electrons": 6,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 9.109707345013289e-10,
+        "jw_signed": 6.708166832994244e-09,
+        "jw_magnitude": 1.7879839646109137e-09
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.1358002502294222,
+        "jw_magnitude": 0.5094960315818977
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 14,
+      "n_electrons": 6,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 9.109707345013289e-10,
+        "jw_signed": 6.708166832994244e-09,
+        "jw_magnitude": 1.7879839646109137e-09
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.1358002502294222,
+        "jw_magnitude": 0.5094960315818977
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 16,
+      "n_electrons": 6,
+      "steps": 50,
+      "errors": {
+        "fermionic_signed": 8.419855709339053e-09,
+        "jw_signed": 9.14218835745604e-07,
+        "jw_magnitude": 1.2029763131927956e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.009209890870900862,
+        "jw_magnitude": 0.006999186614898577
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 16,
+      "n_electrons": 6,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.1049805984161283e-09,
+        "jw_signed": 2.2855493016191658e-07,
+        "jw_magnitude": 3.007444970528516e-07
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.00920995489760332,
+        "jw_magnitude": 0.006999232301983592
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 16,
+      "n_electrons": 6,
+      "steps": 200,
+      "errors": {
+        "fermionic_signed": 5.262526155340981e-10,
+        "jw_signed": 5.7138746047335415e-08,
+        "jw_magnitude": 7.518610682338823e-08
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.0092100833836664,
+        "jw_magnitude": 0.006999333224823872
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 16,
+      "n_electrons": 6,
+      "steps": 50,
+      "errors": {
+        "fermionic_signed": 8.419855709339053e-09,
+        "jw_signed": 9.14218835745604e-07,
+        "jw_magnitude": 1.2029763131927956e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.009209890870900862,
+        "jw_magnitude": 0.006999186614898577
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 16,
+      "n_electrons": 6,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.1049805984161283e-09,
+        "jw_signed": 2.2855493016191658e-07,
+        "jw_magnitude": 3.007444970528516e-07
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.00920995489760332,
+        "jw_magnitude": 0.006999232301983592
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 16,
+      "n_electrons": 6,
+      "steps": 200,
+      "errors": {
+        "fermionic_signed": 5.262526155340981e-10,
+        "jw_signed": 5.7138746047335415e-08,
+        "jw_magnitude": 7.518610682338823e-08
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.0092100833836664,
+        "jw_magnitude": 0.006999333224823872
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 18,
+      "n_electrons": 8,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.2894129528398202e-08,
+        "jw_signed": 1.4310493073780678e-06,
+        "jw_magnitude": 1.5384196766762194e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.009010262233397463,
+        "jw_magnitude": 0.008381412253031096
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-010",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 18,
+      "n_electrons": 8,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.2894129528398202e-08,
+        "jw_signed": 1.4310493073780678e-06,
+        "jw_magnitude": 1.5384196766762194e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.009010262233397463,
+        "jw_magnitude": 0.008381412253031096
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-012",
+      "basis": "hgbs-5",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 20,
+      "n_electrons": 8,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.812742439034435e-08,
+        "jw_signed": 2.5550420871425336e-06,
+        "jw_magnitude": 2.8026657327291963e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.007094765476296872,
+        "jw_magnitude": 0.006467922370711016
+      }
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-012",
+      "basis": "hgbs-5",
+      "tensor_policy": "unpruned",
+      "n_qubits": 20,
+      "n_electrons": 8,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.812742439034492e-08,
+        "jw_signed": 2.555042087142524e-06,
+        "jw_magnitude": 2.80266573272919e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 0.007094765476297122,
+        "jw_magnitude": 0.006467922370711234
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-002",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 4,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.3035068382400815e-08,
+        "jw_signed": 2.2972438490160844e-10,
+        "jw_magnitude": 2.3035068382398426e-08
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 100.27263057975668,
+        "jw_magnitude": 1.0000000000001037
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-002",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 4,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.3035068382400815e-08,
+        "jw_signed": 2.2972438490160844e-10,
+        "jw_magnitude": 2.3035068382398426e-08
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 100.27263057975668,
+        "jw_magnitude": 1.0000000000001037
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-004",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 6,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 3.9170685144775556e-08,
+        "jw_signed": 1.6582032597349776e-08,
+        "jw_magnitude": 3.917068514474645e-08
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 2.3622366507128936,
+        "jw_magnitude": 1.000000000000743
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-004",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 6,
+      "n_electrons": 2,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 3.9170685144775556e-08,
+        "jw_signed": 1.6582032597349776e-08,
+        "jw_magnitude": 3.917068514474645e-08
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "tie"
+      },
+      "ratios": {
+        "jw_signed": 2.3622366507128936,
+        "jw_magnitude": 1.000000000000743
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 50,
+      "errors": {
+        "fermionic_signed": 9.277841489690947e-07,
+        "jw_signed": 8.498445657748966e-08,
+        "jw_magnitude": 9.472226612458766e-07
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 10.917103977986045,
+        "jw_magnitude": 0.9794784129729175
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.319303744783358e-07,
+        "jw_signed": 2.1246225689075103e-08,
+        "jw_magnitude": 2.3678927004478908e-07
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 10.9163094599713,
+        "jw_magnitude": 0.9794800855396268
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 200,
+      "errors": {
+        "fermionic_signed": 5.7980889243147216e-08,
+        "jw_signed": 5.311694259058899e-09,
+        "jw_magnitude": 5.919559427282496e-08
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 10.915705312718808,
+        "jw_magnitude": 0.979479806823472
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 50,
+      "errors": {
+        "fermionic_signed": 9.277841489690947e-07,
+        "jw_signed": 8.498445657748966e-08,
+        "jw_magnitude": 9.472226612458766e-07
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 10.917103977986045,
+        "jw_magnitude": 0.9794784129729175
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 2.319303744783358e-07,
+        "jw_signed": 2.1246225689075103e-08,
+        "jw_magnitude": 2.3678927004478908e-07
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 10.9163094599713,
+        "jw_magnitude": 0.9794800855396268
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "steps": 200,
+      "errors": {
+        "fermionic_signed": 5.7980889243147216e-08,
+        "jw_signed": 5.311694259058899e-09,
+        "jw_magnitude": 5.919559427282496e-08
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "win"
+      },
+      "ratios": {
+        "jw_signed": 10.915705312718808,
+        "jw_magnitude": 0.979479806823472
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 10,
+      "n_electrons": 6,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.4506024652502905e-06,
+        "jw_signed": 1.8454170417332432e-06,
+        "jw_magnitude": 1.366369055508988e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 0.786056719129386,
+        "jw_magnitude": 1.061647626899692
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 10,
+      "n_electrons": 6,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.4506024652502905e-06,
+        "jw_signed": 1.8454170417332432e-06,
+        "jw_magnitude": 1.366369055508988e-06
+      },
+      "outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "win",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 0.786056719129386,
+        "jw_magnitude": 1.061647626899692
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-008-004",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 12,
+      "n_electrons": 8,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.0710927365947456e-05,
+        "jw_signed": 3.8735633495837645e-06,
+        "jw_magnitude": 3.711185482082507e-06
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.7651354577945404,
+        "jw_magnitude": 2.8861201946546444
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-008-004",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 12,
+      "n_electrons": 8,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.0710927365947456e-05,
+        "jw_signed": 3.8735633495837645e-06,
+        "jw_magnitude": 3.711185482082507e-06
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 2.7651354577945404,
+        "jw_magnitude": 2.8861201946546444
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-010-004",
+      "basis": "sto-6g",
+      "tensor_policy": "historical_policy",
+      "n_qubits": 14,
+      "n_electrons": 10,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.4283013764464473e-05,
+        "jw_signed": 3.918979991981418e-06,
+        "jw_magnitude": 1.3781586673494647e-05
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 3.644574300886657,
+        "jw_magnitude": 1.0363838433737236
+      }
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-010-004",
+      "basis": "sto-6g",
+      "tensor_policy": "unpruned",
+      "n_qubits": 14,
+      "n_electrons": 10,
+      "steps": 100,
+      "errors": {
+        "fermionic_signed": 1.4283013764464473e-05,
+        "jw_signed": 3.918979991981418e-06,
+        "jw_magnitude": 1.3781586673494647e-05
+      },
+      "outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "historical_convention_outcomes": {
+        "jw_signed": "loss",
+        "jw_magnitude": "loss"
+      },
+      "ratios": {
+        "jw_signed": 3.644574300886657,
+        "jw_magnitude": 1.0363838433737236
+      }
+    }
+  ],
+  "convergence_anchors": [
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "tensor_policy": "historical_policy",
+      "ordering": "fermionic_signed",
+      "E": {
+        "50": 2.318596927016882e-09,
+        "100": 5.796386568477297e-10,
+        "200": 1.4490892968403707e-10
+      },
+      "E50_over_E100": 4.0000729758539455,
+      "E100_over_E200": 4.000020275572995
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "tensor_policy": "historical_policy",
+      "ordering": "jw_signed",
+      "E": {
+        "50": 8.026156304135779e-10,
+        "100": 2.0062702430705882e-10,
+        "200": 5.0154464294126615e-11
+      },
+      "E50_over_E100": 4.0005359855468825,
+      "E100_over_E200": 4.000182777957683
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "tensor_policy": "historical_policy",
+      "ordering": "jw_magnitude",
+      "E": {
+        "50": 1.7762095972431934e-09,
+        "100": 4.440864956171629e-10,
+        "200": 1.1102719803275465e-10
+      },
+      "E50_over_E100": 3.9996928858976704,
+      "E100_over_E200": 3.999799179712262
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "tensor_policy": "unpruned",
+      "ordering": "fermionic_signed",
+      "E": {
+        "50": 2.318596927016882e-09,
+        "100": 5.796386568477297e-10,
+        "200": 1.4490892968403707e-10
+      },
+      "E50_over_E100": 4.0000729758539455,
+      "E100_over_E200": 4.000020275572995
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "tensor_policy": "unpruned",
+      "ordering": "jw_signed",
+      "E": {
+        "50": 8.026156304135779e-10,
+        "100": 2.0062702430705882e-10,
+        "200": 5.0154464294126615e-11
+      },
+      "E50_over_E100": 4.0005359855468825,
+      "E100_over_E200": 4.000182777957683
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "tensor_policy": "unpruned",
+      "ordering": "jw_magnitude",
+      "E": {
+        "50": 1.7762095972431934e-09,
+        "100": 4.440864956171629e-10,
+        "200": 1.1102719803275465e-10
+      },
+      "E50_over_E100": 3.9996928858976704,
+      "E100_over_E200": 3.999799179712262
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "tensor_policy": "historical_policy",
+      "ordering": "fermionic_signed",
+      "E": {
+        "50": 8.419855709339053e-09,
+        "100": 2.1049805984161283e-09,
+        "200": 5.262526155340981e-10
+      },
+      "E50_over_E100": 3.9999683206935446,
+      "E100_over_E200": 3.9999432521200227
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "tensor_policy": "historical_policy",
+      "ordering": "jw_signed",
+      "E": {
+        "50": 9.14218835745604e-07,
+        "100": 2.2855493016191658e-07,
+        "200": 5.7138746047335415e-08
+      },
+      "E50_over_E100": 3.9999961282740144,
+      "E100_over_E200": 3.9999990544520343
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "tensor_policy": "historical_policy",
+      "ordering": "jw_magnitude",
+      "E": {
+        "50": 1.2029763131927956e-06,
+        "100": 3.007444970528516e-07,
+        "200": 7.518610682338823e-08
+      },
+      "E50_over_E100": 3.999994430426401,
+      "E100_over_E200": 4.000000927821663
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "tensor_policy": "unpruned",
+      "ordering": "fermionic_signed",
+      "E": {
+        "50": 8.419855709339053e-09,
+        "100": 2.1049805984161283e-09,
+        "200": 5.262526155340981e-10
+      },
+      "E50_over_E100": 3.9999683206935446,
+      "E100_over_E200": 3.9999432521200227
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "tensor_policy": "unpruned",
+      "ordering": "jw_signed",
+      "E": {
+        "50": 9.14218835745604e-07,
+        "100": 2.2855493016191658e-07,
+        "200": 5.7138746047335415e-08
+      },
+      "E50_over_E100": 3.9999961282740144,
+      "E100_over_E200": 3.9999990544520343
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "tensor_policy": "unpruned",
+      "ordering": "jw_magnitude",
+      "E": {
+        "50": 1.2029763131927956e-06,
+        "100": 3.007444970528516e-07,
+        "200": 7.518610682338823e-08
+      },
+      "E50_over_E100": 3.999994430426401,
+      "E100_over_E200": 4.000000927821663
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "tensor_policy": "historical_policy",
+      "ordering": "fermionic_signed",
+      "E": {
+        "50": 9.277841489690947e-07,
+        "100": 2.319303744783358e-07,
+        "200": 5.7980889243147216e-08
+      },
+      "E50_over_E100": 4.000270128722434,
+      "E100_over_E200": 4.000117581945291
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "tensor_policy": "historical_policy",
+      "ordering": "jw_signed",
+      "E": {
+        "50": 8.498445657748966e-08,
+        "100": 2.1246225689075103e-08,
+        "200": 5.311694259058899e-09
+      },
+      "E50_over_E100": 3.9999789996201076,
+      "E100_over_E200": 3.999896201262045
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "tensor_policy": "historical_policy",
+      "ordering": "jw_magnitude",
+      "E": {
+        "50": 9.472226612458766e-07,
+        "100": 2.3678927004478908e-07,
+        "200": 5.919559427282496e-08
+      },
+      "E50_over_E100": 4.000276959621979,
+      "E100_over_E200": 4.00011644369102
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "tensor_policy": "unpruned",
+      "ordering": "fermionic_signed",
+      "E": {
+        "50": 9.277841489690947e-07,
+        "100": 2.319303744783358e-07,
+        "200": 5.7980889243147216e-08
+      },
+      "E50_over_E100": 4.000270128722434,
+      "E100_over_E200": 4.000117581945291
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "tensor_policy": "unpruned",
+      "ordering": "jw_signed",
+      "E": {
+        "50": 8.498445657748966e-08,
+        "100": 2.1246225689075103e-08,
+        "200": 5.311694259058899e-09
+      },
+      "E50_over_E100": 3.9999789996201076,
+      "E100_over_E200": 3.999896201262045
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "tensor_policy": "unpruned",
+      "ordering": "jw_magnitude",
+      "E": {
+        "50": 9.472226612458766e-07,
+        "100": 2.3678927004478908e-07,
+        "200": 5.919559427282496e-08
+      },
+      "E50_over_E100": 4.000276959621979,
+      "E100_over_E200": 4.00011644369102
+    }
+  ],
+  "low_energy_outcomes": {
+    "historical_policy": {
+      "jw_signed": {
+        "loss": 4,
+        "win": 2
+      },
+      "jw_magnitude": {
+        "win": 5,
+        "loss": 1
+      }
+    },
+    "unpruned": {
+      "jw_signed": {
+        "loss": 4,
+        "win": 2
+      },
+      "jw_magnitude": {
+        "win": 5,
+        "loss": 1
+      }
+    }
+  },
+  "archived_table_sha256": "a477ab1fbd1fb93cb3969ac21f00e3bb68e488b6781dfe6a19c1be31518add53",
+  "historical_outcomes": {
+    "tie": 4,
+    "jw_magnitude_win": 6,
+    "fermionic_win": 5
+  },
+  "archived_vs_reconstructed": [
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-002",
+      "ordering": "fermionic_signed",
+      "archived_E": 2.305711177541525e-12,
+      "reconstructed_E": 2.31550634041062e-12,
+      "reconstructed_unnormalized_E": 2.2783996911357463e-12,
+      "absolute_difference_matched_unnormalized": 2.731148640577885e-14,
+      "absolute_difference": 9.795162869094869e-15,
+      "relative_difference": 0.004248217627820587,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-002",
+      "ordering": "jw_signed",
+      "archived_E": 2.304378909911975e-12,
+      "reconstructed_E": 2.3155063377807204e-12,
+      "reconstructed_unnormalized_E": 2.278954802648059e-12,
+      "absolute_difference_matched_unnormalized": 2.5424107263916085e-14,
+      "absolute_difference": 1.1127427868745468e-14,
+      "relative_difference": 0.0048288186551622815,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-002",
+      "ordering": "jw_magnitude",
+      "archived_E": 2.3072654897760003e-12,
+      "reconstructed_E": 2.3155063404104314e-12,
+      "reconstructed_unnormalized_E": 2.2792878695554464e-12,
+      "absolute_difference_matched_unnormalized": 2.7977620220553945e-14,
+      "absolute_difference": 8.24085063443103e-15,
+      "relative_difference": 0.0035716958758964007,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-004",
+      "ordering": "fermionic_signed",
+      "archived_E": 2.3645529978466584e-12,
+      "reconstructed_E": 2.3723000805246455e-12,
+      "reconstructed_unnormalized_E": 2.334132886971929e-12,
+      "absolute_difference_matched_unnormalized": 3.042011087472929e-14,
+      "absolute_difference": 7.747082677987149e-15,
+      "relative_difference": 0.003276341314845652,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-004",
+      "ordering": "jw_signed",
+      "archived_E": 1.925015702397559e-12,
+      "reconstructed_E": 1.933780903446775e-12,
+      "reconstructed_unnormalized_E": 1.900923862763193e-12,
+      "absolute_difference_matched_unnormalized": 2.4091839634365897e-14,
+      "absolute_difference": 8.765201049216233e-15,
+      "relative_difference": 0.004553314052607152,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-002-004",
+      "ordering": "jw_magnitude",
+      "archived_E": 2.364886064754046e-12,
+      "reconstructed_E": 2.372300080524356e-12,
+      "reconstructed_unnormalized_E": 2.33990604669998e-12,
+      "absolute_difference_matched_unnormalized": 2.4980018054066022e-14,
+      "absolute_difference": 7.414015770310008e-15,
+      "relative_difference": 0.0031350414215752438,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-004",
+      "ordering": "fermionic_signed",
+      "archived_E": 3.853439789480717e-11,
+      "reconstructed_E": 3.863683485682863e-11,
+      "reconstructed_unnormalized_E": 3.852285157535107e-11,
+      "absolute_difference_matched_unnormalized": 1.1546319456101628e-14,
+      "absolute_difference": 1.0243696202145903e-13,
+      "relative_difference": 0.0026583252267518434,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-004",
+      "ordering": "jw_signed",
+      "archived_E": 2.517541730640005e-12,
+      "reconstructed_E": 2.612075926537002e-12,
+      "reconstructed_unnormalized_E": 2.4986679392213773e-12,
+      "absolute_difference_matched_unnormalized": 1.887379141862766e-14,
+      "absolute_difference": 9.453419589699716e-14,
+      "relative_difference": 0.037550200160123996,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-004",
+      "ordering": "jw_magnitude",
+      "archived_E": 3.0613289681014066e-12,
+      "reconstructed_E": 3.1625338566486177e-12,
+      "reconstructed_unnormalized_E": 3.0445646004295668e-12,
+      "absolute_difference_matched_unnormalized": 1.6764367671839864e-14,
+      "absolute_difference": 1.0120488854721107e-13,
+      "relative_difference": 0.03305913529769292,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-006",
+      "ordering": "fermionic_signed",
+      "archived_E": 5.730838026352103e-11,
+      "reconstructed_E": 5.7369655780905395e-11,
+      "reconstructed_unnormalized_E": 5.726852325693699e-11,
+      "absolute_difference_matched_unnormalized": 3.985700658404312e-14,
+      "absolute_difference": 6.127551738436435e-14,
+      "relative_difference": 0.0010692243804937644,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-006",
+      "ordering": "jw_signed",
+      "archived_E": 3.6729508323674046e-12,
+      "reconstructed_E": 3.729321226445202e-12,
+      "reconstructed_unnormalized_E": 3.6314284912464245e-12,
+      "absolute_difference_matched_unnormalized": 4.1522341120980047e-14,
+      "absolute_difference": 5.6370394077797496e-14,
+      "relative_difference": 0.015347440423389468,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-006",
+      "ordering": "jw_magnitude",
+      "archived_E": 4.069189429856124e-12,
+      "reconstructed_E": 4.1326713697412505e-12,
+      "reconstructed_unnormalized_E": 4.0348835383952064e-12,
+      "absolute_difference_matched_unnormalized": 3.430589146091734e-14,
+      "absolute_difference": 6.348193988512678e-14,
+      "relative_difference": 0.015600635207432784,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "ordering": "fermionic_signed",
+      "archived_E": 5.796633173460464e-10,
+      "reconstructed_E": 5.796386568477297e-10,
+      "reconstructed_unnormalized_E": 5.796316759898446e-10,
+      "absolute_difference_matched_unnormalized": 3.164135620181696e-14,
+      "absolute_difference": 2.4660498316702704e-14,
+      "relative_difference": 4.254279610034548e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "ordering": "jw_signed",
+      "archived_E": 2.0063228856059823e-10,
+      "reconstructed_E": 2.0062702430705882e-10,
+      "reconstructed_unnormalized_E": 2.0060553218570476e-10,
+      "absolute_difference_matched_unnormalized": 2.6756374893466273e-14,
+      "absolute_difference": 5.2642535394023926e-15,
+      "relative_difference": 2.6238316759330576e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-004-008",
+      "ordering": "jw_magnitude",
+      "archived_E": 4.44114744979629e-10,
+      "reconstructed_E": 4.440864956171629e-10,
+      "reconstructed_unnormalized_E": 4.440847689579641e-10,
+      "absolute_difference_matched_unnormalized": 2.9976021664879227e-14,
+      "absolute_difference": 2.824936246611391e-14,
+      "relative_difference": 6.360825166345169e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "ordering": "fermionic_signed",
+      "archived_E": 9.111570387076995e-10,
+      "reconstructed_E": 9.109707345013289e-10,
+      "reconstructed_unnormalized_E": 9.111235099723558e-10,
+      "absolute_difference_matched_unnormalized": 3.352873534367973e-14,
+      "absolute_difference": 1.8630420637061603e-13,
+      "relative_difference": 0.00020446991951557835,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "ordering": "jw_signed",
+      "archived_E": 6.708333666338717e-09,
+      "reconstructed_E": 6.708166832994244e-09,
+      "reconstructed_unnormalized_E": 6.708278710298998e-09,
+      "absolute_difference_matched_unnormalized": 5.495603971894525e-14,
+      "absolute_difference": 1.6683334447294103e-13,
+      "relative_difference": 2.4869565643414925e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-008",
+      "ordering": "jw_magnitude",
+      "archived_E": 1.788151848813868e-09,
+      "reconstructed_E": 1.7879839646109137e-09,
+      "reconstructed_unnormalized_E": 1.7880984470863837e-09,
+      "absolute_difference_matched_unnormalized": 5.3401727484263234e-14,
+      "absolute_difference": 1.6788420295419588e-13,
+      "relative_difference": 9.38869945891666e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "ordering": "fermionic_signed",
+      "archived_E": 2.104907914635134e-09,
+      "reconstructed_E": 2.1049805984161283e-09,
+      "reconstructed_unnormalized_E": 2.1049108012149986e-09,
+      "absolute_difference_matched_unnormalized": 2.8865798644389973e-15,
+      "absolute_difference": 7.268378099411444e-14,
+      "relative_difference": 3.4530622688410325e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "ordering": "jw_signed",
+      "archived_E": 2.2855486325745747e-07,
+      "reconstructed_E": 2.2855493016191658e-07,
+      "reconstructed_unnormalized_E": 2.2855487102901861e-07,
+      "absolute_difference_matched_unnormalized": 7.771561145906316e-15,
+      "absolute_difference": 6.690445910881697e-14,
+      "relative_difference": 2.9272822356639993e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-006-010",
+      "ordering": "jw_magnitude",
+      "archived_E": 3.0074444312688797e-07,
+      "reconstructed_E": 3.007444970528516e-07,
+      "reconstructed_unnormalized_E": 3.007444452363117e-07,
+      "absolute_difference_matched_unnormalized": 2.1094237467877974e-15,
+      "absolute_difference": 5.3925963640003564e-14,
+      "relative_difference": 1.793082627872579e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-010",
+      "ordering": "fermionic_signed",
+      "archived_E": 1.2894464385126982e-08,
+      "reconstructed_E": 1.2894129528398202e-08,
+      "reconstructed_unnormalized_E": 1.2894435630350642e-08,
+      "absolute_difference_matched_unnormalized": 2.8754776339445916e-14,
+      "absolute_difference": 3.348567287801364e-13,
+      "relative_difference": 2.5969029715291956e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-010",
+      "ordering": "jw_signed",
+      "archived_E": 1.4310496810887583e-06,
+      "reconstructed_E": 1.4310493073780678e-06,
+      "reconstructed_unnormalized_E": 1.4310496539993167e-06,
+      "absolute_difference_matched_unnormalized": 2.7089441589095583e-14,
+      "absolute_difference": 3.7371069047728437e-13,
+      "relative_difference": 2.611444560002705e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-010",
+      "ordering": "jw_magnitude",
+      "archived_E": 1.538420068669666e-06,
+      "reconstructed_E": 1.5384196766762194e-06,
+      "reconstructed_unnormalized_E": 1.538420044466804e-06,
+      "absolute_difference_matched_unnormalized": 2.420286214858665e-14,
+      "absolute_difference": 3.919934466575152e-13,
+      "relative_difference": 2.5480260862463123e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-012",
+      "ordering": "fermionic_signed",
+      "archived_E": 1.812756889041367e-08,
+      "reconstructed_E": 1.812742439034435e-08,
+      "reconstructed_unnormalized_E": 1.8127545353685548e-08,
+      "absolute_difference_matched_unnormalized": 2.353672812205332e-14,
+      "absolute_difference": 1.4450006931913003e-13,
+      "relative_difference": 7.971287831957733e-06,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-012",
+      "ordering": "jw_signed",
+      "archived_E": 2.555042276974895e-06,
+      "reconstructed_E": 2.5550420871425336e-06,
+      "reconstructed_unnormalized_E": 2.55504224877523e-06,
+      "absolute_difference_matched_unnormalized": 2.8199664825478976e-14,
+      "absolute_difference": 1.8983236122225916e-13,
+      "relative_difference": 7.429715074891671e-08,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_hgbs-5_as-008-012",
+      "ordering": "jw_magnitude",
+      "archived_E": 2.802665896251e-06,
+      "reconstructed_E": 2.8026657327291963e-06,
+      "reconstructed_unnormalized_E": 2.8026658718260933e-06,
+      "absolute_difference_matched_unnormalized": 2.4424906541753444e-14,
+      "absolute_difference": 1.6352180348585535e-13,
+      "relative_difference": 5.834509340003427e-08,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-002",
+      "ordering": "fermionic_signed",
+      "archived_E": 2.3035046203823132e-08,
+      "reconstructed_E": 2.3035068382400815e-08,
+      "reconstructed_unnormalized_E": 2.3035046425867733e-08,
+      "absolute_difference_matched_unnormalized": 2.2204460161630886e-16,
+      "absolute_difference": 2.2178577683572824e-14,
+      "relative_difference": 9.628188928873014e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-002",
+      "ordering": "jw_signed",
+      "archived_E": 2.297042556165252e-10,
+      "reconstructed_E": 2.2972438490160844e-10,
+      "reconstructed_unnormalized_E": 2.2970469970573504e-10,
+      "absolute_difference_matched_unnormalized": 4.440892098500626e-16,
+      "absolute_difference": 2.0129285083255554e-14,
+      "relative_difference": 8.76313110927294e-05,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-002",
+      "ordering": "jw_magnitude",
+      "archived_E": 2.3035046203823132e-08,
+      "reconstructed_E": 2.3035068382398426e-08,
+      "reconstructed_unnormalized_E": 2.303504575973392e-08,
+      "absolute_difference_matched_unnormalized": 4.440892131587851e-16,
+      "absolute_difference": 2.2178575294675215e-14,
+      "relative_difference": 9.628187891802115e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-004",
+      "ordering": "fermionic_signed",
+      "archived_E": 3.917065283243204e-08,
+      "reconstructed_E": 3.9170685144775556e-08,
+      "reconstructed_unnormalized_E": 3.917065238834283e-08,
+      "absolute_difference_matched_unnormalized": 4.440892098500626e-16,
+      "absolute_difference": 3.231234351537982e-14,
+      "relative_difference": 8.249120496819047e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-004",
+      "ordering": "jw_signed",
+      "archived_E": 1.6582002548837238e-08,
+      "reconstructed_E": 1.6582032597349776e-08,
+      "reconstructed_unnormalized_E": 1.6582002770881843e-08,
+      "absolute_difference_matched_unnormalized": 2.220446049250313e-16,
+      "absolute_difference": 3.004851253783282e-14,
+      "relative_difference": 1.8121160245473413e-06,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-002-004",
+      "ordering": "jw_magnitude",
+      "archived_E": 3.9170654497766584e-08,
+      "reconstructed_E": 3.917068514474645e-08,
+      "reconstructed_unnormalized_E": 3.9170655274922694e-08,
+      "absolute_difference_matched_unnormalized": 7.771561106201647e-16,
+      "absolute_difference": 3.064697986830197e-14,
+      "relative_difference": 7.823964205155006e-07,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "ordering": "fermionic_signed",
+      "archived_E": 2.319303717968069e-07,
+      "reconstructed_E": 2.319303744783358e-07,
+      "reconstructed_unnormalized_E": 2.319303691322716e-07,
+      "absolute_difference_matched_unnormalized": 2.6645352855701553e-15,
+      "absolute_difference": 2.6815289105442243e-15,
+      "relative_difference": 1.1561784210364218e-08,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "ordering": "jw_signed",
+      "archived_E": 2.1246225556659223e-08,
+      "reconstructed_E": 2.1246225689075103e-08,
+      "reconstructed_unnormalized_E": 2.1246226999949158e-08,
+      "absolute_difference_matched_unnormalized": 1.443289935321426e-15,
+      "absolute_difference": 1.3241587978576652e-16,
+      "relative_difference": 6.2324425311517646e-09,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-004-004",
+      "ordering": "jw_magnitude",
+      "archived_E": 2.367892690813278e-07,
+      "reconstructed_E": 2.3678927004478908e-07,
+      "reconstructed_unnormalized_E": 2.3678927030257313e-07,
+      "absolute_difference_matched_unnormalized": 1.2212453270876722e-15,
+      "absolute_difference": 9.63461278683989e-16,
+      "relative_difference": 4.068855326180672e-09,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "ordering": "fermionic_signed",
+      "archived_E": 1.4506024648142102e-06,
+      "reconstructed_E": 1.4506024652502905e-06,
+      "reconstructed_unnormalized_E": 1.4506024645921656e-06,
+      "absolute_difference_matched_unnormalized": 2.220446049250313e-16,
+      "absolute_difference": 4.360803015755364e-16,
+      "relative_difference": 3.0062013001707435e-10,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "ordering": "jw_signed",
+      "archived_E": 1.845417049728404e-06,
+      "reconstructed_E": 1.8454170417332432e-06,
+      "reconstructed_unnormalized_E": 1.845417049395337e-06,
+      "absolute_difference_matched_unnormalized": 3.3306690738754696e-16,
+      "absolute_difference": 7.995160718034049e-15,
+      "relative_difference": 4.332441124465997e-09,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-006-004",
+      "ordering": "jw_magnitude",
+      "archived_E": 1.3663690493492808e-06,
+      "reconstructed_E": 1.366369055508988e-06,
+      "reconstructed_unnormalized_E": 1.3663690503484816e-06,
+      "absolute_difference_matched_unnormalized": 9.992007221626409e-16,
+      "absolute_difference": 6.1597072369368134e-15,
+      "relative_difference": 4.508084576323146e-09,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-008-004",
+      "ordering": "fermionic_signed",
+      "archived_E": 1.07109273970174e-05,
+      "reconstructed_E": 1.0710927365947456e-05,
+      "reconstructed_unnormalized_E": 1.0710927392243441e-05,
+      "absolute_difference_matched_unnormalized": 4.773959005888173e-15,
+      "absolute_difference": 3.106994438746742e-14,
+      "relative_difference": 2.9007707022754406e-09,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-008-004",
+      "ordering": "jw_signed",
+      "archived_E": 3.873563369061195e-06,
+      "reconstructed_E": 3.8735633495837645e-06,
+      "reconstructed_unnormalized_E": 3.87356337172573e-06,
+      "absolute_difference_matched_unnormalized": 2.6645352591003757e-15,
+      "absolute_difference": 1.9477430295521386e-14,
+      "relative_difference": 5.028297833227904e-09,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-008-004",
+      "ordering": "jw_magnitude",
+      "archived_E": 3.711185488253222e-06,
+      "reconstructed_E": 3.711185482082507e-06,
+      "reconstructed_unnormalized_E": 3.7111854853666415e-06,
+      "absolute_difference_matched_unnormalized": 2.8865802875418806e-15,
+      "absolute_difference": 6.17071464184462e-15,
+      "relative_difference": 1.6627340943686023e-09,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-010-004",
+      "ordering": "fermionic_signed",
+      "archived_E": 1.4283013405891332e-05,
+      "reconstructed_E": 1.4283013764464473e-05,
+      "reconstructed_unnormalized_E": 1.4283013410110179e-05,
+      "absolute_difference_matched_unnormalized": 4.218847493575595e-15,
+      "absolute_difference": 3.5857314127196293e-13,
+      "relative_difference": 2.5104866254908215e-08,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-010-004",
+      "ordering": "jw_signed",
+      "archived_E": 3.918979614825346e-06,
+      "reconstructed_E": 3.918979991981418e-06,
+      "reconstructed_unnormalized_E": 3.918979614159213e-06,
+      "absolute_difference_matched_unnormalized": 6.661338147750939e-16,
+      "absolute_difference": 3.7715607174089883e-13,
+      "relative_difference": 9.623833467113026e-08,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    },
+    {
+      "case": "H2O_s-1.00_sto-6g_as-010-004",
+      "ordering": "jw_magnitude",
+      "archived_E": 1.378158629095072e-05,
+      "reconstructed_E": 1.3781586673494647e-05,
+      "reconstructed_unnormalized_E": 1.3781586304051352e-05,
+      "absolute_difference_matched_unnormalized": 1.3100631690576847e-14,
+      "absolute_difference": 3.8254392634563903e-13,
+      "relative_difference": 2.7757612097006963e-08,
+      "interpretation": "matching configurations, missing historical tensors; no identical-input claim"
+    }
+  ],
+  "archived_vs_matched_unnormalized_max_absolute_difference": 5.495603971894525e-14,
+  "archived_vs_reconstructed_max_absolute_difference": 3.919934466575152e-13,
+  "archived_vs_reconstructed_max_relative_difference": 0.037550200160123996,
+  "validation": {
+    "max_reference_split_distance": 4.8254127770527304e-15,
+    "max_affine_full_sample_distance": 0.0,
+    "max_reference_off_spin_sector_frobenius": 7.792442607243671e-17,
+    "max_dense_pilot_distance": 3.7170592637564554e-14,
+    "max_low_energy_dense_product_distance": 1.2631967801141352e-13,
+    "max_low_energy_reference_dense_eigh_distance": 5.4508808602176836e-15,
+    "peak_RSS_GiB": 4.0284271240234375,
+    "max_norm_defect": 7.639444632445702e-13
+  },
+  "max_leakage_by_order": {
+    "fermionic_signed": {
+      "particle_number_leakage": 1.3125094369854068e-35,
+      "spin_sector_leakage": 1.312730603633737e-35
+    },
+    "jw_signed": {
+      "particle_number_leakage": 1.1236797843462546e-07,
+      "spin_sector_leakage": 1.1239914865879306e-07
+    },
+    "jw_magnitude": {
+      "particle_number_leakage": 1.7611992900865936e-13,
+      "spin_sector_leakage": 1.7611992911320163e-13
+    }
+  }
+}

@@ -1,3 +1,9 @@
+> **Review corrections:** see [review_revision/README.md](review_revision/README.md).
+> The original ZIP and frozen source remain byte-identical. The historical
+> extension manifest describes the reviewed revision, including the former
+> external REPRODUCE.md and verify_archive.py. Those two helpers have now been
+> corrected; their current bytes are bound by the review supplement records.
+
 # Expanded conserving-ordering benchmark
 
 This local extension completes the comparison panel on the same fourteen molecular targets and states used by the conserving-response research. It is separate from the earlier immutable `ordering_mechanism` artifact. Nothing is published remotely.

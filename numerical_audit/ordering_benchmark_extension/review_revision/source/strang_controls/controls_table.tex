@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+ & \multicolumn{2}{c}{Conserving forward} & \multicolumn{2}{c}{Conserving reverse} \\
+Pauli Strang comparator & W/T/L & Median ratio & W/T/L & Median ratio \\
+\midrule
+Larger Pauli search, forward & 9/1/4 & 0.831 & 4/0/10 & 1.34 \\
+Larger Pauli search, reverse & 12/0/2 & 0.635 & 8/0/6 & 0.806 \\
+Truncated Pauli search, forward & 13/0/1 & 0.185 & 12/0/2 & 0.629 \\
+Truncated Pauli search, reverse & 14/0/0 & 0.119 & 12/0/2 & 0.346 \\
+Conserving reverse & 11/0/3 & 0.569 & --- & --- \\
+\bottomrule
+\end{tabular}
+\caption{Strang use of the frozen Hartree--Fock-response orders at rotation budget $10U_c$, across all 14 cases. W/T/L compares the conserving error with the comparator using absolute tolerance $10^{-12}$; a median error ratio below one favors the conserving order. Every reported ratio includes all 14 cases with comparator error above the floor. Forward uses the first unit of the frozen order outermost; reverse reverses unit order. No order is reoptimized for Strang or selected using these errors. The truncated Pauli search is the previous insertion-position-budget-matched best-improvement search, which accepted only one or two moves per start.}
+\label{tab:strang-pauli-response-controls}
+\end{table}

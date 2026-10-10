@@ -1,0 +1,81 @@
+{
+  "status": "complete",
+  "production": {
+    "rows": 504,
+    "new_evolutions": 420,
+    "reused_states": 84,
+    "source_sha256": {
+      "run.py": "0a83467ad9e9ac46216afdf166cde6169895d398bb1dcdc8c7e9399d08ddd4f9",
+      "independent_core.py": "5018e230ba05ffda808ffd71cae852aeca4c250e1a771896c75fa9a1150cbebc",
+      "PROTOCOL.md": "34d2c3faa935b9e675773dae8ddf8c9aaa25f502f88e56a7e6bceb7860b1944e"
+    },
+    "seconds": 396.6342793950025,
+    "peak_rss_KiB": 585432,
+    "imported_qhat_modules": {
+      "qhat.analysis": {
+        "path": "qhat/analysis/__init__.py",
+        "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+      },
+      "qhat.analysis.state_metrics": {
+        "path": "qhat/analysis/state_metrics.py",
+        "sha256": "49907aa254137641bc75b4f0c05e3d55e317c57b706e041dfcc0de56f45d9635"
+      },
+      "qhat.analysis.benchmark_L_sweep_trotter": {
+        "path": "qhat/analysis/benchmark_L_sweep_trotter.py",
+        "sha256": "56591a0a1d8d51c15d5aea79d5f0563b2f6bf4243b14e7d742482e6fefe6e75c"
+      },
+      "qhat.analysis.benchmark_b2_active_spaces_matrix_free": {
+        "path": "qhat/analysis/benchmark_b2_active_spaces_matrix_free.py",
+        "sha256": "c3bcc0588934ed297613aabbd70a8b25a8eea8b351504af5b6c4161d700f78d1"
+      },
+      "qhat.numerical_audit": {
+        "path": "qhat/numerical_audit/__init__.py",
+        "sha256": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca"
+      },
+      "qhat.analysis.benchmark_b2_coloring_robustness": {
+        "path": "qhat/analysis/benchmark_b2_coloring_robustness.py",
+        "sha256": "a991700583a59474b5ec66aff3bd68024dc69c59a5c0c1484b849020b456e61b"
+      },
+      "qhat.analysis.benchmark_b2_signed_coefficient_baseline": {
+        "path": "qhat/analysis/benchmark_b2_signed_coefficient_baseline.py",
+        "sha256": "20d547ab1c6c9b2189786013224ff7c17fb7c54786182d508aa6d96d81d46b76"
+      },
+      "qhat.analysis.benchmark_fermionic_structure_ablation": {
+        "path": "qhat/analysis/benchmark_fermionic_structure_ablation.py",
+        "sha256": "54c7f6aa8539050f5f043accdadc710be4ae715fd382ef92f75769517f5f8bca"
+      },
+      "qhat.numerical_audit.reference_tools": {
+        "path": "qhat/numerical_audit/reference_tools.py",
+        "sha256": "ae6a0505dfa1b52562d191a1bd69d1f88a5d165396ecc748eff7f82767cb7432"
+      },
+      "qhat.numerical_audit.run_frozen_audit": {
+        "path": "qhat/numerical_audit/run_frozen_audit.py",
+        "sha256": "899d722900f114f73db081799b1cf3caaab896ad5d74be79e046ae5196a0c9cb"
+      }
+    }
+  },
+  "verification": {
+    "status": "passed",
+    "cases": 14,
+    "replays": 504,
+    "new_state_replays": 420,
+    "max_state_distance": 5.954716720852082e-14,
+    "max_metric_difference": 7.047314121155779e-19,
+    "max_reference_distance": 7.88650572820033e-14,
+    "seconds": 354.53578874900995,
+    "peak_rss_KiB": 827836,
+    "verification_source_sha256": "fde466ff65b6d03d4f1a246c74b10f8f766fa33f3690e6d945174c9b92b30eba",
+    "scope": "All 420 new states and 84 reused baseline states replayed with independently derived occupation-basis Pauli action and unmerged Strang palindromes; all 14 reference states recomputed independently."
+  },
+  "record_audit": {
+    "status": "passed",
+    "rows": 504,
+    "declared_units_checked_pairwise_commuting": 77380,
+    "maximum_norm_report_difference": 0,
+    "source_sha256": "a38bf2529de3aba0df4ac9a9229d473ab88d7ac2cce7f3173215d15b2f570c21",
+    "freeze_sha256": "86f21fe01e0a116055f00b88277bc381c75a0724925d0035ae3575e6f66c7cf3",
+    "results_sha256": "439534c674e6f5e9e87faccf67080e619bcdf49671ed3ea227c6edf489cc43b5",
+    "verification_sha256": "e2943ed03345fea4953aa06a0eeb2bd7f534a41908c37d650e071133d1a0d089",
+    "scope": "Every unique row matches frozen design and schedule, saved state and independent verification hashes; exact pairwise commutation checked inside every declared unit; reported norms checked independently; reused states unchanged."
+  }
+}
