@@ -2,6 +2,10 @@
 
 [[_TOC_]]
 
+For a standalone symmetric product-formula budget and pulse planner, see
+[Strang schedules](STRANG_SCHEDULE.md). It handles an entirely commuting
+single group exactly and preserves the archived benchmark sources.
+
 This directory contains the modules for performing analysis.  This is run
 by
 ```
