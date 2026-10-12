@@ -4,6 +4,7 @@ Tests for QPE construction in analysis/algorithm.py: the "QPE: QHAT flexible" an
 """
 
 import functools
+import itertools
 import math
 
 import numpy as np
@@ -11,8 +12,14 @@ import pytest
 from qualtran.bloqs.phase_estimation import TextbookQPE
 
 from qhat.analysis.algorithm import build_algorithm, qpe_energy_window
-from qhat.analysis.config_types import AlgorithmConfiguration
+from qhat.analysis.config_types import (
+    AlgorithmConfiguration, HamiltonianConfiguration, UnitaryConfiguration)
+from qhat.analysis.file_io import load_state, save_state
+from qhat.analysis.hamiltonian import get_physical_hamiltonian
+from qhat.analysis.matrix_eigendecomposition import compute_unitary_matrix
+from qhat.analysis.numerical_simulation import numerical_simulation
 from qhat.analysis.resource_estimation import estimate_resources
+from qhat.analysis.unitary import encode_as_unitary
 from qhat.common.flexible_qpe import FlexibleQPE
 from qhat.common.pauli_string_evolution import PauliStringEvolution
 from qhat.common.trotter_flattened import Trotterization
@@ -196,6 +203,83 @@ def test_energy_estimates_meet_requirements(Elo, Ehi, dE, p_fail):
         out = mat @ np.kron(np.eye(2**m)[0], psi)  # qpe_reg starts in |0>
         probs = np.sum(np.abs(out.reshape(2**m, 2**n))**2, axis=1)
         assert probs[np.abs(estimates - E) > dE].sum() <= p_fail
+
+
+def diagonal_as_pauli_terms(diagonal):
+    """I/Z Pauli strings and coefficients summing to diag(diagonal), with c_s = Tr(P_s H) / 2^n.
+
+    The first character acts on the most significant bit. Example: diag(0, -1/2) = -0.25 I + 0.25 Z.
+    """
+    n = int(math.log2(len(diagonal)))
+    terms = []
+    for s in map("".join, itertools.product("IZ", repeat=n)):
+        c = np.mean(np.diag(hamiltonian_matrix([(s, 1.0)])).real * diagonal)
+        if abs(c) > 1e-12:
+            terms.append((s, c))
+    return terms
+
+
+def qpe_from_pauli_file(path, num_phase_qubits, time, num_trotter_steps):
+    """Load a Pauli file, encode it with first-order Trotter, and build FlexibleQPE.
+
+    These are the driver's steps without its energy shift and choice of time, so the caller controls
+    the eigenphases exactly.
+    """
+    config_hamiltonian = HamiltonianConfiguration()
+    config_hamiltonian.load_pauli_strings(str(path))
+    config_unitary = UnitaryConfiguration()
+    config_unitary.encode_ramped_trotter(
+        trotter_order="first order", trotter_steps=num_trotter_steps)
+    unitary = encode_as_unitary(config_unitary, get_physical_hamiltonian(config_hamiltonian), time)
+    return build_algorithm(make_config(num_phase_qubits=num_phase_qubits), unitary)
+
+
+@pytest.mark.parametrize("phases, target_state, expected_bits", [
+    ([0, 1/2], [1, 0], "0"),
+    ([0, 1/2], [0, 1], "1"),
+    ([0, 1/4, 1/2, 3/4], [1, 0, 0, 0], "00"),
+    ([0, 1/4, 1/2, 3/4], [0, 1, 0, 0], "01"),
+    ([0, 1/4, 1/2, 3/4], [0, 0, 1, 0], "10"),
+    ([0, 1/4, 1/2, 3/4], [0, 0, 0, 1], "11"),
+])
+@pytest.mark.parametrize("contraction", ["tensor_contract", "decomposition"])
+def test_simulation_reads_exact_phases_from_pauli_file(
+        tmp_path, phases, target_state, expected_bits, contraction):
+    """U has eigenphases `phases` (in turns) on the computational basis states. With one phase
+    qubit per target qubit these are exact register values, so QPE outputs |expected_bits>|target>.
+
+    U = exp(-i H t) with t = 2 pi / W, so phase phi needs energy -W phi: H = -W diag(phases), e.g.
+    phases [0, 1/2] -> H = diag(0, -0.85) = -0.425 I + 0.425 Z for W = 1.7.
+
+    W is not 1 (t = 2 pi) because exp(-i 2 pi k P) = I for any integer k and Pauli string P, so a
+    coefficient off by an integer would go unnoticed. Three Trotter steps (exact, as the terms
+    commute) check that each step evolves for t / 3.
+    """
+    energy_scale = 1.7
+    hamiltonian = -energy_scale * np.diag(phases)
+    terms = diagonal_as_pauli_terms(np.diag(hamiltonian))
+    np.testing.assert_allclose(hamiltonian_matrix(terms), hamiltonian)  # guard: conversion
+    pauli_file = tmp_path / "hamiltonian.txt"
+    pauli_file.write_text("".join(f"{c:.17g} {s}\n" for s, c in terms))
+
+    m = len(expected_bits)
+    qpe = qpe_from_pauli_file(pauli_file, num_phase_qubits=m, time=2 * math.pi / energy_scale,
+                              num_trotter_steps=3)
+    if contraction == "tensor_contract":
+        mat = compute_unitary_matrix(qpe)  # what QHAT's numerical simulation uses
+    else:
+        mat = qpe.decompose_bloq().tensor_contract()  # the circuit, gate by gate
+
+    phase_register_zero = np.eye(2**m)[0]  # qpe_reg comes first in the signature
+    input_file = str(tmp_path / "input.npy")
+    save_state(input_file, np.kron(phase_register_zero, target_state))
+    result = numerical_simulation(input_file, qpe, mat)
+    out = load_state(result["simulations"][0]["output_file"])
+
+    probs = np.sum(np.abs(out.reshape(2**m, -1))**2, axis=1)
+    assert probs[int(expected_bits, 2)] == pytest.approx(1.0, abs=1e-10)
+    np.testing.assert_allclose(
+        out, np.kron(np.eye(2**m)[int(expected_bits, 2)], target_state), atol=1e-10)
 
 
 class TestConfigurationAndResources:
