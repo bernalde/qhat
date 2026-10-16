@@ -1677,3 +1677,58 @@ class TestTensorsInsideOtherBloqs:
         with _no_decomposition():
             U = trotter.as_composite_bloq().tensor_contract()
         np.testing.assert_allclose(U, expected, atol=1e-12)
+
+
+# ==================================================================================
+# Test: Adjoint
+# ==================================================================================
+
+class TestAdjoint:
+    """trotter.adjoint() is U^dagger and stays a Trotterization (keeping the fast contraction)."""
+
+    PAULI_TERMS = [("XZ", 0.5), ("ZY", 0.3), ("YX", 0.2)]
+
+    @pytest.mark.parametrize("method", [
+        "first order", "second order", "third order", "symmetrized ruth 1983", "fourth order",
+        "bm4", "opt4", (0.3, 0.7), (0.2, 0.5, 0.3), (0.1, 0.2, 0.3, 0.4)])
+    @pytest.mark.parametrize("num_steps", [1, 2, 5])
+    @pytest.mark.parametrize("combine_terms", [True, False])
+    def test_matches_conjugate_transpose(self, method, num_steps, combine_terms):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method=method, time=0.4, num_steps=num_steps,
+            combine_terms=combine_terms)
+        adj = trotter.adjoint()
+        assert isinstance(adj, Trotterization)
+        expected = trotter.decompose_bloq().tensor_contract().conj().T
+        np.testing.assert_allclose(adj.tensor_contract(), expected, atol=1e-12)
+        np.testing.assert_allclose(adj.decompose_bloq().tensor_contract(), expected, atol=1e-12)
+
+    @pytest.mark.parametrize("method", ["first order", (0.2, 0.5, 0.3), (0.3, 0.7)])
+    @pytest.mark.parametrize("combine_terms", [True, False])
+    def test_expanded_sequence_is_reversed(self, method, combine_terms):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method=method, time=0.4, num_steps=3,
+            combine_terms=combine_terms)
+        adj = trotter.adjoint()
+
+        def terms(t):
+            return [(t.pauli_terms[i][0], t.pauli_terms[i][1] * c) for i, c in t.expanded_sequence]
+
+        forward, backward = terms(trotter), terms(adj)[::-1]
+        assert [p for p, _ in forward] == [p for p, _ in backward]
+        np.testing.assert_allclose([a for _, a in forward], [a for _, a in backward], atol=1e-14)
+
+    def test_double_adjoint_is_identity(self):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method="third order", time=0.4, num_steps=3,
+            tensor_contraction_method="incremental")
+        assert trotter.adjoint().adjoint() == trotter
+
+    def test_adjoint_inside_composite_bloq_uses_fast_path(self):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method="fourth order", time=0.4, num_steps=200)
+        expected = trotter.tensor_contract().conj().T
+        cbloq = trotter.as_composite_bloq().adjoint()
+        with _no_decomposition():
+            np.testing.assert_allclose(trotter.adjoint().tensor_contract(), expected, atol=1e-12)
+            np.testing.assert_allclose(cbloq.tensor_contract(), expected, atol=1e-12)

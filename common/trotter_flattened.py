@@ -779,6 +779,24 @@ class Trotterization(Bloq):
 
         return attrs.evolve(self, num_steps=self.num_steps * power, time=self.time * power)
 
+    def adjoint(self) -> 'Trotterization':
+        """Return U^dagger as a Trotterization, so it keeps the optimized tensor contraction.
+
+        U^dagger applies the expanded sequence in reverse order with negated time. Reversing the
+        coefficients reverses the order of the ramps. With an odd number of coefficients each step
+        starts and ends with an ascending ramp, so the term order must also be reversed so that
+        the ramps of the reversed step run descending.
+        """
+        pauli_terms = self.pauli_terms
+        if len(self.coefficients) % 2 == 1:
+            pauli_terms = tuple(reversed(pauli_terms))
+        return attrs.evolve(
+            self,
+            pauli_terms=pauli_terms,
+            coefficients=tuple(reversed(self.coefficients)),
+            time=-self.time,
+        )
+
 
 # =================================================================================================
 # Compatibility function for old interface
