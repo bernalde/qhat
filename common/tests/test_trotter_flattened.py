@@ -321,6 +321,22 @@ class TestUnitaryGeneration:
         expected = expm(-1j * 0.5 * X * 1.0)
         assert np.allclose(U, expected)
 
+    @pytest.mark.parametrize("method", ["first order", "second order", "fourth order"])
+    @pytest.mark.parametrize("num_steps", [1, 2, 7])
+    @pytest.mark.parametrize("combine_terms", [True, False])
+    def test_single_term_multiple_steps_matches_analytical(self, method, num_steps, combine_terms):
+        """A single-term Hamiltonian is exact for any num_steps, including after step collapse."""
+        trotter = Trotterization.from_method(
+            pauli_terms=[("XZ", 0.5)],
+            method=method,
+            time=1.3,
+            num_steps=num_steps,
+            combine_terms=combine_terms,
+        )
+        expected = expm(-1j * 0.5 * pauli_string_to_matrix("XZ") * 1.3)
+        np.testing.assert_allclose(trotter.tensor_contract(), expected, atol=1e-10)
+        np.testing.assert_allclose(trotter.decompose_bloq().tensor_contract(), expected, atol=1e-10)
+
     def test_unitarity(self):
         """Test that generated matrix is unitary."""
         trotter = Trotterization(

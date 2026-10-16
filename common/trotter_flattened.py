@@ -377,9 +377,8 @@ class Trotterization(Bloq):
                 # in your Hamiltonian, then no error can arise from non-commutation.  This is a
                 # silly application of multi-step Trotterization, so something odd is already
                 # happening.  But the best resolution is to combine all the steps together.
-                idx = self._repeat_core[0][0]
-                coeff = self._repeat_core[0][1] * self.num_steps
-                object.__setattr__(self, "_repeat_core", ((idx, coeff),))
+                # The coefficient is unchanged: with a single step, dt = time / num_steps grows
+                # by the factor num_steps instead.
                 object.__setattr__(self, "num_steps", 1)
             else:
                 # Two terms will never combine across steps, because they would have already been
