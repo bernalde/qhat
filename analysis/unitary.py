@@ -224,6 +224,10 @@ def encode_ramped_trotter(
             f"Invalid trotter_implementation '{trotter_impl}'. "
             f"Must be 'original' or 'flattened'."
         )
+    if trotter_impl == 'original':
+        logger.warning(
+            "trotter_implementation='original' is deprecated and will be removed in a future "
+            "release; use 'flattened' (the default) instead.")
 
     impl_label = f"{trotter_impl} QHAT"
     logger.verbose(f"Encoding with ramped-trotterization method from `common` ({impl_label}).")

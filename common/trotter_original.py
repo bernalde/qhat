@@ -12,6 +12,9 @@
 
 # =================================================================================================
 
+"""Deprecated: superseded by `qhat.common.trotter_flattened`."""
+
+import warnings
 from functools import cached_property, reduce
 from math import cbrt, pi
 from typing import Dict, Sequence
@@ -228,6 +231,11 @@ def build_coefficients(method):
 # -------------------------------------------------------------------------------------------------
 
 def build_ramped_trotterized_unitary(pauli_strings, method, timestep, numsteps):
+    warnings.warn(
+        "qhat.common.trotter_original is deprecated and will be removed in a future release; "
+        "use qhat.common.trotter_flattened (Trotterization) instead.",
+        DeprecationWarning,
+        stacklevel=2)
 
     # Each bloq implements exp(i h_n / hbar), where h_n is a single term in the Hamiltonian
     # represented as a "Pauli string" (a set of Pauli operators applied to different qubits)

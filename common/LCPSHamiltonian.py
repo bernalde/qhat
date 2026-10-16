@@ -150,7 +150,7 @@ def test2():
 
 def test3():
     import datetime
-    from common.trotter_original import build_ramped_trotterized_unitary
+    from qhat.common.trotter_flattened import build_ramped_trotterized_unitary
     group1 = (
             ("IXYZ", 0.1),
             ("IXZY", 0.2),
@@ -170,7 +170,8 @@ def test3():
     print(problem_instance)
 
     print(f"{datetime.datetime.now()} | Calling build_ramped_trotterized_unitary")
-    U0 = build_ramped_trotterized_unitary(problem_instance, "second order", 1.0, 1)
+    terms = list(problem_instance.yield_PauliLCU_Info(return_as='strings'))
+    U0 = build_ramped_trotterized_unitary(terms, "second order", 1.0, 1)
     print(f"{datetime.datetime.now()} | Calling U0.tensor_contract()")
     M0 = U0.tensor_contract()
     print(f"{datetime.datetime.now()} | Verifying M0.shape")
@@ -181,6 +182,8 @@ def test3():
 # =================================================================================================
 
 def main():
+    from qhat.common.logging_utils import configure_logging
+    configure_logging(level="warning")
     test1()
     test2()
     test3()

@@ -221,10 +221,10 @@ supports
       Hamiltonian).  Uses `CommutingPauliStringEvolution` internally, enabling future grouping of
       commuting terms.  This implementation has comprehensive test coverage (57 tests) and is
       recommended for all use cases.
-    - `"original"`: Original QHAT implementation with nested bloq structure
-      (RampedTrotterizedUnitary → RampedTrotterStep → TrotterRamp). Warning: This implementation
-      has little to no test coverage and may not work correctly in all cases. Use only for exact
-      reproduction of earlier results or debugging comparisons.
+    - `"original"` (**deprecated**; will be removed in a future release): Original QHAT
+      implementation with nested bloq structure (RampedTrotterizedUnitary → RampedTrotterStep →
+      TrotterRamp), superseded by `"flattened"`. Selecting it logs a deprecation warning. To
+      reproduce its gate counts, use `"flattened"` with `trotter_combine_terms=False`.
   - `trotter_combine_terms`: (Optional, only for `trotter_implementation="flattened"`)
     - `True` (default): Combine adjacent identical Pauli string terms for efficiency. The reduction
       in operation count varies depending on the Hamiltonian structure.

@@ -1,11 +1,19 @@
 """
-Tests for RampedTrotterizedUnitary (the original Trotterization implementation).
+Tests for RampedTrotterizedUnitary (the original, deprecated Trotterization implementation).
 """
 
 import numpy as np
 import pytest
 
 from qhat.common.trotter_original import build_ramped_trotterized_unitary
+
+pytestmark = pytest.mark.filterwarnings(
+    "ignore:qhat.common.trotter_original is deprecated:DeprecationWarning")
+
+
+def test_build_warns_deprecated():
+    with pytest.warns(DeprecationWarning, match="trotter_flattened"):
+        build_ramped_trotterized_unitary([("XZ", 0.5)], "first order", timestep=0.1, numsteps=1)
 
 
 class TestPower:
