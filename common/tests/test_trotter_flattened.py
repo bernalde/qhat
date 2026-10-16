@@ -321,6 +321,22 @@ class TestUnitaryGeneration:
         expected = expm(-1j * 0.5 * X * 1.0)
         assert np.allclose(U, expected)
 
+    @pytest.mark.parametrize("method", ["first order", "second order", "fourth order"])
+    @pytest.mark.parametrize("num_steps", [1, 2, 7])
+    @pytest.mark.parametrize("combine_terms", [True, False])
+    def test_single_term_multiple_steps_matches_analytical(self, method, num_steps, combine_terms):
+        """A single-term Hamiltonian is exact for any num_steps, including after step collapse."""
+        trotter = Trotterization.from_method(
+            pauli_terms=[("XZ", 0.5)],
+            method=method,
+            time=1.3,
+            num_steps=num_steps,
+            combine_terms=combine_terms,
+        )
+        expected = expm(-1j * 0.5 * pauli_string_to_matrix("XZ") * 1.3)
+        np.testing.assert_allclose(trotter.tensor_contract(), expected, atol=1e-10)
+        np.testing.assert_allclose(trotter.decompose_bloq().tensor_contract(), expected, atol=1e-10)
+
     def test_unitarity(self):
         """Test that generated matrix is unitary."""
         trotter = Trotterization(
@@ -1558,3 +1574,161 @@ class TestTensorContractionMethods:
 
         with pytest.raises(ValueError, match="Invalid tensor_contraction_method"):
             trotter.tensor_contract()
+
+
+# ==================================================================================
+# Test: Optimized tensors are used when Trotterization is inside another bloq
+# ==================================================================================
+
+def _no_decomposition():
+    """Fail if any Trotterization is decomposed, i.e. if the optimized contraction is skipped."""
+    from unittest import mock
+    return mock.patch.object(
+        Trotterization, "decompose_bloq",
+        side_effect=AssertionError("Trotterization was decomposed for tensor contraction"))
+
+
+class TestTensorsInsideOtherBloqs:
+    """Qualtran reaches sub-bloq tensors via add_my_tensors, not tensor_contract."""
+
+    @staticmethod
+    def _trotter(num_steps=4, **kwargs):
+        return Trotterization.from_method(
+            pauli_terms=[("XZ", 0.5), ("ZY", 0.3), ("YX", 0.2)],
+            method="second order",
+            time=0.4,
+            num_steps=num_steps,
+            **kwargs,
+        )
+
+    def test_has_custom_tensors(self):
+        from qualtran.simulation.tensor._flattening import bloq_has_custom_tensors
+        assert bloq_has_custom_tensors(self._trotter())
+
+    def test_as_composite_bloq(self):
+        trotter = self._trotter()
+        expected = trotter.decompose_bloq().tensor_contract()
+        cbloq = trotter.as_composite_bloq()
+        with _no_decomposition():
+            U = cbloq.tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    @pytest.mark.parametrize("k", [1, 2, 3])
+    def test_qualtran_power(self, k):
+        from qualtran.bloqs.basic_gates import Power
+        trotter = self._trotter()
+        expected = np.linalg.matrix_power(trotter.decompose_bloq().tensor_contract(), k)
+        with _no_decomposition():
+            U = Power(trotter, k).tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_controlled(self):
+        trotter = self._trotter()
+        d = 2 ** trotter.num_qubits
+        expected = np.eye(2 * d, dtype=complex)
+        expected[d:, d:] = trotter.decompose_bloq().tensor_contract()
+        with _no_decomposition():
+            U = trotter.controlled().tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_composite_with_other_gates(self):
+        """Trotterization on qubits (1, 2) of a 3-qubit circuit with gates before and after."""
+        from qualtran import BloqBuilder, QBit, Register
+        from qualtran.bloqs.basic_gates import CNOT, Hadamard
+
+        trotter = self._trotter()
+        bb = BloqBuilder()
+        q = bb.add_register(Register("q", QBit(), shape=(3,)))
+        q[0] = bb.add(Hadamard(), q=q[0])
+        q[0], q[1] = bb.add(CNOT(), ctrl=q[0], target=q[1])
+        q[1:3] = bb.add(trotter, q=q[1:3])
+        q[2], q[0] = bb.add(CNOT(), ctrl=q[2], target=q[0])
+        cbloq = bb.finalize(q=q)
+
+        U_trotter = trotter.decompose_bloq().tensor_contract()
+        H = np.array([[1, 1], [1, -1]]) / np.sqrt(2)
+        I2 = np.eye(2)
+        P0, P1 = np.diag([1, 0]), np.diag([0, 1])
+        X = np.array([[0, 1], [1, 0]])
+        cnot_01 = np.kron(np.kron(P0, I2) + np.kron(P1, X), I2)
+        cnot_20 = np.kron(np.eye(4), P0) + np.kron(np.kron(X, I2), P1)
+        expected = cnot_20 @ np.kron(I2, U_trotter) @ cnot_01 @ np.kron(H, np.eye(4))
+
+        with _no_decomposition():
+            U = cbloq.tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_qualtran_method_contracts_decomposition(self):
+        """The 'qualtran' method stays the gate-by-gate reference instead of recursing."""
+        from unittest import mock
+        trotter = self._trotter(tensor_contraction_method="qualtran")
+        expected = self._trotter().tensor_contract()
+        with mock.patch.object(Trotterization, "_structured_contraction") as structured, \
+                mock.patch.object(Trotterization, "_incremental_contraction") as incremental:
+            U = trotter.tensor_contract()
+        structured.assert_not_called()
+        incremental.assert_not_called()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_large_num_steps_inside_composite_bloq(self):
+        """Cost of the optimized path does not grow with num_steps; check correctness at scale."""
+        trotter = self._trotter(num_steps=2000)
+        expected = trotter.tensor_contract()
+        with _no_decomposition():
+            U = trotter.as_composite_bloq().tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+
+# ==================================================================================
+# Test: Adjoint
+# ==================================================================================
+
+class TestAdjoint:
+    """trotter.adjoint() is U^dagger and stays a Trotterization (keeping the fast contraction)."""
+
+    PAULI_TERMS = [("XZ", 0.5), ("ZY", 0.3), ("YX", 0.2)]
+
+    @pytest.mark.parametrize("method", [
+        "first order", "second order", "third order", "symmetrized ruth 1983", "fourth order",
+        "bm4", "opt4", (0.3, 0.7), (0.2, 0.5, 0.3), (0.1, 0.2, 0.3, 0.4)])
+    @pytest.mark.parametrize("num_steps", [1, 2, 5])
+    @pytest.mark.parametrize("combine_terms", [True, False])
+    def test_matches_conjugate_transpose(self, method, num_steps, combine_terms):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method=method, time=0.4, num_steps=num_steps,
+            combine_terms=combine_terms)
+        adj = trotter.adjoint()
+        assert isinstance(adj, Trotterization)
+        expected = trotter.decompose_bloq().tensor_contract().conj().T
+        np.testing.assert_allclose(adj.tensor_contract(), expected, atol=1e-12)
+        np.testing.assert_allclose(adj.decompose_bloq().tensor_contract(), expected, atol=1e-12)
+
+    @pytest.mark.parametrize("method", ["first order", (0.2, 0.5, 0.3), (0.3, 0.7)])
+    @pytest.mark.parametrize("combine_terms", [True, False])
+    def test_expanded_sequence_is_reversed(self, method, combine_terms):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method=method, time=0.4, num_steps=3,
+            combine_terms=combine_terms)
+        adj = trotter.adjoint()
+
+        def terms(t):
+            return [(t.pauli_terms[i][0], t.pauli_terms[i][1] * c) for i, c in t.expanded_sequence]
+
+        forward, backward = terms(trotter), terms(adj)[::-1]
+        assert [p for p, _ in forward] == [p for p, _ in backward]
+        np.testing.assert_allclose([a for _, a in forward], [a for _, a in backward], atol=1e-14)
+
+    def test_double_adjoint_is_identity(self):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method="third order", time=0.4, num_steps=3,
+            tensor_contraction_method="incremental")
+        assert trotter.adjoint().adjoint() == trotter
+
+    def test_adjoint_inside_composite_bloq_uses_fast_path(self):
+        trotter = Trotterization.from_method(
+            pauli_terms=self.PAULI_TERMS, method="fourth order", time=0.4, num_steps=200)
+        expected = trotter.tensor_contract().conj().T
+        cbloq = trotter.as_composite_bloq().adjoint()
+        with _no_decomposition():
+            np.testing.assert_allclose(trotter.adjoint().tensor_contract(), expected, atol=1e-12)
+            np.testing.assert_allclose(cbloq.tensor_contract(), expected, atol=1e-12)

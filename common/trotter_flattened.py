@@ -9,12 +9,15 @@ same Pauli string are combined for efficiency.
 import logging
 from functools import cached_property
 from math import cbrt
-from typing import List, Optional, Sequence, Tuple, Union
+from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
 
 import attrs
 import numpy as np
 
 from qualtran import Bloq, BloqBuilder, Signature, SoquetT
+
+if TYPE_CHECKING:
+    import quimb.tensor as qtn
 from qualtran.cirq_interop.t_complexity_protocol import TComplexity, t_complexity
 
 from qhat.common.commuting_pauli_string_evolution import CommutingPauliStringEvolution
@@ -268,7 +271,7 @@ class Trotterization(Bloq):
             None or "auto" = auto-select based on step count
             "incremental" = force O(n) incremental contraction
             "structured" = force O(log n) structured contraction (raises error if pattern not detected)
-            "qualtran" = use Qualtran's inherited Bloq.tensor_contract() method
+            "qualtran" = contract the decomposition gate by gate with Qualtran (reference)
 
     Example:
         >>> # Second-order Trotterization using named method
@@ -377,9 +380,8 @@ class Trotterization(Bloq):
                 # in your Hamiltonian, then no error can arise from non-commutation.  This is a
                 # silly application of multi-step Trotterization, so something odd is already
                 # happening.  But the best resolution is to combine all the steps together.
-                idx = self._repeat_core[0][0]
-                coeff = self._repeat_core[0][1] * self.num_steps
-                object.__setattr__(self, "_repeat_core", ((idx, coeff),))
+                # The coefficient is unchanged: with a single step, dt = time / num_steps grows
+                # by the factor num_steps instead.
                 object.__setattr__(self, "num_steps", 1)
             else:
                 # Two terms will never combine across steps, because they would have already been
@@ -558,6 +560,25 @@ class Trotterization(Bloq):
 
         return total_complexity
 
+    def add_my_tensors(
+        self,
+        tn: 'qtn.TensorNetwork',
+        tag: object,
+        *,
+        incoming: Dict[str, SoquetT],
+        outgoing: Dict[str, SoquetT],
+    ):
+        """Add `tensor_contract()` as a single dense tensor, so that a Trotterization inside a
+        larger bloq (e.g. `Power` or a user-built `CompositeBloq`) also uses the optimized
+        contraction instead of being decomposed."""
+        import quimb.tensor as qtn
+
+        n = self.num_qubits
+        data = self.tensor_contract().reshape([2] * (2 * n))
+        in_idx = [incoming['q'][i] for i in range(n)]
+        out_idx = [outgoing['q'][i] for i in range(n)]
+        tn.add(qtn.Tensor(data=data, inds=tuple(out_idx + in_idx), tags=[self.pretty_name(), tag]))
+
     def tensor_contract(self) -> np.ndarray:
         """
         Optimized tensor contraction
@@ -566,7 +587,7 @@ class Trotterization(Bloq):
         - None or "auto": use auto-selection logic (default behavior)
         - "incremental": force O(n) incremental contraction
         - "structured": force O(log n) structured contraction (raises error if pattern not detected)
-        - "qualtran": use Qualtran's inherited Bloq.tensor_contract() method
+        - "qualtran": contract the decomposition gate by gate with Qualtran
 
         Returns:
             The full unitary matrix as a numpy array with shape (2^n_qubits, 2^n_qubits)
@@ -592,8 +613,9 @@ class Trotterization(Bloq):
         forced_method = self.tensor_contraction_method
         if forced_method is not None and forced_method != "auto":
             if forced_method == "qualtran":
-                logger.verbose(f"Using Qualtran's Bloq.tensor_contract() method")
-                return super().tensor_contract()
+                logger.verbose(f"Using Qualtran's gate-by-gate tensor contraction")
+                # Not super().tensor_contract(): that would route back here via add_my_tensors.
+                return self.decompose_bloq().tensor_contract()
             elif forced_method == "incremental":
                 logger.verbose(f"Using O(n) incremental tensor contraction")
                 return self._incremental_contraction()
@@ -757,6 +779,24 @@ class Trotterization(Bloq):
 
         return attrs.evolve(self, num_steps=self.num_steps * power, time=self.time * power)
 
+    def adjoint(self) -> 'Trotterization':
+        """Return U^dagger as a Trotterization, so it keeps the optimized tensor contraction.
+
+        U^dagger applies the expanded sequence in reverse order with negated time. Reversing the
+        coefficients reverses the order of the ramps. With an odd number of coefficients each step
+        starts and ends with an ascending ramp, so the term order must also be reversed so that
+        the ramps of the reversed step run descending.
+        """
+        pauli_terms = self.pauli_terms
+        if len(self.coefficients) % 2 == 1:
+            pauli_terms = tuple(reversed(pauli_terms))
+        return attrs.evolve(
+            self,
+            pauli_terms=pauli_terms,
+            coefficients=tuple(reversed(self.coefficients)),
+            time=-self.time,
+        )
+
 
 # =================================================================================================
 # Compatibility function for old interface
@@ -786,7 +826,7 @@ def build_ramped_trotterized_unitary(
             None or "auto" = auto-select based on step count
             "incremental" = force O(n) incremental contraction
             "structured" = force O(log n) structured contraction (raises error if pattern not detected)
-            "qualtran" = use Qualtran's inherited Bloq.tensor_contract() method
+            "qualtran" = contract the decomposition gate by gate with Qualtran (reference)
 
     Returns:
         Trotterization instance
