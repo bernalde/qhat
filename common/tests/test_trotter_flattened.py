@@ -1574,3 +1574,106 @@ class TestTensorContractionMethods:
 
         with pytest.raises(ValueError, match="Invalid tensor_contraction_method"):
             trotter.tensor_contract()
+
+
+# ==================================================================================
+# Test: Optimized tensors are used when Trotterization is inside another bloq
+# ==================================================================================
+
+def _no_decomposition():
+    """Fail if any Trotterization is decomposed, i.e. if the optimized contraction is skipped."""
+    from unittest import mock
+    return mock.patch.object(
+        Trotterization, "decompose_bloq",
+        side_effect=AssertionError("Trotterization was decomposed for tensor contraction"))
+
+
+class TestTensorsInsideOtherBloqs:
+    """Qualtran reaches sub-bloq tensors via add_my_tensors, not tensor_contract."""
+
+    @staticmethod
+    def _trotter(num_steps=4, **kwargs):
+        return Trotterization.from_method(
+            pauli_terms=[("XZ", 0.5), ("ZY", 0.3), ("YX", 0.2)],
+            method="second order",
+            time=0.4,
+            num_steps=num_steps,
+            **kwargs,
+        )
+
+    def test_has_custom_tensors(self):
+        from qualtran.simulation.tensor._flattening import bloq_has_custom_tensors
+        assert bloq_has_custom_tensors(self._trotter())
+
+    def test_as_composite_bloq(self):
+        trotter = self._trotter()
+        expected = trotter.decompose_bloq().tensor_contract()
+        cbloq = trotter.as_composite_bloq()
+        with _no_decomposition():
+            U = cbloq.tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    @pytest.mark.parametrize("k", [1, 2, 3])
+    def test_qualtran_power(self, k):
+        from qualtran.bloqs.basic_gates import Power
+        trotter = self._trotter()
+        expected = np.linalg.matrix_power(trotter.decompose_bloq().tensor_contract(), k)
+        with _no_decomposition():
+            U = Power(trotter, k).tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_controlled(self):
+        trotter = self._trotter()
+        d = 2 ** trotter.num_qubits
+        expected = np.eye(2 * d, dtype=complex)
+        expected[d:, d:] = trotter.decompose_bloq().tensor_contract()
+        with _no_decomposition():
+            U = trotter.controlled().tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_composite_with_other_gates(self):
+        """Trotterization on qubits (1, 2) of a 3-qubit circuit with gates before and after."""
+        from qualtran import BloqBuilder, QBit, Register
+        from qualtran.bloqs.basic_gates import CNOT, Hadamard
+
+        trotter = self._trotter()
+        bb = BloqBuilder()
+        q = bb.add_register(Register("q", QBit(), shape=(3,)))
+        q[0] = bb.add(Hadamard(), q=q[0])
+        q[0], q[1] = bb.add(CNOT(), ctrl=q[0], target=q[1])
+        q[1:3] = bb.add(trotter, q=q[1:3])
+        q[2], q[0] = bb.add(CNOT(), ctrl=q[2], target=q[0])
+        cbloq = bb.finalize(q=q)
+
+        U_trotter = trotter.decompose_bloq().tensor_contract()
+        H = np.array([[1, 1], [1, -1]]) / np.sqrt(2)
+        I2 = np.eye(2)
+        P0, P1 = np.diag([1, 0]), np.diag([0, 1])
+        X = np.array([[0, 1], [1, 0]])
+        cnot_01 = np.kron(np.kron(P0, I2) + np.kron(P1, X), I2)
+        cnot_20 = np.kron(np.eye(4), P0) + np.kron(np.kron(X, I2), P1)
+        expected = cnot_20 @ np.kron(I2, U_trotter) @ cnot_01 @ np.kron(H, np.eye(4))
+
+        with _no_decomposition():
+            U = cbloq.tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_qualtran_method_contracts_decomposition(self):
+        """The 'qualtran' method stays the gate-by-gate reference instead of recursing."""
+        from unittest import mock
+        trotter = self._trotter(tensor_contraction_method="qualtran")
+        expected = self._trotter().tensor_contract()
+        with mock.patch.object(Trotterization, "_structured_contraction") as structured, \
+                mock.patch.object(Trotterization, "_incremental_contraction") as incremental:
+            U = trotter.tensor_contract()
+        structured.assert_not_called()
+        incremental.assert_not_called()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
+
+    def test_large_num_steps_inside_composite_bloq(self):
+        """Cost of the optimized path does not grow with num_steps; check correctness at scale."""
+        trotter = self._trotter(num_steps=2000)
+        expected = trotter.tensor_contract()
+        with _no_decomposition():
+            U = trotter.as_composite_bloq().tensor_contract()
+        np.testing.assert_allclose(U, expected, atol=1e-12)
