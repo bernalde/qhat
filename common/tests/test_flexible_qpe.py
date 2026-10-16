@@ -81,8 +81,9 @@ def small_trotterization():
 
 
 def small_original_trotterization():
-    return build_ramped_trotterized_unitary(
-        [("XZ", 0.5), ("ZY", 0.3)], "second order", timestep=0.3, numsteps=2)
+    with pytest.warns(DeprecationWarning):
+        return build_ramped_trotterized_unitary(
+            [("XZ", 0.5), ("ZY", 0.3)], "second order", timestep=0.3, numsteps=2)
 
 
 def generic_tensor_contract(bloq):

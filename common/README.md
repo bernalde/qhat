@@ -57,11 +57,14 @@ Coefficients remain separate so `PauliString` values can be used as Hamiltonian 
   - **Fully tested with 57 comprehensive tests**
   - **Recommended for all use cases**
 
-### Original Implementation
+### Original Implementation (Deprecated)
 
-- **`trotter_original.py`**: Original QHAT implementation with nested bloq structure
-  (RampedTrotterizedUnitary → RampedTrotterStep → TrotterRamp). ⚠️ **Little to no test coverage.**
-  Preserved for backward compatibility and comparison. **Not recommended for new work.**
+- **`trotter_original.py`**: ⚠️ **Deprecated; superseded by `trotter_flattened.py` and will be
+  removed in a future release.** Original QHAT implementation with nested bloq structure
+  (RampedTrotterizedUnitary → RampedTrotterStep → TrotterRamp). `build_ramped_trotterized_unitary`
+  emits a `DeprecationWarning`. To migrate, import `build_ramped_trotterized_unitary` from
+  `trotter_flattened` instead (same positional arguments; pass `combine_terms=False` to reproduce
+  the original gate counts).
 
 ## Hamiltonian Representations
 
@@ -110,7 +113,7 @@ Coefficients remain separate so `PauliString` values can be used as Hamiltonian 
 These files are examples or development test scripts, not production code:
 
 - **`dps_test.py`**: Example/test script for DensePauliString and DensePauliExponential
-- **`trotter_test.py`**: Example/test script for the original Trotter implementation
+- **`trotter_test.py`**: Example/test script for the flattened Trotter implementation
 
 ⚠️ **Note:** These are not proper unit tests and are not integrated into the test suite.
 
@@ -137,7 +140,7 @@ pytest common/tests/test_trotter_flattened.py -v                     # 57 tests
 | `pauli_string_evolution.py` | ✅ 53 tests | Recommended |
 | `commuting_pauli_string_evolution.py` | ✅ 47 tests | Recommended |
 | `trotter_flattened.py` | ✅ 57 tests | Recommended |
-| `trotter_original.py` | ⚠️ Minimal | Legacy only |
+| `trotter_original.py` | ⚠️ Minimal | Deprecated |
 | `dense_pauli_exp.py` | ⚠️ Minimal | Used by legacy code |
 | `LCPSHamiltonian.py` | ⚠️ None | Production use |
 | `MixedFermionBosonOperator.py` | ⚠️ None | Production use |

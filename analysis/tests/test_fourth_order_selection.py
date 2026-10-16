@@ -65,3 +65,11 @@ def test_explicit_fourth_order_request(simple_hamiltonian):
     config = create_config(energy_error=1e-10, explicit_order="fourth order")
     result = encode_ramped_trotter(config, simple_hamiltonian, tevol_hbar=1.0)
     assert result is not None
+
+
+def test_original_implementation_is_deprecated(simple_hamiltonian, caplog):
+    config = create_config(energy_error=1e-2)
+    config.trotter_implementation = 'original'
+    with pytest.warns(DeprecationWarning):
+        encode_ramped_trotter(config, simple_hamiltonian, tevol_hbar=1.0)
+    assert "trotter_implementation='original' is deprecated" in caplog.text
