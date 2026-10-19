@@ -38,6 +38,7 @@ from pyLIQTR.qubitization.phase_estimation import QubitizedPhaseEstimation
 
 from qhat.analysis.config_types import AlgorithmConfiguration
 from qhat.common.flexible_qpe import FlexibleQPE
+from qhat.common.hermiticity import require_real_scalar
 from qhat.common.qpe_window_state import precision_bits, RectangularWindowState
 
 logger = logging.getLogger(__name__)
@@ -86,6 +87,7 @@ def qpe_requirements(config_algorithm: AlgorithmConfiguration, unitary):
     if phase_error is None:
         raise ValueError(
             "QPE needs either algorithm.num_phase_qubits or algorithm.energy_error.")
+    phase_error = require_real_scalar("QPE phase error", phase_error)
     probability_of_failure = config_algorithm.probability_of_failure
     if probability_of_failure is None:
         raise ValueError(
@@ -291,9 +293,12 @@ def qpe_energy_window(config_algorithm: AlgorithmConfiguration, Elo, Ehi):
     """
     logger.info("Computing the QPE energy window.")
 
+    Elo = require_real_scalar("lower energy bound", Elo)
+    Ehi = require_real_scalar("upper energy bound", Ehi)
     dE = config_algorithm.energy_error
     if dE is None:
         return (Elo, Ehi)
+    dE = require_real_scalar("algorithm.energy_error", dE)
 
     P0 = math.ceil(math.log2((Ehi - Elo) / dE))
     width = 2**P0 * dE

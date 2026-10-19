@@ -24,6 +24,7 @@ from qualtran import Bloq, BloqBuilder, QBit, Register, Side, Signature, SoquetT
 from qualtran.cirq_interop import CirqGateAsBloq
 from qualtran.cirq_interop.t_complexity_protocol import TComplexity, t_complexity
 
+from qhat.common.hermiticity import require_real_scalar
 from qhat.common.pauli_utils import validate_pauli_string
 
 if TYPE_CHECKING:
@@ -59,6 +60,9 @@ class PauliStringEvolution(Bloq):
     def __attrs_post_init__(self):
         """Validate the Pauli string contains only valid characters."""
         validate_pauli_string(self.pauli_string)
+        require_real_scalar("PauliStringEvolution coefficient", self.coefficient)
+        require_real_scalar("PauliStringEvolution time", self.time)
+        require_real_scalar("PauliStringEvolution hbar", self.hbar)
 
     @cached_property
     def signature(self) -> Signature:

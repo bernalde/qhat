@@ -18,6 +18,7 @@ import numpy as np
 from qualtran import Bloq, BloqBuilder, CompositeBloq, QBit, Register, Side, Signature, SoquetT
 from qualtran.cirq_interop.t_complexity_protocol import TComplexity, t_complexity
 
+from qhat.common.hermiticity import require_real_scalar
 from qhat.common.pauli_string_evolution import PauliStringEvolution
 from qhat.common.pauli_utils import validate_pauli_string
 
@@ -129,6 +130,9 @@ class CommutingPauliStringEvolution(Bloq):
         # Validate each Pauli string
         for pauli_string, coeff in self.pauli_terms:
             validate_pauli_string(pauli_string)
+            require_real_scalar(f"coefficient of {pauli_string}", coeff)
+        require_real_scalar("CommutingPauliStringEvolution time", self.time)
+        require_real_scalar("CommutingPauliStringEvolution hbar", self.hbar)
 
         # Check that all Pauli strings pairwise commute
         if not all_commute(pauli_strings):

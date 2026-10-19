@@ -21,6 +21,13 @@ from pyscf import ao2mo, tools
 from qhat.analysis.config_types import HamiltonianConfiguration
 from qhat.analysis.utils import value
 from qhat.common.bosons_binary import BosonicBinaryEncoding
+from qhat.common.hermiticity import (
+    check_hermitian_one_body,
+    check_hermitian_two_body,
+    real_pauli_coefficients,
+    real_pauli_file_coefficients,
+    require_real_scalar,
+)
 from qhat.common.MixedFermionBosonOperator import MixedFermionBosonOperator
 from qhat.common.pauli_string import PauliString
 
@@ -87,6 +94,7 @@ class LinearCombinationOfPauliStrings:
         return {pauli.to_sparse() : coef for pauli, coef in self._data.items()}
 
     def energy_shift(self, shift):
+        shift = require_real_scalar("energy shift", shift)
         identity = PauliString.from_sparse((), self._nq)
         identity_coefficient = self._data.get(identity, 0.0) + shift
         self._data[identity] = identity_coefficient
@@ -144,13 +152,15 @@ class Hamiltonian:
         # TODO: I'd prefer that the flag identify not the data structure but the concept: dense vs
         #       sparse, rather than strings vs tuples.
         if return_as == "tuples":
+            # The qubit mappings return complex coefficients (with round-off imaginary parts) when
+            # the integrals are complex, even for a Hermitian Hamiltonian; make them real here.
             if isinstance(self._H, InteractionOperator):
-                return self._fmap(self._H).terms
+                return real_pauli_coefficients(self._fmap(self._H).terms)
             elif isinstance(self._H, MixedFermionBosonOperator):
                 # TODO: MixedFermionBosonOperator already has its encodings, so this ignores the
                 #       encodings selected by Hamiltonian.  Clean this up.  Probably by deferring
                 #       the specification of encodings for MixedFermionBosonOperator?
-                return self._H.generate_qubit_operator().terms
+                return real_pauli_coefficients(self._H.generate_qubit_operator().terms)
             elif isinstance(self._H, LinearCombinationOfPauliStrings):
                 return self._H.get_sparse_pauli_strings()
             else:
@@ -231,6 +241,7 @@ class Hamiltonian:
             force_sparse=force_sparse
         )
     def energy_shift(self, dE):
+        dE = require_real_scalar("energy shift", dE)
         # Track the cumulative shift for analysis corrections
         self._energy_shift_total += dE
 
@@ -281,6 +292,8 @@ class Hamiltonian:
         if config_hamiltonian.exact_energy_upper_bound:
             assert config_hamiltonian.upper_bound is not None
             Ehi1 = config_hamiltonian.upper_bound
+        Elo1 = require_real_scalar("lower energy bound", Elo1)
+        Ehi1 = require_real_scalar("upper energy bound", Ehi1)
         logger.verbose(f"-- initial bounds = [{Elo1}, {Ehi1})")
         return (Elo1, Ehi1)
 
@@ -301,6 +314,14 @@ def _verify_and_construct_second_quantization(config_hamiltonian, f0, f1, f2, bs
         assert fb.shape[0] == Nf
         assert fb.shape[1] == Nf
         Nb = fb.shape[2]
+    f0 = require_real_scalar("constant energy term", f0)
+    check_hermitian_one_body("one-body tensor", f1)
+    check_hermitian_two_body("two-body tensor", f2)
+    if bs is not None:
+        bs = require_real_scalar("bosonic number coefficient", bs)
+    if fb is not None:
+        for n in range(Nb):
+            check_hermitian_one_body(f"fermion-boson interaction tensor [:,:,{n}]", fb[:, :, n])
     if bs is None and fb is None:
         H = Hamiltonian(InteractionOperator(f0, f1, f2))
         logger.info(f"Fermionic second-quantization Hamiltonian uses {H.num_qubits()} qubits.")
@@ -372,7 +393,7 @@ def load_numpy(config_hamiltonian: HamiltonianConfiguration):
     filename = config_hamiltonian.filename
     logger.info(f"Loading second-quantization Hamiltonian from file \"{filename}\".")
     data = np.load(filename)
-    f0 = float(_get_any_of(data, ["constant", "ecore"], default=0))
+    f0 = _get_any_of(data, ["constant", "ecore"], as_scalar=True, default=0.0)
     f1 = _get_any_of(data, ["one_body", "h1e"])
     f2 = _get_any_of(data, ["two_body", "eri"])
     bs = _get_any_of(data, ["bosonic_scalar"], default=None)
@@ -495,18 +516,7 @@ def load_hamlib_hdf5(config_hamiltonian: HamiltonianConfiguration):
 
         pauli_dict[sparse_pauli] = coefficient
 
-    # Validate that all coefficients are real (Hamiltonians must be Hermitian)
-    # and convert to float
-    for pauli in pauli_dict:
-        coef = pauli_dict[pauli]
-        # Use relative tolerance (scale-invariant)
-        if abs(coef.imag) > abs(coef) * 1e-8:
-            imag_ratio_percent = abs(coef.imag) / abs(coef) * 100
-            raise ValueError(
-                f"Hamiltonian must be Hermitian (real coefficients). "
-                f"Found coefficient {coef} where imaginary part is "
-                f"{imag_ratio_percent:.4g}% of magnitude (max allowed: 1e-6%).")
-        pauli_dict[pauli] = coef.real
+    pauli_dict = real_pauli_file_coefficients(pauli_dict)
 
     logger.info(f"Loaded {len(pauli_dict)} Pauli terms on {numq} qubits.")
 
@@ -559,18 +569,7 @@ def load_pauli(config_hamiltonian: HamiltonianConfiguration):
                         raise ValueError("Inconsistent dense Pauli string length.")
                     numq = len(pauli)
                     pauli_dict[pauli] = coefficient
-        # Validate that all coefficients are real (Hamiltonians must be Hermitian)
-        # and convert to float
-        for pauli in pauli_dict:
-            coef = pauli_dict[pauli]
-            # Use relative tolerance (scale-invariant)
-            if abs(coef.imag) > abs(coef) * 1e-8:
-                imag_ratio_percent = abs(coef.imag) / abs(coef) * 100
-                raise ValueError(
-                    f"Hamiltonian must be Hermitian (real coefficients). "
-                    f"Found coefficient {coef} where imaginary part is "
-                    f"{imag_ratio_percent:.4g}% of magnitude (max allowed: 1e-6%).")
-            pauli_dict[pauli] = coef.real
+        pauli_dict = real_pauli_file_coefficients(pauli_dict)
         if fmt == "dense":
             return Hamiltonian(LinearCombinationOfPauliStrings(num_qubits=numq, dense=pauli_dict))
         elif fmt == "sparse":
@@ -609,16 +608,7 @@ def load_pauli(config_hamiltonian: HamiltonianConfiguration):
 
             pauli_dict[sparse_pauli] = coefficient
 
-        # Validate Hermitian and convert to float
-        for pauli in pauli_dict:
-            coef = pauli_dict[pauli]
-            if abs(coef.imag) > abs(coef) * 1e-8:
-                imag_ratio_percent = abs(coef.imag) / abs(coef) * 100
-                raise ValueError(
-                    f"Hamiltonian must be Hermitian (real coefficients). "
-                    f"Found coefficient {coef} where imaginary part is "
-                    f"{imag_ratio_percent:.4g}% of magnitude (max allowed: 1e-6%).")
-            pauli_dict[pauli] = coef.real
+        pauli_dict = real_pauli_file_coefficients(pauli_dict)
 
         return Hamiltonian(LinearCombinationOfPauliStrings(num_qubits=numq, sparse=pauli_dict))
     else:

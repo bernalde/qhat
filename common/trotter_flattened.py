@@ -21,6 +21,7 @@ if TYPE_CHECKING:
 from qualtran.cirq_interop.t_complexity_protocol import TComplexity, t_complexity
 
 from qhat.common.commuting_pauli_string_evolution import CommutingPauliStringEvolution
+from qhat.common.hermiticity import require_real_scalar
 from qhat.common.pauli_utils import validate_pauli_string
 
 # Get logger for this module
@@ -328,6 +329,11 @@ class Trotterization(Bloq):
         # Validate each Pauli string
         for pauli_string, coeff in self.pauli_terms:
             validate_pauli_string(pauli_string)
+            require_real_scalar(f"coefficient of {pauli_string}", coeff)
+        for coeff in self.coefficients:
+            require_real_scalar("Trotterization ramp coefficient", coeff)
+        require_real_scalar("Trotterization time", self.time)
+        require_real_scalar("Trotterization hbar", self.hbar)
 
         # Initialize pattern basics
         object.__setattr__(self, "_prologue", ())

@@ -25,9 +25,12 @@ from qualtran import Bloq, BloqBuilder, QDType, QFxp, Register, Side, Signature,
 from qualtran.bloqs.basic_gates import Hadamard, OnEach
 from qualtran.symbolics import ceil, is_symbolic, log2, SymbolicFloat, SymbolicInt
 
+from qhat.common.hermiticity import require_real_scalar
+
 
 def precision_bits(phase_error: float) -> int:
     """Smallest n with 2**-n <= phase_error (tolerant of floating-point round-off)."""
+    phase_error = require_real_scalar("phase_error", phase_error)
     if not 0 < phase_error < 1:
         raise ValueError(f"phase_error must be in (0, 1), got {phase_error}.")
     # Round-off can turn an intended 2**-n into e.g. 0.12499999999999999, making log2 a few ulps
