@@ -100,7 +100,7 @@ class TestNoComplexWarnings:
         config_ham, H = complex_hamiltonian
         energy_error = 0.05
         with warnings.catch_warnings():
-            warnings.simplefilter("error", np.ComplexWarning)
+            warnings.simplefilter("error", np.exceptions.ComplexWarning)
 
             lo, hi = H.compute_initial_energy_bounds(config_ham)
             E0 = (lo + hi) / 2
