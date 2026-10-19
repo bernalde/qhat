@@ -9,6 +9,7 @@ import warnings
 
 import numpy as np
 import pytest
+from qualtran.cirq_interop.t_complexity_protocol import t_complexity
 
 from qhat.analysis.algorithm import qpe_energy_window, qpe_requirements
 from qhat.analysis.config_types import (
@@ -18,6 +19,7 @@ from qhat.analysis.config_types import (
 )
 from qhat.analysis.hamiltonian import load_numpy
 from qhat.analysis.unitary import encode_double_factorization, encode_ramped_trotter
+from qhat.common.commuting_pauli_string_evolution import CommutingPauliStringEvolution
 from qhat.common.pauli_string_evolution import PauliStringEvolution
 from qhat.common.qpe_window_state import precision_bits
 from qhat.common.trotter_flattened import Trotterization
@@ -155,6 +157,44 @@ class TestSanityChecks:
         with pytest.raises(ValueError, match="coefficient of ZZ must be real"):
             Trotterization.from_method([("XI", 0.5), ("ZZ", 0.25j)], "second order",
                                        time=1.0, num_steps=2)
+
+    def test_pauli_string_evolution_stores_floats(self):
+        pse = PauliStringEvolution(pauli_string="XZ", coefficient=np.complex128(0.37 + 1e-19j),
+                                   time=np.complex128(0.81 + 1e-20j), hbar=np.float64(1.0))
+        assert type(pse.coefficient) is float and pse.coefficient == 0.37
+        assert type(pse.time) is float and pse.time == 0.81
+        assert type(pse.hbar) is float
+        t_complexity(pse)  # builds the Cirq gate, which fails on complex exponents
+
+    def test_commuting_pauli_string_evolution_stores_floats(self):
+        cpse = CommutingPauliStringEvolution(
+            pauli_terms=(("XZ", np.complex128(0.37 + 1e-19j)), ("ZX", -0.21)),
+            time=np.complex128(0.81 + 1e-20j))
+        assert all(type(c) is float for _, c in cpse.pauli_terms)
+        assert cpse.pauli_terms[0] == ("XZ", 0.37)
+        assert type(cpse.time) is float and type(cpse.hbar) is float
+        t_complexity(cpse)
+
+    def test_trotterization_stores_floats(self):
+        trotter = Trotterization.from_method(
+            [("XI", np.complex128(0.37 + 1e-19j)), ("ZZ", -0.21)], "second order",
+            time=np.complex128(0.81 + 1e-20j), num_steps=3)
+        assert all(type(c) is float for _, c in trotter.pauli_terms)
+        assert trotter.pauli_terms[0] == ("XI", 0.37)
+        assert all(type(c) is float for c in trotter.coefficients)
+        assert type(trotter.time) is float and type(trotter.hbar) is float
+        t_complexity(trotter)
+
+    def test_ramped_trotter_accepts_complex_typed_energy_error(self, complex_hamiltonian):
+        _, H = complex_hamiltonian
+        config_unitary = UnitaryConfiguration()
+        config_unitary.encode_ramped_trotter(
+            energy_error=np.complex128(0.05 + 0j), trotter_order="second order")
+        config_unitary.error_coeff_mode = "exact"
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", np.exceptions.ComplexWarning)
+            trotter = encode_ramped_trotter(config_unitary, H, 0.37)
+        assert trotter.num_steps >= 1
 
     def test_ramped_trotter_rejects_complex_time(self, complex_hamiltonian):
         _, H = complex_hamiltonian

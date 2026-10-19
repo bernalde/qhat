@@ -58,11 +58,11 @@ class PauliStringEvolution(Bloq):
     hbar: float = 1.0
 
     def __attrs_post_init__(self):
-        """Validate the Pauli string contains only valid characters."""
+        """Validate the Pauli string, and store coefficient, time, and hbar as floats."""
         validate_pauli_string(self.pauli_string)
-        require_real_scalar("PauliStringEvolution coefficient", self.coefficient)
-        require_real_scalar("PauliStringEvolution time", self.time)
-        require_real_scalar("PauliStringEvolution hbar", self.hbar)
+        for name in ("coefficient", "time", "hbar"):
+            value = require_real_scalar(f"PauliStringEvolution {name}", getattr(self, name))
+            object.__setattr__(self, name, value)
 
     @cached_property
     def signature(self) -> Signature:

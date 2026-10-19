@@ -326,14 +326,17 @@ class Trotterization(Bloq):
                 f"All Pauli strings must have the same length. Got lengths: {lengths}"
             )
 
-        # Validate each Pauli string
+        # Validate each term, and store coefficients, time, and hbar as floats
+        pauli_terms = []
         for pauli_string, coeff in self.pauli_terms:
             validate_pauli_string(pauli_string)
-            require_real_scalar(f"coefficient of {pauli_string}", coeff)
-        for coeff in self.coefficients:
-            require_real_scalar("Trotterization ramp coefficient", coeff)
-        require_real_scalar("Trotterization time", self.time)
-        require_real_scalar("Trotterization hbar", self.hbar)
+            coeff = require_real_scalar(f"coefficient of {pauli_string}", coeff)
+            pauli_terms.append((pauli_string, coeff))
+        object.__setattr__(self, "pauli_terms", tuple(pauli_terms))
+        object.__setattr__(self, "coefficients", tuple(
+            require_real_scalar("Trotterization ramp coefficient", c) for c in self.coefficients))
+        object.__setattr__(self, "time", require_real_scalar("Trotterization time", self.time))
+        object.__setattr__(self, "hbar", require_real_scalar("Trotterization hbar", self.hbar))
 
         # Initialize pattern basics
         object.__setattr__(self, "_prologue", ())

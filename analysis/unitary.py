@@ -304,15 +304,15 @@ def encode_ramped_trotter(
         logger.info(f"-- Trotter error coefficients: C1 = {c1}, C2 = {c2}")
         if config_unitary.energy_error is None:
             raise ValueError("Automatic Trotter step selection needs unitary.energy_error.")
-        require_real_scalar("unitary.energy_error", config_unitary.energy_error)
-        logger.info(f"-- allowable energy error = {config_unitary.energy_error} Hartrees")
+        energy_error = require_real_scalar("unitary.energy_error", config_unitary.energy_error)
+        logger.info(f"-- allowable energy error = {energy_error} Hartrees")
         logger.info(f"-- effective energy range = {2 * math.pi / tevol_hbar} Hartrees")
-        eps_trotter = config_unitary.energy_error * tevol_hbar / (2 * math.pi)
+        eps_trotter = energy_error * tevol_hbar / (2 * math.pi)
         logger.info(f"-- allowable fractional Trotter error = {eps_trotter}")
-        # use config_unitary.energy_error here instead of eps_trotter, because these equations are
-        # derived in terms of the absolute energy error rather than the fractional energy error
-        s1 = tevol_hbar * config_unitary.error_scale * c1 / config_unitary.energy_error
-        s2 = tevol_hbar * math.sqrt(config_unitary.error_scale * c2 / config_unitary.energy_error)
+        # use energy_error here instead of eps_trotter, because these equations are derived in
+        # terms of the absolute energy error rather than the fractional energy error
+        s1 = tevol_hbar * config_unitary.error_scale * c1 / energy_error
+        s2 = tevol_hbar * math.sqrt(config_unitary.error_scale * c2 / energy_error)
         logger.info(f"-- Trotter step count: s1 = {s1}, s2 = {s2}")
 
         # Cost factors: r1=1 (single ramp), r2=2 (forward+backward)
@@ -333,7 +333,7 @@ def encode_ramped_trotter(
                 # Fourth-order step count using C2-based heuristic
                 # NOTE: This is an approximation provided by Claude (not human verified) since we don't
                 #       compute the exact C4 coefficient
-                x = config_unitary.error_scale * c2 / config_unitary.energy_error
+                x = config_unitary.error_scale * c2 / energy_error
                 s4 = tevol_hbar * x ** (1.0/3.0)
                 logger.warning(
                     "Fourth-order step count (s4) uses an APPROXIMATION based on C2, not an exact C4 "

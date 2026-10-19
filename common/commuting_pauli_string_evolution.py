@@ -127,12 +127,17 @@ class CommutingPauliStringEvolution(Bloq):
                 f"All Pauli strings must have the same length. Got lengths: {lengths}"
             )
 
-        # Validate each Pauli string
+        # Validate each term, and store coefficients, time, and hbar as floats
+        pauli_terms = []
         for pauli_string, coeff in self.pauli_terms:
             validate_pauli_string(pauli_string)
-            require_real_scalar(f"coefficient of {pauli_string}", coeff)
-        require_real_scalar("CommutingPauliStringEvolution time", self.time)
-        require_real_scalar("CommutingPauliStringEvolution hbar", self.hbar)
+            coeff = require_real_scalar(f"coefficient of {pauli_string}", coeff)
+            pauli_terms.append((pauli_string, coeff))
+        object.__setattr__(self, "pauli_terms", tuple(pauli_terms))
+        object.__setattr__(self, "time",
+                           require_real_scalar("CommutingPauliStringEvolution time", self.time))
+        object.__setattr__(self, "hbar",
+                           require_real_scalar("CommutingPauliStringEvolution hbar", self.hbar))
 
         # Check that all Pauli strings pairwise commute
         if not all_commute(pauli_strings):
