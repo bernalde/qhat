@@ -18,7 +18,11 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: 3.x
+        # Ideally, QHAT should allow '3.x', but QHAT has to be pinned to
+        # '3.14' until pyLIQTR (currently at 1.4.2) updates its Qualtran
+        # dependency.  See https://github.com/lanl/qhat/issues/120 for the
+        # discussion.
+        python-version: '3.14'
         cache: 'pip'
 
     - name: Report versions
@@ -104,7 +108,8 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: 3.x
+        # See '3.14' comment above.
+        python-version: '3.14'
 
     - name: Restore Python wheels
       uses: actions/download-artifact@v8
