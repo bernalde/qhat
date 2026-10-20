@@ -8,6 +8,7 @@ os.environ["QSHARP_PYTHON_TELEMETRY"] = "none"
 import logging
 import math
 
+from qhat.common.hermiticity import require_real_scalar
 from qhat.common.logging_utils import configure_logging
 from qhat.analysis.algorithm import build_algorithm, qpe_energy_window
 from qhat.analysis.analysis import analyze_algorithm
@@ -77,6 +78,10 @@ def run():
         if getattr(state.config_unitary, 'timestep', None) is not None:
             tevol_hbar = state.config_unitary.timestep
             logger.verbose(f"-- user timestep override = {tevol_hbar} * hbar")
+
+        tevol_hbar = require_real_scalar("evolution time t/hbar", tevol_hbar)
+        if tevol_hbar <= 0:
+            raise ValueError(f"Evolution time t/hbar must be positive, got {tevol_hbar}.")
 
     # Unitary _____________________________________________________________________________________
 

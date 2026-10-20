@@ -3,6 +3,7 @@ import math
 from typing import Dict
 import cirq
 import numpy as np
+from openfermion import InteractionOperator
 
 from qualtran import (
     Bloq,
@@ -23,6 +24,7 @@ from pyLIQTR.ProblemInstances.ChemicalHamiltonian import ChemicalHamiltonian
 from qhat.analysis.config_types import UnitaryConfiguration
 from qhat.analysis.ordering import reorder_paulis
 from qhat.analysis.utils import value
+from qhat.common.hermiticity import DEFAULT_RTOL, max_relative_imaginary, require_real_scalar
 
 logger = logging.getLogger(__name__)
 
@@ -197,10 +199,21 @@ def encode_double_factorization(
 
     logger.verbose("Encoding with double-factorized block encoding from pyLIQTR.")
 
+    # pyLIQTR's double factorization keeps only the real part of the integrals (see issue #115).
+    core = hamiltonian.get_core_operator()
+    if isinstance(core, InteractionOperator):
+        for label, tensor in (("one-body", core.one_body_tensor), ("two-body", core.two_body_tensor)):
+            ratio = max_relative_imaginary(tensor)
+            if ratio > DEFAULT_RTOL:
+                raise NotImplementedError(
+                    f"Double factorization does not support complex integrals: the {label} "
+                    f"tensor has max |imag| / max |element| = {ratio:.3g}.  Use another unitary "
+                    "encoding, such as ramped Trotter.")
+
     # TODO: We need to process the Hamiltonian into a ChemicalHamiltonian.  Under what conditions
     #       can that happen?  Purely-fermionic only?
     problem_instance = ChemicalHamiltonian(
-            mol_ham=hamiltonian.get_core_operator(),
+            mol_ham=core,
             mol_name="molecular hamiltonian")
     # TODO: Do we want to exercise any of the other options to DoubleFactorized?
     return DoubleFactorized(
@@ -232,7 +245,9 @@ def encode_ramped_trotter(
     impl_label = f"{trotter_impl} QHAT"
     logger.verbose(f"Encoding with ramped-trotterization method from `common` ({impl_label}).")
 
-    assert tevol_hbar >= 0.0
+    tevol_hbar = require_real_scalar("evolution time t/hbar", tevol_hbar)
+    if tevol_hbar <= 0.0:
+        raise ValueError(f"Evolution time t/hbar must be positive, got {tevol_hbar}.")
     logger.info(f"-- using timestep = {tevol_hbar}")
 
     # Check if user provided manual step count
@@ -284,16 +299,20 @@ def encode_ramped_trotter(
             mode=error_coeff_mode,
             auto_exact=error_coeff_auto_exact
         )
+        c1 = require_real_scalar("Trotter error coefficient C1", c1)
+        c2 = require_real_scalar("Trotter error coefficient C2", c2)
         logger.info(f"-- Trotter error coefficients: C1 = {c1}, C2 = {c2}")
-        assert config_unitary.energy_error is not None
-        logger.info(f"-- allowable energy error = {config_unitary.energy_error} Hartrees")
+        if config_unitary.energy_error is None:
+            raise ValueError("Automatic Trotter step selection needs unitary.energy_error.")
+        energy_error = require_real_scalar("unitary.energy_error", config_unitary.energy_error)
+        logger.info(f"-- allowable energy error = {energy_error} Hartrees")
         logger.info(f"-- effective energy range = {2 * math.pi / tevol_hbar} Hartrees")
-        eps_trotter = config_unitary.energy_error * tevol_hbar / (2 * math.pi)
+        eps_trotter = energy_error * tevol_hbar / (2 * math.pi)
         logger.info(f"-- allowable fractional Trotter error = {eps_trotter}")
-        # use config_unitary.energy_error here instead of eps_trotter, because these equations are
-        # derived in terms of the absolute energy error rather than the fractional energy error
-        s1 = tevol_hbar * config_unitary.error_scale * c1 / config_unitary.energy_error
-        s2 = tevol_hbar * math.sqrt(config_unitary.error_scale * c2 / config_unitary.energy_error)
+        # use energy_error here instead of eps_trotter, because these equations are derived in
+        # terms of the absolute energy error rather than the fractional energy error
+        s1 = tevol_hbar * config_unitary.error_scale * c1 / energy_error
+        s2 = tevol_hbar * math.sqrt(config_unitary.error_scale * c2 / energy_error)
         logger.info(f"-- Trotter step count: s1 = {s1}, s2 = {s2}")
 
         # Cost factors: r1=1 (single ramp), r2=2 (forward+backward)
@@ -314,7 +333,7 @@ def encode_ramped_trotter(
                 # Fourth-order step count using C2-based heuristic
                 # NOTE: This is an approximation provided by Claude (not human verified) since we don't
                 #       compute the exact C4 coefficient
-                x = config_unitary.error_scale * c2 / config_unitary.energy_error
+                x = config_unitary.error_scale * c2 / energy_error
                 s4 = tevol_hbar * x ** (1.0/3.0)
                 logger.warning(
                     "Fourth-order step count (s4) uses an APPROXIMATION based on C2, not an exact C4 "
