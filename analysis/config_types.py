@@ -113,7 +113,7 @@ class HamiltonianConfiguration(ConfigurationBase):
         self.save_if_present(table, "max_bosons_per_state")
         table["lower_bound"] = self.lower_bound
         table["exact_energy_lower_bound"] = self.exact_energy_lower_bound
-        table["upper_bound"] = self.lower_bound
+        table["upper_bound"] = self.upper_bound
         table["exact_energy_upper_bound"] = self.exact_energy_upper_bound
         self.save_if_present(table, "format")
         self.save_if_present(table, "filter_metadata")
