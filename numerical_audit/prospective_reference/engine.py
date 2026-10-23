@@ -51,6 +51,8 @@ class Reference:
     def __init__(self, diagonal, v, T, denominator, partner=None, coupling=0):
         require(T > 0 and denominator > 0, 'Invalid time/denominator')
         self.diagonal = descriptor(diagonal)
+        require(self.diagonal[0]==0,'Reference D must be diagonal')
+        require(partner is None or coupling==0 or partner!=v,'Reference partner must differ from input')
         self.v, self.T, self.den = v, T, denominator
         self.inputs = [v] if partner is None or coupling == 0 else [v, partner]
         self.energies = {}
@@ -88,9 +90,12 @@ class Reference:
 
 def choose_partner(blocks, v):
     choices = []
+    seen=set()
     for block in blocks:
         desc = descriptor(block)
         if desc[0]:
+            require(desc[0] not in seen,'Partner selection requires complete unique flip classes')
+            seen.add(desc[0])
             f = value(desc, v)
             if f:
                 choices.append((-abs(f), desc[0], v ^ desc[0], f))
@@ -112,6 +117,7 @@ class Features:
             for j in range(i + 1, len(blocks)):
                 cols = []
                 x, y = desc[i][0], desc[j][0]
+                if x==0 and y==0:continue
                 for v in reference.inputs:
                     b = (value(desc[j], v) * value(desc[i], v ^ y)
                          - value(desc[i], v) * value(desc[j], v ^ x))
@@ -149,30 +155,22 @@ class Features:
             a[ids] += -2 * b if left < right else 2 * b
 
 
-def best_slot(order, moving, features):
-    """Scan every insertion slot, recomputing each nonnegative score."""
-    remaining = [i for i in order if i != moving]
-    first = [moving] + remaining
-    a = features.amplitude(first)
-    scores = [features.score(a)]
-    for crossed in remaining:
-        features.crossing(a, moving, crossed)
-        scores.append(features.score(a))
-    slot = min(range(len(scores)), key=lambda k: (scores[k], k))
-    return remaining[:slot] + [moving] + remaining[slot:], scores, slot
-
-
 def placement(blocks, diagonal_ids, off_ids, features):
     began = time.monotonic()
-    best = None
+    first=diagonal_ids+off_ids
+    a=features.amplitude(first)
+    best=(features.score(a),list(first))
     evaluations = 0
     for slot in range(len(off_ids) + 1):
         order = off_ids[:slot] + diagonal_ids + off_ids[slot:]
-        score = features.score(features.amplitude(order))
+        score = features.score(a)
         evaluations += 1
-        if best is None or score < best[0]:
+        if score < best[0]:
             best = score, order
+        if slot<len(off_ids):
+            for moving in diagonal_ids:features.crossing(a,moving,off_ids[slot])
     initial_score, order = best
+    initial_score=features.score(features.amplitude(order))
     initial_slot = sum(i in off_ids for i in order[:order.index(diagonal_ids[0])]) if diagonal_ids else 0
     slots = {i:initial_slot for i in diagonal_ids}
     def assemble():
@@ -183,8 +181,8 @@ def placement(blocks, diagonal_ids, off_ids, features):
         return out
     history = []
     for moving in diagonal_ids:
-        before = features.score(features.amplitude(order))
         a = features.amplitude(order)
+        before = features.score(a)
         old = slots[moving]
         for j in reversed(range(old)):
             features.crossing(a,off_ids[j],moving)
@@ -205,7 +203,7 @@ def placement(blocks, diagonal_ids, off_ids, features):
         else:
             slots[moving]=old
             after = before
-        history.append(dict(unit=moving,slot=slot,before=before,after=after))
+        history.append(dict(unit=moving,slot=slots[moving],proposed_slot=slot,before=before,after=after))
     return dict(order=order,score=features.score(features.amplitude(order)),
                 initial_score=initial_score,evaluations=evaluations,history=history,
                 seconds=time.monotonic()-began)

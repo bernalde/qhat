@@ -19,6 +19,7 @@ python guarded.py --label generate --logs ABS_LOGS -- ABS_PYTHON campaign.py gen
 python guarded.py --label prepare --logs ABS_LOGS -- ABS_PYTHON campaign.py prepare --qhat-root ABS_QHAT --output ABS_OUTPUT
 python guarded.py --label run --logs ABS_LOGS -- ABS_PYTHON campaign.py run --qhat-root ABS_QHAT --output ABS_OUTPUT
 python guarded.py --label verify --logs ABS_LOGS -- ABS_PYTHON verify.py --qhat-root ABS_QHAT --output ABS_OUTPUT
+python guarded.py --label summarize --logs ABS_LOGS -- ABS_PYTHON campaign.py summarize --qhat-root ABS_QHAT --output ABS_OUTPUT
 ```
 
 Generation freezes source/protocol/environment before SCF, then authenticates
@@ -42,3 +43,8 @@ state allocation during search. Its pair/destination tables and complex
 arithmetic can nevertheless be expensive: report measured setup and search
 costs, not an assumed speed advantage. Full matrices used for independent
 validation are deliberately limited to eight qubits.
+
+After the completed campaign, start with [the decision report](report/README.md).
+The compact frozen inputs, designs, states and verification ledgers are retained
+in `evidence/results/`. The focused CI lane replays a scratch copy, preserving
+the committed evidence and checking the independently derived decision summary.

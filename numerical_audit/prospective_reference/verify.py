@@ -47,6 +47,113 @@ def car(key,n):
     return sparse.csr_matrix((values,(rows,cols)),shape=(1<<n,1<<n),dtype=complex)
 
 
+def tensor_hamiltonian(one,two,constant):
+    """Map saved InteractionOperator tensors directly through CAR, without QHAT."""
+    n=len(one)
+    require(0<n<=8 and one.shape==(n,n) and two.shape==(n,n,n,n),
+            'Unsupported tensor dimensions before CAR allocation')
+    require(np.all(np.isfinite(one)) and np.all(np.isfinite(two)) and np.isfinite(constant),
+            'Nonfinite molecular tensors')
+    H=constant*sparse.eye(1<<n,dtype=complex,format='csr')
+    for p,q in np.argwhere(one!=0):
+        H+=one[p,q]*car(((int(p),1),(int(q),0)),n)
+    for p,q,r,s in np.argwhere(two!=0):
+        H+=two[p,q,r,s]*car(((int(p),1),(int(q),1),(int(r),0),(int(s),0)),n)
+    return H.toarray()
+
+
+def tensor_bridge(one,two,constant,target,policy,hf,hf_energy):
+    raw=tensor_hamiltonian(one,two,constant)
+    require(constant==policy['input_constant'],'Input scalar convention mismatch')
+    scalar=constant+policy['removed_parent_pauli_scalar']
+    difference=float(np.max(abs(raw-target-scalar*np.eye(len(raw)))))
+    allowance=policy['canonical_hermitian_adjustment_fermionic_l1']+policy['discarded_parent_fermionic_l1']
+    require(policy['parent_cutoff']==1e-12 and 0<=allowance<=2e-8,
+            'Unexpected target-policy adjustment on the bounded panel')
+    require(difference<=allowance+2e-10,'Raw tensors do not match retained target and declared policy')
+    hf_difference=abs(raw[hf,hf]-hf_energy)
+    require(hf_difference<1e-8,'Independent CAR HF matrix element mismatch')
+    return dict(raw_tensor_target_difference=difference,target_policy_l1_allowance=allowance,
+                independent_CAR_HF_difference=float(hf_difference))
+
+
+def tensor_product_oracle(word,n):
+    """Conventional q=0 leftmost tensor factors, permuted to little-bit indexing."""
+    require(0<n<=8,'Refuse large tensor-product oracle')
+    matrices={'I':np.eye(2),'X':np.array([[0,1],[1,0]]),
+              'Y':np.array([[0,-1j],[1j,0]]),'Z':np.diag([1,-1])}
+    labels=dict(word);matrix=np.ones((1,1),complex)
+    for q in range(n):matrix=np.kron(matrix,matrices[labels.get(q,'I')])
+    permutation=[int(f'{v:0{n}b}'[::-1],2) for v in range(1<<n)]
+    return matrix[np.ix_(permutation,permutation)]
+
+
+def check_current_ledger(method,position_budget,diagonal_count,off_count):
+    initial=list(map(int,method['initial_slot_scores']));history=method['history']
+    require(len(initial)==off_count+1 and len(history)==diagonal_count,'Incomplete exact search ledger')
+    start=min(range(len(initial)),key=lambda i:(initial[i],i))
+    require(method['start_slot']==start,'Initial slot is not the earliest exact minimum')
+    previous=initial[start];slots=[]
+    for index,item in enumerate(history):
+        scores=list(map(int,item['slot_scores']));selected=min(range(len(scores)),key=lambda i:(scores[i],i))
+        require(len(scores)==off_count+1 and item['index']==index and item['old_slot']==start,
+                'Incorrect coordinate scan identity/count')
+        require(int(item['old_score'])==previous==scores[start] and item['new_slot']==selected,
+                'Exact coordinate history is inconsistent')
+        require(int(item['new_score'])==scores[selected]<=previous,'Exact coordinate score increased')
+        previous=scores[selected];slots.append(selected)
+    require(previous==int(method['exact_score_numerator']) and slots==method['slots'],
+            'Exact search terminal score/slots mismatch')
+    require(position_budget==(diagonal_count+1)*(off_count+1)==method['evaluations'],
+            'Exact position count does not match recorded scans')
+
+
+def check_reference_edge(method,choices):
+    expected=min(choices)[2:] if choices else (None,0)
+    require((method['partner'],int(method['coupling_numerator']))==expected,
+            'Reference partner was not selected by the frozen rule')
+
+
+def independent_decision(rows,contexts):
+    """Independent predicates and median implementation, without decisions.py."""
+    arms=('current','pair_reference','optimized_JD','optimized_J0','pauli_JD',
+          'pauli_JD_large','jw_signed','jw_magnitude','symmetric_JD')
+    errors={(r['case'],r['state'],r['arm'],r['budget_units']):r['one_minus_overlap'] for r in rows}
+    require(len(errors)==len(rows)==216,'Duplicate/incomplete independent decision grid')
+    median=lambda values: (sorted(values)[len(values)//2] if len(values)%2 else
+                           (sorted(values)[len(values)//2-1]+sorted(values)[len(values)//2])/2)
+    contrasts={}
+    for budget in (5,10,20,50):
+        block={}
+        for numerator in ('current','pair_reference'):
+            for denominator in arms:
+                if numerator==denominator:continue
+                pairs=[(errors[c,s,numerator,budget],errors[c,s,denominator,budget]) for c,s in contexts]
+                differences=[a-b for a,b in pairs]
+                wins=sum(d < -1e-12 for d in differences);losses=sum(d > 1e-12 for d in differences)
+                ratios=[a/b for a,b in pairs if b>1e-12]
+                block[numerator+'_over_'+denominator]=dict(n=len(pairs),wins=wins,ties=len(pairs)-wins-losses,
+                    losses=losses,ratios_retained=len(ratios),floor_exclusions=len(pairs)-len(ratios),
+                    median_ratio=median(ratios) if ratios else None,max_ratio=max(ratios) if ratios else None)
+        contrasts[str(budget)]=block
+    costs=[];losses=[]
+    for (case,state),methods in sorted(contexts.items()):
+        current=methods['current']['setup_cpu_seconds']+methods['current']['search_cpu_seconds']
+        corrected=methods['pair_reference']['setup_cpu_seconds']+methods['pair_reference']['search_cpu_seconds']
+        require(current>0 and corrected>=0,'Invalid independent construction costs')
+        costs.append(dict(case=case,state=state,current_cpu=current,corrected_cpu=corrected,ratio=corrected/current))
+        a=errors[case,state,'pair_reference',10];b=errors[case,state,'current',10]
+        if a-b>1e-12:losses.append(dict(case=case,state=state,ratio=a/(b if b>1e-12 else 1e-12)))
+    primary=contrasts['10']['pair_reference_over_current'];median_cpu=median([x['ratio'] for x in costs])
+    max_loss=max([x['ratio'] for x in losses],default=1.)
+    conditions=dict(at_least_four_wins=primary['wins']>=4,no_loss_exceeds_twofold=max_loss<=2,
+                    median_construction_CPU_at_most_twofold=median_cpu<=2)
+    return dict(contrasts=contrasts,costs=costs,primary=primary,strict_loss_ratios=losses,
+        median_construction_CPU_ratio=median_cpu,maximum_strict_loss_ratio=max_loss,conditions=conditions,
+        correction_passes=all(conditions.values()),tie_and_denominator_floor=1e-12,
+        loss_guard='strict losses use corrected/max(current,1e-12); descriptive ratios exclude denominator<=1e-12')
+
+
 def bch_taylor(units,order):
     n=units[0].shape[0]
     first=np.zeros((n,n),complex);second=np.zeros_like(first)
@@ -86,13 +193,17 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--qhat-root',type=Path,required=True);a=p.parse_args();f=frozen(a)
     require(not any(k=='qhat' or k.startswith('qhat.') for k in sys.modules),'Verifier imported QHAT')
-    verified=[];max_state=max_metric=max_reference=max_target=max_score=0.;references=0
+    verified=[];raw_rows=[];contexts={};max_state=max_metric=max_reference=max_target=max_score=0.;references=0
     for case in CASES:
         d=json.loads((a.output/'designs'/(case+'.json')).read_text());n=d['n'];require(n<=8,'Size guard')
         model=json.loads((a.output/'inputs'/case/'model.json').read_text());den=int(d['denominator']);dim=1<<n
         require(sha(a.output/'inputs'/case/'tensors.npz')==model['tensors_sha256'],'Tensor hash changed')
         require(sha(a.output/'inputs'/case/'orbitals.npz')==model['orbitals_sha256'],'Orbital hash changed')
         total=decoded(d['coefficients']);P={w:literal(w,n) for w in total}
+        oracle_words=[((0,'Y'),),((0,'Y'),(2,'Y'),(3,'Z'))] if n>=4 else [((0,'Y'),)]
+        for word in oracle_words:
+            require(np.array_equal(literal(word,n)[0].toarray(),tensor_product_oracle(word,n)),
+                    'Tensor-product/occupation indexing bridge failed')
         H=sum((c/den)*P[w][0] for w,c in total.items()).toarray()
         fermionic=sparse.csr_matrix((dim,dim),dtype=complex)
         for parent in model['fermionic_parents']:
@@ -105,6 +216,14 @@ def main():
             contraction=constant+sum(h[q,q] for q in range(occupied))+sum(
                 g[q,r,r,q]-g[q,r,q,r] for q in range(occupied) for r in range(occupied))
             require(abs(contraction-model['hf_energy'])<1e-8,'Independent tensor/HF contraction mismatch')
+            bridge=tensor_bridge(h,g,constant,H,model['policy'],(1<<occupied)-1,model['hf_energy'])
+        with np.load(a.output/'inputs'/case/'orbitals.npz') as z:
+            C=z['mo_coeff'];S=z['ao_overlap'];occupancies=z['mo_occ']
+            require(np.max(abs(C.T@S@C-np.eye(C.shape[1])))<1e-8,'Saved orbital orthogonality mismatch')
+            require(np.sum(occupancies)==model['total_electrons'],'Saved total electron count mismatch')
+            occupied_spatial=model['total_electrons']//2
+            require(np.array_equal(occupancies,np.r_[np.full(occupied_spatial,2.),
+                np.zeros(len(occupancies)-occupied_spatial)]),'Saved RHF occupations mismatch')
         blocks=[decoded(b) for b in d['blocks']]
         units=[sum((c/den)*P[w][0] for w,c in b.items()) for b in blocks]
         paulis=[(total[w]/den)*P[w][0] for w in sorted(total)]
@@ -123,8 +242,22 @@ def main():
                 require(all(all(k[row]==k[col] for k in counts) for row,c in amplitudes.items() if c),
                         'Exact completed unit changes spin projection')
         D=np.diag(H.diagonal());case_rows=[];score_rows=[]
+        flips=[sum(1<<q for q,p in next(iter(b)) if p in 'XY') for b in blocks]
+        diagonal_ids=sorted((i for i,x in enumerate(flips) if x==0),
+            key=lambda i:(-abs(next(iter(blocks[i].values()))),next(iter(blocks[i]))))
+        off_ids=sorted((i for i,x in enumerate(flips) if x),
+            key=lambda i:(-sum(abs(c) for c in blocks[i].values()),flips[i]))
+        hf=(1<<d['electrons'])-1
+        near=min((u for u in range(dim) if u!=hf and all(k[u]==k[hf] for k in counts)),
+                 key=lambda u:((u^hf).bit_count(),u))
+        require(len(d['points'])==2 and {x['state'] for x in d['points']}=={'HF','near'},'Wrong state selection grid')
         for point in d['points']:
             v=point['occupation'];prefix=case+'.'+point['state'];refpath=a.output/'references'/(prefix+'.npz')
+            require(v==({'HF':hf,'near':near}[point['state']]),'Wrong declared HF/near determinant')
+            require(point['position_budget']==(len(diagonal_ids)+1)*(len(off_ids)+1),'Wrong position budget')
+            require(set(point['methods'])=={'current','pair_reference','optimized_JD','optimized_J0','pauli_JD',
+                'pauli_JD_large','jw_signed','jw_magnitude','symmetric_JD'},'Wrong arm set')
+            contexts[case,point['state']]=point['methods']
             with np.load(refpath) as z:initial=z['initial'];exact=z['exact']
             require(np.count_nonzero(initial)==1 and initial[v]==1,'Wrong input determinant')
             check=expm_multiply(-1j*sparse.csr_matrix(H),initial,traceA=-1j*np.trace(H))
@@ -136,7 +269,6 @@ def main():
                 _,dest,phase=P[w];row=int(dest[v])
                 integer_column[row]=integer_column.get(row,0)+c*int(phase[v].real)
             choices=[(-abs(c),row^v,row,c) for row,c in integer_column.items() if row!=v and c]
-            expected_edge=min(choices) if choices else None
             for name,method in point['methods'].items():
                 bs=paulis if method['partition']=='pauli' else units
                 require(sorted(method['order'])==list(range(len(bs))),'Invalid permutation')
@@ -146,15 +278,29 @@ def main():
                 expected=[(w,c) for i in method['order'] for w,c in sorted(
                     ({list(sorted(total))[i]:total[list(sorted(total))[i]]} if method['partition']=='pauli' else blocks[i]).items())]
                 require(schedule==expected,'Unit order/schedule mismatch')
+                require(method['unit_lengths']==[1 if method['partition']=='pauli' else len(blocks[i])
+                    for i in method['order']],'Incorrect completed-unit boundaries')
+                require(method['formula']==(2 if name=='symmetric_JD' else 1),'Wrong product formula')
+                if name in ('current','pair_reference'):
+                    require([i for i in method['order'] if flips[i]]==off_ids,'Off-unit order changed')
+                    if name=='pair_reference':
+                        require([x['unit'] for x in method['history']]==diagonal_ids,'Corrected diagonal priority changed')
+                if name=='symmetric_JD':
+                    base=point['methods']['optimized_JD']
+                    require(method['order']==base['order'] and method['schedule_sha256']==base['schedule_sha256'],
+                            'Symmetric control does not reuse declared order')
+                if name in ('jw_signed','jw_magnitude'):
+                    key=(lambda w:(total[w],w)) if name=='jw_signed' else (lambda w:(-abs(total[w]),w))
+                    require([w for w,c in schedule]==sorted(total,key=key),'Wrong fixed Pauli sort')
                 if name not in ('jw_signed','jw_magnitude','symmetric_JD'):
                     C=bch_taylor(bs,method['order']);A=D.copy()
                     if name=='optimized_J0':A[:]=0
-                    if name=='pair_reference' and method['partner'] is not None:
-                        u=method['partner'];h=int(method['coupling_numerator'])/den
-                        require(expected_edge is not None and (u,int(method['coupling_numerator']))==expected_edge[2:],
-                                'Reference partner was not selected by the frozen rule')
-                        require(abs(H[u,v]-h)<1e-12,'Incorrect reference edge')
-                        A[u,v]=A[v,u]=h
+                    if name=='pair_reference':
+                        check_reference_edge(method,choices)
+                        if method['partner'] is not None:
+                            u=method['partner'];h=int(method['coupling_numerator'])/den
+                            require(abs(H[u,v]-h)<1e-12,'Incorrect reference edge')
+                            A[u,v]=A[v,u]=h
                     score=response(C,A,v);score_delta=abs(score-method['score']);max_score=max(max_score,score_delta)
                     require(score_delta<max(2e-11,2e-8*score),'Independent response score mismatch')
                     score_rows.append(dict(state=point['state'],arm=name,score=score,difference=score_delta))
@@ -162,6 +308,17 @@ def main():
                     require(method['evaluations']<=point['position_budget'],'Matched search budget exceeded')
                 if name in ('current','pair_reference'):
                     require(method['evaluations']==point['position_budget'],'Placement scan count mismatch')
+                if name=='current':
+                    diagonal_count=len(diagonal_ids)
+                    check_current_ledger(method,point['position_budget'],diagonal_count,len(blocks)-diagonal_count)
+                    expected_order=[]
+                    for slot in range(len(off_ids)+1):
+                        expected_order.extend(i for i,s in zip(diagonal_ids,method['slots']) if s==slot)
+                        if slot<len(off_ids):expected_order.append(off_ids[slot])
+                    require(method['order']==expected_order,'Current exact diagonal priority/slot assignment mismatch')
+                    exact_score=int(method['exact_score_numerator'])/(4*int(method['exact_weight_denominator'])*den**4)
+                    require(abs(exact_score-method['score'])<max(1e-14,1e-12*exact_score),
+                            'Reported exact current score has the wrong normalization')
                 if name=='pauli_JD_large':require(method['evaluations']<=20*len(paulis)*(len(paulis)-1),'Large search budget exceeded')
                 coefficients=[c/den for w,c in schedule]
                 for budget_units in BUDGETS:
@@ -197,10 +354,14 @@ def main():
                     item=dict(row=label,row_sha256=sha(path),state_sha256=row['state_sha256'],
                               state_distance=delta,metric_difference=metric_delta)
                     case_rows.append(item);verified.append(item)
+                    raw_rows.append(row)
             print('VERIFIED',case,point['state'],'rows',len(verified),flush=True)
         write(a.output/'verification'/(case+'.json'),dict(status='passed',rows=case_rows,scores=score_rows,
-            target_difference=target_delta,design_sha256=f['design_sha256'][case]))
+            target_difference=target_delta,tensor_bridge=bridge,design_sha256=f['design_sha256'][case]))
     require(len(verified)==216 and references==6,'Incomplete declared grid')
+    require({x.name for x in (a.output/'rows').glob('*.json')}=={x['row']+'.json' for x in verified},
+            'Unaccounted physical row files')
+    write(a.output/'independent_decision.json',independent_decision(raw_rows,contexts))
     write(a.output/'verification_summary.json',dict(status='passed',new_replays=len(verified),references=references,
         max_state_distance=max_state,max_metric_difference=max_metric,max_reference_distance=max_reference,
         max_target_difference=max_target,max_score_difference=max_score))

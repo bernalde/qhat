@@ -6,8 +6,10 @@ import pytest
 from scipy.linalg import eigh,expm
 from scipy.integrate import quad_vec
 import engine as e
+import campaign
 from campaign import current_placement,target_matrix
-from verify import literal
+from verify import (literal,tensor_hamiltonian,tensor_bridge,tensor_product_oracle,
+                    check_current_ledger,check_reference_edge,independent_decision)
 
 
 def units():
@@ -66,6 +68,7 @@ def test_exact_current_rule_and_corrected_placement_keep_target_and_off_order():
     assert [i for i in result['order'] if i in off]==off
     assert result['score']==pytest.approx(features.score(features.amplitude(result['order'])))
     assert result['evaluations']==(len(diag)+1)*(len(off)+1)
+    check_current_ledger(result,result['evaluations'],len(diag),len(off))
     u,h=e.choose_partner(blocks,v);corrected=e.Features(blocks,e.Reference(D,v,1.,1,u,h))
     placed=e.placement(blocks,diag,off,corrected)
     assert [i for i in placed['order'] if i in off]==off
@@ -105,3 +108,72 @@ def test_limits_fail_before_large_allocation_or_search():
     with pytest.raises(ValueError):e.insertion([list(range(5))],features,2_000_001)
     with pytest.raises(ValueError):e.feasible_steps([1],-1)
     with pytest.raises(ValueError):e.pulses([1],0)
+
+
+def test_tensor_bridge_detects_off_diagonal_loss_with_unchanged_HF_energy():
+    one=np.array([[1.,.2],[.2,2.]]);two=np.zeros((2,2,2,2));constant=.4
+    raw=tensor_hamiltonian(one,two,constant)
+    policy=dict(input_constant=constant,removed_parent_pauli_scalar=1.5,
+                canonical_hermitian_adjustment_fermionic_l1=0.,discarded_parent_fermionic_l1=0.,parent_cutoff=1e-12)
+    target=raw-(constant+1.5)*np.eye(4)
+    tensor_bridge(one,two,constant,target,policy,1,1.4)
+    changed=one.copy();changed[0,1]+=.02;changed[1,0]+=.02
+    assert tensor_hamiltonian(changed,two,constant)[1,1]==raw[1,1]
+    with pytest.raises(ValueError,match='Raw tensors'):
+        tensor_bridge(changed,two,constant,target,policy,1,1.4)
+
+
+@pytest.mark.parametrize('n',[2,4])
+def test_conventional_tensor_product_to_occupation_indexing(n):
+    words=([tuple((q,p) for q,p in enumerate(labels) if p!='I')
+            for labels in itertools.product('IXYZ',repeat=2)] if n==2 else
+           [((0,'Y'),(2,'Y'),(3,'Z')),((0,'Z'),(1,'X'),(3,'Y'))])
+    for word in words:
+        assert np.array_equal(literal(word,n)[0].toarray(),tensor_product_oracle(word,n))
+
+
+@pytest.mark.parametrize('phase,marker',[
+    ('prepare','ALL_SCHEDULES_FROZEN.json'),('prepare','designs'),('prepare','rows'),
+    ('run','references'),('run','states'),('run','rows'),('run','run_summary.json')])
+def test_frozen_phase_outputs_cannot_be_overwritten(tmp_path,phase,marker):
+    target=tmp_path/marker
+    if '.' in marker:target.write_text('preserve original evidence')
+    else:
+        target.mkdir();(target/'evidence.txt').write_text('preserve original evidence')
+    before={str(p.relative_to(tmp_path)):p.read_bytes() for p in tmp_path.rglob('*') if p.is_file()}
+    with pytest.raises(FileExistsError):getattr(campaign,phase)(SimpleNamespace(output=tmp_path))
+    after={str(p.relative_to(tmp_path)):p.read_bytes() for p in tmp_path.rglob('*') if p.is_file()}
+    assert before==after
+
+
+def test_reference_guards_and_missing_partner_are_rejected():
+    with pytest.raises(ValueError):e.Reference({((0,'X'),):1},3,1.,1)
+    with pytest.raises(ValueError):e.Reference({((0,'Z'),):1},3,1.,1,3,1)
+    with pytest.raises(ValueError):e.choose_partner([units()[3],units()[3]],3)
+    check_reference_edge(dict(partner=None,coupling_numerator='0'),[])
+    with pytest.raises(ValueError):
+        check_reference_edge(dict(partner=None,coupling_numerator='0'),[(-2,5,6,2)])
+
+
+def test_decision_predicates_and_independent_summary_with_floor_losses():
+    from decisions import compute,ARMS
+    current=[.1,.1,1e-13,1e-13,.1,.1]
+    corrected=[.05,.1+5e-13,2e-13,6e-12,.3,.02]
+    contexts={};rows=[]
+    for point,cost in enumerate((1.,1.5,2.,2.5,1.,1.)):
+        case='case'+str(point)
+        contexts[case,'HF']={arm:dict(setup_cpu_seconds=cost if arm=='pair_reference' else 1.,
+                                    search_cpu_seconds=0.) for arm in ARMS}
+        for budget in (5,10,20,50):
+            for arm in ARMS:
+                rows.append(dict(case=case,state='HF',arm=arm,budget_units=budget,
+                    one_minus_overlap=corrected[point] if arm=='pair_reference' else current[point]))
+    result=compute(rows,contexts)
+    assert result==independent_decision(rows,contexts)
+    assert (result['primary']['wins'],result['primary']['ties'],result['primary']['losses'])==(2,2,2)
+    assert result['primary']['floor_exclusions']==2
+    assert result['maximum_strict_loss_ratio']==6
+    assert result['median_construction_CPU_ratio']==1.25
+    assert result['conditions']==dict(at_least_four_wins=False,no_loss_exceeds_twofold=False,
+                                     median_construction_CPU_at_most_twofold=True)
+    assert not result['correction_passes']

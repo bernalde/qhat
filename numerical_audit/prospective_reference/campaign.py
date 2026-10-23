@@ -9,6 +9,8 @@ import hashlib
 import importlib.metadata
 import json
 from pathlib import Path
+import platform
+import subprocess
 import sys
 import time
 
@@ -20,6 +22,7 @@ CASES={
                                 ['H',[-.8332948775591,0.,.6457876002479]]],electrons=4,n=8),
 }
 BUDGETS=(5,10,20,50)
+ORIGINAL_ONE_PASS_SHA='3cfaced88f188d418ad5fac1be585478ad7894d6d4da53142489f82c8e82fcb6'
 
 
 def sha(path):
@@ -64,14 +67,21 @@ def sources(root):
 
 def freeze_protocol(a):
     require(not a.output.exists(),'Use a fresh output directory')
+    require(sha(HERE/'one_pass.py')==ORIGINAL_ONE_PASS_SHA,'Original one-pass implementation changed')
     a.output.mkdir(parents=True)
     for case,spec in CASES.items():
         require(spec['n']<=8 and spec['n']%2==0 and spec['electrons']%2==0,
                 'Unsupported dimensions before allocation')
     env={k:importlib.metadata.version(k) for k in
-         ('numpy','scipy','numba','openfermion','openfermionpyscf','pyscf','h5py')}
+         ('numpy','scipy','numba','llvmlite','openfermion','openfermionpyscf','pyscf','h5py')}
+    commit=subprocess.check_output(['git','-C',str(a.qhat_root),'rev-parse','HEAD'],text=True).strip()
+    for name in sources(a.qhat_root)['local']:
+        relative=str((HERE/name).relative_to(a.qhat_root))
+        require(subprocess.check_output(['git','-C',str(a.qhat_root),'show',commit+':'+relative])
+                ==(HERE/name).read_bytes(),'Commit scientific source before generating inputs')
     write(a.output/'PROTOCOL_FROZEN.json',dict(cases=CASES,budgets=BUDGETS,T=1.,
         source_sha256=sources(a.qhat_root),environment=env,
+        source_commit=commit,python=sys.version,platform=platform.platform(),
         one_pass_original_sha256=sha(HERE/'one_pass.py')))
 
 
@@ -94,7 +104,7 @@ def generate(a):
     freeze_protocol(a);lib.num_threads(1)
     for case,spec in CASES.items():
         output=a.output/'inputs'/case;output.mkdir(parents=True)
-        started=time.monotonic()
+        started=time.monotonic();cpu_started=time.process_time()
         mol=gto.M(atom=spec['geometry'],basis='sto-6g',unit='Angstrom',
                   charge=0,spin=0,symmetry=False,verbose=0,max_memory=1024)
         mean=scf.RHF(mol);mean.conv_tol=1e-11;mean.max_memory=1024
@@ -141,6 +151,7 @@ def generate(a):
             frozen_spatial=list(range(frozen)),active_spatial=active,
             hf_energy=float(energy),hf_contraction=float(contraction),orthogonality_error=ortho,
             scf_converged=True,scf_cycles=int(mean.cycles),generation_seconds=time.monotonic()-started,
+            generation_cpu_seconds=time.process_time()-cpu_started,total_electrons=int(mol.nelectron),
             tensors_sha256=sha(output/'tensors.npz'),orbitals_sha256=sha(output/'orbitals.npz'))
         write(output/'model.json',specout)
         print('GENERATED',case,'qubits',n,'words',len(total),'units',len(blocks),flush=True)
@@ -187,11 +198,22 @@ def current_placement(blocks,diag,off,v,den):
     score=.25*sum(rho[d]*(b/(den*den))**2 for d,b in amplitude.items())
     return dict(order=order,score=score,evaluations=(len(diag)+1)*(len(off)+1),
         start_slot=start,slots=slots,exact_score_numerator=str(one_pass.score(amplitude,weights)),
+        history=history,initial_slot_scores=[str(s) for s in scores],
         exact_weight_denominator=str(common),setup_cpu_seconds=setup_cpu,setup_seconds=setup_wall,
         search_cpu_seconds=time.process_time()-cpu,seconds=time.monotonic()-began)
 
 
+def fresh_phase(output,phase):
+    """Preserve every frozen/partial attempt instead of overwriting evidence."""
+    names=('designs','ALL_SCHEDULES_FROZEN.json','references','rows','states','run_summary.json','reference_timings.json',
+           'verification','verification_summary.json') if phase=='prepare' else (
+           'references','rows','states','run_summary.json','reference_timings.json','verification','verification_summary.json')
+    if any((output/name).exists() for name in names):
+        raise FileExistsError('Phase artifacts already exist; preserve this attempt and use fresh output')
+
+
 def prepare(a):
+    fresh_phase(a.output,'prepare')
     import numpy as np
     import engine as e
     check_protocol(a);inputs=json.loads((a.output/'INPUTS_FROZEN.json').read_text());designs={}
@@ -220,22 +242,25 @@ def prepare(a):
             methods['pair_reference']={**corrected,'partition':'conserving','formula':1,
                 'partner':partner,'coupling_numerator':str(coupling),'setup_cpu_seconds':setup_cpu,
                 'setup_seconds':setup_seconds,'search_cpu_seconds':time.process_time()-cpu}
-            for name,bs,reference,big in (
-                ('optimized_JD',blocks,e.Reference(D,v,1.,den),False),
-                ('optimized_J0',blocks,e.Reference({():0},v,1.,den),False),
-                ('pauli_JD',paulis,e.Reference(D,v,1.,den),False),
-                ('pauli_JD_large',paulis,e.Reference(D,v,1.,den),True)):
-                cpu=time.process_time();wall=time.monotonic();features=e.Features(bs,reference)
-                setup_cpu=time.process_time()-cpu;setup_seconds=time.monotonic()-wall
+            for name,bs,unweighted,big in (
+                ('optimized_JD',blocks,False,False),('optimized_J0',blocks,True,False),
+                ('pauli_JD',paulis,False,False),('pauli_JD_large',paulis,False,True)):
+                cpu=time.process_time();wall=time.monotonic()
+                reference=e.Reference({():0} if unweighted else D,v,1.,den)
+                features=e.Features(bs,reference)
                 starts=[list(range(len(bs))),sorted(range(len(bs)),key=lambda i:(-sum(abs(c) for c in bs[i].values()),i))]
+                setup_cpu=time.process_time()-cpu;setup_seconds=time.monotonic()-wall
                 cap=20*len(bs)*(len(bs)-1) if big else budget
                 cpu=time.process_time();result=e.insertion(starts,features,cap)
                 methods[name]={**result,'partition':'pauli' if bs is paulis else 'conserving','formula':1,
                     'setup_cpu_seconds':setup_cpu,'setup_seconds':setup_seconds,
                     'search_cpu_seconds':time.process_time()-cpu}
             for name,key in (('jw_signed',lambda w:(total[w],w)),('jw_magnitude',lambda w:(-abs(total[w]),w))):
-                methods[name]=dict(partition='pauli',formula=1,order=[words.index(w) for w in sorted(words,key=key)],
-                    evaluations=0,setup_cpu_seconds=0.,search_cpu_seconds=0.)
+                cpu=time.process_time();wall=time.monotonic()
+                order=[words.index(w) for w in sorted(words,key=key)]
+                methods[name]=dict(partition='pauli',formula=1,order=order,
+                    evaluations=0,setup_cpu_seconds=time.process_time()-cpu,
+                    setup_seconds=time.monotonic()-wall,search_cpu_seconds=0.)
             methods['symmetric_JD']={**methods['optimized_JD'],'formula':2,'reuses_order':'optimized_JD'}
             for name,method in methods.items():
                 bs=paulis if method['partition']=='pauli' else blocks
@@ -276,6 +301,7 @@ def target_matrix(d):
 
 
 def run(a):
+    fresh_phase(a.output,'run')
     import numpy as np
     from scipy.linalg import eigh
     from numba import njit
@@ -291,15 +317,23 @@ def run(a):
             actual,work=work,actual
         return actual
     # Compile before physical timing. This warmup is not a molecular trial.
+    began=time.monotonic();cpu=time.process_time()
     propagate(np.array([1.+0j,0j]),np.array([0],np.int32),np.array([.1]),np.array([1.]),
               np.array([1],np.int32),np.ones((1,2)))
-    rows=[]
+    warmup=dict(seconds=time.monotonic()-began,cpu_seconds=time.process_time()-cpu)
+    rows=[];reference_timings={}
     for case in CASES:
         d=json.loads((a.output/'designs'/(case+'.json')).read_text());n=d['n'];require(n<=8,'Dimension guard')
+        began=time.monotonic();cpu=time.process_time()
         H=target_matrix(d);eigenvalues,U=eigh(H);basis=np.arange(1<<n)
+        reference_timings[case]=dict(target_and_eigensystem_seconds=time.monotonic()-began,
+                                    target_and_eigensystem_cpu_seconds=time.process_time()-cpu,points={})
         for point in d['points']:
             initial=np.zeros(1<<n,dtype=complex);initial[point['occupation']]=1
+            began=time.monotonic();cpu=time.process_time()
             exact=U@(np.exp(-1j*eigenvalues)*(U.conj().T@initial))
+            reference_timings[case]['points'][point['state']]=dict(
+                exact_action_seconds=time.monotonic()-began,exact_action_cpu_seconds=time.process_time()-cpu)
             prefix=case+'.'+point['state'];reference=a.output/'references'/(prefix+'.npz')
             reference.parent.mkdir(exist_ok=True);np.savez_compressed(reference,initial=initial,exact=exact)
             number=np.array([int(v).bit_count()==d['electrons'] for v in basis])
@@ -337,16 +371,43 @@ def run(a):
                         reference_sha256=sha(reference),design_sha256=f['design_sha256'][case])
                     write(a.output/'rows'/(label+'.json'),row);rows.append(row)
                 print('EVOLVED',prefix,name,flush=True)
-    require(len(rows)==216,'Incomplete physical grid');write(a.output/'run_summary.json',dict(rows=len(rows)))
+    require(len(rows)==216,'Incomplete physical grid')
+    write(a.output/'reference_timings.json',reference_timings)
+    write(a.output/'run_summary.json',dict(rows=len(rows),synthetic_JIT_warmup=warmup))
+
+
+def summarize(a):
+    from decisions import compute
+    f=frozen(a);verification=json.loads((a.output/'verification_summary.json').read_text())
+    require(verification['status']=='passed' and verification['new_replays']==216,'Incomplete independent verification')
+    rows=[];contexts={}
+    for case in CASES:
+        audit=json.loads((a.output/'verification'/(case+'.json')).read_text())
+        require(audit['status']=='passed' and audit['design_sha256']==f['design_sha256'][case],'Stale case audit')
+        for item in audit['rows']:
+            path=a.output/'rows'/(item['row']+'.json')
+            require(sha(path)==item['row_sha256'],'Verified row changed')
+            row=json.loads(path.read_text())
+            require(sha(a.output/row['state_file'])==row['state_sha256']==item['state_sha256'],'Verified state changed')
+            rows.append(row)
+        design=json.loads((a.output/'designs'/(case+'.json')).read_text())
+        for point in design['points']:contexts[case,point['state']]=point['methods']
+    result=compute(rows,contexts)
+    independent=json.loads((a.output/'independent_decision.json').read_text())
+    require(result==independent,'Independent decision-rule/contrast verification mismatch')
+    write(a.output/'summary.json',dict(status='passed',rows=len(rows),decision=result,
+        verification=verification,scientific_source_commit=json.loads((a.output/'PROTOCOL_FROZEN.json').read_text())['source_commit']))
+    print(json.dumps({k:result[k] for k in ('primary','conditions','correction_passes',
+        'median_construction_CPU_ratio','maximum_strict_loss_ratio')},indent=2),flush=True)
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('phase',choices=('generate','prepare','run'))
+    p.add_argument('phase',choices=('generate','prepare','run','summarize'))
     p.add_argument('--qhat-root',type=Path,default=Path(__file__).resolve().parents[2])
     p.add_argument('--output',type=Path,required=True)
     a=p.parse_args();bootstrap(a.qhat_root)
-    {'generate':generate,'prepare':prepare,'run':run}[a.phase](a)
+    {'generate':generate,'prepare':prepare,'run':run,'summarize':summarize}[a.phase](a)
 
 
 if __name__=='__main__':main()

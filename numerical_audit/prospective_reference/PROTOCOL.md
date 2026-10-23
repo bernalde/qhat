@@ -22,6 +22,10 @@ alpha/beta spin orbitals, including the InteractionOperator two-body factor
 signed-adjoint averaging, whole-parent cutoff 1e-12 and exact JW consolidation.
 Omit the scalar identity consistently. Do not prune individual Pauli words.
 Record the Hermitian adjustment and discarded-parent bound separately.
+The independent raw-tensor CAR bridge permits their declared combined l1
+allowance only up to 2e-8 Hartree on these at-most-eight-mode inputs, plus
+2e-10 Hartree floating assembly tolerance. It separately checks the HF
+matrix element and detects off-diagonal tensor changes invisible to HF energy.
 
 Mode q is bit 1<<q in this experiment's occupation-vector indexing. Independently
 permute standard tensor-product matrices for verification. This does not change
@@ -43,6 +47,12 @@ canonical Pauli word. The current rule uses the unchanged exact supplied-weight
 one-pass code from the completed diagonal-rule experiment: start at the best
 contiguous-D slot, visit each diagonal term once, scan all off-unit slots,
 and choose earliest ties. Its source hash is retained.
+
+The current arm preserves the exact diagonal-placement step. For these fresh
+inputs its off-unit initialization is the declared coefficient-l1 order, not
+an inherited optimized off-order from an earlier molecular fixture. The
+comparison tests that complete declared construction and does not reproduce
+the earlier 77/84 schedules on different targets.
 
 The correction replaces reference D by A=D+h(|u><v|+|v><u|), where u is the
 determinant connected to input v with largest absolute H_uv (smallest flip-mask
@@ -86,6 +96,8 @@ may leak; retain the full 2^n Hilbert space in every physical simulation.
 Freeze all schedules for all six points, every active source/dependency hash,
 input/state identity, score and search ledger before any new molecular error.
 No schedule may be selected or changed using those errors.
+Reject existing preparation or propagation artifacts before doing phase work.
+Preserve failed or partial attempts; no implicit destructive resume is provided.
 
 ## Measurements, verification and decision
 
@@ -106,11 +118,20 @@ Refuse n>8 and invalid work budgets before exponential allocations.
 
 Primary comparison is at B=10U. A useful correction must win at least four
 of six points against current placement, have no above-floor loss exceeding
-2x, and median additional reference/setup/search CPU cost no greater than 2x
+2x, and median total reference/setup/search CPU cost no greater than 2x
 current construction. Report each condition independently and all other
 budgets. This is a development decision rule, not a significance test or
 universal guarantee. Compare both candidates against every strong control,
 including the unequal-search control and symmetric formula.
+The cost condition is explicitly the median of paired total construction
+ratios (corrected_setup_CPU+corrected_search_CPU)/(current_setup_CPU+
+current_search_CPU) <= 2, excluding shared integral generation and validation.
+Wins require corrected-current error < -1e-12; losses require corrected-current
+error > 1e-12; all other points are ties. Descriptive ratios
+exclude denominator <= 1e-12. The decision loss guard considers strict losses
+and uses corrected/max(current,1e-12), so a large loss against a floor-limited
+baseline cannot disappear through ratio exclusion. Both implementations of
+the summary and these boundary predicates are fixed before generation.
 
 Do not infer generalization to correlated states, larger spaces, different
 encodings, hardware costs or second-order optimization. A failed correction
