@@ -1,5 +1,10 @@
 """Hand-derived Strang coefficients and an independent commutator oracle."""
 import itertools
+from pathlib import Path
+import cubic as cubic_module
+import independent as independent_module
+assert Path(cubic_module.__file__).resolve().parent==Path(__file__).resolve().parent
+assert Path(independent_module.__file__).resolve().parent==Path(__file__).resolve().parent
 import numpy as np
 import pytest
 from cubic import Context,FirstOrderContext,Interrupted,insertion,engine
@@ -102,3 +107,38 @@ def test_no_quadratic_feature_pool_or_oversized_allocation(monkeypatch):
     model=dict(n=2,electrons=1,denominator='1',blocks=[None]*129,coefficients=[])
     with pytest.raises(ValueError):Context(model)
     assert not calls
+
+
+def test_interrupted_accepted_rescore_keeps_incumbent_and_stage_detail(monkeypatch):
+    context=Context(algebra_model());seed=context.score([1,0],1.,20)
+    class Clock:
+        now=0.;inside=False;stages=0
+        def __call__(self):
+            if self.inside:
+                self.stages+=1
+                if self.stages>2:self.now=10.
+            return self.now
+    clock=Clock();original=context.score;calls=0
+    def score(order,T,cap,deadline=float('inf'),clock=clock):
+        nonlocal calls
+        calls+=1;clock.inside=calls==3
+        try:return original(order,T,cap,deadline,clock)
+        finally:clock.inside=False
+    monkeypatch.setattr(context,'score',score)
+    result=insertion(context,[seed,seed,seed],1.,20,clock=clock)
+    first=result['starts'][0]
+    assert first['termination']=='CPU during accepted rescore'
+    assert first['attempted']==first['completed']==2
+    assert result['attempted_rescores']==1 and result['accepted_rescores']==0
+    assert first['record']==result['record']==seed and not first['accepted']
+    assert first['interrupted_rescore_completed_stages']==2
+    assert all(start['attempted']==0 for start in result['starts'][1:])
+
+
+def test_single_unit_cap_is_enforced_by_both_independent_and_producer_scores():
+    hopping=[[[[0,'X'],[1,'Z'],[2,'X']],'1'],[[[0,'Y'],[1,'Z'],[2,'Y']],'1']]
+    model=dict(n=4,electrons=2,denominator='7',coefficients=hopping,blocks=[hopping])
+    for constructor in (Context,Reference):
+        context=constructor(model)
+        with pytest.raises(ValueError):context.score([0],.83,1)
+        assert context.score([0],.83,2)['steps']==1

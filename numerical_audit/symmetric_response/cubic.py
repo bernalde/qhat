@@ -162,7 +162,7 @@ def insertion(context,seeds,T,rotation_cap,CPU_seconds=2.,evaluation_cap=1000,ma
     for index,seed in enumerate(seeds):
         started=clock();deadline=min(global_deadline,started+CPU_seconds/3)
         limit=evaluation_cap//3+(index<evaluation_cap%3)
-        current=dict(seed);initial_score=current['score'];attempted=completed=0;accepted=[];sweeps=[];termination='move cap'
+        current=dict(seed);initial_score=current['score'];attempted=completed=0;accepted=[];sweeps=[];termination='move cap';interrupted_rescore_stages=None
         for sweep in range(max_moves):
             best=current;move=None;visited=done=0;complete=True;reason='local optimum';partial_stages=None
             for source in range(context.m):
@@ -184,14 +184,16 @@ def insertion(context,seeds,T,rotation_cap,CPU_seconds=2.,evaluation_cap=1000,ma
             if clock()+CANDIDATE_MARGIN>=deadline:termination='CPU before accepted rescore';break
             attempted_rescores+=1
             try:actual=context.score(best['order'],T,rotation_cap,deadline,clock)
-            except Interrupted:termination='CPU during accepted rescore';break
+            except Interrupted as interrupted:
+                termination='CPU during accepted rescore';interrupted_rescore_stages=interrupted.completed_stages;break
             rescores+=1
             if actual['score']>=current['score']-max(1e-30,1e-12*abs(current['score'])):
                 termination='roundoff rejected move';break
             current=actual;accepted.append(dict(move=move,evaluations=completed,record=dict(current)))
             if not complete:termination=reason;break
         starts.append(dict(initial_order=seed['order'],initial_score=initial_score,record=current,
-            attempted=attempted,completed=completed,accepted=accepted,sweeps=sweeps,termination=termination))
+            attempted=attempted,completed=completed,accepted=accepted,sweeps=sweeps,termination=termination,
+            interrupted_rescore_completed_stages=interrupted_rescore_stages))
         total_attempted+=attempted;total_completed+=completed
     best=min([s['record'] for s in starts],key=lambda r:(r['score'],tuple(r['order'])))
     return dict(record=best,starts=starts,attempted=total_attempted,completed=total_completed,

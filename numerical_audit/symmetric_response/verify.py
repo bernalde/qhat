@@ -52,6 +52,11 @@ def audit_search(result,seeds,score,m,CPU,evaluations,moves):
             require(0<=sweep['completed']<=sweep['attempted']<=m*(m-1),'Invalid sweep work')
             require(sweep['attempted']-sweep['completed']<=1,'Multiple uncompleted candidates in one sweep')
             require(not sweep['complete'] or sweep['attempted']==sweep['completed']==m*(m-1),'False full-sweep label')
+        interrupted_rescore=start.get('interrupted_rescore_completed_stages')
+        if start['termination']=='CPU during accepted rescore':
+            require(type(interrupted_rescore) is int and 0<=interrupted_rescore<2*m-1,
+                'Interrupted rescore stage detail missing/invalid')
+        else:require(interrupted_rescore is None,'False interrupted-rescore stage label')
         previous=seed;last_evaluations=0
         for accepted in start['accepted']:
             current=accepted['record'];score(current);move=accepted['move']
@@ -70,8 +75,8 @@ def audit_search(result,seeds,score,m,CPU,evaluations,moves):
 
 
 def verify(output):
-    from study import bind,old_model,ARMS,sha,write
-    protocol=bind(output);freeze=json.loads((output/'SCHEDULES_FROZEN.json').read_text())
+    from study import bind,old_model,ARMS,sha,write,sources
+    protocol=bind(output,allow_archived_sources=True);freeze=json.loads((output/'SCHEDULES_FROZEN.json').read_text())
     read=lambda p:json.loads(p.read_text());all_rows=[];objective_records=[];max_state=max_metric=max_cubic=0.
     expected_cases=set(protocol['cases']);observed_cases=set()
     for path in sorted((output/'designs').glob('*.json')):
@@ -185,7 +190,8 @@ def verify(output):
     artifacts={str(p.relative_to(output)):sha(p) for p in sorted(output.rglob('*')) if p.is_file() and p.name!='VERIFIED.json'}
     write(output/'VERIFIED.json',dict(status='passed',rows=len(all_rows),decision_agreement=True,comparisons=len(decisions),
         max_state_delta=max_state,max_metric_delta=max_metric,max_cubic_column_delta=max_cubic,
-        schedule_freeze_sha256=sha(output/'SCHEDULES_FROZEN.json'),sources=freeze['sources'],artifacts=artifacts))
+        schedule_freeze_sha256=sha(output/'SCHEDULES_FROZEN.json'),sources=freeze['sources'],
+        verification_sources=sources(),artifacts=artifacts))
 
 
 if __name__=='__main__':

@@ -67,7 +67,7 @@ class Reference:
             x=T*float(gap)/2;weights[w]=T*T*((math.sin(x)/x)**2 if x else 1.)
         weights[self.v]=0;JD2=float(sum(weights*coefficient**2))
         lengths=[self.lengths[i] for i in order];U=sum(lengths)
-        steps=1 if len(lengths)==1 else (rotation_cap-lengths[0])//(2*U-lengths[0]-lengths[-1])
+        steps=(1 if rotation_cap>=U else 0) if len(lengths)==1 else (rotation_cap-lengths[0])//(2*U-lengths[0]-lengths[-1])
         require(steps>=1,'Independent affordability failure')
         return dict(JD2=JD2,score=JD2/(steps**4),steps=steps,cubic_coefficients=coefficient.tolist())
 

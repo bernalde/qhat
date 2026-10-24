@@ -53,6 +53,7 @@ def generate(results,report):
         for key,value in row.items():
             if isinstance(value,dict):flat.update({key+'_'+k:v for k,v in value.items()})
         physical.append(flat)
+    physical.sort(key=lambda row:(row['case'],row['record_index']))
     require(len(physical)==protocol['expected_circuits'],'Incomplete physical grid')
     comparisons=[];classify=lambda d:'win' if d < -1e-12 else 'loss' if d>1e-12 else 'tie'
     for at,a in enumerate(physical):

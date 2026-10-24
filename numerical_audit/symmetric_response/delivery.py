@@ -2,6 +2,7 @@
 import argparse,hashlib,json,shutil,tempfile
 from pathlib import Path
 from reporting import generate
+from study import sources
 
 HERE=Path(__file__).resolve().parent
 def require(ok,message):
@@ -32,6 +33,7 @@ def check(delivery,replay_decisions_only=False):
     require(verified['status']=='passed' and verified['decision_agreement'],'Unverified study')
     require(verified['rows']==protocol['expected_circuits'],'Incomplete verified grid')
     require(verified['sources']==freeze['sources']==protocol['sources'],'Different scientific source')
+    require(verified['verification_sources']==sources(),'Independent verifier source changed')
     require(verified['schedule_freeze_sha256']==sha(results/'SCHEDULES_FROZEN.json'),'Different schedules')
     for p,h in freeze['artifacts'].items():require(sha(results/p)==h,'Frozen artifact changed')
     for p,h in verified['artifacts'].items():require(sha(results/p)==h,'Verified artifact changed')

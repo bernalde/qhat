@@ -60,3 +60,28 @@ delivery.py authenticates their manifest and byte-regenerates every report.
 execution_resources.json records measured execution and fixed phase ceilings.
 Full archive/extraction checks passed. This is numerical fixed-family evidence,
 separate from Lean proofs, compiled gates/depth and hardware measurements.
+
+
+## Source versions and review corrections
+
+The original producing source remains fixed in PROTOCOL_FROZEN.json. Its nine
+source files are archived byte-for-byte under results/source_snapshot with
+their original committed identity and hashes. Independent verification records
+its current source versions separately. Physical propagation still rejects
+changed producing sources; verification can authenticate the complete original
+source archive and then independently reconstruct the retained objectives and
+states. Archived source files are read as provenance and are never imported.
+
+Review corrections retain the stage count when an accepted-candidate rescore
+is interrupted, reject an unaffordable single-unit independent score, and sort
+report rows/pairs by numeric record index. The 96 original physical states,
+raw rows, input/design files and schedule/protocol freezes are preserved. No
+ordering search or physical propagation is repeated for these corrections.
+Historical records contain no interrupted candidates or accepted rescores;
+missing rescore-stage fields therefore denote no such event, without inventing
+historical diagnostics. Current searches record an explicit optional field.
+
+The frozen search budget counts m(m-1) source/destination pairs per sweep.
+Opposite directions of an adjacent swap can produce the same permutation;
+these are separately charged attempted pairs. Neither unique-permutation
+efficiency nor deduplicated search is claimed, and the frozen policy is kept.

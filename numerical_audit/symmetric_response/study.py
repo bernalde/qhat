@@ -194,9 +194,25 @@ def prepare(output,preflight=False):
         policy='Allinputs,times,controls,searchpolicies,costs andcircuits fixedbefore anynewphysical errors'))
 
 
-def bind(output):
+def bind(output, *, allow_archived_sources=False):
     freeze=json.loads((output/'SCHEDULES_FROZEN.json').read_text())
-    require(freeze['sources']==sources(),'Scientific source changed since freeze')
+    protocol=json.loads((output/'PROTOCOL_FROZEN.json').read_text())
+    current=sources()
+    require(set(freeze['sources'])==set(current),'Frozen source domain changed')
+    if freeze['sources']!=current:
+        require(allow_archived_sources,'Scientific source changed since freeze')
+        archive=output/'source_snapshot'
+        retained=json.loads((archive/'MANIFEST.json').read_text())
+        require(retained['source_commit']==protocol['source_commit'] and retained['sources']==freeze['sources'],
+            'Archived producing source identity differs')
+        inventory={str(p.relative_to(archive)) for p in archive.rglob('*') if p.is_file()}
+        require(inventory==set(freeze['sources'])|{'MANIFEST.json'},'Archived source inventory differs')
+        for name,digest in freeze['sources'].items():
+            require(sha(archive/name)==digest,'Archived producing source changed: '+name)
+        # Only independent verification opts into this path. Physical propagation
+        # still requires its exact live producing sources. The verifier records
+        # its own current versions separately from the archived producer.
+
     for p,h in freeze['artifacts'].items():require(sha(output/p)==h,'Frozen input/design changed')
     for case,h in freeze['prior_models'].items():require(old_model(case)[1]==h,'Prior target authentication changed')
     protocol=json.loads((output/'PROTOCOL_FROZEN.json').read_text())
