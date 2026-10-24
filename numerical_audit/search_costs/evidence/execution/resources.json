@@ -1,7 +1,7 @@
 {
   "phases": [
     {
-      "label": "i05-tests-01",
+      "label": "i05-delivery-check-01",
       "exit_code": 0,
       "settings": {
         "CPUQuota": "25%",
@@ -14,25 +14,21 @@
         "TasksMax": "32",
         "MemoryAccounting": "yes",
         "CPUAccounting": "yes",
-        "RuntimeMaxSec": "900"
+        "RuntimeMaxSec": "1775"
       },
       "allowance": {
-        "cpu_seconds": 120.0,
-        "wall_seconds": 900,
-        "disk_mib": 64
+        "cpu_seconds": 293.0,
+        "wall_seconds": 1775,
+        "disk_mib": 128
       },
-      "service_wall_seconds": 6.075491056981264,
-      "process_measurements": {
-        "user_cpu_seconds": 1.0,
-        "system_cpu_seconds": 0.09,
-        "max_rss_kib": 58176.0
-      },
-      "minimum_available_bytes": 7844540416,
+      "service_wall_seconds": 239.4042136890057,
+      "process_measurements": {},
+      "minimum_available_bytes": 7314391040,
       "samples_while_frozen": 0,
       "termination": null
     },
     {
-      "label": "i05-tests-02",
+      "label": "i05-delivery-check-02",
       "exit_code": 0,
       "settings": {
         "CPUQuota": "25%",
@@ -45,20 +41,51 @@
         "TasksMax": "32",
         "MemoryAccounting": "yes",
         "CPUAccounting": "yes",
-        "RuntimeMaxSec": "890"
+        "RuntimeMaxSec": "1540"
       },
       "allowance": {
-        "cpu_seconds": 118.0,
-        "wall_seconds": 890,
-        "disk_mib": 64
+        "cpu_seconds": 235.0,
+        "wall_seconds": 1540,
+        "disk_mib": 128
       },
-      "service_wall_seconds": 6.058400535985129,
+      "service_wall_seconds": 6.105479398014722,
       "process_measurements": {
-        "user_cpu_seconds": 0.94,
-        "system_cpu_seconds": 0.09,
-        "max_rss_kib": 59904.0
+        "user_cpu_seconds": 0.97,
+        "system_cpu_seconds": 0.21,
+        "max_rss_kib": 63516.0
       },
-      "minimum_available_bytes": 8122597376,
+      "minimum_available_bytes": 6960959488,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-package-01",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "1785"
+      },
+      "allowance": {
+        "cpu_seconds": 295.0,
+        "wall_seconds": 1785,
+        "disk_mib": 128
+      },
+      "service_wall_seconds": 3.024432999023702,
+      "process_measurements": {
+        "user_cpu_seconds": 0.17,
+        "system_cpu_seconds": 0.09,
+        "max_rss_kib": 24972.0
+      },
+      "minimum_available_bytes": 7565041664,
       "samples_while_frozen": 0,
       "termination": null
     },
@@ -94,6 +121,37 @@
       "termination": null
     },
     {
+      "label": "i05-preflight-02",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "795"
+      },
+      "allowance": {
+        "cpu_seconds": 94.0,
+        "wall_seconds": 795,
+        "disk_mib": 59
+      },
+      "service_wall_seconds": 69.18548455899963,
+      "process_measurements": {
+        "user_cpu_seconds": 16.26,
+        "system_cpu_seconds": 0.87,
+        "max_rss_kib": 94528.0
+      },
+      "minimum_available_bytes": 30234509312,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
       "label": "i05-prepare-01",
       "exit_code": 0,
       "settings": {
@@ -125,7 +183,7 @@
       "termination": null
     },
     {
-      "label": "i05-run-01",
+      "label": "i05-prepare-02",
       "exit_code": 0,
       "settings": {
         "CPUQuota": "25%",
@@ -138,51 +196,20 @@
         "TasksMax": "32",
         "MemoryAccounting": "yes",
         "CPUAccounting": "yes",
-        "RuntimeMaxSec": "10303"
+        "RuntimeMaxSec": "10200"
       },
       "allowance": {
-        "cpu_seconds": 1675.0,
-        "wall_seconds": 10303,
-        "disk_mib": 512
+        "cpu_seconds": 1650.0,
+        "wall_seconds": 10200,
+        "disk_mib": 480
       },
-      "service_wall_seconds": 78.54468583600828,
+      "service_wall_seconds": 348.7999905209999,
       "process_measurements": {
-        "user_cpu_seconds": 17.82,
-        "system_cpu_seconds": 1.39,
-        "max_rss_kib": 84736.0
+        "user_cpu_seconds": 81.01,
+        "system_cpu_seconds": 5.74,
+        "max_rss_kib": 63160.0
       },
-      "minimum_available_bytes": 8061227008,
-      "samples_while_frozen": 0,
-      "termination": null
-    },
-    {
-      "label": "i05-verify-01",
-      "exit_code": 0,
-      "settings": {
-        "CPUQuota": "25%",
-        "CPUWeight": "5",
-        "IOWeight": "10",
-        "Nice": "19",
-        "MemoryHigh": "448M",
-        "MemoryMax": "512M",
-        "MemorySwapMax": "0",
-        "TasksMax": "32",
-        "MemoryAccounting": "yes",
-        "CPUAccounting": "yes",
-        "RuntimeMaxSec": "10800"
-      },
-      "allowance": {
-        "cpu_seconds": 1800.0,
-        "wall_seconds": 10800,
-        "disk_mib": 512
-      },
-      "service_wall_seconds": 121.17709581699455,
-      "process_measurements": {
-        "user_cpu_seconds": 28.57,
-        "system_cpu_seconds": 1.19,
-        "max_rss_kib": 86520.0
-      },
-      "minimum_available_bytes": 8020934656,
+      "minimum_available_bytes": 28306685952,
       "samples_while_frozen": 0,
       "termination": null
     },
@@ -278,7 +305,255 @@
       "minimum_available_bytes": 6708613120,
       "samples_while_frozen": 0,
       "termination": null
+    },
+    {
+      "label": "i05-report-04",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "1500"
+      },
+      "allowance": {
+        "cpu_seconds": 230.0,
+        "wall_seconds": 1500,
+        "disk_mib": 96
+      },
+      "service_wall_seconds": 3.0439517840004555,
+      "process_measurements": {
+        "user_cpu_seconds": 0.23,
+        "system_cpu_seconds": 0.03,
+        "max_rss_kib": 55856.0
+      },
+      "minimum_available_bytes": 30372675584,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-run-01",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "10303"
+      },
+      "allowance": {
+        "cpu_seconds": 1675.0,
+        "wall_seconds": 10303,
+        "disk_mib": 512
+      },
+      "service_wall_seconds": 78.54468583600828,
+      "process_measurements": {
+        "user_cpu_seconds": 17.82,
+        "system_cpu_seconds": 1.39,
+        "max_rss_kib": 84736.0
+      },
+      "minimum_available_bytes": 8061227008,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-run-02",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "9880"
+      },
+      "allowance": {
+        "cpu_seconds": 1570.0,
+        "wall_seconds": 9880,
+        "disk_mib": 400
+      },
+      "service_wall_seconds": 45.19764075100011,
+      "process_measurements": {
+        "user_cpu_seconds": 10.37,
+        "system_cpu_seconds": 0.47,
+        "max_rss_kib": 89228.0
+      },
+      "minimum_available_bytes": 29190590464,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-tests-01",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "900"
+      },
+      "allowance": {
+        "cpu_seconds": 120.0,
+        "wall_seconds": 900,
+        "disk_mib": 64
+      },
+      "service_wall_seconds": 6.075491056981264,
+      "process_measurements": {
+        "user_cpu_seconds": 1.0,
+        "system_cpu_seconds": 0.09,
+        "max_rss_kib": 58176.0
+      },
+      "minimum_available_bytes": 7844540416,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-tests-02",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "890"
+      },
+      "allowance": {
+        "cpu_seconds": 118.0,
+        "wall_seconds": 890,
+        "disk_mib": 64
+      },
+      "service_wall_seconds": 6.058400535985129,
+      "process_measurements": {
+        "user_cpu_seconds": 0.94,
+        "system_cpu_seconds": 0.09,
+        "max_rss_kib": 59904.0
+      },
+      "minimum_available_bytes": 8122597376,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-tests-03",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "880"
+      },
+      "allowance": {
+        "cpu_seconds": 110.0,
+        "wall_seconds": 880,
+        "disk_mib": 64
+      },
+      "service_wall_seconds": 3.0292275240008166,
+      "process_measurements": {
+        "user_cpu_seconds": 0.45,
+        "system_cpu_seconds": 0.06,
+        "max_rss_kib": 61244.0
+      },
+      "minimum_available_bytes": 29794963456,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-verify-01",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "10800"
+      },
+      "allowance": {
+        "cpu_seconds": 1800.0,
+        "wall_seconds": 10800,
+        "disk_mib": 512
+      },
+      "service_wall_seconds": 121.17709581699455,
+      "process_measurements": {
+        "user_cpu_seconds": 28.57,
+        "system_cpu_seconds": 1.19,
+        "max_rss_kib": 86520.0
+      },
+      "minimum_available_bytes": 8020934656,
+      "samples_while_frozen": 0,
+      "termination": null
+    },
+    {
+      "label": "i05-verify-02",
+      "exit_code": 0,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "10675"
+      },
+      "allowance": {
+        "cpu_seconds": 1768.0,
+        "wall_seconds": 10675,
+        "disk_mib": 480
+      },
+      "service_wall_seconds": 69.41115362500022,
+      "process_measurements": {
+        "user_cpu_seconds": 16.42,
+        "system_cpu_seconds": 0.41,
+        "max_rss_kib": 88496.0
+      },
+      "minimum_available_bytes": 30193487872,
+      "samples_while_frozen": 0,
+      "termination": null
     }
   ],
-  "scope": "Explicit completed phase labels only; no reviewer-client metadata or task-private paths. Missing process fields are unmeasured, not zero."
+  "scope": "Explicit executed phase labels only; wrapper exit is not proof of scientific completion. Read cumulative.json attempt outcomes when supplied. Missing process fields are unmeasured, not zero; no reviewer metadata or task-private paths."
 }

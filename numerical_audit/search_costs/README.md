@@ -20,3 +20,21 @@ Preflight uses altered largest-shape coefficients, all factorial arms/caps and s
 Reports retain every absolute error, related repetition, initializer/objective/partition pairing, nominal and actual CPU, incomplete sweep, overrun and strong-control comparison. No efficiency conclusion follows from equal examined positions or nominal caps when actual charges exceed them. Symmetric schedules reuse first-order objectives with exact pulse fusion; ideal rotations are separate from compiled or hardware resources. The two-level correction remains rejected and unchanged.
 
 `deliver.py` copies verified results/report plus an explicit sanitized completed-phase execution ledger into a fresh delivery directory. `check_delivery.py` requires its full manifest. CI first authenticates and byte-regenerates the committed report, then replays physics in scratch and checks scientific decisions separately from platform-dependent diagnostic maxima. No account metadata, private model-review material or task control files belong in publication.
+
+
+The corrected replacement panel measures optimizer calls through complete return;
+the original internal-snapshot panel remains preserved at commit
+8e03901e2063cfb8be15e360c762ac72d50caeca. Its omitted cleanup cost is not
+retroactively treated as zero. `deliver.py --cumulative-ledger` retains the
+sanitized continuing-campaign attempt ledger alongside raw process summaries.
+It distinguishes completed phases from the earlier interrupted delivery checker,
+which consumed61CPU seconds conservatively despite wrapper exit zero. Previous
+and replacement attempts share the original finite phase ceilings. The ledger
+covers the explicit labels completed before packaging; packaging/checking itself
+is recorded separately in the owned task record, avoiding a self-hashing ledger.
+
+Replacement outcomes can differ from the earlier internally timed panel because
+CPU-limited search depends on measured execution. The observations do not isolate
+the timing-boundary repair as the cause of every changed order or error. Every
+replacement run is retained under the unchanged design; neither panel is selected
+for favorable accuracy.

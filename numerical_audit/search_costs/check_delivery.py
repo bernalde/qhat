@@ -24,6 +24,27 @@ def check(results, report, manifest, replay_decisions_only=False):
     for name, digest in publication['files'].items():
         assert sha(root/name) == digest, name
     assert sha(report/'MANIFEST.json') == publication['report_manifest_sha256']
+    cumulative=root/'execution/cumulative.json'
+    if cumulative.exists():
+        ledger=read(cumulative);attempts=ledger['attempts']
+        assert ledger['phase_ceilings']=={
+            'tests':{'CPU_seconds':120,'wall_seconds':900},
+            'preflight':{'CPU_seconds':120,'wall_seconds':900},
+            'main':{'CPU_seconds':1800,'wall_seconds':10800},
+            'independent':{'CPU_seconds':1800,'wall_seconds':10800},
+            'reporting':{'CPU_seconds':300,'wall_seconds':1800}}
+        assert {r['phase'] for r in attempts}<=set(ledger['phase_ceilings'])
+        assert len({r['label'] for r in attempts})==len(attempts)
+        resources=read(root/'execution/resources.json')
+        assert {r['label'] for r in attempts}=={r['label'] for r in resources['phases']}
+        for phase,budget in ledger['phase_ceilings'].items():
+            group=[r for r in attempts if r['phase']==phase]
+            assert all(r['CPU_charge_seconds']>=0 and r['controller_wall_seconds']>=0 for r in group)
+            assert sum(r['CPU_charge_seconds'] for r in group)<=budget['CPU_seconds']
+            assert sum(r['controller_wall_seconds'] for r in group)<=budget['wall_seconds']
+        interrupted=[r for r in attempts if r['label']=='i05-delivery-check-01']
+        assert len(interrupted)==1 and interrupted[0]['outcome']=='interrupted; incomplete checker'
+        assert interrupted[0]['CPU_charge_seconds']>=61
     for name, digest in publication['delivery_sources'].items():
         assert sha(Path(__file__).resolve().parent/name) == digest, name
     freeze = read(results/'SCHEDULES_FROZEN.json')

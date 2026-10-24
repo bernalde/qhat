@@ -14,7 +14,7 @@ def read(path):
     return json.loads(path.read_text())
 
 
-def package(results, report, logs, destination, labels):
+def package(results, report, logs, destination, labels, cumulative_ledger=None):
     if destination.exists():
         raise ValueError('Fresh delivery directory required; preserve earlier attempts')
     verified = read(results/'VERIFIED.json')
@@ -34,8 +34,12 @@ def package(results, report, logs, destination, labels):
                                  minimum_available_bytes=min((r['available_bytes'] for r in record['samples']),default=None),
                                  samples_while_frozen=sum(r['frozen'] for r in record['samples']),
                                  termination=record['termination']))
+    if cumulative_ledger is not None:
+        ledger=read(cumulative_ledger)
+        assert {r['label'] for r in ledger['attempts']}==set(labels)
+        (execution/'cumulative.json').write_text(json.dumps(ledger,indent=2)+'\n')
     (execution/'resources.json').write_text(json.dumps(dict(phases=measurements,
-        scope='Explicit completed phase labels only; no reviewer-client metadata or task-private paths. Missing process fields are unmeasured, not zero.'),indent=2)+'\n')
+        scope='Explicit executed phase labels only; wrapper exit is not proof of scientific completion. Read cumulative.json attempt outcomes when supplied. Missing process fields are unmeasured, not zero; no reviewer metadata or task-private paths.'),indent=2)+'\n')
     source = Path(__file__).resolve().parent
     active = ['reporting.py','check_delivery.py','deliver.py','guarded.py','test_bounded.py','preflight.py','requirements.txt']
     manifest = dict(files={str(p.relative_to(destination/'evidence')):sha(p) for p in sorted((destination/'evidence').rglob('*')) if p.is_file()},
@@ -52,5 +56,6 @@ if __name__ == '__main__':
     parser.add_argument('--logs',type=Path,required=True)
     parser.add_argument('--destination',type=Path,required=True)
     parser.add_argument('--phase-label',action='append',required=True)
+    parser.add_argument('--cumulative-ledger',type=Path)
     args = parser.parse_args()
-    package(args.results,args.report,args.logs,args.destination,args.phase_label)
+    package(args.results,args.report,args.logs,args.destination,args.phase_label,args.cumulative_ledger)
