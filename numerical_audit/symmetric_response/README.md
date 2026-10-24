@@ -19,7 +19,7 @@ and append calibrated main estimates before main execution. Failed attempts
 remain charged to the same phase. The completed main panel and independent verification are recorded below; the frozen derivation/protocol retain their prospective wording.
 
 ```
-python -m pytest test_cubic.py test_symmetric_guard.py -q
+python -m pytest test_cubic.py test_symmetric_guard.py test_symmetric_provenance.py -q
 python preflight.py --output FRESH_PREFLIGHT
 python study.py prepare --output FRESH_RESULTS
 python study.py run --output FRESH_RESULTS
