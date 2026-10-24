@@ -34,7 +34,7 @@ jobs:
         run: python -m pip install -r numerical_audit/exact_response_windows/requirements.txt
       - name: Exact-domain and resource-failure regressions
         working-directory: numerical_audit/exact_response_windows
-        run: python -m pytest test_exact.py test_preflight_metadata.py -q
+        run: python -m pytest test_exact.py test_preflight_metadata.py test_exact_guard.py -q
       - name: Authenticate complete delivery and independently enumerate/replay
         shell: bash
         run: |

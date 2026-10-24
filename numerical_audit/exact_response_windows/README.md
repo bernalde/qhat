@@ -10,7 +10,7 @@ Commit scientific source before `study.py prepare` for the main panel. Preflight
 is explicitly altered-target feasibility work and cannot replace the panel.
 
 ```
-python -m pytest test_exact.py test_preflight_metadata.py -q
+python -m pytest test_exact.py test_preflight_metadata.py test_exact_guard.py -q
 python preflight.py --output FRESH_PREFLIGHT --prior RETAINED_PRIOR_DIRECTORY
 python study.py prepare --output FRESH_RESULTS
 python study.py certify --output FRESH_RESULTS
@@ -32,3 +32,7 @@ The [retained report](evidence/report/README.md) records the completed three-cas
 windows improve the supplied surrogate and one ties its warm start. Physical
 comparisons and all controls, floors and losses remain in the report tables.
 The evidence directory also retains the original completed 8! pilot separately.
+
+The resource guard preserves the supervisor exit status separately and returns
+failure after any enforced CPU/disk/wall stop. Require both no termination and
+the completed validation artifact; a wrapper exit alone is not a scientific pass.
