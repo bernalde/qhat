@@ -4,10 +4,14 @@ on:
   push:
     paths:
       - numerical_audit/prospective_reference/**
+      - analysis/fermionic_coefficients.py
+      - numerical_audit/followup_classes/exact_blocks.py
       - .github/workflows/prospective-reference.yml
   pull_request:
     paths:
       - numerical_audit/prospective_reference/**
+      - analysis/fermionic_coefficients.py
+      - numerical_audit/followup_classes/exact_blocks.py
       - .github/workflows/prospective-reference.yml
 
 permissions:
