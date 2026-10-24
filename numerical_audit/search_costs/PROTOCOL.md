@@ -148,3 +148,38 @@ Smaller inputs are retained rather than substituted; these bounds deliberately
 overcount repeated warmups and largest-shape storage. The original finite
 1800CPU/10800wall/512MiB main and independent-verification ceilings and
 300CPU/1800wall/128MiB extraction ceiling remain binding and are not enlarged.
+
+
+## Post-review timing-boundary correction (before replacement measurements)
+
+Astra I05-ASTRA-001 identified that the original `run_arm` CPU snapshot ended
+before final ledger assignments, function return and feature/reference teardown.
+The original panel and its source at 8e03901e2063cfb8be15e360c762ac72d50caeca
+remain preserved in Git and in the owned work area's panel-05/delivery-05.
+Its per-arm cap labels concern the recorded internal interval only; the missing
+per-arm cleanup cost was unmeasured. The full process ledger cannot assign that
+cost to each original arm. Do not present those observations as complete
+through-return standalone measurements.
+
+The replacement measurement times `run_arm` from its caller through complete
+return, including validation, final bookkeeping and local feature/reference
+destruction. It retains the original internal snapshot and the additional
+return-time CPU separately. Shared setup and the full warm initializer are also
+timed from their callers through return; conserving placement already has that
+boundary inside the initializer. Pauli conversion charges include initializer
+return bookkeeping. Collection/serialization of benchmark records remains
+outside these constructor calls and inside the separate full-process ledger.
+
+This repairs measurement, without changing the eight inputs, coefficients,
+objectives, starts, warmups, repetitions, search/evaluation/move/deadline rules,
+physical controls, rotation cap or inference thresholds. An arm whose complete
+charge exceeds its cap is retained as an overrun. No extra search time is given.
+Run the same largest altered-target end-to-end preflight again, commit corrected
+scientific source and freeze all replacement schedules before replacement errors.
+Retain every new outcome, including losses and failures. Do not select between
+original/replacement cases or runs by their accuracy.
+
+All original cumulative phase ceilings remain binding. Earlier tests, preflight,
+construction/propagation, replay, reporting and interrupted-checker usage remain
+charged. Fresh output labels preserve both sets of observations; this amendment
+does not create a new study allowance or a new review/verification budget.

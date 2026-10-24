@@ -61,7 +61,7 @@ def load_previous_placement():
     return campaign.current_placement
 
 
-def common(model):
+def _common_body(model):
     cpu=time.process_time();wall=time.monotonic()
     if isinstance(model,Path):model=json.loads(model.read_text())
     require(model['n']<=12 and len(model['coefficients'])<=256,'Declared model bounds')
@@ -77,7 +77,16 @@ def common(model):
         v=(1<<model['electrons'])-1,cpu_seconds=time.process_time()-cpu,wall_seconds=time.monotonic()-wall)
 
 
-def initializer(context,placement):
+def common(model):
+    # The constructor's complete return, including temporary teardown, is timed.
+    cpu=time.process_time();wall=time.monotonic();context=_common_body(model)
+    elapsed=time.process_time()-cpu
+    context.update(internal_snapshot_CPU_seconds=context['cpu_seconds'],
+        cpu_seconds=elapsed,wall_seconds=time.monotonic()-wall,cost_timing='through constructor return')
+    return context
+
+
+def _initializer_body(context,placement):
     cpu=time.process_time();wall=time.monotonic()
     result=placement(context['blocks'],context['diag'],context['off'],context['v'],context['den'])
     placement_CPU=time.process_time()-cpu;conversion=time.process_time()
@@ -88,6 +97,39 @@ def initializer(context,placement):
                 cpu_seconds=total_CPU,wall_seconds=time.monotonic()-wall,
                 placement_CPU_seconds=placement_CPU,pauli_conversion_CPU_seconds=conversion_CPU,
                 charges={'conserving':placement_CPU,'pauli':total_CPU})
+
+
+def initializer(context,placement):
+    cpu=time.process_time();wall=time.monotonic();warm=_initializer_body(context,placement)
+    elapsed=time.process_time()-cpu
+    warm.update(internal_snapshot_CPU_seconds=warm['cpu_seconds'],cpu_seconds=elapsed,
+        wall_seconds=time.monotonic()-wall,cost_timing='through constructor return',
+        pauli_conversion_CPU_seconds=elapsed-warm['placement_CPU_seconds'])
+    warm['charges']['pauli']=elapsed
+    return warm
+
+
+def measured_arm(*args,**kwargs):
+    """Time run_arm through return, including its feature/reference teardown.
+
+    Results collection after this boundary is benchmark overhead and is retained
+    separately in the whole-process ledger. Every warmup and measured arm uses
+    this same boundary; an overrun is retained rather than relabelled feasible.
+    """
+    clock=kwargs.get('clock',time.process_time)
+    began=clock();record=run_arm(*args,**kwargs);elapsed=clock()-began
+    internal=record['actual_local_CPU_seconds']
+    require(elapsed>=internal,'Through-return CPU cannot precede internal snapshot')
+    record.update(cost_timing='through run_arm return',internal_snapshot_CPU_seconds=internal,
+        return_time_CPU_seconds=elapsed-internal,actual_local_CPU_seconds=elapsed,
+        accounting_overhead_CPU_seconds=elapsed-sum(record[k] for k in
+            ('initializer_CPU_seconds','setup_CPU_seconds','search_CPU_seconds')))
+    total=record['common_setup_CPU_charge']+record['inherited_placement_CPU_charge']+elapsed
+    record.update(total_charged_CPU_seconds=total,CPU_overrun_seconds=max(0.,total-record['CPU_budget']),
+        within_CPU_budget=total<=record['CPU_budget'])
+    if not record['within_CPU_budget'] and not record['status'].startswith('CPU overrun retained: '):
+        record['status']='CPU overrun retained: '+record['status']
+    return record
 
 
 def decorate(result,context,partition):
@@ -104,7 +146,7 @@ def benchmark_model(model_path,placement):
     # Same warmup CPU/evaluation policy for every factorial arm. No JIT is used.
     for partition,objective,initial in ARMS:
         bs=context['paulis'] if partition=='pauli' else context['blocks']
-        result=run_arm(bs,context['D'],context['v'],context['den'],objective,initial,
+        result=measured_arm(bs,context['D'],context['v'],context['den'],objective,initial,
             warm[partition],CPU_BUDGETS[0],context['cpu_seconds'],warm['charges'][partition],20*len(bs)*(len(bs)-1))
         warmup.append(dict(partition=partition,objective=objective,initialization=initial,record=result))
     records=[];rep_setup=[]
@@ -116,13 +158,13 @@ def benchmark_model(model_path,placement):
         for budget in CPU_BUDGETS:
             for ordinal,(partition,objective,initial) in enumerate(rotated):
                 bs=context['paulis'] if partition=='pauli' else context['blocks']
-                result=run_arm(bs,context['D'],context['v'],context['den'],objective,initial,
+                result=measured_arm(bs,context['D'],context['v'],context['den'],objective,initial,
                     warm[partition],budget,context['cpu_seconds'],warm['charges'][partition],20*len(bs)*(len(bs)-1))
                 result.update(arm=partition+'_'+objective+'_'+initial,repetition=rep,CPU_budget=budget,
                               run_ordinal=ordinal,objective=objective,initialization=initial)
                 records.append(decorate(result,context,partition))
         bs=context['paulis']
-        larger=run_arm(bs,context['D'],context['v'],context['den'],'JD','cold',warm['pauli'],
+        larger=measured_arm(bs,context['D'],context['v'],context['den'],'JD','cold',warm['pauli'],
             8.,context['cpu_seconds'],warm['charges']['pauli'],20*len(bs)*(len(bs)-1))
         larger.update(arm='pauli_JD_larger_CPU',repetition=rep,CPU_budget=8.,run_ordinal=8,
                       label='unequal classical allowance; outside matched-CPU factorial')

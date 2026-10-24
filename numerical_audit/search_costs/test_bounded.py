@@ -132,3 +132,44 @@ def test_independent_objectives_and_unfused_circuits():
                 assert count<=10*len(model['coefficients'])
                 assert np.max(abs(actual-independent))<2e-13
                 assert abs(np.linalg.norm(actual)-1)<2e-13
+
+
+def test_improving_interrupted_sweep_is_rescored_and_retained():
+    # Two distinct commutators reach |01>; inserting X0 between the two Z
+    # terms cancels the response. A two-position partial sweep must accept it.
+    blocks=[{((0,'Z'),):1},{((0,'Z'),(1,'Z')):1},{((0,'X'),):1}]
+    D={**blocks[0],**blocks[1]};features=Features(blocks,e.Reference(D,0,1.,7),float('inf'))
+    result=insertion([[0,1,2],[2,1,0]],features,float('inf'),evaluation_cap=4)
+    assert result['evaluations']==4
+    initial=np.array([1.,0.,0.,0.],complex)
+    G=[sum(c/7*pauli(w,2) for w,c in b.items()) for b in blocks]
+    H=sum(G);gaps=H.diagonal().real-float(H[0,0].real)
+    for start in result['starts']:
+        assert start['evaluations']==2 and len(start['sweeps'])==1
+        assert not start['sweeps'][0]['complete'] and start['sweeps'][0]['evaluations']==2
+        assert len(start['accepted'])==1 and start['accepted'][0]['evaluations']==2
+        assert start['score']<start['initial_score'] and sorted(start['order'])==[0,1,2]
+        column=np.zeros(4,complex)
+        for at,i in enumerate(start['order']):
+            for j in start['order'][at+1:]:column+=(-.5j)*(G[i]@(G[j]@initial)-G[j]@(G[i]@initial))
+        column[0]=0;column*=np.sinc(gaps/(2*np.pi))
+        assert np.isclose(start['score'],float(np.vdot(column,column).real),rtol=1e-12,atol=1e-18)
+
+
+def test_through_return_timing_counts_callee_teardown(monkeypatch):
+    import study
+    ticks=[0.]
+    class Resource:
+        def __del__(self):ticks[0]+=.25
+    def fake_arm(*args,**kwargs):
+        resource=Resource();ticks[0]+=1.
+        return dict(actual_local_CPU_seconds=1.,initializer_CPU_seconds=.1,setup_CPU_seconds=.2,
+            search_CPU_seconds=.6,accounting_overhead_CPU_seconds=.1,common_setup_CPU_charge=0.,
+            inherited_placement_CPU_charge=0.,CPU_budget=1.1,status='completed',within_CPU_budget=True)
+    monkeypatch.setattr(study,'run_arm',fake_arm)
+    result=study.measured_arm(clock=lambda:ticks[0])
+    assert result['internal_snapshot_CPU_seconds']==1. and result['return_time_CPU_seconds']==.25
+    assert result['actual_local_CPU_seconds']==1.25 and result['total_charged_CPU_seconds']==1.25
+    assert np.isclose(result['accounting_overhead_CPU_seconds'],.35)
+    assert not result['within_CPU_budget'] and np.isclose(result['CPU_overrun_seconds'],.15)
+    assert result['status'].startswith('CPU overrun retained: ')

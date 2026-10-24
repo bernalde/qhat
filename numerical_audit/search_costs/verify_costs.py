@@ -107,6 +107,10 @@ def metrics(exact,actual,model):
 
 def audit_ledger(record,unit_count):
     if record['arm']=='current_placement':return
+    if record['cost_timing']!='through run_arm return':raise ValueError('Incomplete construction timing boundary')
+    if record['return_time_CPU_seconds']<0:raise ValueError('Negative return/teardown time')
+    if abs(record['internal_snapshot_CPU_seconds']+record['return_time_CPU_seconds']-record['actual_local_CPU_seconds'])>1e-12:
+        raise ValueError('Through-return timing does not close')
     total=record['common_setup_CPU_charge']+record['inherited_placement_CPU_charge']+record['actual_local_CPU_seconds']
     if abs(total-record['total_charged_CPU_seconds'])>1e-12:raise ValueError('Construction CPU charge does not close')
     local=record['initializer_CPU_seconds']+record['setup_CPU_seconds']+record['search_CPU_seconds']+record['accounting_overhead_CPU_seconds']

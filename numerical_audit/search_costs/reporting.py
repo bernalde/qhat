@@ -77,6 +77,7 @@ def build(results, output):
                           'total_charged_CPU_seconds','common_setup_CPU_charge','inherited_placement_CPU_charge',
                           'initializer_CPU_seconds','setup_CPU_seconds','search_CPU_seconds','actual_local_CPU_seconds',
                           'accounting_overhead_CPU_seconds','CPU_overrun_seconds','within_CPU_budget',
+                          'cost_timing','internal_snapshot_CPU_seconds','return_time_CPU_seconds',
                           'evaluation_cap','evaluations','setup_pairs_visited','nonzero_pair_count','destinations',
                           'array_payload_bytes','storage_upper_bound_bytes','rescore_reservation_violated'):
                 row[field] = record.get(field)
@@ -170,6 +171,8 @@ This fixed panel retains 432 constructed orders and 864 full-space circuit compa
 Conserving versus individual-Pauli first-order search has the following pooled wins/ties/losses: {first_order}. The complete table below includes both formulas/caps and every partition, initializer and objective comparison. These summaries pool the other declared factors and related repetitions; they do not establish a universal partition advantage or isolate conservation as a mechanism.
 
 {aggregate_text}
+
+Construction timing is measured by the caller through each optimizer's complete return, including feature/reference teardown. Search records retain the internal snapshot and additional return-time CPU separately; both warmups and measured arms use this boundary. Shared setup and warm initialization also include their constructor returns. Result collection and file serialization are benchmark overhead in the separate full-process ledger. The earlier internal-snapshot panel remains preserved at commit 8e03901e2063cfb8be15e360c762ac72d50caeca and is not relabelled as a through-return measurement. This is a measurement repair on the same fixed inputs and policies; all replacement outcomes are retained.
 
 Eight factorial arms separate conserving/individual-Pauli partition, J_D/J_0 objective and cold/placement initialization. Caps are 0.5 and 2 process-CPU seconds, with three repetitions, cyclic arm order and symmetric warmups. [Search records](searches.csv) count common setup, charged warm initializer/conversion, method setup, search, positions, partial sweeps, rescoring, storage and actual overruns. [Shared costs](shared_setup.csv) record actual common/initializer execution once per input/repetition; charging an inherited initializer to several standalone methods does not mean the campaign recomputed it each time. [All warmups](warmups.csv) retain actual optimizer work and CPU failures. [Actual campaign construction](campaign_construction.csv) counts shared setup and initializer once for the warmup phase and each measured repetition, then adds actual local optimizer CPU; it excludes file serialization, import overhead and original input generation, which remain in the full process resource ledger. Original input generation remains separate from stored-input search setup.
 

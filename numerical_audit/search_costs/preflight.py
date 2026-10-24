@@ -6,11 +6,13 @@ import json
 from pathlib import Path
 import tarfile
 import time
+import subprocess
+import importlib.metadata
 import numpy as np
 from scipy.sparse.linalg import expm_multiply
-from bounded import run_arm, engine as e
+from bounded import engine as e
 from models import synthetic
-from study import common, initializer, decorate, load_previous_placement, write, sha, CircuitTarget, physical_metrics, ARMS
+from study import measured_arm as run_arm, common, initializer, decorate, load_previous_placement, write, sha, sources, CircuitTarget, physical_metrics, ARMS
 from verify_costs import Reference, metrics, audit_ledger
 
 
@@ -18,6 +20,15 @@ def run(output):
     if output.exists():
         raise ValueError('Fresh preflight directory required; retain failed attempts')
     output.mkdir(parents=True)
+    source_identity=sources()
+    source_identity['search_costs/preflight.py']=sha(Path(__file__))
+    source_identity['search_costs/requirements.txt']=sha(Path(__file__).parent/'requirements.txt')
+    commit=subprocess.check_output(['git','-C',str(Path(__file__).parent),'rev-parse','HEAD'],text=True).strip()
+    root=Path(__file__).resolve().parents[2]
+    for relative,digest in source_identity.items():
+        path=Path(__file__).parent.parent/relative
+        blob=subprocess.check_output(['git','-C',str(root),'show',commit+':'+str(path.relative_to(root))])
+        assert hashlib.sha256(blob).hexdigest()==digest,'Commit representative scientific source before preflight'
     began_cpu, began_wall = time.process_time(), time.monotonic()
     model = synthetic(12)
     model['case'] = 'preflight_altered_extended_hubbard_12'
@@ -111,7 +122,11 @@ def run(output):
         if path.is_file():
             assert sha(path) == sha(output/path.relative_to(extraction))
     package_cpu = time.process_time()-before_package
+    assert source_identity=={**sources(),'search_costs/preflight.py':sha(Path(__file__)),
+        'search_costs/requirements.txt':sha(Path(__file__).parent/'requirements.txt')},'Preflight source changed'
     stats = dict(status='passed', scope='Altered largest synthetic target, not prospective panel errors',
+                 source_commit=commit,source_sha256=source_identity,
+                 environment={p:importlib.metadata.version(p) for p in ('numpy','scipy')},
                  modes=12, Pauli_words=len(model['coefficients']), records=len(records), circuits=len(rows),
                  construction_CPU_seconds=construction_cpu, propagation_CPU_seconds=propagation_cpu,
                  verification_CPU_seconds=verification_cpu, extraction_packaging_replay_CPU_seconds=package_cpu,
