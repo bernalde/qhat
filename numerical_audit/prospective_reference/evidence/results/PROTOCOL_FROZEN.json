@@ -1,0 +1,117 @@
+{
+  "cases": {
+    "Li2_r2p95": {
+      "geometry": [
+        [
+          "Li",
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        [
+          "Li",
+          [
+            0.0,
+            0.0,
+            2.95
+          ]
+        ]
+      ],
+      "electrons": 2,
+      "n": 6
+    },
+    "F2_r1p55": {
+      "geometry": [
+        [
+          "F",
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        [
+          "F",
+          [
+            0.0,
+            0.0,
+            1.55
+          ]
+        ]
+      ],
+      "electrons": 6,
+      "n": 8
+    },
+    "H2O_scale1p10": {
+      "geometry": [
+        [
+          "O",
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        [
+          "H",
+          [
+            0.8332948775591,
+            0.0,
+            0.6457876002479
+          ]
+        ],
+        [
+          "H",
+          [
+            -0.8332948775591,
+            0.0,
+            0.6457876002479
+          ]
+        ]
+      ],
+      "electrons": 4,
+      "n": 8
+    }
+  },
+  "budgets": [
+    5,
+    10,
+    20,
+    50
+  ],
+  "T": 1.0,
+  "source_sha256": {
+    "local": {
+      "PROTOCOL.md": "7250812ed9f14dd47310d0f609300549cac22ff047cafbdd383fff30f56c139b",
+      "README.md": "a4c467ea3806c2a1cb1d3e513f7923e4e22e2cbbe5ba5f83bb1eec8d9df1cea0",
+      "campaign.py": "1e033b0c19c57544a20c9355794ac7f5a6be734a2d1dbca23366ec40a9a86de6",
+      "decisions.py": "223635c3334b5d69237f4867aeebab34e9af959ca9dc151b0d6c92a0e9450e99",
+      "engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971",
+      "guarded.py": "f148b8fa4529a2dc0a970cf68117147a7756f4baf63083023a9b1a0b04922ef0",
+      "one_pass.py": "3cfaced88f188d418ad5fac1be585478ad7894d6d4da53142489f82c8e82fcb6",
+      "requirements.txt": "52b359dd85264dd36639910ab8e2df4d0a7a7527df62018708c60e53bb482e1d",
+      "test_engine.py": "e1954a86c62195140d3cc32be7d6d6eff3b8b612b85b19e31312d11e2cc5a81c",
+      "verify.py": "07c90867fcf0b75edbbf95f302279477020cbbeb09781a382d6bf92f5c7914cc"
+    },
+    "qhat": {
+      "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+      "numerical_audit/followup_classes/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3"
+    }
+  },
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "numba": "0.68.0",
+    "llvmlite": "0.50.0",
+    "openfermion": "1.8.1",
+    "openfermionpyscf": "0.5",
+    "pyscf": "2.14.0",
+    "h5py": "3.16.0"
+  },
+  "source_commit": "bcb104e1743a4df89dec03fa36cecb8c342974d3",
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "one_pass_original_sha256": "3cfaced88f188d418ad5fac1be585478ad7894d6d4da53142489f82c8e82fcb6"
+}

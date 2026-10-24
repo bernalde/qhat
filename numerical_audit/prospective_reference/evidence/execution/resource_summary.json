@@ -1,0 +1,191 @@
+[
+  {
+    "phase": "tests-addressed-installed",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "3G",
+      "MemoryMax": "4G",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "3600"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 9.040292260004207,
+    "service_log_tail": [
+      "24 passed in 3.50s",
+      "Finished with result: success",
+      "Main processes terminated with: code=exited/status=0",
+      "Service runtime: 6.487s",
+      "CPU time consumed: 1.642s",
+      "Memory peak: 54.0M",
+      "Memory swap peak: 0B"
+    ]
+  },
+  {
+    "phase": "generate",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "3G",
+      "MemoryMax": "4G",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "3600"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 33.181382473005215,
+    "service_log_tail": [
+      "GENERATED H2O_scale1p10 qubits 8 words 104 units 48",
+      "Finished with result: success",
+      "Main processes terminated with: code=exited/status=0",
+      "Service runtime: 31.377s",
+      "CPU time consumed: 7.855s",
+      "Memory peak: 277.0M",
+      "Memory swap peak: 0B"
+    ]
+  },
+  {
+    "phase": "prepare",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "3G",
+      "MemoryMax": "4G",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "3600"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 36.17690250399755,
+    "service_log_tail": [
+      "PREPARED H2O_scale1p10 near matched positions 481 larger Pauli 214240",
+      "Finished with result: success",
+      "Main processes terminated with: code=exited/status=0",
+      "Service runtime: 34.074s",
+      "CPU time consumed: 8.515s",
+      "Memory peak: 252.9M",
+      "Memory swap peak: 0B"
+    ]
+  },
+  {
+    "phase": "run-compact",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "3600"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 36.18503275499097,
+    "service_log_tail": [
+      "EVOLVED H2O_scale1p10.near symmetric_JD",
+      "Finished with result: success",
+      "Main processes terminated with: code=exited/status=0",
+      "Service runtime: 33.158s",
+      "CPU time consumed: 8.309s",
+      "Memory peak: 294.0M",
+      "Memory swap peak: 0B"
+    ]
+  },
+  {
+    "phase": "verify-compact",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "3600"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 24.136467253003502,
+    "service_log_tail": [
+      "VERIFIED H2O_scale1p10 near rows 216",
+      "Finished with result: success",
+      "Main processes terminated with: code=exited/status=0",
+      "Service runtime: 23.224s",
+      "CPU time consumed: 5.822s",
+      "Memory peak: 53.1M",
+      "Memory swap peak: 0B"
+    ]
+  },
+  {
+    "phase": "summarize-compact",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "3600"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 18.11699331800628,
+    "service_log_tail": [
+      "}",
+      "Finished with result: success",
+      "Main processes terminated with: code=exited/status=0",
+      "Service runtime: 15.566s",
+      "CPU time consumed: 3.913s",
+      "Memory peak: 154.7M",
+      "Memory swap peak: 0B"
+    ]
+  },
+  {
+    "phase": "report-v2",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "3600"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 18.11479318300553,
+    "service_log_tail": [
+      "{\"rows\": 216, \"gate\": false, \"output\": \"/tmp/fermionic-prospective-ordering-2026-10-23/report-v2\"}",
+      "Finished with result: success",
+      "Main processes terminated with: code=exited/status=0",
+      "Service runtime: 17.144s",
+      "CPU time consumed: 4.298s",
+      "Memory peak: 124.9M",
+      "Memory swap peak: 0B"
+    ]
+  }
+]

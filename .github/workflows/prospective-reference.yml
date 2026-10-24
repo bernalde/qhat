@@ -1,0 +1,49 @@
+name: Prospective reference research checks
+
+on:
+  push:
+    paths:
+      - numerical_audit/prospective_reference/**
+      - analysis/fermionic_coefficients.py
+      - numerical_audit/followup_classes/exact_blocks.py
+      - .github/workflows/prospective-reference.yml
+  pull_request:
+    paths:
+      - numerical_audit/prospective_reference/**
+      - analysis/fermionic_coefficients.py
+      - numerical_audit/followup_classes/exact_blocks.py
+      - .github/workflows/prospective-reference.yml
+
+permissions:
+  contents: read
+
+jobs:
+  scientific-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: python:3.12-slim
+      options: --cpus=1 --memory=3g --memory-swap=3g
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install focused research dependencies
+        run: python -m pip install -r numerical_audit/prospective_reference/requirements.txt
+      - name: Synthetic mathematical and protocol checks
+        working-directory: numerical_audit/prospective_reference
+        run: python -m pytest test_engine.py -q
+      - name: Validate published report tables and hashes
+        run: python numerical_audit/prospective_reference/reporting/check_delivery.py --results numerical_audit/prospective_reference/evidence/results --report numerical_audit/prospective_reference/report
+      - name: Independently replay committed prospective evidence
+        if: ${{ hashFiles('numerical_audit/prospective_reference/evidence/results/ALL_SCHEDULES_FROZEN.json') != '' }}
+        shell: bash
+        run: |
+          cp -r numerical_audit/prospective_reference/evidence/results "$RUNNER_TEMP/prospective-results"
+          python numerical_audit/prospective_reference/verify.py --qhat-root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/prospective-results"
+          python numerical_audit/prospective_reference/campaign.py summarize --qhat-root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/prospective-results"
