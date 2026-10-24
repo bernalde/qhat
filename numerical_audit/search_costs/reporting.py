@@ -153,9 +153,23 @@ def build(results, output):
                        ('campaign_construction.csv',campaign_rows)]:
         csv_write(output/name,data)
     over = sum(r['within_CPU_budget'] is False for r in searches)
+    aggregate_table=['| Paired factor (left/right) | Formula | CPU cap | Wins/ties/losses | Median paired error ratio | Both within cap |',
+        '| --- | --- | --- | --- | --- | --- |']
+    for r in aggregates:
+        aggregate_table.append('| '+' | '.join([r['comparison'],str(r['formula']),str(r['CPU_cap']),
+            str(r['wins'])+'/'+str(r['ties'])+'/'+str(r['losses']),
+            'floor-limited' if r['median_of_paired_ratios'] is None else format(r['median_of_paired_ratios'],'.6g'),
+            str(r['both_within_declared_cap'])+'/'+str(r['pairs'])])+' |')
+    aggregate_text='\n'.join(aggregate_table)
+    first_order='; '.join(str(r['CPU_cap'])+' CPU seconds: '+str(r['wins'])+'/'+str(r['ties'])+'/'+str(r['losses'])
+        for r in aggregates if r['comparison']=='conserving_vs_pauli' and r['formula']==1)
     (output/'README.md').write_text(f'''# Controlled search costs and declared synthetic scaling
 
 This fixed panel retains 432 constructed orders and 864 full-space circuit comparisons: three retained molecular targets and five synthetic extended-Hubbard targets with 4–12 modes. The synthetic family extends the measured mode/term range; it supplies no larger-molecule validation. All repetitions and incomplete/out-of-budget records remain visible. {over} bounded-arm records exceeded their declared stand-alone CPU cap.
+
+Conserving versus individual-Pauli first-order search has the following pooled wins/ties/losses: {first_order}. The complete table below includes both formulas/caps and every partition, initializer and objective comparison. These summaries pool the other declared factors and related repetitions; they do not establish a universal partition advantage or isolate conservation as a mechanism.
+
+{aggregate_text}
 
 Eight factorial arms separate conserving/individual-Pauli partition, J_D/J_0 objective and cold/placement initialization. Caps are 0.5 and 2 process-CPU seconds, with three repetitions, cyclic arm order and symmetric warmups. [Search records](searches.csv) count common setup, charged warm initializer/conversion, method setup, search, positions, partial sweeps, rescoring, storage and actual overruns. [Shared costs](shared_setup.csv) record actual common/initializer execution once per input/repetition; charging an inherited initializer to several standalone methods does not mean the campaign recomputed it each time. [All warmups](warmups.csv) retain actual optimizer work and CPU failures. [Actual campaign construction](campaign_construction.csv) counts shared setup and initializer once for the warmup phase and each measured repetition, then adds actual local optimizer CPU; it excludes file serialization, import overhead and original input generation, which remain in the full process resource ledger. Original input generation remains separate from stored-input search setup.
 

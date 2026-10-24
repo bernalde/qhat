@@ -45,12 +45,13 @@ def check(results, report, manifest, replay_decisions_only=False):
     key = lambda r: (r['case'],r['record_index'],r['formula'])
     physical = {key(r):r for r in rows}
     cases = {p.stem for p in (results/'designs').glob('*.json')}
+    designs={case:read(results/'designs'/(case+'.json')) for case in cases}
     expected = set(itertools.product(cases,range(54),(1,2)))
     assert len(cases) == 8 and len(rows) == 864 and set(physical) == expected
     # Warmups are executed work, separate from the54 measured order records.
     expected_warmups=set(itertools.product(('conserving','pauli'),('JD','J0'),('cold','placement')))
     for case in cases:
-        design=read(results/'designs'/(case+'.json'))
+        design=designs[case]
         model=read(results/'inputs'/(case+'.json'))
         warmups=design['warmups']
         assert len(warmups)==8 and {(x['partition'],x['objective'],x['initialization']) for x in warmups}==expected_warmups
@@ -89,7 +90,7 @@ def check(results, report, manifest, replay_decisions_only=False):
                 right = case,int(r['right_record']),int(r['formula'])
                 stored_difference = float(r['error_difference'])
             else:
-                design = read(results/'designs'/(case+'.json'))
+                design = designs[case]
                 control = [i for i,x in enumerate(design['records']) if x['arm'] == r['control'] and x['repetition'] == int(r['repetition'])]
                 assert len(control) == 1
                 left = case,int(r['record_index']),int(r['formula'])
@@ -99,6 +100,7 @@ def check(results, report, manifest, replay_decisions_only=False):
             x,y = alternative[left],alternative[right]
             assert stored_difference == a-b and r['classification'] == classify(a-b) == classify(x-y)
             assert r['denominator_above_floor'] == str(b>1e-12) == str(y>1e-12)
+    del designs
     if not replay_decisions_only:
         with tempfile.TemporaryDirectory(prefix='cost-report-replay-') as scratch:
             target = Path(scratch)/'report'
