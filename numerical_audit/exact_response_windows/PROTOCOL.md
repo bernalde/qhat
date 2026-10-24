@@ -116,3 +116,39 @@ the heuristic or yield larger physical errors. All such outcomes answer this
 bounded question and remain explicit. The completed 8! pilot and this new 9!
 study are distinct restricted certificates. Neither answers a whole-order
 optimality question.
+
+
+## Representative preflight and frozen panel estimates
+
+Before main-panel enumeration or errors, the complete altered H2O preflight at
+source5791a352a66a77da437bd11876e322e4eaac8d1d passed: all362880 producer
+orders, independent DFS/Lehmer coverage,12 full-space circuits, report,
+archive/extraction and strict delivery. NumPy2.5.3/SciPy1.18.1; n=8/P=104;
+all coefficients scaled by the predetermined7/5. Algorithm phases used
+prepare0.02734CPU seconds, certification1.49406, propagation0.20151,
+independent verification1.96920, reporting0.00246, packaging0.01177,
+archive/extraction/check0.04788; total3.75726CPU/15.01581wall. The service
+used4.024CPU/18.06653controller wall, process peakRSS66920KiB. Retained
+delivery396496bytes, gzip42411bytes, all preflight outputs1215721bytes.
+These altered-target observations are not the prospective panel.
+
+For the three-case panel, estimate main setup/enumeration/propagation60CPU
+seconds/300wall and independent enumeration/replay60CPU/300wall. Treating
+all three inputs as the largest shape, these CPU estimates exceed ten times
+the corresponding preflight phases per case. This supplies margin for unit,
+destination and internal-pair variation. Estimate reporting/packaging/extraction
+8CPU/60wall, peakRSS160MiB, main retained/temporary disk16MiB and reporting/
+extraction32MiB. No setup or phase is granted extra execution solely because
+its estimate differs. The original cumulative600CPU/3600wall/128MiB main
+and independent ceilings, and120CPU/900wall/128MiB reporting ceiling remain.
+
+All failed attempts remain charged and retained. Preflight01 stopped before
+enumeration because optional removed-scalar metadata was absent. The metadata
+repair preserves absence and scales supplied values exactly. Preflight02
+completed the altered solve/circuits but caught an independent-checker bug:
+ordinary sin requires gap/(2den), whereas NumPy's normalized sinc already
+includes pi. The producer's supplied-weight formula was correct and unchanged;
+the independent check was corrected without loosening its5e-15 tolerance.
+A hand-derived cosine-identity regression and the full13-test suite passed.
+No main input, coefficient, window-selection rule or error threshold was tuned
+using these failures; both partial attempts remain separate from preflight03.
