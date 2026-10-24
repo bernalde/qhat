@@ -183,3 +183,27 @@ All original cumulative phase ceilings remain binding. Earlier tests, preflight,
 construction/propagation, replay, reporting and interrupted-checker usage remain
 charged. Fresh output labels preserve both sets of observations; this amendment
 does not create a new study allowance or a new review/verification budget.
+
+
+## Corrected-boundary preflight and replacement-panel estimates
+
+Before replacement construction or errors, the same altered 12-mode/138-word
+preflight passed at source 05444cb65294e7057b744e0c3d40ffa61895213d,
+with authenticated committed source hashes and NumPy2.5.3/SciPy1.18.1.
+Its 18 orders/36 circuits and independent objective, state, metric, archive and
+extraction checks passed. Construction used11.191CPU seconds, propagation2.508,
+independent verification3.007, packaging/extraction/replay0.123; algorithm total
+16.835CPU/67.310wall. The guarded service used17.142CPU/69.185controller wall,
+peak process RSS94528KiB. This altered target remains outside the panel.
+
+The original conservative estimates remain binding for the replacement:
+construction800CPU,propagation250CPU,independent verification350CPU,
+extraction/reporting/packaging/replay30CPU; main4800wall,verification1600wall,
+extraction180wall; peakRSS192MiB,main temporary256MiB,retained80MiB,
+extraction temporary128MiB. Each phase estimate exceeds24 times its corrected
+largest-shape observation with at least2x CPU margin. Earlier campaign and
+failed-attempt use remains charged against the original cumulative ceilings.
+Before replacement preparation, old main usage is141.948serviceCPU and
+569.596controller wall seconds; reserve at most1650CPU/10200wall/480MiB for
+preparation, then subtract its actual use again before propagation. Both old
+and replacement observations are retained, with no accuracy-based selection.
