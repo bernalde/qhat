@@ -134,3 +134,28 @@ physical error, and second-order controls may dominate first-order methods.
 Retain those outcomes. Ideal rotations, future compiled resources and hardware
 measurements remain distinct. No conservation-only, practical speedup,
 asymptotic scaling or larger-molecule conclusion follows from this panel.
+
+
+## Completed representative preflight and main estimates
+
+Before any main physical error, source dcbb8667161946813854152a41453b401ad3e36b
+passed all12focusedtests and the full altered-H2O7/5,T2.11 preflight:16circuits,
+independent signed cubic columns/objectives,56pairwise decisions,report,complete
+49artifact delivery,gzip archive/extraction and strict checks. NumPy2.5.3 and
+SciPy1.18.1;8modes/104Pauli words. Algorithm phases used prepare11.75073CPU
+seconds/46.99896wall,propagation0.29095/1.11915,independent0.51671/2.08833,
+report0.00896/0.00897,package0.01012/0.08764,archive/extract/check0.08126/0.30575.
+Total12.66211CPU/50.61218algorithmwall; guarded service12.961CPU/54.14711
+controllerwall,process peakRSS67392KiB,cgrouppeak42.1MiB,zero swap.
+Delivery1126601bytes,gzip75239bytes,totalpreflight3447367bytes. This is altered-
+target feasibility evidence, not the prospective96circuit panel.
+
+For3models×2times, treating every input as the largest shape, estimate main
+construction/propagation240CPU seconds/1200wall: more than3times six copies of
+the corresponding measured preflight phases. Estimate independent objectives/
+replay30CPU/150wall, more than9times six measured independent phases. Estimate
+reporting/archive/extraction8CPU/60wall, peakRSS160MiB,main retained/temporary
+output32MiB,reporting/extraction64MiB. The original finite ceilings remain
+600CPU/3600wall/128MiB each for main and independent phases,120CPU/900wall/
+128MiB for reporting. Estimates grant no automatic budget increase.
+No main input,time,objective,control,seed or threshold changed after preflight.
