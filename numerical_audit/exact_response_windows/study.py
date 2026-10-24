@@ -2,6 +2,7 @@
 import os
 for name in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMBA_NUM_THREADS','NUMEXPR_NUM_THREADS'):
     os.environ[name]='1'
+from fractions import Fraction
 import argparse
 import hashlib
 import importlib.metadata
@@ -62,6 +63,7 @@ def prepare(output,preflight=False):
             model['coefficients']=[[w,str(7*int(c))] for w,c in model['coefficients']]
             model['blocks']=[[[w,str(7*int(c))] for w,c in b] for b in model['blocks']]
             model['denominator']=str(5*int(model['denominator']))
+            model['removed_scalar_exact']=str(Fraction(model['removed_scalar_exact'])*Fraction(7,5))
             provenance['preflight_coefficient_scale']='7/5'
         domain=freeze_domain(model,point['methods']['optimized_JD']['order'])
         domain.update(case=case,prior=provenance,

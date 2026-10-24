@@ -2,6 +2,7 @@
 import os
 for name in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMBA_NUM_THREADS','NUMEXPR_NUM_THREADS'):
     os.environ[name]='1'
+from fractions import Fraction
 import argparse
 import hashlib
 import json
@@ -248,6 +249,7 @@ def verify(output):
             original['coefficients']=[[w,str(7*int(c))] for w,c in original['coefficients']]
             original['blocks']=[[[w,str(7*int(c))] for w,c in b] for b in original['blocks']]
             original['denominator']=str(5*int(original['denominator']))
+            original['removed_scalar_exact']=str(Fraction(original['removed_scalar_exact'])*Fraction(7,5))
         check(model==original,'Target differs from authenticated input')
         independently=verify_certificate(model,domain,certificate);certificates.append(dict(case=case,**independently))
         reference=Reference(model);exact=reference.exact_action();check(len(design['records'])==6,'Missing controls')
