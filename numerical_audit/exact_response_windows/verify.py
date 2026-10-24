@@ -249,7 +249,8 @@ def verify(output):
             original['coefficients']=[[w,str(7*int(c))] for w,c in original['coefficients']]
             original['blocks']=[[[w,str(7*int(c))] for w,c in b] for b in original['blocks']]
             original['denominator']=str(5*int(original['denominator']))
-            original['removed_scalar_exact']=str(Fraction(original['removed_scalar_exact'])*Fraction(7,5))
+            if 'removed_scalar_exact' in original:
+                original['removed_scalar_exact']=str(Fraction(original['removed_scalar_exact'])*Fraction(7,5))
         check(model==original,'Target differs from authenticated input')
         independently=verify_certificate(model,domain,certificate);certificates.append(dict(case=case,**independently))
         reference=Reference(model);exact=reference.exact_action();check(len(design['records'])==6,'Missing controls')

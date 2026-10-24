@@ -2,6 +2,7 @@
 import os
 for name in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMBA_NUM_THREADS','NUMEXPR_NUM_THREADS'):
     os.environ[name]='1'
+from copy import deepcopy
 from fractions import Fraction
 import argparse
 import hashlib
@@ -46,6 +47,16 @@ def old_case(case):
     return model,point,dict(input_sha256=sha(mp),design_sha256=sha(dp),prior_freeze_sha256=sha(prior/'ALL_SCHEDULES_FROZEN.json'))
 
 
+def scaled_preflight_model(model):
+    altered=deepcopy(model)
+    altered['coefficients']=[[w,str(7*int(c))] for w,c in altered['coefficients']]
+    altered['blocks']=[[[w,str(7*int(c))] for w,c in block] for block in altered['blocks']]
+    altered['denominator']=str(5*int(altered['denominator']))
+    if 'removed_scalar_exact' in altered:
+        altered['removed_scalar_exact']=str(Fraction(altered['removed_scalar_exact'])*Fraction(7,5))
+    return altered
+
+
 def prepare(output,preflight=False):
     require(not output.exists(),'Fresh output required; preserve partial attempts')
     output.mkdir(parents=True);commit=subprocess.check_output(['git','-C',str(HERE),'rev-parse','HEAD'],text=True).strip()
@@ -60,10 +71,7 @@ def prepare(output,preflight=False):
         model,point,provenance=old_case(case)
         if preflight:
             # Alter coefficients without changing the predeclared register/units.
-            model['coefficients']=[[w,str(7*int(c))] for w,c in model['coefficients']]
-            model['blocks']=[[[w,str(7*int(c))] for w,c in b] for b in model['blocks']]
-            model['denominator']=str(5*int(model['denominator']))
-            model['removed_scalar_exact']=str(Fraction(model['removed_scalar_exact'])*Fraction(7,5))
+            model=scaled_preflight_model(model)
             provenance['preflight_coefficient_scale']='7/5'
         domain=freeze_domain(model,point['methods']['optimized_JD']['order'])
         domain.update(case=case,prior=provenance,
