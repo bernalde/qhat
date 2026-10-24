@@ -50,10 +50,10 @@ def check(results,report,renderer):
         require(set(original)==set(published) and all(('' if v is None else str(v))==published[k] for k,v in original.items()),
                 'Exported contrast mismatch')
     manifest=results.parent/'MANIFEST.json'
-    if manifest.exists():
-        files=read(manifest)['file_sha256']
-        actual={str(p.relative_to(results)):sha(p) for p in results.rglob('*') if p.is_file()}
-        require(files==actual,'Retained result manifest mismatch')
+    require(manifest.is_file(),'Missing retained result manifest: '+str(manifest))
+    files=read(manifest)['file_sha256']
+    actual={str(p.relative_to(results)):sha(p) for p in results.rglob('*') if p.is_file()}
+    require(files==actual,'Retained result manifest mismatch')
     print(json.dumps(dict(status='passed',rows=len(raw),construction_rows=len(costs),contrasts=len(export))))
 
 
