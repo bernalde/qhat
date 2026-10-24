@@ -1,0 +1,34 @@
+# Symmetric-formula-specific response ordering
+
+Issue #8's formula-specific objective is derived in
+[DERIVATION.md](DERIVATION.md); the prospective scientific and finite resource
+limits are fixed in [PROTOCOL.md](PROTOCOL.md). `cubic.py` evaluates the actual
+symmetric-step Taylor column and scores its diagonal-reference response divided
+by the fourth power of the actual affordable fused step count. The independent
+literal-Pauli verifier instead uses nested commutators, checks full signed columns,
+and replays all circuits without fusion in the full Hilbert space.
+
+The prepared controller retains fresh same-time first-order conserving and
+larger individual-Pauli controls, their symmetric reuse, legacy placement,
+cubic orientation-only and bounded cubic insertion. It freezes every circuit
+before physical errors and records complete constructor charges and search work.
+
+Use the existing pinned Python3.12 environment, one guarded worker/thread and
+the quarter-core/512MiB/no-swap/headroom limits. Commit source before preflight
+and append calibrated main estimates before main execution. Failed attempts
+remain charged to the same phase. No main panel result is claimed here yet.
+
+```
+python -m pytest test_cubic.py -q
+python preflight.py --output FRESH_PREFLIGHT
+python study.py prepare --output FRESH_RESULTS
+python study.py run --output FRESH_RESULTS
+python verify.py --output FRESH_RESULTS
+python reporting.py --results FRESH_RESULTS --report FRESH_REPORT
+python delivery.py pack --results FRESH_RESULTS --report FRESH_REPORT --delivery FRESH_DELIVERY
+python delivery.py check --delivery FRESH_DELIVERY
+```
+
+These commands must run through guarded.py within the cumulative protocol
+allowances. No accuracy, speedup, formal-proof, compiled-resource or hardware
+conclusion follows from source preparation or a feasibility preflight.
