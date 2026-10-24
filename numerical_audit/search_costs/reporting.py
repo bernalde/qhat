@@ -6,6 +6,7 @@ import itertools
 import json
 from pathlib import Path
 import statistics
+from cost_ledger import warmup_shared
 
 
 def read(path):
@@ -41,8 +42,10 @@ def build(results, output):
     assert len(designs) == 8
     physical = {(r['case'], r['record_index'], r['formula']): r for r in rows}
     lookup, searches, setup_rows, warmup_rows, campaign_rows = {}, [], [], [], []
+    warmup_setup_rows=[]
     for case, design in designs.items():
         model = read(results/'inputs'/(case+'.json'))
+        warmup_setup_rows.append(dict(case=case,**warmup_shared(design)))
         for warmup in design['warmups']:
             record=warmup['record']
             warmup_rows.append(dict(case=case,partition=warmup['partition'],objective=warmup['objective'],
@@ -50,6 +53,10 @@ def build(results, output):
                 actual_local_CPU_seconds=record['actual_local_CPU_seconds'],setup_CPU_seconds=record['setup_CPU_seconds'],
                 search_CPU_seconds=record['search_CPU_seconds'],evaluations=record['evaluations'],
                 within_CPU_budget=record['within_CPU_budget']))
+            for field in ('common_setup_CPU_charge','inherited_placement_CPU_charge','initializer_CPU_seconds',
+                'accounting_overhead_CPU_seconds','total_charged_CPU_seconds','CPU_overrun_seconds',
+                'cost_timing','internal_snapshot_CPU_seconds','return_time_CPU_seconds'):
+                warmup_rows[-1][field]=record[field]
         assert len(design['warmups'])==8
         shared_warmup=design['warmups'][0]['record']['common_setup_CPU_charge']
         initializer_warmup=next(x['record']['inherited_placement_CPU_charge'] for x in design['warmups']
@@ -68,7 +75,9 @@ def build(results, output):
                                    common_setup_CPU_seconds=setup['common_setup_cpu_seconds'],
                                    placement_CPU_seconds=warm['placement_CPU_seconds'],
                                    pauli_conversion_CPU_seconds=warm['pauli_conversion_CPU_seconds'],
-                                   actual_initializer_CPU_seconds=warm['cpu_seconds']))
+                                   actual_initializer_CPU_seconds=warm['cpu_seconds'],
+                                   initializer_cost_timing=warm['cost_timing'],
+                                   initializer_internal_snapshot_CPU_seconds=warm['internal_snapshot_CPU_seconds']))
         for index, record in enumerate(design['records']):
             lookup[case, record['arm'], record['CPU_budget'], record['repetition']] = (index, record)
             row = dict(case=case, modes=model['n'], Pauli_words=len(model['coefficients']),
@@ -87,6 +96,11 @@ def build(results, output):
                        accepted_moves=sum(len(x['accepted']) for x in record.get('starts',[])),
                        max_full_rescore_CPU_seconds=max(record.get('full_rescore_CPU_seconds',[]),default=None),
                        peak_RSS_KiB_at_input_end=design.get('process_peak_RSS_KiB_at_input_end'))
+            if record['arm']=='current_placement':
+                setup=next(x for x in design['repetitions'] if x['repetition']==record['repetition'])
+                row.update(common_setup_CPU_charge=setup['common_setup_cpu_seconds'],
+                    baseline_placement_CPU_seconds=setup['placement']['placement_CPU_seconds'],
+                    baseline_cost_timing='through legacy placement return; separately timed baseline')
             searches.append(row)
     assert len(searches) == len(lookup) == 432
 
@@ -151,7 +165,7 @@ def build(results, output):
         flat_rows.append(flat)
     for name, data in [('all_rows.csv',flat_rows),('searches.csv',searches),('shared_setup.csv',setup_rows),
                        ('paired_factorial.csv',comparisons),('strong_controls.csv',controls),('aggregate.csv',aggregates),('warmups.csv',warmup_rows),
-                       ('campaign_construction.csv',campaign_rows)]:
+                       ('campaign_construction.csv',campaign_rows),('warmup_shared_setup.csv',warmup_setup_rows)]:
         csv_write(output/name,data)
     over = sum(r['within_CPU_budget'] is False for r in searches)
     aggregate_table=['| Paired factor (left/right) | Formula | CPU cap | Wins/ties/losses | Median paired error ratio | Both within cap |',
@@ -174,7 +188,7 @@ Conserving versus individual-Pauli first-order search has the following pooled w
 
 Construction timing is measured by the caller through each optimizer's complete return, including feature/reference teardown. Search records retain the internal snapshot and additional return-time CPU separately; both warmups and measured arms use this boundary. Shared setup and warm initialization also include their constructor returns. Result collection and file serialization are benchmark overhead in the separate full-process ledger. The earlier internal-snapshot panel remains preserved at commit 8e03901e2063cfb8be15e360c762ac72d50caeca and is not relabelled as a through-return measurement. This is a measurement repair on the same fixed inputs and policies; all replacement outcomes are retained.
 
-Eight factorial arms separate conserving/individual-Pauli partition, J_D/J_0 objective and cold/placement initialization. Caps are 0.5 and 2 process-CPU seconds, with three repetitions, cyclic arm order and symmetric warmups. [Search records](searches.csv) count common setup, charged warm initializer/conversion, method setup, search, positions, partial sweeps, rescoring, storage and actual overruns. [Shared costs](shared_setup.csv) record actual common/initializer execution once per input/repetition; charging an inherited initializer to several standalone methods does not mean the campaign recomputed it each time. [All warmups](warmups.csv) retain actual optimizer work and CPU failures. [Actual campaign construction](campaign_construction.csv) counts shared setup and initializer once for the warmup phase and each measured repetition, then adds actual local optimizer CPU; it excludes file serialization, import overhead and original input generation, which remain in the full process resource ledger. Original input generation remains separate from stored-input search setup.
+Eight factorial arms separate conserving/individual-Pauli partition, J_D/J_0 objective and cold/placement initialization. Caps are 0.5 and 2 process-CPU seconds, with three repetitions, cyclic arm order and symmetric warmups. [Search records](searches.csv) count common setup, charged warm initializer/conversion, method setup, search, positions, partial sweeps, rescoring, storage and actual overruns. [Shared costs](shared_setup.csv) record actual common/initializer execution once per input/repetition; charging an inherited initializer to several standalone methods does not mean the campaign recomputed it each time. [All warmups](warmups.csv) retain actual optimizer work and CPU failures. [Actual campaign construction](campaign_construction.csv) counts shared setup and initializer once for the warmup phase and each measured repetition, then adds actual local optimizer CPU; it excludes file serialization, import overhead and original input generation, which remain in the full process resource ledger. Original input generation remains separate from stored-input search setup. [Warmup shared charges](warmup_shared_setup.csv) complete the campaign CPU sums alongside the three measured setup rows per input. Warmup optimizer timing splits and full cap ledgers are exported. The retained warmup shared charges support total setup/initializer accounting; their internal shared-constructor snapshots were not retained, and no such metadata is reconstructed. Measured initializer snapshots are checked separately. Current placement is a separately timed baseline, with common setup plus the actual placement call charge; it has no bounded-arm run_arm ledger or CPU cap. Delivery checks validate these distinct schemas without changing the frozen producer or its physical observations.
 
 [Paired factorial comparisons](paired_factorial.csv) distinguish partition, objective and initializer effects at each input/repetition/budget/formula. Aggregate counts are descriptive summaries of related pairs, not independent statistical replicates. Ratios are formed per pair before aggregation, excluding and counting only denominator errors at or below 1e-12. Losses remain in every count. The both-within-cap field identifies failures to satisfy a nominal matched budget; such rows are retained and never credited as successful in-budget comparisons. Incomplete sweeps remain eligible executed policies only under their explicitly retained stopping records.
 

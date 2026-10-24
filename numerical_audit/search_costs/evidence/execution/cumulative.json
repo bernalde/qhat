@@ -1,5 +1,5 @@
 {
-  "scope": "Continuing issue5 campaign, numerical phase attempts completed or interrupted before replacement packaging; originals retained, no budget reset. Final packaging/check/paper steps are separate owned task records, excluded from this self-hashed pre-package ledger.",
+  "scope": "Continuing issue5 campaign, original/replacement and later ledger-guard attempts before this packaging. No budget reset. Final packaging/check/paper steps retained separately in owned task records to avoid self-hashing.",
   "phase_ceilings": {
     "tests": {
       "CPU_seconds": 120,
@@ -44,6 +44,16 @@
       "controller_wall_seconds": 6.105479398014722
     },
     {
+      "label": "i05-delivery-check-03",
+      "phase": "reporting",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.554,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0437512589996913
+    },
+    {
       "label": "i05-package-01",
       "phase": "reporting",
       "observation_set": "original internal-snapshot",
@@ -52,6 +62,16 @@
       "CPU_charge_seconds": 0.27,
       "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
       "controller_wall_seconds": 3.024432999023702
+    },
+    {
+      "label": "i05-package-02",
+      "phase": "reporting",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.25,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.037650277001376
     },
     {
       "label": "i05-preflight-01",
@@ -66,7 +86,7 @@
     {
       "label": "i05-preflight-02",
       "phase": "preflight",
-      "observation_set": "replacement through-return",
+      "observation_set": "replacement through-return and subsequent ledger guards",
       "outcome": "passed",
       "wrapper_exit_code": 0,
       "CPU_charge_seconds": 17.142,
@@ -86,7 +106,7 @@
     {
       "label": "i05-prepare-02",
       "phase": "main",
-      "observation_set": "replacement through-return",
+      "observation_set": "replacement through-return and subsequent ledger guards",
       "outcome": "passed",
       "wrapper_exit_code": 0,
       "CPU_charge_seconds": 86.76,
@@ -126,12 +146,22 @@
     {
       "label": "i05-report-04",
       "phase": "reporting",
-      "observation_set": "replacement through-return",
+      "observation_set": "replacement through-return and subsequent ledger guards",
       "outcome": "passed",
       "wrapper_exit_code": 0,
       "CPU_charge_seconds": 0.279,
       "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
       "controller_wall_seconds": 3.0439517840004555
+    },
+    {
+      "label": "i05-report-05",
+      "phase": "reporting",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.318,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.05349102999935
     },
     {
       "label": "i05-run-01",
@@ -146,7 +176,7 @@
     {
       "label": "i05-run-02",
       "phase": "main",
-      "observation_set": "replacement through-return",
+      "observation_set": "replacement through-return and subsequent ledger guards",
       "outcome": "passed",
       "wrapper_exit_code": 0,
       "CPU_charge_seconds": 10.849,
@@ -176,12 +206,22 @@
     {
       "label": "i05-tests-03",
       "phase": "tests",
-      "observation_set": "replacement through-return",
+      "observation_set": "replacement through-return and subsequent ledger guards",
       "outcome": "passed",
       "wrapper_exit_code": 0,
       "CPU_charge_seconds": 0.526,
       "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
       "controller_wall_seconds": 3.0292275240008166
+    },
+    {
+      "label": "i05-tests-04",
+      "phase": "tests",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.589,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0333371799988527
     },
     {
       "label": "i05-verify-01",
@@ -196,7 +236,7 @@
     {
       "label": "i05-verify-02",
       "phase": "independent",
-      "observation_set": "replacement through-return",
+      "observation_set": "replacement through-return and subsequent ledger guards",
       "outcome": "passed",
       "wrapper_exit_code": 0,
       "CPU_charge_seconds": 16.837,

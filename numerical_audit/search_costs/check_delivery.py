@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import tempfile
 from reporting import build
+from cost_ledger import audit_design_costs
 
 
 def sha(path):
@@ -74,6 +75,7 @@ def check(results, report, manifest, replay_decisions_only=False):
     for case in cases:
         design=designs[case]
         model=read(results/'inputs'/(case+'.json'))
+        audit_design_costs(design,model)
         warmups=design['warmups']
         assert len(warmups)==8 and {(x['partition'],x['objective'],x['initialization']) for x in warmups}==expected_warmups
         common={x['record']['common_setup_CPU_charge'] for x in warmups}

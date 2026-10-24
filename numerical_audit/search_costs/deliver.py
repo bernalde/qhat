@@ -41,7 +41,7 @@ def package(results, report, logs, destination, labels, cumulative_ledger=None):
     (execution/'resources.json').write_text(json.dumps(dict(phases=measurements,
         scope='Explicit executed phase labels only; wrapper exit is not proof of scientific completion. Read cumulative.json attempt outcomes when supplied. Missing process fields are unmeasured, not zero; no reviewer metadata or task-private paths.'),indent=2)+'\n')
     source = Path(__file__).resolve().parent
-    active = ['reporting.py','check_delivery.py','deliver.py','guarded.py','test_bounded.py','preflight.py','requirements.txt']
+    active = ['cost_ledger.py','reporting.py','check_delivery.py','deliver.py','guarded.py','test_bounded.py','test_cost_ledger.py','preflight.py','requirements.txt']
     manifest = dict(files={str(p.relative_to(destination/'evidence')):sha(p) for p in sorted((destination/'evidence').rglob('*')) if p.is_file()},
                     delivery_sources={n:sha(source/n) for n in active},frozen_scientific_sources=verified['sources'],
                     report_manifest_sha256=sha(report/'MANIFEST.json'),producing_source_commit=read(results/'PROTOCOL_FROZEN.json')['source_commit'])

@@ -38,3 +38,15 @@ CPU-limited search depends on measured execution. The observations do not isolat
 the timing-boundary repair as the cause of every changed order or error. Every
 replacement run is retained under the unchanged design; neither panel is selected
 for favorable accuracy.
+
+
+The delivery audit checks every warmup optimizer ledger, measured shared
+initializer intervals and charges, and separately timed current-placement costs.
+Full compact exports include warmup timing/cap fields and
+[warmup shared charges](report/warmup_shared_setup.csv). The paper checker
+reconciles campaign CPU totals and paired within-cap flags. Warmup shared-
+constructor internal snapshots and common-setup internal snapshots were not
+retained by the frozen producer; only their actual caller-side charges are
+available. Missing diagnostics are not reconstructed or claimed as audited.
+Current placement has its own timing schema and no bounded optimizer CPU cap.
+These additional guards use fixed observations and producing source dea792a.
