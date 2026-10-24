@@ -1,0 +1,48 @@
+name: Controlled search cost checks
+on:
+  push:
+    paths:
+      - numerical_audit/search_costs/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/campaign.py
+      - numerical_audit/prospective_reference/one_pass.py
+      - numerical_audit/prospective_reference/evidence/results/**
+      - .github/workflows/search-costs.yml
+  pull_request:
+    paths:
+      - numerical_audit/search_costs/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/campaign.py
+      - numerical_audit/prospective_reference/one_pass.py
+      - numerical_audit/prospective_reference/evidence/results/**
+      - .github/workflows/search-costs.yml
+permissions:
+  contents: read
+jobs:
+  search-cost-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    container:
+      image: python:3.12-slim
+      options: --cpus=1 --memory=512m --memory-swap=512m
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - name: Pinned numerical dependencies
+        run: python -m pip install -r numerical_audit/search_costs/requirements.txt
+      - name: Budget failure paths and exact conserving models
+        working-directory: numerical_audit/search_costs
+        run: python -m pytest test_bounded.py test_cost_ledger.py -q
+      - name: Authenticate report and independently replay every circuit
+        shell: bash
+        run: |
+          python numerical_audit/search_costs/check_delivery.py --results numerical_audit/search_costs/evidence/results --report numerical_audit/search_costs/report --manifest numerical_audit/search_costs/evidence/MANIFEST.json
+          cp -r numerical_audit/search_costs/evidence/results "$RUNNER_TEMP/search-costs"
+          python numerical_audit/search_costs/verify_costs.py --output "$RUNNER_TEMP/search-costs"
+          python numerical_audit/search_costs/check_delivery.py --results "$RUNNER_TEMP/search-costs" --report numerical_audit/search_costs/report --manifest numerical_audit/search_costs/evidence/MANIFEST.json --replay-decisions-only

@@ -1,0 +1,79 @@
+{
+  "source_commit": "dea792a0591540b3ee2ec9fc5f3b217b9966e893",
+  "sources": {
+    "search_costs/PROTOCOL.md": "e6825d3c6dc2c7694a4bf1ad0f434ecad73c6d48d45750ab6161963f69e9af98",
+    "search_costs/bounded.py": "75c746f3522881330e168f4c5e6f42ea5269a053c7f6422a68a1cfa7cdcb1b08",
+    "search_costs/models.py": "687bfa14f57caffd62970481389b032e3ede0a19c115ab884bcf39a2c78b4484",
+    "search_costs/study.py": "0c8cdde4bb57cf9ccbf15aeaf1894a7ab3ee8196d57864f226d971d1a7c2d34e",
+    "search_costs/verify_costs.py": "1b67941fa1216712af17a11c5a020e72bfd89086a7da8cedf0fd4c3b795a4c81",
+    "prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971",
+    "prospective_reference/campaign.py": "1e033b0c19c57544a20c9355794ac7f5a6be734a2d1dbca23366ec40a9a86de6",
+    "prospective_reference/one_pass.py": "3cfaced88f188d418ad5fac1be585478ad7894d6d4da53142489f82c8e82fcb6"
+  },
+  "CPU_budgets": [
+    0.5,
+    2.0
+  ],
+  "repetitions": 3,
+  "arms": [
+    [
+      "conserving",
+      "JD",
+      "cold"
+    ],
+    [
+      "conserving",
+      "JD",
+      "placement"
+    ],
+    [
+      "conserving",
+      "J0",
+      "cold"
+    ],
+    [
+      "conserving",
+      "J0",
+      "placement"
+    ],
+    [
+      "pauli",
+      "JD",
+      "cold"
+    ],
+    [
+      "pauli",
+      "JD",
+      "placement"
+    ],
+    [
+      "pauli",
+      "J0",
+      "cold"
+    ],
+    [
+      "pauli",
+      "J0",
+      "placement"
+    ]
+  ],
+  "synthetic_sizes": [
+    4,
+    6,
+    8,
+    10,
+    12
+  ],
+  "molecular_cases": [
+    "Li2_r2p95",
+    "F2_r1p55",
+    "H2O_scale1p10"
+  ],
+  "expected_orders": 432,
+  "expected_circuits": 864,
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  }
+}
