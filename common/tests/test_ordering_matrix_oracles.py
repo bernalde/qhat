@@ -143,8 +143,10 @@ def test_pauli_tensor_and_circuit_preserve_support_and_global_phase(label):
 
     evolution = PauliStringEvolution(label, coefficient=-0.61, time=0.23, hbar=1.7)
     expected = expm(1j * 0.61 * 0.23 / 1.7 * matrix(label))
-    for full_flatten in (False, True):
-        actual = bloq_to_dense(evolution, full_flatten=full_flatten)
+    # Qualtran0.4 (required by pyLIQTR) predates the full_flatten keyword.
+    # Keep both direct contraction and the explicit circuit decomposition.
+    for bloq in (evolution, evolution.decompose_bloq()):
+        actual = bloq_to_dense(bloq)
         np.testing.assert_allclose(actual, expected, atol=2e-13, rtol=0)
 
 
