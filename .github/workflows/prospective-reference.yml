@@ -34,6 +34,8 @@ jobs:
       - name: Synthetic mathematical and protocol checks
         working-directory: numerical_audit/prospective_reference
         run: python -m pytest test_engine.py -q
+      - name: Validate published report tables and hashes
+        run: python numerical_audit/prospective_reference/reporting/check_delivery.py --results numerical_audit/prospective_reference/evidence/results --report numerical_audit/prospective_reference/report
       - name: Independently replay committed prospective evidence
         if: ${{ hashFiles('numerical_audit/prospective_reference/evidence/results/ALL_SCHEDULES_FROZEN.json') != '' }}
         shell: bash

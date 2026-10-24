@@ -1,0 +1,27 @@
+{
+  "kind": "pre-propagation operational resource amendment",
+  "created_utc": "2026-10-24T00:11:00.205781+00:00",
+  "reason": "Host remained just below the conservative 6GiB start threshold. Preceding generation/preparation peaked at277/253MiB; tighten own process allowance rather than consuming a4GiB allowance.",
+  "previous": {
+    "start_GiB": 6,
+    "freeze_GiB": 5,
+    "resume_GiB": 6,
+    "MemoryHigh": "3G",
+    "MemoryMax": "4G"
+  },
+  "current": {
+    "start_GiB": 5.5,
+    "freeze_GiB": 5,
+    "resume_GiB": 5.5,
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": 0,
+    "CPUQuota": "25%",
+    "Nice": 19
+  },
+  "scientific_source_and_schedules": "unchanged; all frozen before this amendment",
+  "construction_cost_timings": "already frozen under original supervisor; not rerun or altered",
+  "original_waiting_run": "cancelled by interrupt before any service launched or propagation artifacts existed; exit130",
+  "original_supervisor_sha256": "f148b8fa4529a2dc0a970cf68117147a7756f4baf63083023a9b1a0b04922ef0",
+  "amended_supervisor_sha256": "879e27ef3e5ec82dfde3b5637ea287bc8163fa9a67ca211856d567eeef772160"
+}
