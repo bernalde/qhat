@@ -1,0 +1,54 @@
+{
+  "source_commit": "f67da749946991a5cb57c68cba7fe5953a6d0b1f",
+  "sources": {
+    "exact_response_windows/exact.py": "7da2745dc14441d97b6f7cabb01addf30c557ad7531cdd105bf3875c72e965d0",
+    "exact_response_windows/study.py": "831a2f13b226cb6f0529f2d3062c597d54803bf38cbc91efea364cbb054c2d93",
+    "exact_response_windows/verify.py": "61005690143cc6822a05acde3f7af7d39d42456b9d9ce5ae707a4f50836ef2a2",
+    "exact_response_windows/PROTOCOL.md": "f66075d3e79208e12652001a04eabeee928945e41b4c95739e23ecb215df9edd",
+    "prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971"
+  },
+  "cases": [
+    "Li2_r2p95",
+    "F2_r1p55",
+    "H2O_scale1p10"
+  ],
+  "width": 9,
+  "T": 1.0,
+  "budgets": [
+    10,
+    30
+  ],
+  "arms": [
+    [
+      "heuristic",
+      1
+    ],
+    [
+      "certified_window",
+      1
+    ],
+    [
+      "current",
+      1
+    ],
+    [
+      "pauli_JD_large",
+      1
+    ],
+    [
+      "heuristic",
+      2
+    ],
+    [
+      "certified_window",
+      2
+    ]
+  ],
+  "expected_circuits": 36,
+  "preflight": false,
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  }
+}
