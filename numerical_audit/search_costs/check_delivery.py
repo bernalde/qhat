@@ -47,6 +47,32 @@ def check(results, report, manifest, replay_decisions_only=False):
     cases = {p.stem for p in (results/'designs').glob('*.json')}
     expected = set(itertools.product(cases,range(54),(1,2)))
     assert len(cases) == 8 and len(rows) == 864 and set(physical) == expected
+    # Warmups are executed work, separate from the54 measured order records.
+    expected_warmups=set(itertools.product(('conserving','pauli'),('JD','J0'),('cold','placement')))
+    for case in cases:
+        design=read(results/'designs'/(case+'.json'))
+        model=read(results/'inputs'/(case+'.json'))
+        warmups=design['warmups']
+        assert len(warmups)==8 and {(x['partition'],x['objective'],x['initialization']) for x in warmups}==expected_warmups
+        common={x['record']['common_setup_CPU_charge'] for x in warmups}
+        assert len(common)==1
+        for item in warmups:
+            r=item['record'];m=len(model['blocks']) if item['partition']=='conserving' else len(model['coefficients'])
+            assert r['CPU_budget']==.5 and (r['objective'],r['initialization'])==(item['objective'],item['initialization'])
+            assert sorted(r['order'])==list(range(m))
+            total=r['common_setup_CPU_charge']+r['inherited_placement_CPU_charge']+r['actual_local_CPU_seconds']
+            assert abs(total-r['total_charged_CPU_seconds'])<1e-12 and r['within_CPU_budget']==(total<=.5)
+            local=sum(r[k] for k in ('initializer_CPU_seconds','setup_CPU_seconds','search_CPU_seconds','accounting_overhead_CPU_seconds'))
+            assert abs(local-r['actual_local_CPU_seconds'])<1e-12
+            assert r['evaluation_cap']==20*m*(m-1) and 0<=r['evaluations']<=r['evaluation_cap']
+            assert (r['inherited_placement_CPU_charge']==0)==(item['initialization']=='cold')
+            if 'starts' in r:
+                assert len(r['starts'])==2 and sum(x['evaluations'] for x in r['starts'])==r['evaluations']
+                for start in r['starts']:
+                    assert sum(x['evaluations'] for x in start['sweeps'])==start['evaluations'] and len(start['accepted'])<=10
+                    for sweep in start['sweeps']:
+                        assert 0<=sweep['evaluations']<=m*(m-1)
+                        assert not sweep['complete'] or sweep['evaluations']==m*(m-1)
     independent = read(results/'INDEPENDENT_ERRORS.json')
     assert independent['decision_agreement'] and not independent['ambiguities']
     alternative = {key(r):r['independent_error'] for r in independent['rows']}

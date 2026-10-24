@@ -40,9 +40,28 @@ def build(results, output):
     designs = {x['case']: x for x in [read(p) for p in sorted((results/'designs').glob('*.json'))]}
     assert len(designs) == 8
     physical = {(r['case'], r['record_index'], r['formula']): r for r in rows}
-    lookup, searches, setup_rows = {}, [], []
+    lookup, searches, setup_rows, warmup_rows, campaign_rows = {}, [], [], [], []
     for case, design in designs.items():
         model = read(results/'inputs'/(case+'.json'))
+        for warmup in design['warmups']:
+            record=warmup['record']
+            warmup_rows.append(dict(case=case,partition=warmup['partition'],objective=warmup['objective'],
+                initialization=warmup['initialization'],CPU_budget=record['CPU_budget'],status=record['status'],
+                actual_local_CPU_seconds=record['actual_local_CPU_seconds'],setup_CPU_seconds=record['setup_CPU_seconds'],
+                search_CPU_seconds=record['search_CPU_seconds'],evaluations=record['evaluations'],
+                within_CPU_budget=record['within_CPU_budget']))
+        assert len(design['warmups'])==8
+        shared_warmup=design['warmups'][0]['record']['common_setup_CPU_charge']
+        initializer_warmup=next(x['record']['inherited_placement_CPU_charge'] for x in design['warmups']
+            if x['partition']=='pauli' and x['initialization']=='placement')
+        common_CPU=shared_warmup+sum(x['common_setup_cpu_seconds'] for x in design['repetitions'])
+        initializer_CPU=initializer_warmup+sum(x['placement']['cpu_seconds'] for x in design['repetitions'])
+        warmup_CPU=sum(x['record']['actual_local_CPU_seconds'] for x in design['warmups'])
+        measured_optimizer_CPU=sum(x['actual_local_CPU_seconds'] for x in design['records'] if x['arm']!='current_placement')
+        campaign_rows.append(dict(case=case,actual_common_setup_CPU_seconds=common_CPU,
+            actual_initializer_CPU_seconds=initializer_CPU,actual_warmup_optimizer_CPU_seconds=warmup_CPU,
+            actual_measured_optimizer_CPU_seconds=measured_optimizer_CPU,
+            recorded_algorithm_CPU_seconds=common_CPU+initializer_CPU+warmup_CPU+measured_optimizer_CPU))
         for setup in design['repetitions']:
             warm = setup['placement']
             setup_rows.append(dict(case=case, repetition=setup['repetition'],
@@ -130,14 +149,15 @@ def build(results, output):
                 flat.update({name+'_'+k:v for k,v in values.items()})
         flat_rows.append(flat)
     for name, data in [('all_rows.csv',flat_rows),('searches.csv',searches),('shared_setup.csv',setup_rows),
-                       ('paired_factorial.csv',comparisons),('strong_controls.csv',controls),('aggregate.csv',aggregates)]:
+                       ('paired_factorial.csv',comparisons),('strong_controls.csv',controls),('aggregate.csv',aggregates),('warmups.csv',warmup_rows),
+                       ('campaign_construction.csv',campaign_rows)]:
         csv_write(output/name,data)
     over = sum(r['within_CPU_budget'] is False for r in searches)
     (output/'README.md').write_text(f'''# Controlled search costs and declared synthetic scaling
 
 This fixed panel retains 432 constructed orders and 864 full-space circuit comparisons: three retained molecular targets and five synthetic extended-Hubbard targets with 4–12 modes. The synthetic family extends the measured mode/term range; it supplies no larger-molecule validation. All repetitions and incomplete/out-of-budget records remain visible. {over} bounded-arm records exceeded their declared stand-alone CPU cap.
 
-Eight factorial arms separate conserving/individual-Pauli partition, J_D/J_0 objective and cold/placement initialization. Caps are 0.5 and 2 process-CPU seconds, with three repetitions, cyclic arm order and symmetric warmups. [Search records](searches.csv) count common setup, charged warm initializer/conversion, method setup, search, positions, partial sweeps, rescoring, storage and actual overruns. [Shared costs](shared_setup.csv) record actual common/initializer execution once per input/repetition; charging an inherited initializer to several standalone methods does not mean the campaign recomputed it each time. Original input generation remains separate from stored-input search setup.
+Eight factorial arms separate conserving/individual-Pauli partition, J_D/J_0 objective and cold/placement initialization. Caps are 0.5 and 2 process-CPU seconds, with three repetitions, cyclic arm order and symmetric warmups. [Search records](searches.csv) count common setup, charged warm initializer/conversion, method setup, search, positions, partial sweeps, rescoring, storage and actual overruns. [Shared costs](shared_setup.csv) record actual common/initializer execution once per input/repetition; charging an inherited initializer to several standalone methods does not mean the campaign recomputed it each time. [All warmups](warmups.csv) retain actual optimizer work and CPU failures. [Actual campaign construction](campaign_construction.csv) counts shared setup and initializer once for the warmup phase and each measured repetition, then adds actual local optimizer CPU; it excludes file serialization, import overhead and original input generation, which remain in the full process resource ledger. Original input generation remains separate from stored-input search setup.
 
 [Paired factorial comparisons](paired_factorial.csv) distinguish partition, objective and initializer effects at each input/repetition/budget/formula. Aggregate counts are descriptive summaries of related pairs, not independent statistical replicates. Ratios are formed per pair before aggregation, excluding and counting only denominator errors at or below 1e-12. Losses remain in every count. The both-within-cap field identifies failures to satisfy a nominal matched budget; such rows are retained and never credited as successful in-budget comparisons. Incomplete sweeps remain eligible executed policies only under their explicitly retained stopping records.
 
