@@ -4,7 +4,7 @@ import itertools
 import math
 import pytest
 from exact import amplitudes,objective,solve,freeze_domain,validate_model,pair_data
-from verify import integer_action,full_amplitudes,independent_minimum,independent_pairs,Reference
+from verify import integer_action,full_amplitudes,independent_minimum,independent_pairs,Reference,diagonal_response_weight
 
 
 def fixture():
@@ -67,6 +67,11 @@ def test_hand_computed_commutator_and_normalization():
     data=pair_data(model);pairs,_=independent_pairs(model)
     assert pairs==data['pairs']==[[0,2,1,'-2'],[1,2,1,'-2']]
     assert data['energy_gap_numerators']==[[1,'-4']]
+    _,num,divisor=data['weight_ratios'][0];rho=int(num)/int(divisor)
+    # sin(x)^2=(1-cos(2x))/2, x=gap/(2den)=-2/7.
+    expected=(1-math.cos(4/7))/(2*(2/7)**2)
+    assert abs(rho-expected)<5e-15 and abs(diagonal_response_weight(-4,7)-rho)<5e-15
+    assert diagonal_response_weight(0,7)==1. and diagonal_response_weight(4,7)==diagonal_response_weight(-4,7)
     weight=int(data['integer_weights'][0][1]);assert objective(list(range(9)),data)==16*weight
     assert objective([0,2,1]+list(range(3,9)),data)==0
     assert int(data['objective_denominator'])==4*7**4*int(data['weight_scale'])

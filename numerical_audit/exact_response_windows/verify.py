@@ -122,6 +122,12 @@ def independent_minimum(order,offset,width,pairs,weights,cpu_limit=120):
         rank_bitset_sha256=hashlib.sha256(seen).hexdigest(),CPU_seconds=time.process_time()-cpu,wall_seconds=time.monotonic()-wall)
 
 
+def diagonal_response_weight(gap_numerator,denominator):
+    """At T=1, ordinary sin uses gap/(2den); NumPy sinc includes pi itself."""
+    x=gap_numerator/(2*denominator)
+    return (math.sin(x)/x)**2 if x else 1.
+
+
 def verify_certificate(model,domain,certificate):
     pairs,diagonal=independent_pairs(model);check(pairs==domain['pairs'],'Integer commutator responses differ')
     weights={};v=(1<<model['electrons'])-1;den=int(model['denominator']);gaps=[]
@@ -130,8 +136,8 @@ def verify_certificate(model,domain,certificate):
     for w,n,d in domain['weight_ratios']:
         numerator,divisor=int(n),int(d);rho=numerator/divisor
         check(rho.as_integer_ratio()==(numerator,divisor) and 0<=rho<=1,'Noncanonical binary64 weight')
-        gap=integer_action(diagonal,w)[1]-integer_action(diagonal,v)[1];x=gap/(2*math.pi*den)
-        other=(math.sin(x)/x)**2 if x else 1.
+        gap=integer_action(diagonal,w)[1]-integer_action(diagonal,v)[1]
+        other=diagonal_response_weight(gap,den)
         check(abs(rho-other)<5e-15,'Supplied weight differs from independent sinc check')
         weights[w]=numerator*(scale//divisor);gaps.append([w,str(gap)])
     check(sorted(weights)==sorted({p[2] for p in pairs}) and len(weights)==len(domain['weight_ratios']),'Duplicate/missing weight')
