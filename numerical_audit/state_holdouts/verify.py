@@ -85,6 +85,17 @@ def independent_metrics(exact,actual,n,electrons):
                 number_leakage=float(number),spin_projection_leakage=float(spin))
 
 
+def independent_occupations(psi,n):
+    annihilated=[]
+    for q in range(n):
+        prefix=tuple((j,'Z') for j in range(q))
+        A=(literal(prefix+((q,'X'),),n)+1j*literal(prefix+((q,'Y'),),n))/2
+        annihilated.append(A@psi)
+    gamma=np.array([[np.vdot(a,b) for b in annihilated] for a in annihilated])
+    values=np.linalg.eigvalsh(gamma)
+    return values,float(np.trace(gamma-gamma@gamma).real)
+
+
 def verify(output):
     from study import bind,sha,write,require,OLD,CASES,STATES,TIMES,BUDGETS,ARMS
     freeze=bind(output)
@@ -118,6 +129,10 @@ def verify(output):
             meta=design['state_preparation']['labels'][label]
             ipr=float(1/sum(abs(psi)**4));require(abs(ipr-meta['participation_ratio'])<1e-10,'Correlation metadata')
             require(meta['determinant_like']==(ipr<=1+1e-8),'Correlation label mismatch')
+            occupations,defect=independent_occupations(psi,n)
+            require(np.max(abs(occupations-meta['natural_occupations']))<1e-11 and
+                    abs(defect-meta['one_RDM_idempotency_defect'])<1e-11,'Natural occupation mismatch')
+            require(meta['correlated_beyond_single_Slater']==(defect>1e-8),'Single-Slater correlation label mismatch')
         require([(p['state'],p['T']) for p in design['points']]==[(s,T) for s in STATES for T in TIMES],'Missing or selected state/time inputs')
         old=json.loads((OLD/'designs'/(case+'.json')).read_text())
         previous=next(p for p in old['points'] if p['state']=='HF')['methods']

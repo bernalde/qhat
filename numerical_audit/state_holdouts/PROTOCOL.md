@@ -18,6 +18,10 @@ by projecting occupation basis vectors in increasing occupation order and
 Gram-Schmidt (degeneracy threshold 1e-11 Hartree). Canonical phase: largest
 absolute component, smallest occupation tie, positive real value. Record
 eigenvalues, gap, residuals, participation ratio and maximum determinant weight.
+Also record the one-particle density matrix occupations and Tr(gamma-gamma^2).
+Fractional occupations (defect >1e-8) diagnose correlation beyond a single
+Slater determinant; participation ratio alone diagnoses only multiple
+determinants in the fixed basis. Keep these labels distinct.
 Call these sector ground and first-excited states, not unrestricted global
 ground states. Report determinant-like cases (participation ratio <=1+1e-8)
 without replacing them. States are g, e, (g+e)/sqrt(2), (g+i e)/sqrt(2).

@@ -70,6 +70,21 @@ def sector(model):
     return [v for v in range(1<<n) if all(counts(v,p)==counts(hf,p) for p in (0,1))]
 
 
+def natural_occupations(psi,n):
+    require(0<n<=8 and len(psi)==1<<n,'RDM size guard')
+    gamma=np.zeros((n,n),complex)
+    for v,amplitude in enumerate(psi):
+        for q in range(n):
+            if not (v>>q)&1:continue
+            w=v^(1<<q);sign=(-1)**((v&((1<<q)-1)).bit_count())
+            for p in range(n):
+                if not (w>>p)&1:
+                    factor=sign*(-1)**((w&((1<<p)-1)).bit_count())
+                    gamma[p,q]+=np.conj(psi[w^(1<<p)])*amplitude*factor
+    occupations=np.linalg.eigvalsh(gamma)
+    return occupations,float(np.sum(occupations*(1-occupations)))
+
+
 def states(model):
     cpu=time.process_time();wall=time.monotonic()
     H=matrix(model);ids=sector(model)
@@ -81,10 +96,14 @@ def states(model):
         labels={},cpu_seconds=time.process_time()-cpu,wall_seconds=time.monotonic()-wall)
     for at,label in enumerate(STATES):
         psi=vectors[:,at];weights=abs(psi)**2
+        occupations,defect=natural_occupations(psi,model['n'])
         metadata['labels'][label]=dict(participation_ratio=float(1/np.sum(weights**2)),
             maximum_determinant_weight=float(max(weights)),norm=float(np.linalg.norm(psi)),
-            determinant_like=bool(1/np.sum(weights**2)<=1+1e-8))
+            determinant_like=bool(1/np.sum(weights**2)<=1+1e-8),
+            natural_occupations=occupations.tolist(),one_RDM_idempotency_defect=defect,
+            correlated_beyond_single_Slater=bool(defect>1e-8))
         if at<2:metadata['labels'][label]['eigen_residual']=float(np.linalg.norm(H@psi-values[at]*psi))
+    metadata.update(cpu_seconds=time.process_time()-cpu,wall_seconds=time.monotonic()-wall)
     return vectors,metadata
 
 

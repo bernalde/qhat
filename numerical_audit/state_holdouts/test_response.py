@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 from scipy.integrate import quad_vec
 from response import Features,canonical_eigensystem,determinant as e
-from verify import literal,independent_score,replay
-from study import propagate,encode_schedule
+from verify import literal,independent_score,replay,independent_occupations
+from study import propagate,encode_schedule,natural_occupations
 
 
 def fixture():
@@ -91,3 +91,12 @@ def test_normalization_and_order_guards():
 
 def test_schedule_serialization_matches_frozen_json():
     assert encode_schedule([(((0,'X'),(1,'Z')),3)])==[[[[0,'X'],[1,'Z']],'3']]
+
+
+def test_correlation_distinguishes_rotated_determinant():
+    for indices,expected in (([3],0.),([1,2],0.),([3,12],1.)):
+        psi=np.zeros(16,complex);psi[indices]=1/np.sqrt(len(indices))
+        occupations,defect=natural_occupations(psi,4)
+        other,other_defect=independent_occupations(psi,4)
+        assert abs(defect-expected)<1e-12
+        assert np.allclose(occupations,other,atol=1e-12) and abs(defect-other_defect)<1e-12
