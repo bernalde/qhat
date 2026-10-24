@@ -41,3 +41,4 @@ jobs:
           cp -r numerical_audit/state_holdouts/evidence/results "$RUNNER_TEMP/state-holdouts"
           python numerical_audit/state_holdouts/verify.py --output "$RUNNER_TEMP/state-holdouts"
           python numerical_audit/state_holdouts/study.py summary --output "$RUNNER_TEMP/state-holdouts"
+          python numerical_audit/state_holdouts/check_delivery.py --results "$RUNNER_TEMP/state-holdouts" --report numerical_audit/state_holdouts/report

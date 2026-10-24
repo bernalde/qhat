@@ -44,4 +44,9 @@ attempts. No destructive automatic resume is provided.
 source, fixes state vectors/phases and freezes every schedule before `run`.
 `verify` independently checks the entire 432-row panel. `summary` authenticates
 all verified artifacts and retains failed coverage strata, floors and losses.
+The verifier binds state columns and named arm definitions independently of
+producer metadata. It retains recomputed errors and checks floor/W/T/L
+decisions explicitly; disagreement blocks a verified decision report and is
+recorded as numerical ambiguity. The historical `spin_projection_leakage`
+field measures the joint (N_alpha,N_beta) sector, not pure S_z leakage.
 These are numerical checks, not Lean proofs or physical-error certificates.

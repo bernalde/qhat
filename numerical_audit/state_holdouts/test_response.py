@@ -4,7 +4,8 @@ import numpy as np
 import pytest
 from scipy.integrate import quad_vec
 from response import Features,canonical_eigensystem,determinant as e
-from verify import literal,independent_score,replay,independent_occupations
+from verify import (literal,independent_score,replay,independent_occupations,
+                    check_point_identity,check_arm_identity,decision_comparison)
 from study import propagate,encode_schedule,natural_occupations
 
 
@@ -100,3 +101,28 @@ def test_correlation_distinguishes_rotated_determinant():
         other,other_defect=independent_occupations(psi,4)
         assert abs(defect-expected)<1e-12
         assert np.allclose(occupations,other,atol=1e-12) and abs(defect-other_defect)<1e-12
+
+
+def test_reject_mislabeled_state_and_arm():
+    assert check_point_identity(dict(state='excited',state_index=1))==1
+    with pytest.raises(ValueError):check_point_identity(dict(state='excited',state_index=0))
+    check_arm_identity('state_symmetric',dict(partition='conserving',formula=2),{})
+    with pytest.raises(ValueError):check_arm_identity('state_symmetric',dict(partition='conserving',formula=1),{})
+    with pytest.raises(ValueError):check_arm_identity('state_pauli_JD',dict(partition='conserving',formula=1),{})
+
+
+def test_reject_changed_transfer_interpretation():
+    old=dict(partition='conserving',formula=1,order=[0,1],unit_lengths=[1,2],schedule=[['a','1'],['b','2']])
+    method={**old,'previous_method':'current'}
+    check_arm_identity('hf_current',method,{'current':old})
+    with pytest.raises(ValueError):check_arm_identity('hf_current',{**method,'unit_lengths':[2,1]},{'current':old})
+
+
+def test_floor_decisions_independent_of_metric_tolerance():
+    base=dict(case='synthetic',state='ground',T=.37,budget_units=10)
+    producer=[{**base,'arm':'hf_current','error':1.5e-12},{**base,'arm':'state_current','error':.1e-12}]
+    independent=[{**base,'arm':'hf_current','error':.5e-12},{**base,'arm':'state_current','error':.1e-12}]
+    comparison=decision_comparison(producer,independent)
+    assert not comparison['agreement']
+    assert {a['kind'] for a in comparison['ambiguities']}=={'baseline_floor','win_tie_loss'}
+    assert decision_comparison(producer,producer)['agreement']

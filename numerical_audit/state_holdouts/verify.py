@@ -13,6 +13,60 @@ from scipy import sparse
 from scipy.sparse.linalg import expm_multiply
 
 
+ARM_CONTRACT={
+    'hf_current':('conserving',1,'current'),
+    'state_current':('conserving',1,None),
+    'state_JD':('conserving',1,None),
+    'state_pauli_JD':('pauli',1,None),
+    'hf_pauli_large':('pauli',1,'pauli_JD_large'),
+    'hf_symmetric':('conserving',2,'symmetric_JD'),
+    'state_symmetric':('conserving',2,None),
+    'jw_signed':('pauli',1,'jw_signed'),
+    'jw_magnitude':('pauli',1,'jw_magnitude'),
+}
+
+
+def check_point_identity(point):
+    labels=('ground','excited','coherent_real','coherent_imag')
+    index=labels.index(point['state'])
+    if point['state_index']!=index:raise ValueError('State label/index mismatch')
+    return index
+
+
+def check_arm_identity(name,method,previous):
+    partition,formula,prior=ARM_CONTRACT[name]
+    if (method['partition'],method['formula'])!=(partition,formula):
+        raise ValueError('Named arm partition/formula mismatch')
+    if prior is not None:
+        if method.get('previous_method')!=prior:raise ValueError('Named transferred arm source mismatch')
+        for key in ('partition','formula','order','unit_lengths','schedule'):
+            if method[key]!=previous[prior][key]:raise ValueError('Transferred arm interpretation changed')
+
+
+def decision_comparison(producer,independent):
+    """Compare actual scientific predicates, independently of replay tolerance.
+
+    A disagreement is retained as numerical ambiguity and prevents a verified
+    decision report. It never silently becomes a tie or a replacement trial.
+    """
+    key=lambda r:(r['case'],r['state'],r['T'],r['arm'],r['budget_units'])
+    given={key(r):r['error'] for r in producer};replayed={key(r):r['error'] for r in independent}
+    if set(given)!=set(replayed):raise ValueError('Independent error inventory differs')
+    ambiguities=[];floor=1e-12
+    classification=lambda d:'loss' if d>floor else 'win' if d < -floor else 'tie'
+    for k,value in given.items():
+        baseline=k[:3]+('hf_current',k[4])
+        if (given[baseline]>floor)!=(replayed[baseline]>floor):
+            ambiguities.append(dict(row=list(k),kind='baseline_floor',producer=given[baseline],independent=replayed[baseline]))
+        if k[3]!='hf_current':
+            original=classification(value-given[baseline]);other=classification(replayed[k]-replayed[baseline])
+            if original!=other:ambiguities.append(dict(row=list(k),kind='win_tie_loss',producer=original,independent=other))
+    # Baseline floor disagreements above also cover ratio inclusion and primary
+    # coverage, which use exactly this baseline threshold.
+    return dict(agreement=not ambiguities,ambiguities=ambiguities,
+                policy='Retain all rows; disagreement prevents verified scientific decisions, no silent tie/replacement')
+
+
 def literal(word,n):
     if not 0<n<=8:raise ValueError('Independent literal size limit')
     local={'I':np.eye(2),'X':np.array([[0,1],[1,0]]),
@@ -100,13 +154,14 @@ def verify(output):
     from study import bind,sha,write,require,OLD,CASES,STATES,TIMES,BUDGETS,ARMS
     freeze=bind(output)
     require(json.loads((output/'RUN_COMPLETE.json').read_text())['rows']==432,'Run incomplete')
-    artifacts={};count=0;max_state=max_score=max_metric=0.
+    artifacts={};count=0;max_state=max_score=max_metric=0.;producer_rows=[];independent_rows=[]
     for case in CASES:
         model=json.loads((OLD/'inputs'/case/'model.json').read_text())
         design=json.loads((output/'designs'/(case+'.json')).read_text())
         n=model['n'];require(n<=8,'Size guard');dim=1<<n
         H=sparse.csr_matrix((dim,dim),dtype=complex)
         for w,c in decoded(model['coefficients']).items():H+=(c/int(model['denominator']))*literal(w,n)
+        require(sha(output/design['state_file'])==design['state_sha256'],'Initial state file identity mismatch')
         with np.load(output/design['state_file']) as data:vectors=data['vectors']
         require(vectors.shape==(dim,4),'Missing full-space states')
         hf=(1<<model['electrons'])-1
@@ -137,11 +192,12 @@ def verify(output):
         old=json.loads((OLD/'designs'/(case+'.json')).read_text())
         previous=next(p for p in old['points'] if p['state']=='HF')['methods']
         for at,point in enumerate(design['points']):
-            psi=vectors[:,point['state_index']];T=point['T']
+            psi=vectors[:,check_point_identity(point)];T=point['T']
             exact=expm_multiply(-1j*T*H,psi)
             require(set(point['methods'])==set(ARMS),'Comparator missing')
             for name in ARMS:
                 method=point['methods'][name]
+                check_arm_identity(name,method,previous)
                 bs=([{w:c} for w,c in sorted(decoded(model['coefficients']).items())]
                     if method['partition']=='pauli' else [decoded(b) for b in model['blocks']])
                 require(sorted(method['order'])==list(range(len(bs))),'Order not integral permutation')
@@ -172,6 +228,8 @@ def verify(output):
                     difference=float(np.max(abs(reference-actual)));max_state=max(max_state,difference)
                     require(difference<2e-10,'Independent unfused circuit mismatch')
                     metrics=independent_metrics(exact,reference,n,model['electrons'])
+                    producer_rows.append({k:row[k] for k in ('case','state','T','arm','budget_units','error')})
+                    independent_rows.append({**producer_rows[-1],'error':metrics['error']})
                     for key,value in metrics.items():
                         difference=abs(value-row[key]);max_metric=max(max_metric,difference)
                         require(difference<2e-12,'Independent physical metric mismatch')
@@ -182,7 +240,11 @@ def verify(output):
     expected_rows={p for p in artifacts if p.startswith('rows/')}
     require(expected_rows=={str(p.relative_to(output)) for p in (output/'rows').glob('*.json')},'Extra or missing physical rows')
     require(count==432,'Incomplete independent replay')
-    write(output/'VERIFIED.json',dict(status='passed',rows=count,max_state_delta=max_state,
+    decisions=decision_comparison(producer_rows,independent_rows)
+    write(output/'INDEPENDENT_ERRORS.json',dict(rows=independent_rows,decisions=decisions))
+    artifacts['INDEPENDENT_ERRORS.json']=sha(output/'INDEPENDENT_ERRORS.json')
+    write(output/'VERIFIED.json',dict(status='passed' if decisions['agreement'] else 'numerically_ambiguous',
+        rows=count,decision_agreement=decisions['agreement'],max_state_delta=max_state,
         max_score_delta=max_score,max_metric_delta=max_metric,artifacts=artifacts,
         sources=freeze['sources'],schedule_freeze_sha256=sha(output/'SCHEDULES_FROZEN.json')))
 

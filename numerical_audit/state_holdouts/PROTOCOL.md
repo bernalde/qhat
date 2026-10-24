@@ -72,7 +72,9 @@ before the 432 circuit errors (two budgets) are evaluated.
 ## Coverage and reporting
 
 Error E=1-|normalized overlap| via a stable residual; also report infidelity,
-norm, number leakage and spin-projection leakage. Absolute tie and denominator
+norm, number leakage and joint (N_alpha,N_beta)-sector leakage. The historical
+field name spin_projection_leakage denotes that joint sector, not pure S_z
+leakage. Absolute tie and denominator
 floor=1e-12. Descriptive ratios omit denominators <=floor and count exclusions;
 all absolute errors, strict losses and floor-limited cases remain in tables.
 Coverage for each state/time stratum requires hf_current E>floor at 10U in at
@@ -80,6 +82,11 @@ least 2 of the 3 families. A failed stratum is labelled inconclusive; no
 replacement trial or claim of coverage for it. Report each family separately
 and W/T/L for each arm versus hf_current. These are descriptive related inputs,
 not independent statistical replicates or a universal transfer guarantee.
+Independently recompute every physical error and compare the actual baseline
+floor, ratio-inclusion and W/T/L predicates, separately from metric tolerances.
+Any predicate disagreement is retained explicitly as numerical ambiguity and
+prevents a verified scientific-decision report; never silently relabel it a tie
+or replace the case. This policy is fixed before panel errors.
 Report all setup/search/preparation costs and actual evaluations. This study
 does not establish matched classical efficiency (issue #5) or hardware cost.
 
