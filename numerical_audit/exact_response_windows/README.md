@@ -10,7 +10,7 @@ Commit scientific source before `study.py prepare` for the main panel. Preflight
 is explicitly altered-target feasibility work and cannot replace the panel.
 
 ```
-python -m pytest test_exact.py -q
+python -m pytest test_exact.py test_preflight_metadata.py -q
 python preflight.py --output FRESH_PREFLIGHT --prior RETAINED_PRIOR_DIRECTORY
 python study.py prepare --output FRESH_RESULTS
 python study.py certify --output FRESH_RESULTS
@@ -27,4 +27,8 @@ They do not certify full-order, transcendental-weight or physical-error optima.
 Physical schedules are frozen after all successful certificates and before any
 new propagation. Full-space states, all controls/losses/floors, independent
 enumeration/replay, construction costs and original pilot provenance are kept.
-No numerical result is claimed before execution and independent verification.
+The [retained report](evidence/report/README.md) records the completed three-case
+9! study, all 36 full-space circuits and independent enumeration/replay. Two
+windows improve the supplied surrogate and one ties its warm start. Physical
+comparisons and all controls, floors and losses remain in the report tables.
+The evidence directory also retains the original completed 8! pilot separately.
