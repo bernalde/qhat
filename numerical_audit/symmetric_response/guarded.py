@@ -97,9 +97,10 @@ def main():
             if child.poll() is None:
                 subprocess.run(['systemctl', '--user', 'stop', unit], check=False)
                 child.wait(timeout=30)
-        status = child.wait()
+        supervisor_status = child.wait()
+        status = supervisor_status if supervisor_status != 0 or termination is None else 1
     record = {'unit': unit, 'settings': settings, 'environment': env,
-              'command': command, 'exit_code': status,
+              'command': command, 'exit_code': status, 'supervisor_exit_code': supervisor_status,
               'elapsed': time.monotonic() - started, 'samples': samples,
               'completed_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
               'budget':dict(cpu_seconds=args.cpu_seconds,wall_seconds=args.wall_seconds,disk_mib=args.disk_mib),
@@ -115,7 +116,7 @@ def main():
         if match:measured[field]=float(match.group(1))
     record['process_measurements']=measured
     report.write_text(json.dumps(record, indent=2) + '\n')
-    print(json.dumps({k: record[k] for k in ['unit', 'exit_code', 'elapsed', 'log']}), flush=True)
+    print(json.dumps({k: record[k] for k in ['unit', 'exit_code', 'elapsed', 'termination', 'log']}), flush=True)
     raise SystemExit(status)
 
 

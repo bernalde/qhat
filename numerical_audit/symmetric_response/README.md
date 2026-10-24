@@ -19,7 +19,7 @@ and append calibrated main estimates before main execution. Failed attempts
 remain charged to the same phase. No main panel result is claimed here yet.
 
 ```
-python -m pytest test_cubic.py -q
+python -m pytest test_cubic.py test_symmetric_guard.py -q
 python preflight.py --output FRESH_PREFLIGHT
 python study.py prepare --output FRESH_RESULTS
 python study.py run --output FRESH_RESULTS
@@ -32,3 +32,7 @@ python delivery.py check --delivery FRESH_DELIVERY
 These commands must run through guarded.py within the cumulative protocol
 allowances. No accuracy, speedup, formal-proof, compiled-resource or hardware
 conclusion follows from source preparation or a feasibility preflight.
+
+The resource guard preserves the supervisor exit status separately and returns
+failure after any enforced CPU/disk/wall stop. Require both no termination and
+the completed validation artifact; a wrapper exit alone is not a scientific pass.
