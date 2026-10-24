@@ -38,7 +38,8 @@ jobs:
       - name: Independently replay frozen evidence
         shell: bash
         run: |
+          python numerical_audit/state_holdouts/check_delivery.py --results numerical_audit/state_holdouts/evidence/results --report numerical_audit/state_holdouts/report --manifest numerical_audit/state_holdouts/evidence/MANIFEST.json
           cp -r numerical_audit/state_holdouts/evidence/results "$RUNNER_TEMP/state-holdouts"
           python numerical_audit/state_holdouts/verify.py --output "$RUNNER_TEMP/state-holdouts"
           python numerical_audit/state_holdouts/study.py summary --output "$RUNNER_TEMP/state-holdouts"
-          python numerical_audit/state_holdouts/check_delivery.py --results "$RUNNER_TEMP/state-holdouts" --report numerical_audit/state_holdouts/report
+          python numerical_audit/state_holdouts/check_delivery.py --results "$RUNNER_TEMP/state-holdouts" --report numerical_audit/state_holdouts/report --manifest numerical_audit/state_holdouts/evidence/MANIFEST.json --replay-decisions-only

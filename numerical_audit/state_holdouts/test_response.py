@@ -126,3 +126,29 @@ def test_floor_decisions_independent_of_metric_tolerance():
     assert not comparison['agreement']
     assert {a['kind'] for a in comparison['ambiguities']}=={'baseline_floor','win_tie_loss'}
     assert decision_comparison(producer,producer)['agreement']
+
+
+def test_fixed_number_coherent_interference_with_conserving_units():
+    # One alpha electron coherently occupies modes 0/2, with a beta spectator
+    # in mode 3. The complete hopping unit conserves both spin occupations.
+    blocks=[{((0,'Z'),):3},{((2,'Z'),):-2},
+            {((0,'X'),(1,'Z'),(2,'X')):2,((0,'Y'),(1,'Z'),(2,'Y')):2}]
+    D={**blocks[0],**blocks[1]};den=7;T=.83
+    psi=np.zeros(16,complex);psi[9]=1/np.sqrt(2);psi[12]=1j/np.sqrt(2)
+    matrices=[sum((c/den)*literal(w,4) for w,c in b.items()).toarray() for b in blocks]
+    number=np.diag([v.bit_count() for v in range(16)])
+    assert all(np.max(abs(G@number-number@G))<1e-14 for G in matrices)
+    assert all(psi[v]==0 for v in range(16) if v.bit_count()!=2)
+    d=sum((c/den)*literal(w,4) for w,c in D.items()).diagonal()
+    features=Features(blocks,D,psi,T,den,4)
+    for order in itertools.permutations(range(3)):
+        C=sum((-.5j)*(matrices[i]@matrices[j]-matrices[j]@matrices[i])
+              for at,i in enumerate(order) for j in order[at+1:])
+        integrated,_=quad_vec(lambda t:np.exp(1j*t*d)*(C@(np.exp(-1j*t*d)*psi)),0,T,epsabs=1e-12)
+        integrated-=psi*np.vdot(psi,integrated)
+        assert np.allclose(features.amplitude(order),integrated,atol=1e-12)
+        mixture=0.
+        for v in (9,12):
+            ket=np.eye(16,dtype=complex)[:,v];f=Features(blocks,D,ket,T,den,4)
+            mixture+=.5*f.score(f.amplitude(order))
+        assert abs(features.score(features.amplitude(order))-mixture)>1e-5

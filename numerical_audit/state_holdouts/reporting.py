@@ -17,7 +17,7 @@ def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def table(path,rows):
     if not rows:raise ValueError('Empty report table')
     with path.open('w',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n');w.writeheader();w.writerows(rows)
 
 
 def build(results,report):
@@ -75,10 +75,42 @@ def build(results,report):
                 ties=sum(abs(a-b)<=1e-12 for a,b in pairs),losses=sum(a-b > 1e-12 for a,b in pairs),
                 median_ratio=statistics.median(ratios) if ratios else None,floor_exclusions=len(pairs)-len(ratios)))
     table(report/'aggregate.csv',aggregate)
+    candidate_contrasts=[]
+    families=sorted({r['case'] for r in rows})
+    for group in [[c] for c in families]+[families]:
+        for budget in (10,30):
+            for control in ARMS:
+                if control=='state_current':continue
+                pairs=[(lookup[c,s,T,'state_current',budget],lookup[c,s,T,control,budget])
+                       for c,s,T in sorted({(r['case'],r['state'],r['T']) for r in rows}) if c in group]
+                ratios=[a/b for a,b in pairs if b>1e-12]
+                candidate_contrasts.append(dict(families=';'.join(group),control=control,budget_units=budget,
+                    wins=sum(a-b < -1e-12 for a,b in pairs),ties=sum(abs(a-b)<=1e-12 for a,b in pairs),
+                    losses=sum(a-b > 1e-12 for a,b in pairs),floor_exclusions=len(pairs)-len(ratios),
+                    median_ratio=statistics.median(ratios) if ratios else None))
+    table(report/'candidate_contrasts.csv',candidate_contrasts)
+    phase_pairs=[]
+    for case in families:
+        design=json.loads((results/'designs'/(case+'.json')).read_text())
+        points={(p['state'],p['T']):p for p in design['points']}
+        for T in (.37,1.73):
+            for arm in ARMS:
+                real=points['coherent_real',T]['methods'][arm];imag=points['coherent_imag',T]['methods'][arm]
+                for budget in (10,30):
+                    a=lookup[case,'coherent_real',T,arm,budget];b=lookup[case,'coherent_imag',T,arm,budget]
+                    phase_pairs.append(dict(case=case,T=T,arm=arm,budget_units=budget,error_real=a,error_imag=b,
+                        error_difference=a-b,tie_at_declared_floor=abs(a-b)<=1e-12,
+                        same_schedule=real['schedule']==imag['schedule'],
+                        response_score_real=real['score'],response_score_imag=imag['score']))
+    table(report/'coherent_phase_pairs.csv',phase_pairs)
+    primary=next(r for r in aggregate if r['arm']=='state_current' and r['budget_units']==10)
+    primary_ratio='excluded' if primary['median_ratio'] is None else f"{primary['median_ratio']:.6g}"
     lines=['# Derived ordering on correlated/coherent state and time holdouts','',
+        f"At the primary 10U rotation cap, newly state/time-aware placement has {primary['wins']} wins, {primary['ties']} ties and {primary['losses']} losses against transfer of the frozen HF/T=1 placement order, with median error ratio {primary_ratio} and {primary['floor_exclusions']} baseline-floor exclusions. This tests a new state/time-aware search, not transfer alone. The control comparisons below retain formula changes, unequal search work and all losses.",'',
         'This prospective panel compares transfer of frozen HF-trained schedules with newly state-aware diagonal-response placement and insertion. The orbital basis and retained target stay fixed within each family. All 432 circuits passed independent full-space replay. These are 24 related state/time inputs from three molecular families, not independent statistical replicates.','',
         '## State and objective scope','',
         f"The inputs are sector ground and first-excited states and (g+e)/sqrt(2), (g+i e)/sqrt(2), at T=0.37 and 1.73 inverse Hartree. One-particle density spectra classify {sum(r['correlated_beyond_single_Slater'] for r in state_rows)}/{len(state_rows)} selected states as correlated beyond a single Slater determinant under the declared 1e-8 idempotency-defect threshold. Participation ratios separately describe their expansion in the fixed orbital basis. These sector labels do not claim unrestricted global ground/excited states.",'',
+        'The one-particle density spectrum diagnoses departure from a single Slater determinant for pure fixed-number states; see [Gigena, Di Tullio and Rossignoli, Sec. II.A](https://arxiv.org/pdf/2001.03570). The declared numerical idempotency threshold and every occupation are retained in the state table.','',
         'State-aware J_D sums complex transported commutator amplitudes before the parallel-state projection and squared norm. It retains coherent interference. This is the generalized derived diagonal-response rule; earlier historical signed-parent low-energy tests do not validate it. The failed two-level reference correction is unchanged and excluded from new tuning.','',
         '## Coverage and all controls','',
         '| State | T | Informative families at 10U | Coverage |','| --- | --- | --- | --- |']
@@ -89,6 +121,20 @@ def build(results,report):
     for r in aggregate:
         ratio='excluded' if r['median_ratio'] is None else f"{r['median_ratio']:.6g}"
         lines.append(f"| {r['arm']} | {r['budget_units']}U | {r['wins']}/{r['ties']}/{r['losses']} | {ratio} | {r['floor_exclusions']} |")
+    lines+=['','The state/time-aware placement candidate against every strong control at 10U:','',
+        '| Denominator control | Candidate wins / ties / losses | Median candidate/control error ratio | Floor exclusions |',
+        '| --- | --- | --- | --- |']
+    for r in candidate_contrasts:
+        if len(r['families'].split(';'))!=3 or r['budget_units']!=10:continue
+        ratio='excluded' if r['median_ratio'] is None else f"{r['median_ratio']:.6g}"
+        lines.append(f"| {r['control']} | {r['wins']}/{r['ties']}/{r['losses']} | {ratio} | {r['floor_exclusions']} |")
+    symmetric=[r for r in candidate_contrasts if len(r['families'].split(';'))==3 and r['budget_units']==10 and r['control'] in ('hf_symmetric','state_symmetric')]
+    for r in symmetric:
+        lines.insert(4,f"Against {r['control']} at the same 10U cap, the first-order placement candidate has {r['wins']} wins, {r['ties']} ties and {r['losses']} losses. This comparison changes the product formula; it does not isolate ordering alone.")
+        lines.insert(5,'')
+    lines+=['','[Candidate/control contrasts](candidate_contrasts.csv) retain both budgets and every family separately. Losses remain in the win/tie/loss counts even when a denominator is below the descriptive ratio floor. State and time dependence are changed together in the new search; this panel does not isolate those two effects.']
+    phase_ties=sum(r['tie_at_declared_floor'] for r in phase_pairs)
+    lines+=['',f"The two coherent phases tie in {phase_ties}/{len(phase_pairs)} paired physical-error comparisons at the declared 1e-12 threshold. [All phase pairs](coherent_phase_pairs.csv) retain errors, objective scores and schedule identity. These related phase inputs do not demonstrate general empirical phase sensitivity. Separate synthetic fixed-number/conserving-unit quadrature tests exercise nontrivial coherent interference; no panel case is replaced after this observation."]
     lines+=['','hf_current, hf_pauli_large, hf_symmetric and fixed JW controls transfer the previous HF/T=1 schedules unchanged. state_current runs generalized placement. state_JD and state_pauli_JD newly optimize the current state/time objective. Both symmetric arms reuse first-order schedules; neither is a second-order-aware optimization. State Pauli search has an explicitly larger position allowance, while the frozen HF Pauli control retains the earlier still-larger search; this is not a comparison of matched CPU budgets.','',
         '## Absolute primary errors, by family','',
         '| Family | State | T | '+' | '.join(ARMS)+' |','| --- | --- | --- | '+' | '.join(['---']*len(ARMS))+' |']

@@ -50,3 +50,10 @@ decisions explicitly; disagreement blocks a verified decision report and is
 recorded as numerical ambiguity. The historical `spin_projection_leakage`
 field measures the joint (N_alpha,N_beta) sector, not pure S_z leakage.
 These are numerical checks, not Lean proofs or physical-error certificates.
+
+Read the [complete retained report](report/README.md). The published artifact
+check requires `--manifest evidence/MANIFEST.json`; missing manifests fail CI.
+The committed report is byte-regenerated from its retained verification ledger.
+Fresh numerical replay checks state/metric tolerances and scientific decisions
+separately, keeping its platform-dependent diagnostic maxima in the replay
+ledger. `--replay-decisions-only` selects that latter check; CI runs both.

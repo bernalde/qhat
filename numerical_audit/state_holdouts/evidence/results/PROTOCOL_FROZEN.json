@@ -1,0 +1,48 @@
+{
+  "sources": {
+    "state_holdouts/PROTOCOL.md": "98ad30159f5be06923eed9c06b1926fb2d733112f54fd49e7f95eb5bcc8de33f",
+    "state_holdouts/response.py": "431255881e32a0fbb359ab5a3ac45999f1ff1240aac8ea11a0f8fc359b1d6ecf",
+    "state_holdouts/study.py": "308134b9f23b21217169dc81bcbf0848deeb172a0c49fe6cfdd15e4351bcd5bf",
+    "state_holdouts/verify.py": "b77a471849fcc2faf3078093e7431df065feb7580da92dc0340a6bfe56c3009a",
+    "prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971"
+  },
+  "source_commit": "70f40f50e07d59318ea8d739f0b4e503f5cddd2c",
+  "cases": [
+    "Li2_r2p95",
+    "F2_r1p55",
+    "H2O_scale1p10"
+  ],
+  "times": [
+    0.37,
+    1.73
+  ],
+  "budgets": [
+    10,
+    30
+  ],
+  "states": [
+    "ground",
+    "excited",
+    "coherent_real",
+    "coherent_imag"
+  ],
+  "arms": [
+    "hf_current",
+    "state_current",
+    "state_JD",
+    "state_pauli_JD",
+    "hf_pauli_large",
+    "hf_symmetric",
+    "state_symmetric",
+    "jw_signed",
+    "jw_magnitude"
+  ],
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "expected_schedules": 216,
+  "expected_rows": 432,
+  "protocol_sha256": "98ad30159f5be06923eed9c06b1926fb2d733112f54fd49e7f95eb5bcc8de33f"
+}
