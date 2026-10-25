@@ -388,16 +388,19 @@ def verify(output, destination):
         verified_slopes[label] = a,c
     initial = [zpoint(int(j==hf)) for j in range(len(sector))]
     rows,comparisons,guards = [],[],[]
+    phase_costs = []
     for at,epsilon in enumerate(epsilons):
         actual = [rscale(h,1 if i in diagonal else epsilon) for i,h in enumerate(matrices)]
         h = rzero(len(sector))
         for a in actual:
             h = radd(h,a)
+        reference_cpu = time.process_time()
         reference_operator,rt = generic_exponential(h,TIME)
         reference = zapply(reference_operator,initial)
         rawref = read(output/f'references/epsilon-{at:02d}.json')
         insist(rawref['epsilon'] == str(epsilon),'Reference identity differs')
         check_vector(reference,rt,rawref['state'],F(rawref['analytic_radius']))
+        phase_costs.append(dict(epsilon=str(epsilon),phase='reference',CPU_seconds=time.process_time()-reference_cpu))
         guard_record = complete['response_guards'][at]
         insist(guard_record['epsilon'] == str(epsilon),'Guard identity differs')
         guard_intervals = {}
@@ -411,7 +414,10 @@ def verify(output, destination):
         guards.append(dict(epsilon=str(epsilon),verified_producer_decision=guard_winner,
                            independent_response_intervals={k:v.witness() for k,v in guard_intervals.items()}))
         for steps in steps_panel:
+            operators_cpu = time.process_time()
             operators = [generic_exponential(a,TIME/steps) for a in actual]
+            phase_costs.append(dict(epsilon=str(epsilon),steps=steps,phase='unit_operators',CPU_seconds=time.process_time()-operators_cpu))
+            propagation_cpu = time.process_time()
             errors = {}
             for label,order in frozen['orders'].items():
                 state,st = initial,F(0)
@@ -437,6 +443,7 @@ def verify(output, destination):
             insist(producer['strict_smaller_error'] == producer_winner and producer_winner in ('unresolved',winner),
                    'Producer strict ranking contradicted')
             comparisons.append(dict(epsilon=str(epsilon),steps=steps,independent_strict_smaller_error=winner))
+            phase_costs.append(dict(epsilon=str(epsilon),steps=steps,phase='both_propagations_and_checks',CPU_seconds=time.process_time()-propagation_cpu))
             print('INDEPENDENTLY_ENCLOSED',str(epsilon),'r',steps,winner,flush=True)
     expected = len(epsilons)*len(steps_panel)*2
     insist(len(rows) == complete['circuits'] == expected and
@@ -445,7 +452,7 @@ def verify(output, destination):
     result = dict(status='passed',circuits=len(rows),reference_evolutions=len(epsilons),
         producer_freeze_sha256=digest(output/'FROZEN.json'),verifier_sha256=digest(Path(__file__)),
         precision_bits=PRECISION,method='Independent literal local Pauli actions,Fraction intervals,generic matrix exponentials,factorial tail',
-        rows=rows,response_guards=guards,finite_rankings=comparisons,CPU_seconds=time.process_time()-cpu,wall_seconds=time.monotonic()-wall,
+        rows=rows,response_guards=guards,finite_rankings=comparisons,phase_costs=phase_costs,CPU_seconds=time.process_time()-cpu,wall_seconds=time.monotonic()-wall,
         scope='Software interval certificate;no archived Python executed;no concrete Lean instantiation')
     destination.parent.mkdir(parents=True,exist_ok=True)
     destination.write_text(json.dumps(result,indent=2)+'\n')
