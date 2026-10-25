@@ -100,3 +100,14 @@ actual Lean builds/axiom/semantic correspondence checks and endpoint inventory,
 Astra/Argon convergence,publication,current-headCI,separate eligible merges and
 actual-merge checks. A negative physical-epsilon guard attempt is a valid result;
 missing computations or an unproved bridge remain gaps.
+
+The main independent phase packages the full producer payload,extracts it and
+checks every original/extracted byte against a complete hash manifest. It then
+performs one full generic rational-interval audit on those extracted numerical
+data using the live committed checker. Archived Python is never executed.
+Byte identity transfers the extracted audit to the original payload; a second
+identical expensive audit is unnecessary. Reporting verifies the committed Git
+objects against the same payload hashes. This delivery plan does not change the
+fixed molecular input,orders,panel or any frozen phase ceiling. The certificate
+concerns the supplied exact rational active-space Hamiltonian; it does not bound
+the preceding SCF/integral/basis-set error or certify continuum chemistry.
