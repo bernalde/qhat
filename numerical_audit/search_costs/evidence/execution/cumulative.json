@@ -1,0 +1,312 @@
+{
+  "scope": "Continuing issue5 campaign, original/replacement and later ledger-guard attempts before this packaging. No budget reset. Final packaging/check/paper steps retained separately in owned task records to avoid self-hashing.",
+  "phase_ceilings": {
+    "tests": {
+      "CPU_seconds": 120,
+      "wall_seconds": 900
+    },
+    "preflight": {
+      "CPU_seconds": 120,
+      "wall_seconds": 900
+    },
+    "main": {
+      "CPU_seconds": 1800,
+      "wall_seconds": 10800
+    },
+    "independent": {
+      "CPU_seconds": 1800,
+      "wall_seconds": 10800
+    },
+    "reporting": {
+      "CPU_seconds": 300,
+      "wall_seconds": 1800
+    }
+  },
+  "attempts": [
+    {
+      "label": "i05-delivery-check-01",
+      "phase": "reporting",
+      "observation_set": "original internal-snapshot",
+      "outcome": "interrupted; incomplete checker",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 61.0,
+      "CPU_charge_basis": "Conservative stopped-checker charge; final serviceCPU59.811,process fields unmeasured",
+      "controller_wall_seconds": 239.4042136890057
+    },
+    {
+      "label": "i05-delivery-check-02",
+      "phase": "reporting",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 1.193,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 6.105479398014722
+    },
+    {
+      "label": "i05-delivery-check-03",
+      "phase": "reporting",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.554,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0437512589996913
+    },
+    {
+      "label": "i05-package-01",
+      "phase": "reporting",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.27,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.024432999023702
+    },
+    {
+      "label": "i05-package-02",
+      "phase": "reporting",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.25,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.037650277001376
+    },
+    {
+      "label": "i05-preflight-01",
+      "phase": "preflight",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 24.674,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 99.44284733201494
+    },
+    {
+      "label": "i05-preflight-02",
+      "phase": "preflight",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 17.142,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 69.18548455899963
+    },
+    {
+      "label": "i05-prepare-01",
+      "phase": "main",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 122.718,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 491.0508205519873
+    },
+    {
+      "label": "i05-prepare-02",
+      "phase": "main",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 86.76,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 348.7999905209999
+    },
+    {
+      "label": "i05-report-01",
+      "phase": "reporting",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.5720000000000001,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0615567619970534
+    },
+    {
+      "label": "i05-report-02",
+      "phase": "reporting",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.613,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0570331740018446
+    },
+    {
+      "label": "i05-report-03",
+      "phase": "reporting",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.589,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0576256679778453
+    },
+    {
+      "label": "i05-report-04",
+      "phase": "reporting",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.279,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0439517840004555
+    },
+    {
+      "label": "i05-report-05",
+      "phase": "reporting",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.318,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.05349102999935
+    },
+    {
+      "label": "i05-run-01",
+      "phase": "main",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 19.23,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 78.54468583600828
+    },
+    {
+      "label": "i05-run-02",
+      "phase": "main",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 10.849,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 45.19764075100011
+    },
+    {
+      "label": "i05-tests-01",
+      "phase": "tests",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 1.107,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 6.075491056981264
+    },
+    {
+      "label": "i05-tests-02",
+      "phase": "tests",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 1.045,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 6.058400535985129
+    },
+    {
+      "label": "i05-tests-03",
+      "phase": "tests",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.526,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0292275240008166
+    },
+    {
+      "label": "i05-tests-04",
+      "phase": "tests",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 0.589,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 3.0333371799988527
+    },
+    {
+      "label": "i05-verify-01",
+      "phase": "independent",
+      "observation_set": "original internal-snapshot",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 29.783,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 121.17709581699455
+    },
+    {
+      "label": "i05-verify-02",
+      "phase": "independent",
+      "observation_set": "replacement through-return and subsequent ledger guards",
+      "outcome": "passed",
+      "wrapper_exit_code": 0,
+      "CPU_charge_seconds": 16.837,
+      "CPU_charge_basis": "Final systemd service CPU, rounded as logged",
+      "controller_wall_seconds": 69.41115362500022
+    }
+  ],
+  "preflight_observations": [
+    {
+      "status": "passed",
+      "scope": "Altered largest synthetic target, not prospective panel errors",
+      "modes": 12,
+      "Pauli_words": 138,
+      "records": 18,
+      "circuits": 36,
+      "construction_CPU_seconds": 14.556004384,
+      "propagation_CPU_seconds": 4.061960864000001,
+      "verification_CPU_seconds": 5.300349211,
+      "extraction_packaging_replay_CPU_seconds": 0.14848561999999887,
+      "CPU_seconds": 24.06682348,
+      "wall_seconds": 96.29516870097723,
+      "max_state_delta": 5.277666323357361e-16,
+      "max_score_delta": 4.336808689942018e-18,
+      "max_metric_delta": 4.440892098500626e-16,
+      "independent_reference_delta": 2.5219801032797316e-16,
+      "cache_bytes": 9043968,
+      "peak_pair_payload_bytes": 31200,
+      "conservative_pair_bound_bytes": 9679872,
+      "retained_bytes": 4809813,
+      "archive_sha256": "783b2d6a52f5f9cfad8160da1b656562679061a4afb341aaa15c2db65de79877"
+    },
+    {
+      "status": "passed",
+      "scope": "Altered largest synthetic target, not prospective panel errors",
+      "source_commit": "05444cb65294e7057b744e0c3d40ffa61895213d",
+      "source_sha256": {
+        "search_costs/PROTOCOL.md": "85fdafbe08b207693a34cd1b63d20d16a0b9e0b4b6e99d145d4f449fdb5114e1",
+        "search_costs/bounded.py": "75c746f3522881330e168f4c5e6f42ea5269a053c7f6422a68a1cfa7cdcb1b08",
+        "search_costs/models.py": "687bfa14f57caffd62970481389b032e3ede0a19c115ab884bcf39a2c78b4484",
+        "search_costs/study.py": "0c8cdde4bb57cf9ccbf15aeaf1894a7ab3ee8196d57864f226d971d1a7c2d34e",
+        "search_costs/verify_costs.py": "1b67941fa1216712af17a11c5a020e72bfd89086a7da8cedf0fd4c3b795a4c81",
+        "prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971",
+        "prospective_reference/campaign.py": "1e033b0c19c57544a20c9355794ac7f5a6be734a2d1dbca23366ec40a9a86de6",
+        "prospective_reference/one_pass.py": "3cfaced88f188d418ad5fac1be585478ad7894d6d4da53142489f82c8e82fcb6",
+        "search_costs/preflight.py": "000a7d67b21e7bb116891832a64aeba7adf49819563b705a56ad45c002f20dd0",
+        "search_costs/requirements.txt": "166a703757e5c4b1f59d3be103ed7ab36fac354b9214b395e7141cb8e7312a17"
+      },
+      "environment": {
+        "numpy": "2.5.3",
+        "scipy": "1.18.1"
+      },
+      "modes": 12,
+      "Pauli_words": 138,
+      "records": 18,
+      "circuits": 36,
+      "construction_CPU_seconds": 11.191202194,
+      "propagation_CPU_seconds": 2.5078006320000004,
+      "verification_CPU_seconds": 3.006941813000001,
+      "extraction_packaging_replay_CPU_seconds": 0.12337919600000191,
+      "CPU_seconds": 16.834948865,
+      "wall_seconds": 67.30964371600021,
+      "max_state_delta": 7.796612332912426e-16,
+      "max_score_delta": 2.168404344971009e-18,
+      "max_metric_delta": 8.881784197001252e-16,
+      "independent_reference_delta": 2.5219801032797316e-16,
+      "cache_bytes": 9043968,
+      "peak_pair_payload_bytes": 31200,
+      "conservative_pair_bound_bytes": 9679872,
+      "retained_bytes": 4861245,
+      "archive_sha256": "3152fffa9e932f97a13693da4613fb8dc0ac7531bef6f9ac7481b836a9d6449a"
+    }
+  ]
+}
