@@ -4,7 +4,7 @@ No synthesis optimality, native-device calibration or hardware execution claim.
 The version and source digest must be frozen before any resource experiment.
 """
 from fractions import Fraction
-import gzip,hashlib,json
+import gzip,hashlib,json,time
 from pathlib import Path
 from typing import NamedTuple
 
@@ -23,6 +23,9 @@ class Gate(NamedTuple):
     b:int=-1
     angle:Fraction=ZERO
 
+class CompilationLimit(ValueError):
+    """A declared per-candidate gate limit, distinct from invalid input."""
+
 class Compiler:
     """Only globally adjacent inverses/Rz combination; no commuting rewrites."""
     def __init__(self,n):
@@ -37,7 +40,8 @@ class Compiler:
         else:require(gate.b==-1,'Unexpected second qubit')
         require(isinstance(gate.angle,Fraction),'Exact rational angles required')
         if gate.kind!='rz':require(gate.angle==0,'Only Rz has a variable angle')
-        self.generated+=1;require(self.generated<=MAX_GENERATED_GATES,'Generated-gate ceiling')
+        if self.generated>=MAX_GENERATED_GATES:raise CompilationLimit('Generated-gate ceiling')
+        self.generated+=1
         if gate.kind=='rz' and not gate.angle:return
         if self.gates:
             old=self.gates[-1]
@@ -48,7 +52,8 @@ class Compiler:
                 self.gates.pop();angle=old.angle+gate.angle
                 if angle:self.gates.append(Gate('rz',gate.a,angle=angle))
                 return
-        self.gates.append(gate);require(len(self.gates)<=MAX_STORED_GATES,'Stored-gate ceiling')
+        if len(self.gates)>=MAX_STORED_GATES:raise CompilationLimit('Stored-gate ceiling')
+        self.gates.append(gate)
 
     def swap(self,a,b):
         require(abs(a-b)==1,'Adjacent SWAP required')
@@ -104,16 +109,19 @@ def encode(g):
     if g.kind=='rz':return ['rz',g.a,str(g.angle.numerator),str(g.angle.denominator)]
     return [g.kind,g.a]
 
-def write_trace(path,n,gates,identity):
+def write_trace(path,n,gates,identity,*,measurements=None):
     """Deterministic gzip NDJSON retains every exact primitive/angle in order."""
+    began=time.process_time();wall=time.monotonic()
     with Path(path).open('xb') as raw:
         with gzip.GzipFile(filename='',mode='wb',fileobj=raw,mtime=0) as zipped:
             header=dict(compiler=VERSION,n=n,identity=identity,scope='Ideal prototype compiler; no hardware measurement')
             zipped.write((json.dumps(header,sort_keys=True,separators=(',',':'))+'\n').encode())
             for g in gates:zipped.write((json.dumps(encode(g),separators=(',',':'))+'\n').encode())
-    h=hashlib.sha256()
+    serialization=dict(CPU_seconds=time.process_time()-began,wall_seconds=time.monotonic()-wall)
+    began=time.process_time();wall=time.monotonic();h=hashlib.sha256()
     with Path(path).open('rb') as f:
         for chunk in iter(lambda:f.read(1024*1024),b''):h.update(chunk)
+    if measurements is not None:measurements.update(serialization=serialization,hashing=dict(CPU_seconds=time.process_time()-began,wall_seconds=time.monotonic()-wall))
     return h.hexdigest()
 
 def read_trace(path):

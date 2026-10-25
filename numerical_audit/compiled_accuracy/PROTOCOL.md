@@ -67,6 +67,11 @@ CX-dependency depth treats single-qubit gates as zero-duration. Neither is a
 calibrated execution time. Routing's CX gates are included. Ideal Pauli rotations
 remain a separate column, not a substitute for compiled counts/depth.
 
+The fixed real-target producer rejects odd-Y Hamiltonian terms. Exact unit
+fusion requires internally commuting Pauli words: the producer checks integer
+anticommutation parity and the independent reference checks literal matrix
+commutators. A failed precondition rejects the target before applying fusion.
+
 Declare per-candidate hard bounds before compilation: at most8qubits,128Pauli
 terms/units,12million generated primitive insertions and2million stored final
 gates. A candidate exceeding a bound is censored with its reason and retained

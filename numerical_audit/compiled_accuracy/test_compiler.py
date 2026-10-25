@@ -101,3 +101,16 @@ def test_reject_corrupt_trace_qubit_and_zero_rotation(tmp_path):
         with gzip.open(p,'wt') as f:
             f.write(json.dumps({'compiler':__import__('compiler').VERSION,'n':3})+'\n'+json.dumps(payload)+'\n')
         with pytest.raises(ValueError):list(read_trace(p))
+
+
+def test_gate_limits_refuse_before_excess_storage(monkeypatch):
+    import compiler
+    monkeypatch.setattr(compiler,'MAX_STORED_GATES',2)
+    c=Compiler(2);c.add(Gate('h',0));c.add(Gate('h',1))
+    with pytest.raises(compiler.CompilationLimit,match='Stored'):c.add(Gate('s',0))
+    assert len(c.gates)==2
+    monkeypatch.setattr(compiler,'MAX_GENERATED_GATES',2)
+    c=Compiler(2);c.add(Gate('h',0));c.add(Gate('h',0))
+    assert not c.gates and c.generated==2
+    with pytest.raises(compiler.CompilationLimit,match='Generated'):c.add(Gate('h',1))
+    assert c.generated==2 and not c.gates

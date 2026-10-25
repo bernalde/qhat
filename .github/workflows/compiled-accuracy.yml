@@ -1,0 +1,46 @@
+name: Compiled accuracy checks
+on:
+  push:
+    paths:
+      - numerical_audit/compiled_accuracy/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/evidence/results/**
+      - numerical_audit/symmetric_response/evidence/**
+      - .github/workflows/compiled-accuracy.yml
+  pull_request:
+    paths:
+      - numerical_audit/compiled_accuracy/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/evidence/results/**
+      - numerical_audit/symmetric_response/evidence/**
+      - .github/workflows/compiled-accuracy.yml
+permissions:
+  contents: read
+jobs:
+  compiled-accuracy-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    container:
+      image: python:3.12-slim
+      options: --cpus=1 --memory=512m --memory-swap=512m
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - name: Pinned numerical environment
+        run: python -m pip install -r numerical_audit/compiled_accuracy/requirements.txt
+      - name: Exact-angle unitary, routing, DAG and target-selection regressions
+        working-directory: numerical_audit/compiled_accuracy
+        run: python -m pytest test_compiler.py test_compiled_guard.py test_reference.py -q
+      - name: Authenticate full exact circuits and independently replay all accuracy/resource decisions
+        shell: bash
+        run: |
+          python numerical_audit/compiled_accuracy/delivery.py check --delivery numerical_audit/compiled_accuracy/evidence
+          cp -r numerical_audit/compiled_accuracy/evidence "$RUNNER_TEMP/compiled-evidence"
+          python numerical_audit/compiled_accuracy/verify.py --output "$RUNNER_TEMP/compiled-evidence/results"
+          python numerical_audit/compiled_accuracy/delivery.py check --delivery "$RUNNER_TEMP/compiled-evidence" --replay-decisions-only
