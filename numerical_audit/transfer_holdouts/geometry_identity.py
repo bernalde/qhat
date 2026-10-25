@@ -53,6 +53,7 @@ def recorded_geometries(root=k.ROOT, base=BASE):
                             input=('\n'.join(ids) + '\n').encode(), stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, check=True).stdout
     found = []
+    unparsed = []
     cursor = 0
     def visit(value, path):
         if isinstance(value, dict):
@@ -60,7 +61,7 @@ def recorded_geometries(root=k.ROOT, base=BASE):
                 try:
                     value_signature = signature(value['geometry'])
                 except (ValueError, TypeError):
-                    pass
+                    unparsed.append(dict(path=path, type=type(value['geometry']).__name__))
                 else:
                     found.append(dict(path=path, signature=value_signature))
             for child in value.values():
@@ -80,6 +81,7 @@ def recorded_geometries(root=k.ROOT, base=BASE):
         visit(json.loads(data), blobs[oid]['path'])
         cursor = end + 2 + size
     k.require(cursor == len(packed) and found, 'Incomplete or empty baseline geometry scan')
+    k.require(not unparsed, 'Unparsed baseline geometry fields require inspection: ' + repr(unparsed[:10]))
     return found, dict(base=base, JSON_files=file_count, unique_JSON_blobs=len(blobs),
                        recorded_geometry_occurrences=len(found), scanned_JSON_bytes=sum(v['size'] for v in blobs.values()))
 
