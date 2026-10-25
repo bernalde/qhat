@@ -81,3 +81,11 @@ be frozen before their respective executions. The numerical memory profile stays
 No parallel numerical/build/review clients. Final publication depends on the
 verified #16 conventions and requires complete independent Astra/Argon review,
 current-head CI, separate merges/actual checks and all-criterion closeout.
+
+Initial chemistry-only finite phase ceilings, frozen before execution (CPU
+seconds/wall seconds/outputMiB): input-control tests120/900/64;
+chemistry preflight120/900/256; six-input generation240/1800/256.
+All failed attempts remain charged. The chemistry preflight is not the required
+full state/search/compilation preflight and does not complete the issue's panel.
+The latter receives its own finite initial ceiling before it starts; these
+chemistry phases may not be relabelled or restarted to reset a spent allowance.
