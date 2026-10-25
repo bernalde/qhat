@@ -6,6 +6,7 @@ import argparse
 from fractions import Fraction as F
 import hashlib
 import importlib.util
+import importlib.metadata
 import json
 from pathlib import Path
 import platform
@@ -110,7 +111,8 @@ def freeze(model_path, output, *, preflight=False):
         diagonal_ids=data['diag'],off_diagonal_ids=data['off'],
         exact_unit_matrices=[ex.encoded(a) for a in data['matrices']],
         full_space_invariance_columns_checked=(1 << data['n'])*len(data['matrices']),
-        environment=dict(python=sys.version,executable=str(Path(sys.executable).resolve()),platform=platform.platform()),
+        environment=dict(python=sys.version,executable=str(Path(sys.executable).resolve()),platform=platform.platform(),
+                         packages={'numpy':importlib.metadata.version('numpy')}),
         dependency_status='Pinned development input;actual issue17 merge required before publication',
         product_convention='Written left-to-right exponentials;reverse chronological unit application'))
     print('FROZEN',output,flush=True)
