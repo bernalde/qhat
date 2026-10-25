@@ -3,6 +3,9 @@
 Columns of the signed real cubic defect are transported coherently before the
 state projection. No full-H dynamics or validation error is used by this score.
 """
+import os
+for _key in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS', 'NUMBA_NUM_THREADS', 'NUMEXPR_NUM_THREADS'):
+    os.environ[_key] = '1'
 import importlib.util
 import math
 from pathlib import Path

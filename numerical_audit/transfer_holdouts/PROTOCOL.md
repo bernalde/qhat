@@ -73,8 +73,8 @@ prototype policy measurements, not hardware execution time.
 
 ## Execution state
 
-This is a prospective panel/implementation protocol. Chemistry input generation
-is implemented; it has not run. Full search-control allowances, full-path preflight
+This is a prospective panel/implementation protocol. All six chemistry inputs have now been generated with the frozen registry.
+Reference-state preparation and the full circuit panel remain distinct phases. Full search-control allowances, full-path preflight
 budgets, training/compilation source identities and main resource ceilings must
 be frozen before their respective executions. The numerical memory profile stays
 512MiB,no swap,one quarter-core worker,one thread,Nice19 and existing headroom gates.
@@ -89,3 +89,18 @@ All failed attempts remain charged. The chemistry preflight is not the required
 full state/search/compilation preflight and does not complete the issue's panel.
 The latter receives its own finite initial ceiling before it starts; these
 chemistry phases may not be relabelled or restarted to reset a spent allowance.
+
+Reference-state constructors independently reread/validate the input. Each
+non-HF constructor recomputes its sector eigensystem and includes diagnostics
+and cleanup through return; those repeated standalone preparations are actual
+campaign work. HF construction performs no eigensystem. Correlation labels use
+the previously frozen RDM thresholds; a ground/excited gap at or below1e-9 is
+labelled near-degenerate, while canonical eigenbasis clustering uses1e-11.
+All such cases remain in the panel.
+
+Reference-only preflight and reference-panel preparation/independent-check
+ceilings (each cumulative CPU seconds/wall seconds/outputMiB):120/900/256
+and120/900/256 respectively. Their scope is input/operator/state preparation,
+independent CAR/tensor/geometry/RDM checks and reference archive extraction;
+no ordering-validation error is computed. They do not replace the later full
+search/evolution/compilation preflight or reset any existing phase allowance.
