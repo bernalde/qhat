@@ -1,0 +1,78 @@
+{
+  "unit": "fermionic-future-i09-tests-02-1321240",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "300"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/tests-precision09.py"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 12.062835912998707,
+  "samples": [
+    {
+      "elapsed": 0.0011310850022709928,
+      "available_bytes": 24720371712,
+      "frozen": false,
+      "service": "MemoryCurrent=36864\nMemoryPeak=262144\nCPUUsageNSec=73000",
+      "output_bytes": 0
+    },
+    {
+      "elapsed": 3.0424257530030445,
+      "available_bytes": 24687296512,
+      "frozen": false,
+      "service": "MemoryCurrent=39301120\nMemoryPeak=39563264\nCPUUsageNSec=774807000",
+      "output_bytes": 761
+    },
+    {
+      "elapsed": 6.04893024500052,
+      "available_bytes": 24647766016,
+      "frozen": false,
+      "service": "MemoryCurrent=83050496\nMemoryPeak=83050496\nCPUUsageNSec=1524687000",
+      "output_bytes": 1159
+    },
+    {
+      "elapsed": 9.055713198002195,
+      "available_bytes": 24643772416,
+      "frozen": false,
+      "service": "MemoryCurrent=83357696\nMemoryPeak=83357696\nCPUUsageNSec=2275529000",
+      "output_bytes": 28606
+    }
+  ],
+  "completed_utc": "2026-10-25T02:40:42.261893+00:00",
+  "budget": {
+    "cpu_seconds": 50.0,
+    "wall_seconds": 300,
+    "disk_mib": 64
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/i09-tests-02.log",
+  "process_measurements": {
+    "user_cpu_seconds": 2.28,
+    "system_cpu_seconds": 0.1,
+    "max_rss_kib": 63996.0
+  }
+}

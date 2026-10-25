@@ -1,0 +1,172 @@
+{
+  "status": "passed",
+  "phases": {
+    "tests": {
+      "original_limits_CPU_wall_MiB": [
+        120,
+        900,
+        64
+      ],
+      "CPU_seconds_conservatively_charged": 5.17,
+      "wall_seconds_used": 18.12013837899576,
+      "attempts": [
+        {
+          "label": "i09-tests-01",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 1.79,
+          "wall_seconds": 6.057302465997054,
+          "resource_record": "i09-tests-01.resources.json",
+          "resource_record_sha256": "e6b17dbfb5a49d22dd5208b33a608f9e7c6f3bed71eb9031590c2c365ea3912d"
+        },
+        {
+          "label": "i09-tests-02",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 3.38,
+          "wall_seconds": 12.062835912998707,
+          "resource_record": "i09-tests-02.resources.json",
+          "resource_record_sha256": "20b01797b3b358520c95706205a52f399ec48a15f49c715c5b854718deb87332"
+        }
+      ]
+    },
+    "preflight": {
+      "original_limits_CPU_wall_MiB": [
+        300,
+        1800,
+        128
+      ],
+      "CPU_seconds_conservatively_charged": 289.16,
+      "wall_seconds_used": 1143.6802843000041,
+      "attempts": [
+        {
+          "label": "i09-preflight-01",
+          "exit_code": 1,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 82.19,
+          "wall_seconds": 325.1391627280027,
+          "resource_record": "i09-preflight-01.resources.json",
+          "resource_record_sha256": "c004428cea35c179e097a2697ee69d0a5f7cbf034fc0eeafc6647230344401d9"
+        },
+        {
+          "label": "i09-preflight-diagnostic01",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 3.2600000000000002,
+          "wall_seconds": 9.048590425001748,
+          "resource_record": "i09-preflight-diagnostic01.resources.json",
+          "resource_record_sha256": "14992f30a1586a9df4aa8a97141b7bc744bfc22b0e932dabdbdb74ef34973dd4"
+        },
+        {
+          "label": "i09-preflight-02",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 202.03,
+          "wall_seconds": 806.449232291001,
+          "resource_record": "i09-preflight-02.resources.json",
+          "resource_record_sha256": "9a23ceb2eeef013b543001f48371dc5f1871f5e9d6d64e905a33988413415727"
+        },
+        {
+          "label": "i09-preflight-report-update01",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 1.6800000000000002,
+          "wall_seconds": 3.043298855998728,
+          "resource_record": "i09-preflight-report-update01.resources.json",
+          "resource_record_sha256": "248cac78951f416c9c22b7b22c3113a71f29ba59f8351b75b6a5c1276f6f6066"
+        }
+      ]
+    },
+    "main": {
+      "original_limits_CPU_wall_MiB": [
+        1800,
+        10800,
+        256
+      ],
+      "CPU_seconds_conservatively_charged": 290.36,
+      "wall_seconds_used": 1160.4112897930027,
+      "attempts": [
+        {
+          "label": "i09-main-01",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 290.36,
+          "wall_seconds": 1160.4112897930027,
+          "resource_record": "i09-main-01.resources.json",
+          "resource_record_sha256": "97a5ce29b1219c9561260cad927983fd4486ec18a8cb5c000c8cb76e7a585f92"
+        }
+      ]
+    },
+    "independent": {
+      "original_limits_CPU_wall_MiB": [
+        1800,
+        10800,
+        256
+      ],
+      "CPU_seconds_conservatively_charged": 441.93,
+      "wall_seconds_used": 1765.8385908729979,
+      "attempts": [
+        {
+          "label": "i09-independent-01",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 441.93,
+          "wall_seconds": 1765.8385908729979,
+          "resource_record": "i09-independent-01.resources.json",
+          "resource_record_sha256": "5d9433cd8040c1f23021008e28a9a0b68fc5f6001428190153212c86e5b84fe6"
+        }
+      ]
+    },
+    "reporting": {
+      "original_limits_CPU_wall_MiB": [
+        240,
+        1800,
+        128
+      ],
+      "CPU_seconds_conservatively_charged": 3.5,
+      "wall_seconds_used": 12.127592407996417,
+      "attempts": [
+        {
+          "label": "i09-report-01",
+          "exit_code": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 3.5,
+          "wall_seconds": 12.127592407996417,
+          "resource_record": "i09-report-01.resources.json",
+          "resource_record_sha256": "3271be6d31af4fb3f6ea65289a8e8809ccef9f6b63af6902e14a4e2a10808c0f"
+        }
+      ]
+    }
+  },
+  "resources": {
+    "CPUQuota": "25%",
+    "Nice": 19,
+    "CPUWeight": 5,
+    "IOWeight": 10,
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": 0,
+    "one_BLAS_thread": true
+  },
+  "notes": [
+    "Original failed preflight and diagnostic remain charged. No phase ceilings enlarged.",
+    "Paper consistency checks and source-only reviews have separate workflow allowances.",
+    "Algorithm phase timings exclude interpreter/final metadata writes; whole-service charges and wall intervals are retained.",
+    "Report-only preflight revisits retained64candidate data without new physical errors or changed decisions."
+  ],
+  "files": {
+    "INDEPENDENT.json": "84c29a6c22aa5d85f7697eee19bdfaf2838842e336da8b80aaf45f07f8569cd5",
+    "MAIN.json": "3ffacbaed3b74a8e26d7009fea70ac3a6a2621c9472d1420293e24e00273441f",
+    "PACKAGED.json": "2cc7c1f23fcd489900893e3ee28660dbe4dde02452381086bafc352505c4a0eb",
+    "REPORT_PREFLIGHT.json": "6f9e68adac148209fbe3b08f921ca56211de416c20c23f88fd1dd1fcf75c9a5f",
+    "i09-independent-01.resources.json": "5d9433cd8040c1f23021008e28a9a0b68fc5f6001428190153212c86e5b84fe6",
+    "i09-main-01.resources.json": "97a5ce29b1219c9561260cad927983fd4486ec18a8cb5c000c8cb76e7a585f92",
+    "i09-preflight-01.resources.json": "c004428cea35c179e097a2697ee69d0a5f7cbf034fc0eeafc6647230344401d9",
+    "i09-preflight-02.resources.json": "9a23ceb2eeef013b543001f48371dc5f1871f5e9d6d64e905a33988413415727",
+    "i09-preflight-diagnostic01.resources.json": "14992f30a1586a9df4aa8a97141b7bc744bfc22b0e932dabdbdb74ef34973dd4",
+    "i09-preflight-report-update01.resources.json": "248cac78951f416c9c22b7b22c3113a71f29ba59f8351b75b6a5c1276f6f6066",
+    "i09-report-01.resources.json": "3271be6d31af4fb3f6ea65289a8e8809ccef9f6b63af6902e14a4e2a10808c0f",
+    "i09-tests-01.resources.json": "e6b17dbfb5a49d22dd5208b33a608f9e7c6f3bed71eb9031590c2c365ea3912d",
+    "i09-tests-02.resources.json": "20b01797b3b358520c95706205a52f399ec48a15f49c715c5b854718deb87332"
+  }
+}

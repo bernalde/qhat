@@ -1,0 +1,60 @@
+{
+  "status": "complete",
+  "reason": "complete fixed-policy compilation",
+  "generated": 205336,
+  "stored": 200728,
+  "ideal_Pauli_rotations": 7680,
+  "lowering_CPU_seconds": 0.3458593109999981,
+  "lowering_wall_seconds": 1.3986282559999381,
+  "resource_counting": {
+    "CPU_seconds": 0.07737993200000304,
+    "wall_seconds": 0.3010781670018332
+  },
+  "compiled_resources": {
+    "gates": 200728,
+    "single_qubit_gates": 39960,
+    "two_qubit_gates": 160768,
+    "unit_duration_ASAP_depth": 161668,
+    "CX_dependency_depth": 150784
+  },
+  "trace_file": "traces/F2_r1p55.T0.83.first_JD_sameT.f1.r128.ndjson.gz",
+  "trace_sha256": "f0e685a4a8a62fa7a4778127ef2affd0fd6b1ab4364942b701379ca8f4054c2e",
+  "trace_bytes": 21397,
+  "identity": {
+    "candidate": "F2_r1p55.T0.83.first_JD_sameT.f1.r128",
+    "curve": "F2_r1p55.T0.83.first_JD_sameT.f1",
+    "case": "F2_r1p55",
+    "T": 0.83,
+    "T_ratio": [
+      7475975381435023,
+      9007199254740992
+    ],
+    "steps": 128,
+    "formula": 1,
+    "arm": "first_JD_sameT",
+    "compilation_status": "complete",
+    "model_sha256": "555185a9e80e421e0cc9ae12e63b921b774cc41915c494c625c285da0ebd7775",
+    "curve_sha256": "4a11078c965a8e1747d215d5c39f65bbcc4042ac668a400527c438d759322890",
+    "protocol_sha256": "b5bc255311b51a6f82fda5717be1e2dd380a10e2d7ff34b2d8750b161a3b2951"
+  },
+  "candidate": "F2_r1p55.T0.83.first_JD_sameT.f1.r128",
+  "curve": "F2_r1p55.T0.83.first_JD_sameT.f1",
+  "steps": 128,
+  "case": "F2_r1p55",
+  "T": 0.83,
+  "arm": "first_JD_sameT",
+  "formula": 1,
+  "inherited_ordering_CPU_charge": 0.18092274200000524,
+  "serialization": {
+    "CPU_seconds": 0.392456782,
+    "wall_seconds": 1.5926775279949652
+  },
+  "hashing": {
+    "CPU_seconds": 0.00010976900000159162,
+    "wall_seconds": 0.00010984500113409013
+  },
+  "actual_local_constructor_CPU_seconds": 0.8230939590000013,
+  "constructor_wall_seconds": 3.299788707998232,
+  "bookkeeping_CPU_seconds": 0.007288164999998514,
+  "cost_timing": "through complete constructor return"
+}

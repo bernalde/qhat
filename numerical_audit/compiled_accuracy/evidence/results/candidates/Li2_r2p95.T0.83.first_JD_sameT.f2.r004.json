@@ -1,0 +1,60 @@
+{
+  "status": "complete",
+  "reason": "complete fixed-policy compilation",
+  "generated": 4621,
+  "stored": 4501,
+  "ideal_Pauli_rotations": 245,
+  "lowering_CPU_seconds": 0.0054030549999999344,
+  "lowering_wall_seconds": 0.005394516003434546,
+  "resource_counting": {
+    "CPU_seconds": 0.0014544130000002653,
+    "wall_seconds": 0.0014521580014843494
+  },
+  "compiled_resources": {
+    "gates": 4501,
+    "single_qubit_gates": 1093,
+    "two_qubit_gates": 3408,
+    "unit_duration_ASAP_depth": 3452,
+    "CX_dependency_depth": 3128
+  },
+  "trace_file": "traces/Li2_r2p95.T0.83.first_JD_sameT.f2.r004.ndjson.gz",
+  "trace_sha256": "1f6d882953beb1fa6eb052a7b8f0b42144179ffe5744d0126634b3285cde86fb",
+  "trace_bytes": 1881,
+  "identity": {
+    "candidate": "Li2_r2p95.T0.83.first_JD_sameT.f2.r004",
+    "curve": "Li2_r2p95.T0.83.first_JD_sameT.f2",
+    "case": "Li2_r2p95",
+    "T": 0.83,
+    "T_ratio": [
+      7475975381435023,
+      9007199254740992
+    ],
+    "steps": 4,
+    "formula": 2,
+    "arm": "first_JD_sameT",
+    "compilation_status": "complete",
+    "model_sha256": "d50cf123f8b8cbd559f5cf6c7a72c0ef9d02031d36e342e691b24d97f4f43038",
+    "curve_sha256": "d80a6bd3563ee32480204ca39aff5ea0dc9cea63e58170fa6a9973818331b9e0",
+    "protocol_sha256": "b5bc255311b51a6f82fda5717be1e2dd380a10e2d7ff34b2d8750b161a3b2951"
+  },
+  "candidate": "Li2_r2p95.T0.83.first_JD_sameT.f2.r004",
+  "curve": "Li2_r2p95.T0.83.first_JD_sameT.f2",
+  "steps": 4,
+  "case": "Li2_r2p95",
+  "T": 0.83,
+  "arm": "first_JD_sameT",
+  "formula": 2,
+  "inherited_ordering_CPU_charge": 0.06317676099999979,
+  "serialization": {
+    "CPU_seconds": 0.008659356999999979,
+    "wall_seconds": 0.08188801900541876
+  },
+  "hashing": {
+    "CPU_seconds": 0.0001068630000000681,
+    "wall_seconds": 0.00010679999832063913
+  },
+  "actual_local_constructor_CPU_seconds": 0.016199659999999838,
+  "constructor_wall_seconds": 0.08941969800071092,
+  "bookkeeping_CPU_seconds": 0.0005759719999995916,
+  "cost_timing": "through complete constructor return"
+}
