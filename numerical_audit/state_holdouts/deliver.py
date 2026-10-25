@@ -80,7 +80,9 @@ def main():
         frozen_scientific_sources=read(a.results/'SCHEDULES_FROZEN.json')['sources'],
         report_manifest_sha256=sha(report/'MANIFEST.json'),
         preflight_scope='Largest synthetic 8-qubit/104-word construction, response and circuit replay; extraction/packaging estimates frozen separately before the panel. Final packaging verified under its own allowance.',
-        producing_source_commit=read(a.results/'PROTOCOL_FROZEN.json')['source_commit']))
+        producing_source_commit=read(a.results/'PROTOCOL_FROZEN.json')['source_commit'],
+        artifact_check_scope='Byte-regenerate the archived report from the original retained verification ledger. Fresh numerical replays separately check tolerances and all scientific decisions; diagnostic maxima may vary by platform.',
+        report_csv_line_endings='LF; every numeric cell unchanged from the retained CRLF export'))
     print(json.dumps(dict(status='packaged',evidence_files=len(files),report_files=len(list(report.iterdir())),
         retained_result_bytes=sum(p.stat().st_size for p in paths),source_commit=read(a.results/'PROTOCOL_FROZEN.json')['source_commit'])))
 
