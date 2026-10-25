@@ -3,8 +3,9 @@
 The [protocol](PROTOCOL.md) freezes compiler/version, native gate set,
 nearest-neighbor line, routing/cancellation, eight strong comparator arms,
 three molecular inputs, both times, all eight step counts, both accuracy targets
-and cumulative resource ceilings before execution. This complete source pipeline
-is prepared but **UNEXECUTED**. No compiled-resource or accuracy result is claimed.
+and cumulative resource ceilings before execution. The compiler/reference/guard suite has **161 passing tests**. The complete
+end-to-end preflight and main grid remain **UNEXECUTED**; no molecular compiled-
+resource or accuracy result is claimed.
 
 `compiler.py` retains every primitive and exact rational angle, including HF
 preparation, restored routing and censored prefixes. `study.py` authenticates the
@@ -34,8 +35,11 @@ authenticates the exact artifact inventory and regenerates reports.
 HF phase, exact rewrites and trace/resource fixtures. `test_reference.py` adds
 closed-form target/primitive states, independent parallel depth, joint-sector
 labels, nonmonotone target selection, threshold ambiguity, censoring and invalid
-unit-fusion checks. `test_compiled_guard.py` covers budget stops. All tests remain
-unexecuted at this preparation revision.
+unit-fusion checks. `test_compiled_guard.py` covers budget stops. The first bounded
+run passed all 161 tests, with no skips. Actual probes of the previous compiler
+confirmed both its stored-gate and generated-gate cap overshoots; the current
+compiler respects each declared bound. These tests do not replace the complete
+representative preflight or main molecular panel.
 
 The representative preflight uses the largest altered H2O target (coefficients
 scaled by 7/5), T=2.11, all eight fixed-order arms and all eight step counts:64
