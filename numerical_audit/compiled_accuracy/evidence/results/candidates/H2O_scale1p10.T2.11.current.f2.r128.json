@@ -1,0 +1,60 @@
+{
+  "status": "complete",
+  "reason": "complete fixed-policy compilation",
+  "generated": 673939,
+  "stored": 585875,
+  "ideal_Pauli_rotations": 25985,
+  "lowering_CPU_seconds": 1.2355786629999983,
+  "lowering_wall_seconds": 4.910347905999515,
+  "resource_counting": {
+    "CPU_seconds": 0.28427500299999053,
+    "wall_seconds": 1.1847359130042605
+  },
+  "compiled_resources": {
+    "gates": 585875,
+    "single_qubit_gates": 136593,
+    "two_qubit_gates": 449282,
+    "unit_duration_ASAP_depth": 461316,
+    "CX_dependency_depth": 423041
+  },
+  "trace_file": "traces/H2O_scale1p10.T2.11.current.f2.r128.ndjson.gz",
+  "trace_sha256": "a61c845da0f2aba8c4493f59a58a9740ab0dc93b9d2754fbdc4312a7e6c363de",
+  "trace_bytes": 264687,
+  "identity": {
+    "candidate": "H2O_scale1p10.T2.11.current.f2.r128",
+    "curve": "H2O_scale1p10.T2.11.current.f2",
+    "case": "H2O_scale1p10",
+    "T": 2.11,
+    "T_ratio": [
+      4751297606875873,
+      2251799813685248
+    ],
+    "steps": 128,
+    "formula": 2,
+    "arm": "current",
+    "compilation_status": "complete",
+    "model_sha256": "2a087983188e574534334b2cd1d0d9d518ab91abd679c5119eba734c36e4d10c",
+    "curve_sha256": "757372bfc38fa2c8c3b8508dd23c6de194f28a6f282ff6f1ad8c070aaaa5df87",
+    "protocol_sha256": "b5bc255311b51a6f82fda5717be1e2dd380a10e2d7ff34b2d8750b161a3b2951"
+  },
+  "candidate": "H2O_scale1p10.T2.11.current.f2.r128",
+  "curve": "H2O_scale1p10.T2.11.current.f2",
+  "steps": 128,
+  "case": "H2O_scale1p10",
+  "T": 2.11,
+  "arm": "current",
+  "formula": 2,
+  "inherited_ordering_CPU_charge": 0.0036731360000032964,
+  "serialization": {
+    "CPU_seconds": 1.4204102670000083,
+    "wall_seconds": 5.693429717000981
+  },
+  "hashing": {
+    "CPU_seconds": 0.0003387040000006891,
+    "wall_seconds": 0.00033586400240892544
+  },
+  "actual_local_constructor_CPU_seconds": 2.960011495999993,
+  "constructor_wall_seconds": 11.808116139000049,
+  "bookkeeping_CPU_seconds": 0.019408858999995005,
+  "cost_timing": "through complete constructor return"
+}

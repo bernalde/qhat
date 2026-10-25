@@ -1,0 +1,60 @@
+{
+  "status": "complete",
+  "reason": "complete fixed-policy compilation",
+  "generated": 1628,
+  "stored": 1592,
+  "ideal_Pauli_rotations": 60,
+  "lowering_CPU_seconds": 0.002166538000000884,
+  "lowering_wall_seconds": 0.002147883002180606,
+  "resource_counting": {
+    "CPU_seconds": 0.0005432350000020847,
+    "wall_seconds": 0.0005385959957493469
+  },
+  "compiled_resources": {
+    "gates": 1592,
+    "single_qubit_gates": 336,
+    "two_qubit_gates": 1256,
+    "unit_duration_ASAP_depth": 1267,
+    "CX_dependency_depth": 1178
+  },
+  "trace_file": "traces/F2_r1p55.T0.83.first_JD_sameT.f1.r001.ndjson.gz",
+  "trace_sha256": "892a69f9da80c50b0e8af44283c6ee6cae80def9988713ca6032fc0a97588494",
+  "trace_bytes": 1956,
+  "identity": {
+    "candidate": "F2_r1p55.T0.83.first_JD_sameT.f1.r001",
+    "curve": "F2_r1p55.T0.83.first_JD_sameT.f1",
+    "case": "F2_r1p55",
+    "T": 0.83,
+    "T_ratio": [
+      7475975381435023,
+      9007199254740992
+    ],
+    "steps": 1,
+    "formula": 1,
+    "arm": "first_JD_sameT",
+    "compilation_status": "complete",
+    "model_sha256": "555185a9e80e421e0cc9ae12e63b921b774cc41915c494c625c285da0ebd7775",
+    "curve_sha256": "4a11078c965a8e1747d215d5c39f65bbcc4042ac668a400527c438d759322890",
+    "protocol_sha256": "b5bc255311b51a6f82fda5717be1e2dd380a10e2d7ff34b2d8750b161a3b2951"
+  },
+  "candidate": "F2_r1p55.T0.83.first_JD_sameT.f1.r001",
+  "curve": "F2_r1p55.T0.83.first_JD_sameT.f1",
+  "steps": 1,
+  "case": "F2_r1p55",
+  "T": 0.83,
+  "arm": "first_JD_sameT",
+  "formula": 1,
+  "inherited_ordering_CPU_charge": 0.18092274200000524,
+  "serialization": {
+    "CPU_seconds": 0.002830216999999635,
+    "wall_seconds": 0.002807013996061869
+  },
+  "hashing": {
+    "CPU_seconds": 3.197599999893441e-05,
+    "wall_seconds": 3.142200148431584e-05
+  },
+  "actual_local_constructor_CPU_seconds": 0.006382482999999439,
+  "constructor_wall_seconds": 0.0835854820034001,
+  "bookkeeping_CPU_seconds": 0.0008105169999979012,
+  "cost_timing": "through complete constructor return"
+}

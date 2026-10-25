@@ -1,0 +1,60 @@
+{
+  "status": "complete",
+  "reason": "complete fixed-policy compilation",
+  "generated": 1238,
+  "stored": 1202,
+  "ideal_Pauli_rotations": 66,
+  "lowering_CPU_seconds": 0.0028893730000000284,
+  "lowering_wall_seconds": 0.0029071940007270314,
+  "resource_counting": {
+    "CPU_seconds": 0.0007322849999999992,
+    "wall_seconds": 0.0007362589967669919
+  },
+  "compiled_resources": {
+    "gates": 1202,
+    "single_qubit_gates": 326,
+    "two_qubit_gates": 876,
+    "unit_duration_ASAP_depth": 903,
+    "CX_dependency_depth": 804
+  },
+  "trace_file": "traces/Li2_r2p95.T0.83.first_JD_sameT.f1.r002.ndjson.gz",
+  "trace_sha256": "0fa5b118dedc7871dabe8c02bc21192f245692cf0b67bb525f8138253a0ab45b",
+  "trace_bytes": 1398,
+  "identity": {
+    "candidate": "Li2_r2p95.T0.83.first_JD_sameT.f1.r002",
+    "curve": "Li2_r2p95.T0.83.first_JD_sameT.f1",
+    "case": "Li2_r2p95",
+    "T": 0.83,
+    "T_ratio": [
+      7475975381435023,
+      9007199254740992
+    ],
+    "steps": 2,
+    "formula": 1,
+    "arm": "first_JD_sameT",
+    "compilation_status": "complete",
+    "model_sha256": "d50cf123f8b8cbd559f5cf6c7a72c0ef9d02031d36e342e691b24d97f4f43038",
+    "curve_sha256": "270703e3e1488615cc5f6e59a81aac5c151b989e80f30854f72fe7625d1c4843",
+    "protocol_sha256": "b5bc255311b51a6f82fda5717be1e2dd380a10e2d7ff34b2d8750b161a3b2951"
+  },
+  "candidate": "Li2_r2p95.T0.83.first_JD_sameT.f1.r002",
+  "curve": "Li2_r2p95.T0.83.first_JD_sameT.f1",
+  "steps": 2,
+  "case": "Li2_r2p95",
+  "T": 0.83,
+  "arm": "first_JD_sameT",
+  "formula": 1,
+  "inherited_ordering_CPU_charge": 0.06317676099999979,
+  "serialization": {
+    "CPU_seconds": 0.0030625529999999124,
+    "wall_seconds": 0.003080815004068427
+  },
+  "hashing": {
+    "CPU_seconds": 4.8152999999939716e-05,
+    "wall_seconds": 4.84589982079342e-05
+  },
+  "actual_local_constructor_CPU_seconds": 0.007257365999999932,
+  "constructor_wall_seconds": 0.0072998570030904375,
+  "bookkeeping_CPU_seconds": 0.0005250020000000521,
+  "cost_timing": "through complete constructor return"
+}

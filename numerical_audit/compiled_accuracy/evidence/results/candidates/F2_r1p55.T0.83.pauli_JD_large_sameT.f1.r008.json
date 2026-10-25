@@ -1,0 +1,60 @@
+{
+  "status": "complete",
+  "reason": "complete fixed-policy compilation",
+  "generated": 12856,
+  "stored": 12584,
+  "ideal_Pauli_rotations": 480,
+  "lowering_CPU_seconds": 0.017419344000000336,
+  "lowering_wall_seconds": 0.09091911900031846,
+  "resource_counting": {
+    "CPU_seconds": 0.007727529000000288,
+    "wall_seconds": 0.007730912999249995
+  },
+  "compiled_resources": {
+    "gates": 12584,
+    "single_qubit_gates": 2536,
+    "two_qubit_gates": 10048,
+    "unit_duration_ASAP_depth": 10108,
+    "CX_dependency_depth": 9424
+  },
+  "trace_file": "traces/F2_r1p55.T0.83.pauli_JD_large_sameT.f1.r008.ndjson.gz",
+  "trace_sha256": "b717807ad6a47a944b5aa021b7fb25eea19e493a6ac0a4582d0ff9bbf75bff77",
+  "trace_bytes": 3235,
+  "identity": {
+    "candidate": "F2_r1p55.T0.83.pauli_JD_large_sameT.f1.r008",
+    "curve": "F2_r1p55.T0.83.pauli_JD_large_sameT.f1",
+    "case": "F2_r1p55",
+    "T": 0.83,
+    "T_ratio": [
+      7475975381435023,
+      9007199254740992
+    ],
+    "steps": 8,
+    "formula": 1,
+    "arm": "pauli_JD_large_sameT",
+    "compilation_status": "complete",
+    "model_sha256": "555185a9e80e421e0cc9ae12e63b921b774cc41915c494c625c285da0ebd7775",
+    "curve_sha256": "48afab588cde7e75cd1e6efead33b0431ff125f1f66007573cabab9908eb846a",
+    "protocol_sha256": "b5bc255311b51a6f82fda5717be1e2dd380a10e2d7ff34b2d8750b161a3b2951"
+  },
+  "candidate": "F2_r1p55.T0.83.pauli_JD_large_sameT.f1.r008",
+  "curve": "F2_r1p55.T0.83.pauli_JD_large_sameT.f1",
+  "steps": 8,
+  "case": "F2_r1p55",
+  "T": 0.83,
+  "arm": "pauli_JD_large_sameT",
+  "formula": 1,
+  "inherited_ordering_CPU_charge": 7.961108247000002,
+  "serialization": {
+    "CPU_seconds": 0.024448198999998283,
+    "wall_seconds": 0.10175757700199028
+  },
+  "hashing": {
+    "CPU_seconds": 8.927100000022392e-05,
+    "wall_seconds": 8.921800326788798e-05
+  },
+  "actual_local_constructor_CPU_seconds": 0.05085507899999797,
+  "constructor_wall_seconds": 0.20165093400282785,
+  "bookkeeping_CPU_seconds": 0.0011707359999988398,
+  "cost_timing": "through complete constructor return"
+}

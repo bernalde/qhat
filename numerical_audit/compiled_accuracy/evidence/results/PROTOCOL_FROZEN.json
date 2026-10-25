@@ -1,0 +1,113 @@
+{
+  "source_commit": "ed9775fa39ae0e6e77393b1ec1135a48d2600dc3",
+  "sources": {
+    "numerical_audit/compiled_accuracy/PROTOCOL.md": "00e5ee712dc995cb1b2813d5cfb61719d487ae8759ebb267064fbfffa336b3f4",
+    "numerical_audit/compiled_accuracy/README.md": "51293301dd594143c4ef26ea665954633dda05a405eb70bc98dba27e8f7637d7",
+    "numerical_audit/compiled_accuracy/compiler.py": "0cf8ecaf140163b6f880399e534b8d9b9aad5eacf8a544cb911ef11e70373d69",
+    "numerical_audit/compiled_accuracy/delivery.py": "8ecd6daeab2033d5604331f4ca084c40eeb0c972b78f583d3be5719b6430367f",
+    "numerical_audit/compiled_accuracy/guarded.py": "2bf2e5527dcd9098d6738de491d5eb0f7da9131d7b3363152b32e1a64b613220",
+    "numerical_audit/compiled_accuracy/preflight.py": "410ae7d2b9376bf1398ed6065397cb1a77a99f3c05f5d94fa739b0196c1e3da2",
+    "numerical_audit/compiled_accuracy/reference.py": "c849d5d5b95c262876e5b7a25a46b4e4e48ab705bf8ac2647f91ed8104e56e9d",
+    "numerical_audit/compiled_accuracy/reporting.py": "c5c86f040d04b13a73259e953062ce323f97ccfc6ae1d38eb63ba7105057d159",
+    "numerical_audit/compiled_accuracy/requirements.txt": "166a703757e5c4b1f59d3be103ed7ab36fac354b9214b395e7141cb8e7312a17",
+    "numerical_audit/compiled_accuracy/study.py": "da92ce801216718a8796265e924a42899e59f95a0e46b7717c120b04e0cbd979",
+    "numerical_audit/compiled_accuracy/test_compiled_guard.py": "0d4d891e683985ecea2aab9f6453b4b984a9df6a780bcbf92b55f5b019f5be0e",
+    "numerical_audit/compiled_accuracy/test_compiler.py": "c576bb764ec5c99a7ffdd4587e9198b02bdc4f737505f10f1916fba1f4b37717",
+    "numerical_audit/compiled_accuracy/test_reference.py": "9a68a688c03af7d837f1807218f2ab73280a8e154a48c9d846920cbc2fa2b033",
+    "numerical_audit/compiled_accuracy/verify.py": "48194f499706225138113eac9e62a1aa0421b8e085110066a0a01d91dac28314",
+    "numerical_audit/prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971"
+  },
+  "producer_sources": {
+    "numerical_audit/compiled_accuracy/compiler.py": "0cf8ecaf140163b6f880399e534b8d9b9aad5eacf8a544cb911ef11e70373d69",
+    "numerical_audit/compiled_accuracy/study.py": "da92ce801216718a8796265e924a42899e59f95a0e46b7717c120b04e0cbd979",
+    "numerical_audit/compiled_accuracy/PROTOCOL.md": "00e5ee712dc995cb1b2813d5cfb61719d487ae8759ebb267064fbfffa336b3f4",
+    "numerical_audit/prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971"
+  },
+  "prepared_verification_sources": {
+    "reference.py": "c849d5d5b95c262876e5b7a25a46b4e4e48ab705bf8ac2647f91ed8104e56e9d",
+    "verify.py": "48194f499706225138113eac9e62a1aa0421b8e085110066a0a01d91dac28314"
+  },
+  "upstream": {
+    "ordering_repository": "bernalde/qhat",
+    "ordering_commit": "8fd424f532cce04b595abc3445cc032ab03ab6c4",
+    "dependency_kind": "merged",
+    "payload_Git_verified": true,
+    "manifest_sha256": "508315b9bf9616d3206bc4332c59f1923974f65845b41573d353c158d28866c9",
+    "producing_source_commit": "2b087e8bccf9debc5facacd889397ccccadd28a0",
+    "limitation": "Git content is authenticated locally; coordinator verifies the actual remote merge before publication"
+  },
+  "preflight": false,
+  "cases": [
+    "Li2_r2p95",
+    "F2_r1p55",
+    "H2O_scale1p10"
+  ],
+  "times": [
+    0.83,
+    2.11
+  ],
+  "arms": [
+    [
+      "current",
+      1
+    ],
+    [
+      "first_JD_sameT",
+      1
+    ],
+    [
+      "pauli_JD_large_sameT",
+      1
+    ],
+    [
+      "current",
+      2
+    ],
+    [
+      "first_JD_sameT",
+      2
+    ],
+    [
+      "pauli_JD_large_sameT",
+      2
+    ],
+    [
+      "cubic_orientation",
+      2
+    ],
+    [
+      "cubic_insertion",
+      2
+    ]
+  ],
+  "training_rotation_cap_units": 30,
+  "step_grid": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128
+  ],
+  "accuracy_targets": [
+    0.01,
+    0.001
+  ],
+  "threshold_ambiguity": 2e-12,
+  "expected_curves": 48,
+  "expected_candidates": 384,
+  "compiler": "line-pauli-exact-angle-0.1.0",
+  "compiler_sha256": "0cf8ecaf140163b6f880399e534b8d9b9aad5eacf8a544cb911ef11e70373d69",
+  "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+  "replay_precision": {
+    "state_dtype": "numpy.clongdouble",
+    "longdouble_mantissa_bits": 63,
+    "gatewise_renormalization": false
+  },
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  }
+}
