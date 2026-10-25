@@ -46,15 +46,13 @@ def recorded_geometries(root=k.ROOT, base=BASE):
         file_count += 1
         blobs.setdefault(oid.decode(), dict(size=int(size), path=name.decode()))
     k.require(0 < file_count <= 16000 and len(blobs) <= 8192 and
-              sum(v['size'] for v in blobs.values()) <= 128 * 1024**2, 'Baseline JSON inventory bound')
-    # communicate handles both pipes; duplicate blobs are decoded only once.
+              max(v['size'] for v in blobs.values()) <= 16 * 1024**2 and
+              sum(v['size'] for v in blobs.values()) <= 512 * 1024**2, 'Baseline JSON streaming bound')
+    # Read exactly one authenticated blob at a time. The total source inventory
+    # exceeds128MiB, but no aggregate copy or parsed aggregate is retained.
     ids = list(blobs)
-    packed = subprocess.run(['git', '-C', str(root), 'cat-file', '--batch'],
-                            input=('\n'.join(ids) + '\n').encode(), stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE, check=True).stdout
     found = []
     unparsed = []
-    cursor = 0
     def visit(value, path):
         if isinstance(value, dict):
             if 'geometry' in value:
@@ -71,16 +69,30 @@ def recorded_geometries(root=k.ROOT, base=BASE):
             for child in value:
                 if isinstance(child, (dict, list)):
                     visit(child, path)
-    for oid in ids:
-        end = packed.index(b'\n', cursor)
-        returned, kind, length = packed[cursor:end].split()
-        size = int(length)
-        k.require(returned.decode() == oid and kind == b'blob' and size == blobs[oid]['size'], 'Baseline Git blob differs')
-        data = packed[end + 1:end + 1 + size]
-        k.require(hashlib.sha1(b'blob ' + str(size).encode() + b'\0' + data).hexdigest() == oid, 'Baseline blob authentication failed')
-        visit(json.loads(data), blobs[oid]['path'])
-        cursor = end + 2 + size
-    k.require(cursor == len(packed) and found, 'Incomplete or empty baseline geometry scan')
+    child = subprocess.Popen(['git', '-C', str(root), 'cat-file', '--batch'],
+                             stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    try:
+        for oid in ids:
+            child.stdin.write((oid + '\n').encode())
+            child.stdin.flush()
+            header = child.stdout.readline()
+            returned, kind, length = header.split()
+            size = int(length)
+            k.require(returned.decode() == oid and kind == b'blob' and size == blobs[oid]['size'],
+                      'Baseline Git blob differs')
+            data = child.stdout.read(size)
+            k.require(len(data) == size and child.stdout.read(1) == b'\n', 'Truncated baseline Git blob')
+            k.require(hashlib.sha1(b'blob ' + str(size).encode() + b'\0' + data).hexdigest() == oid,
+                      'Baseline blob authentication failed')
+            value = json.loads(data)
+            visit(value, blobs[oid]['path'])
+            del value, data
+        child.stdin.close()
+        k.require(child.wait() == 0 and found, 'Incomplete or empty baseline geometry scan')
+    finally:
+        if child.poll() is None:
+            child.kill()
+            child.wait()
     k.require(not unparsed, 'Unparsed baseline geometry fields require inspection: ' + repr(unparsed[:10]))
     return found, dict(base=base, JSON_files=file_count, unique_JSON_blobs=len(blobs),
                        recorded_geometry_occurrences=len(found), scanned_JSON_bytes=sum(v['size'] for v in blobs.values()))
