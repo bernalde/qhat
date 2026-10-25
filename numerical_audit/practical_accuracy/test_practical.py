@@ -189,3 +189,18 @@ def test_delivery_authentication_catches_omitted_and_changed_binaries(tmp_path, 
         binary.write_bytes(b'altered fixture')
     with pytest.raises(ValueError, match='inventory|bytes'):
         delivery.check(root)
+
+
+@pytest.mark.parametrize('method', common.METHODS)
+def test_warmup_exercises_complete_order_and_compile_paths(tmp_path, method):
+    path = tmp_path / 'model.json'
+    common.write(path, toy())
+    common.write(tmp_path / 'PROTOCOL_FROZEN.json', {'test': 'full constructor warmup'})
+    warm = study.warmup_constructors(path, common.sha(path), method, tmp_path, 'toy')
+    result = warm['warmup_compilation']
+    assert result['status'] == 'complete'
+    assert result['ordering_CPU_charge'] == warm['ordering_CPU_seconds']
+    ref = common.reference.Reference(toy())
+    state, cost = ref.audit_compiled_trace(tmp_path / result['trace_file'], result['identity'], common.compiler.VERSION)
+    assert cost == result['compiled_resources']
+    assert np.max(abs(state - ref.ideal_formula(warm['record'], 3, common.TIME))) < 2e-14

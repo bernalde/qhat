@@ -45,7 +45,10 @@ Main totals:72 matched curves plus9 references,1296 grid candidates,243 target r
 and918 paired decisions, including direct charged-warm-start comparisons and
 comparisons against every inherited reference (explicitly outside matched CPU).
 The method/cap/repetition dispatch is cyclically rotated by case and repetition;
-one symmetric unmeasured warmup for every method precedes measurements.
+one symmetric unmeasured ordering-plus-compilation warmup for every method
+precedes measurements. Its compiler usesr3 and retains an exact trace, with no
+validation error measured. The same rotated dispatch controls ordering and
+measured compilation, rather than sorting method names for the latter.
 
 ## Construction and screening accounting
 

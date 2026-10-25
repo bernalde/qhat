@@ -140,13 +140,17 @@ def independent_choices(curves, candidates, errors, costs):
     return choices
 
 
-def verify(output, receipt_dir=None):
+def verify(output, receipt_dir=None, progress_dir=None):
     receipt = output if receipt_dir is None else receipt_dir
     if receipt_dir is None:
         k.require(not (output / 'VERIFIED.json').exists(), 'Preserve original verification; use a fresh receipt directory')
     else:
         k.require(not receipt.exists(), 'Use a fresh verification receipt directory')
         receipt.mkdir(parents=True)
+    if progress_dir is not None:
+        k.require(not progress_dir.exists(), 'Fresh independent progress directory required')
+        progress_dir.mkdir(parents=True)
+    progress = []
     began, wall = time.process_time(), time.monotonic()
     protocol, frozen = study.bind(output, independent=True)
     expected_cases = k.CASES[-1:] if protocol['preflight'] else k.CASES
@@ -154,6 +158,9 @@ def verify(output, receipt_dir=None):
     k.require(protocol['original_cases'] == list(expected_cases) and protocol['repetitions'] == repetitions and
               protocol['methods'] == list(k.METHODS) and protocol['matched_total_CPU_budgets'] == [2., 8.] and
               protocol['reference_arms'] == list(k.REFERENCE_ARMS), 'Study domain differs')
+    version = protocol.get('controller_policy_version', 1)
+    k.require(version == 2 or (version == 1 and protocol['preflight']), 'Main requires fully rotated construction dispatch')
+    expected_plan = []
     upstream = output / 'upstream/evidence'
     manifest = k.read(upstream / 'MANIFEST.json')
     k.require(inventory(upstream) == set(manifest['files']) | {'MANIFEST.json'}, 'Upstream inventory differs')
@@ -191,6 +198,17 @@ def verify(output, receipt_dir=None):
         k.require(not diff.nnz or max(abs(diff.data)) < 2e-12, 'Full Hamiltonian action differs')
         cells = [(m, b, r) for m in k.METHODS for b in k.BUDGETS for r in range(repetitions)]
         cells += [(m, None, 0) for m in k.REFERENCE_ARMS]
+        expected_plan.extend(study.curve_name(case, m, b, r) for m, b, r in study.dispatch(ci, repetitions))
+        expected_plan.extend(study.curve_name(case, m, None, 0) for m in k.REFERENCE_ARMS)
+        if version == 2:
+            for method in k.METHODS:
+                warm = k.read(output / 'warmups' / (case + '.' + method + '.json'))
+                compiled_warm = warm['warmup_compilation']
+                trace = output / k.safe(compiled_warm['trace_file'])
+                k.require(k.sha(trace) == compiled_warm['trace_sha256'] and compiled_warm['status'] == 'complete', 'Warmup trace differs')
+                state, cost = literal.audit_compiled_trace(trace, compiled_warm['identity'], k.compiler.VERSION)
+                ideal = literal.ideal_formula(warm['record'], 3, k.TIME)
+                k.require(np.max(abs(state - ideal)) < STATE_TOL and cost == compiled_warm['compiled_resources'], 'Full compiler warmup differs')
         for method, budget, rep in cells:
             name = study.curve_name(case, method, budget, rep)
             expected_names.add(name)
@@ -250,7 +268,19 @@ def verify(output, receipt_dir=None):
                 k.require(rows[label]['candidate_sha256'] == k.sha(output / 'candidates' / (label + '.json')) and
                           rows[label]['state_sha256'] == k.sha(output / rows[label]['state_file']) and
                           rows[label]['trace_sha256'] == candidate['trace_sha256'], 'Physical row dependency differs')
+            progress.append(name)
+            if progress_dir is not None:
+                k.write(progress_dir / (name + '.json'), dict(status='curve_checked', curve=name,
+                        curve_sha256=k.sha(output / 'curves' / (name + '.json')),
+                        schedule_freeze_sha256=k.sha(output / 'SCHEDULES_FROZEN.json'),
+                        current_verifier_sources=k.sources(), checked_curves=progress,
+                        checked_complete_candidates=len(errors), CPU_seconds=time.process_time() - began))
+            print('INDEPENDENT_CURVE_CHECKED', name, flush=True)
         print('INDEPENDENT_PRACTICAL_MODEL', case, flush=True)
+    if version == 2:
+        k.require(k.read(output / 'CONSTRUCTION_PLAN_FROZEN.json') == expected_plan, 'Full construction dispatch differs')
+        for index, name in enumerate(expected_plan):
+            k.require(curves[name]['dispatch_index'] == index, 'Curve dispatch index differs')
     k.require(set(curves) == expected_names and len(curves) == protocol['expected_curves'], 'Curve cohort incomplete')
     expected_candidates = {name + '.r' + format(r, '03d') for name in expected_names for r in k.GRID}
     k.require(set(candidates) == expected_candidates and len(candidates) == protocol['expected_candidates'], 'Grid cohort differs')
@@ -284,5 +314,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--receipt-dir', type=Path)
+    parser.add_argument('--progress-dir', type=Path)
     args = parser.parse_args()
-    verify(args.output.resolve(), args.receipt_dir.resolve() if args.receipt_dir else None)
+    verify(args.output.resolve(), args.receipt_dir.resolve() if args.receipt_dir else None,
+           args.progress_dir.resolve() if args.progress_dir else None)

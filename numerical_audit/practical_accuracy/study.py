@@ -55,7 +55,7 @@ def make_protocol(output, preflight):
     cases = CASES[-1:] if preflight else CASES
     repetitions = 1 if preflight else REPETITIONS
     curves = len(cases) * (len(METHODS) * len(BUDGETS) * repetitions + len(REFERENCE_ARMS))
-    protocol = dict(source_commit=source_commit, sources=source_map, environment=environment(),
+    protocol = dict(controller_policy_version=2, source_commit=source_commit, sources=source_map, environment=environment(),
                     preflight=preflight, original_cases=cases, T=TIME, grid=GRID, targets=TARGETS,
                     matched_total_CPU_budgets=BUDGETS, repetitions=repetitions, methods=METHODS,
                     reference_arms=REFERENCE_ARMS, upstream=provenance,
@@ -63,7 +63,7 @@ def make_protocol(output, preflight):
                     phase_limits=PHASE_LIMITS, expected_curves=curves,
                     expected_candidates=curves * len(GRID), expected_target_rows=curves * len(TARGETS),
                     expected_comparisons=len(cases) * len(BUDGETS) * repetitions * len(TARGETS) * 17,
-                    warmup_policy='one2secondcaporderingwarmuppermethodpermodel;allworkchargedtocampaignonly',
+                    warmup_policy='oneorderingplusr3compilationwarmuppermethodpermodel;allworkchargedtocampaignonly',
                     reference_cost_scope='Altered-model preflight tests mechanics only' if preflight else
                     'Inherited original standalone order cost; no matched-cap claim',
                     replay_precision=dict(dtype='clongdouble', mantissa_bits=int(np.finfo(np.longdouble).nmant),
@@ -72,10 +72,25 @@ def make_protocol(output, preflight):
     return protocol
 
 
+def warmup_constructors(model_path, digest, method, output, case):
+    """Symmetric ordering and one-circuit compilation warmup for every method."""
+    record = construct_order(model_path, digest, method, 2.)
+    trace = output / 'warmup_traces' / (case + '.' + method + '.ndjson.gz')
+    trace.parent.mkdir(parents=True, exist_ok=True)
+    identity = dict(purpose='unmeasured_constructor_warmup', case=case, method=method, steps=3,
+                    model_sha256=digest, protocol_sha256=sha(output / 'PROTOCOL_FROZEN.json'))
+    compilation = construct_candidate(model_path, digest, record['record'], 3, trace, identity,
+                                      record['ordering_CPU_seconds'], None)
+    compilation['trace_file'] = str(trace.relative_to(output))
+    record['warmup_compilation'] = compilation
+    return record
+
+
 def prepare(output, preflight=False):
     began, wall = time.process_time(), time.monotonic()
     protocol = make_protocol(output, preflight)
-    order_actual = warm_actual = compilation_actual = 0.
+    order_actual = warm_actual = warm_compilation_actual = compilation_actual = 0.
+    construction_plan = []
     for ci, original_case in enumerate(protocol['original_cases']):
         model = compiled.original_model(original_case, preflight)
         case = model['case']
@@ -83,8 +98,9 @@ def prepare(output, preflight=False):
         write(model_path, model)
         digest = sha(model_path)
         for method in METHODS:
-            warm = construct_order(model_path, digest, method, 2.)
+            warm = warmup_constructors(model_path, digest, method, output, case)
             warm_actual += warm['ordering_CPU_seconds']
+            warm_compilation_actual += warm['warmup_compilation']['compilation_CPU_seconds']
             write(output / 'warmups' / (case + '.' + method + '.json'), warm)
         for method, budget, rep in dispatch(ci, protocol['repetitions']):
             result = construct_order(model_path, digest, method, budget)
@@ -92,8 +108,9 @@ def prepare(output, preflight=False):
             label = curve_name(case, method, budget, rep)
             validate_record(model, result['record'])
             write(output / 'curves' / (label + '.json'), dict(curve=label, case=case, method=method,
-                  cohort='matched', total_budget=budget, repetition=rep, record=result['record'],
+                  cohort='matched', total_budget=budget, repetition=rep, dispatch_index=len(construction_plan), record=result['record'],
                   ordering=result, ordering_CPU_charge=result['ordering_CPU_seconds'], model_sha256=digest))
+            construction_plan.append(label)
         design_path = output / 'upstream/evidence/results/designs' / (original_case + '.json')
         design = read(design_path)
         for method in REFERENCE_ARMS:
@@ -107,17 +124,20 @@ def prepare(output, preflight=False):
             validate_record(model, record)
             label = curve_name(case, method, None, 0)
             write(output / 'curves' / (label + '.json'), dict(curve=label, case=case, method=method,
-                  cohort='inherited_reference', total_budget=None, repetition=0, record=record,
+                  cohort='inherited_reference', total_budget=None, repetition=0, dispatch_index=len(construction_plan), record=record,
                   ordering_CPU_charge=record['standalone_construction_CPU_charge'],
                   upstream_design_sha256=sha(design_path), model_sha256=digest,
                   cost_scope=protocol['reference_cost_scope']))
-    orders = {str(p.relative_to(output)): sha(p) for folder in ('models', 'curves', 'warmups')
-              for p in sorted((output / folder).glob('*.json'))}
+            construction_plan.append(label)
+    orders = {str(p.relative_to(output)): sha(p) for folder in ('models', 'curves', 'warmups', 'warmup_traces')
+              for p in sorted((output / folder).glob('*')) if p.is_file()}
     require(len(list((output / 'curves').glob('*.json'))) == protocol['expected_curves'], 'Incomplete order cohort')
     write(output / 'ORDERS_FROZEN.json', dict(artifacts=orders, policy='All orders precede all new physical errors'))
+    write(output / 'CONSTRUCTION_PLAN_FROZEN.json', construction_plan)
     (output / 'traces').mkdir()
     complete = censored = eligible = 0
-    for path in sorted((output / 'curves').glob('*.json')):
+    for name in construction_plan:
+        path = output / 'curves' / (name + '.json')
         curve = read(path)
         model_path = output / 'models' / (curve['case'] + '.json')
         for steps in GRID:
@@ -141,7 +161,8 @@ def prepare(output, preflight=False):
     require(complete + censored == protocol['expected_candidates'], 'Incomplete construction panel')
     write(output / 'PREPARE_COSTS.json', dict(CPU_seconds=time.process_time() - began,
           wall_seconds=time.monotonic() - wall, actual_ordering_CPU_seconds=order_actual,
-          actual_warmup_CPU_seconds=warm_actual, actual_compilation_CPU_seconds=compilation_actual,
+          actual_warmup_CPU_seconds=warm_actual, actual_warmup_compilation_CPU_seconds=warm_compilation_actual,
+          actual_compilation_CPU_seconds=compilation_actual,
           repeated_standalone_charges_are_campaign_work=False,
           scope='Authentication, source/input copies, all actual warmups/orders/compilation/metadata; startup/finalfreezeinprocesslogs'))
     frozen = artifact_hashes(output)
