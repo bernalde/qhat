@@ -58,7 +58,7 @@ def main():
     phases=[]
     for path in sorted(a.logs.glob('i04-*.resources.json')):
         if 'argon' in path.name:continue
-        raw=read(path);settings=raw['settings'];measurements=raw.get('process_measurements',{})
+        raw=read(path);settings=raw['settings'];measurements=raw.get('process_measurements') or {}
         available=[s['available_bytes'] for s in raw['samples']]
         phases.append(dict(label=path.name.removesuffix('.resources.json'),exit_code=raw['exit_code'],
             service_wall_seconds=raw['elapsed'],process_measurements=measurements,settings=settings,
@@ -73,7 +73,7 @@ def main():
             verification=[1800,10800,512],extraction_reporting_replay=[300,1800,128]),
         units='CPU seconds, service wall seconds, output MiB; one worker/thread; 25% CPU, 448/512 MiB high/max, no swap'))
     code=Path(__file__).resolve().parent
-    active={name:sha(code/name) for name in ('reporting.py','check_delivery.py','deliver.py','guarded.py','test_response.py')}
+    active={name:sha(code/name) for name in ('reporting.py','check_delivery.py','deliver.py','guarded.py','test_response.py','test_state_guard.py')}
     paths=sorted(p for p in evidence.rglob('*') if p.is_file())
     files={str(p.relative_to(evidence)):sha(p) for p in paths}
     write(evidence/'MANIFEST.json',dict(files=files,active_delivery_sources=active,
