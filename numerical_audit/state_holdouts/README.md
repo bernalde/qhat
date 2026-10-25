@@ -18,7 +18,7 @@ absolute existing interpreter, and the protocol's finite per-phase allowances.
 Never run a numerical phase outside the guard on this shared machine.
 
 ```
-ABS_PYTHON -m pytest test_response.py -q
+ABS_PYTHON -m pytest test_response.py test_state_guard.py -q
 ABS_PYTHON study.py preflight --output ABS_FRESH_PREFLIGHT
 ABS_PYTHON study.py prepare --output ABS_FRESH_PANEL
 ABS_PYTHON study.py run --output ABS_PANEL
@@ -57,3 +57,8 @@ The committed report is byte-regenerated from its retained verification ledger.
 Fresh numerical replay checks state/metric tolerances and scientific decisions
 separately, keeping its platform-dependent diagnostic maxima in the replay
 ledger. `--replay-decisions-only` selects that latter check; CI runs both.
+
+The resource watchdog exits with failure whenever its CPU, wall or disk limit
+stops an owned service, including when the systemd supervisor itself exits zero.
+The retained record distinguishes supervisor status from task status. The CLI
+regressions cover all three limits and ordinary successful/failed completion.

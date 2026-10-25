@@ -34,7 +34,7 @@ jobs:
         run: python -m pip install -r numerical_audit/state_holdouts/requirements.txt
       - name: Complex response and circuit mathematics
         working-directory: numerical_audit/state_holdouts
-        run: python -m pytest test_response.py -q
+        run: python -m pytest test_response.py test_state_guard.py -q
       - name: Independently replay frozen evidence
         shell: bash
         run: |
