@@ -1,0 +1,45 @@
+name: Correlated state holdout checks
+on:
+  push:
+    paths:
+      - numerical_audit/state_holdouts/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/evidence/results/**
+      - .github/workflows/state-holdouts.yml
+  pull_request:
+    paths:
+      - numerical_audit/state_holdouts/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/evidence/results/**
+      - .github/workflows/state-holdouts.yml
+permissions:
+  contents: read
+jobs:
+  scientific-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: python:3.12-slim
+      options: --cpus=1 --memory=512m --memory-swap=512m
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install pinned numerical dependencies
+        run: python -m pip install -r numerical_audit/state_holdouts/requirements.txt
+      - name: Complex response and circuit mathematics
+        working-directory: numerical_audit/state_holdouts
+        run: python -m pytest test_response.py test_state_guard.py -q
+      - name: Independently replay frozen evidence
+        shell: bash
+        run: |
+          python numerical_audit/state_holdouts/check_delivery.py --results numerical_audit/state_holdouts/evidence/results --report numerical_audit/state_holdouts/report --manifest numerical_audit/state_holdouts/evidence/MANIFEST.json
+          cp -r numerical_audit/state_holdouts/evidence/results "$RUNNER_TEMP/state-holdouts"
+          python numerical_audit/state_holdouts/verify.py --output "$RUNNER_TEMP/state-holdouts"
+          python numerical_audit/state_holdouts/study.py summary --output "$RUNNER_TEMP/state-holdouts"
+          python numerical_audit/state_holdouts/check_delivery.py --results "$RUNNER_TEMP/state-holdouts" --report numerical_audit/state_holdouts/report --manifest numerical_audit/state_holdouts/evidence/MANIFEST.json --replay-decisions-only
