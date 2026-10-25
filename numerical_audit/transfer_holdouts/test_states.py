@@ -125,3 +125,55 @@ def test_geometry_identity_ignores_rigid_motion_and_atom_order():
     assert same(signature(first), signature(rotated))
     rotated[0][1][0] += .001
     assert not same(signature(first), signature(rotated))
+
+
+@pytest.mark.parametrize('partition', ['conserving', 'pauli'])
+def test_first_order_adapter_reduces_to_verified_HF_objective(partition):
+    import training
+    target = toy()
+    psi = np.eye(16, dtype=complex)[:, 3]
+    current = training.FirstOrderContext(target, psi, partition)
+    old = training.prior.FirstOrderContext(target, k.TRAIN_TIME, partition)
+    for order in [list(range(current.m)), list(reversed(range(current.m)))]:
+        actual = current.score(order, k.TRAIN_TIME, 270)
+        expected = old.score(order, k.TRAIN_TIME, 270)
+        assert actual['steps'] == expected['steps']
+        assert actual['JD1'] == pytest.approx(expected['JD1'], rel=1e-12, abs=1e-18)
+
+
+def test_first_order_coherent_adapter_matches_literal_integral():
+    import training
+    from scipy.integrate import quad_vec
+    target = toy()
+    psi = np.zeros(16, complex)
+    psi[[3, 6, 9, 12]] = [1, 1j, -.2, .3j]
+    psi /= np.linalg.norm(psi)
+    context = training.FirstOrderContext(target, psi, 'conserving')
+    matrices = [sum(int(c) / 8 * literal(w, 4) for w, c in block) for block in target['blocks']]
+    prefix = np.zeros((16, 16), complex)
+    C = prefix.copy()
+    for G in matrices:
+        C += -.5j * (prefix @ G - G @ prefix)
+        prefix += G
+    diagonal = np.diag(prefix).real
+    def action(t):
+        return np.exp(1j * t * diagonal) * (C @ (np.exp(-1j * t * diagonal) * psi))
+    Qpsi, _ = quad_vec(action, 0, k.TRAIN_TIME, epsabs=1e-13)
+    Qpsi -= psi * np.vdot(psi, Qpsi)
+    assert context.score(list(range(context.m)), k.TRAIN_TIME, 270)['JD1'] == pytest.approx(
+        np.vdot(Qpsi, Qpsi).real, rel=1e-12, abs=1e-18)
+
+
+def test_cubic_training_charges_warm_constructor_and_preparation_once(tmp_path):
+    import training
+    target = toy()
+    path = tmp_path / 'model.json'
+    k.write(path, target)
+    psi = np.eye(16, dtype=complex)[:, 3]
+    result = training.cubic(path, k.sha(path), psi, reference_CPU_charge=.125)
+    assert result['warm_start']['reference_preparation_CPU_charge'] == 0
+    assert result['standalone_reference_and_ordering_CPU_charge'] == pytest.approx(
+        result['actual_local_CPU_seconds'] + .125)
+    assert result['actual_local_CPU_seconds'] >= result['warm_start']['actual_local_CPU_seconds']
+    assert result['record']['order'] == result['result']['record']['order']
+    assert result['actual_local_CPU_seconds'] >= sum(result['phases'].values()) - 1e-12

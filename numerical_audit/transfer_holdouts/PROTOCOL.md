@@ -21,7 +21,9 @@ phases use the largest component with a fixed lowest-index tie. Degenerate state
 must retain their actual archived eigenbasis and an explicit degeneracy label;
 no claim of a basis-independent coherent phase is made in such a cluster.
 
-All learned orders use training time1.11 and training cap30U. Frozen validation
+All searched response objectives use training time1.11 and training cap30U.
+The legacy current-placement control/initializer retains its fixedT1 rule;
+that exception is recorded and also disjoint from every validation time. Frozen validation
 times0.59,1.41,2.73 are all disjoint from training. Search has no access to their
 physical errors. Evaluate both10U and30U using the actual affordable fused
 symmetric step count, or the exact first-order count as applicable. All five
@@ -104,3 +106,15 @@ and120/900/256 respectively. Their scope is input/operator/state preparation,
 independent CAR/tensor/geometry/RDM checks and reference archive extraction;
 no ordering-validation error is computed. They do not replace the later full
 search/evolution/compilation preflight or reset any existing phase allowance.
+
+Prepared training adapters retain three starts(current,reverse,canonical),
+full caller-through-return context/setup/cleanup charges and coherent first-order
+features. Conserving first-order search has a nominal2 CPU seconds/3000 candidate
+cap/5 moves per start. The stronger individual-Pauli control retains8 CPU seconds,
+20*m*(m-1) candidate evaluations(capped325120),10 moves per start. Cubic training
+charges a complete fresh conserving first-order warm constructor, then a nominal
+2 CPU seconds/3000 candidates/5 moves of generalized cubic search. These are
+search allowances, not matched-total construction claims; setup/reference and
+one-circuit compilation charges remain explicit. Reference preparation is charged
+once at the outer cubic boundary. Real-panel training remains pending the
+practical study's reviewed,frozen interface; no holdout-error comparison has run.
