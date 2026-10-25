@@ -1,0 +1,43 @@
+name: Practical accuracy checks
+on:
+  push:
+    paths:
+      - numerical_audit/practical_accuracy/**
+      - numerical_audit/compiled_accuracy/*.py
+      - numerical_audit/symmetric_response/*.py
+      - numerical_audit/prospective_reference/*.py
+      - .github/workflows/practical-accuracy.yml
+  pull_request:
+    paths:
+      - numerical_audit/practical_accuracy/**
+      - numerical_audit/compiled_accuracy/*.py
+      - numerical_audit/symmetric_response/*.py
+      - numerical_audit/prospective_reference/*.py
+      - .github/workflows/practical-accuracy.yml
+permissions:
+  contents: read
+jobs:
+  practical-accuracy-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    container:
+      image: python:3.12-slim
+      options: --cpus=1 --memory=512m --memory-swap=512m
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - name: Pinned numerical environment
+        run: python -m pip install -r numerical_audit/compiled_accuracy/requirements.txt
+      - name: Full-construction accounting and exact-circuit regression checks
+        run: python -m pytest numerical_audit/practical_accuracy/test_practical.py -q
+      - name: Authenticate every retained file and Git blob
+        run: python numerical_audit/practical_accuracy/delivery.py check --delivery numerical_audit/practical_accuracy/evidence --git-commit HEAD
+      - name: Independently recheck all objectives, primitive circuits, resources and target decisions
+        shell: bash
+        run: python numerical_audit/practical_accuracy/verify.py --output numerical_audit/practical_accuracy/evidence/results --receipt-dir "$RUNNER_TEMP/practical-recheck"
