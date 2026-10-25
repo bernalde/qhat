@@ -153,3 +153,25 @@ not interval-certified. Preserve the failed run and diagnostic, charge both to
 the original preflight pool, and rerun the complete64candidate pipeline before
 freezing main estimates. All grids, targets,tolerances,compiler/version,exact
 circuits,routing,rewrites,selection rules and resource ceilings remain unchanged.
+
+
+## Calibrated main estimates frozen after the complete preflight
+
+`calibration/PREFLIGHT.json` records the passed64candidate/16decision altered
+largest-target end-to-end run at producing source ae08e0a. All64circuits were
+feasible; independent replay,counts/depth,target decisions,report,archive,
+extraction andstrictchecks passed. Bothfailedpreflight anddiagnostic remain
+charged to the original300CPU/1800wall/128MiB phase,with all resource records.
+
+Measured preparation/compilation38.7952CPU seconds,physical propagation42.9614,
+andindependent verification118.4774. Freeze main estimates1000CPU/4500wall/
+80MiB output,and independent1500CPU/6500wall/110MiB. These round upward from
+six largest case/time cells times a further2xCPU/wallmargin. Estimate256MiB
+peak memory from the measured108.1MiB cgroup peak,below the512MiB hard cap.
+Freeze reporting/archive/extraction estimate30CPU/240wall/112MiB; itsdiskbasis
+is six times largest delivery+extracted delivery+archive+report with an extra
+1.5xmargin. Mainresults remain in their original phase directory rather than
+beingduplicated into reporting. Exactbasisand measurements are in
+`calibration/MAIN_ESTIMATES.json`; original main1800/10800/256,independent
+1800/10800/256,andreport240/1800/128 ceilings are unchanged. No maincompiled
+candidate orphysical error has been generated at this calibration checkpoint.

@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "source_commit": "ae08e0aa03de275ffbe02c79791251e1a85a663e",
+  "sources": {
+    "numerical_audit/compiled_accuracy/PROTOCOL.md": "de7a893c69fcc05a828f8f2109bca67b2f2e5219d165488b55772679ed0afabe",
+    "numerical_audit/compiled_accuracy/README.md": "cfae39f8552b2862205b78dcbdd44c8b3ecbe73a265d10bccf8841d36f6ad10f",
+    "numerical_audit/compiled_accuracy/compiler.py": "0cf8ecaf140163b6f880399e534b8d9b9aad5eacf8a544cb911ef11e70373d69",
+    "numerical_audit/compiled_accuracy/delivery.py": "8ecd6daeab2033d5604331f4ca084c40eeb0c972b78f583d3be5719b6430367f",
+    "numerical_audit/compiled_accuracy/guarded.py": "2bf2e5527dcd9098d6738de491d5eb0f7da9131d7b3363152b32e1a64b613220",
+    "numerical_audit/compiled_accuracy/preflight.py": "410ae7d2b9376bf1398ed6065397cb1a77a99f3c05f5d94fa739b0196c1e3da2",
+    "numerical_audit/compiled_accuracy/reference.py": "c849d5d5b95c262876e5b7a25a46b4e4e48ab705bf8ac2647f91ed8104e56e9d",
+    "numerical_audit/compiled_accuracy/reporting.py": "c5c86f040d04b13a73259e953062ce323f97ccfc6ae1d38eb63ba7105057d159",
+    "numerical_audit/compiled_accuracy/requirements.txt": "166a703757e5c4b1f59d3be103ed7ab36fac354b9214b395e7141cb8e7312a17",
+    "numerical_audit/compiled_accuracy/study.py": "da92ce801216718a8796265e924a42899e59f95a0e46b7717c120b04e0cbd979",
+    "numerical_audit/compiled_accuracy/test_compiled_guard.py": "0d4d891e683985ecea2aab9f6453b4b984a9df6a780bcbf92b55f5b019f5be0e",
+    "numerical_audit/compiled_accuracy/test_compiler.py": "c576bb764ec5c99a7ffdd4587e9198b02bdc4f737505f10f1916fba1f4b37717",
+    "numerical_audit/compiled_accuracy/test_reference.py": "9a68a688c03af7d837f1807218f2ab73280a8e154a48c9d846920cbc2fa2b033",
+    "numerical_audit/compiled_accuracy/verify.py": "48194f499706225138113eac9e62a1aa0421b8e085110066a0a01d91dac28314",
+    "numerical_audit/prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971"
+  },
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "longdouble_mantissa_bits": 63,
+  "case": "preflight_altered_H2O_scale1p10",
+  "coefficient_scale": "7/5",
+  "modes": 8,
+  "pauli_words": 104,
+  "T": 2.11,
+  "curves": 8,
+  "candidates": 64,
+  "feasible": 64,
+  "censored": 0,
+  "target_decisions": 16,
+  "phases": {
+    "prepare": {
+      "CPU_seconds": 38.795215708,
+      "wall_seconds": 155.40009483099857
+    },
+    "compiled_propagation": {
+      "CPU_seconds": 42.961371134000004,
+      "wall_seconds": 171.8112753940004
+    },
+    "independent": {
+      "CPU_seconds": 118.477428919,
+      "wall_seconds": 473.90573521100305
+    },
+    "report": {
+      "CPU_seconds": 0.02361867999999845,
+      "wall_seconds": 0.09763772999576759
+    },
+    "package": {
+      "CPU_seconds": 0.0761194130000149,
+      "wall_seconds": 0.3022245929969358
+    },
+    "archive_extract_check": {
+      "CPU_seconds": 0.3628762609999967,
+      "wall_seconds": 1.4865761539986124
+    }
+  },
+  "algorithm_CPU_seconds": 200.701883127,
+  "wall_seconds": 803.0087922469975,
+  "retained_delivery_bytes": 5302696,
+  "archive_bytes": 1272223,
+  "total_preflight_bytes": 17122879,
+  "scope": "All8fixed30Utrainingarms/all8stepgridpoints, exactcompleteorpartialcircuits, fullindependentreplay/DAG/targetdecisions,report,archive/extract/check; altered target only"
+}

@@ -4,8 +4,8 @@ The [protocol](PROTOCOL.md) freezes compiler/version, native gate set,
 nearest-neighbor line, routing/cancellation, eight strong comparator arms,
 three molecular inputs, both times, all eight step counts, both accuracy targets
 and cumulative resource ceilings before execution. The compiler/reference/guard suite has **163 passing tests**. The complete
-end-to-end preflight and main grid remain **UNEXECUTED**; no molecular compiled-
-resource or accuracy result is claimed.
+64candidate representative preflight has passed; the48curve/384candidate main
+grid remains **UNEXECUTED**. No main-panel compiled-resource benefit is claimed.
 
 `compiler.py` retains every primitive and exact rational angle, including HF
 preparation, restored routing and censored prefixes. `study.py` authenticates the
@@ -77,10 +77,17 @@ The first complete64candidate preflight compiled and propagated its entire grid,
 then failed independent raw-norm agreement on a deep circuit. The failed run is
 retained. Replay now uses complex long-double accumulation and trigonometry,
 without gatewise normalization; exact primitive traces and all fixed tolerances
-are unchanged. A fresh full preflight remains required before main execution.
+are unchanged. The complete fresh preflight subsequently passed; see `calibration/PREFLIGHT.json`.
 
 The repaired suite passes163tests with no skips. Both original replay sources
 fail the hand-known50000-Hadamard norm check by3.9253e-12; the repaired kernels
 pass without intermediate normalization. Frozen execution metadata records
-actual long-double mantissa precision (at least63bits required). This does not
-replace the still-required complete representative preflight.
+actual long-double mantissa precision (at least63bits required). The subsequently passed complete representative preflight is retained in `calibration/`.
+
+
+The [calibration manifest](calibration/MANIFEST.json) retains the full preflight
+delivery archive,independent verification,failed-run diagnostic,actual original
+redprobes,testresults andall resource attempts. [Frozen main estimates](calibration/MAIN_ESTIMATES.json)
+use the largest altered model with explicit CPU,wall,memory anddisk margins.
+This feasibility result is not the full main study or a scientific advantage
+claim. No main candidate/error is generated before committing these estimates.

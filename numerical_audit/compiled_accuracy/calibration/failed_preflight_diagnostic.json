@@ -1,0 +1,59 @@
+{
+  "candidate": "preflight_altered_H2O_scale1p10.T2.11.cubic_insertion.f2.r064",
+  "resources": {
+    "gates": 281166,
+    "single_qubit_gates": 66730,
+    "two_qubit_gates": 214436,
+    "unit_duration_ASAP_depth": 220390,
+    "CX_dependency_depth": 202008
+  },
+  "producer_metrics": {
+    "error": 3.997177843260046e-12,
+    "infidelity": 7.994355686504116e-12,
+    "norm": 0.9999999999967184,
+    "number_leakage": 4.002267165155111e-30,
+    "joint_sector_leakage": 4.002267165155111e-30
+  },
+  "literal_metrics": {
+    "error": 3.997177838288587e-12,
+    "infidelity": 7.994355676561198e-12,
+    "norm": 0.9999999999967075,
+    "number_leakage": 9.78033796501467e-30,
+    "joint_sector_leakage": 9.78033796501467e-30
+  },
+  "unfused_metrics": {
+    "error": 3.997177834555396e-12,
+    "infidelity": 7.994355669094814e-12,
+    "norm": 0.9999999999998608,
+    "number_leakage": 9.837243017982892e-37,
+    "joint_sector_leakage": 9.837243017982892e-37
+  },
+  "metric_deltas": {
+    "error": {
+      "literal_minus_producer": -4.9714588790202655e-21,
+      "literal_minus_unfused": 3.7331913124546906e-21
+    },
+    "infidelity": {
+      "literal_minus_producer": -9.942917758040531e-21,
+      "literal_minus_unfused": 7.466384240496515e-21
+    },
+    "norm": {
+      "literal_minus_producer": -1.0880185641326534e-14,
+      "literal_minus_unfused": -3.1532554345403696e-12
+    },
+    "number_leakage": {
+      "literal_minus_producer": 5.7780707998595585e-30,
+      "literal_minus_unfused": 9.780336981290368e-30
+    },
+    "joint_sector_leakage": {
+      "literal_minus_producer": 5.7780707998595585e-30,
+      "literal_minus_unfused": 9.780336981290368e-30
+    }
+  },
+  "state_deltas": {
+    "literal_producer": 1.443973290317462e-14,
+    "literal_unfused": 3.1531846876270574e-12
+  },
+  "available_extended_precision_bits": 63,
+  "scope": "Diagnostic of retained failedpreflight; no tolerance or input changes."
+}

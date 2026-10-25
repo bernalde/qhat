@@ -1,0 +1,70 @@
+{
+  "status": "preflight_passed_with_failures_retained",
+  "accounting": "Perattempt max(processCPU,lastobservedserviceCPU)+1CPUsecondmargin; not algorithm-only CPU.",
+  "phases": [
+    {
+      "phase": "tests",
+      "original_limits_CPU_wall_MiB": [
+        120,
+        900,
+        64
+      ],
+      "CPU_seconds_conservatively_charged": 5.17,
+      "wall_seconds_used": 18.12013837899576,
+      "attempts": [
+        {
+          "label": "i09-tests-01",
+          "status": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 1.79,
+          "wall_seconds": 6.057302465997054,
+          "resource_record": "i09-tests-01.resources.json"
+        },
+        {
+          "label": "i09-tests-02",
+          "status": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 3.38,
+          "wall_seconds": 12.062835912998707,
+          "resource_record": "i09-tests-02.resources.json"
+        }
+      ]
+    },
+    {
+      "phase": "preflight",
+      "original_limits_CPU_wall_MiB": [
+        300,
+        1800,
+        128
+      ],
+      "CPU_seconds_conservatively_charged": 287.48,
+      "wall_seconds_used": 1140.6369854440054,
+      "attempts": [
+        {
+          "label": "i09-preflight-01",
+          "status": 1,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 82.19,
+          "wall_seconds": 325.1391627280027,
+          "resource_record": "i09-preflight-01.resources.json"
+        },
+        {
+          "label": "i09-preflight-diagnostic01",
+          "status": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 3.2600000000000002,
+          "wall_seconds": 9.048590425001748,
+          "resource_record": "i09-preflight-diagnostic01.resources.json"
+        },
+        {
+          "label": "i09-preflight-02",
+          "status": 0,
+          "termination": null,
+          "CPU_seconds_conservatively_charged": 202.03,
+          "wall_seconds": 806.449232291001,
+          "resource_record": "i09-preflight-02.resources.json"
+        }
+      ]
+    }
+  ]
+}

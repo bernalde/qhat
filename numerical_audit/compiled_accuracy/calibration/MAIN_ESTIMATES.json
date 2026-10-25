@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "frozen_before_main_compilation_and_errors",
+  "preflight_source_commit": "ae08e0aa03de275ffbe02c79791251e1a85a663e",
+  "preflight_artifact": "calibration/PREFLIGHT.json",
+  "basis": "Six times the complete largest altered-model/time preflight for 48 curves/384candidates, with 2xCPU/wall margin; smaller registers and shared setup are not used to reduce CPU estimates. All main methods/cases/times/grid/targets remain as precommitted.",
+  "measured_largest_model_prepare_and_propagate_CPU": 81.756586842,
+  "measured_largest_model_independent_CPU": 118.477428919,
+  "unrounded_six_times_two_CPU": {
+    "main": 981.0790421040001,
+    "independent": 1421.7291470280002
+  },
+  "estimates": {
+    "main": {
+      "CPU_seconds": 1000,
+      "wall_seconds": 4500,
+      "peak_RSS_MiB": 256,
+      "temporary_plus_retained_MiB": 80
+    },
+    "independent": {
+      "CPU_seconds": 1500,
+      "wall_seconds": 6500,
+      "peak_RSS_MiB": 256,
+      "temporary_plus_retained_MiB": 110
+    },
+    "report_archive_extract": {
+      "CPU_seconds": 30,
+      "wall_seconds": 240,
+      "peak_RSS_MiB": 256,
+      "temporary_plus_retained_MiB": 112
+    }
+  },
+  "original_hard_ceilings": {
+    "main": [
+      1800,
+      10800,
+      256
+    ],
+    "independent": [
+      1800,
+      10800,
+      256
+    ],
+    "report_archive_extract": [
+      240,
+      1800,
+      128
+    ]
+  },
+  "disk_basis": {
+    "largest_preflight_delivery_bytes": 5302696,
+    "largest_preflight_archive_bytes": 1272223,
+    "largest_preflight_report_bytes": 97918,
+    "sixfold_delivery_extract_archive_report_bytes": 71853198,
+    "report_disk_margin_factor": 1.5,
+    "report_projected_with_margin_MiB": 102.7868242263794,
+    "explanation": "Reporting owns delivery,onefullarchiveextraction,archiveandCSVreport; originalmainresults stay in their main phase directory. Sixfold largest delivery includes its upstream data; factor1.5 is additional disk margin. Main80MiB exceeds twice sixfold retained largest delivery. Independent110MiB includes retained main results plus temporary single-candidate reproduction and verification records."
+  },
+  "memory_basis": "Largest preflight cgroup peak108.1MiB; estimated256MiB allows morethan2xmargin and remains below512MiB hard cap. No complexlongdouble state exceeds256basis amplitudes.",
+  "execution": "Quartercore,Nice19,oneworker/BLASthread,512MiB,noswap,startresume>5.5GiB,freezeonlyownservicebelow5GiB; no reviewer overlap.",
+  "stopping": "Estimates are not guarantees. Preserve any limit stop and all censored/unmet/ambiguous rows; no grid/tolerance/target replacement,resource enlargement or budget reset."
+}
