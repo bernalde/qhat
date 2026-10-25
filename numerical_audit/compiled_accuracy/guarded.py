@@ -98,14 +98,8 @@ def main():
                 subprocess.run(['systemctl', '--user', 'stop', unit], check=False)
                 child.wait(timeout=30)
         supervisor_status = child.wait()
-        status = supervisor_status if supervisor_status != 0 or termination is None else 1
-    record = {'unit': unit, 'settings': settings, 'environment': env,
-              'command': command, 'exit_code': status, 'supervisor_exit_code': supervisor_status,
-              'elapsed': time.monotonic() - started, 'samples': samples,
-              'completed_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-              'budget':dict(cpu_seconds=args.cpu_seconds,wall_seconds=args.wall_seconds,disk_mib=args.disk_mib),
-              'termination':termination,
-              'log': str(logpath)}
+    # A child can finish before the next poll. Charge its retained final usage.
+    elapsed = time.monotonic() - started
     measured={}
     contents=logpath.read_text()
     for field,pattern in (
@@ -114,7 +108,25 @@ def main():
             ('max_rss_kib',r'Maximum resident set size \(kbytes\): ([0-9]+)')):
         match=re.search(pattern,contents)
         if match:measured[field]=float(match.group(1))
-    record['process_measurements']=measured
+    final_cpu=sum(measured.get(k,0.) for k in ('user_cpu_seconds','system_cpu_seconds'))
+    for sample in samples:
+        fields=dict(x.split('=',1) for x in sample['service'].splitlines() if '=' in x)
+        cpu=fields.get('CPUUsageNSec','0')
+        if cpu.isdigit():final_cpu=max(final_cpu,int(cpu)/1e9)
+    final_disk=sum(p.stat().st_size for p in args.output.rglob('*') if p.is_file()) if args.output.exists() else 0
+    if termination is None:
+        if final_cpu > args.cpu_seconds:termination='CPU budget exhausted'
+        elif final_disk > args.disk_mib*1024**2:termination='Disk budget exhausted'
+        elif elapsed > args.wall_seconds:termination='Wall budget exhausted'
+    status = supervisor_status if supervisor_status != 0 or termination is None else 1
+    record = {'unit': unit, 'settings': settings, 'environment': env,
+              'command': command, 'exit_code': status, 'supervisor_exit_code': supervisor_status,
+              'elapsed': elapsed, 'samples': samples,
+              'completed_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'budget':dict(cpu_seconds=args.cpu_seconds,wall_seconds=args.wall_seconds,disk_mib=args.disk_mib),
+              'termination':termination, 'log': str(logpath), 'process_measurements':measured,
+              'final_accounting':dict(CPU_seconds=final_cpu,output_bytes=final_disk,elapsed_seconds=elapsed,
+                  process_CPU_timing_available=all(k in measured for k in ('user_cpu_seconds','system_cpu_seconds')))}
     report.write_text(json.dumps(record, indent=2) + '\n')
     print(json.dumps({k: record[k] for k in ['unit', 'exit_code', 'elapsed', 'termination', 'log']}), flush=True)
     raise SystemExit(status)

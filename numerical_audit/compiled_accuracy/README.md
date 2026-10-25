@@ -1,11 +1,18 @@
-# Compiled target-accuracy study preparation
+# Compiled circuit resources at target accuracy
 
 The [protocol](PROTOCOL.md) freezes compiler/version, native gate set,
 nearest-neighbor line, routing/cancellation, eight strong comparator arms,
 three molecular inputs, both times, all eight step counts, both accuracy targets
-and cumulative resource ceilings before execution. The compiler/reference/guard suite has **163 passing tests**. The complete
-64candidate representative preflight has passed; the48curve/384candidate main
-grid remains **UNEXECUTED**. No main-panel compiled-resource benefit is claimed.
+and cumulative resource ceilings before execution. The complete representative
+64-candidate preflight, full 48-curve/384-candidate panel, independent replay and
+strict report/archive/extraction checks have passed. The [complete report](evidence/report/README.md)
+retains all 96 target decisions. All candidates are feasible and all targets are
+met. Against fresh first-order-trained symmetric ordering, cubic insertion has
+CX wins/ties/losses 0/4/2 and selected-circuit depth 2/2/2 at each target; the
+coarse grid and these relatively loose targets limit extrapolation. The original
+compiler/reference/guard suite passed 163 tests; review-driven regressions also
+cover jobs that finish between watchdog polls. Reviews and publication are
+tracked separately from these completed execution stages.
 
 `compiler.py` retains every primitive and exact rational angle, including HF
 preparation, restored routing and censored prefixes. `study.py` authenticates the
@@ -69,8 +76,9 @@ ABS_PYTHON delivery.py check --delivery ABS_DELIVERY
 
 Keep all failed/interrupted attempts and cumulative CPU/wall/disk consumption.
 Fresh output paths, source commits, workflow resumption or review packets do not
-reset any allowance. Main execution, independent verification, evidence package,
-paper companion and required independent reviews remain pending.
+reset any allowance. Main execution, independent verification, evidence packaging
+and the development-pinned compact paper checks are complete. Required paired
+review closeout, publication, actual-merge provenance and CI remain separate gates.
 
 
 The first complete64candidate preflight compiled and propagated its entire grid,
@@ -90,6 +98,8 @@ delivery archive,independent verification,failed-run diagnostic,actual original
 redprobes,testresults andall resource attempts. [Frozen main estimates](calibration/MAIN_ESTIMATES.json)
 use the largest altered model with explicit CPU,wall,memory anddisk margins.
 This feasibility result is not the full main study or a scientific advantage
-claim. No main candidate/error is generated before committing these estimates.
+claim. No main candidate/error was generated before committing these estimates.
 
 The report explicitly records the largest feasible grid step for each curve. Target attainment selects minimum CX and then ASAP depth, gate count and steps; its reported depth is that selected circuit’s depth, not a separately optimized depth. This derived reporting field was added after independent verification without changing the frozen compiler, protocol, circuits, physical errors or selection.
+
+The watchdog also checks final retained disk, elapsed wall time and the greater of parsed process CPU and sampled service CPU after exit. A process that finishes between polls cannot turn an observed final budget breach into success; original supervisor status and termination reason remain separate.

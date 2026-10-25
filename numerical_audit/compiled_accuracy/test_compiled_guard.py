@@ -55,3 +55,27 @@ def test_normal_completion_preserves_actual_supervisor_status(tmp_path,monkeypat
     record=json.loads((tmp_path/'normal.resources.json').read_text())
     assert exit.value.code==record['exit_code']==record['supervisor_exit_code']==supervisor_status
     assert record['termination'] is None
+
+@pytest.mark.parametrize('reason',['CPU','Disk','Wall'])
+def test_completed_job_final_limits_are_enforced(tmp_path,monkeypatch,reason):
+    """A child may finish between polls; its retained final usage still counts."""
+    logs=tmp_path/'logs';output=tmp_path/'output';output.mkdir()
+    class Process:
+        def poll(self):return 0
+        def wait(self,**kwargs):return 0
+    def start(*args,**kwargs):
+        if reason=='CPU':
+            kwargs['stdout'].write('User time (seconds): 0.80\nSystem time (seconds): 0.30\n')
+            kwargs['stdout'].flush()
+        if reason=='Disk':(output/'retained').write_bytes(b'x'*(1024**2+1))
+        return Process()
+    ticks=iter([0,2,2,2]) if reason=='Wall' else iter([0,0,0,0])
+    monkeypatch.setattr(guard.time,'monotonic',lambda:next(ticks,2 if reason=='Wall' else 0))
+    monkeypatch.setattr(guard,'available',lambda:6*1024**3)
+    monkeypatch.setattr(guard.subprocess,'Popen',start)
+    monkeypatch.setattr('sys.argv',['guarded.py','--label','final','--logs',str(logs),'--cpu-seconds','1',
+        '--wall-seconds','1','--disk-mib','1','--output',str(output),'--','python','never-executed.py'])
+    with pytest.raises(SystemExit) as exit:guard.main()
+    record=json.loads((logs/'final.resources.json').read_text())
+    assert exit.value.code!=0 and record['exit_code']!=0
+    assert record['supervisor_exit_code']==0 and record['termination']==reason+' budget exhausted'
