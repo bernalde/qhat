@@ -19,6 +19,7 @@ def literal(word,n):
 
 class Reference:
     def __init__(self,model):
+        require(np.finfo(np.longdouble).nmant>=63,'Independent replay requires at least63mantissa bits')
         n=model['n'];require(type(n) is int and 1<=n<=8,'Register bound before allocation')
         require(type(model['electrons']) is int and 0<=model['electrons']<=n,'Invalid occupation')
         require(0<len(model['coefficients'])<=128 and 0<len(model['blocks'])<=128,'Term/unit storage bound')
@@ -41,7 +42,7 @@ class Reference:
                     require(commutator.nnz==0,'Independent unit commutation required for exact fusion')
         self.initial=np.zeros(self.dimension,complex);self.initial[self.v]=1
         self.single={};self.cx={}
-        matrices={'h':np.array([[1,1],[1,-1]])/np.sqrt(2),'s':np.diag([1,1j]),'sdg':np.diag([1,-1j])}
+        matrices={'h':np.array([[1,1],[1,-1]],dtype=np.clongdouble)/np.sqrt(np.longdouble(2)),'s':np.diag([1,1j]),'sdg':np.diag([1,-1j])}
         for kind,M in matrices.items():
             for q in range(n):self.single[kind,q]=self.embed(M,q)
         for a in range(n):
@@ -57,9 +58,10 @@ class Reference:
 
     @lru_cache(maxsize=128)
     def rz(self,q,numerator,denominator):
-        angle=Fraction(numerator,denominator);a=float(angle)/2
-        require(math.isfinite(a),'Nonfinite Rz angle')
-        return self.embed(np.diag([complex(math.cos(a),-math.sin(a)),complex(math.cos(a),math.sin(a))]),q)
+        angle=Fraction(numerator,denominator);a=np.longdouble(angle.numerator)/np.longdouble(angle.denominator)/2
+        require(bool(np.isfinite(a)),'Nonfinite Rz angle')
+        phase=np.clongdouble(np.cos(a)-1j*np.sin(a))
+        return self.embed(np.diag([phase,phase.conjugate()]),q)
 
     def exact_action(self,T):
         require(math.isfinite(T) and T>0,'Positive finite time required')
@@ -73,22 +75,22 @@ class Reference:
 
     def ideal_formula(self,record,steps,T):
         require(type(steps) is int and 1<=steps<=128 and record['formula'] in (1,2),'Fixed-grid ideal replay required')
-        schedule=[(tuple((q,p) for q,p in w),int(c)/self.den) for w,c in record['schedule']]
+        schedule=[(tuple((q,p) for q,p in w),int(c)) for w,c in record['schedule']]
         require(sum(record['unit_lengths'])==len(schedule),'Unit boundaries differ')
-        offsets=np.cumsum([0]+record['unit_lengths']);state=self.initial.copy()
+        offsets=np.cumsum([0]+record['unit_lengths']);state=self.initial.astype(np.clongdouble)
         def unit(index,duration):
             nonlocal state
             for at in range(offsets[index],offsets[index+1]):
-                word,c=schedule[at];require(c==self.words[word]/self.den,'Replay coefficient differs')
-                theta=c*duration;state=math.cos(theta)*state-1j*math.sin(theta)*(self.pool[word]@state)
+                word,c=schedule[at];require(c==self.words[word],'Replay coefficient differs')
+                theta=np.longdouble(c)/np.longdouble(self.den)*duration;state=np.cos(theta)*state-1j*np.sin(theta)*(self.pool[word]@state)
         m=len(record['unit_lengths'])
         for _ in range(steps):
             if record['formula']==1:
-                for i in range(m):unit(i,T/steps)
+                for i in range(m):unit(i,np.longdouble(T)/steps)
             else:
-                for i in range(m-1):unit(i,T/(2*steps))
-                unit(m-1,T/steps)
-                for i in reversed(range(m-1)):unit(i,T/(2*steps))
+                for i in range(m-1):unit(i,np.longdouble(T)/(2*steps))
+                unit(m-1,np.longdouble(T)/steps)
+                for i in reversed(range(m-1)):unit(i,np.longdouble(T)/(2*steps))
         return state
 
     def audit_compiled_trace(self,path,identity,compiler_version,simulate=True):
@@ -98,7 +100,7 @@ class Reference:
         Two-million-gate bounds keep these compact integer arrays below64MiB.
         """
         previous=[-1]*self.n;left=array('i');right=array('i');twoq=bytearray();one=two=0
-        state=np.zeros(self.dimension,complex);state[0]=1
+        state=np.zeros(self.dimension,np.clongdouble);state[0]=1
         with gzip.open(path,'rt') as f:
             header=json.loads(next(f));require(header['compiler']==compiler_version and header['n']==self.n and header['identity']==identity,'Compiled target/header differs')
             for index,line in enumerate(f):
@@ -137,4 +139,4 @@ def metrics(exact,actual,model):
     for v in range(len(a)):
         if v.bit_count()!=model['electrons']:number+=abs(a[v])**2
         if [sum((v>>q)&1 for q in range(p,n,2)) for p in (0,1)]!=target:joint+=abs(a[v])**2
-    return dict(error=loss/(1+abs(inner)),infidelity=loss,norm=norm,number_leakage=float(number),joint_sector_leakage=float(joint))
+    return dict(error=float(loss/(1+abs(inner))),infidelity=loss,norm=norm,number_leakage=float(number),joint_sector_leakage=float(joint))

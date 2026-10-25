@@ -134,3 +134,22 @@ Conclusions describe this fixed prototype,connectivity,gate model,grid and small
 related model family. They cannot establish optimal compilation,routing,
 continuous-r target cost,asymptotic scaling,conservation as an accuracy mechanism,
 large-molecule validity,noise tolerance or actual hardware execution.
+
+
+## Retained preflight arithmetic correction
+
+The first full64candidate preflight compiled and propagated all circuits, then
+failed the fixed2e-12 independent physical-metric tolerance at the r64 cubic
+insertion circuit. A retained diagnostic isolated raw norm drift: literal versus
+unfused norm difference3.1532554345403696e-12, while projective-error differences
+were below1e-20. This is a numerical replay issue, not an accuracy-tolerance or
+compiler-circuit change. Both primitive replay implementations now accumulate
+in NumPy complex long double, with long-double Hadamard normalization and
+rational-angle trigonometry. The independent unfused formula uses long-double
+coefficients/trigonometry too; the SciPy and scaled-Taylor exact-H references
+remain distinct. No gatewise renormalization is used. Record actual available
+long-double precision in execution evidence; this arithmetic is still numerical,
+not interval-certified. Preserve the failed run and diagnostic, charge both to
+the original preflight pool, and rerun the complete64candidate pipeline before
+freezing main estimates. All grids, targets,tolerances,compiler/version,exact
+circuits,routing,rewrites,selection rules and resource ceilings remain unchanged.

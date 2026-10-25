@@ -3,7 +3,7 @@
 The [protocol](PROTOCOL.md) freezes compiler/version, native gate set,
 nearest-neighbor line, routing/cancellation, eight strong comparator arms,
 three molecular inputs, both times, all eight step counts, both accuracy targets
-and cumulative resource ceilings before execution. The compiler/reference/guard suite has **161 passing tests**. The complete
+and cumulative resource ceilings before execution. The compiler/reference/guard suite has **163 passing tests**. The complete
 end-to-end preflight and main grid remain **UNEXECUTED**; no molecular compiled-
 resource or accuracy result is claimed.
 
@@ -71,3 +71,16 @@ Keep all failed/interrupted attempts and cumulative CPU/wall/disk consumption.
 Fresh output paths, source commits, workflow resumption or review packets do not
 reset any allowance. Main execution, independent verification, evidence package,
 paper companion and required independent reviews remain pending.
+
+
+The first complete64candidate preflight compiled and propagated its entire grid,
+then failed independent raw-norm agreement on a deep circuit. The failed run is
+retained. Replay now uses complex long-double accumulation and trigonometry,
+without gatewise normalization; exact primitive traces and all fixed tolerances
+are unchanged. A fresh full preflight remains required before main execution.
+
+The repaired suite passes163tests with no skips. Both original replay sources
+fail the hand-known50000-Hadamard norm check by3.9253e-12; the repaired kernels
+pass without intermediate normalization. Frozen execution metadata records
+actual long-double mantissa precision (at least63bits required). This does not
+replace the still-required complete representative preflight.

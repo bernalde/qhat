@@ -93,3 +93,16 @@ def test_noncommuting_unit_is_refused_before_boundary_fusion():
         blocks=[[[[[0,'X']],'1'],[[[0,'Z']],'1']]])
     with pytest.raises(ValueError,match='commuting'):study.validate_model(bad)
     with pytest.raises(ValueError,match='commutation'):Reference(bad)
+
+
+@pytest.mark.parametrize('implementation',['producer','literal'])
+def test_deep_hadamard_trace_preserves_raw_norm_without_renormalizing(tmp_path,implementation):
+    # H^2=I, so this deep circuit has a hand-known state and norm. Binary64
+    # repeated basis changes lose over2e-12 here; no intermediate normalization
+    # is permitted to conceal the drift measured by the independent metric.
+    path=tmp_path/'deep.ndjson.gz';identity={'fixture':'50000literalHadamards'}
+    write_trace(path,1,[Gate('h',0)]*50_000,identity)
+    if implementation=='producer':state=study.PrimitiveReplay(model(n=1)).replay(path,identity)
+    else:state,_=Reference(model(n=1)).audit_compiled_trace(path,identity,VERSION)
+    assert abs(float(np.linalg.norm(state))-1)<=2e-12
+    np.testing.assert_allclose(state,np.array([1,0]),atol=2e-12,rtol=0)

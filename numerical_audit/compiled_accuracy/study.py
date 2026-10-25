@@ -194,7 +194,7 @@ def prepare(output,evidence,ordering_commit,preflight=False):
         prepared_verification_sources=verifier_sources(),upstream=provenance,preflight=preflight,cases=cases,times=times,
         arms=ARMS,training_rotation_cap_units=30,step_grid=GRID,accuracy_targets=TARGETS,threshold_ambiguity=AMBIGUITY,
         expected_curves=8 if preflight else 48,expected_candidates=64 if preflight else 384,compiler=VERSION,
-        compiler_sha256=sha(HERE/'compiler.py'),python=sys.version,environment={p:importlib.metadata.version(p) for p in ('numpy','scipy')}))
+        compiler_sha256=sha(HERE/'compiler.py'),python=sys.version,replay_precision=dict(state_dtype='numpy.clongdouble',longdouble_mantissa_bits=int(np.finfo(np.longdouble).nmant),gatewise_renormalization=False),environment={p:importlib.metadata.version(p) for p in ('numpy','scipy')}))
     count=feasible=censored=0
     for original_case in cases:
         case=('preflight_altered_' if preflight else '')+original_case
@@ -244,11 +244,13 @@ def bind(output,*,independent=False):
         require(not path.is_symlink() and sha(path)==digest,'Original source archive changed')
     for name,digest in frozen['artifacts'].items():require(sha(output/relative(name))==digest,'Frozen compiled artifact changed: '+name)
     require(set(protocol['environment'])=={'numpy','scipy'} and protocol['environment']=={p:importlib.metadata.version(p) for p in protocol['environment']},'Pinned numerical environment differs')
+    require(protocol['replay_precision']==dict(state_dtype='numpy.clongdouble',longdouble_mantissa_bits=int(np.finfo(np.longdouble).nmant),gatewise_renormalization=False),'Replay precision differs')
     require(protocol['step_grid']==list(GRID) and protocol['accuracy_targets']==list(TARGETS) and protocol['threshold_ambiguity']==AMBIGUITY,'Fixed accuracy/grid policy differs')
     return protocol,frozen
 
 class PrimitiveReplay:
     def __init__(self,model):
+        require(np.finfo(np.longdouble).nmant>=63,'Extended-precision replay requires at least63mantissa bits')
         self.model=model;self.terms=validate_model(model);self.n=model['n'];self.dimension=1<<self.n
         basis=np.arange(self.dimension);self.low={};self.high={};self.cx={}
         for q in range(self.n):
@@ -258,17 +260,17 @@ class PrimitiveReplay:
                 if abs(q-t)==1:self.cx[q,t]=basis^(((basis>>q)&1)<<t)
     @lru_cache(maxsize=128)
     def phase(self,numerator,denominator):
-        angle=float(Fraction(numerator,denominator))/2;require(math.isfinite(angle),'Nonfinite exact angle')
-        return complex(math.cos(angle),-math.sin(angle))
+        angle=np.longdouble(numerator)/np.longdouble(denominator)/2;require(bool(np.isfinite(angle)),'Nonfinite exact angle')
+        return np.clongdouble(np.cos(angle)-1j*np.sin(angle))
     def replay(self,path,identity):
         iterator=read_trace(path);header=next(iterator)
         require(header['n']==self.n and header['identity']==identity,'Compiled trace identity differs')
-        state=np.zeros(self.dimension,complex);state[0]=1
+        state=np.zeros(self.dimension,np.clongdouble);state[0]=1
         for g in iterator:
             if g.kind=='cx':state=state[self.cx[g.a,g.b]]
             elif g.kind=='h':
                 low=state[self.low[g.a]].copy();high=state[self.high[g.a]].copy()
-                state[self.low[g.a]]=(low+high)/math.sqrt(2);state[self.high[g.a]]=(low-high)/math.sqrt(2)
+                state[self.low[g.a]]=(low+high)/np.sqrt(np.longdouble(2));state[self.high[g.a]]=(low-high)/np.sqrt(np.longdouble(2))
             elif g.kind=='s':state[self.high[g.a]]*=1j
             elif g.kind=='sdg':state[self.high[g.a]]*=-1j
             else:
@@ -289,7 +291,7 @@ def metrics(exact,actual,model):
     a=actual/norm;z=exact/np.linalg.norm(exact);inner=np.vdot(z,a);residual=a-inner*z;loss=float(np.vdot(residual,residual).real)
     n=model['n'];v=(1<<model['electrons'])-1;sector=[sum((v>>q)&1 for q in range(p,n,2)) for p in (0,1)]
     number=np.array([w.bit_count()!=model['electrons'] for w in range(len(a))]);joint=np.array([[sum((w>>q)&1 for q in range(p,n,2)) for p in (0,1)]!=sector for w in range(len(a))])
-    return dict(error=loss/(1+abs(inner)),infidelity=loss,norm=norm,number_leakage=float(np.vdot(a[number],a[number]).real),joint_sector_leakage=float(np.vdot(a[joint],a[joint]).real))
+    return dict(error=float(loss/(1+abs(inner))),infidelity=loss,norm=norm,number_leakage=float(np.vdot(a[number],a[number]).real),joint_sector_leakage=float(np.vdot(a[joint],a[joint]).real))
 
 def threshold(error,target):
     return 'ambiguous' if abs(error-target)<=AMBIGUITY else 'met' if error<target else 'not_met'

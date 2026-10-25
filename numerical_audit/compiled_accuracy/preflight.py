@@ -1,6 +1,7 @@
 """Largest altered-model complete compiled-grid preflight before main errors."""
 import argparse,hashlib,importlib.metadata,json,subprocess,tarfile,time
 from pathlib import Path
+import numpy as np
 from compiler import require
 from study import prepare,run,write,sources,REPO
 from verify import verify
@@ -29,7 +30,7 @@ def preflight(output,ordering_evidence,ordering_commit):
     require(original==sources(),'Source changed during preflight')
     verified=json.loads((output/'results/VERIFIED.json').read_text());require(verified['candidates']==64 and verified['curves']==8 and verified['target_decisions']==16,'Incomplete representative compiled grid')
     write(output/'PREFLIGHT.json',dict(status='passed',source_commit=commit,sources=original,
-        environment={p:importlib.metadata.version(p) for p in ('numpy','scipy')},case='preflight_altered_H2O_scale1p10',coefficient_scale='7/5',modes=8,pauli_words=104,T=2.11,
+        environment={p:importlib.metadata.version(p) for p in ('numpy','scipy')},longdouble_mantissa_bits=int(np.finfo(np.longdouble).nmant),case='preflight_altered_H2O_scale1p10',coefficient_scale='7/5',modes=8,pauli_words=104,T=2.11,
         curves=8,candidates=64,feasible=verified['feasible'],censored=verified['censored'],target_decisions=16,phases=phases,
         algorithm_CPU_seconds=time.process_time()-cpu,wall_seconds=time.monotonic()-wall,
         retained_delivery_bytes=sum(p.stat().st_size for p in (output/'delivery').rglob('*') if p.is_file()),archive_bytes=archive.stat().st_size,
