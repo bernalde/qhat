@@ -91,3 +91,5 @@ redprobes,testresults andall resource attempts. [Frozen main estimates](calibrat
 use the largest altered model with explicit CPU,wall,memory anddisk margins.
 This feasibility result is not the full main study or a scientific advantage
 claim. No main candidate/error is generated before committing these estimates.
+
+The report explicitly records the largest feasible grid step for each curve. Target attainment selects minimum CX and then ASAP depth, gate count and steps; its reported depth is that selected circuit’s depth, not a separately optimized depth. This derived reporting field was added after independent verification without changing the frozen compiler, protocol, circuits, physical errors or selection.
