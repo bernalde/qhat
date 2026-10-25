@@ -1,0 +1,587 @@
+{
+  "status": "Full science retained; review corrections pass26tests including2original-source failures and corrected independent replay",
+  "scope": "Measured through corrected independent verification; final repack/integrity/publication checks consume the same original reporting allowance and remain in task records. Original producer was not rerun.",
+  "finite_cumulative_limits": {
+    "tests": [
+      120,
+      900,
+      64
+    ],
+    "preflight": [
+      240,
+      1800,
+      128
+    ],
+    "main": [
+      600,
+      3600,
+      128
+    ],
+    "independent": [
+      600,
+      3600,
+      128
+    ],
+    "reporting": [
+      120,
+      900,
+      128
+    ]
+  },
+  "units": [
+    "CPU seconds",
+    "wall seconds",
+    "output MiB"
+  ],
+  "attempts": {
+    "i08-tests-01": {
+      "unit": "fermionic-future-i08-tests-01-548763",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "900"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "-m",
+        "pytest",
+        "test_cubic.py",
+        "-q"
+      ],
+      "budget": {
+        "cpu_seconds": 120.0,
+        "wall_seconds": 900,
+        "disk_mib": 64
+      },
+      "elapsed": 3.0388982279982883,
+      "process_measurements": {
+        "user_cpu_seconds": 0.44,
+        "system_cpu_seconds": 0.06,
+        "max_rss_kib": 57464.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T19:12:55.129582+00:00"
+    },
+    "i08-tests-02": {
+      "unit": "fermionic-future-i08-tests-02-724349",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "896"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp",
+        "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/tests-08-guard",
+        "numerical_audit/symmetric_response/test_cubic.py",
+        "numerical_audit/symmetric_response/test_symmetric_guard.py"
+      ],
+      "budget": {
+        "cpu_seconds": 119.0,
+        "wall_seconds": 896,
+        "disk_mib": 64
+      },
+      "elapsed": 3.0296484760001476,
+      "process_measurements": {
+        "user_cpu_seconds": 0.43,
+        "system_cpu_seconds": 0.05,
+        "max_rss_kib": 61052.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T21:05:11.848761+00:00"
+    },
+    "i08-preflight-01": {
+      "unit": "fermionic-future-i08-preflight-01-551259",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "1800"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "preflight.py",
+        "--output",
+        "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/preflight-08-attempt01"
+      ],
+      "budget": {
+        "cpu_seconds": 240.0,
+        "wall_seconds": 1800,
+        "disk_mib": 128
+      },
+      "elapsed": 54.14710757799912,
+      "process_measurements": {
+        "user_cpu_seconds": 12.79,
+        "system_cpu_seconds": 0.15,
+        "max_rss_kib": 67392.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T19:15:06.523311+00:00"
+    },
+    "i08-main-01": {
+      "unit": "fermionic-future-i08-main-01-726219",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "3600"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/fermionic-run-symmetric08-main.py"
+      ],
+      "budget": {
+        "cpu_seconds": 600.0,
+        "wall_seconds": 3600,
+        "disk_mib": 128
+      },
+      "elapsed": 255.59583757900327,
+      "process_measurements": {
+        "user_cpu_seconds": 63.13,
+        "system_cpu_seconds": 0.41,
+        "max_rss_kib": 69852.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T21:10:56.041693+00:00"
+    },
+    "i08-verify-01": {
+      "unit": "fermionic-future-i08-verify-01-732010",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "3600"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "numerical_audit/symmetric_response/verify.py",
+        "--output",
+        "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/panel-08-attempt01"
+      ],
+      "budget": {
+        "cpu_seconds": 600.0,
+        "wall_seconds": 3600,
+        "disk_mib": 128
+      },
+      "elapsed": 9.068790088000242,
+      "process_measurements": {
+        "user_cpu_seconds": 1.86,
+        "system_cpu_seconds": 0.07,
+        "max_rss_kib": 61512.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T21:11:40.267583+00:00"
+    },
+    "i08-report-01": {
+      "unit": "fermionic-future-i08-report-01-733954",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "900"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/package-symmetric08.py"
+      ],
+      "budget": {
+        "cpu_seconds": 120.0,
+        "wall_seconds": 900,
+        "disk_mib": 128
+      },
+      "elapsed": 3.0593024549998518,
+      "process_measurements": {
+        "user_cpu_seconds": 0.5,
+        "system_cpu_seconds": 0.09,
+        "max_rss_kib": 25724.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T21:13:08.929414+00:00"
+    },
+    "i08-report-02": {
+      "unit": "fermionic-future-i08-report-02-738229",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "896"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/check-symmetric08-delivery-paper.py"
+      ],
+      "budget": {
+        "cpu_seconds": 119.0,
+        "wall_seconds": 896,
+        "disk_mib": 120
+      },
+      "elapsed": 3.0441827430004196,
+      "process_measurements": {
+        "user_cpu_seconds": 0.21,
+        "system_cpu_seconds": 0.05,
+        "max_rss_kib": 26340.0
+      },
+      "termination": null,
+      "exit_code": 1,
+      "completed_utc": "2026-10-24T21:16:23.173212+00:00"
+    },
+    "i08-report-03": {
+      "unit": "fermionic-future-i08-report-03-739844",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "893"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/check-symmetric08-delivery-paper-03.py"
+      ],
+      "budget": {
+        "cpu_seconds": 118.0,
+        "wall_seconds": 893,
+        "disk_mib": 119
+      },
+      "elapsed": 3.0412592950015096,
+      "process_measurements": {
+        "user_cpu_seconds": 0.44,
+        "system_cpu_seconds": 0.08,
+        "max_rss_kib": 47212.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T21:17:44.046718+00:00"
+    },
+    "i08-paper-check-04": {
+      "unit": "fermionic-future-i08-paper-check-04-742387",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "890"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "tools/check_symmetric_response_report.py",
+        "--allow-development-source"
+      ],
+      "budget": {
+        "cpu_seconds": 118.0,
+        "wall_seconds": 890,
+        "disk_mib": 118
+      },
+      "elapsed": 3.04238774100304,
+      "process_measurements": {
+        "user_cpu_seconds": 0.12,
+        "system_cpu_seconds": 0.02,
+        "max_rss_kib": 25928.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T21:19:57.150172+00:00"
+    },
+    "i08-tests-03": {
+      "unit": "fermionic-future-i08-tests-03-828011",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "889"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/test-symmetric08-address.py"
+      ],
+      "budget": {
+        "cpu_seconds": 118.0,
+        "wall_seconds": 889,
+        "disk_mib": 60
+      },
+      "elapsed": 6.0655085039979895,
+      "process_measurements": {
+        "user_cpu_seconds": 0.93,
+        "system_cpu_seconds": 0.14,
+        "max_rss_kib": 62208.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T22:14:35.765641+00:00"
+    },
+    "i08-verify-02": {
+      "unit": "fermionic-future-i08-verify-02-831466",
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "3587"
+      },
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUNBUFFERED": "1",
+        "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+        "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+        "LC_ALL": "C"
+      },
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "numerical_audit/symmetric_response/verify.py",
+        "--output",
+        "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/panel-08-address01"
+      ],
+      "budget": {
+        "cpu_seconds": 597.0,
+        "wall_seconds": 3587,
+        "disk_mib": 120
+      },
+      "elapsed": 9.070904612999584,
+      "process_measurements": {
+        "user_cpu_seconds": 1.94,
+        "system_cpu_seconds": 0.06,
+        "max_rss_kib": 61436.0
+      },
+      "termination": null,
+      "exit_code": 0,
+      "completed_utc": "2026-10-24T22:17:13.350809+00:00"
+    }
+  },
+  "packaging": {
+    "status": "passed",
+    "measurements": {
+      "report": {
+        "wall_seconds": 0.29819918800058076
+      },
+      "package": {
+        "wall_seconds": 0.3007208709968836
+      },
+      "strict_check": {
+        "wall_seconds": 0.3956069550004031
+      },
+      "archive_extract": {
+        "wall_seconds": 0.7269533139988198
+      },
+      "extracted_strict_check": {
+        "wall_seconds": 0.48067196299962234
+      }
+    },
+    "delivery_bytes": 3841284,
+    "phase_output_bytes": 8037683,
+    "archive_bytes": 212772,
+    "archive_sha256": "2a3196e716bd46bf63eb69cc0346b0f2af2b5d9de90265f2821ee5bcc5faf067",
+    "manifest_files": 213
+  }
+}

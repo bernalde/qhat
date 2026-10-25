@@ -1,0 +1,284 @@
+{
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "3600"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/future-work-2026-10-23/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "attempts": [
+    {
+      "label": "i06-main-01",
+      "exit_code": 0,
+      "controller_wall_seconds": 15.067847633999918,
+      "service_CPU_seconds": 3.631,
+      "process_measurements": {
+        "user_cpu_seconds": 3.57,
+        "system_cpu_seconds": 0.05,
+        "max_rss_kib": 63264.0
+      },
+      "budget": {
+        "cpu_seconds": 600.0,
+        "wall_seconds": 3600,
+        "disk_mib": 128
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-metadata-tests-01",
+      "exit_code": 1,
+      "controller_wall_seconds": 3.026717232998635,
+      "service_CPU_seconds": 0.294,
+      "process_measurements": {
+        "user_cpu_seconds": 0.26,
+        "system_cpu_seconds": 0.02,
+        "max_rss_kib": 47808.0
+      },
+      "budget": {
+        "cpu_seconds": 115.0,
+        "wall_seconds": 880,
+        "disk_mib": 64
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-metadata-tests-02",
+      "exit_code": 0,
+      "controller_wall_seconds": 3.053727563999928,
+      "service_CPU_seconds": 0.268,
+      "process_measurements": {
+        "user_cpu_seconds": 0.23,
+        "system_cpu_seconds": 0.02,
+        "max_rss_kib": 45768.0
+      },
+      "budget": {
+        "cpu_seconds": 114.0,
+        "wall_seconds": 875,
+        "disk_mib": 64
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-package-01",
+      "exit_code": 0,
+      "controller_wall_seconds": 3.042080248997081,
+      "service_CPU_seconds": 0.164,
+      "process_measurements": {
+        "user_cpu_seconds": 0.13,
+        "system_cpu_seconds": 0.03,
+        "max_rss_kib": 20160.0
+      },
+      "budget": {
+        "cpu_seconds": 119.0,
+        "wall_seconds": 896,
+        "disk_mib": 128
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-preflight-01",
+      "exit_code": 1,
+      "controller_wall_seconds": 3.0404802640005073,
+      "service_CPU_seconds": 0.291,
+      "process_measurements": {
+        "user_cpu_seconds": 0.24,
+        "system_cpu_seconds": 0.04,
+        "max_rss_kib": 54228.0
+      },
+      "budget": {
+        "cpu_seconds": 240.0,
+        "wall_seconds": 1800,
+        "disk_mib": 128
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-preflight-02",
+      "exit_code": 1,
+      "controller_wall_seconds": 9.04882791000091,
+      "service_CPU_seconds": 1.867,
+      "process_measurements": {
+        "user_cpu_seconds": 1.82,
+        "system_cpu_seconds": 0.04,
+        "max_rss_kib": 65976.0
+      },
+      "budget": {
+        "cpu_seconds": 239.0,
+        "wall_seconds": 1795,
+        "disk_mib": 127
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-preflight-03",
+      "exit_code": 0,
+      "controller_wall_seconds": 18.066534020999825,
+      "service_CPU_seconds": 4.024,
+      "process_measurements": {
+        "user_cpu_seconds": 3.92,
+        "system_cpu_seconds": 0.09,
+        "max_rss_kib": 66920.0
+      },
+      "budget": {
+        "cpu_seconds": 237.0,
+        "wall_seconds": 1785,
+        "disk_mib": 126
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-report-01",
+      "exit_code": 0,
+      "controller_wall_seconds": 3.032140328999958,
+      "service_CPU_seconds": 0.04,
+      "process_measurements": {
+        "user_cpu_seconds": 0.03,
+        "system_cpu_seconds": 0.0,
+        "max_rss_kib": 17280.0
+      },
+      "budget": {
+        "cpu_seconds": 120.0,
+        "wall_seconds": 900,
+        "disk_mib": 128
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-tests-02",
+      "exit_code": 2,
+      "controller_wall_seconds": 3.0101574010004697,
+      "service_CPU_seconds": 0.644,
+      "process_measurements": {
+        "user_cpu_seconds": 0.54,
+        "system_cpu_seconds": 0.1,
+        "max_rss_kib": 76320.0
+      },
+      "budget": {
+        "cpu_seconds": 120.0,
+        "wall_seconds": 900,
+        "disk_mib": 64
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-tests-03",
+      "exit_code": 0,
+      "controller_wall_seconds": 12.06471359599982,
+      "service_CPU_seconds": 2.885,
+      "process_measurements": {
+        "user_cpu_seconds": 2.83,
+        "system_cpu_seconds": 0.05,
+        "max_rss_kib": 57600.0
+      },
+      "budget": {
+        "cpu_seconds": 118.0,
+        "wall_seconds": 896,
+        "disk_mib": 64
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-tests-04",
+      "exit_code": 1,
+      "controller_wall_seconds": 12.062321085000804,
+      "service_CPU_seconds": 2.921,
+      "process_measurements": {
+        "user_cpu_seconds": 2.86,
+        "system_cpu_seconds": 0.05,
+        "max_rss_kib": 59468.0
+      },
+      "budget": {
+        "cpu_seconds": 110.0,
+        "wall_seconds": 870,
+        "disk_mib": 64
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-tests-05",
+      "exit_code": 0,
+      "controller_wall_seconds": 12.056906400999651,
+      "service_CPU_seconds": 2.853,
+      "process_measurements": {
+        "user_cpu_seconds": 2.81,
+        "system_cpu_seconds": 0.03,
+        "max_rss_kib": 59308.0
+      },
+      "budget": {
+        "cpu_seconds": 105.0,
+        "wall_seconds": 855,
+        "disk_mib": 64
+      },
+      "termination": null
+    },
+    {
+      "label": "i06-verify-01",
+      "exit_code": 0,
+      "controller_wall_seconds": 21.090227379998396,
+      "service_CPU_seconds": 5.051,
+      "process_measurements": {
+        "user_cpu_seconds": 4.96,
+        "system_cpu_seconds": 0.08,
+        "max_rss_kib": 58628.0
+      },
+      "budget": {
+        "cpu_seconds": 600.0,
+        "wall_seconds": 3600,
+        "disk_mib": 128
+      },
+      "termination": null
+    }
+  ],
+  "accounting": "All retained test,preflight,main,independent,report/package attempts; failed attempts remain charged. Future checks/reviews recorded separately.",
+  "budgets": {
+    "tests": [
+      120,
+      900,
+      64
+    ],
+    "preflight": [
+      240,
+      1800,
+      128
+    ],
+    "main": [
+      600,
+      3600,
+      128
+    ],
+    "independent": [
+      600,
+      3600,
+      128
+    ],
+    "reporting": [
+      120,
+      900,
+      128
+    ]
+  },
+  "budget_units": [
+    "CPU seconds",
+    "wall seconds",
+    "output MiB"
+  ],
+  "producing_source_commit": "f67da749946991a5cb57c68cba7fe5953a6d0b1f"
+}
