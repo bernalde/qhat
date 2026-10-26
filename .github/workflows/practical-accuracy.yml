@@ -4,6 +4,7 @@ on:
     paths:
       - numerical_audit/practical_accuracy/**
       - numerical_audit/compiled_accuracy/*.py
+      - numerical_audit/compiled_accuracy/requirements.txt
       - numerical_audit/symmetric_response/*.py
       - numerical_audit/prospective_reference/*.py
       - .github/workflows/practical-accuracy.yml
@@ -11,6 +12,7 @@ on:
     paths:
       - numerical_audit/practical_accuracy/**
       - numerical_audit/compiled_accuracy/*.py
+      - numerical_audit/compiled_accuracy/requirements.txt
       - numerical_audit/symmetric_response/*.py
       - numerical_audit/prospective_reference/*.py
       - .github/workflows/practical-accuracy.yml
@@ -44,6 +46,8 @@ jobs:
         run: python -m pytest numerical_audit/practical_accuracy/test_practical.py -q
       - name: Authenticate every retained file and Git blob
         run: python numerical_audit/practical_accuracy/delivery.py check --delivery numerical_audit/practical_accuracy/evidence --git-commit HEAD
+      - name: Check complete summaries including inherited strong controls
+        run: python numerical_audit/practical_accuracy/reporting.py --output numerical_audit/practical_accuracy/evidence/results --check-all-comparison-groups numerical_audit/practical_accuracy/all_comparison_groups.json
       - name: Independently recheck all objectives, primitive circuits, resources and target decisions
         shell: bash
         run: python numerical_audit/practical_accuracy/verify.py --output numerical_audit/practical_accuracy/evidence/results --receipt-dir "$RUNNER_TEMP/practical-recheck"

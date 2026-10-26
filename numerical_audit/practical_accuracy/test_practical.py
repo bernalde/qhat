@@ -226,3 +226,135 @@ def test_independent_replay_accepts_relocation_but_rejects_version_change(monkey
     else:
         with pytest.raises(ValueError, match='Numerical interpreter/package identity'):
             study.bind(output, independent=True)
+
+
+@pytest.fixture
+def decision_fixture(tmp_path):
+    """Small literal table fixture; numeric actions/DAG replay are tested elsewhere."""
+    import verify
+    output = tmp_path / 'decision-fixture'
+    rows, curves, candidates, errors, costs = {}, {}, {}, {}, {}
+    for index, method in enumerate((*common.METHODS, *common.REFERENCE_ARMS)):
+        reference = method in common.REFERENCE_ARMS
+        budget = None if reference else 2.
+        name = study.curve_name('toy', method, budget, 0)
+        curve = dict(curve=name, case='toy', method=method, total_budget=budget, repetition=0,
+                     cohort='inherited_reference' if reference else 'matched')
+        curves[name] = curve
+        for steps in common.GRID:
+            label = name + '.r' + format(steps, '03d')
+            resource = dict(two_qubit_gates=(index + 1) * 100 + steps,
+                            unit_duration_ASAP_depth=(7 - index) * 100 + steps, gates=1000 + steps)
+            candidate = dict(candidate=label, curve=name, case='toy', method=method,
+                             cohort=curve['cohort'], repetition=0, steps=steps, status='complete',
+                             ordering_CPU_charge=.1, compilation_CPU_seconds=.2,
+                             total_construction_CPU_seconds=.3, total_CPU_budget=budget,
+                             eligible=True, CPU_overrun_seconds=0., compiled_resources=resource)
+            row = {field: value for field, value in candidate.items() if field != 'status'}
+            row.update(error=1e-10, state_file='states/' + label + '.npz',
+                       error_at_or_below_numerical_floor=False,
+                       reference_CPU_seconds=.01, compiled_replay_CPU_seconds=.01)
+            candidates[label], rows[label], costs[label], errors[label] = candidate, row, resource, {'error': 1e-10}
+            common.write(output / 'rows' / (label + '.json'), row)
+    selected = verify.independent_choices(curves, candidates, errors, costs)
+    common.write(output / 'SELECTIONS.json', selected)
+    common.write(output / 'COMPARISONS.json', study.compare_selections(output, selected))
+    protocol = dict(expected_target_rows=21, expected_comparisons=51)
+    return output, curves, candidates, rows, errors, costs, protocol
+
+
+def test_independent_report_audit_accepts_valid_complete_fixture(decision_fixture):
+    import verify
+    selected, pairs = verify.audit_rows_and_decisions(*decision_fixture)
+    assert len(selected) == 21 and len(pairs) == 51
+
+
+@pytest.mark.parametrize('field', ['resource', 'charge', 'identity', 'floor', 'state_file'])
+def test_independent_report_audit_rejects_wrong_copied_row(decision_fixture, field):
+    import verify
+    output, curves, candidates, rows, errors, costs, protocol = decision_fixture
+    name = 'toy.cubic_JD.b2.rep0.r001'
+    row = copy.deepcopy(rows[name])
+    if field == 'resource':
+        row['compiled_resources']['unit_duration_ASAP_depth'] += 10000
+    elif field == 'charge':
+        row['total_construction_CPU_seconds'] += .5
+    elif field == 'identity':
+        row['method'] = 'first_JD'
+    elif field == 'floor':
+        row['error_at_or_below_numerical_floor'] = True
+    else:
+        row['state_file'] = 'states/another-candidate.npz'
+    rows[name] = row
+    common.write(output / 'rows' / (name + '.json'), row)
+    # Preserve the shared producer error in its derived paired table. A whole-
+    # file hash cannot fix this; the independent metadata/decision oracle must.
+    selected = common.read(output / 'SELECTIONS.json')
+    common.write(output / 'COMPARISONS.json', study.compare_selections(output, selected))
+    with pytest.raises(ValueError, match='Physical row'):
+        verify.audit_rows_and_decisions(*decision_fixture)
+
+
+def test_independent_report_audit_rejects_shared_comparator_bug(decision_fixture, monkeypatch):
+    import verify
+    output = decision_fixture[0]
+    wrong = common.read(output / 'COMPARISONS.json')
+    wrong[0]['two_qubit_gates'] = 'loss' if wrong[0]['two_qubit_gates'] != 'loss' else 'win'
+    common.write(output / 'COMPARISONS.json', wrong)
+    monkeypatch.setattr(study, 'compare_selections', lambda *args: wrong)
+    with pytest.raises(ValueError, match='Paired comparisons'):
+        verify.audit_rows_and_decisions(*decision_fixture)
+
+
+def test_independent_report_audit_does_not_call_producer_comparator(decision_fixture, monkeypatch):
+    import verify
+    def forbidden(*args):
+        raise AssertionError('producer comparator must not decide independent outcomes')
+    monkeypatch.setattr(study, 'compare_selections', forbidden)
+    selected, pairs = verify.audit_rows_and_decisions(*decision_fixture)
+    assert len(selected) == 21 and len(pairs) == 51
+
+
+def test_independent_pairs_retains_unavailable_controls(decision_fixture):
+    import verify
+    selected = common.read(decision_fixture[0] / 'SELECTIONS.json')
+    for choice in selected:
+        if choice['method'] == 'cubic_JD':
+            choice['status'] = 'unmet'
+            choice['selected_candidate'] = None
+    pairs = verify.independent_pairs(selected, decision_fixture[5])
+    unavailable = [row for row in pairs if row['method'] == 'cubic_JD' or row['control'] == 'cubic_JD']
+    assert len(pairs) == 51 and len(unavailable) == 18
+    assert all(row['two_qubit_gates'] == row['unit_duration_ASAP_depth'] == 'unavailable' for row in unavailable)
+
+
+def test_independent_pairs_reads_both_resource_dimensions(decision_fixture):
+    import verify
+    selected = common.read(decision_fixture[0] / 'SELECTIONS.json')
+    costs = copy.deepcopy(decision_fixture[5])
+    costs['toy.cubic_JD.b2.rep0.r001'] = dict(two_qubit_gates=101, unit_duration_ASAP_depth=1)
+    pairs = verify.independent_pairs(selected, costs)
+    direct = [row for row in pairs if (row['method'], row['control']) == ('cubic_JD', 'first_JD')]
+    assert len(direct) == 3
+    assert all(row['two_qubit_gates'] == 'tie' and row['unit_duration_ASAP_depth'] == 'win' for row in direct)
+
+
+
+def test_complete_comparison_groups_retains_all_reference_pairs(decision_fixture):
+    import reporting
+    pairs = common.read(decision_fixture[0] / 'COMPARISONS.json')
+    summary = reporting.all_comparison_groups(pairs)
+    assert summary['comparisons'] == sum(g['paired_observations'] for g in summary['groups']) == 51
+    assert len(summary['groups']) == 51
+    reference = [g for g in summary['groups'] if g['control_cohort'] == 'inherited_reference']
+    assert sum(g['paired_observations'] for g in reference) == 36
+    assert all(sum(g['CX'].values()) == sum(g['depth'].values()) == g['paired_observations']
+               for g in summary['groups'])
+
+
+def test_complete_comparison_groups_rejects_unknown_verdict(decision_fixture):
+    import reporting
+    pairs = common.read(decision_fixture[0] / 'COMPARISONS.json')
+    pairs[0]['two_qubit_gates'] = 'unreviewed'
+    with pytest.raises(ValueError, match='Unknown paired outcome'):
+        reporting.all_comparison_groups(pairs)

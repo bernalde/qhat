@@ -71,3 +71,18 @@ Producer continuation still requires its full original environment identity.
 The relocation regression uses the actual committed payload and rejects Python
 release or NumPy version changes. Scientific data, tolerances and selection rules
 are unchanged by this portability repair.
+
+The original frozen `evidence/report/SUMMARY.json` groups only the 270 matched
+cubic comparisons. All 648 comparisons against inherited strong controls remain
+in `pairs.csv` and `COMPARISONS.json`. The additive
+`all_comparison_groups.json` groups **all 918 comparisons**, with each control's
+cost cohort explicit. Its CI check is mandatory. The original delivery manifest,
+raw rows, binary states, traces and deterministic archive retain their bytes.
+
+The repaired decision checker binds copied row identities, construction charges
+and resources to authenticated candidates and independently audited DAG costs.
+It derives paired outcomes from independent selections and costs, without using
+the producer comparator. Focused tests reproduce and reject corrupted copied
+rows and a comparison bug shared with the producer. The original full numerical
+replay remains a separately identified execution record; post-review checks and
+current-head full CI replay remain distinct.

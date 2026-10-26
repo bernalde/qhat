@@ -1,4 +1,8 @@
-"""Deterministic complete tables from the retained full panel, with all losses."""
+"""Complete raw tables plus explicit grouping scopes, retaining all losses.
+
+The immutable original SUMMARY groups matched cubic contrasts only.
+all_comparison_groups covers every supplied pair, including inherited controls.
+"""
 import argparse
 from collections import Counter
 import csv
@@ -15,6 +19,23 @@ def csv_file(path, fields, rows):
     writer.writeheader()
     writer.writerows(rows)
     path.write_text(stream.getvalue())
+
+
+def all_comparison_groups(pairs):
+    """Group every pair; preserve the inherited controls' separate cost cohort."""
+    grouped = {}
+    for pair in pairs:
+        key = tuple(pair[field] for field in ('target', 'budget', 'method', 'control', 'control_cohort'))
+        group = grouped.setdefault(key, dict(target=key[0], budget=key[1], method=key[2], control=key[3],
+                                            control_cohort=key[4], paired_observations=0, CX=Counter(), depth=Counter()))
+        group['paired_observations'] += 1
+        for source, destination in (('two_qubit_gates', 'CX'), ('unit_duration_ASAP_depth', 'depth')):
+            k.require(pair[source] in ('win', 'tie', 'loss', 'unavailable'), 'Unknown paired outcome')
+            group[destination][pair[source]] += 1
+    groups = [{**group, 'CX': dict(group['CX']), 'depth': dict(group['depth'])}
+              for key, group in sorted(grouped.items())]
+    return dict(scope='All pairwise comparisons,including inherited strong controls outside matched CPU',
+                comparisons=len(pairs), groups=groups)
 
 
 def report(output, destination):
@@ -60,6 +81,8 @@ def report(output, destination):
     csv_file(destination / 'pairs.csv', ['case', 'budget', 'repetition', 'target', 'method', 'control',
              'control_cohort', 'method_status', 'control_status', 'two_qubit_gates', 'unit_duration_ASAP_depth',
              'method_selected', 'control_selected'], pairs)
+    # Preserve the original report schema: these groups cover matched cubic
+    # contrasts only; all_comparison_groups supplies all inherited controls too.
     groups = []
     for target in k.TARGETS:
         for budget in k.BUDGETS:
@@ -105,6 +128,14 @@ def report(output, destination):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
-    parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--report', type=Path)
+    parser.add_argument('--check-all-comparison-groups', type=Path)
     args = parser.parse_args()
-    report(args.output.resolve(), args.report.resolve())
+    if args.check_all_comparison_groups is not None:
+        k.require(args.report is None, 'Choose report generation or complete-group checking')
+        expected = all_comparison_groups(k.read(args.output.resolve() / 'COMPARISONS.json'))
+        k.require(k.read(args.check_all_comparison_groups.resolve()) == expected, 'Complete comparison groups differ')
+        print('ALL_COMPARISON_GROUPS_PASSED', expected['comparisons'], len(expected['groups']), flush=True)
+    else:
+        k.require(args.report is not None, 'Report destination required')
+        report(args.output.resolve(), args.report.resolve())

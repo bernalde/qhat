@@ -140,6 +140,82 @@ def independent_choices(curves, candidates, errors, costs):
     return choices
 
 
+def independent_pairs(selected, costs):
+    """Apply the declared comparator graph to independent selections/DAG costs."""
+    def key(row):
+        return row['case'], row['target'], row['budget'], row['repetition'], row['method']
+    indexed = {key(row): row for row in selected}
+    k.require(len(indexed) == len(selected), 'Duplicate independent target identity')
+    controls = {
+        'first_JD': tuple(k.REFERENCE_ARMS),
+        'pauli_JD': tuple(k.REFERENCE_ARMS),
+        'cubic_JD': (*k.REFERENCE_ARMS, 'first_JD', 'pauli_JD'),
+        'cubic_warm_JD': (*k.REFERENCE_ARMS, 'first_JD', 'pauli_JD', 'cubic_JD'),
+    }
+    pairs = []
+    for left in selected:
+        if left['cohort'] != 'matched':
+            continue
+        k.require(left['method'] in controls, 'Unknown independent matched method')
+        for control in controls[left['method']]:
+            inherited = control in k.REFERENCE_ARMS
+            right_key = (left['case'], left['target'], None if inherited else left['budget'],
+                         0 if inherited else left['repetition'], control)
+            k.require(right_key in indexed, 'Independent control target missing')
+            right = indexed[right_key]
+            k.require(right['cohort'] == ('inherited_reference' if inherited else 'matched'),
+                      'Independent control cohort differs')
+            pair = dict(case=left['case'], budget=left['budget'], repetition=left['repetition'],
+                        target=left['target'], method=left['method'], control=control,
+                        control_cohort=right['cohort'], method_status=left['status'],
+                        control_status=right['status'])
+            if left['status'] == right['status'] == 'met':
+                a, b = costs[left['selected_candidate']], costs[right['selected_candidate']]
+                for field in ('two_qubit_gates', 'unit_duration_ASAP_depth'):
+                    pair[field] = 'win' if a[field] < b[field] else 'tie' if a[field] == b[field] else 'loss'
+                pair.update(method_selected=left['selected_candidate'], control_selected=right['selected_candidate'])
+            else:
+                pair.update(two_qubit_gates='unavailable', unit_duration_ASAP_depth='unavailable')
+            pairs.append(pair)
+    return pairs
+
+
+def audit_rows_and_decisions(output, curves, candidates, rows, errors, costs, protocol):
+    """Bind reported copies, then decide with independent errors and DAG costs.
+
+    The caller supplies costs audited from primitive traces and errors from the
+    literal propagator. This function does not itself replay physical states.
+    """
+    copied = ('candidate', 'curve', 'case', 'method', 'cohort', 'repetition', 'steps',
+              'ordering_CPU_charge', 'compilation_CPU_seconds', 'total_construction_CPU_seconds',
+              'total_CPU_budget', 'eligible', 'CPU_overrun_seconds')
+    complete = {name for name, candidate in candidates.items() if candidate['status'] == 'complete'}
+    k.require(set(rows) == set(errors) == set(costs) == complete, 'Independent report row coverage differs')
+    for name, row in rows.items():
+        candidate = candidates[name]
+        curve = curves[candidate['curve']]
+        k.require(candidate['candidate'] == name and all(candidate[field] == curve[field] for field in
+                  ('case', 'method', 'cohort', 'repetition')), 'Candidate reporting identity differs')
+        k.require(curve['cohort'] == ('inherited_reference' if curve['total_budget'] is None else 'matched'),
+                  'Curve reporting cohort differs')
+        k.require(all(row[field] == candidate[field] for field in copied),
+                  'Physical row identity/construction differs')
+        k.require(row['compiled_resources'] == candidate['compiled_resources'] == costs[name],
+                  'Physical row resources differ from independent DAG counts')
+        k.require(row['state_file'] == 'states/' + name + '.npz', 'Physical row state identity differs')
+        k.require(row['error_at_or_below_numerical_floor'] == (row['error'] <= 2e-12),
+                  'Physical row numerical-floor label differs')
+        k.require(all(math.isfinite(row[field]) and row[field] >= 0 for field in
+                  ('reference_CPU_seconds', 'compiled_replay_CPU_seconds')), 'Invalid physical row CPU charge')
+    independent = independent_choices(curves, candidates, errors, costs)
+    k.require(len(independent) == protocol['expected_target_rows'] and
+              independent == k.read(output / 'SELECTIONS.json'), 'Independent target selection differs')
+    pairs = independent_pairs(independent, costs)
+    k.require(len(pairs) == protocol['expected_comparisons'] and pairs == k.read(output / 'COMPARISONS.json'),
+              'Paired comparisons differ')
+    return independent, pairs
+
+
 def verify(output, receipt_dir=None, progress_dir=None):
     receipt = output if receipt_dir is None else receipt_dir
     if receipt_dir is None:
@@ -285,11 +361,8 @@ def verify(output, receipt_dir=None, progress_dir=None):
     expected_candidates = {name + '.r' + format(r, '03d') for name in expected_names for r in k.GRID}
     k.require(set(candidates) == expected_candidates and len(candidates) == protocol['expected_candidates'], 'Grid cohort differs')
     k.require(set(rows) == set(errors) and len(rows) == frozen['complete'], 'Physical row cohort differs')
-    independent = independent_choices(curves, candidates, errors, costs)
-    k.require(independent == k.read(output / 'SELECTIONS.json'), 'Independent target selection differs')
-    comparisons = study.compare_selections(output, independent)
-    k.require(comparisons == k.read(output / 'COMPARISONS.json') and len(comparisons) == protocol['expected_comparisons'],
-              'Paired comparisons differ')
+    independent, comparisons = audit_rows_and_decisions(
+        output, curves, candidates, rows, errors, costs, protocol)
     report = dict(status='passed', curves=len(curves), candidates=len(candidates), complete=len(rows),
                   censored=frozen['censored'], target_rows=len(independent), comparisons=len(comparisons),
                   objective_records=objective_count, max_state_difference=max_state, max_metric_difference=max_metric,
