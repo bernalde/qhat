@@ -174,8 +174,9 @@ def constructor(reference, specification, *, warmup=False):
     if method == 'current':
         k.require(k.sha(model_path) == digest, 'Current-placement model changed')
         model = read(model_path)
-        order = training.current_order(model)
-        result = dict(record=training.layout(model, order, 'conserving'), training_time=1.,
+        placed = training.current_construction(model)
+        order = placed['order']
+        result = dict(record=training.layout(model, order, 'conserving'), current_placement=placed, training_time=1.,
                       reference_preparation_CPU_charge=charge, phases={}, scope='Legacy fixed-T1 HF placement')
         del model, order
     elif method == 'cubic_JD':

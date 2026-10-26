@@ -162,3 +162,13 @@ warmups and stage-specific feasibility rules. These new full-study pools do not
 reset any completed chemistry/reference/test allowance. The implementation is
 unexecuted and requires its queued checks, reviewed dependency and complete
 representative preflight before main validation.
+
+The legacy initializer now retains its existing slot scores, tie choices and
+move history instead of discarding them after obtaining the order. Its algorithm,
+priorities, fixed T1 sinc weights and outputs are unchanged. This adds independent
+checkability before transfer errors: a separate literal-matrix checker enumerates
+every placement slot with exact integer BCH columns and the pinned binary64 weight
+policy. First/cubic warm constructors retain those same initializer records.
+The independent generalized objectives use sparse nested commutators and complex
+column transport, without importing producer features or search/placement helpers.
+All additional checks remain queued; this is not a new validation outcome.

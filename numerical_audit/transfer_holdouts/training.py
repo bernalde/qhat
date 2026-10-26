@@ -52,14 +52,20 @@ class FirstOrderContext:
         return dict(order=list(order), JD1=value, score=value / steps**2, steps=steps)
 
 
-def current_order(model):
+def current_construction(model):
     blocks = validate(model)
     diagonal = sorted((i for i, b in enumerate(blocks) if k.engine.descriptor(b)[0] == 0),
                       key=lambda i: (-abs(next(iter(blocks[i].values()))), next(iter(blocks[i]))))
     off = sorted((i for i, b in enumerate(blocks) if k.engine.descriptor(b)[0]),
                  key=lambda i: (-sum(abs(c) for c in blocks[i].values()), k.engine.descriptor(blocks[i])[0]))
-    return placement.current_placement(blocks, diagonal, off, (1 << model['electrons']) - 1,
-                                       int(model['denominator']))['order']
+    result = placement.current_placement(blocks, diagonal, off, (1 << model['electrons']) - 1,
+                                         int(model['denominator']))
+    result.update(diagonal_priority=diagonal, off_priority=off)
+    return result
+
+
+def current_order(model):
+    return current_construction(model)['order']
 
 
 def layout(model, order, partition):
@@ -79,7 +85,8 @@ def _first(model_path, digest, psi, partition):
     k.require(k.sha(model_path) == digest, 'Training model changed')
     model = k.read(model_path)
     validate(model)
-    current = current_order(model)
+    placed = current_construction(model)
+    current = placed['order']
     phases['input_and_current_placement_CPU_seconds'] = time.process_time() - cpu
     cpu = time.process_time()
     context = FirstOrderContext(model, psi, partition)
@@ -111,7 +118,7 @@ def _first(model_path, digest, psi, partition):
     return dict(record=record, seeds=seeds, result=result, phases=phases,
                 training_time=k.TRAIN_TIME, legacy_placement_initializer_time=1.,
                 nominal_search_CPU_seconds=allowance, search_evaluation_cap=evaluations,
-                max_moves=moves, current_order=current)
+                max_moves=moves, current_order=current, current_placement=placed)
 
 
 def first(model_path, digest, psi, partition, reference_CPU_charge=0.):
