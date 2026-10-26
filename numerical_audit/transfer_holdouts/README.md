@@ -65,4 +65,5 @@ handoff, separate eligible merges/actual CI and paper checks remain required.
 The maintained reference auditor subsequently adds archive/header bounds before
 NumPy allocation; the original producer, full-audit snapshots and frozen outputs
 remain unchanged. See `CHECKS.md` and `ARCHIVE_GUARD_CHECKS.json` for the repair,
-regression evidence and remaining independent-review/reference-audit gates.
+regression evidence, successful affected reference replays and remaining
+independent-review gates.

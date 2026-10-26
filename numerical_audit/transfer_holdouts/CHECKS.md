@@ -35,6 +35,10 @@ streams fixed-size blocks. The original study, snapshots and archive are intact.
 A safe reproduction retained one passing valid control and ten failing malformed
 archive cases; allocation spies prevented oversized loads. All 24 repaired
 archive regressions and the complete 129-check source suite pass. The original
-paired review is still incomplete; the repair needs independent review and a
-fresh affected reference audit. `ARCHIVE_GUARD_CHECKS.json` records exact source
+paired review is still incomplete; the repair needs independent review. Fresh
+affected audits of both the original and extracted reference datasets passed
+all six molecular inputs and 30 states each, preserving every input byte and
+reproducing the original full audit's labels byte for byte. The complete Git
+payload, archive and maintained source were authenticated at the executed
+repair commit; see `ARCHIVE_GUARD_REPLAY.json`. `ARCHIVE_GUARD_CHECKS.json` records exact source
 hashes and check counts without treating those pending gates as completed.
