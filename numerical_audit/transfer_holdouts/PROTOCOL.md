@@ -143,10 +143,11 @@ and explain every change before making the prospective-transfer claim.
 
 The [circuit and accounting addendum](CIRCUIT_POLICY.md) fixes HF preparation
 versus external-state resource scopes before any transfer validation errors.
-The new adapter and independent initial-state replay are implemented but their
-additional toy checks are pending the current serialized worker. The original
-19 checks remain historical evidence for the unchanged response/state/training
-source; they do not validate the newly added circuit code.
+The new adapter and independent initial-state replay are implemented; their
+additional toy checks now pass in the complete [78-check suite](CHECKS.md).
+The original 19 pre-exposure checks remain historical evidence for the earlier
+response/state/training source. The current suite also covers initializer-trace
+retention and the new circuit/runner code.
 
 The circuit addendum now fixes every logical identity and exact-sharing key:
 all 1440 logical circuits remain, with 1332 unique complete-circuit candidates
@@ -171,4 +172,13 @@ every placement slot with exact integer BCH columns and the pinned binary64 weig
 policy. First/cubic warm constructors retain those same initializer records.
 The independent generalized objectives use sparse nested commutators and complex
 column transport, without importing producer features or search/placement helpers.
-All additional checks remain queued; this is not a new validation outcome.
+The additional source checks passed in the complete suite; the real transfer
+panel and its full representative preflight remain unexecuted.
+
+Current implementation verification: all 78 checks passed at
+`7b99593eb95e86ef3ea40a6c8621d6f34c08823f`.
+This includes the unchanged legacy algorithm's complete retained decisions and
+all new producer/plan/allocation/accounting/circuit/coherent-objective checks.
+No full transfer preflight, new holdout error, independent panel audit or paired
+source review is implied. Subsequent status-document changes do not alter the
+executed Python sources; the exact tested commit remains retained in CHECKS.md.

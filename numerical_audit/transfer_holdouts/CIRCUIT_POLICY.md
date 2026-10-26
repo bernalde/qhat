@@ -66,11 +66,11 @@ coherent states, both formula orders and orientations, preparation declarations,
 actual number leakage, maximal affordability, serialization timing, censored
 traces, input/layout substitution and allocation guards.
 
-The circuit adapter and its new checks are initially unexecuted. They must pass
-within the existing cumulative 120-CPU-second/900-wall-second unit-check pool
-after the running issue #16 worker finishes. Full search/evolution/compilation
-preflight and main budgets must be committed before those separate phases run;
-the completed chemistry/reference preflights do not stand in for them.
+The complete [78-check source suite](CHECKS.md) now passes within the unchanged
+cumulative 120-CPU-second/900-wall-second unit-check pool. The full transfer study
+and its representative preflight remain unexecuted. Their finite budgets are
+committed in [EXECUTION_PROTOCOL.md](EXECUTION_PROTOCOL.md). The completed
+chemistry/reference preflights do not stand in for the full circuit path.
 
 ## Complete panel and exact work sharing
 
