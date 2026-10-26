@@ -6,8 +6,9 @@ physical-metric, target-selection, archive/extraction and byte checks. All 81
 orders, 1,296 candidates, 1,281 complete circuits, 15 censored prefixes, 243 target
 rows and 918 paired comparisons remain retained. All 243 targets were met,
 including all 216 matched-cap target rows. Seventy complete construction overruns
-are retained and excluded from matched-cap selection. Source review, Git delivery,
-paper integration, publication and merge CI are still pending.
+are retained and excluded from matched-cap selection. All 5,542 delivered files, including binary states and compressed traces, pass
+staged Git blob checks. The original deterministic archive is retained unchanged.
+Source review, paper integration, publication and merge CI are still pending.
 
 At each target/cap, counts below compare cubic-trained symmetric ordering with
 first-order-trained symmetric ordering. Each cell has nine paired observations:
@@ -43,3 +44,22 @@ The successful independent replay/delivery used 1,312.87 CPU seconds and
 5,253.929 wall seconds. The preceding syntax-only wrapper failure remains
 retained and conservatively charged separately; no measured circuit was rerun.
 The original 3,600-CPU-second ceilings for those phases were unchanged.
+
+The complete payload is under [evidence/](evidence/); its report includes every
+candidate, target and pair. `delivery.tar.gz` has the identical inner payload
+under its original `delivery/` root. `delivery_verification.json`,
+`source_provenance.json`, `preflight_execution.json`, `execution_resources.json`
+and `packaging_resources.json` record source identity, preflight feasibility,
+the approved preflight extension and failed/successful attempt accounting.
+The resource ledger states its cutoff explicitly; later work remains in the
+campaign ledger. Original reviewer reports remain private workflow evidence.
+
+With the pinned environment, check the exact committed delivery:
+
+```sh
+python numerical_audit/practical_accuracy/delivery.py check \
+  --delivery numerical_audit/practical_accuracy/evidence --git-commit HEAD
+```
+
+The CI workflow additionally reruns the complete independent numerical checker
+in a fresh output copy. Paper evidence depends on the actual numerical merge.
