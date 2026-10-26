@@ -76,6 +76,7 @@ prototype policy measurements, not hardware execution time.
 ## Execution state
 
 This is a prospective panel/implementation protocol. All six chemistry inputs have now been generated with the frozen registry.
+All 30 reference states have independently verified sector, phase and RDM labels.
 Reference-state preparation and the full circuit panel remain distinct phases. Full search-control allowances, full-path preflight
 budgets, training/compilation source identities and main resource ceilings must
 be frozen before their respective executions. The numerical memory profile stays
@@ -139,3 +140,10 @@ independent mathematical/verification basis and preserve all declared losses
 and controls;no favorable physical error selects a replacement input or arm.
 Final source review must compare the executed adapters with that frozen source
 and explain every change before making the prospective-transfer claim.
+
+The [circuit and accounting addendum](CIRCUIT_POLICY.md) fixes HF preparation
+versus external-state resource scopes before any transfer validation errors.
+The new adapter and independent initial-state replay are implemented but their
+additional toy checks are pending the current serialized worker. The original
+19 checks remain historical evidence for the unchanged response/state/training
+source; they do not validate the newly added circuit code.

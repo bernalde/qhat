@@ -77,7 +77,7 @@ def source_paths():
     own = [p for p in HERE.iterdir() if p.suffix in ('.py', '.md', '.json')]
     deps = [AUDIT / name for name in ('state_holdouts/response.py', 'prospective_reference/engine.py',
                                      'symmetric_response/cubic.py', 'prospective_reference/one_pass.py',
-                                     'prospective_reference/campaign.py')]
+                                     'prospective_reference/campaign.py', 'compiled_accuracy/compiler.py')]
     return sorted(own + deps)
 
 
