@@ -130,3 +130,18 @@ def test_layout_coefficient_substitution_rejected_before_circuit_audit():
     record['schedule'][0][1] = '999'
     with pytest.raises(ValueError, match='Frozen layout differs'):
         audit.layout(model, record, 'conserving')
+
+
+@pytest.mark.parametrize('status', ['complete', 'censored'])
+def test_candidate_progress_keeps_verification_and_physical_status_separate(tmp_path, status):
+    physical = dict(status=status)
+    if status == 'complete':
+        physical.update(error=.1, infidelity=.19, norm=1., number_leakage=0., joint_sector_leakage=0.)
+    original = copy.deepcopy(physical)
+    audit.write_candidate_progress(tmp_path, 'candidate', physical)
+    progress = audit.read(tmp_path / 'progress/candidates/candidate.json')
+    assert progress['status'] == 'passed'
+    assert progress['physical'] == original
+    assert physical == original
+    other = dict(status='complete', error=.2)
+    assert audit.decision(physical, other)['decision'] == ('a' if status == 'complete' else 'unavailable')

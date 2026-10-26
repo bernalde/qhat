@@ -311,6 +311,13 @@ def decision(a, b):
                 a_error=x, b_error=y, a_minus_b=x - y, both_at_floor=floor)
 
 
+
+def write_candidate_progress(receipt, name, physical):
+    # Verification outcome and physical completion/censoring are separate.
+    write(Path(receipt) / 'progress/candidates' / (name + '.json'),
+          dict(status='passed', physical=dict(physical)))
+
+
 def verify(output, receipt_dir):
     output, receipt = Path(output), Path(receipt_dir)
     require(not receipt.exists() and not receipt.resolve().is_relative_to(output.resolve()),
@@ -478,7 +485,7 @@ def verify(output, receipt_dir):
             errors[name] = dict(status='censored')
             counts['censored'] += 1
         physical[name] = stored
-        write(receipt / 'progress/candidates' / (name + '.json'), dict(status='passed', **errors[name]))
+        write_candidate_progress(receipt, name, errors[name])
     for case in cases:
         for label in STATES:
             for ti, T in enumerate(times):
