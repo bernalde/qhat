@@ -34,7 +34,7 @@ jobs:
       NUMBA_NUM_THREADS: '1'
       NUMEXPR_NUM_THREADS: '1'
       PYTHONDONTWRITEBYTECODE: '1'
-      NUMBA_CACHE_DIR: ${{ runner.temp }}/transfer-numba
+      NUMBA_CACHE_DIR: /tmp/transfer-numba
     steps:
       - name: Git support for complete source and payload authentication
         run: |
