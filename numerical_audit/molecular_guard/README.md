@@ -10,9 +10,11 @@ grid from 1/64 downward. See [the complete report](evidence/report/README.md).
 The protocol and both orders were frozen before errors. All payload bytes,
 archive extraction and staged Git blobs were checked. Input provenance is
 explicitly developmental until the actual issue #17 merge. Paired Astra/Argon
-source reviews, publication and merge CI remain pending. The separate generic
-Lean modules passed their kernel/axiom preflight; the fresh full-root audit
-remains pending. These generic proofs do not instantiate the molecular certificate.
+source reviews, publication and merge CI remain pending. The separate generic Lean
+modules passed a fresh full-root build of 80 modules and audit of all 2,527
+project constants, including 20 new public endpoints. Their exact source and
+hypotheses are retained with the paper proof inventory. Independent semantic
+assessment remains required; these generic proofs do not instantiate the molecular certificate.
 
 `exact.py` checks every complete unit on every full-space occupation column
 before restricting to a conserved spin sector. It reconstructs exact rational
@@ -55,3 +57,11 @@ hand-computable commutators, matrix polynomials with rational coefficients,
 chronological conventions with independent SciPy propagation, and scalar
 intervals with independent high-precision series. These software tests do not
 establish a Lean molecular proof.
+
+
+Report replays may execute at a later commit. The reporter authenticates both
+verifier files against their executed Git revision and the maintained source,
+then requires those source hashes to agree across reports. Only execution
+revision fields may differ: all scientific tables, producer identity, reporting
+source hash, resource snapshot and exact molecular input merge stay bound.
+The original development report is retained when the merged input pin is added.

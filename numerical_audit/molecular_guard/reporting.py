@@ -228,6 +228,25 @@ def dependency_record(path, model_sha, *, allow_development=False):
     return dict(record,offline_check='Exact Git model bytes and branch ancestry;live remote merge status established separately')
 
 
+def trusted_verifier_sources(delivery):
+    """Bind an executed audit revision to exact live and committed verifier bytes."""
+    record = read(delivery/'TRUSTED_VERIFIER_SOURCES.json')
+    delivered = read(delivery/'DELIVERY_VERIFIED.json')
+    names = {'numerical_audit/molecular_guard/delivery.py',
+             'numerical_audit/molecular_guard/independent.py'}
+    require(record.get('head') == delivered.get('trusted_checker_head') and
+            set(record.get('sha256',{})) == names, 'Verifier source binding is incomplete')
+    commit = record['head']
+    require(isinstance(commit,str) and len(commit) == 40 and
+            all(c in '0123456789abcdef' for c in commit), 'Verifier source binding revision is invalid')
+    for name,digest in record['sha256'].items():
+        require(sha(ROOT/name) == digest, 'Verifier source binding differs from maintained source: '+name)
+        blob = subprocess.check_output(['git','-C',str(ROOT),'show',commit+':'+name])
+        require(hashlib.sha256(blob).hexdigest() == digest,
+                'Verifier source binding differs from executed revision: '+name)
+    return record['sha256']
+
+
 def compare_reports(kept, replayed):
     for folder in (kept,replayed):
         manifest = read(folder/'REPORT_MANIFEST.json')
@@ -239,10 +258,18 @@ def compare_reports(kept, replayed):
                  'EXECUTION_RESOURCES_BEFORE_REPORT.json'):
         require((kept/name).read_bytes() == (replayed/name).read_bytes(),'Report replay differs: '+name)
     a,b = read(kept/'SUMMARY.json'),read(replayed/'SUMMARY.json')
-    # The producer/verifier input identities and reporter code hash stay exact;
-    # only the checkout's current commit advances during delivery/publication.
+    # Execution revisions advance during publication/replay. Their independently
+    # authenticated source hashes, all scientific data, and the input merge stay exact.
+    names = {'numerical_audit/molecular_guard/delivery.py',
+             'numerical_audit/molecular_guard/independent.py'}
     for row in (a,b):
-        row['source_provenance'].pop('reporter')
+        provenance = row['source_provenance']
+        binding = provenance.get('verifier_sha256',{})
+        require(set(binding) == names and all(isinstance(v,str) and len(v) == 64 and
+                all(c in '0123456789abcdef' for c in v) for v in binding.values()),
+                'Verifier source binding is incomplete')
+        provenance.pop('reporter')
+        provenance.pop('verifier')
     require(a == b,'Scientific/provenance report replay differs')
 
 
@@ -252,6 +279,7 @@ def build(producer, delivery, output, resources, dependency_path=None, *, allow_
     require(subprocess.check_output(['git','-C',str(ROOT),'show',head+':'+str(Path(__file__).relative_to(ROOT))])
             == Path(__file__).read_bytes(),'Commit reporting source before report generation')
     frozen,complete,audit,delivered = authenticated_inputs(producer,delivery)
+    verifier_sources = trusted_verifier_sources(delivery)
     resource_record = read(resources)
     validate_resources(resource_record)
     require(resource_record['phases']['main']['attempts'] and resource_record['phases']['independent']['attempts'],
@@ -264,7 +292,7 @@ def build(producer, delivery, output, resources, dependency_path=None, *, allow_
     finite_counts = dict(Counter(x['strict_smaller_error'] for x in pairs))
     physical_counts = dict(Counter(x['strict_smaller_error'] for x in pairs if x['epsilon']=='1'))
     guard_counts = dict(Counter(x['strict_smaller_response'] for x in guards))
-    summary = dict(status='independent_software_intervals_verified_reviews_and_merged_dependencies_pending',
+    summary = dict(status='independent_software_intervals_verified',
         case='LiH_r1p713',time='3/5',state='HF',spin_modes=6,active_electrons=2,
         full_space_dimension=64,verified_invariant_sector_dimension=9,
         circuits=132,reference_evolutions=11,finite_comparisons=66,
@@ -273,14 +301,14 @@ def build(producer, delivery, output, resources, dependency_path=None, *, allow_
         sufficient_positive_epsilon_domain=domain,
         orders=frozen['orders'],response_constants={label:dict(a=leading[label]['a'],C=leading[label]['C']) for label in LABELS},
         source_provenance=dict(producer=frozen['source_commit'],verifier=delivered['trusted_checker_head'],
-                               reporter=head,reporter_sha256=sha(Path(__file__)),model_sha256=frozen['model_sha256']),
+                               reporter=head,reporter_sha256=sha(Path(__file__)),verifier_sha256=verifier_sources,model_sha256=frozen['model_sha256']),
         input_dependency=dependency,
         formal_scope='Exact/rational software certificate;no concrete Lean instantiation or full numerical-search proof',
         limits=['One fixed active-space input,HF state,time and two predeclared first-order schedules.',
                 'Physical leading-response guard and actual finite-step error rankings are separate conclusions.',
                 'Squared infidelity values differ from1-abs(overlap),although their strict rankings agree.',
                 'No SCF/integral/basis-set error bound,global optimality,conservation-only mechanism orhardware advantage.',
-                'Requested independent Astra/Argon source reviews and actual merged input provenance remain pending.'])
+                'Source reviews,live merged-input checks and publication/merge status are recorded separately;software intervals do not establish these gates.'])
     output.mkdir(parents=True)
     write_csv(output/'all_finite_intervals.csv',errors)
     write_csv(output/'finite_comparisons.csv',pairs)

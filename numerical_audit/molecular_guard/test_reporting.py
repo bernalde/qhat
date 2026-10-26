@@ -104,3 +104,77 @@ def test_resource_ledger_refuses_changed_ceiling_and_tampered_receipt():
     record['receipts']['test.resources.json']['text'] += ' '
     with pytest.raises(ValueError,match='hash differs'):
         validate_resources(record)
+
+
+def report_pair_fixture(tmp_path):
+    import hashlib,json
+    roots = tmp_path/'kept',tmp_path/'replayed'
+    for folder,head in zip(roots,('a'*40,'b'*40)):
+        folder.mkdir()
+        for name in ('all_finite_intervals.csv','finite_comparisons.csv','response_guards.csv'):
+            (folder/name).write_text('error\n1/7\n')
+        (folder/'README.md').write_text('Same fixed panel and conclusions.\n')
+        (folder/'EXECUTION_RESOURCES_BEFORE_REPORT.json').write_text('{}\n')
+        summary = dict(circuits=132,input_dependency=dict(merge_sha='c'*40),
+            source_provenance=dict(producer='d'*40,verifier=head,reporter=head,
+                reporter_sha256='e'*64,verifier_sha256={
+                    'numerical_audit/molecular_guard/delivery.py':'f'*64,
+                    'numerical_audit/molecular_guard/independent.py':'0'*64}))
+        (folder/'SUMMARY.json').write_text(json.dumps(summary))
+        manifest = {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in folder.iterdir()}
+        (folder/'REPORT_MANIFEST.json').write_text(json.dumps(manifest))
+    return roots
+
+
+def replace_summary(folder, mutate):
+    import hashlib,json
+    path = folder/'SUMMARY.json'; row = json.loads(path.read_text()); mutate(row)
+    path.write_text(json.dumps(row))
+    manifest = folder/'REPORT_MANIFEST.json'; value = json.loads(manifest.read_text())
+    value['SUMMARY.json'] = hashlib.sha256(path.read_bytes()).hexdigest()
+    manifest.write_text(json.dumps(value))
+
+
+def test_replay_accepts_new_execution_commits_with_identical_verified_sources(tmp_path):
+    from reporting import compare_reports
+    kept,replayed = report_pair_fixture(tmp_path)
+    compare_reports(kept,replayed)
+
+
+def test_replay_rejects_different_verifier_sources_despite_same_tables(tmp_path):
+    from reporting import compare_reports
+    kept,replayed = report_pair_fixture(tmp_path)
+    replace_summary(replayed,lambda row:row['source_provenance']['verifier_sha256'].update(
+        {'numerical_audit/molecular_guard/independent.py':'1'*64}))
+    with pytest.raises(ValueError,match='provenance report replay differs'):
+        compare_reports(kept,replayed)
+
+
+def test_replay_rejects_unbound_verifier_sources(tmp_path):
+    from reporting import compare_reports
+    kept,replayed = report_pair_fixture(tmp_path)
+    replace_summary(replayed,lambda row:row['source_provenance'].pop('verifier_sha256'))
+    with pytest.raises(ValueError,match='Verifier source binding'):
+        compare_reports(kept,replayed)
+
+
+def test_replay_keeps_actual_input_merge_exact(tmp_path):
+    from reporting import compare_reports
+    kept,replayed = report_pair_fixture(tmp_path)
+    replace_summary(replayed,lambda row:row['input_dependency'].update(merge_sha='9'*40))
+    with pytest.raises(ValueError,match='provenance report replay differs'):
+        compare_reports(kept,replayed)
+
+
+def test_report_verifier_binding_rejects_forged_source_hash(tmp_path):
+    import json,shutil
+    from reporting import trusted_verifier_sources
+    original = Path(__file__).resolve().parent/'evidence/verification'
+    for name in ('TRUSTED_VERIFIER_SOURCES.json','DELIVERY_VERIFIED.json'):
+        shutil.copyfile(original/name,tmp_path/name)
+    expected = json.loads((original/'TRUSTED_VERIFIER_SOURCES.json').read_text())
+    assert trusted_verifier_sources(tmp_path) == expected['sha256']
+    expected['sha256']['numerical_audit/molecular_guard/independent.py'] = '0'*64
+    (tmp_path/'TRUSTED_VERIFIER_SOURCES.json').write_text(json.dumps(expected))
+    with pytest.raises(ValueError,match='Verifier source binding'):
+        trusted_verifier_sources(tmp_path)
