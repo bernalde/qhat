@@ -71,3 +71,27 @@ within the existing cumulative 120-CPU-second/900-wall-second unit-check pool
 after the running issue #16 worker finishes. Full search/evolution/compilation
 preflight and main budgets must be committed before those separate phases run;
 the completed chemistry/reference preflights do not stand in for them.
+
+## Complete panel and exact work sharing
+
+`panel.py` fixes all logical identities without searching or propagating. The
+main panel retains all 1,440 logical circuits. Exact HF-role and formula sharing
+requires 96 outer training constructors and 1,332 unique circuit candidates,
+with 90 full-H reference evolutions. A complete cubic constructor still includes
+its own fresh first-order warm constructor; it is not replaced by another
+arm's measured order. Shared work does not remove logical observations.
+
+Every arm pair within each fixed molecule/state/time/cap setting is retained:
+28 pairs per setting and 5,040 main comparisons. Floor labels retain the original
+1e-12 error threshold. An absolute difference at or below 2e-12 is labelled a
+numerical tie; raw errors and differences remain available. A pair with both
+errors at the floor is retained as uninformative; a censored circuit yields an
+unavailable pair. Neither case becomes a win or is removed from its denominator.
+These rules are fixed before any transfer validation error.
+
+The distinct LiH1.841 full-path preflight uses all five states, eight arms and
+both caps at the largest declared time, 2.73. It has 16 outer constructors,
+74 unique circuit candidates, 80 logical observations, five reference evolutions
+and 280 within-setting comparisons. Its geometry remains excluded from the main
+panel. This specifies the representative path, not a claim that it has run or
+that its finite execution budgets and feasibility checks are already complete.

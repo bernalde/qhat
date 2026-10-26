@@ -147,3 +147,18 @@ The new adapter and independent initial-state replay are implemented but their
 additional toy checks are pending the current serialized worker. The original
 19 checks remain historical evidence for the unchanged response/state/training
 source; they do not validate the newly added circuit code.
+
+The circuit addendum now fixes every logical identity and exact-sharing key:
+all 1440 logical circuits remain, with 1332 unique complete-circuit candidates
+and 96 outer training constructors before any censors. Ninety exact reference
+evolutions and all 5040 within-setting arm pairs are planned. The separate
+LiH1.841 full-path preflight retains all states/controls at T2.73 and both caps.
+These counts describe the implemented plan; full-path execution, feasibility,
+independent replay and the reviewed practical dependency remain pending.
+
+The [full execution protocol](EXECUTION_PROTOCOL.md) prospectively fixes the
+complete runner, initial full-study phase ceilings, paired-review interface gate,
+warmups and stage-specific feasibility rules. These new full-study pools do not
+reset any completed chemistry/reference/test allowance. The implementation is
+unexecuted and requires its queued checks, reviewed dependency and complete
+representative preflight before main validation.
