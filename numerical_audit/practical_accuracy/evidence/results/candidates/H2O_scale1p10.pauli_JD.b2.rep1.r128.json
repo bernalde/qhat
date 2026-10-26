@@ -1,0 +1,56 @@
+{
+  "status": "censored",
+  "reason": "Total CPU remainder exhausted during lowering",
+  "identity": {
+    "candidate": "H2O_scale1p10.pauli_JD.b2.rep1.r128",
+    "curve": "H2O_scale1p10.pauli_JD.b2.rep1",
+    "case": "H2O_scale1p10",
+    "method": "pauli_JD",
+    "steps": 128,
+    "T": 2.11,
+    "formula": 2,
+    "model_sha256": "2a087983188e574534334b2cd1d0d9d518ab91abd679c5119eba734c36e4d10c",
+    "curve_sha256": "39a0cb23a610b512eb52d4a3aec59fe9844cd82b38f6076d7d206146ee3ce370",
+    "protocol_sha256": "006b548bc22e7c5f7a18752c119841a974a355822dc6f0f59df5d8d821c65b4f",
+    "compilation_status": "censored"
+  },
+  "compiled_resources": null,
+  "partial_compiled_resources": {
+    "gates": 463820,
+    "single_qubit_gates": 111326,
+    "two_qubit_gates": 352494,
+    "unit_duration_ASAP_depth": 362755,
+    "CX_dependency_depth": 331777
+  },
+  "generated": 531296,
+  "completed_ideal_rotations": 20524,
+  "lowering_CPU_seconds": 1.0963375840000253,
+  "counting_CPU_seconds": 0.17450303000009626,
+  "trace_sha256": "eedd816c51904ce3fa969dd7b527ff005f7837ff3b0bcade10110ab371ddbf7a",
+  "trace_bytes": 227424,
+  "serialization": {
+    "CPU_seconds": 1.114933740999959,
+    "wall_seconds": 4.4858205990167335
+  },
+  "hashing": {
+    "CPU_seconds": 0.0005575899999712419,
+    "wall_seconds": 0.0005724589864257723
+  },
+  "compilation_CPU_seconds": 2.401942833000021,
+  "compilation_wall_seconds": 9.676056010997854,
+  "ordering_CPU_charge": 0.9283680529999998,
+  "total_construction_CPU_seconds": 3.330310886000021,
+  "total_CPU_budget": 2.0,
+  "CPU_overrun_seconds": 1.3303108860000208,
+  "within_total_CPU_budget": false,
+  "eligible": false,
+  "timing": "caller through validation/lowering/counting/serialization/hash/cleanup return",
+  "candidate": "H2O_scale1p10.pauli_JD.b2.rep1.r128",
+  "curve": "H2O_scale1p10.pauli_JD.b2.rep1",
+  "case": "H2O_scale1p10",
+  "method": "pauli_JD",
+  "steps": 128,
+  "cohort": "matched",
+  "repetition": 1,
+  "trace_file": "traces/H2O_scale1p10.pauli_JD.b2.rep1.r128.ndjson.gz"
+}

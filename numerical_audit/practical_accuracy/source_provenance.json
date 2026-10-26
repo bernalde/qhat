@@ -1,0 +1,139 @@
+{
+  "producing_source_commit": "ae70c96d11572a990c1a591fd92f6c0e0c05c49d",
+  "independent_source_commit": "ae70c96d11572a990c1a591fd92f6c0e0c05c49d",
+  "packaging_source_commit": "2a49092ecec006a3b568b293b527e17bf30475c1",
+  "executed_python_unchanged_between_producer_and_packager": true,
+  "intervening_changes": "README/PROTOCOL execution closeout and CI preparation only",
+  "supplied_ordering_dependency_actual_merge": "8fd424f532cce04b595abc3445cc032ab03ab6c4",
+  "archive_root": "delivery;unmodified original deterministic archive",
+  "archive_sha256": "b7a6928b1be761b04a4ffb8256f4c6147ac24258eb03df50ef58c3b21c144ae4",
+  "exact_delivery": "evidence/;all5542filesincludingignoredNPZandgziptraces",
+  "source_reviews": "Numericalpairedsourcereviewsconvergedatthereviewedheadbelow;paperreviewsremainpending;originalreportsretainedprivately,onlydigestsrecordedhere",
+  "publication": "Pre-publicationsnapshot;actualPRheadCI,owninghandoffandseparatemergesmustbeverified;thisrecorddoesnotclaimtheiroccurrence",
+  "historical_packaging_workflow_status": {
+    "source_reviews": "Astra/Argon pair pending;private original reviews are not published in this evidence",
+    "publication": "Pending;actual issue16 numerical/paper merge identities will be recorded additively"
+  },
+  "review_closeout": {
+    "status": "paired_numerical_source_review_converged",
+    "reviewed_head": "e77fef014b07f1c4d7b170489fa4213bb9c448fd",
+    "requested_reviewers": [
+      "gpt-6-astra/high",
+      "gemini-4-argon-high/high"
+    ],
+    "serving_model_identity": "Notindependentlyauthenticated;requestedconfigurationandanyclientreportedidentitykeptdistinct",
+    "reports": [
+      {
+        "reviewer": "gpt-6-astra/high",
+        "stage": 2,
+        "report": "astra.md",
+        "sha256": "4b50fc993af3cc0fc7c207afedc4f023f1e34f80236bf8c22aa0e345e5743f6b",
+        "client_reported_model": null
+      },
+      {
+        "reviewer": "gemini-4-argon-high/high",
+        "stage": 2,
+        "part": "C",
+        "report": "argon-part-C.md",
+        "sha256": "004e2621e507353415e4e7fdac508c57becf36ceed5c3c7f26aa9ecedbfd58b3",
+        "client_reported_model": null
+      },
+      {
+        "reviewer": "gemini-4-argon-high/high",
+        "stage": 2,
+        "part": "D",
+        "report": "argon-part-D.md",
+        "sha256": "eaf21f7de7a4f5c5c4dd6c8cea08b8ab01e16008dfa31adedd6a42d91c82116e",
+        "client_reported_model": null
+      }
+    ],
+    "reviewed_source_sha256": {
+      "numerical_audit/compiled_accuracy/compiler.py": "0cf8ecaf140163b6f880399e534b8d9b9aad5eacf8a544cb911ef11e70373d69",
+      "numerical_audit/compiled_accuracy/reference.py": "c849d5d5b95c262876e5b7a25a46b4e4e48ab705bf8ac2647f91ed8104e56e9d",
+      "numerical_audit/compiled_accuracy/study.py": "da92ce801216718a8796265e924a42899e59f95a0e46b7717c120b04e0cbd979",
+      "numerical_audit/practical_accuracy/PROTOCOL.md": "da31c5395f8322a2a6cb84e080a384010079410203bd5d37f39d83b7440100f7",
+      "numerical_audit/practical_accuracy/README.md": "e32d0d9014253e296489001fcc1e7d23aad8b75849a6875b1963b4ee1211e268",
+      "numerical_audit/practical_accuracy/common.py": "83485dec8ef437f29b9f98d1675b8e1e5c16a7b0d8e2f30aad2194c040b93533",
+      "numerical_audit/practical_accuracy/construction.py": "543ec9483cb5f25b4edda7b3c265b20d4a16edf9133ae066411ad6675266ca72",
+      "numerical_audit/practical_accuracy/delivery.py": "ca79dfbfac39985686e639d4ded6e1f8ec3264c2b8953a1db8b3b493203d1602",
+      "numerical_audit/practical_accuracy/preflight.py": "70ecbaf71d3d2e7acac43eb513f55f2fb0fc65ab7287ab1a5c682940a02cb56e",
+      "numerical_audit/practical_accuracy/reporting.py": "d1ebde407c564133f2bf437199ff1e811c420022c6bb4c35eadeaa76b80af260",
+      "numerical_audit/practical_accuracy/study.py": "a1125b8e2bd3d778f12622864c1aac5007c7506b48815e403aca8f0083b2db4e",
+      "numerical_audit/practical_accuracy/test_practical.py": "5c52103917a05bcc882246273819efb1a9319aa2742af22e723950d7f4ea6dc0",
+      "numerical_audit/practical_accuracy/verify.py": "3f9838219c9be63510f33fdbf332e366ac10bef85a536b9372c7fed5f3a55a11",
+      "numerical_audit/prospective_reference/campaign.py": "1e033b0c19c57544a20c9355794ac7f5a6be734a2d1dbca23366ec40a9a86de6",
+      "numerical_audit/prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971",
+      "numerical_audit/prospective_reference/one_pass.py": "3cfaced88f188d418ad5fac1be585478ad7894d6d4da53142489f82c8e82fcb6",
+      "numerical_audit/symmetric_response/cubic.py": "a37c36f066d19b53c46adfdb41d2064ca2d7e93e2332a66b7ae6749270f7ebc3",
+      "numerical_audit/symmetric_response/independent.py": "b537a90d6ce5cc4abcc5b21f0ec705978baa4927ce1fc34e9fffc16acd8fd0f4",
+      ".github/workflows/practical-accuracy.yml": "23d047e1b27af72fa84dccc97a7806e10da348dcc5e905c13218e3fefd6cf9a2",
+      "numerical_audit/compiled_accuracy/requirements.txt": "166a703757e5c4b1f59d3be103ed7ab36fac354b9214b395e7141cb8e7312a17"
+    },
+    "actionable_findings_remaining": 0,
+    "review_stages_used": 2,
+    "review_stages_max": 3,
+    "verification_passes_used": 2,
+    "verification_passes_max": 3,
+    "CI_fix_attempts_used": 0,
+    "complete_known_findings_addressed": [
+      "I16-ASTRA-1-001",
+      "I16-ASTRA-1-002",
+      "I16-ARGON-1-D-001"
+    ],
+    "initial_partial_reports": "Retainedprivately;fullcurrentreporting/delivery/CIreviewcompletedinstage2;missinghistoricalitemtextsnotinvented",
+    "metadata_scope": "OnlythisouterJSONcloseoutchangesafterreview;allexecutable/documentation/scientific/frozenbytesremainequaltoreviewedhead",
+    "owning_handoff_complete": false,
+    "current_head_hosted_CI": "Notyetpublished;mandatorybeforedelivery/merge",
+    "formal_human_approval": false,
+    "transfer_interface_attestation": "Notissued;requiresgenuineowningREADYhandoffincludingcurrentheadCI",
+    "historical_status_note": "READMEandoriginalpackagingstatusretainthereviewedhistoricalsnapshot;thisouterrecorddistinguishesnumericalsourceconvergencefromremainingpaper/publication/CIobligations"
+  },
+  "latest_ci_review_closeout": {
+    "status": "paired_CI_repair_source_review_converged",
+    "reviewed_head": "ca236555596b3ddc23eb8aba85a2c2afe1f1826b",
+    "reviewed_workflow_sha256": "c4354e50ee78996b5d940599b437a1a6fcb381a35ffce340db061dda3031dcd7",
+    "reports": [
+      {
+        "reviewer": "gpt-6-astra/high",
+        "stage": 3,
+        "report": "astra.md",
+        "sha256": "a461b5f11d96d184da43b1cc205025719a17111cd0951f17b3a123c58dde9438",
+        "client_reported_model": null
+      },
+      {
+        "reviewer": "gemini-4-argon-high/high",
+        "stage": 3,
+        "part": "CI",
+        "report": "argon-part-CI.md",
+        "sha256": "215c69863a26a9e2c3458ad40dd57cd076edd705d73a0e84ac4d5c710f2ffbc0",
+        "client_reported_model": null
+      }
+    ],
+    "requested_reviewers": [
+      "gpt-6-astra/high",
+      "gemini-4-argon-high/high"
+    ],
+    "actionable_findings_remaining": 0,
+    "review_stages_used": 3,
+    "review_stages_max": 3,
+    "verification_passes_used": 3,
+    "verification_passes_max": 3,
+    "CI_fix_attempts_used": 1,
+    "original_review_closeout": "Preserved unchanged as the stage-2 pre-publication historical snapshot.",
+    "outer_metadata_scope": "Only this additive JSON record changes after stage 3; reviewed workflow, scientific code/docs, frozen evidence, archive and comparison supplement remain unchanged.",
+    "external_review_resources": {
+      "receipt": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/i16-num-argon-r3-CI.resources.json",
+      "CPU_seconds": 1.8,
+      "wall_seconds": 60.17850946300314,
+      "stage_limits_CPU_wall_outputMiB": [
+        120,
+        900,
+        32
+      ]
+    },
+    "owning_handoff_complete": false,
+    "formal_human_approval": false,
+    "current_head_hosted_CI": "Pending publication of final metadata head; all mandatory steps including full replay must pass.",
+    "transfer_interface_attestation": "Not issued; requires genuine owning READY handoff including final-head hosted CI."
+  }
+}
