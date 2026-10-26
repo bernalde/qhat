@@ -182,6 +182,12 @@ def test_censored_partial_trace_is_retained_and_cannot_be_replayed_as_complete(t
         c.Replay(model, psi).replay(trace, result['identity'])
     with pytest.raises(ValueError, match='Censored trace'):
         independent.Reference(model, psi).audit_compiled_trace(trace, result['identity'], c.compiler.VERSION)
+    reference = independent.Reference(model, psi)
+    _, resources = reference.audit_compiled_trace(trace, result['identity'], c.compiler.VERSION,
+                                                   simulate=False, allow_partial=True)
+    assert resources == result['partial_compiled_resources']
+    with pytest.raises(ValueError, match='Censored trace'):
+        reference.audit_compiled_trace(trace, result['identity'], c.compiler.VERSION, allow_partial=True)
 
 
 def test_trace_identity_and_HF_reference_cannot_be_silently_replaced(tmp_path):

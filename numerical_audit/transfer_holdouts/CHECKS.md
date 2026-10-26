@@ -36,3 +36,9 @@ The full representative preflight, real training/validation panel, independent
 complete replay, archive/Git delivery and paper checks remain required after
 issue #16's reviewed interface is available. Paired source reviews, publication,
 separate eligible merges and their actual CI are also pending.
+
+Current development adds the whole-panel independent verifier and an explicit
+resource-only partial-trace audit after the tested commit above. Their added
+integration checks are queued behind the active issue #16 replay. The retained
+78-check result remains valid historical evidence; it does not claim acceptance
+of those later executable changes. No real transfer validation has run.

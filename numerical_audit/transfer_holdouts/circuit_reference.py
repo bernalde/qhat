@@ -101,11 +101,13 @@ class Reference:
                 for i in reversed(range(m-1)):unit(i,np.longdouble(T)/(2*steps))
         return state
 
-    def audit_compiled_trace(self,path,identity,compiler_version,simulate=True):
+    def audit_compiled_trace(self,path,identity,compiler_version,simulate=True,*,allow_partial=False):
         """Build predecessor arrays, then compute longest paths independently.
 
         Primitive replay uses literal sparse matrices, not compiler helpers.
         Two-million-gate bounds keep these compact integer arrays below64MiB.
+        Partial traces are accepted only in an explicit resource-only mode;the
+        returned vector is then unused and cannot establish a circuit error.
         """
         previous=[-1]*self.n;left=array('i');right=array('i');twoq=bytearray();one=two=0
         if identity['preparation']=='HF_prefix':
@@ -114,7 +116,10 @@ class Reference:
         else:
             require(identity['preparation']=='external_state_not_compiled' and identity['state'] in ('ground','excited','coherent_real','coherent_imag'),'External preparation declaration differs')
             state=self.initial.copy()
-        require(identity['compilation_status']=='complete','Censored trace cannot be simulated as complete')
+        require(type(simulate) is bool and type(allow_partial) is bool,'Boolean audit modes required')
+        require(identity['compilation_status']=='complete' or
+                (not simulate and allow_partial and identity['compilation_status']=='censored'),
+                'Censored trace cannot be simulated as complete')
         with gzip.open(path,'rt') as f:
             header=json.loads(next(f));require(header['compiler']==compiler_version and header['n']==self.n and header['identity']==identity,'Compiled target/header differs')
             for index,line in enumerate(f):

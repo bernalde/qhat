@@ -182,3 +182,12 @@ all new producer/plan/allocation/accounting/circuit/coherent-objective checks.
 No full transfer preflight, new holdout error, independent panel audit or paired
 source review is implied. Subsequent status-document changes do not alter the
 executed Python sources; the exact tested commit remains retained in CHECKS.md.
+
+The full independent checker now rederives the complete logical/sharing cohort,
+all retained objective and insertion witnesses, exact legacy decisions, actual
+and standalone charges, full-space reference/primitive/unfused states, circuit
+DAG resources, every pair and the exact payload inventory. Producer plan/score/
+fusion/comparison helpers are not imported. A partial trace can be counted only
+in an explicit non-simulating resource audit; it cannot receive a physical error.
+These additional integration checks are pending execution; the retained78-check
+result predates this checker and its resource-only extension.
