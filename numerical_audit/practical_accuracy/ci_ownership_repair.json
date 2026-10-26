@@ -1,0 +1,160 @@
+{
+  "scope": "FirstCIrepairafterpublishedsourceconvergence;onlyworkflowjobGittrustchanges;scientificsources/dataretainbytes",
+  "prior_published_head": "f6f0afecced1fb6c6359164f26bdf410cafb8718",
+  "PR": "https://github.com/bernalde/qhat/pull/7",
+  "failed_runs": [
+    40330791110,
+    40331559343
+  ],
+  "failed_job": 121602000506,
+  "failure": "GitdubiousownershipduringmandatoryGitblobcheck;exit128",
+  "failure_log_sha256": "870603e274b172923c81f8d19b26c9c2fc52e80ad44e0c512058e18c121c39fe",
+  "hosted_environment_install_and_39_tests": "passedbeforeauthenticationfailure;fullreplayskippednotclaimedpassed",
+  "fix": "WriteGIT_CONFIG_COUNT/KEY_0/VALUE_0toGITHUB_ENVusingactualGITHUB_WORKSPACE;safe.directoryexactworkspace;commandscope;nohostglobalorwildcard",
+  "ownership_probe": {
+    "status": "passed",
+    "workflow_sha256": "c4354e50ee78996b5d940599b437a1a6fcb381a35ffce340db061dda3031dcd7",
+    "exact_workflow_script": "printf '%s\\n' 'GIT_CONFIG_COUNT=1' 'GIT_CONFIG_KEY_0=safe.directory' \\\n  \"GIT_CONFIG_VALUE_0=$GITHUB_WORKSPACE\" >> \"$GITHUB_ENV\"\n",
+    "git_version": "git version 2.43.0",
+    "baseline_ownership_rejected": 128,
+    "trusted_exact_workspace": 0,
+    "unrelated_workspace_rejected": 128,
+    "trust_config_scope": "command",
+    "global_or_host_config_modified": false,
+    "wildcard_trust": false,
+    "actionlint_exit_code": 0,
+    "test_mechanism": "Git built-in GIT_TEST_ASSUME_DIFFERENT_OWNER on two fresh task-owned repos;no UID changes",
+    "scientific_source_or_data_changed": false
+  },
+  "failed_local_probe_receipt": {
+    "unit": "fermionic-future-practical-ci-ownership-a1-3769179",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "120"
+    },
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONUNBUFFERED": "1",
+      "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/numba-cache",
+      "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/matplotlib-cache",
+      "LC_ALL": "C"
+    },
+    "command": [
+      "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+      "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/runtime/probe-practical-ci-ownership.py"
+    ],
+    "exit_code": 1,
+    "supervisor_exit_code": 1,
+    "elapsed": 3.048269425984472,
+    "samples": [
+      {
+        "elapsed": 0.001156715996330604,
+        "available_bytes": 21978402816,
+        "frozen": false,
+        "service": "MemoryCurrent=323584\nMemoryPeak=438272\nCPUUsageNSec=82000",
+        "output_bytes": 0
+      }
+    ],
+    "completed_utc": "2026-10-26T13:45:44.378647+00:00",
+    "budget": {
+      "cpu_seconds": 30.0,
+      "wall_seconds": 120,
+      "disk_mib": 64
+    },
+    "termination": null,
+    "log": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/practical-ci-ownership-a1.log",
+    "process_measurements": {
+      "user_cpu_seconds": 0.04,
+      "system_cpu_seconds": 0.05,
+      "max_rss_kib": 19872.0
+    },
+    "final_accounting": {
+      "CPU_seconds": 0.09,
+      "output_bytes": 58571,
+      "elapsed_seconds": 3.048269425984472,
+      "process_CPU_timing_available": true
+    }
+  },
+  "successful_local_probe_receipt": {
+    "unit": "fermionic-future-practical-ci-ownership-a2-3772130",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "120"
+    },
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONUNBUFFERED": "1",
+      "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/numba-cache",
+      "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/matplotlib-cache",
+      "LC_ALL": "C"
+    },
+    "command": [
+      "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+      "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/runtime/probe-practical-ci-ownership.py"
+    ],
+    "exit_code": 0,
+    "supervisor_exit_code": 0,
+    "elapsed": 3.0677289250015747,
+    "samples": [
+      {
+        "elapsed": 0.002130556997144595,
+        "available_bytes": 21811187712,
+        "frozen": false,
+        "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=171000",
+        "output_bytes": 0
+      }
+    ],
+    "completed_utc": "2026-10-26T13:47:10.210719+00:00",
+    "budget": {
+      "cpu_seconds": 30.0,
+      "wall_seconds": 120,
+      "disk_mib": 64
+    },
+    "termination": null,
+    "log": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/practical-ci-ownership-a2.log",
+    "process_measurements": {
+      "user_cpu_seconds": 0.08,
+      "system_cpu_seconds": 0.05,
+      "max_rss_kib": 19872.0
+    },
+    "final_accounting": {
+      "CPU_seconds": 0.13,
+      "output_bytes": 59358,
+      "elapsed_seconds": 3.0677289250015747,
+      "process_CPU_timing_available": true
+    }
+  },
+  "CI_fix_attempt": 1,
+  "CI_fix_attempt_limit": 3,
+  "required_followup": "SequentialAstra/highandArgon/highstage3thennewheadfullCI;noowninghandoff/P2attestation/mergeyet",
+  "historical_review_metadata_scope": "Prioroutercloseoutdescribestheearlierpre-publicationsnapshotthroughf6;thisadditivedeltawillreceiveitsowncurrentreview",
+  "all_scientific_bytes_unchanged": true
+}

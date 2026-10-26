@@ -1,0 +1,466 @@
+{
+  "curves": 81,
+  "candidates": 1296,
+  "complete": 1281,
+  "censored": 15,
+  "target_rows": 243,
+  "comparisons": 918,
+  "target_status": {
+    "met": 243
+  },
+  "matched_target_status": {
+    "met": 216
+  },
+  "complete_construction_overruns": 70,
+  "groups": [
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 3,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 3,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 6
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 6
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 6
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 6
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 6
+      },
+      "depth": {
+        "win": 3,
+        "tie": 6
+      }
+    }
+  ],
+  "actual_preparation": {
+    "CPU_seconds": 776.6003029350001,
+    "wall_seconds": 3106.794626118004,
+    "actual_ordering_CPU_seconds": 123.96880823500001,
+    "actual_warmup_CPU_seconds": 10.023659551999991,
+    "actual_warmup_compilation_CPU_seconds": 0.5176604949999984,
+    "actual_compilation_CPU_seconds": 640.6998314729989,
+    "repeated_standalone_charges_are_campaign_work": false,
+    "scope": "Authentication, source/input copies, all actual warmups/orders/compilation/metadata; startup/finalfreezeinprocesslogs"
+  },
+  "actual_screening": {
+    "CPU_seconds": 641.259893876,
+    "wall_seconds": 2565.008265165001,
+    "scope": "Whole offline physical screening and selection;notstandaloneconstruction"
+  },
+  "independent_CPU_seconds": 1304.164752551,
+  "source_schedule_sha256": "5d88bcc33bace939680813dc39c0d0c461b238f367790aace65e8f5f407dee01"
+}

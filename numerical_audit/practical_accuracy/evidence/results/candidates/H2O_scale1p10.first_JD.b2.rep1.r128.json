@@ -1,0 +1,56 @@
+{
+  "status": "censored",
+  "reason": "Total CPU remainder exhausted during lowering",
+  "identity": {
+    "candidate": "H2O_scale1p10.first_JD.b2.rep1.r128",
+    "curve": "H2O_scale1p10.first_JD.b2.rep1",
+    "case": "H2O_scale1p10",
+    "method": "first_JD",
+    "steps": 128,
+    "T": 2.11,
+    "formula": 2,
+    "model_sha256": "2a087983188e574534334b2cd1d0d9d518ab91abd679c5119eba734c36e4d10c",
+    "curve_sha256": "bac36395bf53abf000188d8e2694c57693db391d3d5a53899ab5c8a8ccf85433",
+    "protocol_sha256": "006b548bc22e7c5f7a18752c119841a974a355822dc6f0f59df5d8d821c65b4f",
+    "compilation_status": "censored"
+  },
+  "compiled_resources": null,
+  "partial_compiled_resources": {
+    "gates": 457682,
+    "single_qubit_gates": 106694,
+    "two_qubit_gates": 350988,
+    "unit_duration_ASAP_depth": 354485,
+    "CX_dependency_depth": 327988
+  },
+  "generated": 526478,
+  "completed_ideal_rotations": 20298,
+  "lowering_CPU_seconds": 1.084410503000072,
+  "counting_CPU_seconds": 0.19808792999992875,
+  "trace_sha256": "3d599e2b025f70cc3a89861b3cd02dae07903883e9ff8911fa9619cfad2ebf00",
+  "trace_bytes": 205600,
+  "serialization": {
+    "CPU_seconds": 1.1074288339999612,
+    "wall_seconds": 4.483997816016199
+  },
+  "hashing": {
+    "CPU_seconds": 0.0003612470000007306,
+    "wall_seconds": 0.0003694900078698993
+  },
+  "compilation_CPU_seconds": 2.402777444000094,
+  "compilation_wall_seconds": 9.601337098021759,
+  "ordering_CPU_charge": 0.915619520000007,
+  "total_construction_CPU_seconds": 3.318396964000101,
+  "total_CPU_budget": 2.0,
+  "CPU_overrun_seconds": 1.318396964000101,
+  "within_total_CPU_budget": false,
+  "eligible": false,
+  "timing": "caller through validation/lowering/counting/serialization/hash/cleanup return",
+  "candidate": "H2O_scale1p10.first_JD.b2.rep1.r128",
+  "curve": "H2O_scale1p10.first_JD.b2.rep1",
+  "case": "H2O_scale1p10",
+  "method": "first_JD",
+  "steps": 128,
+  "cohort": "matched",
+  "repetition": 1,
+  "trace_file": "traces/H2O_scale1p10.first_JD.b2.rep1.r128.ndjson.gz"
+}

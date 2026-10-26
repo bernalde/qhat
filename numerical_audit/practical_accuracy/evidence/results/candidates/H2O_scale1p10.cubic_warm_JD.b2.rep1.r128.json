@@ -1,0 +1,56 @@
+{
+  "status": "censored",
+  "reason": "Total CPU remainder exhausted during lowering",
+  "identity": {
+    "candidate": "H2O_scale1p10.cubic_warm_JD.b2.rep1.r128",
+    "curve": "H2O_scale1p10.cubic_warm_JD.b2.rep1",
+    "case": "H2O_scale1p10",
+    "method": "cubic_warm_JD",
+    "steps": 128,
+    "T": 2.11,
+    "formula": 2,
+    "model_sha256": "2a087983188e574534334b2cd1d0d9d518ab91abd679c5119eba734c36e4d10c",
+    "curve_sha256": "82454796c1ebfdd07fb2456b453ae8bdfdbb1b1c9dd8ea44229e2447fc946dbe",
+    "protocol_sha256": "006b548bc22e7c5f7a18752c119841a974a355822dc6f0f59df5d8d821c65b4f",
+    "compilation_status": "censored"
+  },
+  "compiled_resources": null,
+  "partial_compiled_resources": {
+    "gates": 453138,
+    "single_qubit_gates": 105648,
+    "two_qubit_gates": 347490,
+    "unit_duration_ASAP_depth": 356702,
+    "CX_dependency_depth": 327196
+  },
+  "generated": 521250,
+  "completed_ideal_rotations": 20096,
+  "lowering_CPU_seconds": 1.1268523219999906,
+  "counting_CPU_seconds": 0.21283386100003554,
+  "trace_sha256": "b3f252955da4466382ef86990bafc8a48c285d4ce2761466ee6221e14677713b",
+  "trace_bytes": 204957,
+  "serialization": {
+    "CPU_seconds": 1.2384886290000168,
+    "wall_seconds": 4.986363349016756
+  },
+  "hashing": {
+    "CPU_seconds": 0.0002726889999848936,
+    "wall_seconds": 0.000280276988632977
+  },
+  "compilation_CPU_seconds": 2.592806646999975,
+  "compilation_wall_seconds": 10.314618041011272,
+  "ordering_CPU_charge": 0.9226189120000043,
+  "total_construction_CPU_seconds": 3.515425558999979,
+  "total_CPU_budget": 2.0,
+  "CPU_overrun_seconds": 1.5154255589999792,
+  "within_total_CPU_budget": false,
+  "eligible": false,
+  "timing": "caller through validation/lowering/counting/serialization/hash/cleanup return",
+  "candidate": "H2O_scale1p10.cubic_warm_JD.b2.rep1.r128",
+  "curve": "H2O_scale1p10.cubic_warm_JD.b2.rep1",
+  "case": "H2O_scale1p10",
+  "method": "cubic_warm_JD",
+  "steps": 128,
+  "cohort": "matched",
+  "repetition": 1,
+  "trace_file": "traces/H2O_scale1p10.cubic_warm_JD.b2.rep1.r128.ndjson.gz"
+}

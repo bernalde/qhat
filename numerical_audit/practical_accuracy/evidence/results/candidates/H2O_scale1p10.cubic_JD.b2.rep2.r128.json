@@ -1,0 +1,56 @@
+{
+  "status": "censored",
+  "reason": "Total CPU remainder exhausted during lowering",
+  "identity": {
+    "candidate": "H2O_scale1p10.cubic_JD.b2.rep2.r128",
+    "curve": "H2O_scale1p10.cubic_JD.b2.rep2",
+    "case": "H2O_scale1p10",
+    "method": "cubic_JD",
+    "steps": 128,
+    "T": 2.11,
+    "formula": 2,
+    "model_sha256": "2a087983188e574534334b2cd1d0d9d518ab91abd679c5119eba734c36e4d10c",
+    "curve_sha256": "4829f62aee35eceb5d91b529a257c428b22ea4818b55a9ad58e3ebbe8021667d",
+    "protocol_sha256": "006b548bc22e7c5f7a18752c119841a974a355822dc6f0f59df5d8d821c65b4f",
+    "compilation_status": "censored"
+  },
+  "compiled_resources": null,
+  "partial_compiled_resources": {
+    "gates": 457695,
+    "single_qubit_gates": 106713,
+    "two_qubit_gates": 350982,
+    "unit_duration_ASAP_depth": 360293,
+    "CX_dependency_depth": 330489
+  },
+  "generated": 526485,
+  "completed_ideal_rotations": 20297,
+  "lowering_CPU_seconds": 1.0760187490000135,
+  "counting_CPU_seconds": 0.20549063199996453,
+  "trace_sha256": "8ba92567c67e9f6c9826bf18b93a1d205b05bed353407ea8293282ad525177af",
+  "trace_bytes": 206978,
+  "serialization": {
+    "CPU_seconds": 1.1001385810000102,
+    "wall_seconds": 4.401726413023425
+  },
+  "hashing": {
+    "CPU_seconds": 0.0003128089999790973,
+    "wall_seconds": 0.00032228700001724064
+  },
+  "compilation_CPU_seconds": 2.399272167999925,
+  "compilation_wall_seconds": 9.600987466983497,
+  "ordering_CPU_charge": 0.9240162709999993,
+  "total_construction_CPU_seconds": 3.323288438999924,
+  "total_CPU_budget": 2.0,
+  "CPU_overrun_seconds": 1.3232884389999242,
+  "within_total_CPU_budget": false,
+  "eligible": false,
+  "timing": "caller through validation/lowering/counting/serialization/hash/cleanup return",
+  "candidate": "H2O_scale1p10.cubic_JD.b2.rep2.r128",
+  "curve": "H2O_scale1p10.cubic_JD.b2.rep2",
+  "case": "H2O_scale1p10",
+  "method": "cubic_JD",
+  "steps": 128,
+  "cohort": "matched",
+  "repetition": 2,
+  "trace_file": "traces/H2O_scale1p10.cubic_JD.b2.rep2.r128.ndjson.gz"
+}

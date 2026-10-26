@@ -1,0 +1,1591 @@
+{
+  "scope": "All pairwise comparisons,including inherited strong controls outside matched CPU",
+  "comparisons": 918,
+  "groups": [
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 3,
+        "tie": 3
+      },
+      "depth": {
+        "win": 3,
+        "loss": 3,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 6
+      },
+      "depth": {
+        "win": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "tie": 3
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "tie": 6,
+        "win": 3
+      },
+      "depth": {
+        "tie": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 6
+      },
+      "depth": {
+        "win": 3,
+        "tie": 6
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "tie": 3
+      },
+      "depth": {
+        "win": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-08,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 3,
+        "tie": 3
+      },
+      "depth": {
+        "win": 3,
+        "loss": 3,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "tie": 3
+      },
+      "depth": {
+        "win": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 6
+      },
+      "depth": {
+        "win": 3,
+        "loss": 6
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 6
+      },
+      "depth": {
+        "win": 3,
+        "loss": 6
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "tie": 6,
+        "win": 3
+      },
+      "depth": {
+        "tie": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 6
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 6
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 1e-06,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 6
+      },
+      "depth": {
+        "win": 3,
+        "loss": 6
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 6
+      },
+      "depth": {
+        "win": 3,
+        "loss": 3,
+        "tie": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 6
+      },
+      "depth": {
+        "win": 3,
+        "tie": 6
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "tie": 6,
+        "win": 3
+      },
+      "depth": {
+        "tie": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 6,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "first_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 6
+      },
+      "depth": {
+        "win": 3,
+        "loss": 6
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 2.0,
+      "method": "pauli_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 6
+      },
+      "depth": {
+        "win": 3,
+        "loss": 6
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "tie": 6,
+        "win": 3
+      },
+      "depth": {
+        "tie": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "tie": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 3,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 6
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 6
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "tie": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "tie": 6,
+        "win": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "first_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "tie": 3,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD",
+      "control_cohort": "matched",
+      "paired_observations": 9,
+      "CX": {
+        "win": 9
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "cubic_warm_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 6,
+        "win": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      },
+      "depth": {
+        "loss": 3,
+        "tie": 3,
+        "win": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "first_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 6,
+        "loss": 3
+      },
+      "depth": {
+        "win": 6,
+        "loss": 3
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "cubic_insertion",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "current",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "loss": 9
+      },
+      "depth": {
+        "loss": 9
+      }
+    },
+    {
+      "target": 0.0001,
+      "budget": 8.0,
+      "method": "pauli_JD",
+      "control": "pauli_JD_large_sameT",
+      "control_cohort": "inherited_reference",
+      "paired_observations": 9,
+      "CX": {
+        "win": 3,
+        "loss": 6
+      },
+      "depth": {
+        "win": 3,
+        "loss": 6
+      }
+    }
+  ]
+}
