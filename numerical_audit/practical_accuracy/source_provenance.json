@@ -87,5 +87,53 @@
     "formal_human_approval": false,
     "transfer_interface_attestation": "Notissued;requiresgenuineowningREADYhandoffincludingcurrentheadCI",
     "historical_status_note": "READMEandoriginalpackagingstatusretainthereviewedhistoricalsnapshot;thisouterrecorddistinguishesnumericalsourceconvergencefromremainingpaper/publication/CIobligations"
+  },
+  "latest_ci_review_closeout": {
+    "status": "paired_CI_repair_source_review_converged",
+    "reviewed_head": "ca236555596b3ddc23eb8aba85a2c2afe1f1826b",
+    "reviewed_workflow_sha256": "c4354e50ee78996b5d940599b437a1a6fcb381a35ffce340db061dda3031dcd7",
+    "reports": [
+      {
+        "reviewer": "gpt-6-astra/high",
+        "stage": 3,
+        "report": "astra.md",
+        "sha256": "a461b5f11d96d184da43b1cc205025719a17111cd0951f17b3a123c58dde9438",
+        "client_reported_model": null
+      },
+      {
+        "reviewer": "gemini-4-argon-high/high",
+        "stage": 3,
+        "part": "CI",
+        "report": "argon-part-CI.md",
+        "sha256": "215c69863a26a9e2c3458ad40dd57cd076edd705d73a0e84ac4d5c710f2ffbc0",
+        "client_reported_model": null
+      }
+    ],
+    "requested_reviewers": [
+      "gpt-6-astra/high",
+      "gemini-4-argon-high/high"
+    ],
+    "actionable_findings_remaining": 0,
+    "review_stages_used": 3,
+    "review_stages_max": 3,
+    "verification_passes_used": 3,
+    "verification_passes_max": 3,
+    "CI_fix_attempts_used": 1,
+    "original_review_closeout": "Preserved unchanged as the stage-2 pre-publication historical snapshot.",
+    "outer_metadata_scope": "Only this additive JSON record changes after stage 3; reviewed workflow, scientific code/docs, frozen evidence, archive and comparison supplement remain unchanged.",
+    "external_review_resources": {
+      "receipt": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/i16-num-argon-r3-CI.resources.json",
+      "CPU_seconds": 1.8,
+      "wall_seconds": 60.17850946300314,
+      "stage_limits_CPU_wall_outputMiB": [
+        120,
+        900,
+        32
+      ]
+    },
+    "owning_handoff_complete": false,
+    "formal_human_approval": false,
+    "current_head_hosted_CI": "Pending publication of final metadata head; all mandatory steps including full replay must pass.",
+    "transfer_interface_attestation": "Not issued; requires genuine owning READY handoff including final-head hosted CI."
   }
 }
