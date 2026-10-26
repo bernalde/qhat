@@ -42,3 +42,7 @@ resource-only partial-trace audit after the tested commit above. Their added
 integration checks are queued behind the active issue #16 replay. The retained
 78-check result remains valid historical evidence; it does not claim acceptance
 of those later executable changes. No real transfer validation has run.
+
+Reporting/resource-ledger and deterministic delivery code were added later as
+well. Their corruption/refusal checks are queued with the updated suite; complete
+end-to-end delivery still needs the declared representative preflight.

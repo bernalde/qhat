@@ -1,8 +1,9 @@
 """Complete transfer audit using literal objectives and circuit reference actions.
 
-Producer construction, plan, score, propagation, fusion and comparison helpers
-are not imported. The separate CAR/tensor/reference auditor is reused for its
-independently implemented input checks. Archived Python sources are never run.
+Producer construction, plan, score, propagation, fusion and comparison functions
+are not called. The separate CAR/tensor/reference auditor shares source-bound
+I/O and constants but supplies independent literal input checks. Archived Python
+sources are never run.
 """
 import argparse
 from collections import defaultdict
@@ -103,7 +104,8 @@ def near(actual, expected, *, relative=2e-9, absolute=2e-18):
 
 
 def verifier_sources():
-    paths = set()
+    paths = {ROOT / 'numerical_audit/state_holdouts/response.py',
+             ROOT / 'numerical_audit/prospective_reference/engine.py'}
     for module in list(sys.modules.values()):
         name = getattr(module, '__file__', None)
         if name:

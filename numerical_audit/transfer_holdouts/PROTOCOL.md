@@ -187,7 +187,17 @@ The full independent checker now rederives the complete logical/sharing cohort,
 all retained objective and insertion witnesses, exact legacy decisions, actual
 and standalone charges, full-space reference/primitive/unfused states, circuit
 DAG resources, every pair and the exact payload inventory. Producer plan/score/
-fusion/comparison helpers are not imported. A partial trace can be counted only
+fusion/comparison functions are not called. The independent input auditor shares
+source-bound I/O/constants; its literal CAR/Pauli/state mathematics is separate. A partial trace can be counted only
 in an explicit non-simulating resource audit; it cannot receive a physical error.
 These additional integration checks are pending execution; the retained78-check
 result predates this checker and its resource-only extension.
+
+Complete report/delivery implementations now retain all unique and logical rows,
+every pair and all costs/losses/floors. Raw resource snapshots reconcile every
+completed attempt with its original pool and 512MiB numerical profile. Reports
+require the complete independent audit and bind all scientific bytes. Packaging
+uses deterministic archives, strict safe extraction, exact file inventories,
+report regeneration and streaming Git-blob checks, including ignored binaries.
+Their integration checks and full representative-path exercise remain pending;
+none of this code authorizes bypassing the reviewed practical dependency.
