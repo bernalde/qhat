@@ -167,12 +167,17 @@ def test_replay_keeps_actual_input_merge_exact(tmp_path):
 
 
 def test_report_verifier_binding_rejects_forged_source_hash(tmp_path):
-    import json,shutil
-    from reporting import trusted_verifier_sources
-    original = Path(__file__).resolve().parent/'evidence/verification'
-    for name in ('TRUSTED_VERIFIER_SOURCES.json','DELIVERY_VERIFIED.json'):
-        shutil.copyfile(original/name,tmp_path/name)
-    expected = json.loads((original/'TRUSTED_VERIFIER_SOURCES.json').read_text())
+    import hashlib,json,subprocess
+    from reporting import trusted_verifier_sources,ROOT
+    # This is a source-binding fixture, not an attestation that an audit ran.
+    # It follows the committed candidate when a verifier guard is repaired.
+    head=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
+    names=('numerical_audit/molecular_guard/delivery.py',
+           'numerical_audit/molecular_guard/independent.py')
+    expected=dict(head=head,sha256={name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+                                   for name in names},scope='Test source-binding fixture only')
+    (tmp_path/'TRUSTED_VERIFIER_SOURCES.json').write_text(json.dumps(expected))
+    (tmp_path/'DELIVERY_VERIFIED.json').write_text(json.dumps(dict(trusted_checker_head=head)))
     assert trusted_verifier_sources(tmp_path) == expected['sha256']
     expected['sha256']['numerical_audit/molecular_guard/independent.py'] = '0'*64
     (tmp_path/'TRUSTED_VERIFIER_SOURCES.json').write_text(json.dumps(expected))

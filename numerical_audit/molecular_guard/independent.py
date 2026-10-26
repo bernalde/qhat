@@ -340,7 +340,11 @@ def verify(output, destination):
     insist(type(head) is str and len(head) == 40 and all(c in '0123456789abcdef' for c in head),'Invalid producer Git identity')
     listed = subprocess.check_output(['git','-C',str(ROOT),'ls-tree','-r','--name-only',head,'--',
                                      'numerical_audit/molecular_guard'],text=True).splitlines()
-    expected_sources = {name for name in listed if Path(name).suffix in ('.py','.md')}
+    # Producer source_paths selects direct maintained files; nested snapshots
+    # and report prose remain authenticated data, not additional live sources.
+    expected_sources = {name for name in listed
+                        if PurePosixPath(name).parent == PurePosixPath('numerical_audit/molecular_guard')
+                        and PurePosixPath(name).suffix in ('.py','.md')}
     expected_sources.update('numerical_audit/prospective_reference/'+name for name in ('engine.py','campaign.py','one_pass.py'))
     insist(set(frozen['source_sha256']) == expected_sources,'Incomplete producer source inventory')
     for name,expected in frozen['source_sha256'].items():

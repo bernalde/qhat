@@ -113,7 +113,7 @@ def freeze(model_path, output, *, preflight=False):
         full_space_invariance_columns_checked=(1 << data['n'])*len(data['matrices']),
         environment=dict(python=sys.version,executable=str(Path(sys.executable).resolve()),platform=platform.platform(),
                          packages={'numpy':importlib.metadata.version('numpy')}),
-        dependency_status='Pinned development input;actual issue17 merge required before publication',
+        dependency_status='Fixed model SHA;actual merged-input provenance is checked separately by publication reporting',
         product_convention='Written left-to-right exponentials;reverse chronological unit application'))
     print('FROZEN',output,flush=True)
 

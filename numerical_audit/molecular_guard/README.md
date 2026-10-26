@@ -74,3 +74,12 @@ evidence files, including inert copies of the earlier development report and
 provenance. The maintained report uses the actual merged input and unchanged
 scientific CSVs. `FINAL_INPUT_BINDING.json` distinguishes this reporting refresh
 from the original physical computation and independent interval audit.
+
+
+Fresh freezes authenticate the direct maintained Python/Markdown source files
+and the three explicit legacy helpers. Nested historical snapshots and report
+README files remain data and cannot enlarge that producer-source inventory.
+The verifier still rejects omitted maintained sources and authenticates each
+frozen source byte against the producing Git revision. Source-contract fixtures
+stop before molecular reconstruction; fresh numerical replay is recorded
+separately when the executed verifier revision changes.
