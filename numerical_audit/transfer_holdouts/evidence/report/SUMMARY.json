@@ -1,0 +1,117 @@
+{
+  "status": "complete_independently_audited_tables",
+  "preflight": false,
+  "measured_outer_constructors": 96,
+  "unique_circuits": 1332,
+  "logical_circuits": 1440,
+  "complete": 1332,
+  "censored": 0,
+  "comparisons": 5040,
+  "pair_decisions": {
+    "b": 3625,
+    "numerical_tie": 384,
+    "floor_tie": 436,
+    "a": 595
+  },
+  "actual_preparation": {
+    "CPU_seconds": 437.642907051,
+    "wall_seconds": 1750.8074804209755,
+    "actual_outer_training_CPU_seconds": 258.55170838099974,
+    "actual_training_warmup_CPU_seconds": 51.37358699599999,
+    "actual_compilation_warmup_CPU_seconds": 1.4188862819999897,
+    "actual_compilation_CPU_seconds": 124.02103896999927,
+    "original_reference_preparation": {
+      "CPU_seconds": 0.271585253,
+      "wall_seconds": 1.2002350009861402,
+      "actual_constructor_CPU_seconds": 0.24213013800000016,
+      "scope": "Actualfiveconstructorspermodel,source/inputauthentication,copies,allstatearchivesandmetadata;startup/finalfreezewritesinprocessreceipt",
+      "input_SCF_generation_is_separate": true,
+      "quantum_preparation_circuit_cost": "unknown"
+    },
+    "repeated_standalone_charges_are_campaign_work": false,
+    "scope": "Actual interface/reference/source authentication,copies,warmups,unique constructors/circuits and metadata;imports/process startup in resource receipt"
+  },
+  "actual_screening": {
+    "CPU_seconds": 111.68340698900005,
+    "wall_seconds": 446.78463251600624,
+    "scope": "Full-space references and primitive screening;offline evaluation,not training"
+  },
+  "independent_replay_CPU_seconds": 218.002143903,
+  "completed_phase_usage": {
+    "chemistry.tests": {
+      "CPU_seconds": 11.049999999999999,
+      "wall_seconds": 54.38304691303347,
+      "retained_output_bytes": 168851.0,
+      "attempts": 9,
+      "failed_attempts": 2
+    },
+    "chemistry.preflight": {
+      "CPU_seconds": 3.87,
+      "wall_seconds": 18.100404665994574,
+      "retained_output_bytes": 97379.0,
+      "attempts": 1,
+      "failed_attempts": 0
+    },
+    "chemistry.generation": {
+      "CPU_seconds": 2.55,
+      "wall_seconds": 12.060368232996552,
+      "retained_output_bytes": 360321.0,
+      "attempts": 1,
+      "failed_attempts": 0
+    },
+    "reference.preflight": {
+      "CPU_seconds": 9.6,
+      "wall_seconds": 42.159660600009374,
+      "retained_output_bytes": 730417.0,
+      "attempts": 2,
+      "failed_attempts": 1
+    },
+    "reference.main": {
+      "CPU_seconds": 5.83,
+      "wall_seconds": 24.081893223003135,
+      "retained_output_bytes": 555691.0,
+      "attempts": 1,
+      "failed_attempts": 0
+    },
+    "full.full_preflight": {
+      "CPU_seconds": 107.89000000000001,
+      "wall_seconds": 436.30849290802144,
+      "retained_output_bytes": 14415305.0,
+      "attempts": 3,
+      "failed_attempts": 1
+    },
+    "full.measurement": {
+      "CPU_seconds": 550.14,
+      "wall_seconds": 2202.1628101240203,
+      "retained_output_bytes": 39038416.0,
+      "attempts": 1,
+      "failed_attempts": 0
+    },
+    "full.independent": {
+      "CPU_seconds": 0.0,
+      "wall_seconds": 0.0,
+      "retained_output_bytes": 0.0,
+      "attempts": 0,
+      "failed_attempts": 0
+    },
+    "full.reporting": {
+      "CPU_seconds": 0.0,
+      "wall_seconds": 0.0,
+      "retained_output_bytes": 0.0,
+      "attempts": 0,
+      "failed_attempts": 0
+    }
+  },
+  "resource_snapshot_scope": "Allcompletedtransferattemptsincludingallfailedpreflightsandthefullmainproducer;currentauditguardreceiptchargedafterexitandretainedadditively;notclaimedincludedhere",
+  "producer_source_commit": "a9992ef702b0d1d344778c5ea5ad08a048a20eef",
+  "schedule_freeze_sha256": "30213905b98e6cb63e476bf3c41d6b44b335951706afcd8662106ce067021f00",
+  "verification_sha256": "57410ca071a26559d00397a259f4002d0020a3f7c5a923f5a45329450fae8268",
+  "reporter_source_sha256": "9d95f0c1940caf6c41750aa4360f796d93b7bb69e3021c26d53c63dea81ed035",
+  "limits": [
+    "Finite active-space development/transfer panel;no large-molecule or hardware scaling claim.",
+    "Logical observations share molecules,states,times and constructors;counts are descriptive.",
+    "Nominal search allowances differ;this is not a matched-total construction-cap experiment.",
+    "Non-HF resources cover evolution only;quantum preparation circuit cost is unknown.",
+    "Floating independent replay is not a rigorous interval certificate or a Lean molecular theorem."
+  ]
+}

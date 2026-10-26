@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "BeH2_r1p227.HF.first_JD.eval.HF.f1.t2.cap30",
+    "case": "BeH2_r1p227",
+    "constructor": "BeH2_r1p227.HF.first_JD",
+    "constructor_sha256": "98f3eb4c749b8b3446fba37383b3d95347c6a3af2aedd19699d5c72e8fd03fd3",
+    "model_sha256": "9e3e8a3aa18214b465bcf01f39d5d07597e533ad2cf382c98f854a4e490459c7",
+    "reference_vectors_sha256": "d75d992e90007620129d0422ad7623fd4203334396c156b3d6483675bb69e629",
+    "state": "HF",
+    "T": 2.73,
+    "formula": 1,
+    "steps": 30,
+    "cap_multiple": 30,
+    "preparation": "HF_prefix",
+    "compilation_status": "complete"
+  },
+  "steps": 30,
+  "rotation_cap": 990,
+  "ideal_rotations": 990,
+  "expected_ideal_rotations": 990,
+  "compiled_resources": {
+    "gates": 17866,
+    "single_qubit_gates": 4786,
+    "two_qubit_gates": 13080,
+    "unit_duration_ASAP_depth": 13985,
+    "CX_dependency_depth": 12600
+  },
+  "partial_compiled_resources": null,
+  "generated": 18466,
+  "trace_sha256": "6c7a96f27eddcd1e506c589e2977dec2dc21a7fab7c219e2d10132011d634261",
+  "trace_bytes": 3279,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0005095249999840235,
+    "lowering_CPU_seconds": 0.02814515500000425,
+    "counting_CPU_seconds": 0.005753791999950408
+  },
+  "serialization": {
+    "CPU_seconds": 0.032798130999992736,
+    "wall_seconds": 0.10684077901532874
+  },
+  "hashing": {
+    "CPU_seconds": 0.0001089810000394209,
+    "wall_seconds": 0.00010929498239420354
+  },
+  "quantum_preparation_circuit_cost": "HF prefix included",
+  "compiled_resource_scope": "HF preparation plus evolution",
+  "compilation_CPU_seconds": 0.06788020800001959,
+  "compilation_wall_seconds": 0.2948980609944556,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "BeH2_r1p227.HF.first_JD.eval.HF.f1.t2.cap30",
+  "case": "BeH2_r1p227",
+  "state": "HF",
+  "time_index": 2,
+  "T": 2.73,
+  "cap_multiple": 30,
+  "constructor": "BeH2_r1p227.HF.first_JD",
+  "training_state": "HF",
+  "method": "first_JD",
+  "partition": "conserving",
+  "formula": 1,
+  "trace_file": "traces/BeH2_r1p227.HF.first_JD.eval.HF.f1.t2.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.06795565499999157,
+  "ordering_CPU_charge": 0.09837455999999634,
+  "reference_charge_states": [
+    "HF"
+  ],
+  "standalone_reference_CPU_charge": 0.005714215999999994,
+  "input_generation_CPU_charge": 0.06150885699999997,
+  "standalone_without_input_CPU_charge": 0.1720444309999879,
+  "standalone_including_input_CPU_charge": 0.23355328799998787
+}

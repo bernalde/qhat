@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "BeH2_r1p733.coherent_real.first_JD.eval.coherent_real.f2.t1.cap10",
+    "case": "BeH2_r1p733",
+    "constructor": "BeH2_r1p733.coherent_real.first_JD",
+    "constructor_sha256": "02baa60f8f019dfebf642d3b77a971a17d70217f0ec85b5b670e6b1d1f781e81",
+    "model_sha256": "326e2a79427d18f03e53320d6be29c91ef0c3673b546a41ccc53cb3ddea099c5",
+    "reference_vectors_sha256": "a3df6324f936ad160195531baf1e63ff778c64ebe12cc41c5f13f5def3a942ec",
+    "state": "coherent_real",
+    "T": 1.41,
+    "formula": 2,
+    "steps": 5,
+    "cap_multiple": 10,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 5,
+  "rotation_cap": 330,
+  "ideal_rotations": 306,
+  "expected_ideal_rotations": 306,
+  "compiled_resources": {
+    "gates": 4920,
+    "single_qubit_gates": 1356,
+    "two_qubit_gates": 3564,
+    "unit_duration_ASAP_depth": 3864,
+    "CX_dependency_depth": 3434
+  },
+  "partial_compiled_resources": null,
+  "generated": 5710,
+  "trace_sha256": "337d296753076d002708502a0d60f009d1c3ef3d3964adf86f681ebe035abe93",
+  "trace_bytes": 2043,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0003518390000181171,
+    "lowering_CPU_seconds": 0.006620918000010079,
+    "counting_CPU_seconds": 0.001855704999968566
+  },
+  "serialization": {
+    "CPU_seconds": 0.0085912760000042,
+    "wall_seconds": 0.008652104006614536
+  },
+  "hashing": {
+    "CPU_seconds": 6.98089999673357e-05,
+    "wall_seconds": 7.014200673438609e-05
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.01768925900000795,
+  "compilation_wall_seconds": 0.017813897982705384,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "BeH2_r1p733.coherent_real.first_JD.eval.coherent_real.f2.t1.cap10",
+  "case": "BeH2_r1p733",
+  "state": "coherent_real",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 10,
+  "constructor": "BeH2_r1p733.coherent_real.first_JD",
+  "training_state": "coherent_real",
+  "method": "first_JD",
+  "partition": "conserving",
+  "formula": 2,
+  "trace_file": "traces/BeH2_r1p733.coherent_real.first_JD.eval.coherent_real.f2.t1.cap10.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.01774572699997634,
+  "ordering_CPU_charge": 0.12676399399998672,
+  "reference_charge_states": [
+    "coherent_real"
+  ],
+  "standalone_reference_CPU_charge": 0.005155191000000003,
+  "input_generation_CPU_charge": 0.059370343999999964,
+  "standalone_without_input_CPU_charge": 0.14966491199996307,
+  "standalone_including_input_CPU_charge": 0.20903525599996303
+}

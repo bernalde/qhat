@@ -1,0 +1,161 @@
+{
+  "scope": "Reviewrepairregressions;originaldecisionblockfactoredverbatimbeforefix",
+  "reviewed_head": "acbd966a1f9c81d824557d9e4599f341a207cc68",
+  "source_sha256": {
+    "verify.py": "3f9838219c9be63510f33fdbf332e366ac10bef85a536b9372c7fed5f3a55a11",
+    "reporting.py": "d1ebde407c564133f2bf437199ff1e811c420022c6bb4c35eadeaa76b80af260",
+    "study.py": "a1125b8e2bd3d778f12622864c1aac5007c7506b48815e403aca8f0083b2db4e",
+    "test_practical.py": "5c52103917a05bcc882246273819efb1a9319aa2742af22e723950d7f4ea6dc0",
+    "common.py": "83485dec8ef437f29b9f98d1675b8e1e5c16a7b0d8e2f30aad2194c040b93533"
+  },
+  "original_block_sha256": "689af8b37013372531da4feb624fc3c98db1390e73a2fa461466e973618a4e59",
+  "original_block_text": "    independent = independent_choices(curves, candidates, errors, costs)\n    k.require(independent == k.read(output / 'SELECTIONS.json'), 'Independent target selection differs')\n    comparisons = study.compare_selections(output, independent)\n    k.require(comparisons == k.read(output / 'COMPARISONS.json') and len(comparisons) == protocol['expected_comparisons'],\n              'Paired comparisons differ')\n",
+  "red": {
+    "unit": "fermionic-future-practical-decision-red-a1-3403883",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "875"
+    },
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONUNBUFFERED": "1",
+      "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/numba-cache",
+      "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/matplotlib-cache",
+      "LC_ALL": "C"
+    },
+    "command": [
+      "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+      "-m",
+      "pytest",
+      "numerical_audit/practical_accuracy/test_practical.py",
+      "-q",
+      "-k",
+      "independent_report",
+      "--junitxml=/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/runtime/practical-decision-red-a1/junit.xml",
+      "--basetemp=/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/runtime/practical-decision-red-a1/pytest-temp"
+    ],
+    "exit_code": 1,
+    "supervisor_exit_code": 1,
+    "elapsed": 3.0382729609846137,
+    "samples": [
+      {
+        "elapsed": 0.0011904019920621067,
+        "available_bytes": 25758920704,
+        "frozen": false,
+        "service": "MemoryCurrent=32768\nMemoryPeak=262144\nCPUUsageNSec=85000",
+        "output_bytes": 0
+      }
+    ],
+    "completed_utc": "2026-10-26T05:40:20.862553+00:00",
+    "budget": {
+      "cpu_seconds": 115.88,
+      "wall_seconds": 875,
+      "disk_mib": 64
+    },
+    "termination": null,
+    "log": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/practical-decision-red-a1.log",
+    "process_measurements": {
+      "user_cpu_seconds": 0.63,
+      "system_cpu_seconds": 0.14,
+      "max_rss_kib": 62784.0
+    },
+    "final_accounting": {
+      "CPU_seconds": 0.77,
+      "output_bytes": 879575,
+      "elapsed_seconds": 3.0382729609846137,
+      "process_CPU_timing_available": true
+    }
+  },
+  "green": {
+    "unit": "fermionic-future-practical-decision-tests-a1-3407523",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "872"
+    },
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONUNBUFFERED": "1",
+      "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/numba-cache",
+      "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/matplotlib-cache",
+      "LC_ALL": "C"
+    },
+    "command": [
+      "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+      "-m",
+      "pytest",
+      "numerical_audit/practical_accuracy/test_practical.py",
+      "-q",
+      "--junitxml=/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/runtime/practical-decision-tests-a1/junit.xml",
+      "--basetemp=/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/runtime/practical-decision-tests-a1/pytest-temp"
+    ],
+    "exit_code": 0,
+    "supervisor_exit_code": 0,
+    "elapsed": 6.0615754919999745,
+    "samples": [
+      {
+        "elapsed": 0.0009935630077961832,
+        "available_bytes": 25729204224,
+        "frozen": false,
+        "service": "MemoryCurrent=36864\nMemoryPeak=262144\nCPUUsageNSec=94000",
+        "output_bytes": 0
+      },
+      {
+        "elapsed": 3.0440923959831707,
+        "available_bytes": 25688244224,
+        "frozen": false,
+        "service": "MemoryCurrent=43732992\nMemoryPeak=44470272\nCPUUsageNSec=771975000",
+        "output_bytes": 13967
+      }
+    ],
+    "completed_utc": "2026-10-26T05:44:16.532454+00:00",
+    "budget": {
+      "cpu_seconds": 115.11,
+      "wall_seconds": 872,
+      "disk_mib": 64
+    },
+    "termination": null,
+    "log": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/practical-decision-tests-a1.log",
+    "process_measurements": {
+      "user_cpu_seconds": 0.95,
+      "system_cpu_seconds": 0.22,
+      "max_rss_kib": 66368.0
+    },
+    "final_accounting": {
+      "CPU_seconds": 1.17,
+      "output_bytes": 1319455,
+      "elapsed_seconds": 6.0615754919999745,
+      "process_CPU_timing_available": true
+    }
+  },
+  "checks": 39,
+  "scientific_payload_unchanged": true,
+  "review_status": "Astra/Argonconvergencepending;initialArgonDpartialretained"
+}

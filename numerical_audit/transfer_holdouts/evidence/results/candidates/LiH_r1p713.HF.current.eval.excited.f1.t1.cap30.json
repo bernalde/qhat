@@ -1,0 +1,74 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "LiH_r1p713.HF.current.eval.excited.f1.t1.cap30",
+    "case": "LiH_r1p713",
+    "constructor": "LiH_r1p713.HF.current",
+    "constructor_sha256": "4f1161b9cc5a418fa5c35a2fae3ac35ce7b2b44dab84ed740ef40249415b3422",
+    "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134",
+    "reference_vectors_sha256": "1e7728c51a218312fc0b2f245f992293b51f6e0fade7ad58bd868b7b91e652f3",
+    "state": "excited",
+    "T": 1.41,
+    "formula": 1,
+    "steps": 30,
+    "cap_multiple": 30,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 30,
+  "rotation_cap": 1830,
+  "ideal_rotations": 1830,
+  "expected_ideal_rotations": 1830,
+  "compiled_resources": {
+    "gates": 30750,
+    "single_qubit_gates": 9210,
+    "two_qubit_gates": 21540,
+    "unit_duration_ASAP_depth": 23401,
+    "CX_dependency_depth": 20701
+  },
+  "partial_compiled_resources": null,
+  "generated": 36330,
+  "trace_sha256": "5ede913f5d23cf5ddcd8013fc3ff6ed0b8b8fbc2be51504da7e87dde8789a697",
+  "trace_bytes": 4937,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0005509469999651628,
+    "lowering_CPU_seconds": 0.06790553899998031,
+    "counting_CPU_seconds": 0.009423604000005525
+  },
+  "serialization": {
+    "CPU_seconds": 0.070584187999998,
+    "wall_seconds": 0.29622956400271505
+  },
+  "hashing": {
+    "CPU_seconds": 0.0001622940000061135,
+    "wall_seconds": 0.00016071199206635356
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.1498628960000019,
+  "compilation_wall_seconds": 0.601009203994181,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "LiH_r1p713.HF.current.eval.excited.f1.t1.cap30",
+  "case": "LiH_r1p713",
+  "state": "excited",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 30,
+  "constructor": "LiH_r1p713.HF.current",
+  "training_state": "HF",
+  "method": "current",
+  "partition": "conserving",
+  "formula": 1,
+  "trace_file": "traces/LiH_r1p713.HF.current.eval.excited.f1.t1.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.1499354840000251,
+  "ordering_CPU_charge": 0.0017551540000013688,
+  "reference_charge_states": [
+    "HF",
+    "excited"
+  ],
+  "standalone_reference_CPU_charge": 0.01654982499999999,
+  "input_generation_CPU_charge": 1.62950434,
+  "standalone_without_input_CPU_charge": 0.16824046300002646,
+  "standalone_including_input_CPU_charge": 1.7977448030000265
+}

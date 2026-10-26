@@ -1,0 +1,74 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "BeH2_r1p227.HF.current.eval.coherent_imag.f1.t1.cap30",
+    "case": "BeH2_r1p227",
+    "constructor": "BeH2_r1p227.HF.current",
+    "constructor_sha256": "c3783066ca10300cc4c4aa73c25e8467e646e3a76b042c705e7f80fd8552c4db",
+    "model_sha256": "9e3e8a3aa18214b465bcf01f39d5d07597e533ad2cf382c98f854a4e490459c7",
+    "reference_vectors_sha256": "d75d992e90007620129d0422ad7623fd4203334396c156b3d6483675bb69e629",
+    "state": "coherent_imag",
+    "T": 1.41,
+    "formula": 1,
+    "steps": 30,
+    "cap_multiple": 30,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 30,
+  "rotation_cap": 990,
+  "ideal_rotations": 990,
+  "expected_ideal_rotations": 990,
+  "compiled_resources": {
+    "gates": 17850,
+    "single_qubit_gates": 4770,
+    "two_qubit_gates": 13080,
+    "unit_duration_ASAP_depth": 13981,
+    "CX_dependency_depth": 12600
+  },
+  "partial_compiled_resources": null,
+  "generated": 18450,
+  "trace_sha256": "5ff5348fbd6a20fbd4758c42311bdde1d4c8b9c3ad35e270be608928c3e699bb",
+  "trace_bytes": 3198,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0008058720000008179,
+    "lowering_CPU_seconds": 0.05134842600000411,
+    "counting_CPU_seconds": 0.01074185900000657
+  },
+  "serialization": {
+    "CPU_seconds": 0.04646819099997401,
+    "wall_seconds": 0.1985150530235842
+  },
+  "hashing": {
+    "CPU_seconds": 0.00016734299998688584,
+    "wall_seconds": 0.00016593202599324286
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.11028062799999816,
+  "compilation_wall_seconds": 0.48512259297422133,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "BeH2_r1p227.HF.current.eval.coherent_imag.f1.t1.cap30",
+  "case": "BeH2_r1p227",
+  "state": "coherent_imag",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 30,
+  "constructor": "BeH2_r1p227.HF.current",
+  "training_state": "HF",
+  "method": "current",
+  "partition": "conserving",
+  "formula": 1,
+  "trace_file": "traces/BeH2_r1p227.HF.current.eval.coherent_imag.f1.t1.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.11041089700000839,
+  "ordering_CPU_charge": 0.0012169629999903009,
+  "reference_charge_states": [
+    "HF",
+    "coherent_imag"
+  ],
+  "standalone_reference_CPU_charge": 0.010803010999999973,
+  "input_generation_CPU_charge": 0.06150885699999997,
+  "standalone_without_input_CPU_charge": 0.12243087099999866,
+  "standalone_including_input_CPU_charge": 0.18393972799999864
+}

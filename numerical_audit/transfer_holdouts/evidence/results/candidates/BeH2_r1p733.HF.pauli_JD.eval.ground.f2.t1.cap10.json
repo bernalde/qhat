@@ -1,0 +1,74 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "BeH2_r1p733.HF.pauli_JD.eval.ground.f2.t1.cap10",
+    "case": "BeH2_r1p733",
+    "constructor": "BeH2_r1p733.HF.pauli_JD",
+    "constructor_sha256": "703a517d71ee808c11f3d2c624ab5dd9f0579b4d31426165e72a228a46f7c492",
+    "model_sha256": "326e2a79427d18f03e53320d6be29c91ef0c3673b546a41ccc53cb3ddea099c5",
+    "reference_vectors_sha256": "a3df6324f936ad160195531baf1e63ff778c64ebe12cc41c5f13f5def3a942ec",
+    "state": "ground",
+    "T": 1.41,
+    "formula": 2,
+    "steps": 5,
+    "cap_multiple": 10,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 5,
+  "rotation_cap": 330,
+  "ideal_rotations": 321,
+  "expected_ideal_rotations": 321,
+  "compiled_resources": {
+    "gates": 5189,
+    "single_qubit_gates": 1473,
+    "two_qubit_gates": 3716,
+    "unit_duration_ASAP_depth": 4004,
+    "CX_dependency_depth": 3576
+  },
+  "partial_compiled_resources": null,
+  "generated": 6069,
+  "trace_sha256": "b8daf5a9635ecc417aa83154835380cd84c527095cb1582d297a40b5d05f8a90",
+  "trace_bytes": 2140,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0007977220000157104,
+    "lowering_CPU_seconds": 0.007776485000022149,
+    "counting_CPU_seconds": 0.001758737999978166
+  },
+  "serialization": {
+    "CPU_seconds": 0.01037104099998487,
+    "wall_seconds": 0.08718898799270391
+  },
+  "hashing": {
+    "CPU_seconds": 0.00018890100000135135,
+    "wall_seconds": 0.00018644897500053048
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.021331554000028063,
+  "compilation_wall_seconds": 0.09805482102092355,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "BeH2_r1p733.HF.pauli_JD.eval.ground.f2.t1.cap10",
+  "case": "BeH2_r1p733",
+  "state": "ground",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 10,
+  "constructor": "BeH2_r1p733.HF.pauli_JD",
+  "training_state": "HF",
+  "method": "pauli_JD",
+  "partition": "pauli",
+  "formula": 2,
+  "trace_file": "traces/BeH2_r1p733.HF.pauli_JD.eval.ground.f2.t1.cap10.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.021394361999966804,
+  "ordering_CPU_charge": 1.9727073859999962,
+  "reference_charge_states": [
+    "HF",
+    "ground"
+  ],
+  "standalone_reference_CPU_charge": 0.014583206000000015,
+  "input_generation_CPU_charge": 0.059370343999999964,
+  "standalone_without_input_CPU_charge": 2.008684953999963,
+  "standalone_including_input_CPU_charge": 2.068055297999963
+}

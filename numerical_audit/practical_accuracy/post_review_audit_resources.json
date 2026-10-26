@@ -1,0 +1,95 @@
+{
+  "scope": "Completedincrementalpost-reviewaudit;originalfullquantumreplayremainsseparate",
+  "receipt": {
+    "unit": "fermionic-future-practical-decision-audit-a1-3412806",
+    "settings": {
+      "CPUQuota": "25%",
+      "CPUWeight": "5",
+      "IOWeight": "10",
+      "Nice": "19",
+      "MemoryHigh": "448M",
+      "MemoryMax": "512M",
+      "MemorySwapMax": "0",
+      "TasksMax": "32",
+      "MemoryAccounting": "yes",
+      "CPUAccounting": "yes",
+      "RuntimeMaxSec": "300"
+    },
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONUNBUFFERED": "1",
+      "NUMBA_CACHE_DIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/numba-cache",
+      "MPLCONFIGDIR": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/matplotlib-cache",
+      "LC_ALL": "C"
+    },
+    "command": [
+      "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+      "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/runtime/audit-practical-review-repair.py"
+    ],
+    "exit_code": 0,
+    "supervisor_exit_code": 0,
+    "elapsed": 12.059213597007329,
+    "samples": [
+      {
+        "elapsed": 0.0010597479995340109,
+        "available_bytes": 25697112064,
+        "frozen": false,
+        "service": "MemoryCurrent=32768\nMemoryPeak=262144\nCPUUsageNSec=83000",
+        "output_bytes": 0
+      },
+      {
+        "elapsed": 3.0341025730012916,
+        "available_bytes": 25663987712,
+        "frozen": false,
+        "service": "MemoryCurrent=39653376\nMemoryPeak=41439232\nCPUUsageNSec=765151000",
+        "output_bytes": 6508
+      },
+      {
+        "elapsed": 6.041561741993064,
+        "available_bytes": 25660399616,
+        "frozen": false,
+        "service": "MemoryCurrent=45998080\nMemoryPeak=49041408\nCPUUsageNSec=1511330000",
+        "output_bytes": 6508
+      },
+      {
+        "elapsed": 9.05078367801616,
+        "available_bytes": 25609871360,
+        "frozen": false,
+        "service": "MemoryCurrent=79605760\nMemoryPeak=79605760\nCPUUsageNSec=2261998000",
+        "output_bytes": 6508
+      }
+    ],
+    "completed_utc": "2026-10-26T05:49:23.320161+00:00",
+    "budget": {
+      "cpu_seconds": 50.0,
+      "wall_seconds": 300,
+      "disk_mib": 512
+    },
+    "termination": null,
+    "log": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/practical-decision-audit-a1.log",
+    "process_measurements": {
+      "user_cpu_seconds": 2.19,
+      "system_cpu_seconds": 0.39,
+      "max_rss_kib": 102444.0
+    },
+    "final_accounting": {
+      "CPU_seconds": 2.58,
+      "output_bytes": 10708,
+      "elapsed_seconds": 12.059213597007329,
+      "process_CPU_timing_available": true
+    }
+  },
+  "driver_sha256": "4612b789d752eb3b04439c4d7209c54e0651fdf4db45ef5d9c2efbe3498f86b0",
+  "independent_phase_cumulative_CPU_seconds": 1315.4640000000002,
+  "independent_phase_cumulative_wall_seconds": 5269.036604902998,
+  "original_phase_limits_CPU_wall_outputMiB": [
+    3600,
+    21600,
+    512
+  ]
+}

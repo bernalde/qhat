@@ -1,0 +1,52 @@
+{
+  "preflight": {
+    "status": "passed",
+    "source_commit": "ae70c96d11572a990c1a591fd92f6c0e0c05c49d",
+    "original_producer_commit": "a2ace068e68eda286af93757996375341c5c874f",
+    "original_schedule_sha256": "4d50260c6b4d43b30264642864b0b4dff13242b684c5f212e190eaa14df9df6d",
+    "retained_original_CPU_exhaustion_receipt": "/home/bernalde/repos/fermionic-ordering-research/followups-2026-10-25/logs/practical-preflight-a1.resources.json",
+    "resumed_scope": "4fullcompilerwarmups;alloriginalobjectives/primitive/ideal/DAG/targetchecks;pack/extract/bytecheck",
+    "candidates": 176,
+    "complete": 170,
+    "target_rows": 33,
+    "CPU_seconds": 283.301689607,
+    "wall_seconds": 1133.205065282993,
+    "limitation": "Originalpreflightusedrotatedorderingbutlexicalcompilation;currentmainrotatesbothandretainsfullwarmups;mathpathsunchanged,24targetedtestspass"
+  },
+  "main_resource_estimate": {
+    "status": "feasible_within_original_main_ceilings",
+    "source_head": "ae70c96d11572a990c1a591fd92f6c0e0c05c49d",
+    "main_curves": 81,
+    "main_candidates": 1296,
+    "preflight_curves": 11,
+    "preflight_candidates": 176,
+    "multiplier": 7.363636363636363,
+    "measurement_CPU_with25percent_margin": 2996.7969812007955,
+    "measurement_wall_estimate": 12586.547321043341,
+    "independent_CPU_with25percent_margin": 2610.3170454545448,
+    "independent_wall_estimate": 10963.331590909089,
+    "measurement_output_bytes_with50percent_margin": 222154631.59090906,
+    "independent_delivery_archive_extraction_bytes_with25percent_margin": 437265309.8863636,
+    "preflight_cgroup_peak_bytes": 119369728,
+    "memory_bytes_with4x_margin": 477478912,
+    "main_limits": {
+      "measurement_CPU": 3600,
+      "measurement_wall": 21600,
+      "independent_CPU": 3600,
+      "independent_wall": 21600,
+      "output_bytes_per_phase": 536870912,
+      "MemoryMax_bytes": 536870912
+    },
+    "main_warmup_supplement_allowance": 18.126620004000017,
+    "scope": "High-mode altered-H2O full-path preflight;all original failed CPU and resumed successful usage retained separately",
+    "caveats": [
+      "Extrapolation is not a guarantee;owned guard enforces unchanged main ceilings.",
+      "Original preflight rotated ordering with lexical compilation;mainV2rotatesboth;additionalfullcompilerwarmups passed.",
+      "The4xmemory estimate is belowMemoryMax;MemoryHigh remains448MiB and actual headroom freezes remain enforced.",
+      "Model-specific circuit/order/censoring changes remain part of the full panel;no main case is dropped to fit."
+    ]
+  },
+  "original_failed_attempt_retained": true,
+  "original_and_supplemental_source_identities_distinct": true,
+  "scope": "Preflight summaries and raw attempt receipts delivered here;full preflight trees retained in campaign runtime,not included in main evidence inventory"
+}
