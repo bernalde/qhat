@@ -118,3 +118,24 @@ search allowances, not matched-total construction claims; setup/reference and
 one-circuit compilation charges remain explicit. Reference preparation is charged
 once at the outer cubic boundary. Real-panel training remains pending the
 practical study's reviewed,frozen interface; no holdout-error comparison has run.
+
+## Cross-study exposure record
+
+The registry,state/time panel,both generalized response adapters and nominal
+search controls were committed at86b29d161e3dbe7bedf43a8dc0c2457d5712ff2a
+before issue18's molecular errors were calculated. That separate quantitative
+study uses this panel's LiH1.713 input and HF state at exact time3/5,with two
+fixed first-order schedules(current placement and diagonal prefix). Its
+physical/scaled error and guard outcomes were produced at
+5ed79f2a70093a2e3afeb6777e9ccf1c4439edcc. None of this panel's exact validation
+times is3/5;the nearby0.59 is retained as originally declared.
+
+This overlap is disclosed rather than treating the molecular inputs as
+statistically independent of that quantitative example. The issue18 outcomes
+do not select or retune this panel's cases,states,phases,times,budgets,methods
+or initializers. The19pre-exposure response/state/training tests and original
+source snapshots remain retained. Any later correctness repair must have an
+independent mathematical/verification basis and preserve all declared losses
+and controls;no favorable physical error selects a replacement input or arm.
+Final source review must compare the executed adapters with that frozen source
+and explain every change before making the prospective-transfer claim.
