@@ -1,0 +1,131 @@
+{
+  "status": "independent_software_intervals_verified_reviews_and_merged_dependencies_pending",
+  "case": "LiH_r1p713",
+  "time": "3/5",
+  "state": "HF",
+  "spin_modes": 6,
+  "active_electrons": 2,
+  "full_space_dimension": 64,
+  "verified_invariant_sector_dimension": 9,
+  "circuits": 132,
+  "reference_evolutions": 11,
+  "finite_comparisons": 66,
+  "finite_counts": {
+    "current": 66
+  },
+  "physical_epsilon_one_finite_counts": {
+    "current": 6
+  },
+  "leading_guard_counts": {
+    "unresolved": 3,
+    "current": 8
+  },
+  "physical_epsilon_one_leading_guard": "unresolved",
+  "sufficient_positive_epsilon_domain": {
+    "status": "positive_epsilon_strict_upper",
+    "gap_lower": "30225016499177810995680736175500004181972106425168559249/6277101735386680763835789423207666416102355444464034512896",
+    "epsilon_upper": "755625412479445274892018404387500104549302660629213981225/22767952760205321696135523218300164487149614837626474135552",
+    "upper_inclusive": false,
+    "raw_gap_over_constant_sum": "755625412479445274892018404387500104549302660629213981225/22767952760205321696135523218300164487149614837626474135552"
+  },
+  "orders": {
+    "current": [
+      18,
+      1,
+      12,
+      19,
+      21,
+      11,
+      22,
+      27,
+      24,
+      20,
+      3,
+      7,
+      2,
+      8,
+      25,
+      26,
+      23,
+      15,
+      14,
+      16,
+      5,
+      9,
+      4,
+      10,
+      13,
+      17,
+      0,
+      6
+    ],
+    "diagonal_prefix": [
+      18,
+      20,
+      11,
+      15,
+      1,
+      12,
+      19,
+      14,
+      16,
+      5,
+      9,
+      4,
+      10,
+      13,
+      17,
+      3,
+      7,
+      2,
+      8,
+      0,
+      6,
+      21,
+      22,
+      27,
+      24,
+      25,
+      26,
+      23
+    ]
+  },
+  "response_constants": {
+    "current": {
+      "a": {
+        "lo": "2146554947473052404775896363281879989304325049985894918",
+        "hi": "2146554947473052404775896363599983072967350905354794513",
+        "bits": 192
+      },
+      "C": "350380181468947874457225630825446792842741798961690013/4789048565205902682369834459844716198808559756823756800"
+    },
+    "diagonal_prefix": {
+      "a": {
+        "lo": "32371571446650863400456632539099987254939457330523353762",
+        "hi": "32371571446650863400456632543968127067916053823688282126",
+        "bits": 192
+      },
+      "C": "344442595636927421445347709576779906594197130409235101/4789048565205902682369834459844716198808559756823756800"
+    }
+  },
+  "source_provenance": {
+    "producer": "5ed79f2a70093a2e3afeb6777e9ccf1c4439edcc",
+    "verifier": "5ed79f2a70093a2e3afeb6777e9ccf1c4439edcc",
+    "reporter": "f17df54155711594c9ebae5fce987af4cf664faf",
+    "reporter_sha256": "f7c3d63461b4e87cc49e9315d14b7551e5b096a164fb05e8cf35779b52e78508",
+    "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134"
+  },
+  "input_dependency": {
+    "status": "pinned_development_input_actual_issue17_merge_pending",
+    "chemistry_producer": "7c8c64acf0f13703df10b0335e0017da84e94f9b",
+    "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134"
+  },
+  "formal_scope": "Exact/rational software certificate;no concrete Lean instantiation or full numerical-search proof",
+  "limits": [
+    "One fixed active-space input,HF state,time and two predeclared first-order schedules.",
+    "Physical leading-response guard and actual finite-step error rankings are separate conclusions.",
+    "Squared infidelity values differ from1-abs(overlap),although their strict rankings agree.",
+    "No SCF/integral/basis-set error bound,global optimality,conservation-only mechanism orhardware advantage.",
+    "Requested independent Astra/Argon source reviews and actual merged input provenance remain pending."
+  ]
+}

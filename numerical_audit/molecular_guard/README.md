@@ -1,8 +1,18 @@
 # Fixed molecular guard and finite-step enclosures
 
-Status: implementation in progress. The protocol was committed before any guard
-or physical error. No independently audited molecular certificate or new Lean
-kernel result is available yet.
+Status: the complete frozen LiH panel now has independently verified software
+interval certificates for all 132 circuits and 11 reference evolutions. The
+current order has strictly lower squared infidelity in all 66 tested pairs,
+including six at physical epsilon=1. The leading-response guard remains
+unresolved at epsilon=1, 1/4 and 1/16; it is strict on the predeclared scaled
+grid from 1/64 downward. See [the complete report](evidence/report/README.md).
+
+The protocol and both orders were frozen before errors. All payload bytes,
+archive extraction and staged Git blobs were checked. Input provenance is
+explicitly developmental until the actual issue #17 merge. Paired Astra/Argon
+source reviews, publication and merge CI remain pending. The separate generic
+Lean modules passed their kernel/axiom preflight; the fresh full-root audit
+remains pending. These generic proofs do not instantiate the molecular certificate.
 
 `exact.py` checks every complete unit on every full-space occupation column
 before restricting to a conserved spin sector. It reconstructs exact rational
@@ -35,9 +45,9 @@ required for rankings; shared endpoints remain unresolved.
 `study.py freeze` authenticates the fixed model/source bytes, constructs both
 predeclared permutations and archives them before calculating guards or errors.
 `study.py evaluate` consumes that freeze and retains the entire declared panel.
-Producer completion is not independent verification. The independent generic
-rational interval checker, delivery/replay validation, paired reviews and actual
-publication/merge remain required. See[PROTOCOL.md](PROTOCOL.md) for the exact
+The independent generic rational interval checker and complete delivery/replay
+validation have passed. Paired source reviews and actual publication/merge remain
+required. See[PROTOCOL.md](PROTOCOL.md) for the exact
 input,panel,resource ceilings and physical-versus-scaled-Hamiltonian scope.
 
 Tests compare integer Pauli actions with literal local matrices, BCH signs with
