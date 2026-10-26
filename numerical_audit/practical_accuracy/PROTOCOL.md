@@ -118,3 +118,21 @@ No numerical/reviewer overlap and no unapproved resource increase.
 
 Prospective holds, sharper epsilon/finite-step proofs and actual manuscript
 integration remain separate required follow-ups, not completed by this panel.
+
+## Execution closeout addendum
+
+The user explicitly approved 450 additional preflight CPU seconds and 2,400
+additional wall seconds after the original 600/3,600 attempt stopped during
+independent replay. Its cumulative ceiling became 1,050/6,000, with the same
+256MiB output and 512MiB RAM bounds. The original failed outputs and all usage
+remain retained. The completed preflight used 884.345034 CPU seconds and
+3,543.177417 wall seconds; the original and supplemental controller identities
+remain distinct. This approval did not enlarge the unchanged main, independent,
+reporting or test ceilings.
+
+The full main producer, independent replay, complete archive/extraction and
+byte checks now pass at the recorded immutable source/data identities. All 243
+targets are met; all 15 censors and 70 completed construction overruns remain.
+The current README reports the complete per-target/cap cubic-versus-first
+outcomes, including losses. Paired source reviews, complete Git/paper delivery,
+publication, separate merges and actual-merge checks are still required.
