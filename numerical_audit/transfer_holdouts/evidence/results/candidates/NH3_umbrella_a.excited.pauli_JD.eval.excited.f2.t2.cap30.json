@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "NH3_umbrella_a.excited.pauli_JD.eval.excited.f2.t2.cap30",
+    "case": "NH3_umbrella_a",
+    "constructor": "NH3_umbrella_a.excited.pauli_JD",
+    "constructor_sha256": "e875d75c912adb939a72f93699031ca029e37c35c8adf9ff9a2dac07ce096350",
+    "model_sha256": "e2e44b9725853e9cdd053dfe17c88a864740c714b13716215e00bbc189ba797c",
+    "reference_vectors_sha256": "9d8a5e7bfa1daf6b9340cef2c294dc5dc1cfd6b9e782783d629576022240cd7f",
+    "state": "excited",
+    "T": 2.73,
+    "formula": 2,
+    "steps": 15,
+    "cap_multiple": 30,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 15,
+  "rotation_cap": 2310,
+  "ideal_rotations": 2281,
+  "expected_ideal_rotations": 2281,
+  "compiled_resources": {
+    "gates": 36049,
+    "single_qubit_gates": 10573,
+    "two_qubit_gates": 25476,
+    "unit_duration_ASAP_depth": 26919,
+    "CX_dependency_depth": 23856
+  },
+  "partial_compiled_resources": null,
+  "generated": 43729,
+  "trace_sha256": "62367db20830c93f0f30a2297a8b8d0d89f57c520f215720e41bf741104c078c",
+  "trace_bytes": 14681,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0006979010000236485,
+    "lowering_CPU_seconds": 0.09346238300003051,
+    "counting_CPU_seconds": 0.011817129999997178
+  },
+  "serialization": {
+    "CPU_seconds": 0.09530275299999857,
+    "wall_seconds": 0.39461307000601664
+  },
+  "hashing": {
+    "CPU_seconds": 0.00011162700002387282,
+    "wall_seconds": 0.00011138399713672698
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.2024559249999811,
+  "compilation_wall_seconds": 0.8008321920060553,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "NH3_umbrella_a.excited.pauli_JD.eval.excited.f2.t2.cap30",
+  "case": "NH3_umbrella_a",
+  "state": "excited",
+  "time_index": 2,
+  "T": 2.73,
+  "cap_multiple": 30,
+  "constructor": "NH3_umbrella_a.excited.pauli_JD",
+  "training_state": "excited",
+  "method": "pauli_JD",
+  "partition": "pauli",
+  "formula": 2,
+  "trace_file": "traces/NH3_umbrella_a.excited.pauli_JD.eval.excited.f2.t2.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.20255417899994654,
+  "ordering_CPU_charge": 8.003599984000004,
+  "reference_charge_states": [
+    "excited"
+  ],
+  "standalone_reference_CPU_charge": 0.013643422999999988,
+  "input_generation_CPU_charge": 0.0834768749999999,
+  "standalone_without_input_CPU_charge": 8.21979758599995,
+  "standalone_including_input_CPU_charge": 8.303274460999951
+}

@@ -1,0 +1,326 @@
+{
+  "case": "LiH_r2p267",
+  "states": {
+    "HF": {
+      "metadata": {
+        "label": "HF",
+        "sector": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          24,
+          33,
+          36,
+          48
+        ],
+        "construction": "HF determinant",
+        "quantum_preparation_circuit_cost": "unknown; no efficient quantum preparation protocol supplied",
+        "norm": 1.0,
+        "natural_occupations": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "one_RDM_idempotency_defect": 0.0,
+        "correlation_label": "Slater-like",
+        "participation_ratio": 1.0,
+        "maximum_determinant_weight": 1.0,
+        "support": [
+          3
+        ],
+        "correlation_rule": "defect>1e-10 correlated;defect<=1e-12 Slater-like;otherwise indeterminate"
+      },
+      "phases": {
+        "model_load_validation_CPU_seconds": 0.006399519999999992,
+        "Hamiltonian_CPU_seconds": 0.0,
+        "eigensystem_CPU_seconds": 0.0,
+        "state_embedding_CPU_seconds": 1.4748999999980583e-05,
+        "labels_RDM_CPU_seconds": 0.0008174930000000025,
+        "cleanup_CPU_seconds": 5.2833000000029884e-05
+      },
+      "CPU_seconds": 0.007292361000000025,
+      "wall_seconds": 0.007345377991441637,
+      "accounting_overhead_CPU_seconds": 7.766000000020146e-06,
+      "timing": "caller through full state-constructor return,diagnostics and context cleanup"
+    },
+    "ground": {
+      "metadata": {
+        "label": "ground",
+        "sector": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          24,
+          33,
+          36,
+          48
+        ],
+        "construction": "Fresh exact sector eigensystem plus stated state construction",
+        "quantum_preparation_circuit_cost": "unknown; no efficient quantum preparation protocol supplied",
+        "energies": [
+          -0.5576764950444555,
+          -0.46991625221402206,
+          -0.4496454359832833,
+          -0.4188193936443508,
+          -0.3913605943089781,
+          -0.03814956679577538,
+          0.0007460250474446284,
+          0.058804774137293625,
+          0.09808456034795918
+        ],
+        "ground_excited_gap": 0.08776024283043343,
+        "near_degenerate": false,
+        "canonical_cluster_tolerance": 1e-11,
+        "degeneracy_label_threshold": 1e-09,
+        "eigen_residual": 1.1279706478293803e-16,
+        "norm": 1.0,
+        "natural_occupations": [
+          0.0010396351206050892,
+          0.0010396351206050892,
+          0.0022144929228999355,
+          0.0022144929228999684,
+          0.996745871956495,
+          0.9967458719564952
+        ],
+        "one_RDM_idempotency_defect": 0.012983363835193672,
+        "correlation_label": "correlated",
+        "participation_ratio": 1.0103381075304798,
+        "maximum_determinant_weight": 0.994866894308517,
+        "support": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          48
+        ],
+        "correlation_rule": "defect>1e-10 correlated;defect<=1e-12 Slater-like;otherwise indeterminate"
+      },
+      "phases": {
+        "model_load_validation_CPU_seconds": 0.003775786000000003,
+        "Hamiltonian_CPU_seconds": 0.00317557199999996,
+        "eigensystem_CPU_seconds": 0.00019836900000003155,
+        "state_embedding_CPU_seconds": 4.4965000000007915e-05,
+        "labels_RDM_CPU_seconds": 0.0004246169999999605,
+        "cleanup_CPU_seconds": 5.4989000000005284e-05
+      },
+      "CPU_seconds": 0.007682989000000029,
+      "wall_seconds": 0.08507587799977046,
+      "accounting_overhead_CPU_seconds": 8.691000000060622e-06,
+      "timing": "caller through full state-constructor return,diagnostics and context cleanup"
+    },
+    "excited": {
+      "metadata": {
+        "label": "excited",
+        "sector": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          24,
+          33,
+          36,
+          48
+        ],
+        "construction": "Fresh exact sector eigensystem plus stated state construction",
+        "quantum_preparation_circuit_cost": "unknown; no efficient quantum preparation protocol supplied",
+        "energies": [
+          -0.5576764950444555,
+          -0.46991625221402206,
+          -0.4496454359832833,
+          -0.4188193936443508,
+          -0.3913605943089781,
+          -0.03814956679577538,
+          0.0007460250474446284,
+          0.058804774137293625,
+          0.09808456034795918
+        ],
+        "ground_excited_gap": 0.08776024283043343,
+        "near_degenerate": false,
+        "canonical_cluster_tolerance": 1e-11,
+        "degeneracy_label_threshold": 1e-09,
+        "eigen_residual": 1.9140618696834972e-16,
+        "norm": 1.0,
+        "natural_occupations": [
+          4.930380657631324e-32,
+          5.551115123125783e-17,
+          0.49999999999999695,
+          0.49999999999999717,
+          0.5000000000000028,
+          0.5000000000000029
+        ],
+        "one_RDM_idempotency_defect": 1.0,
+        "correlation_label": "correlated",
+        "participation_ratio": 2.0,
+        "maximum_determinant_weight": 0.5000000000000028,
+        "support": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          48
+        ],
+        "correlation_rule": "defect>1e-10 correlated;defect<=1e-12 Slater-like;otherwise indeterminate"
+      },
+      "phases": {
+        "model_load_validation_CPU_seconds": 0.0038684310000000055,
+        "Hamiltonian_CPU_seconds": 0.0026179470000000093,
+        "eigensystem_CPU_seconds": 0.00016010699999996492,
+        "state_embedding_CPU_seconds": 4.158100000001275e-05,
+        "labels_RDM_CPU_seconds": 0.00040352000000004606,
+        "cleanup_CPU_seconds": 4.1076000000028756e-05
+      },
+      "CPU_seconds": 0.007141374000000034,
+      "wall_seconds": 0.007195273006800562,
+      "accounting_overhead_CPU_seconds": 8.711999999966302e-06,
+      "timing": "caller through full state-constructor return,diagnostics and context cleanup"
+    },
+    "coherent_real": {
+      "metadata": {
+        "label": "coherent_real",
+        "sector": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          24,
+          33,
+          36,
+          48
+        ],
+        "construction": "Fresh exact sector eigensystem plus stated state construction",
+        "quantum_preparation_circuit_cost": "unknown; no efficient quantum preparation protocol supplied",
+        "energies": [
+          -0.5576764950444555,
+          -0.46991625221402206,
+          -0.4496454359832833,
+          -0.4188193936443508,
+          -0.3913605943089781,
+          -0.03814956679577538,
+          0.0007460250474446284,
+          0.058804774137293625,
+          0.09808456034795918
+        ],
+        "ground_excited_gap": 0.08776024283043343,
+        "near_degenerate": false,
+        "canonical_cluster_tolerance": 1e-11,
+        "degeneracy_label_threshold": 1e-09,
+        "norm": 1.0,
+        "natural_occupations": [
+          0.0005198175603024953,
+          0.0005198175603025522,
+          0.0542810251824663,
+          0.054281025182466316,
+          0.9451991572572315,
+          0.9451991572572316
+        ],
+        "one_RDM_idempotency_defect": 0.20730370643012824,
+        "correlation_label": "correlated",
+        "participation_ratio": 2.6743907131047764,
+        "maximum_determinant_weight": 0.4974334471542588,
+        "support": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          48
+        ],
+        "correlation_rule": "defect>1e-10 correlated;defect<=1e-12 Slater-like;otherwise indeterminate"
+      },
+      "phases": {
+        "model_load_validation_CPU_seconds": 0.0032714189999999976,
+        "Hamiltonian_CPU_seconds": 0.0022876170000000196,
+        "eigensystem_CPU_seconds": 0.0001136469999999945,
+        "state_embedding_CPU_seconds": 2.6929000000008863e-05,
+        "labels_RDM_CPU_seconds": 0.0003847140000000082,
+        "cleanup_CPU_seconds": 2.7524000000000992e-05
+      },
+      "CPU_seconds": 0.0061173570000000455,
+      "wall_seconds": 0.006163369005662389,
+      "accounting_overhead_CPU_seconds": 5.507000000015694e-06,
+      "timing": "caller through full state-constructor return,diagnostics and context cleanup"
+    },
+    "coherent_imag": {
+      "metadata": {
+        "label": "coherent_imag",
+        "sector": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          24,
+          33,
+          36,
+          48
+        ],
+        "construction": "Fresh exact sector eigensystem plus stated state construction",
+        "quantum_preparation_circuit_cost": "unknown; no efficient quantum preparation protocol supplied",
+        "energies": [
+          -0.5576764950444555,
+          -0.46991625221402206,
+          -0.4496454359832833,
+          -0.4188193936443508,
+          -0.3913605943089781,
+          -0.03814956679577538,
+          0.0007460250474446284,
+          0.058804774137293625,
+          0.09808456034795918
+        ],
+        "ground_excited_gap": 0.08776024283043343,
+        "near_degenerate": false,
+        "canonical_cluster_tolerance": 1e-11,
+        "degeneracy_label_threshold": 1e-09,
+        "norm": 1.0,
+        "natural_occupations": [
+          0.0005198175603025445,
+          0.000519817560302545,
+          0.08147833742175142,
+          0.08147833742175153,
+          0.918001845017946,
+          0.9180018450179461
+        ],
+        "one_RDM_idempotency_defect": 0.30126724572867647,
+        "correlation_label": "correlated",
+        "participation_ratio": 2.681442533524041,
+        "maximum_determinant_weight": 0.49743344715425897,
+        "support": [
+          3,
+          6,
+          9,
+          12,
+          18,
+          48
+        ],
+        "correlation_rule": "defect>1e-10 correlated;defect<=1e-12 Slater-like;otherwise indeterminate"
+      },
+      "phases": {
+        "model_load_validation_CPU_seconds": 0.0032040450000000442,
+        "Hamiltonian_CPU_seconds": 0.0022596089999999958,
+        "eigensystem_CPU_seconds": 0.00026580900000000574,
+        "state_embedding_CPU_seconds": 4.920799999996728e-05,
+        "labels_RDM_CPU_seconds": 0.0005390089999999792,
+        "cleanup_CPU_seconds": 8.948000000003065e-05
+      },
+      "CPU_seconds": 0.006441719000000012,
+      "wall_seconds": 0.08131200599018484,
+      "accounting_overhead_CPU_seconds": 3.455899999998957e-05,
+      "timing": "caller through full state-constructor return,diagnostics and context cleanup"
+    }
+  },
+  "model_sha256": "c33de24bd5614506c871e705e16c5e663268f96f4c279c2eab8ee12b3d4390b5",
+  "vectors_sha256": "d9a4daa044b609b7c612a19967c3704f623bf996580ef8cd62e6a6214d89d34b",
+  "vectors_file": "states/LiH_r2p267.npz",
+  "archive_serialization_CPU_seconds": 0.00045123700000004874
+}

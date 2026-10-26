@@ -1,0 +1,45 @@
+{
+  "source_commit": "5d885d270207554828d55f9f1a59c33bd8c22c23",
+  "sources": {
+    "numerical_audit/prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971",
+    "numerical_audit/state_holdouts/response.py": "431255881e32a0fbb359ab5a3ac45999f1ff1240aac8ea11a0f8fc359b1d6ecf",
+    "numerical_audit/symmetric_response/cubic.py": "a37c36f066d19b53c46adfdb41d2064ca2d7e93e2332a66b7ae6749270f7ebc3",
+    "numerical_audit/transfer_holdouts/PROTOCOL.md": "0fda5bbd13ab6cbcd612adfed1ffe7f2cb7b4b6bf3b48fd0bd9f29ef601a6ca4",
+    "numerical_audit/transfer_holdouts/REGISTRY.json": "6a788afdb06af8a35a5bf9b073b92ff84012c26311b5608059b9fa03898285bb",
+    "numerical_audit/transfer_holdouts/cubic_response.py": "2607e87f27f95ee6cb45a15beeca53bd50eac3365647217e0bf92ffab1832e34",
+    "numerical_audit/transfer_holdouts/generate_inputs.py": "3b2ca18b1bed8abf0e1c980bda851e3d0ecca7fdc1a64f55e33a42a073350f02",
+    "numerical_audit/transfer_holdouts/geometry_identity.py": "0605b5f04af719774cbdcc11f24fad6f92772fb38c3dd16ce8b19409c7e84d91",
+    "numerical_audit/transfer_holdouts/state_preparation.py": "5d746bdb0d25f4e23c21372110fb1d98d274df9063913adc70d3ad3f3afb97da",
+    "numerical_audit/transfer_holdouts/test_cubic_response.py": "f75f55f1fb5ecc0ba2bdffb39c1821ec3bfb333ac1fa69066b939cfe78aabf8b",
+    "numerical_audit/transfer_holdouts/test_states.py": "90725379d7fe1d37bcbf47ba7cbe296bc81dcdf4698c93326a04f826e82b4cfb",
+    "numerical_audit/transfer_holdouts/transfer_common.py": "28703a413c2d134cd413ab7faced4f8aea5bb3706ef1c71a0074248c8601c733",
+    "numerical_audit/transfer_holdouts/verify_references.py": "9b4f8dc3eead01c3f11b5d7c9d12e774aded3541d97768b7320586c9e8ac448b"
+  },
+  "environment": {
+    "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+    "executable": "/home/bernalde/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/bin/python3.12",
+    "packages": {
+      "numpy": "2.5.3",
+      "scipy": "1.18.1"
+    }
+  },
+  "preflight": false,
+  "states": [
+    "HF",
+    "ground",
+    "excited",
+    "coherent_real",
+    "coherent_imag"
+  ],
+  "training_time": 1.11,
+  "validation_times": [
+    0.59,
+    1.41,
+    2.73
+  ],
+  "input_manifest_sha256": "f884b3c9765f9a8b8e3e459c6066399b174b7f3ce86955ac9e451dd32da200ce",
+  "expected_models": 6,
+  "expected_states": 30,
+  "scope": "Referencepreparationonly;nocircuitvalidationerrorsororderingselection",
+  "repeated_standalone_constructors_are_actual_work": true
+}

@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "BeH2_r1p227.excited.first_JD.eval.excited.f2.t0.cap10",
+    "case": "BeH2_r1p227",
+    "constructor": "BeH2_r1p227.excited.first_JD",
+    "constructor_sha256": "386e5fdb93a3d61658c991e512e9cb3cba2cf2cfdcf3c2679f577d61c277a9b0",
+    "model_sha256": "9e3e8a3aa18214b465bcf01f39d5d07597e533ad2cf382c98f854a4e490459c7",
+    "reference_vectors_sha256": "d75d992e90007620129d0422ad7623fd4203334396c156b3d6483675bb69e629",
+    "state": "excited",
+    "T": 0.59,
+    "formula": 2,
+    "steps": 5,
+    "cap_multiple": 10,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 5,
+  "rotation_cap": 330,
+  "ideal_rotations": 306,
+  "expected_ideal_rotations": 306,
+  "compiled_resources": {
+    "gates": 4816,
+    "single_qubit_gates": 1356,
+    "two_qubit_gates": 3460,
+    "unit_duration_ASAP_depth": 3751,
+    "CX_dependency_depth": 3330
+  },
+  "partial_compiled_resources": null,
+  "generated": 5766,
+  "trace_sha256": "dd5cb70fc8394706761d7942eae189ae9e1df6862980206242bdf123936b329a",
+  "trace_bytes": 1986,
+  "phases": {
+    "input_validation_CPU_seconds": 0.00035752999997384904,
+    "lowering_CPU_seconds": 0.008650380999995377,
+    "counting_CPU_seconds": 0.0021434620000491122
+  },
+  "serialization": {
+    "CPU_seconds": 0.011333471000000372,
+    "wall_seconds": 0.011416930996347219
+  },
+  "hashing": {
+    "CPU_seconds": 0.00011411200000566168,
+    "wall_seconds": 0.00011486999574117362
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.0229607910000027,
+  "compilation_wall_seconds": 0.09653325797989964,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "BeH2_r1p227.excited.first_JD.eval.excited.f2.t0.cap10",
+  "case": "BeH2_r1p227",
+  "state": "excited",
+  "time_index": 0,
+  "T": 0.59,
+  "cap_multiple": 10,
+  "constructor": "BeH2_r1p227.excited.first_JD",
+  "training_state": "excited",
+  "method": "first_JD",
+  "partition": "conserving",
+  "formula": 2,
+  "trace_file": "traces/BeH2_r1p227.excited.first_JD.eval.excited.f2.t0.cap10.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.023022366999953192,
+  "ordering_CPU_charge": 0.13159551999999053,
+  "reference_charge_states": [
+    "excited"
+  ],
+  "standalone_reference_CPU_charge": 0.00659041199999999,
+  "input_generation_CPU_charge": 0.06150885699999997,
+  "standalone_without_input_CPU_charge": 0.1612082989999437,
+  "standalone_including_input_CPU_charge": 0.22271715599994368
+}

@@ -1,0 +1,162 @@
+{
+  "status": "passed",
+  "models": [
+    {
+      "case": "LiH_r1p713",
+      "identity": {
+        "raw_tensor_target_difference": 6.217248937900877e-15,
+        "policy_L1_allowance": 8.68249616585644e-15,
+        "retained_parent_difference": 4.718447854656915e-16,
+        "HF_CAR_difference": 2.6645352591003757e-15,
+        "orbital_orthogonality_error": 1.4748214790956399e-15
+      }
+    },
+    {
+      "case": "LiH_r2p267",
+      "identity": {
+        "raw_tensor_target_difference": 3.552713678800501e-15,
+        "policy_L1_allowance": 2.9940894229512208e-15,
+        "retained_parent_difference": 4.440892098500626e-16,
+        "HF_CAR_difference": 3.552713678800501e-15,
+        "orbital_orthogonality_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "case": "BeH2_r1p227",
+      "identity": {
+        "raw_tensor_target_difference": 1.7763568394002505e-14,
+        "policy_L1_allowance": 5.0336666693781475e-15,
+        "retained_parent_difference": 8.881784197001252e-16,
+        "HF_CAR_difference": 7.105427357601002e-15,
+        "orbital_orthogonality_error": 1.9984014443252818e-15
+      }
+    },
+    {
+      "case": "BeH2_r1p733",
+      "identity": {
+        "raw_tensor_target_difference": 1.4210854715202004e-14,
+        "policy_L1_allowance": 1.033858480330022e-14,
+        "retained_parent_difference": 1.1102230246251565e-15,
+        "HF_CAR_difference": 1.7763568394002505e-15,
+        "orbital_orthogonality_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "case": "NH3_umbrella_a",
+      "identity": {
+        "raw_tensor_target_difference": 2.2930429997732796e-14,
+        "policy_L1_allowance": 1.58386205098885e-13,
+        "retained_parent_difference": 1.1657341758564144e-15,
+        "HF_CAR_difference": 1.4210854715202004e-14,
+        "orbital_orthogonality_error": 1.1617516566729976e-15
+      }
+    },
+    {
+      "case": "NH3_umbrella_b",
+      "identity": {
+        "raw_tensor_target_difference": 6.394884621840902e-14,
+        "policy_L1_allowance": 1.0089198130691322e-14,
+        "retained_parent_difference": 1.6653345369377348e-15,
+        "HF_CAR_difference": 4.263256414560601e-14,
+        "orbital_orthogonality_error": 1.5543122344752192e-15
+      }
+    }
+  ],
+  "states": 30,
+  "geometry_audit": {
+    "status": "passed",
+    "targets": [
+      {
+        "case": "LiH_r1p713",
+        "baseline_matches": []
+      },
+      {
+        "case": "LiH_r2p267",
+        "baseline_matches": []
+      },
+      {
+        "case": "BeH2_r1p227",
+        "baseline_matches": []
+      },
+      {
+        "case": "BeH2_r1p733",
+        "baseline_matches": []
+      },
+      {
+        "case": "NH3_umbrella_a",
+        "baseline_matches": []
+      },
+      {
+        "case": "NH3_umbrella_b",
+        "baseline_matches": []
+      }
+    ],
+    "baseline": {
+      "base": "b8994cac5e7e07583c293fa2c659a24eb2d51127",
+      "JSON_files": 4656,
+      "unique_JSON_blobs": 4501,
+      "recorded_geometry_occurrences": 6,
+      "scanned_JSON_bytes": 299898441
+    },
+    "tolerance_Angstrom": 1e-09,
+    "method": "Atomiccompositionandlabelledpairdistances;rotation/translation/atom-permutationinvariant",
+    "scope": "Everygeometryrecordedinthepublishedbaselinesnumerical-auditJSON;noassertionaboutunrecordedexternaldatasets"
+  },
+  "producer_sources": {
+    "numerical_audit/prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971",
+    "numerical_audit/state_holdouts/response.py": "431255881e32a0fbb359ab5a3ac45999f1ff1240aac8ea11a0f8fc359b1d6ecf",
+    "numerical_audit/symmetric_response/cubic.py": "a37c36f066d19b53c46adfdb41d2064ca2d7e93e2332a66b7ae6749270f7ebc3",
+    "numerical_audit/transfer_holdouts/PROTOCOL.md": "0fda5bbd13ab6cbcd612adfed1ffe7f2cb7b4b6bf3b48fd0bd9f29ef601a6ca4",
+    "numerical_audit/transfer_holdouts/REGISTRY.json": "6a788afdb06af8a35a5bf9b073b92ff84012c26311b5608059b9fa03898285bb",
+    "numerical_audit/transfer_holdouts/cubic_response.py": "2607e87f27f95ee6cb45a15beeca53bd50eac3365647217e0bf92ffab1832e34",
+    "numerical_audit/transfer_holdouts/generate_inputs.py": "3b2ca18b1bed8abf0e1c980bda851e3d0ecca7fdc1a64f55e33a42a073350f02",
+    "numerical_audit/transfer_holdouts/geometry_identity.py": "0605b5f04af719774cbdcc11f24fad6f92772fb38c3dd16ce8b19409c7e84d91",
+    "numerical_audit/transfer_holdouts/state_preparation.py": "5d746bdb0d25f4e23c21372110fb1d98d274df9063913adc70d3ad3f3afb97da",
+    "numerical_audit/transfer_holdouts/test_cubic_response.py": "f75f55f1fb5ecc0ba2bdffb39c1821ec3bfb333ac1fa69066b939cfe78aabf8b",
+    "numerical_audit/transfer_holdouts/test_states.py": "90725379d7fe1d37bcbf47ba7cbe296bc81dcdf4698c93326a04f826e82b4cfb",
+    "numerical_audit/transfer_holdouts/transfer_common.py": "28703a413c2d134cd413ab7faced4f8aea5bb3706ef1c71a0074248c8601c733",
+    "numerical_audit/transfer_holdouts/verify_references.py": "9b4f8dc3eead01c3f11b5d7c9d12e774aded3541d97768b7320586c9e8ac448b"
+  },
+  "verifier_sources": {
+    "numerical_audit/compiled_accuracy/compiler.py": "0cf8ecaf140163b6f880399e534b8d9b9aad5eacf8a544cb911ef11e70373d69",
+    "numerical_audit/prospective_reference/campaign.py": "1e033b0c19c57544a20c9355794ac7f5a6be734a2d1dbca23366ec40a9a86de6",
+    "numerical_audit/prospective_reference/engine.py": "c3cd2a64c94d6a562e25a93137593794bc866dfea61cf24334a0131c58980971",
+    "numerical_audit/prospective_reference/one_pass.py": "3cfaced88f188d418ad5fac1be585478ad7894d6d4da53142489f82c8e82fcb6",
+    "numerical_audit/state_holdouts/response.py": "431255881e32a0fbb359ab5a3ac45999f1ff1240aac8ea11a0f8fc359b1d6ecf",
+    "numerical_audit/symmetric_response/cubic.py": "a37c36f066d19b53c46adfdb41d2064ca2d7e93e2332a66b7ae6749270f7ebc3",
+    "numerical_audit/transfer_holdouts/CHECKS.md": "38466b2b3ff1efae2e1829b7c56f9bcb869dfce730bca1b2f0ef467731782a4f",
+    "numerical_audit/transfer_holdouts/CIRCUIT_POLICY.md": "53b6a28b39e3f02025f5eafe59b551fb380c3e9e92d34a0b0d4a853ee64abc8b",
+    "numerical_audit/transfer_holdouts/EXECUTION_PROTOCOL.md": "57945d293b3db82236de95461b0ab391b4a6436f08f087503200cbc3758be8d1",
+    "numerical_audit/transfer_holdouts/PROTOCOL.md": "de93b45f6e83e5bf5a9e9593e1b7eb9e0bc60093a99ac237e3d3d34435df18cd",
+    "numerical_audit/transfer_holdouts/REGISTRY.json": "6a788afdb06af8a35a5bf9b073b92ff84012c26311b5608059b9fa03898285bb",
+    "numerical_audit/transfer_holdouts/circuit_reference.py": "b1492d12ae4484c16d304985509e85bfe88a5e51d1a1f1a9b98e20ccbfc2c882",
+    "numerical_audit/transfer_holdouts/compilation.py": "9385d2bf3e54390210a5f770fa972ecb754a04eab7433cb587d11064681059c5",
+    "numerical_audit/transfer_holdouts/cubic_response.py": "2607e87f27f95ee6cb45a15beeca53bd50eac3365647217e0bf92ffab1832e34",
+    "numerical_audit/transfer_holdouts/delivery.py": "08d06f29d5a92e3db4adabf10be66aaedab7ad58d739dbb4b15055a3fc27ae68",
+    "numerical_audit/transfer_holdouts/generate_inputs.py": "3b2ca18b1bed8abf0e1c980bda851e3d0ecca7fdc1a64f55e33a42a073350f02",
+    "numerical_audit/transfer_holdouts/geometry_identity.py": "0605b5f04af719774cbdcc11f24fad6f92772fb38c3dd16ce8b19409c7e84d91",
+    "numerical_audit/transfer_holdouts/objective_reference.py": "7dbbd2fc7ac668a946f7c1c83747c909c3342af34dcc25ece6e0b136ddc9feca",
+    "numerical_audit/transfer_holdouts/panel.py": "a6b6b384fc4731080acd44043220efa7fa3ec58dc3c5ca79395a0a3413e16bd8",
+    "numerical_audit/transfer_holdouts/reporting.py": "9d95f0c1940caf6c41750aa4360f796d93b7bb69e3021c26d53c63dea81ed035",
+    "numerical_audit/transfer_holdouts/state_preparation.py": "5d746bdb0d25f4e23c21372110fb1d98d274df9063913adc70d3ad3f3afb97da",
+    "numerical_audit/transfer_holdouts/study.py": "f88fca1917485116380a6d8ee98a39dc022c7c667deda8ae27a07dce4e980528",
+    "numerical_audit/transfer_holdouts/test_compilation.py": "de947661c4429fa3739388bd6f1ef4804b515107431e9d0f2cc9acc37c24f05c",
+    "numerical_audit/transfer_holdouts/test_cubic_response.py": "f75f55f1fb5ecc0ba2bdffb39c1821ec3bfb333ac1fa69066b939cfe78aabf8b",
+    "numerical_audit/transfer_holdouts/test_delivery.py": "47f7189ed77efbebcf8a95a5655762a1b0b1a7074d08909249800ea41346982e",
+    "numerical_audit/transfer_holdouts/test_objective_reference.py": "c74c409a29cfdc346dfa39b7aaf5b122cb5ab5e2c8e3f51fc58b01f25ed046b5",
+    "numerical_audit/transfer_holdouts/test_panel.py": "7f84a460ed7bc48129f8bbe6f31e08fa28027a572fce74e9c95190527262def3",
+    "numerical_audit/transfer_holdouts/test_reporting.py": "93f59330d2376d92055e44c5a629e40d07130405e99f383f0acb98df589a9fba",
+    "numerical_audit/transfer_holdouts/test_states.py": "2a70e93d469cbed2a5d399a55f025f276fc9405cd0e010645629e4600d214d13",
+    "numerical_audit/transfer_holdouts/test_study.py": "3934101731056c9a8df10dd8e949efa028821576e215396d65c99639feceb85b",
+    "numerical_audit/transfer_holdouts/test_verify.py": "8b2190c626a0393d38019fa99a718d36c4bac820507136fd8e7d42209d4936cd",
+    "numerical_audit/transfer_holdouts/training.py": "01b6f1e652691783ad26647e64975b0d7642991970831d49560e28a7452eb474",
+    "numerical_audit/transfer_holdouts/transfer_common.py": "890f680ff68e0ed45f9a9a1693ab1afd8b4cfe482ade10a6332140b3e3b97f82",
+    "numerical_audit/transfer_holdouts/verify.py": "bac5c68a885792ef2b9992db3c0520424613cb3cd247d85fed4ae32e4b5d6612",
+    "numerical_audit/transfer_holdouts/verify_references.py": "9b4f8dc3eead01c3f11b5d7c9d12e774aded3541d97768b7320586c9e8ac448b"
+  },
+  "reference_freeze_sha256": "507c800b17744a612aeef24b4169fca6ab7e19d105c52e645a87f283f0bd6495",
+  "independent_labels_sha256": "5be9b5ed02c2f2b5b8f98a9271488ce68dc64e52b3e7526f05e24c171b08f23c",
+  "CPU_seconds": 4.401558895,
+  "wall_seconds": 20.107035849010572,
+  "scope": "LiteralPauli,CAR/tensorandstate/sector/RDM checks;notTrotter-errorvalidationorLeanproof"
+}

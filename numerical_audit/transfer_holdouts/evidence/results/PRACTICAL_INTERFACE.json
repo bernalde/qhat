@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "repository": "bernalde/qhat",
+  "issue": 16,
+  "state": "reviewed_frozen_interface",
+  "automated_handoff": "READY FOR HUMAN REVIEW",
+  "requested_reviewers": [
+    "gpt-6-astra/high",
+    "gemini-4-argon-high/high"
+  ],
+  "actionable_findings_remaining": 0,
+  "controller_policy_version": 2,
+  "cost_convention": "caller_through_return_including_serialization_hash_cleanup",
+  "head": "ca236555596b3ddc23eb8aba85a2c2afe1f1826b",
+  "publication_head": "6b4c12e84e583c29c4e2ad7c94b4ae9b729e2383",
+  "reviewed_head_scope": "Exact last source-reviewed commit; final publication differs only by the explicitly approved and authenticated outer provenance JSON.",
+  "source_sha256": {
+    "numerical_audit/practical_accuracy/common.py": "83485dec8ef437f29b9f98d1675b8e1e5c16a7b0d8e2f30aad2194c040b93533",
+    "numerical_audit/practical_accuracy/construction.py": "543ec9483cb5f25b4edda7b3c265b20d4a16edf9133ae066411ad6675266ca72",
+    "numerical_audit/practical_accuracy/study.py": "a1125b8e2bd3d778f12622864c1aac5007c7506b48815e403aca8f0083b2db4e",
+    "numerical_audit/practical_accuracy/verify.py": "3f9838219c9be63510f33fdbf332e366ac10bef85a536b9372c7fed5f3a55a11",
+    "numerical_audit/practical_accuracy/PROTOCOL.md": "da31c5395f8322a2a6cb84e080a384010079410203bd5d37f39d83b7440100f7",
+    "numerical_audit/compiled_accuracy/compiler.py": "0cf8ecaf140163b6f880399e534b8d9b9aad5eacf8a544cb911ef11e70373d69"
+  },
+  "owning_handoff_complete": true,
+  "owning_handoff_sha256": "70b3a1a564d4edd6ae73c63655d18f255b7eb0e3829af146cb698a7fc7218999",
+  "current_published_head_CI": "All four push/PR runs passed, including both complete independent numerical replays.",
+  "CI_runs": [
+    40336715471,
+    40336731489,
+    40336715454,
+    40336731995
+  ],
+  "actual_merge": "Verified actual research merge with all expected merge-commit CI passed.",
+  "recorded_utc": "2026-10-26T15:11:00.293459+00:00",
+  "actual_merge_commit": "da34971272a799b0dc6a6da6ccc028816feea138",
+  "actual_merge_CI": "passed: full practical numerical replay and general Python workflow",
+  "actual_merge_runs": [
+    40342574309,
+    40342573667
+  ],
+  "outer_merge_handoff_sha256": "54f804dd12bb264ef4b2ee8b4a271cd9390847a6b5ca3246025441ffe57c4d35",
+  "prior_attestation_sha256": "6654349b0b45f3188c0021ea9832b125b6983de72bca0bbe016b304365232b16"
+}

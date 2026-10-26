@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "LiH_r1p713.coherent_real.pauli_JD.eval.coherent_real.f2.t1.cap30",
+    "case": "LiH_r1p713",
+    "constructor": "LiH_r1p713.coherent_real.pauli_JD",
+    "constructor_sha256": "81b4ba3b4cdf30faf4a09fac02f1a3b627d87830b5d5a9fc5ef2e5ab8c668d88",
+    "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134",
+    "reference_vectors_sha256": "1e7728c51a218312fc0b2f245f992293b51f6e0fade7ad58bd868b7b91e652f3",
+    "state": "coherent_real",
+    "T": 1.41,
+    "formula": 2,
+    "steps": 15,
+    "cap_multiple": 30,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 15,
+  "rotation_cap": 1830,
+  "ideal_rotations": 1801,
+  "expected_ideal_rotations": 1801,
+  "compiled_resources": {
+    "gates": 30721,
+    "single_qubit_gates": 9181,
+    "two_qubit_gates": 21540,
+    "unit_duration_ASAP_depth": 23430,
+    "CX_dependency_depth": 20730
+  },
+  "partial_compiled_resources": null,
+  "generated": 36301,
+  "trace_sha256": "e2585e539fdd717b853751f243d3d79f8870c88027dcd33c24f9dd88772dae23",
+  "trace_bytes": 5344,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0013262140000165346,
+    "lowering_CPU_seconds": 0.12989794399999255,
+    "counting_CPU_seconds": 0.02069769299998825
+  },
+  "serialization": {
+    "CPU_seconds": 0.0699567130000105,
+    "wall_seconds": 0.2968033069919329
+  },
+  "hashing": {
+    "CPU_seconds": 0.0001545180000448454,
+    "wall_seconds": 0.00015596102457493544
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.22295290299996395,
+  "compilation_wall_seconds": 0.8969513210176956,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "LiH_r1p713.coherent_real.pauli_JD.eval.coherent_real.f2.t1.cap30",
+  "case": "LiH_r1p713",
+  "state": "coherent_real",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 30,
+  "constructor": "LiH_r1p713.coherent_real.pauli_JD",
+  "training_state": "coherent_real",
+  "method": "pauli_JD",
+  "partition": "pauli",
+  "formula": 2,
+  "trace_file": "traces/LiH_r1p713.coherent_real.pauli_JD.eval.coherent_real.f2.t1.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.2230978339999865,
+  "ordering_CPU_charge": 7.992307247999989,
+  "reference_charge_states": [
+    "coherent_real"
+  ],
+  "standalone_reference_CPU_charge": 0.011748175999999999,
+  "input_generation_CPU_charge": 1.62950434,
+  "standalone_without_input_CPU_charge": 8.227153257999975,
+  "standalone_including_input_CPU_charge": 9.856657597999975
+}

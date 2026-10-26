@@ -1,45 +1,24 @@
-# Transfer implementation checks
+# Transfer checks and retained attempts
 
-All **103 source checks passed** at implementation commit
-`3b8485d39e26d2b5eeb7bb7bc3f6d711f3704d52`. The retained receipt is
-`transfer-full-tests-a3.resources.json`, with JUnit under
-`runtime/transfer-full-tests-a3/junit.xml` in the owned campaign area.
-This subsequent documentation update changes no tested Python source.
+The original103checks passed at`3b8485d39e26d2b5eeb7bb7bc3f6d711f3704d52`.
+A genuine two-case regression reproduced the independent progress writer's
+`status` collision for complete and censored records; both expected failures and
+the original source snapshot remain retained. The repaired affected module
+passed19checks at the same Python bytes committed in`a9992ef7`. This changes only
+the diagnostic envelope, preserving the physical status and decisions.
 
-The nine-file suite covers coherent response and signed cubic columns, literal
-integer legacy placement, both formula orders/orientations, full-space leakage,
-primitive/unfused replay and DAG counts, maximal affordability and censors,
-frozen identities/allocation guards, all 1,440 logical identities and exact work
-sharing, reviewed-interface gating, complete caller-cost boundaries, whole-panel
-independent verification, raw resource ledgers and deterministic archive,
-extraction, inventory and Git-delivery refusal checks.
+The complete full-path preflight passed74unique/80logicalcircuits/280pairs,
+including independent operator/objective/primitive/DAG checks and archive/member
+bytes. Its initial failed diagnostic attempt remains unchanged and charged.
+A separate allocation preflight retained all30independent and90producer contexts
+at once, without search or Trotter errors. The full-panel estimates with50percent
+margin preceded the main run; the original per-phase allowances remain intact.
 
-```sh
-python -m pytest -q numerical_audit/transfer_holdouts/test_cubic_response.py \
-  numerical_audit/transfer_holdouts/test_states.py \
-  numerical_audit/transfer_holdouts/test_compilation.py \
-  numerical_audit/transfer_holdouts/test_panel.py \
-  numerical_audit/transfer_holdouts/test_study.py \
-  numerical_audit/transfer_holdouts/test_objective_reference.py \
-  numerical_audit/transfer_holdouts/test_verify.py \
-  numerical_audit/transfer_holdouts/test_reporting.py \
-  numerical_audit/transfer_holdouts/test_delivery.py
-```
-
-The successful worker used 2.21 CPU seconds and 9.048795731 wall seconds,
-MemoryMax=512 MiB, no swap, quarter-core CPU and one thread. Cumulative unit-check
-usage is 9.70 CPU seconds and 48.332141866 wall seconds against the unchanged
-original 120/900 allowance. Every earlier attempt remains charged and retained.
-In particular, attempt a2 had 61 passes and 42 fixture setup errors because the
-coordinator omitted the custom temporary directory's parent. Creating that
-parent in a fresh a3 output fixed setup; the source was unchanged. The earlier
-78-check pass remains historical evidence at `7b99593`.
-
-These are bounded implementation and corruption/refusal checks, not evidence of
-transfer on the six real molecular inputs. All 30 reference states were checked
-independently as separate evidence. No real transfer training or validation has
-run. The representative full-path preflight, actual complete panel, independent
-replay, archive/Git delivery, paper checks, paired reviews, publication, separate
-eligible merges and actual-merge CI remain required. Real execution waits for
-issue #16's legitimately reviewed interface; synthetic unit fixtures do not
-satisfy that gate.
+Both actual full-panel independent audits now pass1,332circuits/1,440logicalrows/
+90references/5,040comparisons. The safely extracted replay has byte-identical
+independent errors and decisions, and the original producer payload is unchanged.
+The current full105-check source suite and staged/committedGitpayload checks are
+required before review/publication; this paragraph does not claim those later
+checks already ran. Paper scalar/importer policy guards passed15tests separately.
+CI must execute its mandatory full source, everyGitblob and independent replay
+steps on the exact published and actual-merge commits.
