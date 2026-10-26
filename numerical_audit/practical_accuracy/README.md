@@ -63,3 +63,11 @@ python numerical_audit/practical_accuracy/delivery.py check \
 
 The CI workflow additionally reruns the complete independent numerical checker
 in a fresh output copy. Paper evidence depends on the actual numerical merge.
+
+Independent replay requires the exact recorded Python release and NumPy/SciPy
+versions. The producer's and checker's executable paths and full interpreter
+build strings are separate provenance; they may differ across pinned machines.
+Producer continuation still requires its full original environment identity.
+The relocation regression uses the actual committed payload and rejects Python
+release or NumPy version changes. Scientific data, tolerances and selection rules
+are unchanged by this portability repair.

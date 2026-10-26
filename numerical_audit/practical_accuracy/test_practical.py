@@ -204,3 +204,25 @@ def test_warmup_exercises_complete_order_and_compile_paths(tmp_path, method):
     state, cost = ref.audit_compiled_trace(tmp_path / result['trace_file'], result['identity'], common.compiler.VERSION)
     assert cost == result['compiled_resources']
     assert np.max(abs(state - ref.ideal_formula(warm['record'], 3, common.TIME))) < 2e-14
+
+
+@pytest.mark.parametrize('change', ['location', 'python_release', 'numpy_version'])
+def test_independent_replay_accepts_relocation_but_rejects_version_change(monkeypatch, change):
+    # Real committed payload: preserve every frozen source/data check while
+    # simulating a pinned CI interpreter in a different path/build location.
+    output = common.HERE / 'evidence/results'
+    observed = copy.deepcopy(common.read(output / 'PROTOCOL_FROZEN.json')['environment'])
+    observed['executable'] = '/usr/local/bin/python3.12'
+    observed['python'] = observed['python'].split()[0] + ' (CI build) [GCC test]'
+    if change == 'python_release':
+        observed['python'] = '3.12.99 (CI build) [GCC test]'
+    elif change == 'numpy_version':
+        observed['packages']['numpy'] = '0.0.0'
+    monkeypatch.setattr(study, 'environment', lambda: observed)
+    if change == 'location':
+        protocol, frozen = study.bind(output, independent=True)
+        assert protocol['source_commit'] == 'ae70c96d11572a990c1a591fd92f6c0e0c05c49d'
+        assert frozen['complete'] == 1281
+    else:
+        with pytest.raises(ValueError, match='Numerical interpreter/package identity'):
+            study.bind(output, independent=True)

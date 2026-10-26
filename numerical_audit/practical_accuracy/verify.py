@@ -295,6 +295,8 @@ def verify(output, receipt_dir=None, progress_dir=None):
                   objective_records=objective_count, max_state_difference=max_state, max_metric_difference=max_metric,
                   schedule_freeze_sha256=k.sha(output / 'SCHEDULES_FROZEN.json'),
                   producer_sources=protocol['sources'], current_verifier_sources=k.sources(),
+                  producer_environment=protocol['environment'], current_verifier_environment=k.environment(),
+                  runtime_policy='Independent replay requires identical Python release and NumPy/SciPy versions;host build/path are separately recorded',
                   decision_agreement=True, CPU_seconds=time.process_time() - began,
                   wall_seconds=time.monotonic() - wall,
                   limitation='Data/math/trace checks do not certify timing measurements or hardware execution')

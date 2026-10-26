@@ -183,7 +183,16 @@ def bind(output, independent=False):
             'Source archive hash/inventory differs')
     if not independent:
         require(sources() == protocol['sources'], 'Current producer differs from frozen source')
-    require(protocol['environment'] == environment(), 'Numerical interpreter/package identity changed')
+    actual_environment = environment()
+    runtime_matches = protocol['environment'] == actual_environment
+    if independent:
+        # Host executable paths and compiler/build timestamps are provenance,
+        # not numerical runtime versions. Keep exact release/package pins.
+        recorded_environment = protocol['environment']
+        runtime_matches = (recorded_environment['python'].split()[0] ==
+                           actual_environment['python'].split()[0] and
+                           recorded_environment['packages'] == actual_environment['packages'])
+    require(runtime_matches, 'Numerical interpreter/package identity changed')
     require(protocol['grid'] == list(GRID) and protocol['targets'] == list(TARGETS) and
             protocol['ambiguity'] == AMBIGUITY and protocol['T'] == TIME, 'Accuracy policy differs')
     return protocol, frozen
