@@ -1,0 +1,74 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "LiH_r2p267.HF.first_JD.eval.coherent_imag.f1.t1.cap30",
+    "case": "LiH_r2p267",
+    "constructor": "LiH_r2p267.HF.first_JD",
+    "constructor_sha256": "31582dc7e6419d6c137b9aecbc92a3273dc4693ccf09eadc9f7ab14f60cf1496",
+    "model_sha256": "c33de24bd5614506c871e705e16c5e663268f96f4c279c2eab8ee12b3d4390b5",
+    "reference_vectors_sha256": "d9a4daa044b609b7c612a19967c3704f623bf996580ef8cd62e6a6214d89d34b",
+    "state": "coherent_imag",
+    "T": 1.41,
+    "formula": 1,
+    "steps": 30,
+    "cap_multiple": 30,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 30,
+  "rotation_cap": 1830,
+  "ideal_rotations": 1830,
+  "expected_ideal_rotations": 1830,
+  "compiled_resources": {
+    "gates": 30690,
+    "single_qubit_gates": 9210,
+    "two_qubit_gates": 21480,
+    "unit_duration_ASAP_depth": 23130,
+    "CX_dependency_depth": 20340
+  },
+  "partial_compiled_resources": null,
+  "generated": 36330,
+  "trace_sha256": "02acb15569081bc75e7af3b76cc0cbbdc19a3e4c18f9bdb54cd646a5c4905c2d",
+  "trace_bytes": 4882,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0005560089999789852,
+    "lowering_CPU_seconds": 0.061521891000040796,
+    "counting_CPU_seconds": 0.011945761999982096
+  },
+  "serialization": {
+    "CPU_seconds": 0.06320261799999116,
+    "wall_seconds": 0.28830845101037994
+  },
+  "hashing": {
+    "CPU_seconds": 0.00010784299996657865,
+    "wall_seconds": 0.00010552600724622607
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.13829713299998048,
+  "compilation_wall_seconds": 0.5882743840047624,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "LiH_r2p267.HF.first_JD.eval.coherent_imag.f1.t1.cap30",
+  "case": "LiH_r2p267",
+  "state": "coherent_imag",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 30,
+  "constructor": "LiH_r2p267.HF.first_JD",
+  "training_state": "HF",
+  "method": "first_JD",
+  "partition": "conserving",
+  "formula": 1,
+  "trace_file": "traces/LiH_r2p267.HF.first_JD.eval.coherent_imag.f1.t1.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.13837476100002277,
+  "ordering_CPU_charge": 0.24193445999999597,
+  "reference_charge_states": [
+    "HF",
+    "coherent_imag"
+  ],
+  "standalone_reference_CPU_charge": 0.013734080000000037,
+  "input_generation_CPU_charge": 0.0585855019999999,
+  "standalone_without_input_CPU_charge": 0.3940433010000188,
+  "standalone_including_input_CPU_charge": 0.4526288030000187
+}

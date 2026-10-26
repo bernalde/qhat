@@ -1,0 +1,74 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "NH3_umbrella_a.HF.current.eval.coherent_real.f1.t1.cap10",
+    "case": "NH3_umbrella_a",
+    "constructor": "NH3_umbrella_a.HF.current",
+    "constructor_sha256": "e1972a29a4342e2d0b8cd22c665aee9b48ed300ba984758c65ecf4a922047203",
+    "model_sha256": "e2e44b9725853e9cdd053dfe17c88a864740c714b13716215e00bbc189ba797c",
+    "reference_vectors_sha256": "9d8a5e7bfa1daf6b9340cef2c294dc5dc1cfd6b9e782783d629576022240cd7f",
+    "state": "coherent_real",
+    "T": 1.41,
+    "formula": 1,
+    "steps": 10,
+    "cap_multiple": 10,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 10,
+  "rotation_cap": 770,
+  "ideal_rotations": 770,
+  "expected_ideal_rotations": 770,
+  "compiled_resources": {
+    "gates": 13530,
+    "single_qubit_gates": 4430,
+    "two_qubit_gates": 9100,
+    "unit_duration_ASAP_depth": 9920,
+    "CX_dependency_depth": 8370
+  },
+  "partial_compiled_resources": null,
+  "generated": 14670,
+  "trace_sha256": "51549b7b586626bfb76bfd185736e5356fb46546c3c94fc7e27d7961a4d29e76",
+  "trace_bytes": 3523,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0013255270000058772,
+    "lowering_CPU_seconds": 0.020095382999954836,
+    "counting_CPU_seconds": 0.004781379999997171
+  },
+  "serialization": {
+    "CPU_seconds": 0.03300538400003461,
+    "wall_seconds": 0.10620170799666084
+  },
+  "hashing": {
+    "CPU_seconds": 0.00010281100003339816,
+    "wall_seconds": 0.00010340602602809668
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.059861732000001666,
+  "compilation_wall_seconds": 0.28409009700408205,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "NH3_umbrella_a.HF.current.eval.coherent_real.f1.t1.cap10",
+  "case": "NH3_umbrella_a",
+  "state": "coherent_real",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 10,
+  "constructor": "NH3_umbrella_a.HF.current",
+  "training_state": "HF",
+  "method": "current",
+  "partition": "conserving",
+  "formula": 1,
+  "trace_file": "traces/NH3_umbrella_a.HF.current.eval.coherent_real.f1.t1.cap10.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.059998650000011367,
+  "ordering_CPU_charge": 0.002335934999990741,
+  "reference_charge_states": [
+    "HF",
+    "coherent_real"
+  ],
+  "standalone_reference_CPU_charge": 0.02232800600000001,
+  "input_generation_CPU_charge": 0.0834768749999999,
+  "standalone_without_input_CPU_charge": 0.08466259100000212,
+  "standalone_including_input_CPU_charge": 0.168139466000002
+}

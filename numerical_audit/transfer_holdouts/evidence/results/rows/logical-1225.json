@@ -1,0 +1,118 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "NH3_umbrella_b.HF.current.eval.HF.f1.t1.cap30",
+    "case": "NH3_umbrella_b",
+    "constructor": "NH3_umbrella_b.HF.current",
+    "constructor_sha256": "c808dffadf0e531575dbe09d1bc0aca8913707d203ba104a2e5c0afc48440dd0",
+    "model_sha256": "891c821941487e52ca77a9de47ef0dfb58ee3da816e8e79ffcd371e8668bbcc3",
+    "reference_vectors_sha256": "1c4c481eb7662bd6fc7a508129ee12c1c6bac5d5a238bb320056bfeac41c2964",
+    "state": "HF",
+    "T": 1.41,
+    "formula": 1,
+    "steps": 30,
+    "cap_multiple": 30,
+    "preparation": "HF_prefix",
+    "compilation_status": "complete"
+  },
+  "steps": 30,
+  "rotation_cap": 2310,
+  "ideal_rotations": 2310,
+  "expected_ideal_rotations": 2310,
+  "compiled_resources": {
+    "gates": 40606,
+    "single_qubit_gates": 13306,
+    "two_qubit_gates": 27300,
+    "unit_duration_ASAP_depth": 29915,
+    "CX_dependency_depth": 25320
+  },
+  "partial_compiled_resources": null,
+  "generated": 44026,
+  "trace_sha256": "e40f0cf4f86e19d0b46fc61557d88934e81e50e9e73a4eb5b16a5c1296ba8013",
+  "trace_bytes": 6374,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0008186910000063108,
+    "lowering_CPU_seconds": 0.08127965900001755,
+    "counting_CPU_seconds": 0.02243225000000848
+  },
+  "serialization": {
+    "CPU_seconds": 0.08372464899997567,
+    "wall_seconds": 0.3086316690023523
+  },
+  "hashing": {
+    "CPU_seconds": 0.00014747000000170374,
+    "wall_seconds": 0.00014546900638379157
+  },
+  "quantum_preparation_circuit_cost": "HF prefix included",
+  "compiled_resource_scope": "HF preparation plus evolution",
+  "compilation_CPU_seconds": 0.18963314500001616,
+  "compilation_wall_seconds": 0.711870558996452,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "NH3_umbrella_b.HF.current.eval.HF.f1.t1.cap30",
+  "case": "NH3_umbrella_b",
+  "state": "HF",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 30,
+  "constructor": "NH3_umbrella_b.HF.current",
+  "training_state": "HF",
+  "method": "current",
+  "partition": "conserving",
+  "formula": 1,
+  "trace_file": "traces/NH3_umbrella_b.HF.current.eval.HF.f1.t1.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.1897261759999651,
+  "ordering_CPU_charge": 0.0026191259999563954,
+  "reference_charge_states": [
+    "HF"
+  ],
+  "standalone_reference_CPU_charge": 0.004240991000000027,
+  "input_generation_CPU_charge": 0.08529710499999998,
+  "standalone_without_input_CPU_charge": 0.19658629299992153,
+  "standalone_including_input_CPU_charge": 0.2818833979999215,
+  "error": 6.712754464946523e-08,
+  "infidelity": 1.342550847928232e-07,
+  "norm": 1.0000000000000004,
+  "number_leakage": 1.75889326248453e-36,
+  "joint_sector_leakage": 1.75889326248453e-36,
+  "reference_CPU_seconds": 0.0005580680000321081,
+  "replay_CPU_seconds": 0.18562231099997462,
+  "state_file": "states/NH3_umbrella_b.HF.current.eval.HF.f1.t1.cap30.npz",
+  "state_sha256": "704c323f80d9e68da82f584c5a9b73223b2596f27bc35094b95b83e3ebdcbcc3",
+  "at_numerical_floor": false,
+  "candidate_sha256": "db7e6c49ec46f21d07ba83592c994fd4eaf45e171345a37be57d950fe6328109",
+  "arm": "hf_current",
+  "correlation": {
+    "label": "HF",
+    "sector": [
+      15,
+      27,
+      30,
+      39,
+      45,
+      51,
+      54,
+      57,
+      60
+    ],
+    "construction": "HF determinant",
+    "quantum_preparation_circuit_cost": "unknown; no efficient quantum preparation protocol supplied",
+    "norm": 1.0,
+    "natural_occupations": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "one_RDM_idempotency_defect": 0.0,
+    "correlation_label": "Slater-like",
+    "participation_ratio": 1.0,
+    "maximum_determinant_weight": 1.0,
+    "support": [
+      15
+    ],
+    "correlation_rule": "defect>1e-10 correlated;defect<=1e-12 Slater-like;otherwise indeterminate"
+  }
+}

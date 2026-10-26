@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "LiH_r1p713.HF.first_JD.eval.HF.f2.t0.cap30",
+    "case": "LiH_r1p713",
+    "constructor": "LiH_r1p713.HF.first_JD",
+    "constructor_sha256": "4a7315830791242725bbb373850582976586e5d026771a784f804655a0daa693",
+    "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134",
+    "reference_vectors_sha256": "1e7728c51a218312fc0b2f245f992293b51f6e0fade7ad58bd868b7b91e652f3",
+    "state": "HF",
+    "T": 0.59,
+    "formula": 2,
+    "steps": 15,
+    "cap_multiple": 30,
+    "preparation": "HF_prefix",
+    "compilation_status": "complete"
+  },
+  "steps": 15,
+  "rotation_cap": 1830,
+  "ideal_rotations": 1801,
+  "expected_ideal_rotations": 1801,
+  "compiled_resources": {
+    "gates": 30729,
+    "single_qubit_gates": 9189,
+    "two_qubit_gates": 21540,
+    "unit_duration_ASAP_depth": 23550,
+    "CX_dependency_depth": 20805
+  },
+  "partial_compiled_resources": null,
+  "generated": 36309,
+  "trace_sha256": "5c2f034f55216c316dcac60663d09404fd548f841688e1356b8548bea1ae9773",
+  "trace_bytes": 5302,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0005480780000084451,
+    "lowering_CPU_seconds": 0.04719441000003144,
+    "counting_CPU_seconds": 0.012362668999969628
+  },
+  "serialization": {
+    "CPU_seconds": 0.060394673000018884,
+    "wall_seconds": 0.211135290999664
+  },
+  "hashing": {
+    "CPU_seconds": 0.00013611399998580964,
+    "wall_seconds": 0.00013733000378124416
+  },
+  "quantum_preparation_circuit_cost": "HF prefix included",
+  "compiled_resource_scope": "HF preparation plus evolution",
+  "compilation_CPU_seconds": 0.12199028200001294,
+  "compilation_wall_seconds": 0.4989205770252738,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "LiH_r1p713.HF.first_JD.eval.HF.f2.t0.cap30",
+  "case": "LiH_r1p713",
+  "state": "HF",
+  "time_index": 0,
+  "T": 0.59,
+  "cap_multiple": 30,
+  "constructor": "LiH_r1p713.HF.first_JD",
+  "training_state": "HF",
+  "method": "first_JD",
+  "partition": "conserving",
+  "formula": 2,
+  "trace_file": "traces/LiH_r1p713.HF.first_JD.eval.HF.f2.t0.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.12207349800002021,
+  "ordering_CPU_charge": 0.24272605400000202,
+  "reference_charge_states": [
+    "HF"
+  ],
+  "standalone_reference_CPU_charge": 0.008058758,
+  "input_generation_CPU_charge": 1.62950434,
+  "standalone_without_input_CPU_charge": 0.37285831000002223,
+  "standalone_including_input_CPU_charge": 2.0023626500000224
+}

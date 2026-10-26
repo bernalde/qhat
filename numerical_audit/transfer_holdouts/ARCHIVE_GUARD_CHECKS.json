@@ -1,0 +1,40 @@
+{
+  "status": "local_repair_tests_and_both_real_reference_replays_passed_independent_review_pending",
+  "original_review_head": "1e7888d5feac2f38e2238ed2d180a6a8cb52b54e",
+  "finding": "I17-NUM-ASTRA-1-001",
+  "red": {
+    "tests": 11,
+    "passes": 1,
+    "failures": 10,
+    "oversized_allocation_prevented_by_spy": true,
+    "retained_source_sha256": {
+      "transfer_common.py": "890f680ff68e0ed45f9a9a1693ab1afd8b4cfe482ade10a6332140b3e3b97f82",
+      "verify_references.py": "9b4f8dc3eead01c3f11b5d7c9d12e774aded3541d97768b7320586c9e8ac448b",
+      "test_reference_archive_bounds.py": "90e07f8d391fb487d84cadea583f1e9b88d138041226c461dec0ceb92375fb51"
+    }
+  },
+  "targeted": {
+    "tests": 24,
+    "failures": 0
+  },
+  "whole_suite": {
+    "tests": 129,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "maintained_sources": {
+    "numerical_audit/transfer_holdouts/test_reference_archive_bounds.py": "ec45ccffa911b3d633a5e12831d8605543f84a6bf5954be7609f0864fb7be93c",
+    "numerical_audit/transfer_holdouts/transfer_common.py": "9eea9bc6a2a93c908b54d2000d6f7718cb1636259ce82618b5669f5f70f8eff7",
+    "numerical_audit/transfer_holdouts/verify_references.py": "4a2d626ee048b31314eab04876ecbb847f7bf6c9f03c47e9634249540ec385fb"
+  },
+  "frozen_study_changed": false,
+  "original_archive_sha256": "5873fbd34ffb369c7a4294724d213795f6ed358d3e5342a5fc2157cb9b6ac5e7",
+  "review_rounds_started": 1,
+  "completed_review_pairs": 0,
+  "verification_passes_used": 0,
+  "note": "OriginalArgonsourcecoverageisnotcomplete;nosubstitutereviewerorbudgetreset;thisisolatedrepairdoesnotclaimreviewconvergence.",
+  "real_reference_replays": "ARCHIVE_GUARD_REPLAY.json",
+  "replay_sha256": "b1e374c3a0ad289f7356bdd9cec2c2509b2c5a7afb674d98fed94193e26191e5",
+  "tested_maintained_source_commit": "85bf76e29b9a453b4995454e137719cfcfba1631"
+}

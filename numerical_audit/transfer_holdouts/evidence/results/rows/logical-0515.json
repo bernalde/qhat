@@ -1,0 +1,118 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "BeH2_r1p227.HF.cubic_JD.eval.HF.f2.t2.cap10",
+    "case": "BeH2_r1p227",
+    "constructor": "BeH2_r1p227.HF.cubic_JD",
+    "constructor_sha256": "df71d8b48ad4828bf04bc83d954f7ac173a82e8fa110c2e52c7ec56f47e4a95c",
+    "model_sha256": "9e3e8a3aa18214b465bcf01f39d5d07597e533ad2cf382c98f854a4e490459c7",
+    "reference_vectors_sha256": "d75d992e90007620129d0422ad7623fd4203334396c156b3d6483675bb69e629",
+    "state": "HF",
+    "T": 2.73,
+    "formula": 2,
+    "steps": 5,
+    "cap_multiple": 10,
+    "preparation": "HF_prefix",
+    "compilation_status": "complete"
+  },
+  "steps": 5,
+  "rotation_cap": 330,
+  "ideal_rotations": 321,
+  "expected_ideal_rotations": 321,
+  "compiled_resources": {
+    "gates": 5887,
+    "single_qubit_gates": 1597,
+    "two_qubit_gates": 4290,
+    "unit_duration_ASAP_depth": 4545,
+    "CX_dependency_depth": 4070
+  },
+  "partial_compiled_resources": null,
+  "generated": 6087,
+  "trace_sha256": "a465fb0f01fece148ff4d1849554b265450b28c0bdd48e25d7de8c904e371bd5",
+  "trace_bytes": 2123,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0004014129999632132,
+    "lowering_CPU_seconds": 0.007461841000008462,
+    "counting_CPU_seconds": 0.001877143999990949
+  },
+  "serialization": {
+    "CPU_seconds": 0.014138539000043693,
+    "wall_seconds": 0.08697143499739468
+  },
+  "hashing": {
+    "CPU_seconds": 0.00011575100000982275,
+    "wall_seconds": 0.00011598298442550004
+  },
+  "quantum_preparation_circuit_cost": "HF prefix included",
+  "compiled_resource_scope": "HF preparation plus evolution",
+  "compilation_CPU_seconds": 0.024304786000016065,
+  "compilation_wall_seconds": 0.0971803609863855,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "BeH2_r1p227.HF.cubic_JD.eval.HF.f2.t2.cap10",
+  "case": "BeH2_r1p227",
+  "state": "HF",
+  "time_index": 2,
+  "T": 2.73,
+  "cap_multiple": 10,
+  "constructor": "BeH2_r1p227.HF.cubic_JD",
+  "training_state": "HF",
+  "method": "cubic_JD",
+  "partition": "conserving",
+  "formula": 2,
+  "trace_file": "traces/BeH2_r1p227.HF.cubic_JD.eval.HF.f2.t2.cap10.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.024397176000036325,
+  "ordering_CPU_charge": 2.0593000589999804,
+  "reference_charge_states": [
+    "HF"
+  ],
+  "standalone_reference_CPU_charge": 0.005714215999999994,
+  "input_generation_CPU_charge": 0.06150885699999997,
+  "standalone_without_input_CPU_charge": 2.0894114510000166,
+  "standalone_including_input_CPU_charge": 2.1509203080000168,
+  "error": 5.252515564773187e-09,
+  "infidelity": 1.0505031101957456e-08,
+  "norm": 1.0,
+  "number_leakage": 1.887506431972213e-38,
+  "joint_sector_leakage": 1.887506431972213e-38,
+  "reference_CPU_seconds": 0.0003855769999745462,
+  "replay_CPU_seconds": 0.02333108599998468,
+  "state_file": "states/BeH2_r1p227.HF.cubic_JD.eval.HF.f2.t2.cap10.npz",
+  "state_sha256": "0c7bc8aa1597d901c44598ccc58ea3c73e45f1f11d53d44b05ffb893e8682bcf",
+  "at_numerical_floor": false,
+  "candidate_sha256": "3e7f011d270233db208b65bce830995163929ff73b76cdbca0ec79fcc5e8518b",
+  "arm": "state_cubic_JD",
+  "correlation": {
+    "label": "HF",
+    "sector": [
+      15,
+      27,
+      30,
+      39,
+      45,
+      51,
+      54,
+      57,
+      60
+    ],
+    "construction": "HF determinant",
+    "quantum_preparation_circuit_cost": "unknown; no efficient quantum preparation protocol supplied",
+    "norm": 1.0,
+    "natural_occupations": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "one_RDM_idempotency_defect": 0.0,
+    "correlation_label": "Slater-like",
+    "participation_ratio": 1.0,
+    "maximum_determinant_weight": 1.0,
+    "support": [
+      15
+    ],
+    "correlation_rule": "defect>1e-10 correlated;defect<=1e-12 Slater-like;otherwise indeterminate"
+  }
+}

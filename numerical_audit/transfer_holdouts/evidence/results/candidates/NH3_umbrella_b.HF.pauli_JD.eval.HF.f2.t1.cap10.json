@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "NH3_umbrella_b.HF.pauli_JD.eval.HF.f2.t1.cap10",
+    "case": "NH3_umbrella_b",
+    "constructor": "NH3_umbrella_b.HF.pauli_JD",
+    "constructor_sha256": "2db06e59ad1f810d219ebd7c0c901733a4389e8d1e0ff00df7c287abe51a3e51",
+    "model_sha256": "891c821941487e52ca77a9de47ef0dfb58ee3da816e8e79ffcd371e8668bbcc3",
+    "reference_vectors_sha256": "1c4c481eb7662bd6fc7a508129ee12c1c6bac5d5a238bb320056bfeac41c2964",
+    "state": "HF",
+    "T": 1.41,
+    "formula": 2,
+    "steps": 5,
+    "cap_multiple": 10,
+    "preparation": "HF_prefix",
+    "compilation_status": "complete"
+  },
+  "steps": 5,
+  "rotation_cap": 770,
+  "ideal_rotations": 761,
+  "expected_ideal_rotations": 761,
+  "compiled_resources": {
+    "gates": 13557,
+    "single_qubit_gates": 4437,
+    "two_qubit_gates": 9120,
+    "unit_duration_ASAP_depth": 9999,
+    "CX_dependency_depth": 8460
+  },
+  "partial_compiled_resources": null,
+  "generated": 14617,
+  "trace_sha256": "b8fc0f0efc95381492d0b00f61ae459cceb3e816c81bda8fc2ddd5b469de34f1",
+  "trace_bytes": 7106,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0008090709999919454,
+    "lowering_CPU_seconds": 0.026417232000028434,
+    "counting_CPU_seconds": 0.006657952000011846
+  },
+  "serialization": {
+    "CPU_seconds": 0.03359292200002528,
+    "wall_seconds": 0.10955202599870972
+  },
+  "hashing": {
+    "CPU_seconds": 0.00012766400004693423,
+    "wall_seconds": 0.00012459300342015922
+  },
+  "quantum_preparation_circuit_cost": "HF prefix included",
+  "compiled_resource_scope": "HF preparation plus evolution",
+  "compilation_CPU_seconds": 0.06809612699998979,
+  "compilation_wall_seconds": 0.21593988200766034,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "NH3_umbrella_b.HF.pauli_JD.eval.HF.f2.t1.cap10",
+  "case": "NH3_umbrella_b",
+  "state": "HF",
+  "time_index": 1,
+  "T": 1.41,
+  "cap_multiple": 10,
+  "constructor": "NH3_umbrella_b.HF.pauli_JD",
+  "training_state": "HF",
+  "method": "pauli_JD",
+  "partition": "pauli",
+  "formula": 2,
+  "trace_file": "traces/NH3_umbrella_b.HF.pauli_JD.eval.HF.f2.t1.cap10.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.06818803600003776,
+  "ordering_CPU_charge": 8.009285250000005,
+  "reference_charge_states": [
+    "HF"
+  ],
+  "standalone_reference_CPU_charge": 0.004240991000000027,
+  "input_generation_CPU_charge": 0.08529710499999998,
+  "standalone_without_input_CPU_charge": 8.081714277000042,
+  "standalone_including_input_CPU_charge": 8.167011382000043
+}

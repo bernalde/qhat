@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "reason": "full declared circuit",
+  "identity": {
+    "candidate": "NH3_umbrella_b.ground.pauli_JD.eval.ground.f2.t2.cap30",
+    "case": "NH3_umbrella_b",
+    "constructor": "NH3_umbrella_b.ground.pauli_JD",
+    "constructor_sha256": "bbfb1387422acad796c8d5a5223f2abb4722df0c8c78fce68e5d8b143dbf9dc5",
+    "model_sha256": "891c821941487e52ca77a9de47ef0dfb58ee3da816e8e79ffcd371e8668bbcc3",
+    "reference_vectors_sha256": "1c4c481eb7662bd6fc7a508129ee12c1c6bac5d5a238bb320056bfeac41c2964",
+    "state": "ground",
+    "T": 2.73,
+    "formula": 2,
+    "steps": 15,
+    "cap_multiple": 30,
+    "preparation": "external_state_not_compiled",
+    "compilation_status": "complete"
+  },
+  "steps": 15,
+  "rotation_cap": 2310,
+  "ideal_rotations": 2281,
+  "expected_ideal_rotations": 2281,
+  "compiled_resources": {
+    "gates": 40441,
+    "single_qubit_gates": 13201,
+    "two_qubit_gates": 27240,
+    "unit_duration_ASAP_depth": 29715,
+    "CX_dependency_depth": 25170
+  },
+  "partial_compiled_resources": null,
+  "generated": 43801,
+  "trace_sha256": "467e697d7f60fdfcb5b88afbaee62a423e94d9d96ad489038aebb3a5b1fe73f7",
+  "trace_bytes": 18414,
+  "phases": {
+    "input_validation_CPU_seconds": 0.0009646930000144494,
+    "lowering_CPU_seconds": 0.0704661729999998,
+    "counting_CPU_seconds": 0.014091355999994448
+  },
+  "serialization": {
+    "CPU_seconds": 0.11512810900001114,
+    "wall_seconds": 0.41226194699993357
+  },
+  "hashing": {
+    "CPU_seconds": 0.0001174200000377823,
+    "wall_seconds": 0.00011536502279341221
+  },
+  "quantum_preparation_circuit_cost": "unknown",
+  "compiled_resource_scope": "evolution only; correlated/coherent preparation cost unknown",
+  "compilation_CPU_seconds": 0.20201531899999736,
+  "compilation_wall_seconds": 0.8006910529802553,
+  "timing": "caller through input validation,lowering,counting,serialization,hash and cleanup return",
+  "candidate": "NH3_umbrella_b.ground.pauli_JD.eval.ground.f2.t2.cap30",
+  "case": "NH3_umbrella_b",
+  "state": "ground",
+  "time_index": 2,
+  "T": 2.73,
+  "cap_multiple": 30,
+  "constructor": "NH3_umbrella_b.ground.pauli_JD",
+  "training_state": "ground",
+  "method": "pauli_JD",
+  "partition": "pauli",
+  "formula": 2,
+  "trace_file": "traces/NH3_umbrella_b.ground.pauli_JD.eval.ground.f2.t2.cap30.ndjson.gz",
+  "outer_compilation_CPU_seconds": 0.20216347699999915,
+  "ordering_CPU_charge": 8.008383514999991,
+  "reference_charge_states": [
+    "ground"
+  ],
+  "standalone_reference_CPU_charge": 0.007181963999999985,
+  "input_generation_CPU_charge": 0.08529710499999998,
+  "standalone_without_input_CPU_charge": 8.217728955999991,
+  "standalone_including_input_CPU_charge": 8.30302606099999
+}
