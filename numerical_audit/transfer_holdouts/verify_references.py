@@ -1,5 +1,9 @@
 """Independent literal Pauli/CAR/tensor and full reference-state verification."""
 import argparse
+from collections import Counter
+import io
+import math
+import zipfile
 from fractions import Fraction
 from pathlib import Path
 import time
@@ -7,6 +11,79 @@ import transfer_common as k
 import numpy as np
 from scipy import sparse
 import geometry_identity
+
+
+# The producer's fixed cohort has six active spin modes. Its STO-6G spatial
+# orbital dimensions follow from the declared atom inventory: H=1, Li/Be/N=5.
+_NPY_HEADER_BYTES = 4096
+
+
+def orbital_dimension(model):
+    domains = {'LiH': Counter({'Li': 1, 'H': 1}),
+               'BeH2': Counter({'Be': 1, 'H': 2}),
+               'NH3': Counter({'N': 1, 'H': 3})}
+    geometry = model['geometry']
+    k.require(model['basis'] == 'sto-6g' and model['family'] in domains and
+              isinstance(geometry, list) and 2 <= len(geometry) <= 4 and
+              all(isinstance(atom, (list, tuple)) and len(atom) == 2 and
+                  isinstance(atom[0], str) for atom in geometry),
+              'Array archive chemistry domain differs')
+    atoms = Counter(atom[0] for atom in geometry)
+    k.require(atoms == domains[model['family']], 'Array archive atom inventory differs')
+    return sum({'H': 1, 'Li': 5, 'Be': 5, 'N': 5}[atom] * count
+               for atom, count in atoms.items())
+
+
+def bounded_arrays(path, shapes, dtype):
+    """Validate the complete NPZ and every NPY header before materializing arrays.
+
+    Shapes and dtype come from this auditor's fixed chemistry/register domain.
+    Even ZIP metadata and the packed file are bounded before parsing. All member
+    buffers are small and checked before the first NumPy array loader is called.
+    """
+    dtype = np.dtype(dtype)
+    limits = {name + '.npy': _NPY_HEADER_BYTES + 12 + math.prod(shape) * dtype.itemsize
+              for name, shape in shapes.items()}
+    packed_limit = 4096 + sum(limits.values())  # bounded ZIP headers/comment
+    with Path(path).open('rb') as stream:
+        packed = stream.read(packed_limit + 1)
+    k.require(len(packed) <= packed_limit, 'Array archive compressed byte ceiling')
+    validated = {}
+    try:
+        with zipfile.ZipFile(io.BytesIO(packed)) as archive:
+            entries = archive.infolist()
+            k.require(len(entries) == len(limits) and
+                      {entry.filename for entry in entries} == set(limits),
+                      'Array archive member inventory differs')
+            # Check every member's declared bound before decompressing any one.
+            for entry in entries:
+                k.require(not entry.is_dir() and not entry.flag_bits & 1 and
+                          entry.compress_type in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED) and
+                          0 <= entry.file_size <= limits[entry.filename],
+                          'Array archive member uncompressed byte ceiling')
+            for entry in entries:
+                raw = archive.read(entry)
+                k.require(len(raw) == entry.file_size, 'Array archive member bytes differ')
+                stream = io.BytesIO(raw)
+                version = np.lib.format.read_magic(stream)
+                k.require(version in ((1, 0), (2, 0)), 'Supported bounded NPY header required')
+                parser = (np.lib.format.read_array_header_1_0 if version == (1, 0) else
+                          np.lib.format.read_array_header_2_0)
+                actual_shape, _, actual_dtype = parser(stream, max_header_size=_NPY_HEADER_BYTES)
+                name = entry.filename[:-4]
+                k.require(actual_shape == shapes[name] and actual_dtype == dtype and
+                          not actual_dtype.hasobject and
+                          len(raw) - stream.tell() == math.prod(shapes[name]) * dtype.itemsize,
+                          'Array archive NPY shape/dtype/payload bytes differ')
+                validated[name] = raw
+    except (OSError, zipfile.BadZipFile, EOFError, OverflowError) as error:
+        raise ValueError('Invalid bounded array archive') from error
+    arrays = {name: np.load(io.BytesIO(raw), allow_pickle=False,
+                            max_header_size=_NPY_HEADER_BYTES)
+              for name, raw in validated.items()}
+    k.require(all(np.all(np.isfinite(value)) for value in arrays.values()),
+              'Nonfinite array archive member')
+    return arrays
 
 
 def literal(word, n):
@@ -54,12 +131,16 @@ def tensor_hamiltonian(one, two, constant):
 
 def molecular_identity(folder, model, H):
     n, occupied = model['n'], model['electrons']
+    k.require(type(n) is int and n == 6 and type(occupied) is int and occupied in (2, 4),
+              'Array archive active-register bound')
+    orbitals = orbital_dimension(model)
     den = int(model['denominator'])
     for filename, key in (('tensors.npz', 'tensors_sha256'), ('orbitals.npz', 'orbitals_sha256')):
         k.require(k.sha(folder / filename) == model[key], 'Molecular source archive differs')
-    with np.load(folder / 'tensors.npz', allow_pickle=False) as z:
-        h, g, constant = z['one_body'], z['two_body'], float(z['constant'])
-        raw, pool = tensor_hamiltonian(h, g, constant)
+    tensors = bounded_arrays(folder / 'tensors.npz',
+                             dict(one_body=(n, n), two_body=(n, n, n, n), constant=()), 'float64')
+    h, g, constant = tensors['one_body'], tensors['two_body'], float(tensors['constant'])
+    raw, pool = tensor_hamiltonian(h, g, constant)
     policy = model['policy']
     allowance = policy['canonical_hermitian_adjustment_fermionic_l1'] + policy['discarded_parent_fermionic_l1']
     k.require(constant == policy['input_constant'] and policy['parent_cutoff'] == 1e-12 and 0 <= allowance <= 2e-8, 'Target-policy convention differs')
@@ -76,12 +157,14 @@ def molecular_identity(folder, model, H):
         parents -= int(parent['removed_scalar']) / den * sparse.eye(len(H), dtype=complex, format='csr')
     parent_difference = float(np.max(abs(parents.toarray() - H)))
     k.require(parent_difference < 2e-11, 'Retained exact parent/Pauli identity differs')
-    with np.load(folder / 'orbitals.npz', allow_pickle=False) as z:
-        C, S, occ = z['mo_coeff'], z['ao_overlap'], z['mo_occ']
-        orthogonality = float(np.max(abs(C.T @ S @ C - np.eye(C.shape[1]))))
-        k.require(orthogonality < 1e-8 and sum(occ) == model['total_electrons'], 'Saved orbital identity differs')
-        occupied_spatial = model['total_electrons'] // 2
-        k.require(np.array_equal(occ, np.r_[np.full(occupied_spatial, 2.), np.zeros(len(occ) - occupied_spatial)]), 'Saved RHF occupations differ')
+    orbital_arrays = bounded_arrays(folder / 'orbitals.npz',
+        dict(mo_coeff=(orbitals, orbitals), ao_overlap=(orbitals, orbitals),
+             ao_hcore=(orbitals, orbitals), mo_occ=(orbitals,), mo_energy=(orbitals,)), 'float64')
+    C, S, occ = (orbital_arrays[name] for name in ('mo_coeff', 'ao_overlap', 'mo_occ'))
+    orthogonality = float(np.max(abs(C.T @ S @ C - np.eye(C.shape[1]))))
+    k.require(orthogonality < 1e-8 and sum(occ) == model['total_electrons'], 'Saved orbital identity differs')
+    occupied_spatial = model['total_electrons'] // 2
+    k.require(np.array_equal(occ, np.r_[np.full(occupied_spatial, 2.), np.zeros(len(occ) - occupied_spatial)]), 'Saved RHF occupations differ')
     return dict(raw_tensor_target_difference=difference, policy_L1_allowance=allowance,
                 retained_parent_difference=parent_difference, HF_CAR_difference=hf_difference,
                 orbital_orthogonality_error=orthogonality), pool
@@ -155,8 +238,7 @@ def verify(output, receipt_dir=None):
         ref = k.read(output / 'references' / (case + '.json'))
         vectors_path = output / k.safe(ref['vectors_file'])
         k.require(ref['model_sha256'] == k.sha(path) and ref['vectors_sha256'] == k.sha(vectors_path), 'State archive identity differs')
-        with np.load(vectors_path, allow_pickle=False) as z:
-            vectors = z['vectors']
+        vectors = bounded_arrays(vectors_path, dict(vectors=(dimension, 5)), 'complex128')['vectors']
         k.require(vectors.shape == (dimension, 5), 'Full reference-state cohort missing')
         values = np.linalg.eigvalsh(H[np.ix_(sector, sector)])
         g, e = vectors[:, 1], vectors[:, 2]

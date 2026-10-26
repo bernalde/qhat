@@ -16,7 +16,7 @@ The 8,537-file payload, vectors, traces, costs, all losses/floors/ties and origi
 source snapshot are in `evidence/`. The original `delivery.tar.gz` has SHA256
 `5873fbd34ffb369c7a4294724d213795f6ed358d3e5342a5fc2157cb9b6ac5e7`.
 
-Producer and independent scientific source are commit
+Producer and original independent scientific source are commit
 `a9992ef702b0d1d344778c5ea5ad08a048a20eef`; maintained documentation, CI and final
 publication have separate pins. The practical prerequisite actually merged at
 `da34971272a799b0dc6a6da6ccc028816feea138` and is integrated into this branch.
@@ -61,3 +61,8 @@ producer used 550.14 CPU and 2,202.163 wall seconds. The two audits and packagin
 used 455.29 CPU and 1,822.834 wall seconds, under the unchanged 512 MiB,
 quarter-core profile. Paired reviews, publication/current-head CI, owning
 handoff, separate eligible merges/actual CI and paper checks remain required.
+
+The maintained reference auditor subsequently adds archive/header bounds before
+NumPy allocation; the original producer, full-audit snapshots and frozen outputs
+remain unchanged. See `CHECKS.md` and `ARCHIVE_GUARD_CHECKS.json` for the repair,
+regression evidence and remaining independent-review/reference-audit gates.
