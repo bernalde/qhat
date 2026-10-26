@@ -31,7 +31,7 @@ Standalone propagation timers exclude reference/unit-operator preparation;
 the complete phase receipts include these operations,imports,serialization and
 retained failed/repeated preflight work. No timing is a hardware speedup claim.
 
-Input dependency status:pinned_development_input_actual_issue17_merge_pending. Exact details are in SUMMARY.json.
+Input dependency status:verified_actual_merge. Exact details are in SUMMARY.json.
 Source review,publication and merge checks are separate gates. Generic Lean work is separate;no concrete molecular
 witness or Python interval-arithmetic correctness proof has been checked in Lean.
 The certificate concerns supplied exact rational coefficients,with no rigorous

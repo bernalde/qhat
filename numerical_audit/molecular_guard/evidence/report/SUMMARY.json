@@ -1,5 +1,5 @@
 {
-  "status": "independent_software_intervals_verified_reviews_and_merged_dependencies_pending",
+  "status": "independent_software_intervals_verified",
   "case": "LiH_r1p713",
   "time": "3/5",
   "state": "HF",
@@ -111,14 +111,28 @@
   "source_provenance": {
     "producer": "5ed79f2a70093a2e3afeb6777e9ccf1c4439edcc",
     "verifier": "5ed79f2a70093a2e3afeb6777e9ccf1c4439edcc",
-    "reporter": "f17df54155711594c9ebae5fce987af4cf664faf",
-    "reporter_sha256": "f7c3d63461b4e87cc49e9315d14b7551e5b096a164fb05e8cf35779b52e78508",
+    "reporter": "0d7f71236ab2544d6b1c3a9d721b43ba33006297",
+    "reporter_sha256": "c5ac13ac06407b1621aee86bb036e18a0536316c2009f5d2654f97db87ed6878",
+    "verifier_sha256": {
+      "numerical_audit/molecular_guard/delivery.py": "b285990e44f0fe10d9e3a5eab26f972b5ce2521e91782a51fb3d5ace7e5eb052",
+      "numerical_audit/molecular_guard/independent.py": "c861c03ce3acdc912c0421cfc04b16788fbc3f5a6831cd1507efd4ede47dce0c"
+    },
     "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134"
   },
   "input_dependency": {
-    "status": "pinned_development_input_actual_issue17_merge_pending",
-    "chemistry_producer": "7c8c64acf0f13703df10b0335e0017da84e94f9b",
-    "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134"
+    "status": "verified_actual_merge",
+    "repository": "bernalde/qhat",
+    "merge_sha": "1eeae416db1cac0de3e5617ca30ecf95729df04d",
+    "model_path": "numerical_audit/transfer_holdouts/evidence/results/reference_evidence/inputs_evidence/inputs/LiH_r1p713/model.json",
+    "model_sha256": "ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134",
+    "numerical_PR": "https://github.com/bernalde/qhat/pull/8",
+    "actual_merge_CI_runs": [
+      40404927155,
+      40404927179
+    ],
+    "actual_merge_CI_status": "Bothrequiredactualmergerunssuccess;fulltransferreplayandall7generaljobs",
+    "live_merge_record_sha256": "95c1fcff8328077e6944c83a8beb4e45fae94dd5df7b153b132dc2de809ba8ff",
+    "offline_check": "Exact Git model bytes and branch ancestry;live remote merge status established separately"
   },
   "formal_scope": "Exact/rational software certificate;no concrete Lean instantiation or full numerical-search proof",
   "limits": [
@@ -126,6 +140,6 @@
     "Physical leading-response guard and actual finite-step error rankings are separate conclusions.",
     "Squared infidelity values differ from1-abs(overlap),although their strict rankings agree.",
     "No SCF/integral/basis-set error bound,global optimality,conservation-only mechanism orhardware advantage.",
-    "Requested independent Astra/Argon source reviews and actual merged input provenance remain pending."
+    "Source reviews,live merged-input checks and publication/merge status are recorded separately;software intervals do not establish these gates."
   ]
 }

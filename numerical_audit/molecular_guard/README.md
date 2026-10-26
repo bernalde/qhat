@@ -65,3 +65,12 @@ then requires those source hashes to agree across reports. Only execution
 revision fields may differ: all scientific tables, producer identity, reporting
 source hash, resource snapshot and exact molecular input merge stay bound.
 The original development report is retained when the merged input pin is added.
+
+
+The numerical input is now pinned to verified QHAT PR #8 merge
+`1eeae416db1cac0de3e5617ca30ecf95729df04d`, with identical supplied model bytes.
+`evidence/HISTORICAL_DEVELOPMENT_STORAGE.json` authenticates all 192 original
+evidence files, including inert copies of the earlier development report and
+provenance. The maintained report uses the actual merged input and unchanged
+scientific CSVs. `FINAL_INPUT_BINDING.json` distinguishes this reporting refresh
+from the original physical computation and independent interval audit.
