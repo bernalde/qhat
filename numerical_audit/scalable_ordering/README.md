@@ -5,8 +5,8 @@ This directory provides the prospective twelve-mode benchmark for the reusable
 [REGISTRY.json](REGISTRY.json) before running it. Source preparation alone makes
 no performance, accuracy, chemistry, generalization or hardware claim.
 
-The frozen design contains four cases from three previously unrecorded molecular
-families, six ordering arms, two validation times and two rotation caps. It
+The frozen design contains four previously unrecorded geometries from three
+molecular families, six ordering arms, two validation times and two rotation caps. It
 retains all 24 orders, 96 actual primitive circuits, eight reference evolutions
 and 240 paired comparisons. Exact reference propagation is an offline checker;
 training reads only the Hamiltonian, HF reference and declared training budget.

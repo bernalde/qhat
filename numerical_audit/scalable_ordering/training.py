@@ -4,8 +4,14 @@ import time
 import numpy as np
 import common as k
 
+MAX_STORED_PAIRS = 250_000
+
 
 class Deadline(RuntimeError):
+    pass
+
+
+class SupportLimit(RuntimeError):
     pass
 
 
@@ -105,13 +111,15 @@ class FirstResponse:
     """HF response from sparse pair columns; no 2**n vectors or propagation."""
     def __init__(self, raw, denominator, hf, diagonal, deadline):
         self.m = len(raw)
-        k.require(self.m * (self.m - 1) // 2 <= 500_000, 'First-response pair storage bound')
+        k.require(0 < self.m <= k.MAX_TERMS, 'First-response unit count bound')
         desc = [descriptor(b) for b in raw]
         D = descriptor(diagonal or {(): 0})
         self.pairs, self.weights = [], {}
         for i in range(self.m):
             check(deadline)
             for j in range(i + 1, self.m):
+                if j % 256 == 0:
+                    check(deadline)
                 x, y = desc[i][0], desc[j][0]
                 destination = hf ^ x ^ y
                 if destination == hf:
@@ -119,6 +127,8 @@ class FirstResponse:
                 b = value(desc[j], hf) * value(desc[i], hf ^ y) - value(desc[i], hf) * value(desc[j], hf ^ x)
                 if not b:
                     continue
+                if len(self.pairs) >= MAX_STORED_PAIRS:
+                    raise SupportLimit('First-response stored nonzero pair bound')
                 self.pairs.append((i, j, destination, 0.5 * (b / denominator**2)))
                 if destination not in self.weights:
                     gap = (value(D, destination) - value(D, hf)) / denominator
@@ -215,11 +225,13 @@ def first_search(model, arm, initial, deadline):
                 if best_score is None or (actual, selected) < (best_score, best):
                     best, best_score = selected, actual
                     moves += 1
+    except SupportLimit:
+        status = 'support_limit'
     return dict(order=list(best), score=best_score, evaluations=evaluations,
                 accepted_moves=moves, status=status, partition='pauli' if arm == 'pauli' else 'conserving')
 
 
-def construct(model_path, digest, arm):
+def _construct(model_path, digest, arm):
     cpu, wall = time.process_time(), time.monotonic()
     k.require(arm in k.ARMS and k.sha(model_path) == digest, 'Unknown arm or input changed')
     model = k.read(model_path)
@@ -243,16 +255,22 @@ def construct(model_path, digest, arm):
             if arm in ('first', 'pauli'):
                 result = first_search(model, arm, placed, deadline)
             elif arm == 'cubic':
+                ordering = k.bootstrap()
                 remaining = deadline - time.process_time()
                 if remaining > 0:
-                    ordering = k.bootstrap()
-                    trained = ordering.train_ordering(units, model['n'], (1 << model['electrons']) - 1,
-                        time=k.TRAIN_TIME, rotation_budget=30 * len(model['coefficients']),
-                        cpu_seconds=remaining, max_evaluations=3000, max_moves=5,
-                        starts=[placed, list(reversed(placed)), canonical])
-                    result.update(order=list(trained.order), score=None if trained.score is None else trained.score.value,
-                        evaluations=trained.evaluations, accepted_moves=trained.accepted_moves,
-                        status=trained.status, stats=trained.stats)
+                    try:
+                        trained = ordering.train_ordering(units, model['n'], (1 << model['electrons']) - 1,
+                            time=k.TRAIN_TIME, rotation_budget=30 * len(model['coefficients']),
+                            cpu_seconds=remaining, max_evaluations=3000, max_moves=5,
+                            starts=[placed, list(reversed(placed)), canonical])
+                    except ordering.SearchDeadline:
+                        result['status'] = 'cpu_limit'
+                    except ordering.ResourceLimit:
+                        result['status'] = 'support_limit'
+                    else:
+                        result.update(order=list(trained.order), score=None if trained.score is None else trained.score.value,
+                            evaluations=trained.evaluations, accepted_moves=trained.accepted_moves,
+                            status=trained.status, stats=trained.stats)
                 else:
                     result['status'] = 'cpu_limit'
     except Deadline:
@@ -269,5 +287,17 @@ def construct(model_path, digest, arm):
         CPU_seconds=time.process_time() - cpu, wall_seconds=time.monotonic() - wall,
         nominal_CPU_seconds=k.TRAIN_CPU_SECONDS if arm not in ('canonical', 'magnitude') else None,
         response_is_error_bound=False,
-        timing='Caller through return; input authentication, setup, initialization, search and layout; imports/campaign startup separate')
+        timing='Internal construction; public wrapper records complete call including local cleanup')
+    return result
+
+
+def construct(model_path, digest, arm):
+    """Charge the complete inner constructor, including cleanup on return."""
+    cpu, wall = time.process_time(), time.monotonic()
+    result = _construct(model_path, digest, arm)
+    result['internal_CPU_seconds'] = result['CPU_seconds']
+    result['internal_wall_seconds'] = result['wall_seconds']
+    result['CPU_seconds'] = time.process_time() - cpu
+    result['wall_seconds'] = time.monotonic() - wall
+    result['timing'] = 'Complete standalone constructor call: authentication, setup, initialization, search, layout and local cleanup; campaign startup separate'
     return result

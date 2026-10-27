@@ -178,23 +178,22 @@ class Reference:
         raw = ([{w: c} for w, c in sorted(self.words.items())] if record['partition'] == 'pauli'
                else [dict((tuple((q, p) for q, p in word), int(c)) for word, c in b)
                      for b in self.model['blocks']])
-        k.require(len(raw) * self.dimension * 32 <= 128 * 1024**2,
-                  'Independent objective matrix storage before allocation')
         order = record['order']
         k.require(all(type(i) is int for i in order) and sorted(order) == list(range(len(raw))),
                   'Independent objective complete permutation')
-        matrices = []
-        for block in raw:
+        def matrix_for(block):
             matrix = sparse.csr_matrix(self.H.shape, dtype=np.complex128)
             for word, coefficient in block.items():
                 rows, values = self.literal_action(word)
                 matrix += sparse.csr_matrix(((coefficient / self.den) * values, (rows, self.basis)),
                                             shape=self.H.shape)
-            matrices.append(matrix)
+            return matrix
         column = np.zeros(self.dimension, dtype=np.clongdouble)
         suffix = sparse.csr_matrix(self.H.shape, dtype=np.complex128)
         for index in reversed(order):
-            outer = matrices[index]
+            # Keep only the current unit and accumulated suffix. The complete
+            # Hamiltonian's guarded flip count bounds both sparse supports.
+            outer = matrix_for(raw[index])
             av, bv = outer @ self.initial, suffix @ self.initial
             if kind == 'first':
                 column += -.5j * (outer @ bv - suffix @ av)
@@ -219,7 +218,7 @@ class Reference:
         result = dict(value=response if kind == 'first' else response / steps**4,
             raw_response=response, steps=steps, kind=kind,
             method='Literal sparse matrices and nested commutators; independent of trainer')
-        del matrices, suffix
+        del suffix
         return result
 
     def audit_trace(self, path, identity, compiler_version, *, literal=False):

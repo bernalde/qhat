@@ -143,6 +143,58 @@ def test_pauli_timeout_keeps_correct_partition(monkeypatch, tmp_path):
     assert len(result['schedule']) == len(model()['coefficients'])
 
 
+def test_cubic_validation_deadline_retains_valid_placement(monkeypatch, tmp_path):
+    path = tmp_path / 'model.json'
+    path.write_text(json.dumps(model()))
+    ordering = k.bootstrap()
+    def interrupted(*args, **kwargs):
+        raise ordering.SearchDeadline('input validation reached deadline')
+    monkeypatch.setattr(ordering, 'train_ordering', interrupted)
+    result = training.construct(path, k.sha(path), 'cubic')
+    assert result['order'] == training.current(model())
+    assert result['status'] == 'cpu_limit' and result['score'] is None
+
+
+def test_bootstrap_cost_is_inside_constructor_deadline(monkeypatch, tmp_path):
+    path = tmp_path / 'model.json'
+    path.write_text(json.dumps(model()))
+    clock = [0.]
+    def expensive_bootstrap():
+        clock[0] = 10.
+        return None  # Trainer access would fail if the expired cap were ignored.
+    monkeypatch.setattr(training.time, 'process_time', lambda: clock[0])
+    monkeypatch.setattr(k, 'bootstrap', expensive_bootstrap)
+    result = training.construct(path, k.sha(path), 'cubic')
+    assert result['status'] == 'cpu_limit' and result['CPU_seconds'] == 10.
+
+
+def test_complete_construction_charge_includes_return_cleanup(monkeypatch):
+    clock = [0.]
+    class Cleanup:
+        def __del__(self):
+            clock[0] += 1.
+    def inner(*args):
+        owned = Cleanup()
+        return dict(CPU_seconds=0., wall_seconds=0.)
+    monkeypatch.setattr(training.time, 'process_time', lambda: clock[0])
+    monkeypatch.setattr(training, '_construct', inner)
+    result = training.construct(None, None, None)
+    assert result['CPU_seconds'] == 1. and result['internal_CPU_seconds'] == 0.
+
+
+def test_first_response_bounds_stored_pairs_and_retains_fallback(monkeypatch):
+    monkeypatch.setattr(training, 'MAX_STORED_PAIRS', 0)
+    result = training.first_search(model(), 'pauli', [0, 1, 2], float('inf'))
+    assert result['status'] == 'support_limit' and result['score'] is None
+    assert sorted(result['order']) == list(range(4))
+
+
+def test_many_commuting_singletons_do_not_reserve_quadratic_pair_storage():
+    raw = [{((0, 'Z'),): 1}] * 1001
+    context = training.FirstResponse(raw, 1, 0, raw[0], float('inf'))
+    assert not context.pairs and context.score(range(1001), float('inf')) == 0.
+
+
 def test_npy_shape_is_rejected_before_numpy_allocation(monkeypatch, tmp_path):
     stream = io.BytesIO()
     np.lib.format.write_array_header_1_0(stream, dict(descr='<c16', fortran_order=False, shape=(1_000_000_000,)))
