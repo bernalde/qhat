@@ -183,3 +183,131 @@ def test_report_verifier_binding_rejects_forged_source_hash(tmp_path):
     (tmp_path/'TRUSTED_VERIFIER_SOURCES.json').write_text(json.dumps(expected))
     with pytest.raises(ValueError,match='Verifier source binding'):
         trusted_verifier_sources(tmp_path)
+
+
+def approved_retry_extension_fixture():
+    # In-memory policy fixture, never a persisted human approval.
+    import hashlib,json
+    record=resource_fixture()
+    approval=dict(approved=True,scope='issue18_fresh_complete_independent_replay_after_expiry',
+        original_phase_CPU_seconds=1200,new_phase_CPU_seconds=2000,additional_CPU_seconds=800,
+        original_phase_wall_seconds=7200,new_phase_wall_seconds=10200,additional_wall_seconds=3000,
+        attempt_CPU_seconds=900,attempt_wall_seconds=4200,
+        MemoryHigh='448M',MemoryMax='512M',MemorySwapMax='0',CPUQuota='25%',threads=1,disk_MiB=256)
+    text=json.dumps(approval)
+    record['approved_ceiling_extensions']=[dict(phase='independent',additional_CPU_seconds=800,
+        additional_wall_seconds=3000,approval_record=text,
+        approval_sha256=hashlib.sha256(text.encode()).hexdigest())]
+    record['phases']['independent'].update(CPU_seconds=2000,wall_seconds=10200)
+    return record
+
+def test_extended_replay_cap_requires_bound_explicit_approval():
+    from reporting import validate_resources
+    record=resource_fixture();record['phases']['independent'].update(CPU_seconds=2000,wall_seconds=10200)
+    with pytest.raises(ValueError,match='Frozen phase ceiling changed'):
+        validate_resources(record)
+
+def test_approved_retry_extension_keeps_original_failures_and_boundaries():
+    from reporting import validate_resources
+    record=approved_retry_extension_fixture();validate_resources(record)
+    assert record['phases']['tests']['attempts'][0]['exit_code']==1
+    record['phases']['independent']['wall_seconds']=10201
+    with pytest.raises(ValueError,match='Frozen phase ceiling changed'):
+        validate_resources(record)
+
+def test_retry_extension_does_not_authorize_other_phase_caps():
+    from reporting import validate_resources
+    record=approved_retry_extension_fixture();record['phases']['tests']['CPU_seconds']=300
+    with pytest.raises(ValueError,match='Frozen phase ceiling changed'):
+        validate_resources(record)
+
+def test_retry_extension_rejects_approval_record_tampering():
+    from reporting import validate_resources
+    record=approved_retry_extension_fixture();record['approved_ceiling_extensions'][0]['approval_record']+=' '
+    with pytest.raises(ValueError,match='approval record hash differs'):
+        validate_resources(record)
+
+def reconciled_counter_fixture():
+    import hashlib,json
+    record=resource_fixture();key='test.resources.json';entry=record['receipts'][key]
+    original=json.loads(entry['text']);raw=json.loads(entry['text'])
+    raw['original_guard_receipt']=dict(entry)
+    raw['post_completion_service_observation']=dict(fields=dict(
+        ActiveState='failed',Result='timeout',CPUUsageNSec='600000000'))
+    raw['final_accounting']['CPU_seconds']=.6
+    raw['CPU_reconciliation_delta_seconds']=.6-original['final_accounting']['CPU_seconds']
+    text=json.dumps(raw);record['receipts'][key]=dict(text=text,sha256=hashlib.sha256(text.encode()).hexdigest())
+    pool=record['phases']['tests'];pool['attempts'][0]['CPU_seconds']=.6;pool['consumed_CPU_seconds']=.6
+    return record
+
+def test_late_final_counter_preserves_original_failed_receipt():
+    import json
+    from reporting import validate_resources
+    record=reconciled_counter_fixture();validate_resources(record)
+    raw=json.loads(record['receipts']['test.resources.json']['text'])
+    original=json.loads(raw['original_guard_receipt']['text'])
+    assert original['exit_code']==1 and original['final_accounting']['CPU_seconds']==.5
+    assert raw['final_accounting']['CPU_seconds']==.6
+
+def test_late_counter_cannot_rewrite_failure_as_success():
+    import hashlib,json
+    from reporting import validate_resources
+    record=reconciled_counter_fixture();raw=json.loads(record['receipts']['test.resources.json']['text'])
+    raw['exit_code']=0;text=json.dumps(raw)
+    record['receipts']['test.resources.json']=dict(text=text,sha256=hashlib.sha256(text.encode()).hexdigest())
+    record['phases']['tests']['attempts'][0]['exit_code']=0
+    with pytest.raises(ValueError,match='Original failed resource receipt changed'):
+        validate_resources(record)
+
+
+def two_approval_fixture():
+    # Synthetic policy input only; these fixtures never grant execution authority.
+    import hashlib,json
+    record=approved_retry_extension_fixture()
+    approval=dict(approved=True,scope='issue18_live_replay_extension300',
+        original_phase_CPU_seconds=2000,new_phase_CPU_seconds=2300,additional_CPU_seconds=300,
+        original_phase_wall_seconds=10200,new_phase_wall_seconds=11100,additional_wall_seconds=900,
+        original_attempt_CPU_seconds=900,new_attempt_CPU_seconds=1200,
+        original_attempt_wall_seconds=4200,new_attempt_wall_seconds=5100,
+        MemoryHigh='448M',MemoryMax='512M',MemorySwapMax='0',CPUQuota='25%',threads=1,disk_MiB=256)
+    text=json.dumps(approval)
+    record['approved_ceiling_extensions'].append(dict(phase='independent',additional_CPU_seconds=300,
+        additional_wall_seconds=900,approval_record=text,
+        approval_sha256=hashlib.sha256(text.encode()).hexdigest()))
+    record['phases']['independent'].update(CPU_seconds=2300,wall_seconds=11100)
+    return record
+
+def test_second_approval_requires_ordered_complete_chain():
+    from reporting import validate_resources
+    record=two_approval_fixture();validate_resources(record)
+    record['approved_ceiling_extensions'].reverse()
+    with pytest.raises(ValueError,match='ordered resource approval chain'):
+        validate_resources(record)
+    record=two_approval_fixture();record['approved_ceiling_extensions'].pop(0)
+    with pytest.raises(ValueError,match='ordered resource approval chain'):
+        validate_resources(record)
+
+def test_same_worker_extension_preserves_stricter_effective_wall_timer():
+    import hashlib,json
+    from reporting import validate_resources
+    record=two_approval_fixture();raw=json.loads(record['receipts']['test.resources.json']['text'])
+    raw['budget']=dict(cpu_seconds=1200,wall_seconds=4200,disk_mib=256)
+    raw['settings']['RuntimeMaxSec']='4200'
+    raw['controller_handoff']=dict(status='Approved_live_extension_applied',
+        approval_sha256=record['approved_ceiling_extensions'][1]['approval_sha256'],
+        original_budget=dict(cpu_seconds=900,wall_seconds=4200,disk_mib=256),
+        approved_budget=dict(cpu_seconds=1200,wall_seconds=5100,disk_mib=256),
+        effective_budget=dict(raw['budget']),wall_timer_extension_applied=False,
+        scientific_worker_restarted=False,scientific_source_unchanged=True,
+        quota_memory_swap_nice_weights_unchanged=True,whole_CPU_counter_retained=True,
+        initial_service=dict(MainPID='123'),service_after_handoff=dict(MainPID='123'))
+    def bind():
+        text=json.dumps(raw);record['receipts']['replay.resources.json']=dict(text=text,
+            sha256=hashlib.sha256(text.encode()).hexdigest())
+    bind()
+    record['phases']['independent'].update(attempts=[dict(receipt='/owned/replay.resources.json',
+        CPU_seconds=.5,wall_seconds=2.,exit_code=1)],consumed_CPU_seconds=.5,consumed_wall_seconds=2.)
+    validate_resources(record)
+    raw['budget']['wall_seconds']=5100;bind()
+    with pytest.raises(ValueError,match='stricter effective wall limit differs'):
+        validate_resources(record)

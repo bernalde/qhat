@@ -74,6 +74,35 @@ def validate_resources(record):
     ceilings = dict(tests=(120,900,64),preflight=(240,1800,256),main=(1200,7200,256),
                     independent=(1200,7200,256),reporting=(300,1800,256))
     require(set(record['phases']) == set(ceilings),'Incomplete numerical phase ledger')
+    extensions = record.get('approved_ceiling_extensions', [])
+    require(isinstance(extensions,list) and len(extensions) <= 2,
+            'Invalid ordered resource approval chain')
+    specs = [
+        ('issue18_fresh_complete_independent_replay_after_expiry',
+         (1200,2000,800,7200,10200,3000),
+         ('attempt_CPU_seconds','attempt_wall_seconds'), (900,4200)),
+        ('issue18_live_replay_extension300',
+         (2000,2300,300,10200,11100,900),
+         ('original_attempt_CPU_seconds','new_attempt_CPU_seconds',
+          'original_attempt_wall_seconds','new_attempt_wall_seconds'), (900,1200,4200,5100))]
+    for extension,(scope,limits,attempt_keys,attempt_limits) in zip(extensions,specs):
+        require(set(extension) == {'phase','additional_CPU_seconds','additional_wall_seconds',
+                                  'approval_record','approval_sha256'} and
+                (extension['phase'],extension['additional_CPU_seconds'],extension['additional_wall_seconds']) ==
+                ('independent',limits[2],limits[5]), 'Invalid ordered resource approval chain')
+        text = extension['approval_record']
+        require(isinstance(text,str) and hashlib.sha256(text.encode()).hexdigest() == extension['approval_sha256'],
+                'Resource approval record hash differs')
+        approval = json.loads(text)
+        require(approval.get('approved') is True and approval.get('scope') == scope and
+                tuple(approval.get(k) for k in ('original_phase_CPU_seconds','new_phase_CPU_seconds',
+                    'additional_CPU_seconds','original_phase_wall_seconds','new_phase_wall_seconds',
+                    'additional_wall_seconds')) == limits and
+                tuple(approval.get(k) for k in attempt_keys) == attempt_limits and
+                (approval.get('MemoryHigh'),approval.get('MemoryMax'),approval.get('MemorySwapMax'),
+                 approval.get('CPUQuota'),approval.get('threads'),approval.get('disk_MiB')) ==
+                ('448M','512M','0','25%',1,256), 'Invalid explicit bounded replay resource approval')
+        ceilings['independent'] = (limits[1],limits[4],256)
     used_receipts = set()
     for phase,(cpu_cap,wall_cap,disk_cap) in ceilings.items():
         pool = record['phases'][phase]
@@ -88,6 +117,44 @@ def validate_resources(record):
             require(hashlib.sha256(entry['text'].encode('utf8')).hexdigest() == entry['sha256'],
                     'Raw resource receipt hash differs')
             raw = json.loads(entry['text'])
+            if 'original_guard_receipt' in raw:
+                original = raw['original_guard_receipt']
+                require(hashlib.sha256(original['text'].encode()).hexdigest() == original['sha256'],
+                        'Original guard receipt hash differs')
+                before = json.loads(original['text'])
+                observed = raw['post_completion_service_observation']['fields']
+                require(before['exit_code'] == raw['exit_code'] == 1 and
+                        observed['ActiveState'] == 'failed' and observed['Result'] == 'timeout',
+                        'Original failed resource receipt changed')
+                late_cpu = int(observed['CPUUsageNSec'])/1e9
+                require(late_cpu >= before['final_accounting']['CPU_seconds'] and
+                        abs(raw['final_accounting']['CPU_seconds']-late_cpu) < 1e-8 and
+                        abs(raw['CPU_reconciliation_delta_seconds']-
+                            (late_cpu-before['final_accounting']['CPU_seconds'])) < 1e-8,
+                        'Late final cgroup CPU reconciliation differs')
+                rebuilt = {k:v for k,v in raw.items() if k not in
+                    {'original_guard_receipt','post_completion_service_observation','CPU_reconciliation_delta_seconds'}}
+                rebuilt['final_accounting'] = dict(rebuilt['final_accounting'],
+                    CPU_seconds=before['final_accounting']['CPU_seconds'])
+                require(rebuilt == before, 'Original failed resource receipt changed')
+            if 'controller_handoff' in raw:
+                handoff = raw['controller_handoff']
+                require(phase == 'independent' and len(extensions) == 2 and
+                        handoff['approval_sha256'] == extensions[1]['approval_sha256'] and
+                        handoff['status'] == 'Approved_live_extension_applied' and
+                        handoff['original_budget'] == dict(cpu_seconds=900,wall_seconds=4200,disk_mib=256) and
+                        handoff['approved_budget'] == dict(cpu_seconds=1200,wall_seconds=5100,disk_mib=256) and
+                        handoff['effective_budget'] == raw['budget'] ==
+                            dict(cpu_seconds=1200,wall_seconds=4200,disk_mib=256) and
+                        handoff['wall_timer_extension_applied'] is False and
+                        handoff['scientific_worker_restarted'] is False and
+                        handoff['scientific_source_unchanged'] is True and
+                        handoff['quota_memory_swap_nice_weights_unchanged'] is True and
+                        handoff['whole_CPU_counter_retained'] is True and
+                        raw['settings']['RuntimeMaxSec'] == '4200' and
+                        handoff['initial_service']['MainPID'] ==
+                            handoff['service_after_handoff']['MainPID'],
+                        'Approved same-worker handoff or stricter effective wall limit differs')
             actual = raw['final_accounting']
             values = (actual['CPU_seconds'],actual['elapsed_seconds'])
             require(all(type(x) in (int,float) and math.isfinite(x) and x >= 0 for x in values),

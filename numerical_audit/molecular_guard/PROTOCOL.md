@@ -1,9 +1,12 @@
 # Quantitative molecular guard and finite-step certificate attempt
 
-This is the numerical component of paper issue18. The generic sharper-epsilon
-and finite-step Lean statements live in the separate paper proof worktree. They
-remain unverified drafts until kernel checking; software interval certificates
-must not be described as kernel-certified molecular proofs.
+This is the numerical component of paper issue18. The scientific choices
+below are the unchanged pre-execution registry; its original bytes remain in
+the producer source archive. The separate generic sharper-epsilon/finite-step
+Lean component now has twenty freshly kernel-checked public endpoints and
+completed semantic review at paper merge8be784fa0a4e27aef034514f95ff475d23592b42.
+Software intervals remain distinct from a concrete kernel-certified molecular
+instance. Later execution/resource status is recorded separately below.
 
 ## Fixed input and orders, before any guard or Trotter-error calculation
 
@@ -13,8 +16,9 @@ orbitals1,2,3,six spin modes,two active electrons. The scalar-removed model JSON
 SHA256 is ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134.
 The chemistry producer is7c8c64acf0f13703df10b0335e0017da84e94f9b; its exact
 source/environment/tensor/orbital/coefficient records are retained by #17.
-This is a pinned development input until the actual prerequisite publication
-and merge are verified. No input or order pair will be replaced after errors.
+The originally developmental input is now pinned to verified numerical
+merge1eeae416db1cac0de3e5617ca30ecf95729df04d with identical model bytes.
+No input or order pair was replaced after errors.
 
 Compare the existing legacy current-placement order with the diagonal-prefix
 order formed by the same established priorities: diagonal units by decreasing
@@ -56,7 +60,7 @@ intervals are explicit outcomes, not successful certificates.
 ## Constructive finite-step bounds
 
 Use96-term exponential Taylor polynomials, scaling any generator to norm at most
-1/2. The generic draft bound is2*(1/2)^96. Propagate approximation errors through
+1/2. The generic bound is2*(1/2)^96, now separately proved in Lean under its norm hypothesis. Propagate approximation errors through
 finite products/powers with explicit norm bounds; no unspecified O-constant or
 existential eventual-r threshold is a finite-step certificate.
 
@@ -90,11 +94,12 @@ seconds/wall seconds/outputMiB): tests120/900/64;preflight240/1800/256;
 main1200/7200/256;independent1200/7200/256;reporting300/1800/256.
 Numerical jobs retain quarter-coreCPU,Nice19,one thread,MemoryHigh448MiB,
 MemoryMax512MiB,no swap,the existing headroom thresholds,and one worker.
-Proof-only6GiB permission is a separate pending decision; it does not enlarge
-these numerical limits. Freeze source/inputs before execution and retain full
+The separate proof-only6GiB approval and completed generic audit do not enlarge
+these numerical memory limits. Freeze source/inputs before execution and retain full
 attempt usage without resets.
 
-Still required: implementation and tests of interval arithmetic/input identities,
+Original pre-execution completion checklist (later status is recorded in the
+current closeouts): implementation and tests of interval arithmetic/input identities,
 full representative preflight,complete fixed panel,independent certificate audit,
 actual Lean builds/axiom/semantic correspondence checks and endpoint inventory,
 Astra/Argon convergence,publication,current-headCI,separate eligible merges and
@@ -108,6 +113,24 @@ data using the live committed checker. Archived Python is never executed.
 Byte identity transfers the extracted audit to the original payload; a second
 identical expensive audit is unnecessary. Reporting verifies the committed Git
 objects against the same payload hashes. This delivery plan does not change the
-fixed molecular input,orders,panel or any frozen phase ceiling. The certificate
+fixed molecular input,orders or panel. The separate explicit resource extension
+below preserves all original attempt costs and initial ceiling records. The certificate
 concerns the supplied exact rational active-space Hamiltonian; it does not bound
 the preceding SCF/integral/basis-set error or certify continuum chemistry.
+
+
+## Approved independent replay extension
+
+The user approved 800 additional CPU seconds and 3,000 additional wall seconds
+for one fresh complete independent replay after the retained partial attempt
+expired. The subsequent explicit continuation adds300CPU/900wall to that phase,
+for cumulative limits2,300CPU/11,100wall/256MiB-output. The same fresh attempt
+continued at1,200CPU/4,200effective wall seconds; its approved5,100wall ceiling
+was not applied because systemd rejected the live update. The original stricter
+hard wall timer and same scientific worker remained in place. The sanitized exact
+approvals are in RESOURCE_RETRY_APPROVAL.json and
+RESOURCE_CONTINUATION_APPROVAL.json. Original measurements, the failed
+606.040128CPU/4,000.276225739wall attempt and every earlier phase charge remain
+retained. This is an execution allowance, not a replacement input, retuning,
+new physical observation or relaxed mathematical enclosure. Numerical quota,
+memory, swap, thread and host-headroom rules remain unchanged.

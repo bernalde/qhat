@@ -83,3 +83,26 @@ The verifier still rejects omitted maintained sources and authenticates each
 frozen source byte against the producing Git revision. Source-contract fixtures
 stop before molecular reconstruction; fresh numerical replay is recorded
 separately when the executed verifier revision changes.
+
+
+`RESOURCE_RETRY_APPROVAL.json` records the explicit user-approved independent
+replay extension: the cumulative phase cap increased from 1,200 CPU/7,200 wall
+seconds to 2,000 CPU/10,200 wall seconds, then to 2,300 CPU/11,100 wall seconds
+by the separate continuation in `RESOURCE_CONTINUATION_APPROVAL.json`. The first repaired-verifier replay
+retained 54 pair checks but timed out while its requested extension was pending;
+its original receipt and late final cgroup counter are preserved, with 606.040128
+CPU seconds charged. The subsequent complete attempt uses the same frozen
+producer, input, two orders and panel, with a 900-CPU/4,200-wall-second attempt
+initial limit. The approved continuation raised its CPU ceiling to 1,200
+seconds. The service manager rejected a live wall-timer update, so the same
+worker retained its stricter 4,200-second hard wall limit, below the approved
+5,100 seconds. Only the owned supervisor changed; cumulative CPU and elapsed
+time carry through. At successful service teardown the replacement monitor
+encountered an unset CPU counter. Its error and all 479 retained samples remain;
+the exact final cgroup CPU counter was recovered from the terminal service
+journal, with a conservative wall charge explicitly recorded in the receipt.
+This did not restart or invalidate the completed scientific worker.
+No primary experiment or tuning is repeated. All attempts remain in the
+ledger; memory stays 512 MiB, the quota stays one quarter core, and archived
+Python remains data. The reporter validates the bound approval and preserves
+the original failed receipt when reconciling a late cumulative CPU counter.
