@@ -58,3 +58,22 @@ def test_larger_training_returns_fully_rescored_incumbent():
     assert result.score == full
     assert result.evaluations <= 35
     assert result.stats['incremental_candidates'] > 0
+
+
+def test_many_y_phases_are_exact_and_column_cache_is_not_exposed():
+    count = 137
+    word = tuple((q, 'Y') for q in range(count))
+    context = SparseResponse([{word: 1.}], count, 0)
+    full = (1 << count) - 1
+    assert context.apply(0, {0: 1.}) == {full: 1j}
+    assert context.apply(0, {full: 1.}) == {0: -1j}
+    small = SparseResponse([{((0, 'X'),): 1.}, {((0, 'Z'),): 1.}], 1, 0)
+    expected = small.score((0, 1), 30)
+    columns = small.columns((0, 1));columns[0].clear()
+    assert small.score((0, 1), 30) == expected
+
+
+def test_huge_finite_reference_is_rejected_as_invalid_norm():
+    import pytest
+    with pytest.raises(ValueError, match='normalized'):
+        SparseResponse([{((0, 'X'),): 1.}], 1, {0: 1e300})

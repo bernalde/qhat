@@ -91,7 +91,7 @@ def _compile(blocks, n_qubits, deadline=float('inf')):
             if not c and coefficient != 0:
                 raise ValueError('nonzero coefficient underflows response arithmetic')
             if c:
-                words.append((flip, parity, (1j ** ys) * c, Fraction(coefficient)))
+                words.append((flip, parity, (1., 1j, -1., -1j)[ys % 4] * c, Fraction(coefficient)))
         # A unit is exponentiated as a whole, or as commuting Pauli rotations.
         # Rejecting a noncommuting block protects both the formula and its cost.
         for i, (x, z, _, _) in enumerate(words):
@@ -117,7 +117,7 @@ def _reference(reference, n_qubits, maximum):
             raise ValueError('reference amplitudes must be finite')
         if value:
             result[key] = value
-    norm = sum(abs(x) ** 2 for x in result.values())
+    norm = sum(x.real * x.real + x.imag * x.imag for x in result.values())
     if not math.isfinite(norm) or abs(norm - 1.) > 1e-12:
         raise ValueError('reference must be normalized')
     if len(result) > maximum:
@@ -329,7 +329,7 @@ class SparseResponse:
         order = _permutation(order, len(self.units))
         if order == self.last_order and self.last_columns is not None:
             _check(deadline)
-            return self.last_columns
+            return {source: dict(column) for source, column in self.last_columns.items()}
         columns = {source: self.cubic_column(order, source, deadline)
                    for source in self.reference}
         if sum(map(len, columns.values())) > self.max_entries:
@@ -400,7 +400,7 @@ class SparseResponse:
         projection = sum(a.conjugate() * action.get(k, 0j) for k, a in self.reference.items())
         _add(action, self.reference, -projection, self.max_entries, self.stats)
         self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(action))
-        response = sum(abs(x) ** 2 for x in action.values())
+        response = sum(x.real * x.real + x.imag * x.imag for x in action.values())
         value = response / steps ** 4
         if not math.isfinite(value) or not math.isfinite(response):
             raise ValueError('nonfinite cubic response score')

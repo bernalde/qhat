@@ -1,5 +1,6 @@
 """Small independent checks for the new twelve-mode measurement pipeline."""
 import importlib.util
+import hashlib
 import itertools
 import json
 import io
@@ -11,7 +12,7 @@ import numpy as np
 import pytest
 
 HERE = Path(__file__).resolve().parent
-NAMES = ('common', 'compiler', 'reference', 'training', 'compilation')
+NAMES = ('common', 'compiler', 'reference', 'training', 'compilation', 'identity')
 saved = {name: sys.modules.get(name) for name in NAMES}
 loaded = {}
 try:
@@ -28,7 +29,7 @@ finally:
             sys.modules.pop(name, None)
         else:
             sys.modules[name] = old
-k, compiler, reference, training, compilation = (loaded[name] for name in NAMES)
+k, compiler, reference, training, compilation, identity = (loaded[name] for name in NAMES)
 
 
 def model(n=3):
@@ -213,3 +214,118 @@ def test_nested_commutator_oracle_matches_dense_cubic_taylor():
         expected = np.dot(weights, abs(column)**2) / compilation.affordable_steps(layout['unit_lengths'], 30)**4
         actual = ref.objective(layout)['value']
         assert actual == pytest.approx(expected, rel=1e-10, abs=1e-20)
+
+
+class BatchInput(io.BytesIO):
+    def __init__(self):
+        super().__init__()
+        self.requests = []
+
+    def write(self, value):
+        self.requests.append(value)
+        return super().write(value)
+
+
+class BatchOutput(io.BytesIO):
+    def __init__(self, value):
+        super().__init__(value)
+        self.body_reads = []
+        self.header_reads = []
+
+    def read(self, size=-1):
+        assert 0 <= size <= identity.MAX_JSON_BYTES
+        self.body_reads.append(size)
+        return super().read(size)
+
+    def readline(self, size=-1):
+        assert size == 256
+        self.header_reads.append(size)
+        return super().readline(size)
+
+
+class BatchProcess:
+    def __init__(self, payload):
+        self.stdin, self.stdout = BatchInput(), BatchOutput(payload)
+        self.returncode = None
+        self.killed = False
+
+    def poll(self):
+        return self.returncode
+
+    def wait(self, timeout=None):
+        assert timeout == 5
+        if self.returncode is None:
+            self.returncode = 0
+        return self.returncode
+
+    def kill(self):
+        self.killed, self.returncode = True, -9
+
+
+def batch_blob(data):
+    oid = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+    return oid, oid.encode() + b' blob ' + str(len(data)).encode() + b'\n' + data + b'\n'
+
+
+def test_geometry_inventory_accepts_authoritative_count_with_same_byte_caps():
+    inventory = {f'{i:040x}': (1, f'{i}.json') for i in range(12936)}
+    identity.validate_inventory(inventory)
+    with pytest.raises(ValueError, match='storage bounds'):
+        identity.validate_inventory({f'{i:040x}': (1, f'{i}.json') for i in range(16385)})
+    with pytest.raises(ValueError, match='storage bounds'):
+        identity.validate_inventory({'0' * 40: (identity.MAX_JSON_BYTES + 1, 'oversized.json')})
+
+
+def test_geometry_scan_uses_one_batch_and_authenticates_every_blob():
+    first, second = b'{"first":1}', b'{"second":2}\n'
+    left, one = batch_blob(first)
+    right, two = batch_blob(second)
+    process = BatchProcess(one + two)
+    invocations = []
+    def factory(command, **kwargs):
+        invocations.append((command, kwargs))
+        return process
+    result = list(identity.stream_blobs({left: (len(first), 'first.json'), right: (len(second), 'second.json')},
+                                       popen=factory))
+    assert result == [('first.json', first), ('second.json', second)]
+    assert len(invocations) == 1 and invocations[0][0][-2:] == ['cat-file', '--batch']
+    assert process.stdin.requests == [left.encode() + b'\n', right.encode() + b'\n']
+    assert process.stdout.body_reads == [len(first), 1, len(second), 1]
+    assert not process.killed and process.stdin.closed and process.stdout.closed
+
+
+@pytest.mark.parametrize('header', ['wrong_oid', 'wrong_kind', 'wrong_size', 'huge_size', 'long', 'missing'])
+def test_invalid_git_batch_header_precedes_blob_read_and_kills_owned_process(header):
+    data = b'{}'
+    oid, valid = batch_blob(data)
+    choices = {
+        'wrong_oid': b'0' * 40 + b' blob 2\n',
+        'wrong_kind': oid.encode() + b' tree 2\n',
+        'wrong_size': oid.encode() + b' blob 3\n',
+        'huge_size': oid.encode() + b' blob 999999999999999999\n',
+        'long': b'x' * 256 + b'\n',
+        'missing': oid.encode() + b' missing\n',
+    }
+    process = BatchProcess(choices[header] + data + b'\n')
+    with pytest.raises(ValueError, match='batch header'):
+        list(identity.stream_blobs({oid: (2, 'fixture.json')}, popen=lambda *a, **k: process))
+    assert process.stdout.body_reads == []
+    assert process.killed and process.stdin.closed and process.stdout.closed
+
+
+@pytest.mark.parametrize('failure', ['truncated', 'bad_delimiter', 'wrong_hash'])
+def test_git_batch_body_authentication_and_owned_process_cleanup(failure):
+    data = b'{"a":1}'
+    oid, valid = batch_blob(data)
+    payload = valid[:-3] if failure == 'truncated' else valid[:-1] + b'x' if failure == 'bad_delimiter' else valid.replace(b'"a"', b'"b"')
+    process = BatchProcess(payload)
+    with pytest.raises(ValueError, match='batch blob|authentication'):
+        list(identity.stream_blobs({oid: (len(data), 'fixture.json')}, popen=lambda *a, **k: process))
+    assert process.killed and process.stdin.closed and process.stdout.closed
+
+
+def test_git_batch_real_committed_json_blob():
+    relative = 'numerical_audit/scalable_ordering/REGISTRY.json'
+    raw = identity.subprocess.check_output(['git', '-C', str(k.ROOT), 'show', 'HEAD:' + relative])
+    oid, _ = batch_blob(raw)
+    assert list(identity.stream_blobs({oid: (len(raw), relative)})) == [(relative, raw)]

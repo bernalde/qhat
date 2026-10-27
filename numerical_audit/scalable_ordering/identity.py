@@ -6,6 +6,53 @@ import math
 import subprocess
 import common as k
 
+MAX_JSON_BLOBS = 16384
+MAX_JSON_BYTES = 16 * 1024**2
+MAX_TOTAL_JSON_BYTES = 512 * 1024**2
+
+
+def validate_inventory(blobs):
+    k.require(0 < len(blobs) <= MAX_JSON_BLOBS and
+              all(type(size) is int and 0 <= size <= MAX_JSON_BYTES for size, _ in blobs.values()) and
+              sum(size for size, _ in blobs.values()) <= MAX_TOTAL_JSON_BYTES,
+              'Geometry scan storage bounds')
+    k.require(all(isinstance(oid, str) and len(oid) == 40 and
+                  all(c in '0123456789abcdef' for c in oid) for oid in blobs), 'Invalid baseline blob identity')
+
+
+def stream_blobs(blobs, root=k.ROOT, *, popen=None):
+    """Authenticate one bounded Git blob at a time through one owned process."""
+    validate_inventory(blobs)
+    factory = subprocess.Popen if popen is None else popen
+    process = factory(['git', '-C', str(root), 'cat-file', '--batch'],
+                      stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    try:
+        for oid, (size, name) in blobs.items():
+            process.stdin.write(oid.encode('ascii') + b'\n')
+            process.stdin.flush()
+            header = process.stdout.readline(256)
+            k.require(0 < len(header) <= 255 and header.endswith(b'\n'), 'Bounded Git batch header')
+            fields = header[:-1].split()
+            k.require(len(fields) == 3 and fields[0] == oid.encode('ascii') and fields[1] == b'blob' and
+                      fields[2].isdigit() and len(fields[2]) <= 8, 'Git batch header identity/type/size')
+            announced = int(fields[2])
+            k.require(announced == size and 0 <= announced <= MAX_JSON_BYTES,
+                      'Git batch header size differs from inventory')
+            raw = process.stdout.read(announced)
+            k.require(len(raw) == announced and process.stdout.read(1) == b'\n', 'Truncated Git batch blob')
+            k.require(hashlib.sha1(b'blob ' + str(announced).encode() + b'\0' + raw).hexdigest() == oid,
+                      'Baseline blob authentication failed')
+            yield name, raw
+        process.stdin.close()
+        k.require(process.wait(timeout=5) == 0, 'Git batch process failed')
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait(timeout=5)
+        for stream in (process.stdin, process.stdout):
+            if stream is not None and not stream.closed:
+                stream.close()
+
 
 def signature(geometry):
     k.require(isinstance(geometry, list) and 1 <= len(geometry) <= 32, 'Geometry atom count')
@@ -38,8 +85,7 @@ def audit(registry):
             mode, kind, oid, size = metadata.split()
             k.require(kind == b'blob' and mode in (b'100644', b'100755'), 'Unexpected JSON tree entry')
             blobs.setdefault(oid.decode(), (int(size), name.decode()))
-    k.require(0 < len(blobs) <= 12000 and max(size for size, _ in blobs.values()) <= 16 * 1024**2 and
-              sum(size for size, _ in blobs.values()) <= 512 * 1024**2, 'Geometry scan storage bounds')
+    validate_inventory(blobs)
     observed, malformed = [], []
     def visit(value, name):
         if isinstance(value, dict):
@@ -55,11 +101,12 @@ def audit(registry):
             for child in value:
                 if isinstance(child, (dict, list)):
                     visit(child, name)
-    for oid, (size, name) in blobs.items():
-        raw = subprocess.check_output(['git', '-C', str(k.ROOT), 'cat-file', 'blob', oid])
-        k.require(len(raw) == size and hashlib.sha1(b'blob ' + str(size).encode() + b'\0' + raw).hexdigest() == oid,
-                  'Baseline blob authentication failed')
-        visit(json.loads(raw), name)
+    stream = stream_blobs(blobs)
+    try:
+        for name, raw in stream:
+            visit(json.loads(raw), name)
+    finally:
+        stream.close()
     k.require(observed and not malformed, 'Incomplete baseline geometry scan')
     rows = []
     for case in registry['cases']:
