@@ -31,7 +31,7 @@ def test_backward_compatibility():
     c1, c2 = trotter_error_estimator_fast(terms, 10)
 
     expected_c1 = 1.0
-    expected_c2 = 1.0/6.0
+    expected_c2 = 0.5
 
     assert abs(c1 - expected_c1) < 1e-6, f"C1: expected {expected_c1}, got {c1}"
     assert abs(c2 - expected_c2) < 1e-6, f"C2: expected {expected_c2}, got {c2}"
@@ -47,7 +47,7 @@ def test_explicit_monte_carlo():
     c1, c2 = trotter_error_estimator_fast(terms, 10, mode='monte_carlo')
 
     assert abs(c1 - 1.0) < 1e-6
-    assert abs(c2 - 1.0/6.0) < 1e-6
+    assert abs(c2 - 0.5) < 1e-6
     print("✓ Test passed: Explicit monte_carlo mode")
 
 
@@ -60,7 +60,7 @@ def test_exact_mode_small_system():
     c1, c2 = trotter_error_estimator_fast(terms, 10, mode='exact')
 
     assert abs(c1 - 1.0) < 1e-10, f"C1: expected 1.0, got {c1}"
-    assert abs(c2 - 1.0/6.0) < 1e-10, f"C2: expected {1.0/6.0}, got {c2}"
+    assert abs(c2 - 0.5) < 1e-10, f"C2: expected {0.5}, got {c2}"
     print("✓ Test passed: Exact mode on small system")
 
 
@@ -73,7 +73,7 @@ def test_auto_exact_mode():
     c1, c2 = trotter_error_estimator_fast(terms, 60, mode='monte_carlo', auto_exact=True)
 
     assert abs(c1 - 1.0) < 1e-10, f"C1: expected 1.0, got {c1}"
-    assert abs(c2 - 1.0/6.0) < 1e-10, f"C2: expected {1.0/6.0}, got {c2}"
+    assert abs(c2 - 0.5) < 1e-10, f"C2: expected {0.5}, got {c2}"
     print("✓ Test passed: Auto-exact mode")
 
 

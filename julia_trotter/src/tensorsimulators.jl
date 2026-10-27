@@ -48,7 +48,7 @@ order: the maximum order in the polynomial expansion
     @show error1, error2
     @assert error1 < 1e-7
     @assert abs(error1 -error2) < 1e-7
-    @info "In those error values are close, then the method has converged to that error bound"
+    @info "Finite Bessel-tail estimates exclude arithmetic roundoff"
 
     if returnstate == false
         return Obs_dict, (error = error2, dt = dt)
@@ -101,7 +101,7 @@ order: the maximum order in the polynomial expansion
     @show error1, error2
     @assert error1 < 1e-7
     @assert abs(error1 -error2) < 1e-7
-    @info "In those error values are close, then the method has converged to that error bound"
+    @info "Finite Bessel-tail estimates exclude arithmetic roundoff"
 
     if returnstate == false
         return Obs_dict, (error = error2, dt = dt)

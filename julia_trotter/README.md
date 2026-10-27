@@ -98,14 +98,16 @@ The `trotter_expts.jl` script provides a comprehensive analysis of Trotterizatio
 
 ### 2. State Vector Errors
 Compares Trotter evolution against Chebyshev reference:
-- **1st order Trotter**: Basic splitting, O(dt) error per step
-- **2nd order Trotter**: Strang splitting, O(dt²) error per step
-- **4th order Trotter**: Recursive composition, O(dt⁴) error per step
+- **1st order Trotter**: Basic splitting, O(dt) global error at fixed total time
+- **2nd order Trotter**: Strang splitting, O(dt²) global error at fixed total time
+- **4th order Trotter**: Recursive composition, O(dt⁴) global error at fixed total time
+
+The corresponding local, one-step errors are O(dt²), O(dt³), and O(dt⁵).
 
 ### 3. Operator Errors
 Compares full unitary matrices (spectral norm):
 - `‖U_trotter - U_exact‖` for varying step counts
-- Demonstrates proper O(dt³) scaling for 2nd order methods
+- Demonstrates O(dt²) global scaling for 2nd order methods at fixed total time
 
 ### 4. Commutator Error Bounds
 Theoretical upper bounds from Childs et al. (PRX 2021):
@@ -138,3 +140,56 @@ For the curve scripts:
 - Trotter energies are extracted from the largest eigenvalues of `U + U'`
 - the default Trotter eigensolver is Arpack on the full Trotter unitary
 - passing `--arnoldi` switches to matrix-free Arnoldi actions for `U + U'`, which avoids constructing the full unitary
+
+
+## Reference accuracy and energy scope
+
+The demonstration uses an approximate Chebyshev reference, not an exact
+exponential or an outward-rounded certificate. The backend subdivides the
+propagation and uses Bessel arguments 1/3 (state) and 1/4 (operator) at the
+default settings. Order 10 is therefore not an unscaled expansion at argument
+π. The script reports the existing finite Bessel-tail estimates; these exclude
+arithmetic roundoff. Errors near floating-point resolution need independent
+reference validation and must not be interpreted as resolved Trotter errors.
+The matrix backend retains its default matrix-return API; `return_info=true`
+returns the matrix and the existing `(error, dt)` estimate metadata.
+
+Operator errors use the largest singular value of the unitary difference,
+including above the dense-size threshold. The iterative estimate checks
+convergence and singular-vector residuals; it is not a rigorous norm bound.
+
+Both energy CLIs warn that their operators act on full Fock space, without a
+fixed electron-number or spin-sector restriction. Metadata energies are used
+as supplied; their sector provenance is not checked. The Hamiltonian fallback
+and default Arpack calculation target full-space extrema. These quantities
+must not be labeled fixed-electron molecular ground energies without a separate
+sector justification.
+
+The optional Arnoldi method uses a Hartree-Fock start vector, which is only a
+Krylov seed. It is not a sector projection or a guarantee of the global minimum;
+invariant subspaces and overlap can affect the extrema found. Individual Pauli
+rotations need not conserve particle number. Projecting a leaking unitary to a
+sector would generally destroy unitarity and does not repair the existing
+phase-to-energy interpretation. The implemented HF seed is JW-specific:
+BK plus `--arnoldi` is rejected, and HF-seeded calls require explicit JW mapping
+metadata. The full-space Arpack route remains available for BK inputs.
+
+## Regression checks
+
+Use the existing Julia project and installed dependencies; no installation is
+performed by these commands:
+
+```bash
+julia --project=julia_trotter --startup-file=no julia_trotter/test/runtests.jl
+julia --project=julia_trotter --startup-file=no julia_trotter/test/reference_and_cli_tests.jl
+```
+
+The first command covers small singular-value and scope/encoding fixtures.
+The second loads the existing simulation/CLI dependencies and checks the
+reference against a small dense exponential, backward-compatible return values,
+and actual CLI/backend rejection of unsupported HF encoding.
+
+The `Julia numerical regressions` workflow runs both commands on pushes and PRs
+that change this tree. It instantiates the declared project on Julia 1.11 and
+records its resolved versions. These checks use tiny matrices and no molecular
+sweep; local component checks alone do not establish full-project CI parity.

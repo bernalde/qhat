@@ -88,6 +88,8 @@ function parse_cli(args)
     end
 
     encoding in ("jw", "bk") || error("Encoding must be 'jw' or 'bk', got '$encoding'")
+    method == :arnoldi && encoding == "bk" && throw(ArgumentError(
+        "--arnoldi uses a JW Hartree-Fock seed and does not support --encoding bk"))
     electrons >= 0 || error("--electrons must be nonnegative")
     vacant >= 0 || error("--vacant must be nonnegative")
 
@@ -142,6 +144,7 @@ end
 
 function parse_energies(path::AbstractString, opts)
     meta, ham = parse_hamiltonian_file(path)
+    opts.method == :arnoldi && require_jw_hf_seed(meta)
 
     exact_ref = Ref{Float64}()
     exact_seconds = @elapsed begin
@@ -273,6 +276,7 @@ end
 
 function main(args)
     opts = parse_cli(args)
+    report_energy_scope(stderr, opts.method)
     print_table_header()
     points = collect_curve_points(opts; stream_rows=true)
 

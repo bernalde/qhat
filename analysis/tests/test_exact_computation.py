@@ -40,8 +40,9 @@ def test_generate_pairs():
 def test_generate_triples():
     """Test deterministic triple generation."""
     triples = generate_all_triples(5)
-    expected = sum(range(4))  # k=0: 6, k=1: 3, k=2: 1, k=3: 0 = 10
-    assert len(triples) == 10, f"Expected 10 triples, got {len(triples)}"
+    expected = sum(m*m for m in range(1, 5))  # full ordered domain, including i=j
+    assert len(triples) == expected, f"Expected {expected} triples, got {len(triples)}"
+    assert set(map(tuple, triples)) == {(i,j,k) for k in range(5) for i in range(k+1,5) for j in range(k+1,5)}
     print("✓ Test passed: generate_all_triples")
 
 
@@ -53,8 +54,8 @@ def test_two_anticommuting_paulis():
     """
     H = X₀ + Y₀
 
-    Expected: C1 = 2, C21 = 0, C22 = 4
-    Therefore: C1_est = 1.0, C2_est = 1/6
+    Expected: C1 = 2, C21 = 4, C22 = 4
+    Therefore: C1_est = 1.0, C2_est = 1/2
     """
     H1 = QubitOperator('X0', 1.0)
     H2 = QubitOperator('Y0', 1.0)
@@ -64,7 +65,7 @@ def test_two_anticommuting_paulis():
     c1_auto, c2_auto = trotter_error_estimator_fast(terms, 60, mode='monte_carlo', auto_exact=True)
 
     expected_c1 = 1.0
-    expected_c2 = 1.0/6.0
+    expected_c2 = 0.5
 
     assert abs(c1_ex - expected_c1) < 1e-10, f"Exact C1: got {c1_ex}, expected {expected_c1}"
     assert abs(c2_ex - expected_c2) < 1e-10, f"Exact C2: got {c2_ex}, expected {expected_c2}"
@@ -78,8 +79,8 @@ def test_three_mutually_anticommuting():
     """
     H = X₀ + Y₀ + Z₀
 
-    Expected: C1 = 6, C21 = 0, C22 = 12
-    Therefore: C1_est = 3.0, C2_est = 0.5
+    Expected: C1 = 6, C21 = 12, C22 = 12
+    Therefore: C1_est = 3.0, C2_est = 1.5
     """
     H1 = QubitOperator('X0', 1.0)
     H2 = QubitOperator('Y0', 1.0)
@@ -89,7 +90,7 @@ def test_three_mutually_anticommuting():
     c1_ex, c2_ex = trotter_error_estimator_fast(terms, 10, mode='exact')
 
     expected_c1 = 3.0
-    expected_c2 = 0.5
+    expected_c2 = 1.5
 
     assert abs(c1_ex - expected_c1) < 1e-10, f"C1: got {c1_ex}, expected {expected_c1}"
     assert abs(c2_ex - expected_c2) < 1e-10, f"C2: got {c2_ex}, expected {expected_c2}"
@@ -119,8 +120,8 @@ def test_non_unit_coefficients():
     """
     H = 2X₀ + 3Y₀
 
-    Expected: C1 = 12, C22 = 48
-    Therefore: C1_est = 6.0, C2_est = 2.0
+    Expected: C1 = 12, C21 = 72, C22 = 48
+    Therefore: C1_est = 6.0, C2_est = 8.0
     """
     H1 = QubitOperator('X0', 2.0)
     H2 = QubitOperator('Y0', 3.0)
@@ -129,7 +130,7 @@ def test_non_unit_coefficients():
     c1_ex, c2_ex = trotter_error_estimator_fast(terms, 10, mode='exact')
 
     expected_c1 = 6.0
-    expected_c2 = 2.0
+    expected_c2 = 8.0
 
     assert abs(c1_ex - expected_c1) < 1e-10, f"C1: got {c1_ex}, expected {expected_c1}"
     assert abs(c2_ex - expected_c2) < 1e-10, f"C2: got {c2_ex}, expected {expected_c2}"

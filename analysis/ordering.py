@@ -159,6 +159,14 @@ def chromatic_number_and_coloring_gurobi(G: nx.Graph, time_limit=None, verbose=F
       - c is the chromatic number
       - coloring is a dict: node -> color in {0, ..., c-1}
     """
+    try:
+        import gurobipy as gp
+        from gurobipy import GRB
+    except ImportError as exc:
+        raise ImportError("Gurobi coloring requires the optional gurobipy package") from exc
+    if len(G) == 0:
+        return 0, {}
+
     # Bounds to speed up the search
     lb = len(nx.approximation.max_clique(G))  # ω(G) lower bound
     greedy = nx.algorithms.coloring.greedy_color(G, strategy="largest_first")

@@ -41,8 +41,10 @@ end
 function main(filepath::String; use_arnoldi::Bool=false)
     meta, ham = parse_hamiltonian_file(filepath)
 
-    exact_energy = metadata_ground_energy(meta)
     method = use_arnoldi ? :arnoldi : :arpack
+    use_arnoldi && require_jw_hf_seed(meta)
+    report_energy_scope(stderr, method)
+    exact_energy = metadata_ground_energy(meta)
 
     println("file: ", basename(filepath))
     println(@sprintf("metadata_ground_energy: %.12f", exact_energy))

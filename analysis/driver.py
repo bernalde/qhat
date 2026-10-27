@@ -14,6 +14,7 @@ from qhat.analysis.analysis import analyze_algorithm
 from qhat.analysis.configuration import load_configuration
 from qhat.analysis.hamiltonian import get_physical_hamiltonian
 from qhat.analysis.unitary import encode_as_unitary
+from qhat.analysis.phase_parameters import phase_qubits_for_time
 
 logger = logging.getLogger("qhat.analysis.driver")
 
@@ -24,6 +25,8 @@ def run():
     # Configuration _______________________________________________________________________________
 
     state, config_file_message, params_message = load_configuration()
+    # Carry the same canonical spelling through encoding and downstream analysis.
+    state.config_unitary.method = state.config_unitary.method.strip().lower()
 
     # Configure logging based on user settings
     logfile_path = state.config_general.get_output_path(state.config_general.logfile)
@@ -47,7 +50,7 @@ def run():
     tevol_hbar = None
     P0 = None
 
-    if state.config_unitary.method == "ramped trotter":
+    if state.config_unitary.method.strip().lower() == "ramped trotter":
 
         # first-pass computation of energy bounds
         Elo1, Ehi1 = physical_hamiltonian.compute_initial_energy_bounds(state.config_hamiltonian)
@@ -63,7 +66,7 @@ def run():
         Ehi2 = Ehi1 - E0
         logger.verbose(f"-- shifted bounds = [{Elo2}, {Ehi2})")
         # Apply phase scale factor to avoid ambiguity at ±π
-        phase_scale = getattr(state.config_unitary, 'phase_scale_factor', 1.0)
+        phase_scale = getattr(state.config_unitary, 'phase_scale_factor', 1.01)
         tevol_hbar = 2 * math.pi / (phase_scale * (Ehi2 - Elo2))
         logger.verbose(f"-- phase scale factor = {phase_scale}")
         logger.verbose(f"-- preliminary evolution time = {tevol_hbar} * hbar")
@@ -73,10 +76,23 @@ def run():
         tevol_hbar = 2 * math.pi / (phase_scale * (Ehi3 - Elo3))
         logger.verbose(f"-- optimized evolution time = {tevol_hbar} * hbar")
 
+        # Roundoff in centering must not place the automatic time beyond the
+        # configured physical phase margin. Stay strictly below the branch cut.
+        physical_radius = max(abs(Elo2), abs(Ehi2))
+        tevol_hbar = min(tevol_hbar, math.pi/(phase_scale*physical_radius),
+                         math.nextafter(math.pi/physical_radius, 0.0))
+
         # check for user-defined timestep
         if getattr(state.config_unitary, 'timestep', None) is not None:
             tevol_hbar = state.config_unitary.timestep
             logger.verbose(f"-- user timestep override = {tevol_hbar} * hbar")
+
+        # Use the final evolution time, including the phase margin and override.
+        # The physical shifted bounds remain centered even when the optimized
+        # upper bound has been padded to a power of two.
+        P0 = phase_qubits_for_time(tevol_hbar, Elo2, Ehi2, phase_scale,
+                                   state.config_algorithm.energy_error)
+
 
     # Unitary _____________________________________________________________________________________
 

@@ -226,6 +226,7 @@ class PauliStringOperator(LinearOperator):
         Returns:
             1D numpy array of length 2^num_qubits
         """
+        v = np.asarray(v, dtype=complex).reshape(-1)
         if len(v) != self.dimension:
             raise ValueError(
                 f"Input vector has length {len(v)}, expected {self.dimension}"
@@ -281,8 +282,8 @@ class PauliStringOperator(LinearOperator):
         # Create result array
         result = np.zeros_like(v)
 
-        # Bit mask for the target qubit
-        bit_mask = 1 << qubit_idx
+        # Character zero is the most significant bit, matching the dense Kronecker order.
+        bit_mask = 1 << (self.num_qubits - 1 - qubit_idx)
 
         if pauli_char == 'X':
             # X flips the qubit: |0⟩ ↔ |1⟩
@@ -291,15 +292,14 @@ class PauliStringOperator(LinearOperator):
                 result[i] = v[j]
 
         elif pauli_char == 'Y':
-            # Y = -iXZ: flips and adds phase
-            # Y|0⟩ = -i|1⟩, Y|1⟩ = i|0⟩
+            # Y = iXZ: Y|0⟩ = i|1⟩, Y|1⟩ = -i|0⟩
             for i in range(len(v)):
                 j = i ^ bit_mask  # Flip the qubit bit
                 # Phase depends on whether qubit was |0⟩ or |1⟩ BEFORE flip
                 if j & bit_mask:  # Original (before flip) was |1⟩, result is |0⟩
-                    result[i] = 1j * v[j]
-                else:  # Original (before flip) was |0⟩, result is |1⟩
                     result[i] = -1j * v[j]
+                else:  # Original (before flip) was |0⟩, result is |1⟩
+                    result[i] = 1j * v[j]
 
         elif pauli_char == 'Z':
             # Z adds phase: |0⟩ → |0⟩, |1⟩ → -|1⟩
@@ -320,6 +320,7 @@ class PauliStringOperator(LinearOperator):
 
         For Hermitian Hamiltonians, H† = H, so this is the same as _matvec.
         """
+        v = np.asarray(v, dtype=complex).reshape(-1)
         # For Hermitian operators, adjoint is the same as forward
         # But we need to conjugate the coefficients
         result = np.zeros(self.dimension, dtype=complex)

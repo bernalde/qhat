@@ -326,20 +326,17 @@ def error_analysis(
     Compute error metrics comparing exact and approximate representations.
 
     Three independent error types:
-    1. Eigenvalue errors - Compares eigenenergies: λ(H_approx) vs λ(H_exact)
-    2. Matrix norm errors - Compares time evolution operators: ||U_exact - U_approx||
-    3. State-dependent errors - Compares time-evolved states: ||U_exact|ψ⟩ - U_approx|ψ⟩||
+    1. Phase-derived energy errors with bijective maximum-overlap eigenstate matching.
+    2. Matrix norms of U_exact - U_approx.
+    3. Evolved-state distances, with phase-sensitive and projective metrics distinguished.
 
     Parameters:
-        config_analysis: Analysis configuration with error analysis settings
-        hamiltonian: Hamiltonian object
-        algorithm: Algorithm bloq
-        exact_eigendecomp: Pre-computed exact eigendecomposition (optional)
-        approx_eigendecomp: Pre-computed approximate eigendecomposition (optional)
-        timestep: Time evolution parameter t/ħ (required for matrix/state errors).
-                  Used to compute U_exact = exp(-i * H_exact * t) from H_exact.
-        energy_shift: Energy shift E applied to approximate Hamiltonian (default: 0.0).
-                      Used to match global phases: U_exact_shifted = exp(i*E*t) * U_exact.
+        config_analysis: Error-metric selection.
+        exact_op, approx_op: Operator representations supplying eigendecompositions
+            and dense unshifted evolution matrices, with U=exp(-i H t).
+        timestep, energy_shift: Retained compatibility arguments; this wrapper does
+            not use them. Each supplied operator carries its own time and shift.
+        config_general: Optional output-path configuration.
 
     Returns:
         Dictionary with error metrics

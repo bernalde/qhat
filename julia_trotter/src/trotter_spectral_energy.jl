@@ -5,6 +5,7 @@
 
 using ArnoldiMethod, Arpack, LinearAlgebra, LinearMaps, SparseArrays
 
+include("energy_scope.jl")
 include("hamiltonian_utils.jl")
 include("error_bounds.jl")
 include("statevector_simulators.jl")
@@ -338,6 +339,7 @@ function trotter_energy_arnoldi(
     time::Real=pi,
     nev::Int=TROTTER_SPECTRAL_DEFAULT_NEV
 )
+    require_jw_hf_seed(meta)
     nqubits = parse(Int, meta["number of qubits"])
     nelectrons = parse(Int, meta["number of active, occupied, single-occupancy orbitals"])
     norm_info = normalize_hamiltonian(meta, ham)

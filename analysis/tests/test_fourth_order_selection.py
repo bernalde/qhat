@@ -60,8 +60,13 @@ def test_small_error_tolerance_still_prefers_second_order(simple_hamiltonian):
     assert result is not None
 
 
-def test_explicit_fourth_order_request(simple_hamiltonian):
-    """Test that explicitly requesting fourth-order works."""
+def test_explicit_fourth_order_needs_manual_steps(simple_hamiltonian):
     config = create_config(energy_error=1e-10, explicit_order="fourth order")
-    result = encode_ramped_trotter(config, simple_hamiltonian, tevol_hbar=1.0)
-    assert result is not None
+    with pytest.raises(ValueError, match="provide trotter_steps manually"):
+        encode_ramped_trotter(config, simple_hamiltonian, tevol_hbar=1.0)
+
+
+def test_explicit_fourth_order_manual_steps(simple_hamiltonian):
+    config = create_config(energy_error=1e-10, explicit_order="fourth order")
+    config.trotter_steps = 4
+    assert encode_ramped_trotter(config, simple_hamiltonian, tevol_hbar=1.0) is not None

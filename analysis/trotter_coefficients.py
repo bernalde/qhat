@@ -8,7 +8,8 @@ This file provides the original (slower) implementation for:
 - Reference for understanding the algorithm
 - Comparison against the optimized version
 
-For production use, prefer trotter_coefficients_fast.py which is 100-150x faster.
+For production use, prefer trotter_coefficients_fast.py. Historical speedups
+were measured on the earlier index domain; the corrected domain is not rebenchmarked here.
 """
 
 import logging
@@ -135,101 +136,55 @@ def trotter_error_estimator(pauli_terms, time_limit, batch_size=100):
       C22 = Σₖ<ⱼ ||[Hₖ, [Hₖ, Hⱼ]]||       (all pairs with k < j)
 
     Returns:
-      (C1, C2) where C2 = C21/12 + C22/24
+      (C1/2, C2) where C2 = C21/12 + C22/24. These are Monte Carlo
+      estimates, not certified upper bounds. C21 includes ordered i,j and i=j.
     """
     N = len(pauli_terms)
+    if N < 2:
+        return 0.0, 0.0
+    if time_limit <= 0 or batch_size < 1:
+        raise ValueError("Positive time_limit and batch_size are required")
 
-    # Dictionary to cache computed pair commutators.
-    # Keys are sorted tuples (i, j) and values are (operator, norm).
-    comm_dict = {}
+    def pair():
+        i = np.random.randint(N)
+        j = np.random.randint(N-1)
+        if j >= i:
+            j += 1
+        return min(i, j), max(i, j)
 
-    # ---------------------------
-    # Estimate C1 = sum_{i<j} ||[H_i, H_j]||
-    # ---------------------------
-    C1_sum = 0.0
-    samples_C1 = 0
-    start_time = time.time()
-    while time.time() - start_time < time_limit/3:
-        for _ in range(batch_size):
-            # Sample a pair (i, j) with i != j.
-            i = np.random.randint(0, N)
-            j = np.random.randint(0, N - 1)
-            if j >= i:
-                j += 1
-            op, norm_val = compute_commutator(pauli_terms[i], pauli_terms[j])
-            # Cache the computed commutator.
-            key = tuple(sorted((i, j)))
-            comm_dict[key] = (op, norm_val)
-            C1_sum += norm_val
-            samples_C1 += 1
-        if time.time() - start_time >= time_limit:
-            break
-    total_C1 = N * (N - 1)/2  # Total number of distinct pairs (i < j)
-    C1_est = C1_sum * (total_C1 / samples_C1) if samples_C1 > 0 else 0.0
-    logger.debug(f"C1: {samples_C1} samples")
+    def nested():
+        # Independent uniform rejection sampler, including equal outer/inner
+        # indices. No fast-estimator helper or exact result is used here.
+        while True:
+            i, j, k = np.random.randint(N, size=3)
+            if k < i and k < j:
+                return i, j, k
 
-    # ---------------------------
-    # Estimate C21 = sum_{k<j, k<i} ||[H_i, [H_j, H_k]]||
-    # ---------------------------
-    C21_sum = 0.0
-    samples_C21 = 0
-    start_time = time.time()
-    while time.time() - start_time < time_limit/3:
-        for _ in range(batch_size):
-            # Choose k in [0, N-2] and then sample two distinct indices i and j from {k+1, ..., N-1}
-            k = np.random.randint(0, N - 1)
-            valid = np.arange(k + 1, N)
-            if len(valid) < 2:
-                continue
-            i, j = np.random.choice(valid, size=2, replace=False)
-            # Inner commutator: [H_j, H_k]
-            key_inner = tuple(sorted((j, k)))
-            if key_inner in comm_dict:
-                inner_op, _ = comm_dict[key_inner]
-            else:
-                inner_op, _ = compute_commutator(pauli_terms[j], pauli_terms[k])
-                comm_dict[key_inner] = (inner_op, 0 if inner_op is None else 2 * abs(list(pauli_terms[j].terms.values())[0] *
-                                                                                      list(pauli_terms[k].terms.values())[0]))
-            # Compute nested commutator norm: [H_i, [H_j, H_k]]
-            nested_norm = compute_nested_commutator_norm(pauli_terms[i], inner_op)
-            C21_sum += nested_norm
-            samples_C21 += 1
-        if time.time() - start_time >= time_limit:
-            break
-    # Total number of valid triples: for each k, there are C(N-k-1, 2) choices of (i,j).
-    total_C21 = sum(math.comb(N - k - 1, 2) for k in range(N - 1))
-    C21_est = C21_sum * (total_C21 / samples_C21) if samples_C21 > 0 else 0.0
-    logger.debug(f"C21: {samples_C21} samples")
+    def estimate(draw, count):
+        total = 0.0
+        samples = 0
+        start = time.monotonic()
+        while time.monotonic() - start < time_limit/3:
+            for _ in range(batch_size):
+                total += draw()
+                samples += 1
+        return total * count/samples if samples else 0.0
 
-    # ---------------------------
-    # Estimate C22 = sum_{k<j} ||[H_k, [H_k, H_j]]||
-    # ---------------------------
-    C22_sum = 0.0
-    samples_C22 = 0
-    start_time = time.time()
-    while time.time() - start_time < time_limit/3:
-        for _ in range(batch_size):
-            # Sample a pair (k, j) with k < j.
-            k = np.random.randint(0, N - 1)
-            j = np.random.randint(k + 1, N)
-            key_inner = tuple(sorted((k, j)))
-            if key_inner in comm_dict:
-                inner_op, _ = comm_dict[key_inner]
-            else:
-                inner_op, _ = compute_commutator(pauli_terms[k], pauli_terms[j])
-                comm_dict[key_inner] = (inner_op, 0 if inner_op is None else 2 * abs(list(pauli_terms[k].terms.values())[0] *
-                                                                                      list(pauli_terms[j].terms.values())[0]))
-            # Compute nested commutator norm: [H_k, [H_k, H_j]]
-            nested_norm = compute_nested_commutator_norm(pauli_terms[k], inner_op)
-            C22_sum += nested_norm
-            samples_C22 += 1
-        if time.time() - start_time >= time_limit:
-            break
-    total_C22 = N * (N - 1) / 2  # Total number of (k, j) pairs with k < j
-    C22_est = C22_sum * (total_C22 / samples_C22) if samples_C22 > 0 else 0.0
-    logger.debug(f"C22: {samples_C22} samples")
+    def first():
+        i, j = pair()
+        return compute_commutator(pauli_terms[i], pauli_terms[j])[1]
 
-    # ---------------------------
-    # Final output
-    # ---------------------------
-    return C1_est/2, C21_est/12 + C22_est/24
+    def second21():
+        i, j, k = nested()
+        inner, _ = compute_commutator(pauli_terms[j], pauli_terms[k])
+        return compute_nested_commutator_norm(pauli_terms[i], inner)
+
+    def second22():
+        k, j = pair()
+        inner, _ = compute_commutator(pauli_terms[k], pauli_terms[j])
+        return compute_nested_commutator_norm(pauli_terms[k], inner)
+
+    c1 = estimate(first, N*(N-1)//2)
+    c21 = estimate(second21, N*(N-1)*(2*N-1)//6)
+    c22 = estimate(second22, N*(N-1)//2)
+    return c1/2, c21/12+c22/24

@@ -202,7 +202,10 @@ hamiltonian.load_second_quantization("data.h5")
 
 Currently all of our applications involve encoding the Hamiltonian ($\hat{H}$) as a time-evolution
 unitary
-$$ \hat{U} = e^{i \hat{H} t / \hbar} $$
+$$ \hat{U} = e^{-i \hat{H} t / \hbar} $$
+This is the flattened implementation and error-analysis convention. The legacy
+`original` backend uses the opposite sign and is retained for historical reproduction;
+it must not be treated as an interchangeable `exp(-iHt)` backend.
 There are a variety of ways to encode a Hamiltonian into a unitary matrix.  Currently this script
 supports
 
@@ -210,7 +213,9 @@ supports
   encode the Hamiltonian into a time-evolution unitary.  It takes the following arguments:
   - `timestep`: If not provided, QHAT will attempt to pick the timestep that provides the most
     efficient algorithm while still preventing aliasing of phases.  Providing a timestep will
-    override this with a user-selected value.
+    override this with a finite positive user-selected value within the configured
+    phase margin. The driver rejects branch-cut wrapping and sizes phase precision
+    using the final chosen time, including a safe smaller override.
   - `energy_error`: The maximum error allowed from the Trotterization process.  If not provided,
     the script will generate an error.
   - `error_scale`: This option is deprecated.
@@ -239,8 +244,13 @@ supports
       cost-effectiveness
     - `"first order"`: Force use of first-order Trotter
     - `"second order"`: Force use of second-order Trotter
-    - `"fourth order"`: Force use of fourth-order Trotter using five-term Suzuki recursion (step
-      count is estimates from second-order method, hence being excluded from automatic selection).
+    - `"fourth order"`: Use five-term Suzuki recursion with an explicit positive
+      `trotter_steps` count. Automatic fourth-order sizing is unsupported because
+      no fourth-order error coefficient is computed.
+  Automatic first/second-order coefficients use exactly the reordered sequence
+  emitted by the selected backend. `error_coeff_mode="monte_carlo"` returns
+  estimates, which are not certified upper bounds. `"exact"` enumerates the full
+  triangle-inequality commutator bound, including ordered repeated C21 indices.
 - Double-Factorization: The function **`unitary.encode_double_factorization()`** uses a
   double-factorized block-encoding of the Hamiltonian.  This model is preliminary: it has not been
   verified and is known to fail unexpectedly for some Hamiltonians.  It takes the following
@@ -369,38 +379,25 @@ analysis will skip file output and note this in the results.
 
   **Configuration parameters**:
   
-  - **`enable_eigenvalue_errors`**: Enable eigenenergy comparison (default: False, disabled)
-    - **Note**: Parameter name uses "eigenvalue" but specifically compares **eigenenergies**
-      (unshifted H eigenvalues, not U eigenvalues, not energy-shifted)
-    - Set to `True` to compute errors for ALL eigenstates (full spectrum)
-    - Compares eigenenergies element-wise after both are sorted by energy
-    - Ground state (exact) compared with ground state (approximate), etc.
-    - Does not compare eigenvectors
-    - **Best for**: Validating eigenenergy accuracy across the full spectrum
+  - **`enable_eigenvalue_errors`**: Enable full-spectrum phase-derived energy errors.
+    Exact eigenstates are paired bijectively with approximate eigenstates by
+    maximum total squared eigenvector overlap, not by independently sorting
+    energies. Results are reported in exact-energy order. Errors come from
+    principal-branch unitary phase ratios; the energy alias period is `2π/t`.
+    Degeneracies can make the eigenvector matching nonunique.
 
-  - **`error_matrix_norms`**: Which matrix norms to compute (default: None, disabled)
-    - Single string: `"frobenius"` or `"spectral"`
-    - List: `["frobenius", "spectral"]` for both
-    - **Frobenius norm**: Element-wise difference, fast to compute
-      - ||H_exact - H_approx||_F = sqrt(sum of squares of all elements)
-      - Good for quick comparisons
-    - **Spectral norm**: Worst-case effect on any quantum state, physically meaningful
-      - ||H_exact - H_approx||_2 = largest singular value
-      - More expensive to compute, especially for large systems
-    - **For large systems**: Uses matrix-free computation
-      - Frobenius: Requires 2^Q matrix-vector products
-      - Spectral: Uses power iteration (can take longer)
-      - Progress warnings displayed during computation
-    - **Best for**: Physical bounds on algorithm error
+  - **`error_matrix_norms`**: `"frobenius"`, `"spectral"`, or a list of both.
+    These compare the evolution operators `U_exact - U_approx`, using the
+    Frobenius norm or largest singular value. The current dispatcher requests
+    dense matrices; it does not provide a matrix-free large-system error path.
 
-  - **`error_state_inputs`**: State files for state-dependent errors (default: None, disabled)
-    - Single filename (string): `"ground_state.npy"`
-    - Multiple filenames (list): `["state1.npy", "state2.npy"]`
-    - Compares: ||H_exact|ψ⟩ - H_approx|ψ⟩||
-    - **Best-scaling error metric** for large systems
-      - Only requires O(2^Q) memory (state vectors), not O(2^(2Q)) (matrices)
-      - Fast: just applies operators to states
-    - **Best for**: Error on specific physically relevant states
+  - **`error_state_inputs`**: One state filename or a list of filenames.
+    The legacy absolute/relative errors measure phase-sensitive vector distances
+    `||U_exact ψ - U_approx ψ||`. Additional normalized one-minus-overlap,
+    squared infidelity and phase-aligned distances are invariant under global
+    phase. State norm defects are reported separately. This dispatcher also
+    requests dense evolution matrices, despite the state metric's smaller
+    mathematical storage requirements.
 
   **Output file**: `error_analysis.npz` containing all computed error metrics
 
