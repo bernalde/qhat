@@ -3,7 +3,7 @@ import math
 from types import SimpleNamespace
 
 import pytest
-from qhat.analysis.config_types import UnitaryConfiguration
+from qhat.analysis.config_types import AnalysisConfiguration, UnitaryConfiguration
 from qhat.analysis.phase_parameters import automatic_phase_time, phase_qubits_for_time
 
 
@@ -67,7 +67,7 @@ def test_unknown_factory_keyword_fails_clearly():
 
 
 def _capture_driver(monkeypatch, *, method='QPE: qualtran textbook', timestep=None,
-                    phase_scale=1.01, eigenvalue_errors=False):
+                    phase_scale=1.01, eigenvalue_errors=False, requests=()):
     import qhat.analysis.driver as driver
     observed = {}
     general = SimpleNamespace(get_output_path=lambda name: name, logfile='unused.log',
@@ -77,7 +77,8 @@ def _capture_driver(monkeypatch, *, method='QPE: qualtran textbook', timestep=No
     state = SimpleNamespace(config_general=general, config_unitary=unitary,
         config_algorithm=SimpleNamespace(method=method, energy_error=.1),
         config_hamiltonian=object(),
-        config_analysis=SimpleNamespace(enable_eigenvalue_errors=eigenvalue_errors),
+        config_analysis=SimpleNamespace(enable_eigenvalue_errors=eigenvalue_errors,
+                                        _operator_output_requests=list(requests)),
         store_results=lambda results: None, show_results=lambda: None, save_summary=lambda: None)
     h = SimpleNamespace(compute_initial_energy_bounds=lambda cfg: (-1, 1),
                         energy_shift=lambda shift: None, get_energy_shift=lambda: 0)
@@ -149,3 +150,47 @@ def test_exact_factory_controls_reach_estimator(monkeypatch):
     monkeypatch.setattr(builder, 'build_ramped_trotterized_unitary', lambda *args, **kwargs: sentinel)
     assert unitary.encode_ramped_trotter(cfg, h, 1) is sentinel
     assert seen == {'time_limit': .25, 'mode': 'exact', 'auto_exact': True}
+
+
+@pytest.mark.parametrize('method', ['time evolution', 'controlled time evolution'])
+@pytest.mark.parametrize('representation', ['matrix', 'eigendecomposition'])
+@pytest.mark.parametrize('energy_shifted', [False, True])
+def test_driver_rejects_wrapping_approximate_hamiltonian_export(
+        monkeypatch, method, representation, energy_shifted):
+    config = AnalysisConfiguration()
+    # A preceding non-phase export must not hide a later phase-consuming one.
+    config.save_operator_to_file(filename='unused_exact_U.npz', source='exact',
+        operator_type='time_evolution', energy_shifted=False, representation='matrix')
+    config.save_operator_to_file(filename='unused_approx_H.npz', source='approximate',
+        operator_type='hamiltonian', representation=representation,
+        energy_shifted=energy_shifted)
+    with pytest.raises(ValueError, match='branch cut'):
+        _capture_driver(monkeypatch, method=method, timestep=10,
+                        requests=config._operator_output_requests)
+
+
+@pytest.mark.parametrize('method', ['time evolution', 'controlled time evolution'])
+@pytest.mark.parametrize('representation', ['matrix', 'eigendecomposition'])
+@pytest.mark.parametrize('source,operator_type', [
+    ('exact', 'hamiltonian'), ('exact', 'time_evolution'),
+    ('approximate', 'time_evolution'),
+])
+def test_driver_keeps_non_phase_export_long_time_compatible(
+        monkeypatch, method, representation, source, operator_type):
+    config = AnalysisConfiguration()
+    config.save_operator_to_file(filename='unused.npz', source=source,
+        operator_type=operator_type, energy_shifted=False, representation=representation)
+    assert _capture_driver(monkeypatch, method=method, timestep=10,
+                           requests=config._operator_output_requests) == {
+        'time': 10, 'precision': None}
+
+
+@pytest.mark.parametrize('method', ['time evolution', 'controlled time evolution'])
+@pytest.mark.parametrize('representation', ['matrix', 'eigendecomposition'])
+def test_driver_accepts_safe_approximate_hamiltonian_export(monkeypatch, method, representation):
+    config = AnalysisConfiguration()
+    config.save_operator_to_file(filename='unused.npz', source='approximate',
+        operator_type='hamiltonian', energy_shifted=False, representation=representation)
+    result = _capture_driver(monkeypatch, method=method, timestep=.5,
+                             requests=config._operator_output_requests)
+    assert result['time'] == .5

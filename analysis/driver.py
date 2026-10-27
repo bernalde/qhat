@@ -87,7 +87,11 @@ def run():
                        "qpe: pyliqtr qubitized")
         needs_unaliased_phase = (
             state.config_algorithm.method.strip().lower() in qpe_methods
-            or getattr(state.config_analysis, 'enable_eigenvalue_errors', False))
+            or getattr(state.config_analysis, 'enable_eigenvalue_errors', False)
+            or any(request['source'] == 'approximate'
+                   and request['operator_type'] == 'hamiltonian'
+                   for request in getattr(state.config_analysis,
+                                          '_operator_output_requests', [])))
         if needs_unaliased_phase:
             P0 = phase_qubits_for_time(tevol_hbar, Elo2, Ehi2, phase_scale,
                                       state.config_algorithm.energy_error)

@@ -213,10 +213,11 @@ supports
   encode the Hamiltonian into a time-evolution unitary.  It takes the following arguments:
   - `timestep`: If not provided, QHAT chooses the largest time inside the configured
     phase margin and strictly below the physical branch cut. Providing a timestep
-    overrides this with a finite positive time. QPE methods and analyses with
-    `enable_eigenvalue_errors=True` reject overrides outside that phase domain;
-    ordinary and controlled time evolution permit longer times when phase-derived
-    eigenvalue errors are disabled. QPE precision uses the final chosen time and
+    overrides this with a finite positive time. QPE methods, analyses with
+    `enable_eigenvalue_errors=True`, and approximate-Hamiltonian export requests
+    reject overrides outside that phase domain; ordinary and controlled time
+    evolution permit longer times when phase-derived energy inference is not
+    requested. QPE precision uses the final chosen time and
     the strict `algorithm.energy_error` resolution. The automatic path no longer
     pads the energy interval to a power of two before choosing the time; default
     times and resource estimates can therefore change.

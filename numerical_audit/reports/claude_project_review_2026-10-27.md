@@ -298,3 +298,27 @@ deselected locally. This includes the new pure phase/configuration, expired-samp
 model-binding and corruption checks. Numba JIT remains disabled locally. Paper
 source/retained-evidence checks pass with exactly the intended pending-fourth-review
 and missing-pair errors. The full Python/JIT and Julia hosted jobs remain required.
+
+
+## Final review export guard — R3-QC-001
+
+The final core critic accepted all eight earlier core remedies and identified
+one additional phase consumer: approximate-Hamiltonian exports invert principal
+unitary phases. The driver now enforces the same phase domain for those requests,
+including both matrix and eigendecomposition output. Exact-Hamiltonian and
+time-evolution exports retain valid long-time overrides.
+
+Twenty-four request-schema cases cover unsafe exports, safe exports and controls
+under ordinary/controlled evolution. The scoped local run passes all37 selected
+driver-boundary cases. It imports the actual driver, phase, config and loader
+code, while replacing only downstream algorithm/analysis/unitary import interfaces
+that each selected fixture already mocks. This checks the driver boundary, not
+backend execution, actual exported payloads, QPE construction, JIT or full hosted
+CI parity. The baseline had eight genuine unsafe-export failures,25 passing
+controls and four failures from an incidental phase-register assertion in the
+draft safe-export fixture; that assertion was corrected to the acceptance
+contract. All baseline outputs and costs remain retained.
+
+This is a correction after Claude's final reviewed source9c938af5. It is not
+represented as a new Claude-reviewed revision. Head-specific verification and
+hosted checks have separate records; the original reports remain unchanged.
