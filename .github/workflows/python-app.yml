@@ -2,16 +2,24 @@ name: Python application
 
 on:
   push:
-    branches: '**'
+    branches:
+      - main
+      - research/ordering-mechanism-2026-10-09
   pull_request:
     branches: '**'
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  build:
+  test:
+    name: Python tests and CLI regressions
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
     - uses: actions/checkout@v6
 
@@ -38,92 +46,45 @@ jobs:
         cd "pyliqtr-$plver"
         sed -i -e '/python_requires/d' setup.py
         sed -i -e '/Requires-Python:/d' PKG-INFO src/pyLIQTR.egg-info/PKG-INFO
-        pip wheel --wheel-dir=.. .
+        pip wheel --no-deps --wheel-dir=.. .
         cd ../..
         rm -rf "python-wheels/pyliqtr-$plver" "python-wheels/pyliqtr-${plver}.tar.gz"
 
-    - name: Download dependencies
-      run: |
-        set -euxo pipefail
-        pip download --dest=python-wheels --find-links=python-wheels .
-
-    - name: Store Python wheels
-      uses: actions/upload-artifact@v7
-      with:
-        name: python-wheels
-        path: python-wheels
-        retention-days: 7
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    strategy:
-      fail-fast: false
-      matrix:
-        test-suite:
-          - name: hamgen
-            directory: hamiltonian_generator
-            script: hamgen.py
-            config_file: ''
-
-          - name: analysis-trotter
-            directory: analysis
-            script: driver.py
-            config_file: ''
-            config_params: ''
-
-          - name: analysis-pauli-lcu
-            directory: analysis
-            script: driver.py
-            config_file: ''
-            config_params: '-p method=pauli-lcu'
-
-          - name: analysis-dbl-factor
-            directory: analysis
-            script: driver.py
-            config_file: ''
-            config_params: '-p method=double-factorization'
-
-          - name: common-unit-tests
-            directory: common
-            script: pytest
-            config_file: ''
-            config_params: ''
-
-          - name: analysis-unit-tests
-            directory: analysis
-            script: pytest
-            config_file: ''
-            config_params: ''
-
-    name: Test ${{ matrix.test-suite.name }}
-
-    steps:
-    - uses: actions/checkout@v6
-
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: '3.14.8'
-
-    - name: Restore Python wheels
-      uses: actions/download-artifact@v8
-      with:
-        name: python-wheels
-        path: python-wheels
-
     - name: Install dependencies
+      id: install
       run: |
         set -euxo pipefail
         pip install --upgrade pip
         pip install --find-links=python-wheels .
 
-    - name: Run test
-      run: |
-        set -euxo pipefail
-        cd ${{ matrix.test-suite.directory }}
-        if [ "${{ matrix.test-suite.script }}" = "pytest" ]; then
-          python -m pytest tests/ -v
-        else
-          python ${{ matrix.test-suite.script }} ${{ matrix.test-suite.config_file }} ${{ matrix.test-suite.config_params }}
-        fi
+    # Preserve independent coverage after a test failure; the job still fails.
+    # Failed setup must skip tests instead of producing misleading test failures.
+    - name: Test common-unit-tests
+      if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      working-directory: common
+      run: python -m pytest tests/ -v
+
+    - name: Test analysis-unit-tests
+      if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      working-directory: analysis
+      run: python -m pytest tests/ -v
+
+    - name: Test hamgen
+      if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      working-directory: hamiltonian_generator
+      run: python hamgen.py
+
+    - name: Test analysis-trotter
+      if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      working-directory: analysis
+      run: python driver.py
+
+    - name: Test analysis-pauli-lcu
+      if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      working-directory: analysis
+      run: python driver.py -p method=pauli-lcu
+
+    - name: Test analysis-dbl-factor
+      if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      working-directory: analysis
+      run: python driver.py -p method=double-factorization
