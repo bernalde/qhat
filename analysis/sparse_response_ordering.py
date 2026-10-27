@@ -28,6 +28,10 @@ class ResourceLimit(RuntimeError):
     """The declared reachable-support or cache resource domain was exceeded."""
 
 
+class NumericalResolution(ResourceLimit):
+    """Floating subtraction cannot resolve the supplied cubic response."""
+
+
 class SearchDeadline(RuntimeError):
     """A candidate was interrupted; it must not be reported as a full score."""
 
@@ -191,6 +195,31 @@ def _accumulate(target, key, value, maximum, stats=None):
         target.pop(key, None)
 
 
+def _norm(vector):
+    return math.hypot(*(abs(value) for value in vector.values()))
+
+
+def _resolved(value_norm, scale):
+    # Keep a substantial margin below binary64's 53-bit significand. This is
+    # a cancellation refusal, not a forward-error or interval certificate.
+    if not math.isfinite(value_norm) or not math.isfinite(scale) or (scale and value_norm < scale * 2.**-24):
+        raise NumericalResolution('cubic subtraction is not numerically resolved')
+
+
+def _commuting_response(units, deadline):
+    words = set((x, z) for unit in units for x, z, _, _ in unit if x or z)
+    if all(not x for x, z in words) or all(not z for x, z in words):
+        return True
+    seen = []
+    for x, z in words:
+        _check(deadline)
+        for y, w in seen:
+            if ((x & w).bit_count() + (z & y).bit_count()) % 2:
+                return False
+        seen.append((x, z))
+    return True
+
+
 @dataclass(frozen=True)
 class Score:
     value: float
@@ -216,8 +245,31 @@ class SparseResponse:
         self.reference = _reference(reference, n_qubits, self.max_entries)
         self.lengths = tuple(len(u) for u in self.units)
         self.active_units = tuple(i for i, unit in enumerate(self.units) if unit)
+        # Scalar phases factor identically from both product and exact
+        # evolution. Center each response unit at one fixed occupation, using
+        # exact supplied coefficients before converting that scalar to float.
+        # Public apply() and original rotation lengths retain the full units.
+        origin = min(self.reference)
+        centered = []
+        for unit in self.units:
+            body = [term for term in unit if term[0] or term[1]]
+            center = sum((c * (-1 if (z & origin).bit_count() % 2 else 1)
+                          for x, z, _, c in body if not x), Fraction(0))
+            if center:
+                try:
+                    scalar = float(center)
+                except OverflowError as error:
+                    raise NumericalResolution('response centering overflows') from error
+                if not math.isfinite(scalar) or not scalar:
+                    raise NumericalResolution('response centering is outside floating resolution')
+                body.append((0, 0, -scalar, -center))
+            centered.append(tuple(body))
+        self.response_units = tuple(centered)
+        self.exact_response = _commuting_response(self.response_units, deadline)
         self.diagonal_words = tuple((parity, phase) for unit in self.units
                                     for flip, parity, phase, _ in unit if not flip)
+        self.diagonal_coefficients = tuple((parity, coefficient) for unit in self.units
+            for flip, parity, _, coefficient in unit if not flip and parity)
         self.cache = OrderedDict()
         self.cache_entries = 0
         self.stats = dict(action_evaluations=0, cache_hits=0, peak_vector_entries=len(self.reference),
@@ -225,12 +277,17 @@ class SparseResponse:
         self.reference_cubic = {}
         self.last_order = None
         self.last_columns = None
+        self.transport_cache = OrderedDict()
+        self.exact_time = Fraction(self.time)
+        self.resolution_order = None
+        self.resolution_scales = {}
+        self.last_resolution_scales = {}
 
     def _reference_column(self, source, deadline):
         if source not in self.reference_cubic:
             column = {source: 1. + 0j}
             for _ in range(3):
-                column = self.hamiltonian_action(column, deadline)
+                column = self._response_action(column, deadline)
             column = {k: v / 6 for k, v in column.items()}
             if self.stats['reference_column_entries'] + len(column) > self.max_entries:
                 raise ResourceLimit('cached reference columns exceed max_entries')
@@ -238,18 +295,33 @@ class SparseResponse:
             self.stats['reference_column_entries'] += len(column)
         return self.reference_cubic[source]
 
-    def _unit_column(self, index, source, deadline):
+    def _unit_column(self, index, source, deadline, response=False):
         _check(deadline)
-        key = index, source
+        key = response, index, source
         if key in self.cache:
             self.stats['cache_hits'] += 1
             value = self.cache.pop(key)
             self.cache[key] = value
             return value
-        output = {}
-        for flip, parity, phase, _ in self.units[index]:
+        grouped = {}
+        for flip, parity, phase, _ in (self.response_units[index] if response else self.units[index]):
             destination = source ^ flip
             value = phase * (-1 if (source & parity).bit_count() % 2 else 1)
+            if destination not in grouped:
+                if len(grouped) >= self.max_entries:
+                    raise ResourceLimit('reachable unit column exceeds max_entries')
+                grouped[destination] = ([], [])
+            if value.real:
+                grouped[destination][0].append(value.real)
+            if value.imag:
+                grouped[destination][1].append(value.imag)
+        self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(grouped))
+        output = {}
+        for destination, (real, imag) in grouped.items():
+            try:
+                value = complex(math.fsum(real), math.fsum(imag))
+            except OverflowError as error:
+                raise NumericalResolution('unit action sum overflows') from error
             _accumulate(output, destination, value, self.max_entries, self.stats)
         result = tuple(output.items())
         self.stats['action_evaluations'] += 1
@@ -263,13 +335,22 @@ class SparseResponse:
             self.stats['peak_cached_actions'] = max(self.stats['peak_cached_actions'], self.cache_entries)
         return result
 
-    def apply(self, unit, vector, deadline=float('inf')):
+    def apply(self, unit, vector, deadline=float('inf'), *, _response=False):
         output = {}
         for source, amplitude in vector.items():
             _check(deadline)
-            for destination, value in self._unit_column(unit, source, deadline):
+            for destination, value in self._unit_column(unit, source, deadline, _response):
                 _accumulate(output, destination, value * amplitude, self.max_entries, self.stats)
         self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(output))
+        return output
+
+    def _apply_response(self, unit, vector, deadline):
+        return self.apply(unit, vector, deadline, _response=True)
+
+    def _response_action(self, vector, deadline):
+        output = {}
+        for unit in range(len(self.units)):
+            _add(output, self._apply_response(unit, vector, deadline), 1., self.max_entries, self.stats)
         return output
 
     def hamiltonian_action(self, vector, deadline=float('inf')):
@@ -288,13 +369,42 @@ class SparseResponse:
             raise ValueError('invalid real diagonal energy')
         return result.real
 
+    def _transport(self, source, destination, deadline):
+        key = source, destination
+        if key in self.transport_cache:
+            value = self.transport_cache.pop(key)
+            self.transport_cache[key] = value
+            return value
+        gap = Fraction(0)
+        for parity, coefficient in self.diagonal_coefficients:
+            _check(deadline)
+            left = -1 if (destination & parity).bit_count() % 2 else 1
+            right = -1 if (source & parity).bit_count() % 2 else 1
+            if left != right:
+                gap += (left - right) * coefficient
+        try:
+            phase = float(self.exact_time * gap / 2)
+        except OverflowError as error:
+            raise NumericalResolution('diagonal response phase overflows') from error
+        if not math.isfinite(phase):
+            raise NumericalResolution('nonfinite diagonal response phase')
+        value = self.time * (math.sin(phase) / phase if phase else 1.) * complex(math.cos(phase), math.sin(phase))
+        if len(self.transport_cache) >= self.max_entries:
+            self.transport_cache.popitem(last=False)
+        self.transport_cache[key] = value
+        self.stats['peak_transport_entries'] = max(self.stats.get('peak_transport_entries', 0), len(self.transport_cache))
+        return value
+
     def cubic_column(self, order, source, deadline=float('inf')):
         """Coefficient of h^3 in S2(h)-exp(hH); common physical i is stripped."""
         order = _permutation(order, len(self.units))
         if source not in self.reference:
             raise ValueError('source must belong to the supplied reference support')
         _check(deadline)
-        if len(self.active_units) <= 1:
+        if self.resolution_order != order:
+            self.resolution_order, self.resolution_scales = order, {}
+        if self.exact_response:
+            self.resolution_scales[source] = 0.
             return {}
         reference = self._reference_column(source, deadline)
         q = [{source: 1. + 0j}, {}, {}, {}]
@@ -306,11 +416,14 @@ class SparseResponse:
             for degree in range(1, 4):
                 factor *= tau / degree
                 for k in range(4 - degree):
-                    powers[k] = self.apply(unit, powers[k], deadline)
+                    powers[k] = self._apply_response(unit, powers[k], deadline)
                     _add(out[k + degree], powers[k], factor, self.max_entries, self.stats)
             q = out
             self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], *(len(a) for a in q))
+        scale = _norm(q[3]) + _norm(reference)
         _add(q[3], reference, -1., self.max_entries, self.stats)
+        _resolved(_norm(q[3]), scale)
+        self.resolution_scales[source] = scale
         self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(q[3]))
         return q[3]
 
@@ -329,6 +442,8 @@ class SparseResponse:
         order = _permutation(order, len(self.units))
         if order == self.last_order and self.last_columns is not None:
             _check(deadline)
+            self.resolution_order = order
+            self.resolution_scales = dict(self.last_resolution_scales)
             return {source: dict(column) for source, column in self.last_columns.items()}
         columns = {source: self.cubic_column(order, source, deadline)
                    for source in self.reference}
@@ -348,15 +463,15 @@ class SparseResponse:
         a, b = order[position:position + 2]
         suffix = order[position + 2:]
         def commutator(vector):
-            left = self.apply(a, self.apply(b, vector, deadline), deadline)
-            _add(left, self.apply(b, self.apply(a, vector, deadline), deadline), -1., self.max_entries, self.stats)
+            left = self._apply_response(a, self._apply_response(b, vector, deadline), deadline)
+            _add(left, self._apply_response(b, self._apply_response(a, vector, deadline), deadline), -1., self.max_entries, self.stats)
             return left
         def linear(vector):
             out = {}
             for unit, factor in ((a, .125), (b, .125)):
-                _add(out, self.apply(unit, vector, deadline), factor, self.max_entries, self.stats)
+                _add(out, self._apply_response(unit, vector, deadline), factor, self.max_entries, self.stats)
             for unit in suffix:
-                _add(out, self.apply(unit, vector, deadline), .25, self.max_entries, self.stats)
+                _add(out, self._apply_response(unit, vector, deadline), .25, self.max_entries, self.stats)
             return out
         result = {}
         for source in self.reference:
@@ -380,21 +495,10 @@ class SparseResponse:
         if set(columns) != set(self.reference):
             raise ValueError('cubic columns must cover the reference support')
         action = {}
-        energies = {}
         for source, amplitude in self.reference.items():
-            if source not in energies:
-                energies[source] = self.diagonal_energy(source, deadline)
-            es = energies[source]
             for destination, coefficient in columns[source].items():
                 _check(deadline)
-                if destination not in energies:
-                    if len(energies) >= self.max_entries:
-                        raise ResourceLimit('energy cache exceeds max_entries')
-                    energies[destination] = self.diagonal_energy(destination, deadline)
-                x = self.time * (energies[destination] - es) / 2
-                if not math.isfinite(x):
-                    raise ValueError('nonfinite diagonal response phase')
-                kernel = self.time * (math.sin(x) / x if x else 1.) * complex(math.cos(x), math.sin(x))
+                kernel = self._transport(source, destination, deadline)
                 _add(action, {destination: coefficient * amplitude * kernel}, 1., self.max_entries, self.stats)
                 self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(action))
         projection = sum(a.conjugate() * action.get(k, 0j) for k, a in self.reference.items())
@@ -412,7 +516,11 @@ class SparseResponse:
         self.affordable_steps(order, rotation_budget)
         columns = self.columns(order, deadline)
         result = self.score_columns(order, rotation_budget, columns, deadline)
+        scale = self.time * sum(abs(amplitude) * self.resolution_scales[source]
+                                for source, amplitude in self.reference.items())
+        _resolved(math.sqrt(result.cubic_response), scale)
         self.last_order, self.last_columns = order, columns
+        self.last_resolution_scales = dict(self.resolution_scales)
         return result
 
 
@@ -428,37 +536,44 @@ class TrainingResult:
 
 
 def _incremental_search(context, scored, budget, deadline, max_evaluations, max_moves,
-                        best_order, best_score, evaluations, reserve):
+                        best_order, best_score, evaluations, reserve, seed_columns=None):
     """Visit insertion destinations by adjacent updates; retain rescored gains."""
     moves = 0
     status = 'complete'
     start = _time.process_time()
-    slice_seconds = max(0., deadline - start) / max(1, len(scored))
+    search_end = deadline - reserve
+    slice_seconds = max(0., search_end - start) / max(1, len(scored))
+    scored = sorted(scored, key=lambda item: (item[1].value, item[0]))
+    seed_columns = seed_columns or {}
     context.stats['incremental_candidates'] = 0
     context.stats['full_move_rescores'] = 0
+    context.stats['full_move_rescore_attempts'] = 0
     for seed_index, (order, score) in enumerate(scored):
-        end = min(deadline, start + (seed_index + 1) * slice_seconds)
+        end = min(search_end, start + (seed_index + 1) * slice_seconds)
         current, current_score = order, score
         for _ in range(max_moves):
             proposal, proposal_score = current, current_score
             try:
-                columns = context.columns(current, end - reserve)
+                _check(end)
+                columns = seed_columns.get(current)
+                if columns is None:
+                    columns = context.columns(current, end)
                 for source in range(len(current)):
                     for direction in (-1, 1):
                         trial, trial_columns = current, columns
                         at = source
                         while 0 <= at + direction < len(current):
-                            _check(end - reserve)
+                            _check(end)
                             if evaluations >= max_evaluations - 1:
                                 raise SearchDeadline('evaluation limit reached')
                             position = at - 1 if direction < 0 else at
-                            trial, trial_columns = context.adjacent_columns(trial, trial_columns, position, end - reserve)
+                            trial, trial_columns = context.adjacent_columns(trial, trial_columns, position, end)
                             try:
                                 context.affordable_steps(trial, budget)
                             except ValueError:
                                 at += direction
                                 continue
-                            trial_score = context.score_columns(trial, budget, trial_columns, end - reserve)
+                            trial_score = context.score_columns(trial, budget, trial_columns, end)
                             evaluations += 1
                             context.stats['incremental_candidates'] += 1
                             if (trial_score.value, trial) < (proposal_score.value, proposal):
@@ -466,6 +581,8 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
                             at += direction
             except SearchDeadline:
                 status = 'evaluation_limit' if evaluations >= max_evaluations - 1 else 'cpu_limit'
+            except NumericalResolution:
+                status = 'numerical_limit'
             except ResourceLimit:
                 status = 'support_limit'
             threshold = max(1e-30, abs(current_score.value) * 1e-12)
@@ -475,11 +592,15 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
                 if evaluations >= max_evaluations:
                     status = 'evaluation_limit'
                     break
-                actual = context.score(proposal, budget, end)
+                context.stats['full_move_rescore_attempts'] += 1
+                actual = context.score(proposal, budget, deadline)
                 evaluations += 1
                 context.stats['full_move_rescores'] += 1
+            except NumericalResolution:
+                status = 'numerical_limit'
+                break
             except (SearchDeadline, ResourceLimit):
-                status = 'cpu_limit' if _time.process_time() >= end else 'support_limit'
+                status = 'cpu_limit' if _time.process_time() >= deadline else 'support_limit'
                 break
             if actual.value >= current_score.value - threshold:
                 break
@@ -535,6 +656,8 @@ def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
         seeds = [fallback]
     best_order, best_score = seeds[0], None
     evaluations = moves = 0
+    seed_attempts = seed_evaluations = 0
+    best_seed_columns = {}
     context = None
     status = 'complete'
     try:
@@ -547,17 +670,25 @@ def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
                 status = 'evaluation_limit'
                 break
             seed_began = _time.process_time()
+            seed_attempts += 1
             score = context.score(order, rotation_budget, deadline)
             longest_seed = max(longest_seed, _time.process_time() - seed_began)
             evaluations += 1
+            seed_evaluations += 1
             scored.append((order, score))
             if best_score is None or (score.value, order) < (best_score.value, best_order):
                 best_order, best_score = order, score
+                # Retain only one bounded snapshot, not one per start. The
+                # mutable update path always constructs new column mappings.
+                best_seed_columns = {order: context.last_columns}
         if len(compiled) > 8 and scored:
             best_order, best_score, evaluations, moves, status = _incremental_search(
                 context, scored, rotation_budget, deadline, max_evaluations, max_moves,
-                best_order, best_score, evaluations, max(.02, longest_seed * 1.25))
+                best_order, best_score, evaluations, max(.02, longest_seed * 1.25),
+                seed_columns=best_seed_columns)
             stats = dict(context.stats)
+            stats.update(seed_attempts=seed_attempts, seed_evaluations=seed_evaluations,
+                retained_seed_column_entries=sum(len(column) for columns in best_seed_columns.values() for column in columns.values()))
             stats['response_is_error_bound'] = False
             del context
             return TrainingResult(best_order, best_score, _time.process_time() - began,
@@ -593,9 +724,13 @@ def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
                 moves += 1
     except SearchDeadline:
         status = 'evaluation_limit' if evaluations >= max_evaluations else 'cpu_limit'
+    except NumericalResolution:
+        status = 'numerical_limit'
     except ResourceLimit:
         status = 'support_limit'
     stats = dict(context.stats) if context is not None else {}
+    stats.update(seed_attempts=seed_attempts, seed_evaluations=seed_evaluations,
+        retained_seed_column_entries=sum(len(column) for columns in best_seed_columns.values() for column in columns.values()))
     stats['response_is_error_bound'] = False
     del context
     return TrainingResult(best_order, best_score, _time.process_time() - began,

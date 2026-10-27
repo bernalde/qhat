@@ -1,5 +1,6 @@
 """Small independent checks for the new twelve-mode measurement pipeline."""
 import importlib.util
+import copy
 import hashlib
 import itertools
 import json
@@ -12,7 +13,7 @@ import numpy as np
 import pytest
 
 HERE = Path(__file__).resolve().parent
-NAMES = ('common', 'compiler', 'reference', 'training', 'compilation', 'identity')
+NAMES = ('common', 'compiler', 'reference', 'training', 'compilation', 'identity', 'study', 'verify')
 saved = {name: sys.modules.get(name) for name in NAMES}
 loaded = {}
 try:
@@ -29,7 +30,7 @@ finally:
             sys.modules.pop(name, None)
         else:
             sys.modules[name] = old
-k, compiler, reference, training, compilation, identity = (loaded[name] for name in NAMES)
+k, compiler, reference, training, compilation, identity, study, verification = (loaded[name] for name in NAMES)
 
 
 def model(n=3):
@@ -184,6 +185,18 @@ def test_cubic_validation_deadline_retains_valid_placement(monkeypatch, tmp_path
     assert result['status'] == 'cpu_limit' and result['score'] is None
 
 
+def test_cubic_numerical_refusal_preserves_placement_and_specific_status(monkeypatch, tmp_path):
+    path = tmp_path / 'model.json'
+    path.write_text(json.dumps(model()))
+    ordering = k.bootstrap()
+    def unresolved(*args, **kwargs):
+        raise ordering.NumericalResolution('unresolved cubic subtraction')
+    monkeypatch.setattr(ordering, 'train_ordering', unresolved)
+    result = training.construct(path, k.sha(path), 'cubic')
+    assert result['order'] == training.current(model())
+    assert result['status'] == 'numerical_limit' and result['score'] is None
+
+
 def test_bootstrap_cost_is_inside_constructor_deadline(monkeypatch, tmp_path):
     path = tmp_path / 'model.json'
     path.write_text(json.dumps(model()))
@@ -217,12 +230,60 @@ def test_first_response_bounds_stored_pairs_and_retains_fallback(monkeypatch):
     result = training.first_search(model(), 'pauli', [0, 1, 2], float('inf'))
     assert result['status'] == 'support_limit' and result['score'] is None
     assert sorted(result['order']) == list(range(4))
+    assert result['stats']['seed_evaluations'] == result['stats']['candidate_evaluations'] == 0
+    assert not result['stats']['pair_setup_completed'] and result['stats']['pair_entries'] is None
 
 
 def test_many_commuting_singletons_do_not_reserve_quadratic_pair_storage():
     raw = [{((0, 'Z'),): 1}] * 1001
     context = training.FirstResponse(raw, 1, 0, raw[0], float('inf'))
     assert not context.pairs and context.score(range(1001), float('inf')) == 0.
+
+
+def test_first_response_uses_one_encoded_pair_dictionary():
+    raw = [{((0, 'Z'),): 2}, {((0, 'X'),): 3}, {((1, 'Z'),): 4}]
+    context = training.FirstResponse(raw, 1, 0, {((0, 'Z'),): 2, ((1, 'Z'),): 4}, float('inf'))
+    assert isinstance(context.pairs, dict) and context.lookup is context.pairs
+    assert context.pairs == {1: (1, -6.)}
+    assert context.amplitude((0, 1, 2), float('inf')) == {1: -6.}
+    assert context.amplitude((1, 0, 2), float('inf')) == {1: 6.}
+
+
+def test_first_response_dictionary_enforces_exact_small_storage_bound(monkeypatch):
+    raw = [{((0, 'Z'),): 2}, {((0, 'X'),): 3}, {((0, 'Z'), (1, 'Z')): 4}]
+    monkeypatch.setattr(training, 'MAX_STORED_PAIRS', 2)
+    context = training.FirstResponse(raw, 1, 0, raw[0], float('inf'))
+    assert len(context.pairs) == 2 and context.lookup is context.pairs
+    monkeypatch.setattr(training, 'MAX_STORED_PAIRS', 1)
+    with pytest.raises(training.SupportLimit, match='stored nonzero pair bound'):
+        training.FirstResponse(raw, 1, 0, raw[0], float('inf'))
+
+
+def test_first_response_crossings_match_full_reconstruction_for_every_small_order():
+    data = model()
+    raw = [k.decode(block) for block in data['blocks']]
+    diagonal = {word: coefficient for block in raw[:2] for word, coefficient in block.items()}
+    context = training.FirstResponse(raw, 10, 3, diagonal, float('inf'))
+    for order in itertools.permutations(range(len(raw))):
+        amplitude = context.amplitude(order, float('inf'))
+        score = context.score(order, float('inf'))
+        for at in range(len(order) - 1):
+            trial, updated = list(order), dict(amplitude)
+            incremental = context.crossing(updated, score, trial[at], trial[at + 1])
+            trial[at], trial[at + 1] = trial[at + 1], trial[at]
+            assert updated == pytest.approx(context.amplitude(trial, float('inf')), abs=1e-15)
+            assert incremental == pytest.approx(context.score(trial, float('inf')), abs=1e-15)
+
+
+def test_first_search_reports_completed_seed_candidate_and_rescore_work():
+    result = training.first_search(model(), 'pauli', [0, 1, 2], float('inf'))
+    stats = result['stats']
+    assert result['score'] is not None and stats['completed_training_score']
+    assert stats['pair_setup_completed'] and stats['pair_entries'] > 0
+    assert stats['seed_evaluations'] == stats['unique_starts'] == 3
+    assert stats['candidate_evaluations'] > 0
+    assert result['evaluations'] == stats['seed_evaluations'] + stats['candidate_evaluations']
+    assert stats['full_move_rescores'] >= result['accepted_moves']
 
 
 def test_npy_shape_is_rejected_before_numpy_allocation(monkeypatch, tmp_path):
@@ -724,3 +785,109 @@ def test_stream_decoder_cached_prefix_does_not_bypass_malformed_payloads(bad, ex
     assert checks['Independent gate/line bound'] == len(lines)
     if len(bad) > 16384:
         assert calls[bad] == 0  # Line bound precedes decoder/cache access.
+
+
+@pytest.fixture
+def derived_report_data(tmp_path, monkeypatch):
+    """Use the maintained producer on synthetic rows; no state work or real errors."""
+    cases = ('synthetic-a', 'synthetic-b', 'synthetic-c', 'synthetic-d')
+    frozen = dict(models={case: 'unused-model-hash' for case in cases})
+    constructors = {(case, arm): dict(CPU_seconds=(index + 1) / 10, status='complete', evaluations=index)
+                    for case in cases for index, arm in enumerate(k.ARMS)}
+    rows, checks = [], []
+    references = [dict(case=case, T=T) for case, T in itertools.product(cases, k.TIMES)]
+    for case_index, case in enumerate(cases):
+        for (ti, T), cap in itertools.product(enumerate(k.TIMES), k.CAPS):
+            for index, arm in enumerate(k.ARMS):
+                constructor = constructors[case, arm]
+                label = f'{case}.{arm}.t{ti}.c{cap}'
+                censored = case_index == 3 and arm == 'pauli' and ti == 1 and cap == 30
+                row = dict(candidate=label, case=case, arm=arm, T=T, cap_multiple=cap,
+                    status='censored' if censored else 'complete', CPU_seconds=.2 + index / 100,
+                    ordering_CPU_seconds=constructor['CPU_seconds'], ordering_status=constructor['status'],
+                    ordering_evaluations=constructor['evaluations'], compiled_resources=None)
+                check = dict(candidate=label, status=row['status'])
+                if not censored:
+                    rank = index + 1 if (case_index + ti) % 2 else len(k.ARMS) - index
+                    error = 0. if (case_index, ti, cap) == (0, 0, 10) else rank * (ti + 1) * 1e-5
+                    resources = dict(gates=100 + 4 * index, single_qubit_gates=80 + 3 * index,
+                        two_qubit_gates=20 + index, unit_duration_ASAP_depth=50 + index,
+                        CX_dependency_depth=10 + index)
+                    row.update(error=error, compiled_resources=resources)
+                    check.update(error=error, resources=copy.deepcopy(resources))
+                rows.append(row)
+                checks.append(check)
+                k.write(tmp_path / f'rows/{label}.json', row)
+    k.write(tmp_path / 'ALL_ORDERS_FROZEN.json', frozen)
+    k.write(tmp_path / 'RUN_COMPLETE.json', dict(rows=[r['candidate'] for r in rows],
+        references={f"{r['case']}.{r['T']}": {} for r in references}))
+    monkeypatch.setattr(study, 'bind', lambda output: None)
+    summary = study.summarize(tmp_path)
+    return dict(frozen=frozen, rows=rows, constructors=constructors, checks=checks,
+                references=references, saved_pairs=k.read(tmp_path / 'PAIRS.json'), summary=summary)
+
+
+def test_derived_gate_accepts_real_producer_arithmetic_without_propagation(derived_report_data, monkeypatch):
+    def forbidden(*args, **kwargs):
+        raise AssertionError('Derived-data arithmetic must not propagate states')
+    monkeypatch.setattr(verification, 'Reference', forbidden)
+    monkeypatch.setattr(verification, 'metrics', forbidden)
+    report, pairs = verification.validate_derived_data(**derived_report_data)
+    assert report['status'] == 'passed'
+    assert (report['circuits'], report['references'], report['all_pair_count']) == (96, 8, 240)
+    assert len(pairs) == 240
+    assert sum(r['independent_error_decision'] == 'censored' for r in pairs) == 5
+    assert sum(r['independent_error_decision'] == 'tie' for r in pairs) >= 15
+    assert set(report['checked_summary_fields']) >= {'statuses', 'cubic_error_comparisons', 'circuits'}
+
+
+@pytest.mark.parametrize('field', [
+    'error_left', 'error_right', 'error_difference', 'CX_left', 'CX_right',
+    'depth_left', 'depth_right', 'construction_CPU_left', 'construction_CPU_right',
+])
+def test_derived_gate_rejects_tampered_saved_pair_fields(field, derived_report_data):
+    pair = next(r for r in derived_report_data['saved_pairs'] if r['status'] == 'complete')
+    pair[field] += 1
+    with pytest.raises(ValueError, match='Independent saved pair field: ' + field):
+        verification.validate_derived_data(**derived_report_data)
+
+
+@pytest.mark.parametrize('field', ['circuits', 'references', 'all_pair_count'])
+def test_derived_gate_rejects_tampered_summary_counts(field, derived_report_data):
+    derived_report_data['summary'][field] += 1
+    with pytest.raises(ValueError, match='Independent summary count: ' + field):
+        verification.validate_derived_data(**derived_report_data)
+
+
+def test_derived_gate_rejects_tampered_summary_status_counts(derived_report_data):
+    derived_report_data['summary']['statuses']['complete'] += 1
+    with pytest.raises(ValueError, match='Independent summary statuses'):
+        verification.validate_derived_data(**derived_report_data)
+
+
+def test_derived_gate_rejects_tampered_summary_cubic_aggregates(derived_report_data):
+    group = derived_report_data['summary']['cubic_error_comparisons']['canonical']
+    group[next(iter(group))] += 1
+    with pytest.raises(ValueError, match='Independent summary cubic comparisons'):
+        verification.validate_derived_data(**derived_report_data)
+
+
+def test_derived_gate_checks_ordering_cost_against_authenticated_constructor(derived_report_data):
+    key = next(iter(derived_report_data['constructors']))
+    derived_report_data['constructors'][key]['CPU_seconds'] += 1
+    with pytest.raises(ValueError, match='Independent row ordering cost/status'):
+        verification.validate_derived_data(**derived_report_data)
+
+
+def test_derived_gate_checks_pair_resources_against_independent_dag(derived_report_data):
+    row = next(r for r in derived_report_data['rows'] if r['status'] == 'complete')
+    row['compiled_resources']['two_qubit_gates'] += 1
+    with pytest.raises(ValueError, match='Independent verified resource fields'):
+        verification.validate_derived_data(**derived_report_data)
+
+
+def test_derived_gate_rejects_metrics_attached_to_censored_pair(derived_report_data):
+    pair = next(r for r in derived_report_data['saved_pairs'] if r['status'] == 'censored')
+    pair['CX_left'] = 123
+    with pytest.raises(ValueError, match='Censored pair must omit completed metrics'):
+        verification.validate_derived_data(**derived_report_data)

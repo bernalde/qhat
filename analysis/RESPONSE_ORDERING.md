@@ -20,8 +20,9 @@ classical representation supplies no quantum state-preparation algorithm.
 Grouping alone does not certify particle- or spin-number conservation of an
 arbitrary input; the molecular benchmark checks that property separately.
 
-Time and coefficients use consistent units with hbar=1. Input coefficients and
-time are evaluated in floating arithmetic for training. Conservative certificates
+Time and coefficients use consistent units with hbar=1. Training uses floating
+operator/state arithmetic and trigonometry. Diagonal gaps are summed from exact
+supplied rational coefficients before conversion to a floating phase. Conservative certificates
 instead interpret supplied rational values exactly, including the exact dyadics
 represented by floats. They concern ideal unit exponentials; numerical rotation,
 synthesis, SCF, integral, basis and hardware errors are separate.
@@ -33,6 +34,21 @@ the final full unit, and the reverse half-step sequence. The implementation
 propagates only Taylor degrees zero through three on reachable bit strings.
 Subtracting H^3/6 gives the cubic defect column C_pi. The common physical factor
 i multiplying that column is omitted consistently.
+
+Response actions first remove supplied identity terms and subtract each unit's
+diagonal expectation at the smallest occupied reference basis index. These
+scalar phases cancel from the cubic defect; the original units, public operator
+actions and rotation lengths remain available without that centering. Diagonal
+transport uses energy differences directly, avoiding subtraction of large total
+energies. A bounded transport cache retains at most `max_entries` pairs.
+
+Full columns and transported responses are refused when their norm is smaller
+than 2^-24 times the corresponding pre-subtraction column scale. This screens
+severe floating cancellation, including large scalar-free coefficient ratios;
+it is not a forward-error certificate. Exact mutually commuting Pauli expansions
+are handled as zero defect without cancellation. A `NumericalResolution`
+refusal produces `status="numerical_limit"` during training and never a completed
+zero score. The last earlier fully scored incumbent remains usable.
 
 For each occupied reference component v, the destination u receives
 
@@ -70,6 +86,13 @@ replaying the entire Taylor sequence for every trial. The source-specific
 transport and affordable step count are recomputed before comparison. A full
 Taylor rescore is required before an updated incumbent is accepted; interrupted
 or numerically inconsistent proposals cannot replace the last checked incumbent.
+
+Insertion search prioritizes the best fully scored seed and retains only that
+seed's column snapshot, bounded by `max_entries`. One rescore reserve belongs to
+the whole remaining allowance; the remaining search time is divided among seed
+slices. Completed seed, incremental-candidate and attempted/completed full-rescore
+counts are recorded separately, so a configured allowance does not imply that
+an insertion improvement completed.
 
 ## A separate conservative step certificate
 

@@ -4,7 +4,7 @@ import time
 import numpy as np
 import common as k
 
-MAX_STORED_PAIRS = 250_000
+MAX_STORED_PAIRS = 750_000
 
 
 class Deadline(RuntimeError):
@@ -124,7 +124,8 @@ class FirstResponse:
         k.require(0 < self.m <= k.MAX_TERMS, 'First-response unit count bound')
         desc = [descriptor(b) for b in raw]
         D = descriptor(diagonal or {(): 0})
-        self.pairs, self.weights = [], {}
+        self.pairs, self.weights = {}, {}
+        self.lookup = self.pairs
         for i in range(self.m):
             check(deadline)
             for j in range(i + 1, self.m):
@@ -139,20 +140,20 @@ class FirstResponse:
                     continue
                 if len(self.pairs) >= MAX_STORED_PAIRS:
                     raise SupportLimit('First-response stored nonzero pair bound')
-                self.pairs.append((i, j, destination, 0.5 * (b / denominator**2)))
+                self.pairs[i * self.m + j] = (destination, 0.5 * (b / denominator**2))
                 if destination not in self.weights:
                     gap = (value(D, destination) - value(D, hf)) / denominator
                     xphase = k.TRAIN_TIME * gap / 2
                     self.weights[destination] = k.TRAIN_TIME**2 * (math.sin(xphase) / xphase if xphase else 1.)**2
-        self.lookup = {i * self.m + j: (d, c) for i, j, d, c in self.pairs}
 
     def amplitude(self, order, deadline):
         check(deadline)
         positions = {unit: at for at, unit in enumerate(order)}
         amplitude = {}
-        for at, (i, j, destination, coefficient) in enumerate(self.pairs):
+        for at, (key, (destination, coefficient)) in enumerate(self.pairs.items()):
             if at % 1024 == 0:
                 check(deadline)
+            i, j = divmod(key, self.m)
             amplitude[destination] = amplitude.get(destination, 0.) + (coefficient if positions[i] < positions[j] else -coefficient)
         return amplitude
 
@@ -182,6 +183,7 @@ def first_search(model, arm, initial, deadline):
         raw = [{w: c} for w, c in sorted(k.decode(model['coefficients']).items())]
     seeds = [tuple(initial), tuple(reversed(initial)), tuple(range(len(raw)))]
     best, best_score, evaluations, moves = seeds[0], None, 0, 0
+    seed_evaluations = candidate_evaluations = full_move_rescores = 0
     context, selected = None, None
     try:
         context = FirstResponse(raw, int(model['denominator']), (1 << model['electrons']) - 1, diagonal, deadline)
@@ -189,6 +191,7 @@ def first_search(model, arm, initial, deadline):
         for seed in dict.fromkeys(seeds):
             score = context.score(seed, deadline)
             evaluations += 1
+            seed_evaluations += 1
             scored.append((seed, score))
             if best_score is None or (score, seed) < (best_score, best):
                 best, best_score = seed, score
@@ -211,12 +214,14 @@ def first_search(model, arm, initial, deadline):
                             candidate[left], candidate[left + 1] = candidate[left + 1], candidate[left]
                             position += direction
                             evaluations += 1
+                            candidate_evaluations += 1
                             choice = tuple(candidate)
                             if (value_, choice) < (selected_score, selected):
                                 selected, selected_score = choice, value_
                 if selected == current_order:
                     break
                 actual = context.score(selected, deadline)
+                full_move_rescores += 1
                 if actual >= score - max(1e-30, 1e-12 * abs(score)):
                     break
                 current_order, score = selected, actual
@@ -232,13 +237,20 @@ def first_search(model, arm, initial, deadline):
             except Deadline:
                 pass
             else:
+                full_move_rescores += 1
                 if best_score is None or (actual, selected) < (best_score, best):
                     best, best_score = selected, actual
                     moves += 1
     except SupportLimit:
         status = 'support_limit'
     return dict(order=list(best), score=best_score, evaluations=evaluations,
-                accepted_moves=moves, status=status, partition='pauli' if arm == 'pauli' else 'conserving')
+                accepted_moves=moves, status=status, partition='pauli' if arm == 'pauli' else 'conserving',
+                stats=dict(seed_evaluations=seed_evaluations, candidate_evaluations=candidate_evaluations,
+                    full_move_rescores=full_move_rescores, unique_starts=len(dict.fromkeys(seeds)),
+                    pair_setup_completed=context is not None,
+                    pair_entries=None if context is None else len(context.pairs),
+                    pair_storage='One encoded-pair dictionary; lookup aliases pairs',
+                    completed_training_score=best_score is not None))
 
 
 def _construct(model_path, digest, arm):
@@ -275,6 +287,8 @@ def _construct(model_path, digest, arm):
                             starts=[placed, list(reversed(placed)), canonical])
                     except ordering.SearchDeadline:
                         result['status'] = 'cpu_limit'
+                    except ordering.NumericalResolution:
+                        result['status'] = 'numerical_limit'
                     except ordering.ResourceLimit:
                         result['status'] = 'support_limit'
                     else:

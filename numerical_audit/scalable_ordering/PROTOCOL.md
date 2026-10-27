@@ -42,6 +42,15 @@ qualities or main outcomes informed this allowance. Actual incomplete work and
 overruns remain charged. The standalone library's configurable two-second
 default remains unchanged; this amendment belongs to this benchmark.
 
+Pre-main review correction: the CH4 singleton-Pauli support was counted without
+pair allocation or physical errors: 588,360 qualifying non-HF commutator pairs
+among 1,481,781 unordered pairs. The constructor stores one bounded dictionary
+with at most 750,000 such entries, without a duplicate pair list. Its actual
+setup/search must complete a scored seed under the unchanged 512 MiB OS cap
+before the main panel is described as containing a searched CH4 Pauli control.
+Earlier 250,000-entry/two-second refusals remain retained; no accuracy outcome
+informed the storage correction.
+
 Freeze all 24 orders before evaluating any validation error. Reuse each order at
 validation times 0.5 and 1.5 and ideal-rotation caps 10U and 30U. The affordable
 step count is obtained from exact fused symmetric rotation accounting, not from
