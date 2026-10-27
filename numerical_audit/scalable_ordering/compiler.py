@@ -119,7 +119,28 @@ def write_trace(path,n,gates,identity,*,measurements=None):
         with gzip.GzipFile(filename='',mode='wb',fileobj=raw,mtime=0) as zipped:
             header=dict(compiler=VERSION,n=n,identity=identity,scope='Ideal prototype compiler; no hardware measurement')
             zipped.write((json.dumps(header,sort_keys=True,separators=(',',':'))+'\n').encode())
-            for g in gates:zipped.write((json.dumps(encode(g),separators=(',',':'))+'\n').encode())
+            encoded={};pending=bytearray();batch_bytes=65536
+            for g in gates:
+                # Cache only finite-register non-Rz primitives, never angles.
+                key=None
+                if g.kind in ('h','s','sdg') and type(g.a) is int:
+                    key=(g.kind,g.a)
+                elif g.kind=='cx' and type(g.a) is int and type(g.b) is int:
+                    key=(g.kind,g.a,g.b)
+                line=encoded.get(key) if key is not None else None
+                if line is None:
+                    line=(json.dumps(encode(g),separators=(',',':'))+'\n').encode()
+                    if (key is not None and len(encoded)<128 and len(line)<=128 and
+                            type(n) is int and 1<=n<=MAX_REGISTER and 0<=g.a<n and
+                            (g.kind!='cx' or (0<=g.b<n and abs(g.a-g.b)==1))):
+                        encoded[key]=line
+                if len(pending)+len(line)>batch_bytes:
+                    if pending:zipped.write(pending);pending.clear()
+                if len(line)>batch_bytes:
+                    zipped.write(line)
+                else:
+                    pending.extend(line)
+            if pending:zipped.write(pending)
     serialization=dict(CPU_seconds=time.process_time()-began,wall_seconds=time.monotonic()-wall)
     began=time.process_time();wall=time.monotonic();h=hashlib.sha256()
     with Path(path).open('rb') as f:

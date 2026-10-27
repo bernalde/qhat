@@ -100,6 +100,12 @@ result = train_ordering(units, n_qubits, hf_occupation, time=1.0,
 ordered_units = [units[i] for i in result.order]
 ```
 
+The larger molecular benchmark uses a shared 32-CPU-second construction
+allowance, chosen from a separate resource-only seed timing before its main
+order freeze. A two-second call can return an initializer with no completed
+score on those inputs. Callers should choose and record a construction budget
+appropriate to their input and inspect the returned status.
+
 For an existing QHAT research-model JSON with integer coefficients and a common
 denominator:
 

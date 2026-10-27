@@ -22,12 +22,25 @@ Train on the HF occupation at time 1.0 with the 30U ideal-rotation budget. U is
 the number of retained Pauli words. All six arms use the symmetric formula:
 canonical units, coefficient-magnitude units, current-placement units,
 first-response insertion, individual-Pauli insertion, and sparse cubic insertion.
-The three searched arms receive equal CPU deadlines, three declared starts,
+The three searched arms receive equal 32-CPU-second deadlines, three declared starts,
 up to 3000 candidate evaluations and five accepted moves per start. Actual setup,
 search and return costs are recorded, including incomplete scores and refusals.
 The cheap unsought baselines keep their actual lower charges. No validation error
 or exact-H time propagation enters any constructor. Sorting, setup, seed scoring,
 search and cleanup belong to each standalone ordering charge.
+
+Training-resource amendment before any main orders or errors: the initial
+two-second altered-input preflights could not finish one cubic seed on the
+largest input. A separate, resource-only probe timed one fixed current-order
+seed on that same 7/5-scaled CH4 Hamiltonian. Before the probe, the rule was fixed
+as the smallest power of two at least
+`4*(context CPU + first-score CPU + 0.7 initializer CPU)` seconds, minimum two
+and maximum 32; a requirement above 32 would be a recorded resource refusal.
+Measured context and score CPU were 0.005947819 and 7.031157889 seconds, selecting
+32 seconds for all three searched arms. No physical-error fields, other seed
+qualities or main outcomes informed this allowance. Actual incomplete work and
+overruns remain charged. The standalone library's configurable two-second
+default remains unchanged; this amendment belongs to this benchmark.
 
 Freeze all 24 orders before evaluating any validation error. Reuse each order at
 validation times 0.5 and 1.5 and ideal-rotation caps 10U and 30U. The affordable

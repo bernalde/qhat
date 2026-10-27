@@ -86,6 +86,9 @@ def run(inputs, output):
             k.require(abs(overlap) > 0 and float(np.max(abs(actual - ideal * overlap / abs(overlap)))) < 2e-9,
                       'Preflight actual primitive/ideal parity')
             row.update(metrics(exact, actual, model))
+            k.require(abs(row['norm'] - 1) < 1e-8, 'Preflight state norm drift')
+            if record['partition'] == 'conserving':
+                k.require(row['joint_sector_leakage'] < 1e-16, 'Preflight conserving-unit sector leakage')
         rows.append(row)
         k.write(output / f'result-{arm}.json', row)
     complete = all(r['status'] == 'complete' for r in rows)

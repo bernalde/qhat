@@ -188,13 +188,14 @@ def test_bootstrap_cost_is_inside_constructor_deadline(monkeypatch, tmp_path):
     path = tmp_path / 'model.json'
     path.write_text(json.dumps(model()))
     clock = [0.]
+    expired_cpu = k.TRAIN_CPU_SECONDS + 10.
     def expensive_bootstrap():
-        clock[0] = 10.
+        clock[0] = expired_cpu
         return None  # Trainer access would fail if the expired cap were ignored.
     monkeypatch.setattr(training.time, 'process_time', lambda: clock[0])
     monkeypatch.setattr(k, 'bootstrap', expensive_bootstrap)
     result = training.construct(path, k.sha(path), 'cubic')
-    assert result['status'] == 'cpu_limit' and result['CPU_seconds'] == 10.
+    assert result['status'] == 'cpu_limit' and result['CPU_seconds'] == expired_cpu
 
 
 def test_complete_construction_charge_includes_return_cleanup(monkeypatch):
@@ -537,3 +538,189 @@ def test_current_empty_side_and_all_zero_response_keep_exact_tie_order(blocks):
 def test_current_optimized_sweeps_still_enforce_constructor_deadline():
     with pytest.raises(training.Deadline, match='deadline'):
         training.current(_current_integer_fixture(5), deadline=-float('inf'))
+
+# Append these tests to numerical_audit/scalable_ordering/test_pipeline.py.
+# They use that file's isolated `compiler`, `reference`, `k`, and `model` fixtures.
+# Preparation only: no tests have been executed by the helper.
+from collections import Counter as _StreamCounter
+from fractions import Fraction as _StreamFraction
+
+
+def _stream_unbatched_standard_emitter(path, n, gates, identity):
+    """Independent old-format emitter: no compiler.encode/cache/batching calls."""
+    header = dict(compiler=compiler.VERSION, n=n, identity=identity,
+                  scope='Ideal prototype compiler; no hardware measurement')
+    with path.open('xb') as raw:
+        with gzip.GzipFile(filename='', mode='wb', fileobj=raw, mtime=0) as zipped:
+            zipped.write((json.dumps(header, sort_keys=True, separators=(',', ':')) + '\n').encode())
+            for gate in gates:
+                if gate.kind == 'cx':
+                    record = ['cx', gate.a, gate.b]
+                elif gate.kind == 'rz':
+                    record = ['rz', gate.a, str(gate.angle.numerator), str(gate.angle.denominator)]
+                else:
+                    record = [gate.kind, gate.a]
+                zipped.write((json.dumps(record, separators=(',', ':')) + '\n').encode())
+
+
+def _stream_compare_emitter(tmp_path, monkeypatch, gates):
+    expected, actual = tmp_path / 'unbatched.gz', tmp_path / 'batched.gz'
+    identity = dict(test='byte-identical', exact='fractional angles')
+    _stream_unbatched_standard_emitter(expected, 12, gates, identity)
+    writes, encodes = [], []
+    original_gzip, original_encode = compiler.gzip.GzipFile, compiler.encode
+
+    class RecordingGzip:
+        def __init__(self, *args, **kwargs):
+            self.stream = original_gzip(*args, **kwargs)
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return self.stream.__exit__(*args)
+
+        def write(self, data):
+            writes.append(len(data))
+            return self.stream.write(data)
+
+    def counted_encode(gate):
+        encodes.append(gate)
+        return original_encode(gate)
+
+    monkeypatch.setattr(compiler.gzip, 'GzipFile', RecordingGzip)
+    monkeypatch.setattr(compiler, 'encode', counted_encode)
+    digest = compiler.write_trace(actual, 12, iter(gates), identity)
+    assert actual.read_bytes() == expected.read_bytes()
+    assert digest == hashlib.sha256(expected.read_bytes()).hexdigest()
+    return writes, encodes
+
+
+@pytest.mark.parametrize('count', [0, 8191, 8192, 8193])
+def test_stream_writer_preserves_gzip_bytes_at_exact_64k_boundaries(count, tmp_path, monkeypatch):
+    # ['h',0] plus newline occupies exactly eight bytes in the declared format.
+    gates = [compiler.Gate('h', 0)] * count
+    writes, encodes = _stream_compare_emitter(tmp_path, monkeypatch, gates)
+    expected_body = [] if not count else [8 * count] if count <= 8192 else [65536, 8]
+    assert writes[1:] == expected_body
+    assert len(encodes) == bool(count)
+    assert all(size <= 65536 for size in writes[1:])
+
+
+def test_stream_writer_finite_clifford_cache_never_caches_exact_angles(tmp_path, monkeypatch):
+    primitives = [compiler.Gate(kind, q) for kind in ('h', 's', 'sdg') for q in range(12)]
+    primitives += [compiler.Gate('cx', q, q + 1) for q in range(11)]
+    primitives += [compiler.Gate('cx', q + 1, q) for q in range(11)]
+    assert len(primitives) == 58
+    gates = []
+    for index in range(160):
+        gates.extend(primitives)
+        gates.append(compiler.Gate('rz', index % 12, angle=_StreamFraction(2 * index - 159, 203)))
+    writes, encodes = _stream_compare_emitter(tmp_path, monkeypatch, gates)
+    assert len(encodes) == 58 + 160
+    assert sum(g.kind == 'rz' for g in encodes) == 160
+    assert len(writes) > 2 and all(size <= 65536 for size in writes[1:])
+
+
+def _stream_hf_lines():
+    return [json.dumps([kind, q], separators=(',', ':')) + '\n'
+            for q in range(2) for kind in ('h', 's', 's', 'h')]
+
+
+def _stream_write_manual(path, lines):
+    header = dict(n=3, compiler=compiler.VERSION, identity=dict(test='decoded-line-cache'))
+    with path.open('xb') as raw:
+        with gzip.GzipFile(filename='', mode='wb', fileobj=raw, mtime=0) as zipped:
+            zipped.write((json.dumps(header) + '\n').encode())
+            for line in lines:
+                zipped.write(line.encode())
+
+
+def _stream_spy_decoder(monkeypatch):
+    original_loads, original_require = reference.json.loads, reference.k.require
+    calls, checks, parsed = _StreamCounter(), _StreamCounter(), []
+
+    def counted_loads(line):
+        value = original_loads(line)
+        if isinstance(value, list):
+            calls[line] += 1
+            parsed.append((value, list(value)))
+        return value
+
+    def counted_require(condition, message):
+        checks[message] += 1
+        return original_require(condition, message)
+
+    monkeypatch.setattr(reference.json, 'loads', counted_loads)
+    monkeypatch.setattr(reference.k, 'require', counted_require)
+    return calls, checks, parsed
+
+
+def test_stream_decoder_reuses_only_short_cliffords_and_keeps_every_gate_check(tmp_path, monkeypatch):
+    short = '["h",2]\n'
+    long = '["h",2]' + ' ' * 200 + '\n'
+    positive, negative = '["rz",2,"1","7"]\n', '["rz",2,"-1","7"]\n'
+    lines = _stream_hf_lines() + [short] * 400 + [long] * 4 + [positive, negative] * 2
+    path = tmp_path / 'cached.gz'
+    _stream_write_manual(path, lines)
+    context = reference.Reference(model())
+    calls, checks, parsed = _stream_spy_decoder(monkeypatch)
+    actual, counts = context.audit_trace(path, dict(test='decoded-line-cache'), compiler.VERSION, literal=True)
+    assert calls[short] == 1
+    assert calls[long] == 4
+    assert calls[positive] == calls[negative] == 2  # Even repeated short Rz is never cached.
+    assert counts['gates'] == len(lines) and counts['actual_Rz_rotations'] == 4
+    assert checks['Independent gate/line bound'] == len(lines)
+    assert checks['Primitive gate support'] == len(lines)
+    assert checks['H payload'] == 408
+    assert checks['S payload'] == 4
+    assert checks['Rz exact payload'] == checks['Canonical nonzero Rz angle'] == 4
+    assert all(value == saved for value, saved in parsed)  # Cached JSON lists remain untouched.
+    assert abs(np.vdot(context.initial, actual)) == pytest.approx(1., abs=2e-12)
+
+
+def test_stream_decoder_cache_stops_at_128_short_raw_lines(tmp_path, monkeypatch):
+    # Many whitespace spellings of valid Cliffords cannot grow the cache.
+    lines = _stream_hf_lines()
+    for q in (2, 1):
+        for padding in range(110):
+            line = f'["h",{q}]' + ' ' * padding + '\n'
+            assert len(line) <= 128
+            lines.extend([line, line])
+    path = tmp_path / 'cache-cap.gz'
+    _stream_write_manual(path, lines)
+    context = reference.Reference(model())
+    calls, checks, parsed = _stream_spy_decoder(monkeypatch)
+    _, counts = context.audit_trace(path, dict(test='decoded-line-cache'), compiler.VERSION)
+    assert len(calls) > 128
+    assert sum(count == 1 for count in calls.values()) == 128
+    assert all(count in (1, 2) for count in calls.values())
+    assert counts['gates'] == len(lines)
+    assert checks['Independent gate/line bound'] == checks['Primitive gate support'] == len(lines)
+    assert checks['H payload'] == len(lines) - 4
+    assert all(value == saved for value, saved in parsed)
+
+
+@pytest.mark.parametrize('bad,expected', [
+    ('["h",2,0]\n', 'H payload'),
+    ('["s",2,0]\n', 'S payload'),
+    ('["cx",0,2]\n', 'Primitive line CX'),
+    ('["h",true]\n', 'Primitive gate support'),
+    ('["rz",2,"2","4"]\n', 'Canonical nonzero Rz angle'),
+    ('["rz",2,"0","1"]\n', 'Canonical nonzero Rz angle'),
+    ('["rz",2,"1","-2"]\n', 'Rz exact payload'),
+    ('["h",2,"' + 'x' * 200 + '"]\n', 'H payload'),
+    ('["h",2]' + ' ' * 16385 + '\n', 'gate/line bound'),
+])
+def test_stream_decoder_cached_prefix_does_not_bypass_malformed_payloads(bad, expected, tmp_path, monkeypatch):
+    lines = _stream_hf_lines() + ['["h",2]\n'] * 4 + [bad]
+    path = tmp_path / 'malformed-after-cache.gz'
+    _stream_write_manual(path, lines)
+    context = reference.Reference(model())
+    calls, checks, _ = _stream_spy_decoder(monkeypatch)
+    with pytest.raises(ValueError, match=expected):
+        context.audit_trace(path, dict(test='decoded-line-cache'), compiler.VERSION)
+    assert calls['["h",2]\n'] == 1
+    assert checks['Independent gate/line bound'] == len(lines)
+    if len(bad) > 16384:
+        assert calls[bad] == 0  # Line bound precedes decoder/cache access.

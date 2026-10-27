@@ -235,6 +235,7 @@ class Reference:
         previous = [-1] * self.n
         left, right, twoq = array('i'), array('i'), bytearray()
         one = two = rotations = 0
+        decoded = {}
         with gzip.open(path, 'rt') as stream:
             header_line = stream.readline(16385)
             k.require(0 < len(header_line) <= 16384, 'Independent header line bound')
@@ -248,13 +249,19 @@ class Reference:
                     break
                 index += 1
                 k.require(index < 2_000_000 and len(line) <= 16384, 'Independent gate/line bound')
-                gate = json.loads(line)
+                short = len(line) <= 128
+                gate = decoded.get(line) if short else None
+                uncached = gate is None
+                if uncached:
+                    gate = json.loads(line)
                 k.require(isinstance(gate, list) and len(gate) >= 2 and type(gate[1]) is int and
                           0 <= gate[1] < self.n, 'Primitive gate support')
                 kind, q = gate[:2]
                 if kind == 'cx':
                     k.require(len(gate) == 3 and type(gate[2]) is int and 0 <= gate[2] < self.n and
                               abs(q - gate[2]) == 1, 'Primitive line CX')
+                    if uncached and short and len(decoded) < 128:
+                        decoded[line] = gate
                     t = gate[2]
                     left.append(previous[q]); right.append(previous[t]); twoq.append(1)
                     previous[q] = previous[t] = index
@@ -271,12 +278,16 @@ class Reference:
                 one += 1
                 if kind == 'h':
                     k.require(len(gate) == 2, 'H payload')
+                    if uncached and short and len(decoded) < 128:
+                        decoded[line] = gate
                     x_images[q], z_images[q] = z_images[q], x_images[q]
                     if literal:
                         a, b = direct[self.low[q]].copy(), direct[self.high[q]].copy()
                         direct[self.low[q]], direct[self.high[q]] = (a + b) / np.sqrt(np.longdouble(2)), (a - b) / np.sqrt(np.longdouble(2))
                 elif kind in ('s', 'sdg'):
                     k.require(len(gate) == 2, 'S payload')
+                    if uncached and short and len(decoded) < 128:
+                        decoded[line] = gate
                     x, z, phase = multiply(x_images[q], z_images[q])
                     x_images[q] = x, z, (phase + (3 if kind == 's' else 1)) % 4
                     if literal:
