@@ -124,7 +124,7 @@ def test_scaling_with_N():
         elapsed = time.time() - start
 
         n_pairs = N * (N - 1) // 2
-        n_triples = sum(range(N-1)) if N >= 3 else 0
+        n_triples = N*(N-1)*(2*N-1)//6
         total_ops = n_pairs * 2 + n_triples  # C1, C22 use pairs, C21 uses triples
         rate = total_ops / elapsed / 1e6 if elapsed > 0 else 0
 

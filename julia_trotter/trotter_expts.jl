@@ -21,6 +21,7 @@ include("src/statevector_simulators.jl")
 include("src/densesimulators.jl")
 include("src/tensorsimulators.jl")
 include("src/error_bounds.jl")
+include("src/operator_error_norm.jl")
 
 
 # Constants
@@ -68,7 +69,7 @@ function main(filepath::String)
 
     # Reference evolution (Chebyshev)
     println("  Computing reference (Chebyshev order=$(CHEBY_ORDER))...")
-    psi_exact, _, _ = chebyshev_simulation(
+    psi_reference, _, reference_info = chebyshev_simulation(
         stateHF, T_TOTAL,
         x -> hamiltonian_matvec(x, H_terms),
         π, [];
@@ -76,8 +77,11 @@ function main(filepath::String)
         returnstate=true
     )
 
+    println("  Approximate reference truncation estimate: ", reference_info.error,
+            "; arithmetic roundoff is not certified.")
+
     # Compute errors for each Trotter order
-    println("\n  State errors: ‖ψ_trotter - ψ_exact‖")
+    println("\n  State errors: ‖ψ_trotter - ψ_reference‖")
     println("  " * "-"^66)
     println(@sprintf("  %-8s  %-10s  %-12s  %-12s  %-12s",
                      "nsteps", "dt", "1st order", "2nd order", "4th order"))
@@ -87,13 +91,13 @@ function main(filepath::String)
         dt = T_TOTAL / nsteps
 
         psi_1 = first_order_trotter_statevec(H_terms, stateHF, dt, nsteps)
-        err_1 = norm(psi_1 - psi_exact)
+        err_1 = norm(psi_1 - psi_reference)
 
         psi_2 = second_order_trotter_statevec(H_terms, stateHF, dt, nsteps)
-        err_2 = norm(psi_2 - psi_exact)
+        err_2 = norm(psi_2 - psi_reference)
 
         psi_4 = fourth_order_trotter_statevec(H_terms, stateHF, dt, nsteps)
-        err_4 = norm(psi_4 - psi_exact)
+        err_4 = norm(psi_4 - psi_reference)
 
         println(@sprintf("  %-8d  %-10.4f  %-12.2e  %-12.2e  %-12.2e",
                          nsteps, dt, err_1, err_2, err_4))
@@ -102,16 +106,19 @@ function main(filepath::String)
     # ========== Part 3: Operator Errors ==========
     println("\n[3] OPERATOR ERRORS")
     println("-"^70)
-    println("Computing unitary matrix errors ‖U_trotter - U_exact‖...")
+    println("Computing unitary matrix errors ‖U_trotter - U_reference‖...")
 
     # Build full H matrix
     H_full = build_sparse_hamiltonian(ham, nqubits)
     H_normalized = (Hermitian(H_full) - norm_result.shift * I) / norm_result.normalization
     H_qpe = (H_normalized + 0.5*I) * π
 
-    # Exact unitary via Chebyshev
-    println("  Computing U_exact (Chebyshev)...")
-    U_exact = chebyshev_exponentiation(H_qpe, CHEBY_ORDER, 1.0, π)
+    # Approximate reference unitary via Chebyshev
+    println("  Computing U_reference (Chebyshev)...")
+    U_reference, operator_reference_info = chebyshev_exponentiation(
+        H_qpe, CHEBY_ORDER, 1.0, π; return_info=true)
+    println("  Approximate reference truncation estimate: ", operator_reference_info.error,
+            "; arithmetic roundoff is not certified.")
 
     println("\n  Operator errors (spectral norm):")
     println("  " * "-"^40)
@@ -127,15 +134,8 @@ function main(filepath::String)
         )
 
         # Compute operator norm of difference
-        E_op = U_trotter - U_exact
-        if nqubits <= 10
-            # Small system: use dense norm
-            op_err = opnorm(Matrix(E_op))
-        else
-            # Large system: use Arpack
-            vals, _ = Arpack.eigs(E_op; nev=1, which=:LM)
-            op_err = abs(vals[1])
-        end
+        E_op = U_trotter - U_reference
+        op_err = operator_error_norm(E_op)
 
         push!(op_errors, op_err)
         println(@sprintf("  %-8d  %-12.2e", nsteps, op_err))
@@ -154,10 +154,10 @@ function main(filepath::String)
     )
 
     println("  Method used: ", method_used)
-    println("\n  Bounds vs Actual Operator Errors:")
+    println("\n  Bounds vs Estimated Operator Errors:")
     println("  " * "-"^55)
     println(@sprintf("  %-8s  %-15s  %-15s  %-10s",
-                     "nsteps", "Actual", "Bound", "Ratio"))
+                     "nsteps", "Estimate", "Bound", "Ratio"))
     println("  " * "-"^55)
 
     for (i, nsteps) in enumerate(NSTEPS_LIST)
@@ -183,7 +183,7 @@ function main(filepath::String)
     # Bound quality
     println("\nCommutator Bound Quality:")
     avg_ratio = sum(bounds ./ op_errors) / length(bounds)
-    println("  Average bound/actual ratio: ", @sprintf("%.2f", avg_ratio))
+    println("  Average bound/estimate ratio: ", @sprintf("%.2f", avg_ratio))
 
 
 end

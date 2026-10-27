@@ -25,8 +25,7 @@ logger = logging.getLogger(__name__)
 # -------------------------------------------------------------------------------------------------
 
 def boson_to_qubit_operator(bosonic_operator, Nmax):
-    qubit_op = QubitOperator()
-    qubits_per_mode = int(np.ceil(np.log2(Nmax + 1)))
+    raise NotImplementedError("Use the supported BosonicBinaryEncoding mapping")
 
 fermionic_mapping = {
     "JW" : jordan_wigner,
@@ -103,7 +102,13 @@ class Hamiltonian:
     def set_fermionic_mapping(self, mapping):
         # self._fmap is never used for LinearCombinationOfPauliStrings
         if isinstance(mapping, str):
-            self._fmap = fermionic_mapping[mapping]
+            try:
+                self._fmap = fermionic_mapping[mapping]
+            except KeyError as exc:
+                raise ValueError(
+                    f"Unsupported fermionic mapping {mapping!r}; use 'JW', 'BK', "
+                    "or a mapping callable."
+                ) from exc
         else:
             self._fmap = mapping
         if isinstance(self._H, MixedFermionBosonOperator):
@@ -446,7 +451,8 @@ def load_hamlib_hdf5(config_hamiltonian: HamiltonianConfiguration):
             numq = max(numq, idx + 1)
             sparse_pauli = (*sparse_pauli, (idx, op))
 
-        pauli_dict[sparse_pauli] = coefficient
+        sparse_pauli = tuple(sorted(sparse_pauli))
+        pauli_dict[sparse_pauli] = pauli_dict.get(sparse_pauli, 0) + coefficient
 
     # Validate that all coefficients are real (Hamiltonians must be Hermitian)
     # and convert to float
@@ -502,7 +508,8 @@ def load_pauli(config_hamiltonian: HamiltonianConfiguration):
                         idx = int(token[1:])
                         numq = max(numq, idx+1)
                         sparse_pauli = (*sparse_pauli, (idx, op))
-                    pauli_dict[sparse_pauli] = coefficient
+                    sparse_pauli = tuple(sorted(sparse_pauli))
+                    pauli_dict[sparse_pauli] = pauli_dict.get(sparse_pauli, 0) + coefficient
                 else:
                     if fmt is not None and fmt != "dense":
                         raise ValueError("Inconsistent Pauli string file format.")
@@ -511,7 +518,7 @@ def load_pauli(config_hamiltonian: HamiltonianConfiguration):
                     if numq != 0 and len(pauli) != numq:
                         raise ValueError("Inconsistent dense Pauli string length.")
                     numq = len(pauli)
-                    pauli_dict[pauli] = coefficient
+                    pauli_dict[pauli] = pauli_dict.get(pauli, 0) + coefficient
         # Validate that all coefficients are real (Hamiltonians must be Hermitian)
         # and convert to float
         for pauli in pauli_dict:
@@ -560,7 +567,8 @@ def load_pauli(config_hamiltonian: HamiltonianConfiguration):
             else:
                 raise ValueError(f"Coefficient must be numeric, got {type(coefficient)}.")
 
-            pauli_dict[sparse_pauli] = coefficient
+            sparse_pauli = tuple(sorted(sparse_pauli))
+            pauli_dict[sparse_pauli] = pauli_dict.get(sparse_pauli, 0) + coefficient
 
         # Validate Hermitian and convert to float
         for pauli in pauli_dict:
@@ -593,11 +601,9 @@ def get_physical_hamiltonian(config_hamiltonian: HamiltonianConfiguration):
 
     if config_hamiltonian.source == "numpy":
         return load_numpy(config_hamiltonian)
-    elif config_hamiltonian.source == "LCPS":
-        return load_LCPS(config_hamiltonian)
     elif config_hamiltonian.source == "hdf5":
         return load_hdf5(config_hamiltonian)
     elif config_hamiltonian.source == "pauli":
         return load_pauli(config_hamiltonian)
     else:
-        raise ValueError(f"Invalid Hamiltonian source \"{config_hamiltonian.source}\".")
+        raise ValueError(f"Invalid Hamiltonian source \"{config_hamiltonian.source}\"; supported sources: numpy, hdf5, pauli.")

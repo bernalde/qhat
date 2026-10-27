@@ -6,7 +6,13 @@ dense_matrix_exp(H,t)  = exp(-im*Matrix(H)*t)
 These functions when called return the full U amtrix after expenentiation/trotterization
 """
 
-function chebyshev_exponentiation(H, order, t, energy_bound; α::Int = 4)
+"""
+Approximate exp(-im*H*t) using scaled Chebyshev polynomials. The default return
+remains the matrix. With return_info=true, return (matrix, (error, dt)), where
+error is the existing finite Bessel-tail estimate, excluding floating-point
+roundoff; it is not an outward-rounded certificate.
+"""
+function chebyshev_exponentiation(H, order, t, energy_bound; α::Int = 4, return_info::Bool=false)
 
         # materialize Hermitian/Symmetric views to full sparse CSC to avoid CHOLMOD path
         # For Hermitian matrices, convert to sparse directly (symmetry is already handled)
@@ -34,8 +40,8 @@ function chebyshev_exponentiation(H, order, t, energy_bound; α::Int = 4)
     error2 =  sum(2*abs(besselj(n, 1.0/α )) for n in order+1:4000)*scale*α
     @show error1, error2
     @assert abs(error1) < 1E-8
-    @info "In those error values are close, then the method has converged to that error bound"
-    return state
+    @info "Finite Bessel-tail estimates exclude arithmetic roundoff"
+    return return_info ? (state, (error=error2, dt=dt)) : state
 end
 
 

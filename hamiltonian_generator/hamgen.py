@@ -313,7 +313,7 @@ def map_fermions_to_qubits(state, ham2_ActiveSpace):
     elif mapping_name == "bravyi-kitaev":
         ham3_Fermion2Qubit = bravyi_kitaev(ham2_ActiveSpace)
     else:
-        mapping = state.config_hamiltonian.f2q_mapping()
+        mapping = state.config_hamiltonian.f2q_mapping
         raise NotImplementedError(f"invalid fermion-to-qubit mapping \"{mapping}\"")
     tstop = time.time()
     # Propagate previously-computed metadata that we need to preserve across all run modes

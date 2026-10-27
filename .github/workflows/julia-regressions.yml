@@ -1,0 +1,39 @@
+name: Julia numerical regressions
+
+on:
+  push:
+    paths:
+      - 'julia_trotter/**'
+      - '.github/workflows/julia-regressions.yml'
+  pull_request:
+    paths:
+      - 'julia_trotter/**'
+      - '.github/workflows/julia-regressions.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  julia-regressions:
+    name: Julia operator reference and CLI regressions
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      JULIA_NUM_THREADS: '1'
+      JULIA_IMAGE_THREADS: '1'
+      JULIA_NUM_PRECOMPILE_TASKS: '1'
+      JULIA_PKG_PRECOMPILE_AUTO: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      GKSwstype: '100'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
+        with:
+          version: '1.11'
+      - name: Instantiate the declared Julia project and record versions
+        run: julia --startup-file=no --project=julia_trotter -e 'using Pkg; Pkg.instantiate(;allow_autoprecomp=false); Pkg.status(;mode=Pkg.PKGMODE_MANIFEST)'
+      - name: Operator norm and energy scope regressions
+        run: julia --startup-file=no --project=julia_trotter julia_trotter/test/runtests.jl
+      - name: Actual Chebyshev backends and CLI boundaries
+        run: julia --startup-file=no --project=julia_trotter julia_trotter/test/reference_and_cli_tests.jl

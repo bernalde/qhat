@@ -3,6 +3,8 @@ import math
 from typing import Dict
 import cirq
 import numpy as np
+from openfermion import QubitOperator
+from qhat.common.pauli_string import PauliString
 
 from qualtran import (
     Bloq,
@@ -238,6 +240,18 @@ def encode_ramped_trotter(
     # Get the requested Trotter order/method
     requested_order = config_unitary.trotter_order
 
+    if not user_provided_steps and requested_order is not None:
+        if requested_order.lower() not in ("first order", "second order"):
+            raise ValueError(
+                "Automatic step calculation supports first and second order only; "
+                "provide trotter_steps manually for fourth order or other formulas."
+            )
+
+    # Estimate and emit exactly the same ordered Pauli sequence.
+    pauli_strings = reorder_paulis(
+        hamiltonian.get_all_pauli_strings(return_as='strings'),
+        config_unitary.ordering_method)
+
     if user_provided_steps:
         # User provided step count manually - allow any method from the implementation
         Nsteps = config_unitary.trotter_steps
@@ -264,9 +278,8 @@ def encode_ramped_trotter(
         error_coeff_time_limit = getattr(config_unitary, 'error_coeff_time_limit', 60)
 
         # Validate user configuration
-        if error_coeff_mode not in ['monte_carlo', 'exact']:
-            logger.warning(f"Invalid error_coeff_mode='{error_coeff_mode}', using 'monte_carlo'")
-            error_coeff_mode = 'monte_carlo'
+        if error_coeff_mode not in ('monte_carlo', 'exact'):
+            raise ValueError("error_coeff_mode must be 'monte_carlo' or 'exact'")
 
         logger.info(f"-- Error coefficient computation mode: {error_coeff_mode}")
         if error_coeff_mode == 'monte_carlo' and error_coeff_auto_exact:
@@ -275,7 +288,8 @@ def encode_ramped_trotter(
 
         # Compute error coefficients with user-specified mode
         c1, c2 = trotter_error_estimator_fast(
-            hamiltonian.get_grouped_terms(),
+            [QubitOperator(PauliString.from_dense(word).to_sparse(), coefficient)
+             for word, coefficient in pauli_strings.items()],
             error_coeff_time_limit,
             mode=error_coeff_mode,
             auto_exact=error_coeff_auto_exact
@@ -306,27 +320,6 @@ def encode_ramped_trotter(
                 method = "second order"
                 Nsteps0 = s2
                 ramps_per_step = 2
-            elif requested_order.lower() == "fourth order":
-                # Fourth-order step count using C2-based heuristic
-                # NOTE: This is an approximation provided by Claude (not human verified) since we don't
-                #       compute the exact C4 coefficient
-                x = config_unitary.error_scale * c2 / config_unitary.energy_error
-                s4 = tevol_hbar * x ** (1.0/3.0)
-                logger.warning(
-                    "Fourth-order step count (s4) uses an APPROXIMATION based on C2, not an exact C4 "
-                    "coefficient. Unlike first-order (C1) and second-order (C2), this is a heuristic "
-                    "estimate and may be less accurate."
-                )
-                logger.info(f"-- Fourth-order step count: s4 = {s4}")
-                method = "fourth order"
-                Nsteps0 = s4
-                ramps_per_step = 10
-            else:
-                raise ValueError(
-                    f"Invalid trotter_order '{requested_order}' for automatic step calculation. "
-                    f"Only 'first order', 'second order', and 'fourth order' have step auto-calculation. "
-                    f"To use other methods (third, eighth order, etc.), provide trotter_steps manually."
-                )
             logger.info(f"-- User requested {method}")
         else:
             # Auto-select between first and second order based on cost
@@ -344,9 +337,6 @@ def encode_ramped_trotter(
         Nsteps = max(1, math.ceil(Nsteps0))
         logger.info(f"-- Trotter recommendation: use {method} formula with {Nsteps} steps ({Nsteps0})")
         logger.verbose(f"-- unoptimized ramp count = {Nsteps * ramps_per_step}")
-
-    pauli_strings = hamiltonian.get_all_pauli_strings(return_as='strings')
-    pauli_strings = reorder_paulis(pauli_strings, config_unitary.ordering_method)
 
     # Import the appropriate implementation
     if trotter_impl == 'flattened':
@@ -378,13 +368,13 @@ def encode_as_unitary(
 
     logger.info("Beginning to encode the Hamiltonian as a unitary.")
 
-    if config_unitary.method.lower() in ("double factorization", "double-factorization"):
+    if config_unitary.method.strip().lower() in ("double factorization", "double-factorization"):
         return encode_double_factorization(config_unitary, hamiltonian)
-    elif config_unitary.method.lower() in ("pauli lcu", "pauli-lcu", "paulilcu",):
+    elif config_unitary.method.strip().lower() in ("pauli lcu", "pauli-lcu", "paulilcu",):
         return encode_pauli_lcu(config_unitary, hamiltonian)
-    elif config_unitary.method.lower() in ("linear t", "linear-t", "lineart",):
+    elif config_unitary.method.strip().lower() in ("linear t", "linear-t", "lineart",):
         return encode_linear_t(config_unitary, hamiltonian)
-    elif config_unitary.method.lower() in ("first quantization",):
+    elif config_unitary.method.strip().lower() in ("first quantization",):
         # TODO: This will be important for Marian's team.  Something is available in pyLIQTR, but
         #       I've not yet looked to see how it works.
         #       -- I'm not sure if it's correct to break first quantization out as a separate
@@ -392,7 +382,7 @@ def encode_as_unitary(
         #          Hamiltonian, and then any Hamiltonian will be eligible for encoding to
         #          unitaries.  But I've not confirmed this.
         raise NotImplementedError()
-    elif config_unitary.method.lower() in ("ramped trotter"):
+    elif config_unitary.method.strip().lower() in ("ramped trotter",):
         return encode_ramped_trotter(config_unitary, hamiltonian, tevol_hbar)
     else:
         raise ValueError(f"Invalid unitary encoding method \"{config_unitary.method}\".")

@@ -204,9 +204,9 @@ def test_pauli_operator_matvec_pauli_z():
     assert np.allclose(result, expected)
 
     # |10⟩ (first qubit is |1⟩)
-    v = np.array([0, 1, 0, 0], dtype=complex)
+    v = np.array([0, 0, 1, 0], dtype=complex)
     result = op @ v
-    expected = np.array([0, -1, 0, 0], dtype=complex)
+    expected = np.array([0, 0, -1, 0], dtype=complex)
     assert np.allclose(result, expected)
 
 
@@ -218,7 +218,7 @@ def test_pauli_operator_matvec_pauli_x():
     # |00⟩ → |10⟩
     v = np.array([1, 0, 0, 0], dtype=complex)
     result = op @ v
-    expected = np.array([0, 1, 0, 0], dtype=complex)
+    expected = np.array([0, 0, 1, 0], dtype=complex)
     assert np.allclose(result, expected)
 
 
@@ -227,10 +227,10 @@ def test_pauli_operator_matvec_pauli_y():
     pauli_dict = {'YI': 1.0}  # Y on first qubit
     op = PauliStringOperator(pauli_dict, 2)
 
-    # |00⟩ → -i|10⟩
+    # |00⟩ → i|10⟩
     v = np.array([1, 0, 0, 0], dtype=complex)
     result = op @ v
-    expected = np.array([0, -1j, 0, 0], dtype=complex)
+    expected = np.array([0, 0, 1j, 0], dtype=complex)
     assert np.allclose(result, expected)
 
 
@@ -284,7 +284,7 @@ def test_pauli_operator_dimension_mismatch():
     op = PauliStringOperator(pauli_dict, 2)
 
     v = np.array([1, 0, 0], dtype=complex)  # Wrong dimension
-    with pytest.raises(ValueError, match="dimension mismatch"):
+    with pytest.raises(ValueError, match="[Dd]imension mismatch"):
         op @ v
 
 
@@ -384,14 +384,15 @@ def test_create_hamiltonian_operator_sparse():
 
 def test_create_hamiltonian_operator_forced_dense():
     """Test forcing dense for a system that would normally be sparse."""
-    # Use 12 qubits with 0.1 GB threshold
-    # 12 qubits: 4096^2 * 16 bytes = 268 MB > 0.1 GB threshold (so normally sparse)
-    # But 268 MB < 1 GB (safe to allocate)
-    pauli_dict = {'X' * 12: 1.0}
-    op = create_hamiltonian_operator(pauli_dict, 12, memory_threshold_gb=0.1, force_dense=True)
+    # The tiny threshold normally selects matrix-free storage. Four qubits
+    # exercise the same forced-dense contract without a 268 MiB allocation.
+    pauli_dict = {'X' * 4: 1.0}
+    assert get_operator_type(4, memory_threshold_gb=1e-9) == "sparse"
+    op = create_hamiltonian_operator(pauli_dict, 4, memory_threshold_gb=1e-9, force_dense=True)
 
     assert isinstance(op, np.ndarray)
-    assert op.shape == (2**12, 2**12)
+    assert op.shape == (2**4, 2**4)
+    np.testing.assert_allclose(op, pauli_dict_to_matrix(pauli_dict, 4))
 
 
 def test_create_hamiltonian_operator_forced_sparse():

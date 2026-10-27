@@ -74,6 +74,7 @@ class HamiltonianConfiguration:
             return "jordan-wigner"
         elif self.f2q_mapping in bk_names:
             return "bravyi-kitaev"
+        raise NotImplementedError(f'invalid fermion-to-qubit mapping "{self.f2q_mapping}"')
     def as_tag(self):
         # Construct the filename tag for the active space
         # TODO: Make this smarter by padding numbers with zeros based on the largest numbers?

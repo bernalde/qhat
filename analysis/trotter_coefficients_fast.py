@@ -10,7 +10,8 @@ Key optimizations:
 4. Bitwise operations for anticommutation checks
 5. Exact computation with early termination for small systems
 
-Performance: 100-150x faster than the reference implementation in trotter_coefficients.py
+Historical performance: the earlier index domain was benchmarked at 100-150x
+the reference implementation; that speedup is not a measurement of this corrected domain.
 
 For validation and testing, see trotter_coefficients.py for the reference implementation.
 """
@@ -372,11 +373,12 @@ def should_use_exact_tracking(N, time_budget=None, memory_limit_mb=None, through
 
     # Compute combination counts
     c1_count = N * (N - 1) // 2
-    c21_count = N * (N - 1) * (N - 2) // 6  # C(N, 3) - number of ways to choose 3 items from N
+    c21_count = N * (N - 1) * (2 * N - 1) // 6  # ordered i,j including i=j, with k < min(i,j)
     c22_count = N * (N - 1) // 2
 
-    # Memory check (12 bytes per triple for set overhead, 8 per pair)
-    estimated_memory_mb = (c1_count * 8 + c21_count * 12 + c22_count * 8) / (1024**2)
+    # Conservative reservation for Python tuple/int keys, set and dict entries,
+    # values, and temporary NumPy indices. Payload bytes alone undercount tracking.
+    estimated_memory_mb = (384*(c1_count+c21_count+c22_count) + 32*N) / (1024**2)
     if estimated_memory_mb > memory_limit_mb:
         return False
 
@@ -429,19 +431,52 @@ def generate_all_triples(N):
     Returns:
         Array of shape (total_count, 3) with all triples
     """
-    # Count total first - this is C(N, 3)
-    total_count = N * (N - 1) * (N - 2) // 6
+    # Count the full ordered domain, including i=j.
+    total_count = N * (N - 1) * (2 * N - 1) // 6
     indices = np.empty((total_count, 3), dtype=np.int64)
 
     idx = 0
     for k in range(N - 1):
         for i in range(k + 1, N):
-            for j in range(i + 1, N):
+            for j in range(k + 1, N):
                 indices[idx, 0] = i
                 indices[idx, 1] = j
                 indices[idx, 2] = k
                 idx += 1
     return indices
+
+
+
+def sample_ordered_triples(N, batch_size, rng=None):
+    """Uniformly sample k<i and k<j, including i=j, in O(batch_size) memory.
+
+    Rejection from the uniform N-cubed domain gives each accepted ordered
+    triple the same probability. Swapping i and j can change its norm.
+    """
+    if N < 2 or batch_size < 1:
+        raise ValueError("At least two terms and a positive batch size are required")
+    rng = np.random if rng is None else rng
+    chunks = []
+    remaining = batch_size
+    while remaining:
+        draws = rng.randint(0, N, size=(3 * remaining, 3))
+        valid = draws[(draws[:, 2] < draws[:, 0]) & (draws[:, 2] < draws[:, 1])]
+        accepted = valid[:remaining]
+        if len(accepted):
+            chunks.append(accepted)
+            remaining -= len(accepted)
+    return np.concatenate(chunks)
+
+
+def sample_ordered_pairs(N, batch_size, rng=None):
+    """Uniform unordered pair, returned in increasing order for C22."""
+    if N < 2 or batch_size < 1:
+        raise ValueError("At least two terms and a positive batch size are required")
+    rng = np.random if rng is None else rng
+    first = rng.randint(0, N, size=batch_size)
+    second = rng.randint(0, N - 1, size=batch_size)
+    second = np.where(second >= first, second + 1, second)
+    return np.sort(np.column_stack([first, second]), axis=1)
 
 
 def _compute_exact_generic(x_bits, z_bits, coeffs, N, batch_size,
@@ -584,7 +619,7 @@ def trotter_error_estimator_fast(pauli_terms, time_limit,
 
     For second-order formulas (Equation 152):
       Error ≤ (t³/12) * C21 + (t³/24) * C22, where
-      C21 = Σₖ<ᵢ,ₖ<ⱼ ||[Hᵢ, [Hⱼ, Hₖ]]||  (all triples with k < i and k < j)
+      C21 = Σₖ<ᵢ,ₖ<ⱼ ||[Hᵢ, [Hⱼ, Hₖ]]||  (ordered i,j, including i=j, with k < i and k < j)
       C22 = Σₖ<ⱼ ||[Hₖ, [Hₖ, Hⱼ]]||       (all pairs with k < j)
 
     Args:
@@ -605,11 +640,19 @@ def trotter_error_estimator_fast(pauli_terms, time_limit,
         ValueError: If mode='exact' but exact computation is not feasible
 
     Notes:
-        - Default behavior (mode='monte_carlo', auto_exact=False) is fully backward compatible
+        - Monte Carlo estimates are not certified upper bounds; deterministic exact mode
+          enumerates the complete stated triangle-inequality bound
         - Set auto_exact=True for automatic optimization on small systems
         - Set mode='exact' to force exact computation (will error if infeasible)
     """
     N = len(pauli_terms)
+    if mode not in ('monte_carlo', 'exact'):
+        raise ValueError(f"Invalid mode '{mode}'. Must be 'monte_carlo' or 'exact'.")
+    if N < 2:
+        return 0.0, 0.0
+    if batch_size < 1 or not np.isfinite(time_limit) or time_limit <= 0:
+        raise ValueError("Positive batch_size and time_limit are required")
+
 
     # Preprocessing (shared by all paths)
     logger.verbose(f"Preprocessing {N} Pauli terms...")
@@ -667,10 +710,9 @@ def _compute_exact_path(x_bits, z_bits, coeffs, N, batch_size):
     if N >= 2:
         dummy_indices = np.array([[0, 1]], dtype=np.int64)
         batch_compute_C1(x_bits, z_bits, coeffs, dummy_indices, N)
-        if N >= 3:
-            dummy_indices_3 = np.array([[0, 1, 2]], dtype=np.int64)
-            batch_compute_C21(x_bits, z_bits, coeffs, dummy_indices_3, N)
-            batch_compute_C22(x_bits, z_bits, coeffs, dummy_indices[:, [0, 1]], N)
+        dummy_indices_3 = np.array([[1, 1, 0]], dtype=np.int64)
+        batch_compute_C21(x_bits, z_bits, coeffs, dummy_indices_3, N)
+        batch_compute_C22(x_bits, z_bits, coeffs, dummy_indices, N)
     logger.verbose(f"  Warmup complete")
 
     # Compute exactly
@@ -708,7 +750,7 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
 
         # Compute total combinations for completion check
         total_c1 = N * (N - 1) // 2
-        total_c21 = N * (N - 1) * (N - 2) // 6  # C(N, 3)
+        total_c21 = N * (N - 1) * (2 * N - 1) // 6  # sum of squares: ordered i,j including diagonal
         total_c22 = N * (N - 1) // 2
 
     # Warmup: trigger Numba JIT compilation before timing
@@ -716,10 +758,9 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
     if N >= 2:
         dummy_indices = np.array([[0, 1]], dtype=np.int64)
         batch_compute_C1(x_bits, z_bits, coeffs, dummy_indices, N)
-        if N >= 3:
-            dummy_indices_3 = np.array([[0, 1, 2]], dtype=np.int64)
-            batch_compute_C21(x_bits, z_bits, coeffs, dummy_indices_3, N)
-            batch_compute_C22(x_bits, z_bits, coeffs, dummy_indices[:, [0, 1]], N)
+        dummy_indices_3 = np.array([[1, 1, 0]], dtype=np.int64)
+        batch_compute_C21(x_bits, z_bits, coeffs, dummy_indices_3, N)
+        batch_compute_C22(x_bits, z_bits, coeffs, dummy_indices, N)
     logger.verbose(f"  Warmup complete")
 
     # ---------------------------
@@ -766,7 +807,9 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
 
     if not use_tracking or len(seen_c1) < total_c1:
         total_C1 = N * (N - 1) / 2
-        C1_est = C1_sum * (total_C1 / samples_C1) if samples_C1 > 0 else 0.0
+        if samples_C1 == 0:
+            raise RuntimeError("No Monte Carlo C1 samples completed; increase time_limit")
+        C1_est = C1_sum * (total_C1 / samples_C1)
         logger.verbose(f"  C1 estimation: {samples_C1} samples in {time.time() - start_time:.3f}s")
         logger.verbose(f"  C1 estimate: {C1_est:.6f}")
 
@@ -781,31 +824,12 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
     samples_C21 = 0
     start_time = time.time()
 
-    # Need at least 3 terms for triples
-    if N < 3:
+    # Two terms already have a C21 diagonal term (i=j>k).
+    if N < 2:
         C21_est = 0.0
-        logger.verbose(f"  C21 estimation: N={N} too small for triples, C21=0")
     else:
         while time.time() - start_time < time_limit / 3:
-            # Generate random triples (i, j, k) with k < i and k < j
-            # Only sample k values that allow at least 2 choices above them
-            k_vals = np.random.randint(0, max(1, N - 2), size=batch_size)
-
-            # For each k, sample two distinct indices from {k+1, ..., N-1}
-            # Vectorized approach: sample i and j independently, then ensure distinctness
-            valid_ranges = N - k_vals - 1
-
-            # Sample first index i from [k+1, N)
-            i_offsets = np.random.randint(0, valid_ranges, dtype=np.int64)
-            i_vals = k_vals + 1 + i_offsets
-
-            # Sample second index j from [k+1, N) \ {i}
-            # Use rejection sampling trick: sample from [0, valid_range-1), then adjust
-            j_offsets = np.random.randint(0, valid_ranges - 1, dtype=np.int64)
-            j_offsets = np.where(j_offsets >= i_offsets, j_offsets + 1, j_offsets)
-            j_vals = k_vals + 1 + j_offsets
-
-            indices = np.column_stack([i_vals, j_vals, k_vals])
+            indices = sample_ordered_triples(N, batch_size)
 
             # Compute nested norms in parallel
             norms = batch_compute_C21(x_bits, z_bits, coeffs, indices, N)
@@ -817,8 +841,8 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
             if use_tracking:
                 for idx in range(len(indices)):
                     i, j, k = int(indices[idx, 0]), int(indices[idx, 1]), int(indices[idx, 2])
-                    # Canonical form: k is smallest, then sort i and j
-                    triple = (k, min(i, j), max(i, j))
+                    # Outer and inner indices remain ordered; do not merge swapped terms.
+                    triple = (i, j, k)
                     if triple not in seen_c21:
                         seen_c21.add(triple)
                         c21_values[triple] = norms[idx]
@@ -835,8 +859,10 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
                 break
 
         if not use_tracking or len(seen_c21) < total_c21:
-            total_C21 = N * (N - 1) * (N - 2) // 6  # C(N, 3)
-            C21_est = C21_sum * (total_C21 / samples_C21) if samples_C21 > 0 else 0.0
+            total_C21 = N * (N - 1) * (2 * N - 1) // 6  # sum of squares: ordered i,j including diagonal
+            if samples_C21 == 0:
+                raise RuntimeError("No Monte Carlo C21 samples completed; increase time_limit")
+            C21_est = C21_sum * (total_C21 / samples_C21)
             logger.verbose(f"  C21 estimation: {samples_C21} samples in {time.time() - start_time:.3f}s")
             logger.verbose(f"  C21 estimate: {C21_est:.6f}")
 
@@ -852,12 +878,7 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
     start_time = time.time()
 
     while time.time() - start_time < time_limit / 3:
-        # Generate random pairs (k, j) with k < j
-        k_vals = np.random.randint(0, max(1, N - 1), size=batch_size)
-        # Vectorized: for each k, sample j from [k+1, N)
-        j_vals = k_vals + 1 + np.random.randint(0, N - 1 - k_vals, dtype=np.int64)
-
-        indices = np.column_stack([k_vals, j_vals])
+        indices = sample_ordered_pairs(N, batch_size)
 
         # Compute nested norms in parallel
         norms = batch_compute_C22(x_bits, z_bits, coeffs, indices, N)
@@ -887,7 +908,9 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
 
     if not use_tracking or len(seen_c22) < total_c22:
         total_C22 = N * (N - 1) / 2
-        C22_est = C22_sum * (total_C22 / samples_C22) if samples_C22 > 0 else 0.0
+        if samples_C22 == 0:
+            raise RuntimeError("No Monte Carlo C22 samples completed; increase time_limit")
+        C22_est = C22_sum * (total_C22 / samples_C22)
         logger.verbose(f"  C22 estimation: {samples_C22} samples in {time.time() - start_time:.3f}s")
         logger.verbose(f"  C22 estimate: {C22_est:.6f}")
 

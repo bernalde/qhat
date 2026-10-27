@@ -1,5 +1,6 @@
 import ctypes
 import logging
+import math
 import os
 import subprocess
 import tomlkit
@@ -124,6 +125,26 @@ class UnitaryConfiguration(ConfigurationBase):
             assert self.method is None
     def encode_ramped_trotter(self, **kwargs):
         self._only_once()
+        allowed = {
+            "timestep", "energy_error", "error_scale", "trotter_implementation",
+            "trotter_combine_terms", "ordering_method", "trotter_order",
+            "trotter_steps", "phase_scale_factor", "tensor_contraction_method",
+            "error_coeff_mode", "error_coeff_auto_exact", "error_coeff_time_limit",
+        }
+        unknown = set(kwargs) - allowed
+        if unknown:
+            raise TypeError("Unknown ramped Trotter option(s): " + ", ".join(sorted(unknown)))
+        coeff_mode = kwargs.get("error_coeff_mode", "monte_carlo")
+        if coeff_mode not in ("monte_carlo", "exact"):
+            raise ValueError("error_coeff_mode must be 'monte_carlo' or 'exact'")
+        coeff_auto_exact = kwargs.get("error_coeff_auto_exact", False)
+        if not isinstance(coeff_auto_exact, bool):
+            raise ValueError("error_coeff_auto_exact must be a bool")
+        coeff_time_limit = kwargs.get("error_coeff_time_limit", 60)
+        if (isinstance(coeff_time_limit, bool)
+                or not isinstance(coeff_time_limit, (int, float))
+                or not math.isfinite(coeff_time_limit) or coeff_time_limit <= 0):
+            raise ValueError("error_coeff_time_limit must be finite and positive")
         self.method = "ramped trotter"
         self.timestep = kwargs.get("timestep", None)
         # TODO: Pass in a single energy error somewhere, split into Trotter and phase errors.
@@ -135,6 +156,9 @@ class UnitaryConfiguration(ConfigurationBase):
         self.trotter_order = kwargs.get("trotter_order", None)
         self.trotter_steps = kwargs.get("trotter_steps", None)
         self.phase_scale_factor = kwargs.get("phase_scale_factor", 1.01)
+        self.error_coeff_mode = coeff_mode
+        self.error_coeff_auto_exact = coeff_auto_exact
+        self.error_coeff_time_limit = coeff_time_limit
         self.tensor_contraction_method = kwargs.get("tensor_contraction_method", None)
         # Validate trotter_steps
         if self.trotter_steps is not None:
@@ -142,14 +166,15 @@ class UnitaryConfiguration(ConfigurationBase):
                 raise ValueError(
                     f"trotter_steps must be a positive integer, got {self.trotter_steps}")
         # Validate phase_scale_factor
-        if self.phase_scale_factor <= 0:
+        if not math.isfinite(self.phase_scale_factor) or self.phase_scale_factor <= 0:
             raise ValueError(
-                f"phase_scale_factor must be positive, got {self.phase_scale_factor}")
+                f"phase_scale_factor must be positive and finite, got {self.phase_scale_factor}")
         if self.phase_scale_factor < 1.0:
             logger.warning(
-                f"phase_scale_factor = {self.phase_scale_factor} < 1.0 will map eigenvalue phases "
-                f"outside the range [-π, π], which may cause phase wrapping issues. "
-                f"Values >= 1.0 are recommended (default: 1.01).")
+                f"phase_scale_factor = {self.phase_scale_factor} < 1.0 does not itself "
+                f"provide a margin against phase wrapping. Automatic times are clamped "
+                f"below the physical branch cut; QPE and phase-derived eigenvalue analyses "
+                f"also validate overrides. Values > 1.0 are recommended (default: 1.01).")
         # Validate tensor_contraction_method
         if self.tensor_contraction_method is not None:
             valid_methods = ["auto", "incremental", "structured", "qualtran"]
@@ -177,6 +202,9 @@ class UnitaryConfiguration(ConfigurationBase):
         self.save_if_present(table, "trotter_order")
         self.save_if_present(table, "trotter_steps")
         self.save_if_present(table, "phase_scale_factor")
+        self.save_if_present(table, "error_coeff_mode")
+        self.save_if_present(table, "error_coeff_auto_exact")
+        self.save_if_present(table, "error_coeff_time_limit")
         self.save_if_present(table, "tensor_contraction_method")
         return table
 

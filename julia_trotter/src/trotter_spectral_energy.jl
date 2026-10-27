@@ -5,6 +5,7 @@
 
 using ArnoldiMethod, Arpack, LinearAlgebra, LinearMaps, SparseArrays
 
+include("energy_scope.jl")
 include("hamiltonian_utils.jl")
 include("error_bounds.jl")
 include("statevector_simulators.jl")
@@ -26,7 +27,7 @@ function trotter_candidate_count(n::Int; nev::Int=TROTTER_SPECTRAL_DEFAULT_NEV)
 end
 
 function trotter_krylov_dimension(n::Int, nev::Int)
-    return min(40, max(nev + 2, min(n - 1, 2 * nev + 1)))
+    return min(n, 40, max(nev + 2, min(n - 1, 2 * nev + 1)))
 end
 
 function build_trotter_terms(ham::Dict{String,ComplexF64}, nqubits::Int)
@@ -338,6 +339,7 @@ function trotter_energy_arnoldi(
     time::Real=pi,
     nev::Int=TROTTER_SPECTRAL_DEFAULT_NEV
 )
+    require_jw_hf_seed(meta)
     nqubits = parse(Int, meta["number of qubits"])
     nelectrons = parse(Int, meta["number of active, occupied, single-occupancy orbitals"])
     norm_info = normalize_hamiltonian(meta, ham)
@@ -354,7 +356,7 @@ function trotter_energy_arnoldi(
         ismutating=false
     )
 
-    schur, _ = partialschur(
+    schur, history = partialschur(
         C;
         v1=stateHF,
         nev=nvals,
@@ -362,6 +364,7 @@ function trotter_energy_arnoldi(
         mindim=mindim,
         maxdim=maxdim
     )
+    history.converged || error("Arnoldi energy iteration did not converge")
     energies = cosine_value_to_energy.(real.(diag(schur.R)), norm_info.shift, norm_info.normalization, time)
     return minimum(real.(energies))
 end
