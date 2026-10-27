@@ -278,9 +278,8 @@ def encode_ramped_trotter(
         error_coeff_time_limit = getattr(config_unitary, 'error_coeff_time_limit', 60)
 
         # Validate user configuration
-        if error_coeff_mode not in ['monte_carlo', 'exact']:
-            logger.warning(f"Invalid error_coeff_mode='{error_coeff_mode}', using 'monte_carlo'")
-            error_coeff_mode = 'monte_carlo'
+        if error_coeff_mode not in ('monte_carlo', 'exact'):
+            raise ValueError("error_coeff_mode must be 'monte_carlo' or 'exact'")
 
         logger.info(f"-- Error coefficient computation mode: {error_coeff_mode}")
         if error_coeff_mode == 'monte_carlo' and error_coeff_auto_exact:

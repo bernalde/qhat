@@ -141,12 +141,17 @@ provided the canonical name; the correction covers manually changed objects.
 
 ### CLD-A5-006 — Done
 
-The driver validates the final evolution time against the centered physical
-energy bounds and configured phase margin. Zero, negative, nonfinite and
-branch-wrapping times fail clearly. Automatic phase precision uses
-ceil(log2(2π/(time*energy_error))) at that final time, so a safe smaller override
-receives the extra precision it needs. Explicitly configured phase registers
-retain their existing authority in the algorithm builder.
+All evolution times must be finite and positive. QPE and phase-derived
+eigenvalue-error analysis additionally enforce the centered physical branch cut
+and configured phase margin. Ordinary or controlled time evolution may use a
+longer override when phase-derived eigenvalue errors are disabled. Automatic
+QPE precision uses ceil(log2(2π/(time*energy_error))) at the final time. The
+automatic time is now the largest margin-safe time, without counterproductive
+power-of-two energy padding; default times and resource estimates can change.
+At bounds [-1,1], energy_error=.1 and factor1.01, the strict minimal precision is
+5 qubits, while the discarded padded calculation chose6. Finite positive factors
+below one still permit safe overrides and clamp automatic times below the
+physical cut. Explicit phase registers retain their authority in the builder.
 
 ### CLD-A5-007 — Done
 
@@ -251,3 +256,45 @@ metadata is excluded.
 | A2 | `9bd58a973745eeda1aaf866fb2f574c0c86396d56bc4925505509565d04a62a2` |
 | A5 | `d0aee63a0323db9bbd71283b310166ec33827c12a373a6e4ca0c60b7188367e9` |
 | B | `3cae6a6b29d244041859561b1d9e809aa1e931469b0516900925c8fc2a1213c3` |
+
+
+## Targeted review follow-up: core
+
+The second review caught distinct default-path and configuration edges after the
+initial regressions passed. These are corrections to the current repair, not
+new measurements of the retained studies.
+
+| Item | Disposition and evidence |
+|---|---|
+| R2-QC-001 | Done: remove counterproductive time padding, retain strict energy resolution; actual default-driver and independent minimal-register fixture. |
+| R2-QC-002 | Done: factory validates and serializes mode, auto-exact and time limit; exact settings reach the estimator; unknown options fail clearly. |
+| R2-QC-003 | Done: the independent81-layout audit binds model file SHA-256 and asserts canonical block union equals coefficients; corruption controls reject both gaps. |
+| R2-QC-004 | Done, differently: phase alias guards apply to QPE/eigenvalue inference; finite-positive ordinary/controlled long-time overrides remain valid. |
+| R2-QC-005 | Done, differently: preserve finite positive factors below one with physical safety checks and an accurate warning. |
+| R2-QC-006 | Done: the analysis loader names supported JW/BK choices in a ValueError; its existing accepted strings and callable forms are preserved. |
+| R2-QC-007 | Done: neither estimator may return zero for an empty sample phase; an expired budget raises clearly. Finite-time validation also rejects NaN. |
+| R2-QC-008 | Done: matrix-free documentation states memory scaling and the remaining Python-loop wall-time limitation. |
+
+Full-library driver/encoder integration and real JIT remain required hosted checks.
+Earlier local counts describe their original revisions; follow-up execution is
+recorded separately. No source-independent Monte Carlo certificate is claimed.
+
+
+## Targeted review follow-up: Julia
+
+| Item | Disposition and evidence |
+|---|---|
+| R2-QJ-01 | Already satisfied, with a new real-header regression: hamgen.py writes the exact metadata key and committed JW data uses jordan-wigner, which the guard accepts. |
+| R2-QJ-02 | Done: a synthetic nondegenerate two-qubit fixture runs both actual single-file CLI solvers, both bond-parser solver paths and metadata-free fallback, plus the changed demonstration reference/operator call chain against dense oracles. Tiny-system Krylov dimensions are clamped to n and unconverged Arnoldi output fails clearly. Full demonstration main and molecular sweeps are outside these tests. |
+| R2-QJ-03 | Done, differently: README explicitly carries the full-space/unverified-sector caveat into saved CSV/PNG artifacts, describes their legacy labels and metadata-versus-eigensolve source, and requires preserving metadata and warnings with exports. No sector switch is inferred. |
+| R2-QJ-04 | Done: demonstration documentation uses approximate reference and estimated errors, compares observed ratios to expected asymptotic scaling, and removes the unimplemented recommendation claim. |
+| R2-QJ-05 | Done, differently: pin checkout to the verified official v6 commit and bound inspected Arpack0.5/ArnoldiMethod0.4 APIs plus Julia1.11. No Manifest is committed; remaining exploratory packages resolve from the registry and full Pkg.status provenance remains required. These are compatibility checks, not a frozen full environment or local/hosted parity claim. |
+
+These additional accepted-path tests have not run in the lightweight local
+component environment. The full declared-project hosted lane must execute them.
+
+Follow-up execution: 183 focused Python cases pass; 22 full-library cases remain
+deselected locally. This includes the new pure phase/configuration, expired-sample,
+model-binding and corruption checks. Numba JIT remains disabled locally. Paper
+source/retained-evidence checks pass with exactly the intended pending-fourth-review
+and missing-pair errors. The full Python/JIT and Julia hosted jobs remain required.

@@ -102,7 +102,13 @@ class Hamiltonian:
     def set_fermionic_mapping(self, mapping):
         # self._fmap is never used for LinearCombinationOfPauliStrings
         if isinstance(mapping, str):
-            self._fmap = fermionic_mapping[mapping]
+            try:
+                self._fmap = fermionic_mapping[mapping]
+            except KeyError as exc:
+                raise ValueError(
+                    f"Unsupported fermionic mapping {mapping!r}; use 'JW', 'BK', "
+                    "or a mapping callable."
+                ) from exc
         else:
             self._fmap = mapping
         if isinstance(self._H, MixedFermionBosonOperator):

@@ -113,7 +113,7 @@ def test_driver_carries_canonical_method_and_override_precision(monkeypatch):
     general=SimpleNamespace(get_output_path=lambda name:name,logfile='unused.log',
                             loglevel='warning',git_hash='fixture')
     unitary=SimpleNamespace(method=' Ramped Trotter ',phase_scale_factor=1.01,timestep=.5)
-    algorithm=SimpleNamespace(energy_error=.1)
+    algorithm=SimpleNamespace(method="QPE: qualtran textbook",energy_error=.1)
     state=SimpleNamespace(config_general=general,config_unitary=unitary,
         config_algorithm=algorithm,config_hamiltonian=object(),config_analysis=object(),
         store_results=lambda results:None,show_results=lambda:None,save_summary=lambda:None)
@@ -122,7 +122,6 @@ def test_driver_carries_canonical_method_and_override_precision(monkeypatch):
     monkeypatch.setattr(driver,'load_configuration',lambda:(state,'fixture',None))
     monkeypatch.setattr(driver,'configure_logging',lambda **kwargs:None)
     monkeypatch.setattr(driver,'get_physical_hamiltonian',lambda cfg:h)
-    monkeypatch.setattr(driver,'compute_initial_phase_qubits',lambda *args:(3,-1,1))
     def encode(cfg,physical,time):
         observed.update(method=cfg.method,time=time)
         return object()
@@ -137,3 +136,11 @@ def test_driver_carries_canonical_method_and_override_precision(monkeypatch):
     monkeypatch.setattr(driver,'analyze_algorithm',analyze)
     driver.run()
     assert observed==dict(method='ramped trotter',analysis_method='ramped trotter',time=.5,precision=7)
+
+
+@pytest.mark.parametrize('mapping', ['jw', 'Jordan-Wigner', 'unsupported'])
+def test_analysis_mapping_errors_name_supported_values(mapping):
+    from qhat.analysis.hamiltonian import Hamiltonian, LinearCombinationOfPauliStrings
+    h = Hamiltonian(LinearCombinationOfPauliStrings(dense={'X': 1}, num_qubits=1))
+    with pytest.raises(ValueError, match="use 'JW', 'BK'"):
+        h.set_fermionic_mapping(mapping)

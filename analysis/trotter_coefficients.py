@@ -142,7 +142,7 @@ def trotter_error_estimator(pauli_terms, time_limit, batch_size=100):
     N = len(pauli_terms)
     if N < 2:
         return 0.0, 0.0
-    if time_limit <= 0 or batch_size < 1:
+    if not np.isfinite(time_limit) or time_limit <= 0 or batch_size < 1:
         raise ValueError("Positive time_limit and batch_size are required")
 
     def pair():
@@ -168,7 +168,9 @@ def trotter_error_estimator(pauli_terms, time_limit, batch_size=100):
             for _ in range(batch_size):
                 total += draw()
                 samples += 1
-        return total * count/samples if samples else 0.0
+        if samples == 0:
+            raise RuntimeError("No Monte Carlo samples completed; increase time_limit")
+        return total * count/samples
 
     def first():
         i, j = pair()

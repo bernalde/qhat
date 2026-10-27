@@ -211,11 +211,15 @@ supports
 
 - Trotterization: The function **`unitary.encode_ramped_trotter()`** uses a Trotter formula to
   encode the Hamiltonian into a time-evolution unitary.  It takes the following arguments:
-  - `timestep`: If not provided, QHAT will attempt to pick the timestep that provides the most
-    efficient algorithm while still preventing aliasing of phases.  Providing a timestep will
-    override this with a finite positive user-selected value within the configured
-    phase margin. The driver rejects branch-cut wrapping and sizes phase precision
-    using the final chosen time, including a safe smaller override.
+  - `timestep`: If not provided, QHAT chooses the largest time inside the configured
+    phase margin and strictly below the physical branch cut. Providing a timestep
+    overrides this with a finite positive time. QPE methods and analyses with
+    `enable_eigenvalue_errors=True` reject overrides outside that phase domain;
+    ordinary and controlled time evolution permit longer times when phase-derived
+    eigenvalue errors are disabled. QPE precision uses the final chosen time and
+    the strict `algorithm.energy_error` resolution. The automatic path no longer
+    pads the energy interval to a power of two before choosing the time; default
+    times and resource estimates can therefore change.
   - `energy_error`: The maximum error allowed from the Trotterization process.  If not provided,
     the script will generate an error.
   - `error_scale`: This option is deprecated.
@@ -223,7 +227,16 @@ supports
     computing the time evolution parameter. This ensures eigenvalue phases never hit exactly ±π,
     avoiding the aliasing ambiguity at the complex exponential's branch cut. Values slightly larger
     than 1.0 (e.g., 1.01) are recommended. The default maps phases to approximately [-3.11, 3.11]
-    instead of [-π, π].
+    instead of [-π, π]. Any finite positive factor is accepted. At factors at or
+    below one, automatic times are clamped strictly below the physical branch cut;
+    a smaller safe override remains valid for QPE and phase-derived energy errors.
+  - `error_coeff_mode`: (Optional, default: `"monte_carlo"`) Use sampled estimates
+    or select `"exact"` for the full triangle-inequality commutator bound.
+  - `error_coeff_auto_exact`: (Optional, default: `False`) Allow the Monte Carlo
+    estimator to switch to exact enumeration when its feasibility check permits.
+  - `error_coeff_time_limit`: (Optional, default: 60) Finite positive coefficient
+    sampling time budget in seconds. These three controls are included in the
+    TOML summary. Unknown ramped Trotter keyword options raise an error.
   - `trotter_implementation`: (Optional) Choose between two Trotter implementations:
     - `"flattened"` (default, recommended): Flattened QHAT implementation with flat expansion and
       optional term combining. Term combining reduces operation count (benefit varies by

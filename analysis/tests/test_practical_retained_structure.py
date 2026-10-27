@@ -2,6 +2,7 @@
 
 from collections import defaultdict, deque
 import copy
+import hashlib
 import json
 from pathlib import Path
 
@@ -30,6 +31,8 @@ def canonical_terms(rows, n_qubits):
 
 def check_layout(model, record):
     assert record['formula'] == 2 and record['T'] == 2.11
+    assert canonical_terms([term for block in model['blocks'] for term in block],
+                           model['n']) == canonical_terms(model['coefficients'], model['n'])
     if record['partition'] == 'conserving':
         units = [canonical_terms(block, model['n']) for block in model['blocks']]
     else:
@@ -45,13 +48,18 @@ def check_layout(model, record):
     assert record['unit_lengths'] == [len(units[index]) for index in order]
 
 
+def check_curve_model(curve, model_path):
+    assert hashlib.sha256(model_path.read_bytes()).hexdigest() == curve['model_sha256']
+    check_layout(read(model_path), curve['record'])
+
+
 def test_all_81_retained_complete_unit_layouts_have_literal_independent_checks():
     curves = sorted((RESULTS / 'curves').glob('*.json'))
     assert len(curves) == 81
-    models = {path.stem: read(path) for path in (RESULTS / 'models').glob('*.json')}
+    models = {path.stem: path for path in (RESULTS / 'models').glob('*.json')}
     for path in curves:
         curve = read(path)
-        check_layout(models[curve['case']], curve['record'])
+        check_curve_model(curve, models[curve['case']])
 
 
 def test_retained_dispatch_matches_the_declared_cyclic_case_and_repetition_order():
@@ -92,3 +100,20 @@ def test_literal_layout_audit_rejects_incomplete_or_duplicated_units(corruption)
         broken['order'][0] = broken['order'][1]
     with pytest.raises(AssertionError):
         check_layout(model, broken)
+
+
+def test_literal_layout_audit_rejects_inconsistent_hamiltonian_blocks():
+    curve = read(sorted((RESULTS / 'curves').glob('*.json'))[0])
+    model = read(RESULTS / 'models' / (curve['case'] + '.json'))
+    model['coefficients'][0][1] = str(int(model['coefficients'][0][1]) + 1)
+    with pytest.raises(AssertionError):
+        check_layout(model, curve['record'])
+
+
+def test_curve_rejects_model_with_different_bytes(tmp_path):
+    curve = read(sorted((RESULTS / 'curves').glob('*.json'))[0])
+    original = RESULTS / 'models' / (curve['case'] + '.json')
+    changed = tmp_path / 'model.json'
+    changed.write_bytes(original.read_bytes() + b' ')
+    with pytest.raises(AssertionError):
+        check_curve_model(curve, changed)

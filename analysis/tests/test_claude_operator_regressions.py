@@ -100,3 +100,20 @@ def test_matrix_free_real_vectors_and_matrix_columns_keep_y_phases():
     np.testing.assert_allclose(operator @ vector,dense @ vector)
     np.testing.assert_allclose(operator @ np.eye(4),dense)
     np.testing.assert_allclose(operator.H @ vector,dense.conj().T @ vector)
+
+
+@pytest.mark.parametrize('implementation', ['reference', 'fast'])
+def test_expired_monte_carlo_budget_never_returns_a_zero_estimate(monkeypatch, implementation):
+    import itertools
+    import qhat.analysis.trotter_coefficients as reference
+    import qhat.analysis.trotter_coefficients_fast as fast
+    module = reference if implementation == 'reference' else fast
+    ticks = itertools.count()
+    monkeypatch.setattr(module.time, 'monotonic' if implementation == 'reference' else 'time',
+                        lambda: float(next(ticks)))
+    terms = [QubitOperator('X0'), QubitOperator('Z0')]
+    with pytest.raises(RuntimeError, match='No Monte Carlo.*samples'):
+        if implementation == 'reference':
+            module.trotter_error_estimator(terms, 1e-9)
+        else:
+            module.trotter_error_estimator_fast(terms, 1e-9, mode='monte_carlo', auto_exact=False)

@@ -19,7 +19,9 @@ Sparse/matrix-free representation (memory > threshold):
     - Use PauliStringOperator class for matrix-free operations
     - Only materializes matrix-vector products, not full matrix
     - Compatible with scipy.sparse.linalg iterative methods
-    - Scales to 25-30+ qubits
+    - State-vector storage grows as O(2^n), rather than dense O(4^n)
+    - Python loops over amplitudes can still make large systems impractical;
+      no feasible wall-time range is implied by the memory reduction
 """
 
 import numpy as np

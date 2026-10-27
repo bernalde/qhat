@@ -27,7 +27,7 @@ function trotter_candidate_count(n::Int; nev::Int=TROTTER_SPECTRAL_DEFAULT_NEV)
 end
 
 function trotter_krylov_dimension(n::Int, nev::Int)
-    return min(40, max(nev + 2, min(n - 1, 2 * nev + 1)))
+    return min(n, 40, max(nev + 2, min(n - 1, 2 * nev + 1)))
 end
 
 function build_trotter_terms(ham::Dict{String,ComplexF64}, nqubits::Int)
@@ -356,7 +356,7 @@ function trotter_energy_arnoldi(
         ismutating=false
     )
 
-    schur, _ = partialschur(
+    schur, history = partialschur(
         C;
         v1=stateHF,
         nev=nvals,
@@ -364,6 +364,7 @@ function trotter_energy_arnoldi(
         mindim=mindim,
         maxdim=maxdim
     )
+    history.converged || error("Arnoldi energy iteration did not converge")
     energies = cosine_value_to_energy.(real.(diag(schur.R)), norm_info.shift, norm_info.normalization, time)
     return minimum(real.(energies))
 end

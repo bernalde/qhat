@@ -650,7 +650,7 @@ def trotter_error_estimator_fast(pauli_terms, time_limit,
         raise ValueError(f"Invalid mode '{mode}'. Must be 'monte_carlo' or 'exact'.")
     if N < 2:
         return 0.0, 0.0
-    if batch_size < 1 or time_limit <= 0:
+    if batch_size < 1 or not np.isfinite(time_limit) or time_limit <= 0:
         raise ValueError("Positive batch_size and time_limit are required")
 
 
@@ -807,7 +807,9 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
 
     if not use_tracking or len(seen_c1) < total_c1:
         total_C1 = N * (N - 1) / 2
-        C1_est = C1_sum * (total_C1 / samples_C1) if samples_C1 > 0 else 0.0
+        if samples_C1 == 0:
+            raise RuntimeError("No Monte Carlo C1 samples completed; increase time_limit")
+        C1_est = C1_sum * (total_C1 / samples_C1)
         logger.verbose(f"  C1 estimation: {samples_C1} samples in {time.time() - start_time:.3f}s")
         logger.verbose(f"  C1 estimate: {C1_est:.6f}")
 
@@ -858,7 +860,9 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
 
         if not use_tracking or len(seen_c21) < total_c21:
             total_C21 = N * (N - 1) * (2 * N - 1) // 6  # sum of squares: ordered i,j including diagonal
-            C21_est = C21_sum * (total_C21 / samples_C21) if samples_C21 > 0 else 0.0
+            if samples_C21 == 0:
+                raise RuntimeError("No Monte Carlo C21 samples completed; increase time_limit")
+            C21_est = C21_sum * (total_C21 / samples_C21)
             logger.verbose(f"  C21 estimation: {samples_C21} samples in {time.time() - start_time:.3f}s")
             logger.verbose(f"  C21 estimate: {C21_est:.6f}")
 
@@ -904,7 +908,9 @@ def _compute_monte_carlo_path(x_bits, z_bits, coeffs, N, time_limit, batch_size,
 
     if not use_tracking or len(seen_c22) < total_c22:
         total_C22 = N * (N - 1) / 2
-        C22_est = C22_sum * (total_C22 / samples_C22) if samples_C22 > 0 else 0.0
+        if samples_C22 == 0:
+            raise RuntimeError("No Monte Carlo C22 samples completed; increase time_limit")
+        C22_est = C22_sum * (total_C22 / samples_C22)
         logger.verbose(f"  C22 estimation: {samples_C22} samples in {time.time() - start_time:.3f}s")
         logger.verbose(f"  C22 estimate: {C22_est:.6f}")
 
