@@ -13,6 +13,11 @@ pieces are
 
 See the README file in each directory for component-specific documentation. The [independent project review response](numerical_audit/reports/claude_project_review_2026-10-27.md) records current verification scope and finding dispositions.
 
+The [sparse molecular orderer](analysis/RESPONSE_ORDERING.md) constructs bounded
+per-instance symmetric schedules without full-state allocation during training.
+Its [larger-case benchmark](numerical_audit/scalable_ordering) keeps numerical
+validation and compiled costs separate from the response objective.
+
 If you need support or have a feature request, the best way to reach out to the team is to open an
 issue in the GitHub repository.
 

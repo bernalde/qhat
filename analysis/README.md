@@ -6,6 +6,12 @@ For a standalone symmetric product-formula budget and pulse planner, see
 [Strang schedules](STRANG_SCHEDULE.md). It handles an entirely commuting
 single group exactly and preserves the archived benchmark sources.
 
+For bounded optimization of molecular-unit permutations, see
+[sparse response ordering](RESPONSE_ORDERING.md). It evaluates a cubic response
+on reachable occupation states, supports sparse reference states, and provides a
+separate conservative ideal-error step certificate. The response score itself
+is a heuristic, with explicit CPU, support and cache limits.
+
 This directory contains the modules for performing analysis.  This is run
 by
 ```

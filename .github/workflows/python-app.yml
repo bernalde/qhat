@@ -69,6 +69,10 @@ jobs:
       working-directory: analysis
       run: python -m pytest tests/ -v
 
+    - name: Test sparse molecular ordering pipeline
+      if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      run: python -m pytest numerical_audit/scalable_ordering/test_pipeline.py -v
+
     - name: Test hamgen
       if: ${{ !cancelled() && steps.install.outcome == 'success' }}
       working-directory: hamiltonian_generator
