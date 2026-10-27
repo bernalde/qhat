@@ -891,3 +891,42 @@ def test_derived_gate_rejects_metrics_attached_to_censored_pair(derived_report_d
     pair['CX_left'] = 123
     with pytest.raises(ValueError, match='Censored pair must omit completed metrics'):
         verification.validate_derived_data(**derived_report_data)
+
+
+def test_complete_small_study_runs_summarizes_and_independently_verifies(tmp_path, monkeypatch):
+    """Exercise real phase composition; synthetic chemistry is not an SCF audit."""
+    output, destination = tmp_path / 'study', tmp_path / 'independent'
+    output.mkdir()
+    models, constructors = {}, {}
+    for index in range(4):
+        case = f'synthetic-three-qubit-{index}'
+        data = dict(model(), case=case)
+        path = output / f'chemistry/inputs/{case}/model.json'
+        k.write(path, data)
+        models[case] = k.sha(path)
+        for arm in k.ARMS:
+            record = training.construct(path, models[case], arm)
+            relative = f'constructors/{case}.{arm}.json'
+            k.write(output / relative, record)
+            constructors[relative] = k.sha(output / relative)
+    frozen = dict(source_commit='synthetic integration fixture', sources=k.source_map(),
+        environment=k.environment(), models=models, constructors=constructors,
+        arms=list(k.ARMS), times=list(k.TIMES), caps=list(k.CAPS),
+        train_time=k.TRAIN_TIME, train_CPU_seconds=k.TRAIN_CPU_SECONDS,
+        expected_circuits=96, expected_references=8)
+    k.write(output / 'ALL_ORDERS_FROZEN.json', frozen)
+    # Input-generation authentication has separate coverage. Everything after
+    # this boundary, including verify's source/model/constructor hashes, is real.
+    monkeypatch.setattr(study, 'bind', lambda supplied_output: frozen)
+    study.run(output)
+    summary = study.summarize(output)
+    independent = verification.verify(output, destination)
+    complete = k.read(output / 'RUN_COMPLETE.json')
+    assert len(constructors) == 24
+    assert (len(complete['rows']), len(complete['references'])) == (96, 8)
+    assert (summary['circuits'], summary['references'], summary['all_pair_count']) == (96, 8, 240)
+    assert summary['statuses'] == {'complete': 96}
+    assert independent['status'] == 'passed'
+    assert (len(independent['candidates']), len(independent['references']), len(independent['pairs'])) == (96, 8, 240)
+    assert independent['derived_data_validation']['status'] == 'passed'
+    assert k.read(destination / 'INDEPENDENT_VERIFIED.json') == independent

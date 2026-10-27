@@ -113,7 +113,7 @@ def run(output):
                     identity = dict(case=case, arm=arm, model_sha256=digest,
                                     constructor_sha256=frozen['constructors'][f'constructors/{case}.{arm}.json'])
                     result = compilation.compile_candidate(model, record, T, cap, trace, identity)
-                    row = dict(candidate=label, case=case, arm=arm, T=T, cap_multiple=cap,
+                    row = dict(candidate=label, case=case, arm=arm, T=T,
                         ordering_CPU_seconds=record['CPU_seconds'], ordering_status=record['status'],
                         ordering_evaluations=record['evaluations'], trace_file=str(trace.relative_to(output)),
                         reference_file=refname, **result)
