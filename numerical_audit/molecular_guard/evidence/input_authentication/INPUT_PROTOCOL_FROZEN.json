@@ -1,0 +1,554 @@
+{
+  "source_commit": "7c8c64acf0f13703df10b0335e0017da84e94f9b",
+  "sources": {
+    "numerical_audit/transfer_holdouts/generate_inputs.py": "3b2ca18b1bed8abf0e1c980bda851e3d0ecca7fdc1a64f55e33a42a073350f02",
+    "numerical_audit/transfer_holdouts/REGISTRY.json": "6a788afdb06af8a35a5bf9b073b92ff84012c26311b5608059b9fa03898285bb",
+    "numerical_audit/transfer_holdouts/PROTOCOL.md": "8e07453210f6ad95ca9a454e39a9f785276fd0aa8ef83d79f20c0803d19301c0",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/__init__.py": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c",
+    "numerical_audit/__init__.py": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca",
+    "numerical_audit/followup_classes/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3"
+  },
+  "environment": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "openfermion": "1.8.1",
+    "openfermionpyscf": "0.5",
+    "pyscf": "2.14.0",
+    "h5py": "3.16.0"
+  },
+  "registry": {
+    "basis": "sto-6g",
+    "unit": "Angstrom",
+    "charge": 0,
+    "spin": 0,
+    "symmetry": false,
+    "cases": [
+      {
+        "case": "LiH_r1p713",
+        "family": "LiH",
+        "geometry": [
+          [
+            "Li",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              1.713
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0
+        ],
+        "active_spatial": [
+          1,
+          2,
+          3
+        ],
+        "electrons": 2,
+        "n": 6
+      },
+      {
+        "case": "LiH_r2p267",
+        "family": "LiH",
+        "geometry": [
+          [
+            "Li",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              2.267
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0
+        ],
+        "active_spatial": [
+          1,
+          2,
+          3
+        ],
+        "electrons": 2,
+        "n": 6
+      },
+      {
+        "case": "BeH2_r1p227",
+        "family": "BeH2",
+        "geometry": [
+          [
+            "Be",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              -1.227
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              1.227
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0
+        ],
+        "active_spatial": [
+          1,
+          2,
+          3
+        ],
+        "electrons": 4,
+        "n": 6
+      },
+      {
+        "case": "BeH2_r1p733",
+        "family": "BeH2",
+        "geometry": [
+          [
+            "Be",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              -1.733
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              1.733
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0
+        ],
+        "active_spatial": [
+          1,
+          2,
+          3
+        ],
+        "electrons": 4,
+        "n": 6
+      },
+      {
+        "case": "NH3_umbrella_a",
+        "family": "NH3",
+        "geometry": [
+          [
+            "N",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0.985,
+              0,
+              -0.331
+            ]
+          ],
+          [
+            "H",
+            [
+              -0.4925,
+              0.85305,
+              -0.331
+            ]
+          ],
+          [
+            "H",
+            [
+              -0.4925,
+              -0.85305,
+              -0.331
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0,
+          1,
+          2
+        ],
+        "active_spatial": [
+          3,
+          4,
+          5
+        ],
+        "electrons": 4,
+        "n": 6
+      },
+      {
+        "case": "NH3_umbrella_b",
+        "family": "NH3",
+        "geometry": [
+          [
+            "N",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              1.21155,
+              0,
+              -0.40713
+            ]
+          ],
+          [
+            "H",
+            [
+              -0.605775,
+              1.0492515,
+              -0.40713
+            ]
+          ],
+          [
+            "H",
+            [
+              -0.605775,
+              -1.0492515,
+              -0.40713
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0,
+          1,
+          2
+        ],
+        "active_spatial": [
+          3,
+          4,
+          5
+        ],
+        "electrons": 4,
+        "n": 6
+      }
+    ],
+    "chemistry_preflight": {
+      "case": "preflight_LiH_r1p841",
+      "family": "LiH",
+      "geometry": [
+        [
+          "Li",
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "H",
+          [
+            0,
+            0,
+            1.841
+          ]
+        ]
+      ],
+      "frozen_spatial": [
+        0
+      ],
+      "active_spatial": [
+        1,
+        2,
+        3
+      ],
+      "electrons": 2,
+      "n": 6
+    }
+  },
+  "preflight": false,
+  "cases": [
+    {
+      "case": "LiH_r1p713",
+      "family": "LiH",
+      "geometry": [
+        [
+          "Li",
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "H",
+          [
+            0,
+            0,
+            1.713
+          ]
+        ]
+      ],
+      "frozen_spatial": [
+        0
+      ],
+      "active_spatial": [
+        1,
+        2,
+        3
+      ],
+      "electrons": 2,
+      "n": 6
+    },
+    {
+      "case": "LiH_r2p267",
+      "family": "LiH",
+      "geometry": [
+        [
+          "Li",
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "H",
+          [
+            0,
+            0,
+            2.267
+          ]
+        ]
+      ],
+      "frozen_spatial": [
+        0
+      ],
+      "active_spatial": [
+        1,
+        2,
+        3
+      ],
+      "electrons": 2,
+      "n": 6
+    },
+    {
+      "case": "BeH2_r1p227",
+      "family": "BeH2",
+      "geometry": [
+        [
+          "Be",
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "H",
+          [
+            0,
+            0,
+            -1.227
+          ]
+        ],
+        [
+          "H",
+          [
+            0,
+            0,
+            1.227
+          ]
+        ]
+      ],
+      "frozen_spatial": [
+        0
+      ],
+      "active_spatial": [
+        1,
+        2,
+        3
+      ],
+      "electrons": 4,
+      "n": 6
+    },
+    {
+      "case": "BeH2_r1p733",
+      "family": "BeH2",
+      "geometry": [
+        [
+          "Be",
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "H",
+          [
+            0,
+            0,
+            -1.733
+          ]
+        ],
+        [
+          "H",
+          [
+            0,
+            0,
+            1.733
+          ]
+        ]
+      ],
+      "frozen_spatial": [
+        0
+      ],
+      "active_spatial": [
+        1,
+        2,
+        3
+      ],
+      "electrons": 4,
+      "n": 6
+    },
+    {
+      "case": "NH3_umbrella_a",
+      "family": "NH3",
+      "geometry": [
+        [
+          "N",
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "H",
+          [
+            0.985,
+            0,
+            -0.331
+          ]
+        ],
+        [
+          "H",
+          [
+            -0.4925,
+            0.85305,
+            -0.331
+          ]
+        ],
+        [
+          "H",
+          [
+            -0.4925,
+            -0.85305,
+            -0.331
+          ]
+        ]
+      ],
+      "frozen_spatial": [
+        0,
+        1,
+        2
+      ],
+      "active_spatial": [
+        3,
+        4,
+        5
+      ],
+      "electrons": 4,
+      "n": 6
+    },
+    {
+      "case": "NH3_umbrella_b",
+      "family": "NH3",
+      "geometry": [
+        [
+          "N",
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "H",
+          [
+            1.21155,
+            0,
+            -0.40713
+          ]
+        ],
+        [
+          "H",
+          [
+            -0.605775,
+            1.0492515,
+            -0.40713
+          ]
+        ],
+        [
+          "H",
+          [
+            -0.605775,
+            -1.0492515,
+            -0.40713
+          ]
+        ]
+      ],
+      "frozen_spatial": [
+        0,
+        1,
+        2
+      ],
+      "active_spatial": [
+        3,
+        4,
+        5
+      ],
+      "electrons": 4,
+      "n": 6
+    }
+  ],
+  "scope": "Chemistrygenerationonly;nostate/order/errororcompiledcostclaim",
+  "internal_PySCF_max_memory_MiB": 256
+}

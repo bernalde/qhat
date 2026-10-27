@@ -1,0 +1,136 @@
+# Quantitative molecular guard and finite-step certificate attempt
+
+This is the numerical component of paper issue18. The scientific choices
+below are the unchanged pre-execution registry; its original bytes remain in
+the producer source archive. The separate generic sharper-epsilon/finite-step
+Lean component now has twenty freshly kernel-checked public endpoints and
+completed semantic review at paper merge8be784fa0a4e27aef034514f95ff475d23592b42.
+Software intervals remain distinct from a concrete kernel-certified molecular
+instance. Later execution/resource status is recorded separately below.
+
+## Fixed input and orders, before any guard or Trotter-error calculation
+
+Use the newly generated LiH_r1p713 input from the authenticated #17 pipeline:
+STO-6G,Li at(0,0,0),H at(0,0,1.713)Angstrom,freeze spatial orbital0,active
+orbitals1,2,3,six spin modes,two active electrons. The scalar-removed model JSON
+SHA256 is ea38b9730eed2faf55fbd1fe22722d93b858b95fe4d804ecb72855d10176c134.
+The chemistry producer is7c8c64acf0f13703df10b0335e0017da84e94f9b; its exact
+source/environment/tensor/orbital/coefficient records are retained by #17.
+The originally developmental input is now pinned to verified numerical
+merge1eeae416db1cac0de3e5617ca30ecf95729df04d with identical model bytes.
+No input or order pair was replaced after errors.
+
+Compare the existing legacy current-placement order with the diagonal-prefix
+order formed by the same established priorities: diagonal units by decreasing
+absolute coefficient then word; nonzero complete flip classes by decreasing
+coefficientL1 then mask. The current-placement algorithm retains its fixedT1
+initializer rule. Freeze both actual permutations and integer unit actions before
+computing any leading guard or physical error. Retain both comparison directions;
+reference-response ordering does not choose a new pair or remove losses.
+
+The written product is exp(-ihG1)...exp(-ihGm). State propagation therefore applies
+its units in reverse written order. Use first-order product formulas only here.
+The initial state is the HF determinant. Check every complete unit's exact
+integer action on all64 occupation states before restricting to the invariant
+Nalpha=Nbeta=1 sector of dimension9. The full-space invariance check is required;
+this is not a leakage-removing projection of an approximate Pauli trajectory.
+
+## Full predeclared panel
+
+Physical time is the exact rational3/5 in atomic units(hbar1). Write
+H_epsilon=D+epsilonV with D the unchanged diagonal units and V all complete
+nonzero flip classes. Attempt the physical epsilon1 first. Retain the entire
+scaled grid epsilon=2^-k for k=0,2,4,6,8,10,12,14,16,18,20, including every vacuous
+or failed guard. A scaled result concerns that actual modified Hamiltonian and
+cannot certify the physical epsilon1 molecule.
+
+Use r=1,2,4,8,16,32 for both fixed schedules at every epsilon:132 finite circuits
+and11 full-H reference evolutions. Report every interval and pair, not a selected
+successful subset. No circuit error selects epsilon,T,r,an order,or a new input.
+
+Derive actual K(epsilon)=epsilonK1+epsilon²K2 from the ordered commutator sum with
+its physical -i/2 factor. Compute the diagonal transported K1 response coherently,
+then project away the HF ray. Bound each a=norm(projected response) by directed
+intervals. Use rigorously checked operator-norm upper bounds, permitting the
+conservative sum of absolute matrix entries, in
+C=T*normK2+T²*normV*(normK1+normK2). Record which direction,if any,has disjoint
+intervals for the true response standard deviations. Zero gaps and unresolved
+intervals are explicit outcomes, not successful certificates.
+
+## Constructive finite-step bounds
+
+Use96-term exponential Taylor polynomials, scaling any generator to norm at most
+1/2. The generic bound is2*(1/2)^96, now separately proved in Lean under its norm hypothesis. Propagate approximation errors through
+finite products/powers with explicit norm bounds; no unspecified O-constant or
+existential eventual-r threshold is a finite-step certificate.
+
+All numeric enclosures use outward192-bit dyadic rectangular complex intervals.
+Their arithmetic encloses polynomial-rounding error explicitly. The analytic
+Taylor tail is added separately. Complete one-flip units may use their exact
+signed-permutation/diagonal structure; the full-H reference may use a general
+matrix polynomial with scaling and finite repetition. Independently recheck with
+a generic matrix route and a separately implemented rational interval path at
+at least160 bits, retaining its actual source,precision and limitations.
+
+For a true overlap z and approximate overlap w with normz<=1 and norm(z-w)<=eta,
+the squared-infidelity uncertainty is at most eta*(2+eta). Retain rigorous
+finite intervals for1-normz². Strictly separated intervals prove the actual
+finite-r ranking. Its ordering is the same as1-normz for unitary evolutions;
+the existing Lean conversion theorem supplies that algebraic equivalence.
+No normalization of an approximate state may hide a norm/rounding defect.
+
+Exact integer/rational identities, directed interval arithmetic, generic Lean
+bounds and an end-to-end kernel certificate are separate evidence layers. The
+molecular example remains software-certified unless all concrete input facts
+and interval witnesses are actually imported into and checked by Lean.
+
+## Resources and completion
+
+Before the main panel, exercise the full path on the same model with every
+coefficient scaled7/5 and a distinct preflight label, at epsilon1 and1/256,r2.
+This preflight cannot change the fixed main panel. Preserve failures and all
+inconclusive enclosures. Initial cumulative numerical phase ceilings(CPU
+seconds/wall seconds/outputMiB): tests120/900/64;preflight240/1800/256;
+main1200/7200/256;independent1200/7200/256;reporting300/1800/256.
+Numerical jobs retain quarter-coreCPU,Nice19,one thread,MemoryHigh448MiB,
+MemoryMax512MiB,no swap,the existing headroom thresholds,and one worker.
+The separate proof-only6GiB approval and completed generic audit do not enlarge
+these numerical memory limits. Freeze source/inputs before execution and retain full
+attempt usage without resets.
+
+Original pre-execution completion checklist (later status is recorded in the
+current closeouts): implementation and tests of interval arithmetic/input identities,
+full representative preflight,complete fixed panel,independent certificate audit,
+actual Lean builds/axiom/semantic correspondence checks and endpoint inventory,
+Astra/Argon convergence,publication,current-headCI,separate eligible merges and
+actual-merge checks. A negative physical-epsilon guard attempt is a valid result;
+missing computations or an unproved bridge remain gaps.
+
+The main independent phase packages the full producer payload,extracts it and
+checks every original/extracted byte against a complete hash manifest. It then
+performs one full generic rational-interval audit on those extracted numerical
+data using the live committed checker. Archived Python is never executed.
+Byte identity transfers the extracted audit to the original payload; a second
+identical expensive audit is unnecessary. Reporting verifies the committed Git
+objects against the same payload hashes. This delivery plan does not change the
+fixed molecular input,orders or panel. The separate explicit resource extension
+below preserves all original attempt costs and initial ceiling records. The certificate
+concerns the supplied exact rational active-space Hamiltonian; it does not bound
+the preceding SCF/integral/basis-set error or certify continuum chemistry.
+
+
+## Approved independent replay extension
+
+The user approved 800 additional CPU seconds and 3,000 additional wall seconds
+for one fresh complete independent replay after the retained partial attempt
+expired. The subsequent explicit continuation adds300CPU/900wall to that phase,
+for cumulative limits2,300CPU/11,100wall/256MiB-output. The same fresh attempt
+continued at1,200CPU/4,200effective wall seconds; its approved5,100wall ceiling
+was not applied because systemd rejected the live update. The original stricter
+hard wall timer and same scientific worker remained in place. The sanitized exact
+approvals are in RESOURCE_RETRY_APPROVAL.json and
+RESOURCE_CONTINUATION_APPROVAL.json. Original measurements, the failed
+606.040128CPU/4,000.276225739wall attempt and every earlier phase charge remain
+retained. This is an execution allowance, not a replacement input, retuning,
+new physical observation or relaxed mathematical enclosure. Numerical quota,
+memory, swap, thread and host-headroom rules remain unchanged.

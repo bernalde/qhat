@@ -1,0 +1,58 @@
+name: Molecular certificate checks
+on:
+  push:
+    paths:
+      - numerical_audit/molecular_guard/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/campaign.py
+      - numerical_audit/prospective_reference/one_pass.py
+      - numerical_audit/compiled_accuracy/requirements.txt
+      - .github/workflows/molecular-guard.yml
+  pull_request:
+    paths:
+      - numerical_audit/molecular_guard/**
+      - numerical_audit/prospective_reference/engine.py
+      - numerical_audit/prospective_reference/campaign.py
+      - numerical_audit/prospective_reference/one_pass.py
+      - numerical_audit/compiled_accuracy/requirements.txt
+      - .github/workflows/molecular-guard.yml
+permissions:
+  contents: read
+jobs:
+  molecular-certificate-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    container:
+      image: python:3.12.12-slim
+      options: --cpus=1 --memory=512m --memory-swap=512m
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Install Git for source and merge-provenance checks
+        run: |
+          apt-get update
+          apt-get install --no-install-recommends -y git ca-certificates
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Trust only this checkout for Git authentication
+        run: |
+          printf '%s\n' 'GIT_CONFIG_COUNT=1' 'GIT_CONFIG_KEY_0=safe.directory' \
+            "GIT_CONFIG_VALUE_0=$GITHUB_WORKSPACE" >> "$GITHUB_ENV"
+      - name: Pinned numerical test environment
+        run: python -m pip install -r numerical_audit/compiled_accuracy/requirements.txt
+      - name: Exact arithmetic, polynomial, Pauli, interval and delivery checks
+        run: python -m pytest numerical_audit/molecular_guard/test_intervals.py numerical_audit/molecular_guard/test_molecule.py numerical_audit/molecular_guard/test_independent.py numerical_audit/molecular_guard/test_delivery.py numerical_audit/molecular_guard/test_reporting.py -q
+      - name: Independently verify every extracted finite circuit and ranking
+        shell: bash
+        run: |
+          python numerical_audit/molecular_guard/delivery.py --producer numerical_audit/molecular_guard/evidence/results --output "$RUNNER_TEMP/molecular-delivery"
+      - name: Reproduce every report row and require the exact merged molecular input
+        shell: bash
+        run: |
+          python numerical_audit/molecular_guard/reporting.py --producer numerical_audit/molecular_guard/evidence/results --delivery "$RUNNER_TEMP/molecular-delivery" --output "$RUNNER_TEMP/molecular-report" --resources numerical_audit/molecular_guard/evidence/report/EXECUTION_RESOURCES_BEFORE_REPORT.json --input-dependency numerical_audit/molecular_guard/evidence/input_dependency.json --compare-report numerical_audit/molecular_guard/evidence/report
