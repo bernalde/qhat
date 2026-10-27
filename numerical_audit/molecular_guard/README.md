@@ -8,13 +8,16 @@ unresolved at epsilon=1, 1/4 and 1/16; it is strict on the predeclared scaled
 grid from 1/64 downward. See [the complete report](evidence/report/README.md).
 
 The protocol and both orders were frozen before errors. All payload bytes,
-archive extraction and staged Git blobs were checked. Input provenance is
-explicitly developmental until the actual issue #17 merge. Paired Astra/Argon
-source reviews, publication and merge CI remain pending. The separate generic Lean
-modules passed a fresh full-root build of 80 modules and audit of all 2,527
-project constants, including 20 new public endpoints. Their exact source and
-hypotheses are retained with the paper proof inventory. Independent semantic
-assessment remains required; these generic proofs do not instantiate the molecular certificate.
+archive extraction and complete Git blobs were checked. The supplied model is
+pinned to the verified issue #17 numerical merge named below. The initial
+Astra/Argon pair found one Nonblocking fresh-source inventory mismatch; the
+fix passes 61 tests, a fresh end-to-end preflight and a complete re-executed
+independent audit. Targeted review convergence, publication and actual-merge
+CI are separate gates recorded in subsequent closeouts. The separate generic Lean modules passed a fresh 80-module
+build and audit of all 2,527 project constants, including 20 new public
+endpoints. Their independent semantic reviews and paper PR #21 merge
+8be784fa0a4e27aef034514f95ff475d23592b42 are complete; these generic proofs
+do not instantiate the molecular certificate.
 
 `exact.py` checks every complete unit on every full-space occupation column
 before restricting to a conserved spin sector. It reconstructs exact rational
@@ -106,3 +109,14 @@ No primary experiment or tuning is repeated. All attempts remain in the
 ledger; memory stays 512 MiB, the quota stays one quarter core, and archived
 Python remains data. The reporter validates the bound approval and preserves
 the original failed receipt when reconciling a late cumulative CPU counter.
+
+
+`FRESH_SOURCE_FIX_CLOSEOUT.json` records the subsequent source-inventory fix
+and genuinely re-executed full audit at `8ddbe27e33c8ad0a9bc74e08d0a2bd3924e683d2`.
+The original 163 producer files and certificate ZIP are unchanged; every
+mathematical audit row, response guard, finite ranking and scientific CSV is
+identical. `evidence/HISTORICAL_PRE_FIX_STORAGE.json` preserves all 203 evidence
+files from before this refresh, including the original audit and history map.
+The earlier `FINAL_INPUT_BINDING.json` remains a record of its own reporting
+cutoff; the new closeout distinguishes the later verifier execution. Original
+reviewer reports remain private and are retained outside the repository.
