@@ -16,6 +16,19 @@ See the README file in each directory for component-specific documentation. The 
 If you need support or have a feature request, the best way to reach out to the team is to open an
 issue in the GitHub repository.
 
+## Continuous integration
+
+Python CI runs on every pull request and on pushes to `main` and
+`research/ordering-mechanism-2026-10-09`. Feature branches receive validation when
+a PR is opened, avoiding duplicate push and PR runs. Superseded PR runs are
+cancelled. Integration-branch runs are allowed to finish.
+
+One Python job installs dependencies once and runs both unit-test suites and all
+four CLI examples in separate steps. A failed test keeps the job red while later
+test steps still run; failed dependency setup skips the tests. Julia retains its
+full regression suites and runs for changes under `julia_trotter/` or to its
+workflow, using the same PR and integration-branch triggers.
+
 ## Release
 
 This software has been approved for open source release (disclosure number O4626) by the Feynman

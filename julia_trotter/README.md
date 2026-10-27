@@ -207,10 +207,11 @@ metadata-free fallback, and the demonstration's changed reference/operator call
 chain. It compares Arnoldi/Arpack energies and dense-oracle reference/norm values;
 it does not execute the full demonstration or a molecular sweep.
 
-The `Julia numerical regressions` workflow runs both commands on pushes and PRs
-that change this tree. It instantiates the declared project on Julia 1.11 and
-records its resolved versions. Arpack 0.5 and ArnoldiMethod 0.4 compatibility
-bounds cover the eigensolver API families inspected for these regressions; Julia
+The `Julia numerical regressions` workflow runs both commands on PRs and on pushes
+to `main` or `research/ordering-mechanism-2026-10-09` that change this tree or its
+workflow. Superseded PR runs are cancelled. It instantiates the declared project
+on Julia 1.11 and records its resolved versions. Arpack 0.5 and ArnoldiMethod 0.4
+compatibility bounds cover the eigensolver API families inspected for these regressions; Julia
 1.11 is the hosted baseline. No full project Manifest is committed. The other
 exploratory dependencies still resolve from the registry, so the recorded
 `Pkg.status` output is essential provenance and these bounds are not a frozen

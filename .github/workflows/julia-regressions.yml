@@ -2,6 +2,9 @@ name: Julia numerical regressions
 
 on:
   push:
+    branches:
+      - main
+      - research/ordering-mechanism-2026-10-09
     paths:
       - 'julia_trotter/**'
       - '.github/workflows/julia-regressions.yml'
@@ -12,6 +15,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   julia-regressions:
