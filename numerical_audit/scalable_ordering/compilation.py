@@ -59,7 +59,7 @@ def validate_record(model, record):
                           'Unit boundary fusion requires internal commutation')
 
 
-def compile_candidate(model, record, T, multiple, trace, identity):
+def _compile_candidate(model, record, T, multiple, trace, identity):
     cpu, wall = time.process_time(), time.monotonic()
     validate_record(model, record)
     k.require(type(T) in (float, int) and math.isfinite(T) and T > 0, 'Finite evolution time')
@@ -95,4 +95,16 @@ def compile_candidate(model, record, T, multiple, trace, identity):
         CPU_seconds=time.process_time() - cpu, wall_seconds=time.monotonic() - wall,
         quantum_preparation_circuit_cost='HF prefix included', compiler=compiler.VERSION, **measurements)
     del machine
+    return result
+
+
+def compile_candidate(model, record, T, multiple, trace, identity):
+    """Include destruction of the emitted gate objects in the full charge."""
+    cpu, wall = time.process_time(), time.monotonic()
+    result = _compile_candidate(model, record, T, multiple, trace, identity)
+    result['internal_CPU_seconds'] = result['CPU_seconds']
+    result['internal_wall_seconds'] = result['wall_seconds']
+    result['CPU_seconds'] = time.process_time() - cpu
+    result['wall_seconds'] = time.monotonic() - wall
+    result['timing'] = 'Complete compile call, including validation, lowering, cleanup, cost extraction, trace writing and gate-object destruction'
     return result

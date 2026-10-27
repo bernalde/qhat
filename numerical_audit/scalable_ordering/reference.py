@@ -34,7 +34,7 @@ class Reference:
         self.hf = (1 << model['electrons']) - 1
         k.require(0 <= model['electrons'] <= self.n, 'Reference occupation')
         self.basis = np.arange(self.dimension, dtype=np.int64)
-        self.initial = np.zeros(self.dimension, dtype=np.clongdouble)
+        self.initial = np.zeros(self.dimension, dtype=np.complex128)
         self.initial[self.hf] = 1
         self.words = {}
         self.cache = OrderedDict()
@@ -122,7 +122,7 @@ class Reference:
         norm_bound = float(np.max(np.asarray(abs(self.H).sum(axis=1)).ravel())) * T
         steps = max(1, math.ceil(8 * norm_bound))
         k.require(steps <= 4096, 'Series reference scaling-work bound')
-        state = self.initial.copy()
+        state = self.initial.astype(np.clongdouble)
         for _ in range(steps):
             term, out = state.copy(), state.copy()
             for degree in range(1, 25):
@@ -143,7 +143,7 @@ class Reference:
             nonlocal state
             for at in range(offsets[index], offsets[index + 1]):
                 word, coefficient = schedule[at]
-                theta = np.longdouble(coefficient) / np.longdouble(self.den) * duration
+                theta = float(np.longdouble(coefficient) / np.longdouble(self.den) * duration)
                 state = np.cos(theta) * state - 1j * np.sin(theta) * self.apply_word(word, state)
         for _ in range(steps):
             for i in range(len(lengths) - 1):
@@ -229,7 +229,7 @@ class Reference:
         """
         x_images = [(1 << q, 0, 0) for q in range(self.n)]
         z_images = [(0, 1 << q, 0) for q in range(self.n)]
-        state = np.zeros(self.dimension, dtype=np.clongdouble)
+        state = np.zeros(self.dimension, dtype=np.complex128)
         state[0] = 1
         direct = state.copy() if literal else None
         previous = [-1] * self.n
@@ -287,7 +287,7 @@ class Reference:
                     angle = Fraction(int(gate[2]), int(gate[3]))
                     k.require(angle and str(angle.numerator) == gate[2] and str(angle.denominator) == gate[3],
                               'Canonical nonzero Rz angle')
-                    theta = np.longdouble(angle.numerator) / np.longdouble(angle.denominator) / 2
+                    theta = float(np.longdouble(angle.numerator) / np.longdouble(angle.denominator) / 2)
                     state = np.cos(theta) * state - 1j * np.sin(theta) * self.apply_frame(z_images[q], state)
                     rotations += 1
                     if literal:

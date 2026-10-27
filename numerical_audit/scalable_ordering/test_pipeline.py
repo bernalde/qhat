@@ -88,6 +88,35 @@ def test_taylor_reference_matches_exponential():
     assert np.max(abs(ref.series_action(1.5) - ref.exact_action(1.5))) < 2e-12
 
 
+def test_circuit_precision_and_separate_extended_reference(tmp_path):
+    data = model()
+    ref = reference.Reference(data)
+    layout = record(data, (2, 0, 1))
+    trace = tmp_path / 'precision.gz'
+    result = compilation.compile_candidate(data, layout, 1.5, 30, trace, {})
+    actual, _ = ref.audit_trace(trace, result['identity'], compiler.VERSION)
+    assert ref.initial.dtype == np.dtype(np.complex128)
+    assert actual.dtype == np.dtype(np.complex128)
+    assert ref.ideal_formula(layout, result['steps'], 1.5).dtype == np.dtype(np.complex128)
+    extended = ref.series_action(1.5)
+    assert extended.dtype == np.dtype(np.clongdouble)
+    assert np.max(abs(extended - ref.exact_action(1.5))) < 2e-12
+
+
+def test_full_compilation_charge_includes_gate_object_cleanup(monkeypatch):
+    clock = [0.]
+    class Cleanup:
+        def __del__(self):
+            clock[0] += 1.
+    def inner(*args):
+        owned = Cleanup()
+        return dict(CPU_seconds=0., wall_seconds=0.)
+    monkeypatch.setattr(compilation.time, 'process_time', lambda: clock[0])
+    monkeypatch.setattr(compilation, '_compile_candidate', inner)
+    result = compilation.compile_candidate(None, None, None, None, None, None)
+    assert result['CPU_seconds'] == 1. and result['internal_CPU_seconds'] == 0.
+
+
 def literal(word, n):
     local = {'I': np.eye(2), 'X': np.array([[0, 1], [1, 0]]),
              'Y': np.array([[0, -1j], [1j, 0]]), 'Z': np.diag([1, -1])}
@@ -381,3 +410,130 @@ def test_git_batch_real_committed_json_blob():
     raw = identity.subprocess.check_output(['git', '-C', str(k.ROOT), 'show', 'HEAD:' + relative])
     oid, _ = batch_blob(raw)
     assert list(identity.stream_blobs({oid: (len(raw), relative)})) == [(relative, raw)]
+
+# Append to numerical_audit/scalable_ordering/test_pipeline.py. This uses its
+# existing literal(), training and pytest bindings; no Git/archive dependency.
+
+
+def _exhaustive_current_order(data):
+    """Small integer dense oracle: rebuild every candidate's entire objective."""
+    raw = [{tuple((q, p) for q, p in word): int(c) for word, c in block}
+           for block in data['blocks']]
+    dimension, hf = 1 << data['n'], (1 << data['electrons']) - 1
+    matrices = []
+    masks = []
+    for block in raw:
+        matrix = [[0 for _ in range(dimension)] for _ in range(dimension)]
+        block_masks = []
+        for word, coefficient in block.items():
+            dense = literal(word, data['n'])
+            assert np.max(abs(dense.imag)) == 0  # Deliberate even-Y fixtures.
+            for destination in range(dimension):
+                for source in range(dimension):
+                    matrix[destination][source] += coefficient * int(dense[destination, source].real)
+            block_masks.append(sum(1 << q for q, p in word if p in ('X', 'Y')))
+        assert len(set(block_masks)) == 1
+        masks.append(block_masks[0])
+        matrices.append(matrix)
+    diagonal = sorted((i for i, mask in enumerate(masks) if mask == 0),
+                      key=lambda i: (-abs(next(iter(raw[i].values()))), next(iter(raw[i]))))
+    off = sorted((i for i, mask in enumerate(masks) if mask),
+                 key=lambda i: (-sum(abs(c) for c in raw[i].values()), masks[i]))
+    if not diagonal or not off:
+        return diagonal + off
+
+    base = {}
+    for at, i in enumerate(off):
+        for j in off[at + 1:]:
+            # Literal [Ai,Aj]|HF>, rather than the producer's descriptors.
+            for destination in range(dimension):
+                if destination == hf:
+                    continue
+                coefficient = sum(matrices[i][destination][middle] * matrices[j][middle][hf]
+                                  - matrices[j][destination][middle] * matrices[i][middle][hf]
+                                  for middle in range(dimension))
+                if coefficient:
+                    base[destination] = base.get(destination, 0) + coefficient
+    destinations = [hf ^ masks[i] for i in off]
+    rows = [[matrices[j][destination][hf]
+             * (matrices[i][destination][destination] - matrices[i][hf][hf])
+             for j, destination in zip(off, destinations)] for i in diagonal]
+    energies = [sum(matrices[i][occupation][occupation] for i in diagonal)
+                for occupation in range(dimension)]
+    ratios = {destination: float(np.sinc((energies[destination] - energies[hf]) /
+                                       (2 * np.pi * int(data['denominator'])))**2).as_integer_ratio()
+              for destination in set(base) | set(destinations)}
+    common = max(denominator for numerator, denominator in ratios.values())
+    weights = {destination: numerator * (common // denominator)
+               for destination, (numerator, denominator) in ratios.items()}
+
+    def exhaustive_objective(slots):
+        amplitude = dict(base)
+        for slot, row in zip(slots, rows):
+            for position, (destination, coefficient) in enumerate(zip(destinations, row)):
+                amplitude[destination] = amplitude.get(destination, 0) + (
+                    coefficient if position >= slot else -coefficient)
+        return sum(weights[destination] * coefficient**2
+                   for destination, coefficient in amplitude.items())
+
+    choices = range(len(off) + 1)
+    start = min(choices, key=lambda slot: exhaustive_objective([slot] * len(diagonal)))
+    slots = [start] * len(diagonal)
+    for coordinate in range(len(diagonal)):
+        candidates = []
+        for slot in choices:
+            proposed = list(slots)
+            proposed[coordinate] = slot
+            candidates.append(exhaustive_objective(proposed))
+        slots[coordinate] = min(choices, key=lambda slot: candidates[slot])
+    order = []
+    for slot in choices:
+        order.extend(i for i, position in zip(diagonal, slots) if position == slot)
+        if slot < len(off):
+            order.append(off[slot])
+    return order
+
+
+def _current_integer_fixture(seed):
+    import random
+    rng = random.Random(seed)
+    scale = 1 << 68 if seed % 3 == 0 else 1
+    draw = lambda: scale * rng.choice((-5, -3, -1, 1, 3, 5))
+    blocks = [{((q, 'Z'),): draw()} for q in range(4)]
+    blocks.append({((0, 'Z'), (2, 'Z')): draw()})
+    for a, b, spectator in ((0, 2, None), (1, 2, None), (0, 1, 2), (2, 3, None)):
+        coefficient = draw()
+        extra = () if spectator is None else ((spectator, 'Z'),)
+        blocks.append({tuple(sorted(((a, 'X'), (b, 'X')) + extra)): coefficient,
+                       tuple(sorted(((a, 'Y'), (b, 'Y')) + extra)): coefficient})
+    # Deliberately repeated mask and exact zeros test aggregate-destination
+    # updates even outside the molecular producer's distinct-mask convention.
+    if seed % 2 == 0:
+        blocks.append({((0, 'X'), (2, 'X')): draw()})
+    rng.shuffle(blocks)
+    return dict(n=4, electrons=seed % 5, denominator=str(scale * (seed + 3)),
+                blocks=[[[list(word), str(c)] for word, c in block.items()] for block in blocks])
+
+
+@pytest.mark.parametrize('seed', range(12))
+def test_current_exact_incremental_sweeps_match_exhaustive_integer_oracle(seed):
+    data = _current_integer_fixture(seed)
+    assert training.current(data) == _exhaustive_current_order(data)
+
+
+@pytest.mark.parametrize('blocks', [
+    [{((0, 'Z'),): 3}, {((1, 'Z'),): -3}],
+    [{((0, 'X'), (1, 'X')): 2, ((0, 'Y'), (1, 'Y')): 2}],
+    [{((3, 'Z'),): 3},
+     {((0, 'X'), (1, 'X')): 2, ((0, 'Y'), (1, 'Y')): 2}],
+])
+def test_current_empty_side_and_all_zero_response_keep_exact_tie_order(blocks):
+    data = dict(n=4, electrons=1, denominator='13',
+                blocks=[[[list(word), str(c)] for word, c in block.items()] for block in blocks])
+    assert training.current(data) == _exhaustive_current_order(data)
+    assert training.current(data) == list(range(len(blocks)))
+
+
+def test_current_optimized_sweeps_still_enforce_constructor_deadline():
+    with pytest.raises(training.Deadline, match='deadline'):
+        training.current(_current_integer_fixture(5), deadline=-float('inf'))

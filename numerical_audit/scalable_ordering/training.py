@@ -72,29 +72,39 @@ def current(model, deadline=float('inf')):
     common = max((b for a, b in ratios.values()), default=1)
     weights = {d: a * (common // b) for d, (a, b) in ratios.items()}
     score = lambda a: sum(weights[d] * x * x for d, x in a.items() if x)
-    seed_scores = []
-    for slot in range(len(off) + 1):
-        a = dict(amplitude)
-        for row in rows:
-            for j, (d, b) in enumerate(zip(masks, row)):
-                a[d] = a.get(d, 0) + (b if j >= slot else -b)
-        seed_scores.append(score(a))
+    # The common-slot path crosses every diagonal row at once. Aggregate each
+    # column exactly, then change only its destination's squared contribution.
+    column_totals = [sum(row[j] for row in rows) for j in range(len(off))]
+    a = dict(amplitude)
+    for d, b in zip(masks, column_totals):
+        a[d] = a.get(d, 0) + b
+    running_score = score(a)
+    seed_scores = [running_score]
+    for d, b in zip(masks, column_totals):
+        old = a.get(d, 0)
+        new = old - 2 * b
+        a[d] = new
+        running_score += weights[d] * (new * new - old * old)
+        seed_scores.append(running_score)
     start = min(range(len(seed_scores)), key=lambda i: (seed_scores[i], i))
     slots = [start] * len(diagonal)
     a = dict(amplitude)
-    for row in rows:
-        for j, (d, b) in enumerate(zip(masks, row)):
-            a[d] = a.get(d, 0) + (b if j >= start else -b)
+    for j, (d, b) in enumerate(zip(masks, column_totals)):
+        a[d] = a.get(d, 0) + (b if j >= start else -b)
     for index, row in enumerate(rows):
         check(deadline)
         trial = dict(a)
         for j in range(slots[index]):
             d = masks[j]
             trial[d] = trial.get(d, 0) + 2 * row[j]
-        scores = [score(trial)]
+        running_score = score(trial)
+        scores = [running_score]
         for d, b in zip(masks, row):
-            trial[d] = trial.get(d, 0) - 2 * b
-            scores.append(score(trial))
+            old = trial.get(d, 0)
+            new = old - 2 * b
+            trial[d] = new
+            running_score += weights[d] * (new * new - old * old)
+            scores.append(running_score)
         chosen = min(range(len(scores)), key=lambda j: scores[j])
         for j, (d, b) in enumerate(zip(masks, row)):
             a[d] = a.get(d, 0) + ((1 if j >= chosen else -1) - (1 if j >= slots[index] else -1)) * b

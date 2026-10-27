@@ -72,6 +72,14 @@ score must match this oracle within relative 1e-7 and absolute 1e-20; these are
 numerical parity checks, not interval certificates. Fall-back orders with no
 completed score retain that status and receive a separately labelled oracle.
 
+Executable precision amendment before the main order freeze: primitive/ideal
+circuit states and sparse-matrix input vectors use complex128. The separate
+scaled Taylor reference still uses extended precision. Exact rational gate
+angles, fixed parity/norm/leakage tolerances and the 1e-12 paired-comparison
+ambiguity are unchanged. The earlier extended-precision preflight and its CPU
+refusal are retained. This change responds to measured resource cost, without
+using preflight accuracy to choose the main panel or ordering objective.
+
 ## Execution policy
 
 Root schedules every heavy command under the task's shared phase allowances:
