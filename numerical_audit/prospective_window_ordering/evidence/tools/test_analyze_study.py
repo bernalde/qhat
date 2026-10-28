@@ -12,6 +12,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import shutil
 import statistics
 import tempfile
 import unittest
@@ -510,6 +511,97 @@ class TestReceiptIdentityFix(unittest.TestCase):
                 rd = bound_json(root, f"missing-unit-{i}.json", invalid)
                 with self.subTest(unit=value), self.assertRaisesRegex(ValueError, "unit identity"):
                     A.receipt(A.Artifacts(root), rd)
+
+
+class PreflightRelocationContracts(unittest.TestCase):
+    """Real hash-bound input graph; no chemistry or physical outcomes invented."""
+
+    def graph(self, root):
+        index, _ = partial_graph(root)
+        index['mode'] = 'preflight'
+        protocol = json.loads((root / index['input_protocol']['path']).read_text())
+        altered = dict(expected_cases=1, preflight_only=True, status='complete',
+            parent_inventory_sha256=index['input_freeze']['sha256'],
+            protocol_sha256=index['input_protocol']['sha256'],
+            source_protocol_path=str(root / index['input_protocol']['path']),
+            refusals={}, successes={CASES[0] + '_preflight_7over5': {}})
+        index['preflight_input_freeze'] = bound_json(root, 'preflight/INPUTS_FROZEN.json', altered)
+        plan = dict(schema='prospective-window-constructor-plan-v1', mode='preflight',
+            root=str(root), source_freeze=index['input_protocol'],
+            source_snapshot=protocol['sources'], physical_error_read=False,
+            input_freeze=index['preflight_input_freeze'])
+        index['plan'] = bound_json(root, 'preflight-plan.json', plan)
+        return index, altered, plan
+
+    def read_graph(self, root, index):
+        summary = {}
+        result = A.source_and_inputs(A.Artifacts(root), index, 'preflight', summary)
+        # The location check must succeed without upgrading four retained input
+        # refusals into scientific completeness or reading absent model payloads.
+        self.assertEqual(result[3], [CASES[0] + '_preflight_7over5'])
+        self.assertFalse(result[4])
+        self.assertFalse(summary['inputs']['original_complete'])
+
+    def test_same_location_and_moved_archive_share_authenticated_graph(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            original = Path(tmp) / 'original'
+            index, _, _ = self.graph(original)
+            self.read_graph(original, index)
+            # Preserve the old same-location, no-plan partial-evidence behavior.
+            self.read_graph(original, dict(index, plan=None))
+            before = {p.relative_to(original): p.read_bytes() for p in original.rglob('*') if p.is_file()}
+            relocated = Path(tmp) / 'published-copy'
+            shutil.move(str(original), relocated)
+            self.assertFalse(original.exists())
+            self.read_graph(relocated, index)
+            after = {p.relative_to(relocated): p.read_bytes() for p in relocated.rglob('*') if p.is_file()}
+            self.assertEqual(before, after)
+            with self.assertRaisesRegex(ValueError, 'needs an authenticated plan'):
+                self.read_graph(relocated, dict(index, plan=None))
+
+    def test_rehashed_forged_original_root_is_not_corroborated(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / 'campaign'
+            index, _, plan = self.graph(root)
+            plan['root'] = '/unrelated/original-root'
+            index['plan'] = bound_json(root, 'preflight-plan.json', plan)
+            with self.assertRaisesRegex(ValueError, 'differs from plan root/source'):
+                self.read_graph(root, index)
+
+    def test_rehashed_forged_protocol_path_is_not_corroborated(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / 'campaign'
+            index, altered, plan = self.graph(root)
+            altered['source_protocol_path'] = str(root / 'wrong/INPUT_PROTOCOL_FROZEN.json')
+            index['preflight_input_freeze'] = bound_json(root, 'preflight/INPUTS_FROZEN.json', altered)
+            plan['input_freeze'] = index['preflight_input_freeze']
+            index['plan'] = bound_json(root, 'preflight-plan.json', plan)
+            with self.assertRaisesRegex(ValueError, 'differs from plan root/source'):
+                self.read_graph(root, index)
+
+    def test_plan_hash_and_source_binding_are_required(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / 'campaign'
+            index, _, plan = self.graph(root)
+            plan['root'] = '/different-root'
+            bound_json(root, 'preflight-plan.json', plan)  # Intentionally leave stale descriptor.
+            with self.assertRaisesRegex(ValueError, 'Artifact hash differs'):
+                self.read_graph(root, index)
+            plan['root'] = str(root)
+            plan['source_freeze'] = dict(index['input_protocol'], path='../outside.json')
+            index['plan'] = bound_json(root, 'preflight-plan.json', plan)
+            with self.assertRaisesRegex(ValueError, 'plan/source binding'):
+                self.read_graph(root, index)
+
+    def test_recorded_path_must_be_absolute_and_canonical(self):
+        for spelling in ('relative/root', '/root/../elsewhere', '//host/root', '/root\\escape'):
+            with self.subTest(path=spelling), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp) / 'campaign'
+                index, _, plan = self.graph(root)
+                plan['root'] = spelling
+                index['plan'] = bound_json(root, 'preflight-plan.json', plan)
+                with self.assertRaisesRegex(ValueError, 'Canonical recorded absolute path'):
+                    self.read_graph(root, index)
 
 
 if __name__ == "__main__":

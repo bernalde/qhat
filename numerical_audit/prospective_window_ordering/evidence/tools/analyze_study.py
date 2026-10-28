@@ -204,6 +204,37 @@ def model_definition(model,raw_toml,json_hash):
     return dict(model=model,total=total,blocks=blocks,U=len(total),lengths=[len(block) for block in blocks])
 
 
+def preflight_protocol_location(reader,index,altered,protocol_path,protocol):
+    """Authenticate historical absolute spelling without reading the old root.
+
+    Relative descriptors still locate every artifact within the current archive.
+    A relocation needs the hash-bound constructor plan to corroborate the old
+    root; matching protocol hashes alone do not authenticate an arbitrary path.
+    """
+    def absolute_spelling(value):
+        require(isinstance(value,str) and 0<len(value)<=4096,'Bounded recorded absolute path required')
+        path=PurePosixPath(value)
+        require(path.is_absolute() and str(path)==value and '..' not in path.parts and
+                '\\' not in value and not value.startswith('//'),'Canonical recorded absolute path required')
+        return path
+    recorded=absolute_spelling(altered.get('source_protocol_path'))
+    if index.get('plan') is None:
+        require(str(recorded)==str(protocol_path),'Relocated preflight protocol needs an authenticated plan')
+        return
+    _,plan=reader.read(index['plan'])
+    require(plan.get('schema')=='prospective-window-constructor-plan-v1' and plan.get('mode')=='preflight' and
+            plan.get('source_freeze')==index['input_protocol'] and
+            plan.get('source_snapshot')==protocol['sources'] and plan.get('physical_error_read') is False and
+            plan.get('input_freeze')==index['preflight_input_freeze'],
+            'Preflight relocation plan/source binding')
+    original_root=absolute_spelling(plan.get('root'))
+    relative=plan['source_freeze']['path']
+    # Validate the current descriptor through the same confined resolver used
+    # for reading; never resolve or open original_root or recorded on disk.
+    require(reader.path(relative)==protocol_path,'Preflight relocation protocol descriptor differs')
+    require(recorded==original_root/PurePosixPath(relative),'Recorded preflight protocol differs from plan root/source')
+
+
 def source_and_inputs(reader,index,mode,summary):
     protocol_path,protocol=reader.read(index['input_protocol'])
     require(protocol_path.name=='INPUT_PROTOCOL_FROZEN.json','Explicit generation protocol artifact')
@@ -276,8 +307,8 @@ def source_and_inputs(reader,index,mode,summary):
     require(altered.get('expected_cases')==1 and altered.get('preflight_only') is True and
             altered.get('parent_inventory_sha256')==index['input_freeze']['sha256'] and
             altered.get('protocol_sha256')==index['input_protocol']['sha256'] and
-            Path(altered.get('source_protocol_path','')).resolve()==protocol_path and
             not altered.get('refusals'),'Altered-input inventory binding')
+    preflight_protocol_location(reader,index,altered,protocol_path,protocol)
     names=list(altered.get('successes',{}));require(len(names)==1,'One altered preflight target required')
     case=names[0]
     if not original_complete:
