@@ -1,0 +1,75 @@
+allocated_bytes = 4066284640
+complete = true
+cpu_seconds = 7.945539999999998
+flat_sha256 = "a71284340c9d0d0e2b88beb5f8214fc61a533d2c6413865efb9bb101f5b49dac"
+gc_wall_seconds = 4.344305323
+method = "dp"
+stage = "warm1"
+wall_seconds = 31.799121345
+
+[solver]
+complete = true
+denominator = "661055968790248598951915308032771039828404682964281219284648795274405791236311345825189210439715284847591212025023358304256"
+local_order = [3, 5, 8, 1, 4, 6, 7, 2]
+numerator = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505"
+order = [152, 154, 293, 331, 174, 178, 221, 333]
+reason = ""
+scope = "Exact supplied frozen complex response DELTA tables; Q only, fixed r^4 external"
+score = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505//661055968790248598951915308032771039828404682964281219284648795274405791236311345825189210439715284847591212025023358304256"
+status = "complete"
+vector_denominator = "25711008708143844408671393477458601640355247900524685364822016"
+
+    [solver.dp]
+    complete = true
+    cost = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505//1"
+    order = [3, 5, 8, 1, 4, 6, 7, 2]
+    reason = ""
+    status = "complete"
+
+        [solver.dp.details]
+        cost_bits = "406"
+        encoded_tables_exact = true
+        estimated_bytes = "46219616"
+        physical_response_exactness_claim = false
+        states = "46233"
+        work = "45334774"
+
+    [solver.stats]
+    bag_sizes = [8, 7, 6, 5, 4, 3, 2, 1]
+    constant_factor_value = "89244175858643238202707569620030081048436182127366255505942518676315342464128421302172333583186120116112753878054731737"
+    cost_bit_bound = 420
+    estimated_peak_bytes = "3796416"
+    exact_vector_entries = 3924
+    exact_zero_groups_removed = 0
+    factor_CPU_seconds = 0.023132000000000374
+    factor_wall_seconds = 0.098565494
+    gram_dot_products = 17221
+    graph_decomposition_CPU_seconds = 0.0001600000000010482
+    graph_decomposition_wall_seconds = 0.000160233
+    graph_edges = 28
+    input_response_factors = 84
+    integerization_CPU_seconds = 0.012950000000000017
+    integerization_wall_seconds = 0.091258122
+    local_labels = [1, 2, 3, 4, 5, 6, 7, 8]
+    max_retained_scope = 6
+    nonzero_response_factors = 49
+    retained_factor_entries = 3271
+    retained_factors = 159
+    scalar_entries_before_reduction = 3271
+    solve_CPU_seconds = 7.898202999999999
+    solve_wall_seconds = 31.598053041
+    used_width = 7
+    valid_pair_variants = 2
+    valid_triple_variants = 6
+    witness_CPU_seconds = 0.005631000000001052
+    witness_exact_score_matches = true
+    witness_wall_seconds = 0.005634189
+    work = 106828
+
+        [solver.stats.dp_details]
+        cost_bits = "406"
+        encoded_tables_exact = true
+        estimated_bytes = "46219616"
+        physical_response_exactness_claim = false
+        states = "46233"
+        work = "45334774"

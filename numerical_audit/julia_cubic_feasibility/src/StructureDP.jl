@@ -376,7 +376,10 @@ function bag_order_dp(labels, factors, bags, tree_edges;
         entries<=max_factor_entries || return _refusal(:factor_entry_limit,"factor entry cap exceeded")
         push!(fs,factor)
         for cost in values(factor.values)
-            denom_bits+=_bits(denominator(cost));num_bits=max(num_bits,_bits(numerator(cost)))
+            # Multiplication by denominator 1 cannot increase arithmetic bits.
+            # Other denominators keep the conservative product bound.
+            denominator(cost)==1 || (denom_bits+=_bits(denominator(cost)))
+            num_bits=max(num_bits,_bits(numerator(cost)))
         end
     end
     cost_bits=big(num_bits)+denom_bits+_bits(max(1,length(fs)))+2

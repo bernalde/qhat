@@ -2,7 +2,7 @@
 
 The numerical implementation in this directory is Julia, with standard-library dependencies only. It provides an exact bag-order dynamic program, an adapter for the archived nine-unit first-order response problems, and a separate cubic Strang window pilot. It does not replace QHAT's existing optimizer or change its default behavior.
 
-See `REPORT.md` for measured outcomes, `PROTOCOL.md` for the frozen study, and `evidence/` for input/output hashes, exact results, and all retained resource receipts. The baseline source is QHAT `9a19a118247aeca74f968084c74533c1fd529d85`, previously recorded as the same scientific tree as merge `aca1cc33e8e2bf8c61b99775f342800e7791b988`.
+See `REPORT.md` for the original pilot, and `CUBIC_DP_REPORT.md` and `CUBIC_DP_PROTOCOL.md` for the subsequent cubic DP integration validation. `evidence/` retains input/output hashes, exact results, and resource receipts. The original baseline source is QHAT `9a19a118247aeca74f968084c74533c1fd529d85`, previously recorded as the same scientific tree as merge `aca1cc33e8e2bf8c61b99775f342800e7791b988`.
 
 ## What is implemented
 
@@ -10,6 +10,7 @@ See `REPORT.md` for measured outcomes, `PROTOCOL.md` for the frozen study, and `
 - `ArchivedWindows`: exact expansion of the archived first-order response square into factors on at most four unit labels. Full fixed-outside interference and the objective constant are retained. Independent DFS enumeration checks all Lehmer ranks, ties, and the returned objective.
 - `ResponseCore`: real equal-flip Pauli units, independent cubic Taylor columns, HF diagonal transport/projection, exact ideal-rotation affordability, and conditioned contiguous-window response DELTA tables.
 - `WindowSearch`: complete bounded window enumeration with a roundoff envelope for screening and exact dyadic evaluation of every overlapping contender; same-window insertion control. The certificate covers the frozen response tables, not the exact transcendental objective.
+- `CubicDP`: exact integer expansion of the complex cubic response square into signed relative-order factors on at most six labels, followed by the checked bag-order DP. It retains full baseline/outside interference and returns the exact frozen-table score. It has separate factor-construction and DP admission limits.
 - `Diagnostics`: capped streaming support/overlap diagnostics. Potential support graphs, partial scans, and heuristic widths are explicitly distinguished from exact coherent factor evidence.
 - `PhysicalCheck`: original-word full-space product-formula circuits, exact central/boundary fusion, stable projective state error, and number/spin leakage. Only the Hamiltonian reference uses a checked fixed-number sector; the circuit is never projected.
 
@@ -47,6 +48,8 @@ First invocations share one process and JIT helpers; they are not independent co
 The archived target is first-order `J_D=N/H`, with exact integer numerator and the original supplied binary64 weight ratios. Neither the denominator nor a Strang `r^4` factor is changed. Only the nine-unit contiguous window varies; every outside position stays fixed. The DP's exact restricted optimum does not certify the full molecular ordering or physical error.
 
 ## Cubic and physical entry points
+
+`cubic_dp_study.jl preflight|main INPUT PRIOR_WINDOW_RESULT OUTPUT [INPUT PRIOR_WINDOW_RESULT OUTPUT...]` compares the cubic DP with complete enumeration of exactly the same prepared window. Main mode retains first calls and three warm repetitions. `independent_cubic_dp_check.jl` separately checks factorization at nonoptimal orders and authenticates the completed certificates; see `REPRODUCE.md` for commands. The original nine-unit benchmarks concern the first-order objective and must not be read as cubic DP speedups.
 
 `window_study.jl preflight|window|structure INPUT OUTPUT` handles one case. `window_batch.jl` handles several input/output pairs in one Julia process. Cubic window inputs contain the authenticated units and original parent order. Source-only window selection never reads physical errors.
 

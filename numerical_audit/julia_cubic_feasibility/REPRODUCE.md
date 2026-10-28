@@ -4,10 +4,10 @@ The Julia package uses standard libraries only. Tested runtime: Julia 1.10.11. T
 
 Run from this directory. Choose a fresh output directory and fresh attempt labels; scientific files and receipts are never overwritten. Replays are additional work: retain their cumulative costs rather than resetting a partially consumed allocation.
 
-The recorded runtime is available here as `/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia`. Set `JULIA_EXE` to an existing compatible Julia binary when replaying elsewhere. Set `REPLAY_DIR` to a new scratch output directory. These shell variables describe this replay only; they do not change saved Julia configuration.
+Set `JULIA_EXE` to an existing compatible Julia binary (the recorded runtime was Julia 1.10.11). Set `REPLAY_DIR` to a new scratch output directory. These shell variables describe this replay only; they do not change saved Julia configuration. Original machine paths remain in the historical receipts.
 
 ```sh
-JULIA_EXE=/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia
+JULIA_EXE=julia
 REPLAY_DIR=/tmp/julia-ordering-replay-01
 mkdir "$REPLAY_DIR"
 ```
@@ -59,10 +59,38 @@ For physical replay, use `physical_study.jl archive evidence/inputs/archive_mode
 `tools/verify_legacy_oracles.py` uses packaged original model JSON and the repository's unchanged legacy exact/matrix/replay implementations. It defaults to this study directory and its enclosing QHAT repository; `--study-root` and `--repo-root` permit explicit paths. Use the existing pinned Python environment with NumPy/SciPy, not a new dependency installation. Run it inside the resource guard:
 
 ```sh
-/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python \
-  tools/verify_legacy_oracles.py "$REPLAY_DIR/LEGACY_CHECK.json"
+"$LEGACY_PYTHON_EXE" tools/verify_legacy_oracles.py \
+  --repo-root "$QHAT_REPO_ROOT" "$REPLAY_DIR/LEGACY_CHECK.json"
 ```
 
-It checks the packaged recorded results; fresh legacy replay costs belong to its own bounded allocation. The copies in `evidence/checks/` are the original recording adapters, retained verbatim for provenance, and contain historical scratch paths. The portable tool does not depend on those paths. A standalone Julia-only bundle can reproduce the new solvers; optional legacy oracles additionally need the pinned QHAT source tree.
+Set `LEGACY_PYTHON_EXE` to the existing pinned Python environment with NumPy/SciPy and `QHAT_REPO_ROOT` to the full QHAT source checkout containing the retained legacy implementations. This explicit root is required when the study directory is copied outside QHAT. It checks the packaged recorded results; fresh legacy replay costs belong to its own bounded allocation. The copies in `evidence/checks/` are the original recording adapters, retained verbatim for provenance, and contain historical scratch paths. The portable tool does not depend on those paths. A standalone Julia-only bundle can reproduce the new solvers; optional legacy oracles additionally need the pinned QHAT source tree.
 
 Verify the retained archive with `sha256sum --check MANIFEST.sha256`. The manifest excludes itself and records all current source, input, output, log, and receipt files. `evidence/source_at_measurements/ResponseCore.jl` retains the exact pre-hardening source used by the timing/window records; the later guard-only difference is described in the report.
+
+## Cubic DP integration validation
+
+This is the subsequent study in `CUBIC_DP_PROTOCOL.md` and `CUBIC_DP_REPORT.md`. It uses the same fixed eight-unit CH4 and CO windows as the original cubic pilot. Their full order, endpoints, input bytes, and r=15 remain fixed; the DP now optimizes the coherent cubic response square rather than the archived first-order objective. Its certificate is exact for the supplied binary64 response tables.
+
+Run the following command through the resource guard with a fresh output directory and a 230 CPU / 1,150 wall second limit. The recorded main run includes one first call plus three warm calls per method and case. Each DP call includes factor construction and graph/decomposition, with separate phase fields. The main results contain source hashes and a bit-pattern digest of their common frozen response tables.
+
+```sh
+"$JULIA_EXE" --startup-file=no --history-file=no --threads=1 --gcthreads=1 \
+  --heap-size-hint=300M --project=. cubic_dp_study.jl main \
+  evidence/inputs/cubic/CH4_r1p09.toml evidence/results/CH4_WINDOW.a2.toml "$REPLAY_DIR/CH4_MAIN.toml" \
+  evidence/inputs/cubic/CO_r1p13.toml evidence/results/CO_WINDOW.a2.toml "$REPLAY_DIR/CO_MAIN.toml"
+```
+
+The representative preflight uses `preflight` instead of `main` and the CO triple only. It scales coefficients by 7/5 and obtains a fresh exhaustive oracle; it assumes no homogeneity of the transported cubic objective. The preflight records only first calls. Inspect all method completion statuses and per-method checkpoints; a refusal is not a partial optimum certificate.
+
+Under a separate 50 CPU / 250 wall second guard, check fresh main results with:
+
+```sh
+"$JULIA_EXE" --startup-file=no --history-file=no --threads=1 --gcthreads=1 \
+  --heap-size-hint=300M --project=. independent_cubic_dp_check.jl \
+  evidence/inputs/cubic/CH4_r1p09.toml evidence/results/CH4_WINDOW.a2.toml "$REPLAY_DIR/CH4_MAIN.toml" "$REPLAY_DIR/CH4_CHECK.toml" \
+  evidence/inputs/cubic/CO_r1p13.toml evidence/results/CO_WINDOW.a2.toml "$REPLAY_DIR/CO_MAIN.toml" "$REPLAY_DIR/CO_CHECK.toml"
+```
+
+This checker does not rerun DP or exhaustive optimization. It independently evaluates the scalar factors and exact dyadic response vectors on fixed nonoptimal permutations, checks rational normalization and the archived optimum/witness, and verifies full-order/source/input/physical-evidence bindings. Full Taylor parity is numerical and separate from the exact frozen-table certificate. The identical full orders reuse the old physical results; no new physical win follows from reproducing them.
+
+`evidence/cubic_dp_validation/` contains the new logs, resource receipts, results, independent review, and pre-main freeze. Its `provenance/prior_MANIFEST.sha256` preserves the old study manifest, which describes the prior source state. Changed old files are retained under `source_at_prior_commit/`; the root `MANIFEST.sha256` describes the complete current bundle.

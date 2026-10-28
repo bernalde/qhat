@@ -1,0 +1,64 @@
+{
+  "task": "Cubic DP validation",
+  "resource_caps_CPU_wall_seconds": {
+    "implementation_tests": [
+      120,
+      600
+    ],
+    "representative_preflight": [
+      100,
+      500
+    ],
+    "main_validation": [
+      240,
+      1200
+    ],
+    "independent_checks": [
+      100,
+      500
+    ]
+  },
+  "attempts": [
+    {
+      "receipt": "cubic-dp-full-suite-a1.resources.json",
+      "exit_code": 0,
+      "CPU_seconds": 29.07,
+      "guarded_wall_seconds": 117.29313359298976,
+      "max_RSS_KiB": 434320.0
+    },
+    {
+      "receipt": "cubic-dp-independent-a1.resources.json",
+      "exit_code": 0,
+      "CPU_seconds": 13.64,
+      "guarded_wall_seconds": 57.17815605801297,
+      "max_RSS_KiB": 440376.0
+    },
+    {
+      "receipt": "cubic-dp-main-a1.resources.json",
+      "exit_code": 0,
+      "CPU_seconds": 75.5,
+      "guarded_wall_seconds": 303.7263724550139,
+      "max_RSS_KiB": 449376.0
+    },
+    {
+      "receipt": "cubic-dp-preflight-a1.resources.json",
+      "exit_code": 0,
+      "CPU_seconds": 20.92,
+      "guarded_wall_seconds": 84.23276223702123,
+      "max_RSS_KiB": 417316.0
+    },
+    {
+      "receipt": "cubic-dp-unit-tests-a1.resources.json",
+      "exit_code": 0,
+      "CPU_seconds": 14.88,
+      "guarded_wall_seconds": 60.16848250897601,
+      "max_RSS_KiB": 384256.0
+    }
+  ],
+  "total_CPU_seconds": 154.01,
+  "total_guarded_wall_seconds": 622.5989068520139,
+  "full_suite_passed": 1815,
+  "full_suite_testsets": 27,
+  "all_attempts_exit_zero": true,
+  "accounting_scope": "New study only. Process CPU is measured by time; guarded wall is supervisor elapsed including polling overhead. Full regression suite is charged to independent_checks."
+}

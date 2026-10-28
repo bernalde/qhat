@@ -4,6 +4,16 @@ if !isdefined(@__MODULE__, :StructureDP)
 end
 using .StructureDP
 
+@testset "Integer denominator admission and rational bit limits" begin
+    f=LocalFactor([1,2],Dict((1,2)=>0,(2,1)=>1))
+    result=bag_order_dp([1,2],fill(f,20),[[1,2]],Tuple{Int,Int}[];max_cost_bits=16)
+    @test result.complete && result.cost==0
+    @test result.details.cost_bits<=16
+    rational=LocalFactor([1,2],Dict((1,2)=>1//(1<<30),(2,1)=>1//(1<<29)))
+    refused=bag_order_dp([1,2],[rational],[[1,2]],Tuple{Int,Int}[];max_cost_bits=16)
+    @test !refused.complete && refused.status==:cost_bit_limit
+end
+
 function structure_permutations(labels)
     isempty(labels) && return [()]
     out=Tuple[]
