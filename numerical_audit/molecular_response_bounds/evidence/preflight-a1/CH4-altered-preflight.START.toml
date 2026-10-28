@@ -1,0 +1,75 @@
+caps_profile = "default"
+caps_profile_validation = "validated_bounded_profile"
+complete = false
+id = "CH4-altered-preflight"
+input_admission_status = "not_checked"
+input_file = "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/preparation-a1/CH4_r1p09.coeff7over5.toml"
+registry_sha256 = "a6a2d168a18fc28afea196d069593085b06c93b2fd47c62fb41325ef1d428599"
+status = "started"
+
+[caps]
+max_bits = 4096
+max_bytes = 134217728
+max_cache = 100000
+max_entries = 1000000
+max_input_bytes = 8388608
+max_n = 14
+max_output_bytes = 33554432
+max_probes = 2000000
+max_scopes = 50000
+max_states = 10000
+max_units = 512
+max_variants = 300000
+max_words = 4096
+max_work = 50000000
+
+[caps_declaration]
+cli_profile = "none"
+effective_profile = "default"
+schema = "bounded-caps-v1"
+selection_source = "registry"
+
+    [caps_declaration.effective]
+    max_bits = 4096
+    max_bytes = 134217728
+    max_cache = 100000
+    max_entries = 1000000
+    max_input_bytes = 8388608
+    max_n = 14
+    max_output_bytes = 33554432
+    max_probes = 2000000
+    max_scopes = 50000
+    max_states = 10000
+    max_units = 512
+    max_variants = 300000
+    max_words = 4096
+    max_work = 50000000
+
+    [caps_declaration.hard_ceilings]
+    max_bits = 4096
+    max_bytes = 134217728
+    max_cache = 100000
+    max_entries = 1000000
+    max_input_bytes = 8388608
+    max_n = 14
+    max_output_bytes = 33554432
+    max_probes = 4500000
+    max_scopes = 50000
+    max_states = 10000
+    max_units = 1024
+    max_variants = 300000
+    max_words = 8192
+    max_work = 50000000
+
+    [caps_declaration.registry]
+    profile = "default"
+
+[source_hashes]
+"independent_check.jl" = "81bb6821ba98b343577247a4ba836f9178c9a62d4e1b1791faa8fabfc8d85150"
+"src/BoundsCommon.jl" = "fd498baab98fb74ef1af42147382e7cc0beca9431f014f973a49df12ba232687"
+"src/ExactResponse.jl" = "0714c77267aa71428ea916180ef92336cc36d156fa6bfb7e81d8256bc29c3575"
+"src/IndependentCheck.jl" = "7ec9cd2c9fb17851c4a44a5ffe51eb47e80a6a9fae8639e2c540c44c98041937"
+"src/MolecularResponseBounds.jl" = "3cae2dbad82aebb679de1779bc5a25940e08fff6b4abeb282b35b53d980a582d"
+"src/ResponseBounds.jl" = "fd298e76828e295cc4c3cbfbe3b478f531e4cf85a18cb43fa6063a19c2bff8f0"
+"src/StudyAPI.jl" = "3893457d516f8082a1a5cc3aa8ae32719d327fad08cb4558dfbe875283ee9949"
+"study.jl" = "a1c51dffb3858066942112fac03f9472105d034548e01dc0a16238a67ddcdfc9"

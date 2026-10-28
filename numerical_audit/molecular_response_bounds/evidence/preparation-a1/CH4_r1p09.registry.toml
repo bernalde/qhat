@@ -1,0 +1,17 @@
+schema = "molecular-bounds-registry-v1"
+[caps]
+profile = "default"
+[options]
+iterations = 64
+max_witnesses = 8
+target_count = 8
+comparison_count = 1
+attempt_CPU_seconds = 180.0
+attempt_wall_seconds = 900.0
+[[cases]]
+id = "CH4_r1p09-development"
+input = "/tmp/qhat-molecular-bounds-2026-10-28/worktree/numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CH4_r1p09.toml"
+freeze_kernel = true
+time = 1.0
+order_field = "cubic_order"
+budget_multiplier = 30
