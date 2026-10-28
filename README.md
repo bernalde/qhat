@@ -13,6 +13,13 @@ pieces are
 
 See the README file in each directory for component-specific documentation. The [independent project review response](numerical_audit/reports/claude_project_review_2026-10-27.md) records current verification scope and finding dispositions.
 
+The [sparse molecular orderer](analysis/RESPONSE_ORDERING.md) constructs bounded
+per-instance symmetric schedules without full-state allocation during training.
+Its [verified twelve-mode comparison](numerical_audit/scalable_ordering/evidence)
+reports accuracy, training costs and compiled resources separately. Cubic
+ordering has the lowest or tied error in this four-case panel; cheaper methods
+remain competitive on some cases.
+
 If you need support or have a feature request, the best way to reach out to the team is to open an
 issue in the GitHub repository.
 
