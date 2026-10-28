@@ -1,0 +1,93 @@
+{
+  "unit": "fermionic-future-julia-cubic-window-main-a1-2285530",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "100",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/numba-cache",
+    "MPLCONFIGDIR": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=300M",
+    "--project=numerical_audit/julia_cubic_feasibility",
+    "numerical_audit/julia_cubic_feasibility/window_batch.jl",
+    "window",
+    "/tmp/qhat-julia-cubic-2026-10-27/inputs/CH4_r1p09.toml",
+    "/tmp/qhat-julia-cubic-2026-10-27/runs/CH4_WINDOW.a1.toml",
+    "/tmp/qhat-julia-cubic-2026-10-27/inputs/CO_r1p13.toml",
+    "/tmp/qhat-julia-cubic-2026-10-27/runs/CO_WINDOW.a1.toml"
+  ],
+  "exit_code": 1,
+  "supervisor_exit_code": 1,
+  "elapsed": 9.046244597993791,
+  "samples": [
+    {
+      "elapsed": 0.0012253380264155567,
+      "available_bytes": 22392410112,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=67000",
+      "output_bytes": 252983
+    },
+    {
+      "elapsed": 3.029074607999064,
+      "available_bytes": 22175997952,
+      "frozen": false,
+      "service": "MemoryCurrent=223657984\nMemoryPeak=223657984\nCPUUsageNSec=770558000",
+      "output_bytes": 252983
+    },
+    {
+      "elapsed": 6.037299189018086,
+      "available_bytes": 22144790528,
+      "frozen": false,
+      "service": "MemoryCurrent=256724992\nMemoryPeak=256880640\nCPUUsageNSec=1526773000",
+      "output_bytes": 252983
+    }
+  ],
+  "completed_utc": "2026-10-28T04:42:34.524930+00:00",
+  "budget": {
+    "cpu_seconds": 20.0,
+    "wall_seconds": 100,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/julia-cubic-window-main-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 1.76,
+    "system_cpu_seconds": 0.21,
+    "max_rss_kib": 451236.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 1.97,
+    "output_bytes": 255327,
+    "elapsed_seconds": 9.046244597993791,
+    "process_CPU_timing_available": true
+  }
+}

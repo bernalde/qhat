@@ -1,0 +1,1149 @@
+blas_threads = 1
+julia_version = "1.10.11"
+mode = "main"
+process_cpu_seconds = 62.136157999999995
+process_wall_seconds = 248.5928909778595
+status = "complete"
+threads = 1
+
+[[cases]]
+case = "F2_r1p55"
+expected_integer_minimum = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+expected_minimizers = 13440
+first_call_context = "One shared process; later methods/cases may reuse JIT helpers. Whole-process startup is in the external receipt."
+input_sha256 = "ae0a45a395de7372b7a64605f04bd4cd675b4f7792a66b185872912229b9781b"
+objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+original_window = [23, 2, 10, 4, 12, 6, 14, 40, 41]
+parse_cpu_seconds = 0.18769100000000005
+scope = "Same archived first-order JD integer objective; original outside order fixed; no cubic or physical-error optimality claim"
+warm_integer_score = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+width = 9
+
+    [[cases.first_calls]]
+    allocated_bytes = 114331480
+    cpu_seconds = 3.549802
+    gc_wall_seconds = 0.092208726
+    method = "dp"
+    wall_seconds = 14.202236489
+
+        [cases.first_calls.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 4, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688//1"
+        factor_construction_CPU_seconds = 1.642486
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 6.59516345
+        factor_count = 31
+        factor_entries = 141
+        graph_decomposition_CPU_seconds = 0.36846200000000007
+        graph_decomposition_wall_seconds = 1.416729106
+        graph_edges = 27
+        heuristic_width_upper_bound = 5
+        minimizer_count_claim = false
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        reason = ""
+        setup_CPU_seconds = 2.0109709999999996
+        setup_wall_seconds = 8.011896594
+        solve_CPU_seconds = 1.5133010000000002
+        solve_wall_seconds = 6.090388162
+        status = "complete"
+        validation_CPU_seconds = 0.013240000000000585
+        validation_wall_seconds = 0.013314294
+
+            [cases.first_calls.solver.details]
+            cost_bits = "684"
+            encoded_tables_exact = true
+            estimated_bytes = "1893232"
+            physical_response_exactness_claim = false
+            states = "1737"
+            work = "165588"
+
+            [cases.first_calls.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.first_calls]]
+    allocated_bytes = 530203728
+    cpu_seconds = 1.9004330000000014
+    gc_wall_seconds = 4.166514132
+    method = "enumeration"
+    wall_seconds = 7.600485278
+
+        [cases.first_calls.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 1
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1245744"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 13440
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        original_destination_count = 3
+        outside_constant = "155363827287850782834705430387034864819916479724617092596682141235349627053467274539056827228097157206838725423723562178603770376084408109981555536387787001430016"
+        setup_CPU_seconds = 0.0008879999999997779
+        setup_wall_seconds = 0.000877965
+        solve_CPU_seconds = 1.8878179999999993
+        solve_wall_seconds = 7.513863579
+        status = "complete"
+        validation_CPU_seconds = 0.011677000000000604
+        validation_wall_seconds = 0.085700599
+
+            [cases.first_calls.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+
+    [cases.metadata]
+    archived_enumeration_cpu_seconds = 0.82174963
+    certificate_sha256 = "7a91e6b5234d50179c4bb3ac9ddb259f861b97e51a1ee61539e927dd68f3538a"
+    domain_sha256 = "83ffcbe096650110d9cb4f7d2b9cb7cd5a3698e8cf3c8c31274bb53ef85f7c8d"
+    weight_multiplier = "1"
+
+    [[cases.warm_samples]]
+    allocated_bytes = 18522872
+    cpu_seconds = 0.01966000000000001
+    gc_wall_seconds = 0.0
+    method = "dp"
+    repetition = 1
+    wall_seconds = 0.019660688
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 4, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688//1"
+        factor_construction_CPU_seconds = 0.0021210000000007057
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.002122359
+        factor_count = 31
+        factor_entries = 141
+        graph_decomposition_CPU_seconds = 6.800000000062312e-5
+        graph_decomposition_wall_seconds = 6.8452e-5
+        graph_edges = 27
+        heuristic_width_upper_bound = 5
+        minimizer_count_claim = false
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        reason = ""
+        setup_CPU_seconds = 0.0021900000000005804
+        setup_wall_seconds = 0.002191303
+        solve_CPU_seconds = 0.01734700000000089
+        solve_wall_seconds = 0.01736633
+        status = "complete"
+        validation_CPU_seconds = 8.799999999986596e-5
+        validation_wall_seconds = 8.7903e-5
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "684"
+            encoded_tables_exact = true
+            estimated_bytes = "1893232"
+            physical_response_exactness_claim = false
+            states = "1737"
+            work = "165588"
+
+            [cases.warm_samples.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 522718320
+    cpu_seconds = 1.954922999999999
+    gc_wall_seconds = 4.491528715
+    method = "enumeration"
+    repetition = 1
+    wall_seconds = 7.805451361
+
+        [cases.warm_samples.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 1
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1245744"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 13440
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        original_destination_count = 3
+        outside_constant = "155363827287850782834705430387034864819916479724617092596682141235349627053467274539056827228097157206838725423723562178603770376084408109981555536387787001430016"
+        setup_CPU_seconds = 0.0007990000000006603
+        setup_wall_seconds = 0.000800515
+        solve_CPU_seconds = 1.9539650000000002
+        solve_wall_seconds = 7.804499901
+        status = "complete"
+        validation_CPU_seconds = 0.00012500000000059686
+        validation_wall_seconds = 0.000127169
+
+            [cases.warm_samples.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 522718320
+    cpu_seconds = 2.019539
+    gc_wall_seconds = 4.703241221
+    method = "enumeration"
+    repetition = 2
+    wall_seconds = 8.097010819
+
+        [cases.warm_samples.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 1
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1245744"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 13440
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        original_destination_count = 3
+        outside_constant = "155363827287850782834705430387034864819916479724617092596682141235349627053467274539056827228097157206838725423723562178603770376084408109981555536387787001430016"
+        setup_CPU_seconds = 0.0009779999999999234
+        setup_wall_seconds = 0.000982558
+        solve_CPU_seconds = 2.0184510000000007
+        solve_wall_seconds = 8.095922832
+        status = "complete"
+        validation_CPU_seconds = 8.900000000089392e-5
+        validation_wall_seconds = 8.8643e-5
+
+            [cases.warm_samples.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 18522872
+    cpu_seconds = 0.02631600000000134
+    gc_wall_seconds = 0.0
+    method = "dp"
+    repetition = 2
+    wall_seconds = 0.102437384
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 4, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688//1"
+        factor_construction_CPU_seconds = 0.001961999999998909
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.001974176
+        factor_count = 31
+        factor_entries = 141
+        graph_decomposition_CPU_seconds = 9.700000000023579e-5
+        graph_decomposition_wall_seconds = 9.7548e-5
+        graph_edges = 27
+        heuristic_width_upper_bound = 5
+        minimizer_count_claim = false
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        reason = ""
+        setup_CPU_seconds = 0.0020609999999994244
+        setup_wall_seconds = 0.002072477
+        solve_CPU_seconds = 0.02412599999999898
+        solve_wall_seconds = 0.10024274
+        status = "complete"
+        validation_CPU_seconds = 0.00010900000000013677
+        validation_wall_seconds = 0.000110201
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "684"
+            encoded_tables_exact = true
+            estimated_bytes = "1893232"
+            physical_response_exactness_claim = false
+            states = "1737"
+            work = "165588"
+
+            [cases.warm_samples.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 18522872
+    cpu_seconds = 0.0194939999999999
+    gc_wall_seconds = 0.0
+    method = "dp"
+    repetition = 3
+    wall_seconds = 0.095937893
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 4, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688//1"
+        factor_construction_CPU_seconds = 0.0010930000000008988
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.001099708
+        factor_count = 31
+        factor_entries = 141
+        graph_decomposition_CPU_seconds = 6.4000000000064e-5
+        graph_decomposition_wall_seconds = 6.452e-5
+        graph_edges = 27
+        heuristic_width_upper_bound = 5
+        minimizer_count_claim = false
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        reason = ""
+        setup_CPU_seconds = 0.0011580000000002144
+        setup_wall_seconds = 0.001164664
+        solve_CPU_seconds = 0.01823199999999936
+        solve_wall_seconds = 0.094674043
+        status = "complete"
+        validation_CPU_seconds = 9.000000000014552e-5
+        validation_wall_seconds = 9.0297e-5
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "684"
+            encoded_tables_exact = true
+            estimated_bytes = "1893232"
+            physical_response_exactness_claim = false
+            states = "1737"
+            work = "165588"
+
+            [cases.warm_samples.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 522718320
+    cpu_seconds = 1.940315
+    gc_wall_seconds = 4.383649985
+    method = "enumeration"
+    repetition = 3
+    wall_seconds = 7.792478654
+
+        [cases.warm_samples.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 1
+        cost = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1245744"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 13440
+        order = [2, 4, 6, 10, 12, 14, 23, 40, 41]
+        original_destination_count = 3
+        outside_constant = "155363827287850782834705430387034864819916479724617092596682141235349627053467274539056827228097157206838725423723562178603770376084408109981555536387787001430016"
+        setup_CPU_seconds = 0.0009980000000009426
+        setup_wall_seconds = 0.001004027
+        solve_CPU_seconds = 1.9392129999999987
+        solve_wall_seconds = 7.791376948
+        status = "complete"
+        validation_CPU_seconds = 8.499999999855845e-5
+        validation_wall_seconds = 8.4549e-5
+
+            [cases.warm_samples.solver.validation]
+            JD = "335564846928866088156594624378249736152736169229874738023019693945702654293834528177//62165404551223330269422781018352605012557018849668464680057997111644937126566671941632"
+            expected_matches = true
+            full_order = [0, 8, 15, 21, 26, 30, 33, 35, 39, 34, 7, 13, 16, 27, 1, 20, 24, 29, 31, 18, 22, 3, 9, 5, 11, 19, 25, 28, 32, 17, 2, 4, 6, 10, 12, 14, 23, 40, 41, 38, 36, 37]
+            numerator = "155423018801974446159846876546939415560899470083144570628362493428781740702875116521672711006410774534271960432455084125218841225864413478204138689192113825906688"
+            objective_denominator = "28793048285076456849987446449190283896766061557132266451844835664715760516297522370041860391064901485759493828054533728788532902755163518009654497157537048672862208"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+[[cases]]
+case = "H2O_scale1p10"
+expected_integer_minimum = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+expected_minimizers = 44
+first_call_context = "One shared process; later methods/cases may reuse JIT helpers. Whole-process startup is in the external receipt."
+input_sha256 = "080c42bd33f20d9a188f46055d2bf17fb95abaf4607e08ff474993bfd8261c9f"
+objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+original_window = [36, 37, 38, 39, 40, 41, 42, 43, 0]
+parse_cpu_seconds = 0.0004939999999997724
+scope = "Same archived first-order JD integer objective; original outside order fixed; no cubic or physical-error optimality claim"
+warm_integer_score = "1201553436756468771679204946876043522697498578785455983497768800464820732926545442092260992272165947414920733278294441590852426783378306317825607225835520"
+width = 9
+
+    [[cases.first_calls]]
+    allocated_bytes = 604623512
+    cpu_seconds = 1.901757
+    gc_wall_seconds = 1.97384617
+    method = "dp"
+    wall_seconds = 7.600955767
+
+        [cases.first_calls.solver]
+        actual_factor_clique_lower_bound = 3
+        bag_count = 9
+        bag_sizes = [5, 8, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392//1"
+        factor_construction_CPU_seconds = 0.25347799999999765
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 1.004843423
+        factor_count = 23
+        factor_entries = 221
+        graph_decomposition_CPU_seconds = 8.599999999958641e-5
+        graph_decomposition_wall_seconds = 8.5485e-5
+        graph_edges = 31
+        heuristic_width_upper_bound = 7
+        minimizer_count_claim = false
+        order = [42, 38, 39, 40, 43, 37, 41, 0, 36]
+        reason = ""
+        setup_CPU_seconds = 0.2535659999999993
+        setup_wall_seconds = 1.004929509
+        solve_CPU_seconds = 1.6480910000000009
+        solve_wall_seconds = 6.595933083
+        status = "complete"
+        validation_CPU_seconds = 8.19999999990273e-5
+        validation_wall_seconds = 8.1823e-5
+
+            [cases.first_calls.solver.details]
+            cost_bits = "739"
+            encoded_tables_exact = true
+            estimated_bytes = "52746168"
+            physical_response_exactness_claim = false
+            states = "46353"
+            work = "5540924"
+
+            [cases.first_calls.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 43, 37, 41, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.first_calls]]
+    allocated_bytes = 2046219544
+    cpu_seconds = 7.9743759999999995
+    gc_wall_seconds = 21.21713403
+    method = "enumeration"
+    wall_seconds = 31.902589927
+
+        [cases.first_calls.solver]
+        active_destination_count = 8
+        complete = true
+        constant_destination_count = 0
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "4771872"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 44
+        order = [42, 38, 39, 40, 37, 41, 43, 0, 36]
+        original_destination_count = 8
+        outside_constant = "0"
+        setup_CPU_seconds = 0.0012040000000013151
+        setup_wall_seconds = 0.001206808
+        solve_CPU_seconds = 7.973057000000001
+        solve_wall_seconds = 31.901272532
+        status = "complete"
+        validation_CPU_seconds = 9.599999999920783e-5
+        validation_wall_seconds = 9.6426e-5
+
+            [cases.first_calls.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 37, 41, 43, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+
+    [cases.metadata]
+    archived_enumeration_cpu_seconds = 1.3917344729999999
+    certificate_sha256 = "d9bd1a941febac91eec7dcd3faff069dfa3f0b880612e5cb569cf11e066eb47e"
+    domain_sha256 = "5d5557351820f3a0bb31e5c08b3c6aabaea07e66e4bbfe5e726b538ce0b9bcdc"
+    weight_multiplier = "1"
+
+    [[cases.warm_samples]]
+    allocated_bytes = 575912768
+    cpu_seconds = 1.1641370000000002
+    gc_wall_seconds = 0.934664191
+    method = "dp"
+    repetition = 1
+    wall_seconds = 4.616833268
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 3
+        bag_count = 9
+        bag_sizes = [5, 8, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392//1"
+        factor_construction_CPU_seconds = 0.0022580000000012035
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.002265583
+        factor_count = 23
+        factor_entries = 221
+        graph_decomposition_CPU_seconds = 6.400000000184036e-5
+        graph_decomposition_wall_seconds = 6.4074e-5
+        graph_edges = 31
+        heuristic_width_upper_bound = 7
+        minimizer_count_claim = false
+        order = [42, 38, 39, 40, 43, 37, 41, 0, 36]
+        reason = ""
+        setup_CPU_seconds = 0.002323000000000519
+        setup_wall_seconds = 0.002330174
+        solve_CPU_seconds = 1.1616989999999987
+        solve_wall_seconds = 4.614395099
+        status = "complete"
+        validation_CPU_seconds = 9.700000000023579e-5
+        validation_wall_seconds = 9.8388e-5
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "739"
+            encoded_tables_exact = true
+            estimated_bytes = "52746168"
+            physical_response_exactness_claim = false
+            states = "46353"
+            work = "5540924"
+
+            [cases.warm_samples.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 43, 37, 41, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 2046219544
+    cpu_seconds = 8.035231
+    gc_wall_seconds = 21.145803992
+    method = "enumeration"
+    repetition = 1
+    wall_seconds = 32.186210681
+
+        [cases.warm_samples.solver]
+        active_destination_count = 8
+        complete = true
+        constant_destination_count = 0
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "4771872"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 44
+        order = [42, 38, 39, 40, 37, 41, 43, 0, 36]
+        original_destination_count = 8
+        outside_constant = "0"
+        setup_CPU_seconds = 0.0016689999999996985
+        setup_wall_seconds = 0.001677221
+        solve_CPU_seconds = 8.033404
+        solve_wall_seconds = 32.184381234
+        status = "complete"
+        validation_CPU_seconds = 0.00013400000000274304
+        validation_wall_seconds = 0.000135097
+
+            [cases.warm_samples.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 37, 41, 43, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 2046219544
+    cpu_seconds = 8.072797999999999
+    gc_wall_seconds = 21.590382567
+    method = "enumeration"
+    repetition = 2
+    wall_seconds = 32.301464059
+
+        [cases.warm_samples.solver]
+        active_destination_count = 8
+        complete = true
+        constant_destination_count = 0
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "4771872"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 44
+        order = [42, 38, 39, 40, 37, 41, 43, 0, 36]
+        original_destination_count = 8
+        outside_constant = "0"
+        setup_CPU_seconds = 0.002701000000001841
+        setup_wall_seconds = 0.080835316
+        solve_CPU_seconds = 8.069941999999998
+        solve_wall_seconds = 32.220480666
+        status = "complete"
+        validation_CPU_seconds = 0.00012699999999910005
+        validation_wall_seconds = 0.00012813
+
+            [cases.warm_samples.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 37, 41, 43, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 575912768
+    cpu_seconds = 1.2856179999999995
+    gc_wall_seconds = 1.020218967
+    method = "dp"
+    repetition = 2
+    wall_seconds = 5.185761428
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 3
+        bag_count = 9
+        bag_sizes = [5, 8, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392//1"
+        factor_construction_CPU_seconds = 0.00221700000000169
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.002226803
+        factor_count = 23
+        factor_entries = 221
+        graph_decomposition_CPU_seconds = 6.799999999884676e-5
+        graph_decomposition_wall_seconds = 6.8294e-5
+        graph_edges = 31
+        heuristic_width_upper_bound = 7
+        minimizer_count_claim = false
+        order = [42, 38, 39, 40, 43, 37, 41, 0, 36]
+        reason = ""
+        setup_CPU_seconds = 0.0022870000000025925
+        setup_wall_seconds = 0.00229558
+        solve_CPU_seconds = 1.2831970000000013
+        solve_wall_seconds = 5.183337968
+        status = "complete"
+        validation_CPU_seconds = 0.0001160000000055561
+        validation_wall_seconds = 0.00011625
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "739"
+            encoded_tables_exact = true
+            estimated_bytes = "52746168"
+            physical_response_exactness_claim = false
+            states = "46353"
+            work = "5540924"
+
+            [cases.warm_samples.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 43, 37, 41, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 575912768
+    cpu_seconds = 1.099687000000003
+    gc_wall_seconds = 0.848318516
+    method = "dp"
+    repetition = 3
+    wall_seconds = 4.399932998
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 3
+        bag_count = 9
+        bag_sizes = [5, 8, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392//1"
+        factor_construction_CPU_seconds = 0.0026730000000014797
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.002688281
+        factor_count = 23
+        factor_entries = 221
+        graph_decomposition_CPU_seconds = 7.500000000248974e-5
+        graph_decomposition_wall_seconds = 7.5464e-5
+        graph_edges = 31
+        heuristic_width_upper_bound = 7
+        minimizer_count_claim = false
+        order = [42, 38, 39, 40, 43, 37, 41, 0, 36]
+        reason = ""
+        setup_CPU_seconds = 0.0027510000000035006
+        setup_wall_seconds = 0.002764346
+        solve_CPU_seconds = 1.096823999999998
+        solve_wall_seconds = 4.397063078
+        status = "complete"
+        validation_CPU_seconds = 9.499999999462716e-5
+        validation_wall_seconds = 9.523e-5
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "739"
+            encoded_tables_exact = true
+            estimated_bytes = "52746168"
+            physical_response_exactness_claim = false
+            states = "46353"
+            work = "5540924"
+
+            [cases.warm_samples.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 43, 37, 41, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 2046219544
+    cpu_seconds = 8.149501
+    gc_wall_seconds = 21.003062923
+    method = "enumeration"
+    repetition = 3
+    wall_seconds = 32.599988759
+
+        [cases.warm_samples.solver]
+        active_destination_count = 8
+        complete = true
+        constant_destination_count = 0
+        cost = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "4771872"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 44
+        order = [42, 38, 39, 40, 37, 41, 43, 0, 36]
+        original_destination_count = 8
+        outside_constant = "0"
+        setup_CPU_seconds = 0.002212999999997578
+        setup_wall_seconds = 0.002224529
+        solve_CPU_seconds = 8.147022
+        solve_wall_seconds = 32.5975126
+        status = "complete"
+        validation_CPU_seconds = 0.00020700000000317686
+        validation_wall_seconds = 0.00020497
+
+            [cases.warm_samples.solver.validation]
+            JD = "57926971142953888020901376179678195953428376607994040531556700933338637910350739001499//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 37, 41, 43, 0, 36, 44, 45, 46, 47]
+            numerator = "780854026301805480461223982505848522824886439719876127643396852613565849778451372454497366399053401877803143081372380400853444063807601341467041193787392"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+[[cases]]
+case = "Li2_r2p95"
+expected_integer_minimum = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+expected_minimizers = 264
+first_call_context = "One shared process; later methods/cases may reuse JIT helpers. Whole-process startup is in the external receipt."
+input_sha256 = "2e4abf77cb832af1f55b2423948dd4752ba8b5f04ba0be573a5f063fbfe0053b"
+objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+original_window = [7, 14, 16, 4, 10, 13, 17, 21, 22]
+parse_cpu_seconds = 0.0002689999999958559
+scope = "Same archived first-order JD integer objective; original outside order fixed; no cubic or physical-error optimality claim"
+warm_integer_score = "2428450611417400616878869702402846329766183470112622218633134515947604123222697364609186813032187992079045479604520177361878859666520072057944709005312"
+width = 9
+
+    [[cases.first_calls]]
+    allocated_bytes = 83806928
+    cpu_seconds = 0.2302970000000002
+    gc_wall_seconds = 0.406542946
+    method = "dp"
+    wall_seconds = 0.984092724
+
+        [cases.first_calls.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008//1"
+        factor_construction_CPU_seconds = 0.010641999999997154
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.088482117
+        factor_count = 37
+        factor_entries = 173
+        graph_decomposition_CPU_seconds = 0.00010199999999827014
+        graph_decomposition_wall_seconds = 0.00010028
+        graph_edges = 30
+        heuristic_width_upper_bound = 6
+        minimizer_count_claim = false
+        order = [10, 14, 16, 22, 7, 13, 17, 21, 4]
+        reason = ""
+        setup_CPU_seconds = 0.01074599999999748
+        setup_wall_seconds = 0.088582952
+        solve_CPU_seconds = 0.2194769999999977
+        solve_wall_seconds = 0.895443212
+        status = "complete"
+        validation_CPU_seconds = 5.699999999819738e-5
+        validation_wall_seconds = 5.7223e-5
+
+            [cases.first_calls.solver.details]
+            cost_bits = "683"
+            encoded_tables_exact = true
+            estimated_bytes = "7332016"
+            physical_response_exactness_claim = false
+            states = "6753"
+            work = "840836"
+
+            [cases.first_calls.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 10, 14, 16, 22, 7, 13, 17, 21, 4, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.first_calls]]
+    allocated_bytes = 513039288
+    cpu_seconds = 1.9919420000000017
+    gc_wall_seconds = 4.779984086
+    method = "enumeration"
+    wall_seconds = 7.917781064
+
+        [cases.first_calls.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 0
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1217610"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 264
+        order = [4, 14, 16, 22, 7, 13, 17, 21, 10]
+        original_destination_count = 2
+        outside_constant = "0"
+        setup_CPU_seconds = 0.001006999999994207
+        setup_wall_seconds = 0.000994884
+        solve_CPU_seconds = 1.9908090000000058
+        solve_wall_seconds = 7.916664367
+        status = "complete"
+        validation_CPU_seconds = 0.00010400000000032605
+        validation_wall_seconds = 0.000104517
+
+            [cases.first_calls.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 4, 14, 16, 22, 7, 13, 17, 21, 10, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+
+    [cases.metadata]
+    archived_enumeration_cpu_seconds = 0.8292698519999999
+    certificate_sha256 = "11748ef60c585d50a8a5eb01617d1faaeb3a6d90cf1f3af401113878ae13544e"
+    domain_sha256 = "eea0236c873ce0757b67a27e33aed9f7e95dd08519f3aba0db108fd45d040ffe"
+    weight_multiplier = "1"
+
+    [[cases.warm_samples]]
+    allocated_bytes = 83606832
+    cpu_seconds = 0.2248480000000015
+    gc_wall_seconds = 0.408772581
+    method = "dp"
+    repetition = 1
+    wall_seconds = 0.902451987
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008//1"
+        factor_construction_CPU_seconds = 0.0016870000000039909
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.001687051
+        factor_count = 37
+        factor_entries = 173
+        graph_decomposition_CPU_seconds = 9.299999999967667e-5
+        graph_decomposition_wall_seconds = 9.2826e-5
+        graph_edges = 30
+        heuristic_width_upper_bound = 6
+        minimizer_count_claim = false
+        order = [10, 14, 16, 22, 7, 13, 17, 21, 4]
+        reason = ""
+        setup_CPU_seconds = 0.0017810000000011428
+        setup_wall_seconds = 0.001780466
+        solve_CPU_seconds = 0.22300700000000262
+        solve_wall_seconds = 0.900616259
+        status = "complete"
+        validation_CPU_seconds = 4.5999999997548e-5
+        validation_wall_seconds = 4.5279e-5
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "683"
+            encoded_tables_exact = true
+            estimated_bytes = "7332016"
+            physical_response_exactness_claim = false
+            states = "6753"
+            work = "840836"
+
+            [cases.warm_samples.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 10, 14, 16, 22, 7, 13, 17, 21, 4, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 513039288
+    cpu_seconds = 1.9266180000000048
+    gc_wall_seconds = 4.446978372
+    method = "enumeration"
+    repetition = 1
+    wall_seconds = 7.698581204
+
+        [cases.warm_samples.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 0
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1217610"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 264
+        order = [4, 14, 16, 22, 7, 13, 17, 21, 10]
+        original_destination_count = 2
+        outside_constant = "0"
+        setup_CPU_seconds = 0.0012959999999964111
+        setup_wall_seconds = 0.001297534
+        solve_CPU_seconds = 1.9252419999999972
+        solve_wall_seconds = 7.697210656
+        status = "complete"
+        validation_CPU_seconds = 5.5000000003246896e-5
+        validation_wall_seconds = 5.5454e-5
+
+            [cases.warm_samples.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 4, 14, 16, 22, 7, 13, 17, 21, 10, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 513039288
+    cpu_seconds = 1.9647259999999989
+    gc_wall_seconds = 4.577104646
+    method = "enumeration"
+    repetition = 2
+    wall_seconds = 7.892762592
+
+        [cases.warm_samples.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 0
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1217610"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 264
+        order = [4, 14, 16, 22, 7, 13, 17, 21, 10]
+        original_destination_count = 2
+        outside_constant = "0"
+        setup_CPU_seconds = 0.0012049999999987904
+        setup_wall_seconds = 0.00120971
+        solve_CPU_seconds = 1.9634339999999995
+        solve_wall_seconds = 7.891472228
+        status = "complete"
+        validation_CPU_seconds = 6.49999999993156e-5
+        validation_wall_seconds = 6.4552e-5
+
+            [cases.warm_samples.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 4, 14, 16, 22, 7, 13, 17, 21, 10, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 83606832
+    cpu_seconds = 0.19940900000000283
+    gc_wall_seconds = 0.395533906
+    method = "dp"
+    repetition = 2
+    wall_seconds = 0.802132431
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008//1"
+        factor_construction_CPU_seconds = 0.0013019999999954734
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.001309033
+        factor_count = 37
+        factor_entries = 173
+        graph_decomposition_CPU_seconds = 0.00013500000000021828
+        graph_decomposition_wall_seconds = 0.000138211
+        graph_edges = 30
+        heuristic_width_upper_bound = 6
+        minimizer_count_claim = false
+        order = [10, 14, 16, 22, 7, 13, 17, 21, 4]
+        reason = ""
+        setup_CPU_seconds = 0.0014399999999952229
+        setup_wall_seconds = 0.001447889
+        solve_CPU_seconds = 0.19791400000000436
+        solve_wall_seconds = 0.800634315
+        status = "complete"
+        validation_CPU_seconds = 4.100000000306636e-5
+        validation_wall_seconds = 4.1502e-5
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "683"
+            encoded_tables_exact = true
+            estimated_bytes = "7332016"
+            physical_response_exactness_claim = false
+            states = "6753"
+            work = "840836"
+
+            [cases.warm_samples.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 10, 14, 16, 22, 7, 13, 17, 21, 4, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 83606832
+    cpu_seconds = 0.10955400000000282
+    gc_wall_seconds = 0.011956351
+    method = "dp"
+    repetition = 3
+    wall_seconds = 0.410458848
+
+        [cases.warm_samples.solver]
+        actual_factor_clique_lower_bound = 2
+        bag_count = 9
+        bag_sizes = [6, 5, 7, 6, 5, 4, 3, 2, 1]
+        complete = true
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008//1"
+        factor_construction_CPU_seconds = 0.0013750000000030127
+        factor_construction_performed = true
+        factor_construction_wall_seconds = 0.001383355
+        factor_count = 37
+        factor_entries = 173
+        graph_decomposition_CPU_seconds = 9.099999999762076e-5
+        graph_decomposition_wall_seconds = 9.2342e-5
+        graph_edges = 30
+        heuristic_width_upper_bound = 6
+        minimizer_count_claim = false
+        order = [10, 14, 16, 22, 7, 13, 17, 21, 4]
+        reason = ""
+        setup_CPU_seconds = 0.0014690000000001646
+        setup_wall_seconds = 0.001476126
+        solve_CPU_seconds = 0.1080170000000038
+        solve_wall_seconds = 0.408919405
+        status = "complete"
+        validation_CPU_seconds = 3.900000000101045e-5
+        validation_wall_seconds = 3.9024e-5
+
+            [cases.warm_samples.solver.details]
+            cost_bits = "683"
+            encoded_tables_exact = true
+            estimated_bytes = "7332016"
+            physical_response_exactness_claim = false
+            states = "6753"
+            work = "840836"
+
+            [cases.warm_samples.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 10, 14, 16, 22, 7, 13, 17, 21, 4, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+    [[cases.warm_samples]]
+    allocated_bytes = 513039288
+    cpu_seconds = 1.897028000000006
+    gc_wall_seconds = 4.448053415
+    method = "enumeration"
+    repetition = 3
+    wall_seconds = 7.59766306
+
+        [cases.warm_samples.solver]
+        active_destination_count = 2
+        complete = true
+        constant_destination_count = 0
+        cost = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "1217610"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 264
+        order = [4, 14, 16, 22, 7, 13, 17, 21, 10]
+        original_destination_count = 2
+        outside_constant = "0"
+        setup_CPU_seconds = 0.001142999999999006
+        setup_wall_seconds = 0.001149716
+        solve_CPU_seconds = 1.8958039999999912
+        solve_wall_seconds = 7.596439867
+        status = "complete"
+        validation_CPU_seconds = 5.699999999819738e-5
+        validation_wall_seconds = 5.7531e-5
+
+            [cases.warm_samples.solver.validation]
+            JD = "5774803341668920832618956853753852097073816158088130284109678656642077465225473//15541351137805832567355695254588151253139254712417116170014499277911234281641667985408"
+            expected_matches = true
+            full_order = [18, 20, 11, 15, 1, 0, 6, 5, 9, 19, 12, 3, 4, 14, 16, 22, 7, 13, 17, 21, 10, 2, 8, 23]
+            numerator = "39856227866797414299771829635653260456433919573510506514549475380186187749720841658577399541500789340565426365326201274604823783396480468777338667008"
+            objective_denominator = "107262463439540776796592199985646769019834926564739147021788491549774112240588375814414994385335227421520254865491888406830031062495572559571469192048672768"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+
+[source_sha256]
+"ArchivedWindows.jl" = "a24bb4489ea8c8649f74fe3a6d41884a4a383bdb53df9add144e2da0a166410b"
+"ResponseCore.jl" = "24736a2eb1bbdd9e45bf13c3c2c4e747e9a9672a4239a65f48c2c6df80260d3c"
+"StructureDP.jl" = "e063a3e7a33ae7ec1f0601c02aa031720adfdc83435257f122a50ea0804b2d22"
+"StudyIO.jl" = "42cc1dae609c6758581bc85e2d08c5b4652a6552fe34ef10d1ba252432e8aec0"
+"archive_study.jl" = "cf8ff3119f44245e0d8c94599e24c78b4f247fbb5634e64bfb5dc8d7e7c06713"
