@@ -12,6 +12,12 @@ import study_common as k
 import identity
 
 
+def encode_integer_terms(block):
+    """Canonical JSON containers also work before the JSON file is written."""
+    return [[[[site, letter] for site, letter in word], str(coefficient)]
+            for word, coefficient in sorted(block.items())]
+
+
 def generate_one(spec, registry, destination):
     import numpy as np
     from pyscf import gto, scf, lib
@@ -84,10 +90,9 @@ def generate_one(spec, registry, destination):
             k.require(partner == parent['components'][1], 'Parent reconstruction differs')
             components.append([partner, str(phase * parent['weight'])])
         retained.append(dict(components=components, removed_scalar=str(parent['scalar'])))
-    encode = lambda block: [[word, str(c)] for word, c in sorted(block.items())]
     scalar = Fraction.from_float(constant) + Fraction(sum(p['scalar'] for p in parents), denominator)
-    return dict(**spec, denominator=str(denominator), coefficients=encode(total),
-        blocks=[encode(b) for b in blocks], fermionic_parents=retained, policy=policy,
+    return dict(**spec, denominator=str(denominator), coefficients=encode_integer_terms(total),
+        blocks=[encode_integer_terms(b) for b in blocks], fermionic_parents=retained, policy=policy,
         removed_scalar_exact=str(scalar), basis=registry['basis'], unit=registry['unit'],
         charge=registry['charge'], spin=registry['spin'], total_electrons=int(mol.nelectron),
         hf_energy=float(energy), hf_contraction=float(contraction), orthogonality_error=ortho,
@@ -111,7 +116,7 @@ def prepare(output):
         shutil.copyfile(k.ROOT / name, target)
     k.write_new(output / 'INPUT_PROTOCOL_FROZEN.json', dict(source_commit=head, sources=sources,
         environment=k.environment(), registry=registry, configuration=k.configuration(), geometry_identity=prior,
-        scope='Input generation only; no ordering or validation errors; no new-family claim', internal_PySCF_memory_MiB=256))
+        scope='Input generation only; no ordering or validation errors; no new-family claim', internal_PySCF_max_memory_MB=256))
 
 
 def frozen_protocol(output):
