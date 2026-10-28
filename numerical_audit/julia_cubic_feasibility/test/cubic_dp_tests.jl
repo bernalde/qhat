@@ -123,3 +123,22 @@ end
     @test !refused.complete && refused.status==:bag_state_limit
     @test isempty(refused.order) && refused.score===nothing
 end
+
+@testset "Constant response factors and monotone bit-ceiling admission" begin
+    factor=cdp_factor([1,2],[1],Dict(1=>[1+0im],2=>[1+0im]))
+    flat=WindowSearch.FlatWindow([19,4],UInt64[0],ComplexF64[1+im],[factor],0.0)
+    data,solved=cdp_check_all(flat)
+    @test all(isempty(f.scope) for f in data.factors)
+    @test data.stats.constant_factor_value==5 && solved.score==5
+    fixture=cdp_cancellation_fixture()
+    ordinary=cubic_factors(fixture;max_bits=4096,max_bytes=100_000)
+    relaxed=cubic_factors(fixture;max_bits=1_000_000,max_bytes=100_000)
+    @test ordinary.complete && relaxed.complete
+    @test ordinary.stats.estimated_peak_bytes==relaxed.stats.estimated_peak_bytes
+    malformed=WindowSearch.FlatWindow([1,2],UInt64[0,1],ComplexF64[],WindowSearch.FlatFactor[],0.0)
+    @test_throws ArgumentError cubic_factors(malformed;max_exact_vector_entries=1)
+    emptyfactor=WindowSearch.FlatFactor([1,2],Int[],zeros(ComplexF64,0,2))
+    metadata=WindowSearch.FlatWindow([1,2],UInt64[],ComplexF64[],fill(emptyfactor,100),0.0)
+    refused=cubic_factors(metadata;max_bytes=1024)
+    @test !refused.complete && refused.status==:memory_limit
+end

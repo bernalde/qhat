@@ -111,3 +111,13 @@ end
     @test_throws NumericalResolution score_order(units,[1,2,3],0,20;guard=true)
     @test score_order(units,[1,2,3],0,20;guard=false).cubic_response <= 1e-25
 end
+
+@testset "Prebuilt atom cache has explicit dimensions and centering semantics" begin
+    units=[oneword(1,0),oneword(0,1)]
+    centered=center_units(units,0);cache=AmplitudeCache(centered)
+    expected=atom_column(centered,[1,2],0;center=false)
+    @test close_columns(atom_column(units,[1,2],0;center=false,cache=cache),expected)
+    @test close_columns(atom_column(units,[1,2],0;cache=cache),expected)
+    wrong=AmplitudeCache(centered[1:1])
+    @test_throws ArgumentError atom_column(units,[1,2],0;center=false,cache=wrong)
+end

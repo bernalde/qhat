@@ -1,0 +1,224 @@
+Running as unit: fermionic-future-ordering-address-julia-suite-a2-2646577.service; invocation ID: 2b75463b7c424a6aadaa8fb948a00da6
+ERROR: LoadError: Some tests did not pass: 24 passed, 6 failed, 0 errored, 0 broken.
+in expression starting at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:12
+in expression starting at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/runtests.jl:6
+Test Summary:                                                   | Pass  Total  Time
+Conditioned construction rejects oversized requests before work |    2      2  6.9s
+Test Summary:                                       | Pass  Total  Time
+Real equal-flip action and canonical conserving hop |    5      5  0.4s
+Test Summary:                                       | Pass  Total  Time
+Independent cubic Taylor coefficients and transport |    7      7  1.7s
+Test Summary:                                                 | Pass  Total  Time
+Pair and distinct-triple atoms reconstruct independent Taylor |   24     24  0.1s
+Test Summary:                                            | Pass  Total  Time
+Conditioned contiguous window keeps outside interference |   17     17  2.0s
+Test Summary:                                                              | Pass  Total  Time
+Scalar centering preserves cubic identity and ORIGINAL rotation accounting |    4      4  0.7s
+Test Summary:                                                   | Pass  Total  Time
+Near-zero response is refused, not reported as a completed zero |    2      2  0.0s
+Test Summary:                                                       | Pass  Total  Time
+Prebuilt atom cache has explicit dimensions and centering semantics |    3      3  0.5s
+Test Summary:                                         | Pass  Total  Time
+Integer denominator admission and rational bit limits |    3      3  8.0s
+Test Summary:                                         | Pass  Total  Time
+Bag-order DP: true gluing, signed costs, exact tables |   13     13  8.9s
+Test Summary:                                 | Pass  Total  Time
+Disconnected cases and factor-scope reduction |   10     10  4.1s
+Test Summary:                                          | Pass  Total  Time
+Structural evidence distinguishes potential from exact |   16     16  1.1s
+Test Summary:                                    | Pass  Total  Time
+Preallocation refusals and checked decomposition |   10     10  1.1s
+Test Summary:                                                  | Pass  Total  Time
+Singleton endpoints retain normal admission and result details |    9      9  0.8s
+Test Summary:                                                  | Pass  Total  Time
+Capped factor graph audit retains only complete prefix factors |    7      7  0.1s
+Test Summary:                                         | Pass  Total  Time
+Exact frozen-table window certificate and enumeration |    6      6  7.8s
+Test Summary:                                        | Pass  Total  Time
+Independent Heap coverage and global-label tie break |   10     10  1.2s
+Test Summary:                                                            | Pass  Total  Time
+Window certificates validate supplied representations and refresh bounds |   14     14  1.9s
+Test Summary:                                                             | Pass  Total  Time
+Diagnostics validate parent orders and retain canonical partial traversal |   12     12  4.7s
+Test Summary:                                                    | Pass  Total   Time
+Archived JD retains outside interference and exact factorization |   23     23  13.5s
+Test Summary:                                                      | Pass  Total  Time
+Archived first-order tables can contain genuine four-label factors |   28     28  2.5s
+Test Summary:                                                 | Pass  Total  Time
+Archived DFS folds only destinations unaffected by the window |   28     28  0.0s
+Test Summary:                                                        | Pass  Total  Time
+TOML archive schema, weight scaling, ties, and preallocation refusal |   15     15  1.4s
+Test Summary:                                  | Pass  Total  Time
+Residual metric resolves near-identical states |    3      3  0.6s
+Test Summary:                                                | Pass  Total  Time
+Rotation buffers admit only positive power-of-two dimensions |   10     10  1.4s
+Test Summary:                                               | Pass  Total   Time
+Full-space Pauli rotations agree with independent dense exp |    6      6  20.6s
+Test Summary:                                           | Pass  Total  Time
+Checked sector reference matches full dense Hamiltonian |   28     28  0.1s
+Test Summary:                                       | Pass  Total  Time
+Central/boundary fusion and nonconservation refusal |    8      8  0.0s
+Study entry points parse and can be loaded as libraries: Test Failed at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+  Expression: hasmethod(getfield(namespace, entry), Tuple{Vector{String}})
+
+Stacktrace:
+ [1] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:673 [inlined]
+ [2] (::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String})()
+   @ Main ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+ [3] cd(f::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String}, dir::String)
+   @ Base.Filesystem ./file.jl:112
+ [4] #51
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:24 [inlined]
+ [5] mktempdir(fn::var"#51#53"{NTuple{6, Tuple{String, Module, Symbol}}, String}, parent::String; prefix::String)
+   @ Base.Filesystem ./file.jl:766
+ [6] mktempdir(fn::Function, parent::String)
+   @ Base.Filesystem ./file.jl:762
+ [7] macro expansion
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:23 [inlined]
+ [8] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1582 [inlined]
+ [9] top-level scope
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:13
+Study entry points parse and can be loaded as libraries: Test Failed at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+  Expression: hasmethod(getfield(namespace, entry), Tuple{Vector{String}})
+
+Stacktrace:
+ [1] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:673 [inlined]
+ [2] (::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String})()
+   @ Main ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+ [3] cd(f::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String}, dir::String)
+   @ Base.Filesystem ./file.jl:112
+ [4] #51
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:24 [inlined]
+ [5] mktempdir(fn::var"#51#53"{NTuple{6, Tuple{String, Module, Symbol}}, String}, parent::String; prefix::String)
+   @ Base.Filesystem ./file.jl:766
+ [6] mktempdir(fn::Function, parent::String)
+   @ Base.Filesystem ./file.jl:762
+ [7] macro expansion
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:23 [inlined]
+ [8] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1582 [inlined]
+ [9] top-level scope
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:13
+Study entry points parse and can be loaded as libraries: Test Failed at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+  Expression: hasmethod(getfield(namespace, entry), Tuple{Vector{String}})
+
+Stacktrace:
+ [1] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:673 [inlined]
+ [2] (::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String})()
+   @ Main ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+ [3] cd(f::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String}, dir::String)
+   @ Base.Filesystem ./file.jl:112
+ [4] #51
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:24 [inlined]
+ [5] mktempdir(fn::var"#51#53"{NTuple{6, Tuple{String, Module, Symbol}}, String}, parent::String; prefix::String)
+   @ Base.Filesystem ./file.jl:766
+ [6] mktempdir(fn::Function, parent::String)
+   @ Base.Filesystem ./file.jl:762
+ [7] macro expansion
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:23 [inlined]
+ [8] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1582 [inlined]
+ [9] top-level scope
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:13
+Study entry points parse and can be loaded as libraries: Test Failed at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+  Expression: hasmethod(getfield(namespace, entry), Tuple{Vector{String}})
+
+Stacktrace:
+ [1] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:673 [inlined]
+ [2] (::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String})()
+   @ Main ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+ [3] cd(f::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String}, dir::String)
+   @ Base.Filesystem ./file.jl:112
+ [4] #51
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:24 [inlined]
+ [5] mktempdir(fn::var"#51#53"{NTuple{6, Tuple{String, Module, Symbol}}, String}, parent::String; prefix::String)
+   @ Base.Filesystem ./file.jl:766
+ [6] mktempdir(fn::Function, parent::String)
+   @ Base.Filesystem ./file.jl:762
+ [7] macro expansion
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:23 [inlined]
+ [8] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1582 [inlined]
+ [9] top-level scope
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:13
+Study entry points parse and can be loaded as libraries: Test Failed at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+  Expression: hasmethod(getfield(namespace, entry), Tuple{Vector{String}})
+
+Stacktrace:
+ [1] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:673 [inlined]
+ [2] (::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String})()
+   @ Main ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+ [3] cd(f::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String}, dir::String)
+   @ Base.Filesystem ./file.jl:112
+ [4] #51
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:24 [inlined]
+ [5] mktempdir(fn::var"#51#53"{NTuple{6, Tuple{String, Module, Symbol}}, String}, parent::String; prefix::String)
+   @ Base.Filesystem ./file.jl:766
+ [6] mktempdir(fn::Function, parent::String)
+   @ Base.Filesystem ./file.jl:762
+ [7] macro expansion
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:23 [inlined]
+ [8] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1582 [inlined]
+ [9] top-level scope
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:13
+Study entry points parse and can be loaded as libraries: Test Failed at /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+  Expression: hasmethod(getfield(namespace, entry), Tuple{Vector{String}})
+
+Stacktrace:
+ [1] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:673 [inlined]
+ [2] (::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String})()
+   @ Main ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:29
+ [3] cd(f::var"#52#54"{String, NTuple{6, Tuple{String, Module, Symbol}}, String}, dir::String)
+   @ Base.Filesystem ./file.jl:112
+ [4] #51
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:24 [inlined]
+ [5] mktempdir(fn::var"#51#53"{NTuple{6, Tuple{String, Module, Symbol}}, String}, parent::String; prefix::String)
+   @ Base.Filesystem ./file.jl:766
+ [6] mktempdir(fn::Function, parent::String)
+   @ Base.Filesystem ./file.jl:762
+ [7] macro expansion
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:23 [inlined]
+ [8] macro expansion
+   @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1582 [inlined]
+ [9] top-level scope
+   @ ~/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/address_candidate/numerical_audit/julia_cubic_feasibility/test/entrypoint_tests.jl:13
+Test Summary:                                           | Pass  Fail  Total   Time
+Study entry points parse and can be loaded as libraries |   24     6     30  11.7s
+Command exited with non-zero status 1
+	Command being timed: "/usr/bin/env JULIA_NUM_THREADS=1 JULIA_NUM_GC_THREADS=1 JULIA_PKG_OFFLINE=true /home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia --startup-file=no --history-file=no --threads=1 --gcthreads=1 --heap-size-hint=250M --project=. test/runtests.jl"
+	User time (seconds): 30.37
+	System time (seconds): 0.31
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:02.68
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 568144
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 23
+	Minor (reclaiming a frame) page faults: 126870
+	Voluntary context switches: 26
+	Involuntary context switches: 1315
+	Swaps: 0
+	File system inputs: 5064
+	File system outputs: 40
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 2min 2.688s
+CPU time consumed: 30.687s
+Memory peak: 279.9M
+Memory swap peak: 0B

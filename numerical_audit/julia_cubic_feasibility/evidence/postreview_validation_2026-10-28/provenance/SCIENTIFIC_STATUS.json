@@ -1,0 +1,49 @@
+{
+  "reviewed_source_head": "974ce5b3dc9b804935f5618dbda7060a7f953725",
+  "status": "passed",
+  "suite": {
+    "status": "passed",
+    "assertions": 1965,
+    "testsets": 40,
+    "attempt": "ordering-address-julia-suite-a3",
+    "source_freeze": "ADDRESS_TEST_SOURCE_FREEZE.a3.json"
+  },
+  "public_guard_tests": 7,
+  "benchmark_repeated": false,
+  "requested_warm_repetitions": 0,
+  "new_physical_propagation": false,
+  "fresh_factor_identities_checked": 64,
+  "fresh_recorded_solver_outputs_checked": 4,
+  "case_checks": [
+    {
+      "case": "CH4_r1p09",
+      "check": "checks/CH4_CHECK.a1.toml",
+      "check_sha256": "3534957699347bdb0c5645278b21c054a46baa96e5fa0dfe7e0b51a31795fb7b",
+      "result": "results/CH4_PARITY.a1.toml",
+      "result_sha256": "bcee9a47d9e69378da5e9ae6093ea3b370923b5ddb2cd902251bf50fa38dced1",
+      "factor_identities_checked": 32,
+      "recorded_solver_outputs_checked": 2,
+      "status": "passed",
+      "flat_sha256": "a71284340c9d0d0e2b88beb5f8214fc61a533d2c6413865efb9bb101f5b49dac",
+      "physical_reuse_rows_bound": 4,
+      "new_physical_propagation": false
+    },
+    {
+      "case": "CO_r1p13",
+      "check": "checks/CO_CHECK.a1.toml",
+      "check_sha256": "26a06ca373c8714eb1b38e9b77cb66dfea87415beb513d653924108d646a790e",
+      "result": "results/CO_PARITY.a1.toml",
+      "result_sha256": "4edc80f273d3c4e829af80f9bcf150ac9c3f52339886decc807baaf62a8dc227",
+      "factor_identities_checked": 32,
+      "recorded_solver_outputs_checked": 2,
+      "status": "passed",
+      "flat_sha256": "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967",
+      "physical_reuse_rows_bound": 4,
+      "new_physical_propagation": false
+    }
+  ],
+  "source_freeze": "provenance/SOURCE_FREEZE.a3.json",
+  "CPU_seconds": 131.04,
+  "guarded_wall_seconds": 535.8632759980392,
+  "scope": "Exact supplied frozen-table certificates, numerical full Taylor parity and authenticated physical-evidence reuse; no exact-transcendental, full-molecule or physical-optimality claim."
+}

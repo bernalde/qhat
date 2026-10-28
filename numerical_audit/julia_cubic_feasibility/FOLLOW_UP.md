@@ -1,0 +1,11 @@
+# Follow-up: normal optimizer and molecular guarantees
+
+This note tracks the user-authorized next study. The study maintainer owns updates; refresh it when a normal-optimizer integration PR or prospective study freezes the new implementation and protocol. These are uncompleted research questions, not claims supplied by the current small-window certificates.
+
+1. Integrate inexpensive Julia window insertion into the normal API and CLI, with arbitrary supported time and rotation cap, checked incumbent retention, whole-call CPU accounting including child startup/setup, and targeted installed-package tests. Preserve coherent outside interference and original word counts. Exact cubic DP remains an optional certificate backend.
+2. Evaluate the opt-in method prospectively on larger molecules and new holdout geometries, against the whole-order optimizer at common total construction budgets. Freeze orders before physical propagation; retain losses and all refusals. The two current development windows are complete and need no scientific rerun for this question.
+3. Seek inexpensive positive molecular lower bounds with exact independently checked separator/dual witnesses. Distinguish fixed-window ratios from full-order guarantees and exact supplied vector tables from the mathematical transport kernel. A zero bound or failed usefulness gate is a reportable negative result.
+
+The first item includes review finding ARGON-R1-Q3-002: aggregate real outside-triple columns before transport, measure setup savings, and track cancellation in local atoms and DELTAs separately from the final response. Current numerical guards only establish their stated floating resolution checks. Altering the aggregation order changes frozen binary64 DELTA bits, so the new implementation must freeze its own target and audit full Taylor parity before making certificates or performance claims. The current [ResponseCore](src/ResponseCore.jl) explicitly documents this limitation; historical evidence remains bound to the historical source.
+
+Completion requires real API/CLI checks, a frozen prospective registry and charged construction/physical measurements, and independent verification of any positive bound. No universal approximation factor or physical-error guarantee is established here.

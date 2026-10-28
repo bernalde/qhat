@@ -51,11 +51,15 @@ old_verify=load_module('archived_physical_oracle',WORK/'numerical_audit/exact_re
 archive=toml(RESULTS/'ARCHIVE_MAIN.a1.toml')
 physical_archive=toml(RESULTS/'PHYSICAL_ARCHIVE.a1.toml')
 checked_methods=checked_old_physical=0
+skipped_dp_physical=[]
 for case in archive['cases']:
     name=case['case'];domain=json.loads((OLD/'domains'/f'{name}.json').read_text())
     for sample in case['first_calls']+case['warm_samples']:
         solver=sample['solver'];assert solver['complete']
+        assert solver['validation']['valid'] and solver['validation']['expected_matches']
         full=solver['validation']['full_order']
+        assert solver['order']==full[domain['offset']:domain['offset']+domain['width']]
+        assert len(set(full))==len(full)
         value=exact.objective(full,domain)
         assert value==int(case['expected_integer_minimum'])
         assert Fraction(solver['cost'].replace('//','/'))==value
@@ -64,7 +68,13 @@ for case in archive['cases']:
         checked_methods+=1
     rows=next(c['rows'] for c in physical_archive['cases'] if c['case']==name)
     for row in rows:
-        if row['name']=='dp':continue
+        if row['name']=='dp':
+            # A tied DP witness may differ from the canonical archive winner.
+            # Its physical error cannot inherit that other order's old result.
+            skipped_dp_physical.append(dict(case=name,formula=row['formula'],
+                budget_multiplier=row['budget_multiplier'],
+                reason='DP witness is outside the retained canonical-row comparison scope; no fresh independent replay claimed.'))
+            continue
         index=(0 if row['name']=='parent' else 1)+(4 if row['formula']==2 else 0)
         old=json.loads((OLD/'rows'/f'{name}.{index}.b{row["budget_multiplier"]}.json').read_text())
         close(row['projective_error'],old['error'],name+' archived physical')
@@ -100,6 +110,7 @@ for short,name in (('CH4','CH4_r1p09'),('CO','CO_r1p13')):
     del ref
 summary=dict(status='passed',archived_method_outputs_checked=checked_methods,
     archived_physical_rows_checked_against_retained_independent_results=checked_old_physical,
+    archived_DP_physical_rows_outside_retained_comparison=skipped_dp_physical,
     fresh_literal_nested_commutator_objectives=objective_checks,
     fresh_unfused_full_space_physical_replays=physical_checks,CPU_seconds=time.process_time()-began,
     scope='Exact archived certificates allcases/methods; fresh matrix/replay checks of window and whole-order continuation atT1.5cap10U forboth12modecases. Othernewphysicalsettings useJulia validatedkernel; no claim of independent replay of all68rows.')

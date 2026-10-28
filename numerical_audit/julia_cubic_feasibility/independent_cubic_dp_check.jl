@@ -112,19 +112,76 @@ function verify_physical_reuse(data,main,full)
     (rows_bound=length(rows),source=source,sha256=binding["sha256"],new_propagation_performed=false)
 end
 
+"""Derive the inventory independently; unlabelled historical main runs had three warms."""
+function checked_run_inventory(main)
+    labelled=haskey(main,"mode") || haskey(main,"requested_warm_repetitions")
+    if labelled
+        check(haskey(main,"mode") && haskey(main,"requested_warm_repetitions"),"incomplete run metadata")
+        mode=main["mode"];warms=main["requested_warm_repetitions"]
+        check(warms isa Integer && warms>=0,"invalid warm repetition count")
+        check((mode=="main" && warms==3) || (mode=="validation" && warms!=3) ||
+              (mode=="preflight" && warms==0),"mode/repetition contract differs")
+    else
+        mode="main";warms=3
+    end
+    expected=[(method="enumeration",stage="first"),(method="dp",stage="first")]
+    for repetition in 1:warms
+        for method in (isodd(repetition) ? ("dp","enumeration") : ("enumeration","dp"))
+            push!(expected,(method=method,stage="warm"*string(repetition)))
+        end
+    end
+    if haskey(main,"scheduled_runs")
+        declared=[(method=item["method"],stage=item["stage"]) for item in main["scheduled_runs"]]
+        check(declared==expected,"declared run inventory differs from mode/repetition contract")
+    end
+    items=main["records"]
+    firstdp=filter(item->item["method"]=="dp" && item["stage"]=="first",items)
+    check(length(firstdp)==1,"missing or duplicate first DP record")
+    refused=!only(firstdp)["complete"]
+    required=refused ? filter(run->run.method!="dp" || run.stage=="first",expected) : expected
+    observed=[(method=item["method"],stage=item["stage"]) for item in items]
+    check(observed==required,"missing, duplicate, reordered, or unexpected solver records")
+    for item in items
+        solver=item["solver"]
+        if !item["complete"]
+            check(refused && item["method"]=="dp" && item["stage"]=="first","incomplete scheduled solver record")
+            allowed=("work_limit","memory_limit","bit_limit","vector_entry_limit","factor_entry_limit",
+                "cost_bit_limit","bag_state_limit","state_limit","graph_incomplete","decomposition_incomplete")
+            check(!solver["complete"] && solver["status"] in allowed && !isempty(solver["reason"]),"invalid first DP refusal")
+            check(isempty(get(solver,"order",Int[])) && get(solver,"numerator","unavailable")=="unavailable" &&
+                  get(solver,"score","unavailable")=="unavailable","refused DP supplied an optimum witness")
+        elseif item["method"]=="dp"
+            check(solver["complete"] && solver["status"]=="complete","DP completion status differs")
+        else
+            check(solver["status"]=="complete" && solver["permutations"]==factorial(big(main["width"])),
+                  "recorded exhaustive domain differs")
+        end
+    end
+    outcome=refused ? "completed_with_DP_refusal" : "complete"
+    check(main["status"]==outcome,"producer completion flag disagrees with independent inventory")
+    check(get(main,"DP_optimum_certified",!refused)==!refused,"DP certificate flag differs")
+    if haskey(main,"skipped_runs")
+        skipped=[(method=item["method"],stage=item["stage"]) for item in main["skipped_runs"]]
+        wanted=refused ? filter(run->run.method=="dp" && run.stage!="first",expected) : NamedTuple[]
+        check(skipped==wanted,"skipped run inventory differs")
+    end
+    (mode=mode,warms=warms,refused=refused,expected_records=length(required))
+end
+
 middle3(values)=begin
     check(length(values)==3,"warm summary requires exactly three samples")
     sort!(Float64[values...])[2]
 end
 
-function warm_summary(records)
+function warm_summary(records,repetitions=3)
     summary=Dict{String,Any}("aggregation"=>
-        "Every field is its own sorted-middle-of-three median; ratios divide the two CPU medians, not paired ratios. No new timing is measured by this postprocessing.")
+        "Every available field is its own sorted-middle-of-three median; ratios divide the two CPU medians, not paired ratios. No new timing is measured by this postprocessing.",
+        "requested_warm_repetitions"=>repetitions)
     fields=("integerization_CPU_seconds","factor_CPU_seconds","graph_decomposition_CPU_seconds",
             "solve_CPU_seconds","witness_CPU_seconds")
     for method in ("dp","enumeration")
         warm=filter(item->item["method"]==method && startswith(item["stage"],"warm") && item["complete"],records)
-        if length(warm)!=3
+        if repetitions!=3 || length(warm)!=3
             summary[method]=Dict("available"=>false,"completed_warm_samples"=>length(warm))
             continue
         end
@@ -153,7 +210,10 @@ function check_case(input,priorpath,resultpath,output,guard)
         guard()
         prior=TOML.parsefile(priorpath);main=TOML.parsefile(resultpath)
         check(prior["status"]=="complete","prior window certificate incomplete")
-        check(main["status"] in ("complete","completed_with_DP_refusal"),"main result incomplete")
+        inventory=checked_run_inventory(main)
+        check(inventory.mode!="preflight","scaled preflight is outside this unscaled independent checker")
+        record["mode"]=inventory.mode;record["requested_warm_repetitions"]=inventory.warms
+        record["DP_optimum_certified"]=!inventory.refused
         check(record["prior_sha256"]==main["prior_sha256"],"main bound a different prior certificate")
         record["source_checks"]=verify_sources(main,prior)
         data=load_model(input)
@@ -165,6 +225,7 @@ function check_case(input,priorpath,resultpath,output,guard)
         check(collect(positions)==Int.(main["window_positions"]),"main window positions differ")
         model=build_window_model(data.units,data.order,data.hf,positions)
         flat=prepare_window(model)
+        check(main["width"]==length(flat.labels),"recorded window width differs")
         check(flat.labels==Int.(main["baseline_window"])==Int.(prior["baseline_window"]),"window baseline labels differ")
         digest=checked_flat_digest(flat)
         check(digest==main["flat_sha256"],"reconstructed frozen Float64 table bits differ")
@@ -194,7 +255,12 @@ function check_case(input,priorpath,resultpath,output,guard)
         complete_dp=0;complete_enumeration=0
         for item in main["records"]
             guard();check(item["flat_sha256"]==digest,"record used different frozen table bits")
-            item["complete"] || continue
+            if !item["complete"]
+                # checked_run_inventory already admitted only the explicit first-DP refusal.
+                check(inventory.refused && item["method"]=="dp" && item["stage"]=="first","unadmitted incomplete record")
+                record["DP_refusal"]=item["solver"]
+                continue
+            end
             solver=item["solver"];method=item["method"]
             local_perm=local_order(flat,solver["order"])
             direct=exact_numerator(flat,local_perm)
@@ -218,33 +284,40 @@ function check_case(input,priorpath,resultpath,output,guard)
             end
             record["recorded_solver_outputs_checked"]+=1
         end
-        check(complete_enumeration>=1,"no complete exhaustive reference recorded")
-        main["status"]=="complete" && check(complete_dp>=1,"successful main contains no complete DP")
+        check(complete_enumeration==1+inventory.warms,"exhaustive record count differs")
+        check(complete_dp==(inventory.refused ? 0 : 1+inventory.warms),"DP record count differs")
         record["complete_DP_records_checked"]=complete_dp
         record["complete_enumeration_records_checked"]=complete_enumeration
-        record["warm_summary"]=warm_summary(main["records"])
-        full=copy(data.order);full[positions]=winner
-        check(full==Int.(prior["new_full_order"]),"reconstructed full winner differs")
-        check(first(full)==first(data.order) && last(full)==last(data.order),"winner changed fixed endpoints")
-        check(full[1:first(positions)-1]==data.order[1:first(positions)-1] &&
-              full[last(positions)+1:end]==data.order[last(positions)+1:end],"winner changed outside positions")
-        check(affordable_steps(data.units,full,30data.words)==steps,"winner changed affordable steps")
-        record["physical_evidence_binding"]=verify_physical_reuse(data,main,full)
-        guard()
-        fresh=score_order(data.units,full,data.hf,30data.words)
-        predicted=Float64(expected)/Float64(steps)^4
-        difference=abs(fresh.value-predicted)
-        check(difference<=max(1e-20,1e-7*abs(predicted)),"independent full-Taylor numerical parity differs")
-        old=main["full_Taylor_validation"]["result"]["value"]
-        recorded_difference=abs(old-predicted)
-        check(recorded_difference<=max(1e-20,1e-7*abs(predicted)),"recorded full-Taylor numerical parity differs")
-        maximum_difference=max(difference,recorded_difference)
-        record["full_Taylor_numerical_parity"]=(fresh_J=fresh.value,recorded_J=old,
-            predicted_J=predicted,max_absolute_difference=maximum_difference,
-            max_relative_difference=iszero(predicted) ? (iszero(maximum_difference) ? 0.0 : Inf) : maximum_difference/abs(predicted),
-            steps=fresh.steps,exact_transcendental_or_interval_claim=false)
-        record["expected_Q"]=expected;record["expected_J"]=expected/BigInt(steps)^4
-        record["status"]="passed"
+        record["warm_summary"]=warm_summary(main["records"],inventory.warms)
+        if !inventory.refused
+            full=copy(data.order);full[positions]=winner
+            check(full==Int.(prior["new_full_order"]),"reconstructed full winner differs")
+            check(first(full)==first(data.order) && last(full)==last(data.order),"winner changed fixed endpoints")
+            check(full[1:first(positions)-1]==data.order[1:first(positions)-1] &&
+                  full[last(positions)+1:end]==data.order[last(positions)+1:end],"winner changed outside positions")
+            check(affordable_steps(data.units,full,30data.words)==steps,"winner changed affordable steps")
+            record["physical_evidence_binding"]=verify_physical_reuse(data,main,full)
+            guard()
+            fresh=score_order(data.units,full,data.hf,30data.words)
+            predicted=Float64(expected)/Float64(steps)^4
+            difference=abs(fresh.value-predicted)
+            check(difference<=max(1e-20,1e-7*abs(predicted)),"independent full-Taylor numerical parity differs")
+            old=main["full_Taylor_validation"]["result"]["value"]
+            recorded_difference=abs(old-predicted)
+            check(recorded_difference<=max(1e-20,1e-7*abs(predicted)),"recorded full-Taylor numerical parity differs")
+            maximum_difference=max(difference,recorded_difference)
+            record["full_Taylor_numerical_parity"]=(fresh_J=fresh.value,recorded_J=old,
+                predicted_J=predicted,max_absolute_difference=maximum_difference,
+                max_relative_difference=iszero(predicted) ? (iszero(maximum_difference) ? 0.0 : Inf) : maximum_difference/abs(predicted),
+                steps=fresh.steps,exact_transcendental_or_interval_claim=false)
+            record["expected_Q"]=expected;record["expected_J"]=expected/BigInt(steps)^4
+            record["status"]="passed"
+        else
+            check(main["physical_reuse"]===false,"refused DP claimed retained physical binding")
+            check(main["full_Taylor_validation"]=="unavailable","refused DP claimed full Taylor validation")
+            record["status"]="passed_with_DP_refusal"
+            record["interpretation"]="Explicit DP admission refusal checked; no DP optimum or physical binding certified."
+        end
     catch exception
         record["status"]="failed";record["reason"]=sprint(showerror,exception)
     end
@@ -252,7 +325,7 @@ function check_case(input,priorpath,resultpath,output,guard)
     record["wall_seconds"]=(time_ns()-wall)/1e9
     write_result(output,record)
     println(record["status"]," ",output);flush(stdout)
-    record["status"]=="passed"
+    record["status"] in ("passed","passed_with_DP_refusal")
 end
 
 function main(args)

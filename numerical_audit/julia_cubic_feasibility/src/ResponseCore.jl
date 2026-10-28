@@ -240,7 +240,10 @@ end
 """Cubic atom for an induced two/three-label order (not a full local defect).
 
 To reuse a cache, construct it from center_units(units,hf), then pass center=false
-and that cache. Scalars cancel algebraically; centering improves arithmetic.
+and that cache. With a supplied cache its compiled units are authoritative and
+`center` applies only when constructing a new cache. The unit-list cardinality
+must match; callers must supply the cache compiled for their declared units.
+Scalars cancel algebraically; centering improves arithmetic.
 """
 function atom_column(units::AbstractVector{Unit}, order, hf::Integer;
                      center::Bool=true, cache::Union{Nothing,AmplitudeCache}=nothing,
@@ -248,6 +251,7 @@ function atom_column(units::AbstractVector{Unit}, order, hf::Integer;
     local_order = Tuple(Int[i for i in order])
     length(unique(local_order)) == length(local_order) || throw(ArgumentError("atom labels repeat"))
     all(i -> 1 <= i <= length(units), local_order) || throw(ArgumentError("atom label out of range"))
+    isnothing(cache) || length(cache.units)==length(units) || throw(ArgumentError("atom cache unit count differs"))
     context = isnothing(cache) ? AmplitudeCache(center ? center_units(units,hf) : units) : cache
     _atom_column(context, local_order, UInt64(hf), max_entries)
 end
@@ -376,6 +380,11 @@ end
 Only atoms with >=2 window labels vary. Outside-third triple atoms are folded
 into pair tables. The baseline is computed by the independent Taylor scorer.
 Tables contain frozen Float64/ComplexF64 deltas, not exact kernel values.
+Individual atom/DELTA construction has no interval or relative-error certificate.
+The numerical resolution guard applies to the independent full Taylor baseline
+and final coherent sum; it does not certify every small local delta. Changing
+transport/aggregation order defines new supplied tables and needs separate
+validation rather than inheriting this frozen study's exact optimum.
 """
 function build_window_model(units::AbstractVector{Unit}, baseline_order, hf::Integer,
                             window_positions::AbstractUnitRange{<:Integer};

@@ -18,7 +18,7 @@ The cubic path currently supports a single computational-basis HF reference and 
 
 ## Julia environment and tests
 
-The recorded runtime is Julia 1.10.11, one Julia/BLAS/GC thread, no startup file, and a 300 MiB heap-size hint. The external guard enforces a quarter core, 512 MiB RAM, no swap, memory-headroom pauses, and finite CPU/wall/output budgets. No package installation is required.
+The recorded runtime is Julia 1.10.11, one Julia/BLAS/GC thread, no startup file, and a 300 MiB heap-size hint for the historical study; post-review tests use 250 MiB. The external guard enforces a quarter core, 512 MiB RAM, no swap, memory-headroom pauses, and finite CPU/wall/output budgets. No package installation is required.
 
 From this directory, the test command inside that guard is:
 
@@ -56,3 +56,11 @@ The archived target is first-order `J_D=N/H`, with exact integer numerator and t
 `physical_study.jl archive MODEL_DIR ARCHIVE_RESULT OUTPUT` replays certified archived solver witnesses. `physical_study.jl cubic MODEL_DIR WINDOW_RESULT... OUTPUT` compares the frozen cubic parent/window/insertion orders and any authenticated legacy continuation control. Its returned error is `1-|overlap|`; infidelity is also retained. Norm drift is `abs(squared_norm-1)`. Reference coupling/Hermiticity checks are numerical maximum-entry diagnostics, not interval or operator-norm certificates.
 
 The TOML input copies are direct serializations of retained JSON data. Their source-byte hashes and parent/domain bindings are recorded. Python is used only for the unchanged legacy baselines, independent legacy oracles, and the optional external resource supervisor. No new Python optimization backend is introduced.
+
+## Current validation and result contracts
+
+[Post-review validation](evidence/postreview_validation_2026-10-28/README.md) records the current source period separately from historical measurements. Current cubic main completion requires every scheduled method/stage and full factorial coverage on every enumeration. A first DP admission refusal has a distinct outcome and no DP certificate. Library inclusion does not run any of the six entry points.
+
+A capped structural scan returns `execution_status=complete`, `status=diagnostic_incomplete` and `scan_complete=false`; the batch still visits all cases. These fields distinguish execution from diagnostic coverage. Old retained structure records describe the earlier contract and are unchanged. Missing optional physical continuation controls are reported in `skips`. Resource wall limits include frozen time; unknown CPU measurements remain distinct from measured zero.
+
+The next practical and mathematical work is tracked in [FOLLOW_UP.md](FOLLOW_UP.md).

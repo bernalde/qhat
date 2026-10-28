@@ -53,6 +53,7 @@ function apply_word_rotation!(output::Vector{ComplexF64}, input::Vector{ComplexF
                               flip::UInt64, parity::UInt64, sign::Integer, angle::Real)
     output !== input || throw(ArgumentError("rotation buffers must be distinct"))
     length(output)==length(input) || throw(ArgumentError("rotation buffer size mismatch"))
+    ispow2(length(input)) || throw(ArgumentError("rotation state dimension must be a positive power of two"))
     sign in (-1,1) || throw(ArgumentError("Pauli sign must be +/-1"))
     flip < UInt64(length(input)) || throw(ArgumentError("rotation flip outside state"))
     iseven(count_ones(flip & parity)) || throw(ArgumentError("non-Hermitian real Pauli encoding"))

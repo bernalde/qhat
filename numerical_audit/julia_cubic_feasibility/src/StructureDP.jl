@@ -95,24 +95,27 @@ function audit_factors(labels, factors; max_factors::Int=100_000,
     count = 0; entries = 0; status = :complete
     for factor in factors
         _guard(guard)
-        count += 1
-        if count > max_factors
-            count -= 1; status = :factor_limit; break
+        if count >= max_factors
+            status = :factor_limit; break
         end
         all(x -> x in allowed, factor.scope) || throw(ArgumentError("factor has unknown label"))
         if entries + length(factor.values) > max_entries
-            count -= 1; status = :entry_limit; break
+            status = :entry_limit; break
         end
-        entries += length(factor.values)
-        length(factor.scope) > length(clique) && (clique = copy(factor.scope))
+        # Commit one complete factor at a time, including its counters and clique.
+        missing = Tuple{Int,Int}[]
         for i in eachindex(factor.scope), j in 1:i-1
-            e = _edge(factor.scope[i], factor.scope[j])
-            if !(e in edges) && length(edges) >= max_edges
+            edge = _edge(factor.scope[i], factor.scope[j])
+            edge in edges && continue
+            push!(missing,edge)
+            if length(edges) + length(missing) > max_edges
                 status = :edge_limit; break
             end
-            push!(edges,e)
         end
         status == :complete || break
+        union!(edges,missing)
+        count += 1; entries += length(factor.values)
+        length(factor.scope) > length(clique) && (clique = copy(factor.scope))
     end
     return (status=status, complete=status==:complete, graph_kind=:exact_factor_graph,
             labels=vertices, edges=edges, factors_visited=count, entries_visited=entries,
@@ -194,6 +197,8 @@ end
 """Bounded deterministic minimum-degree elimination; width is an upper bound.
 
 A large heuristic width or a cap refusal proves nothing about minimum width.
+`max_fill_edges` caps instantaneous active edges (original and fill), not the
+cumulative number inserted; cumulative elimination effort is bounded by `max_work`.
 """
 function elimination_decomposition(labels, edges; max_work::Int=10_000_000,
         max_fill_edges::Int=200_000, guard=nothing)
@@ -318,7 +323,7 @@ function _condition(factors, first_label, last_label)
             original=Int[]
             first_label in factor.scope && push!(original,first_label)
             append!(original,order)
-            last_label in factor.scope && push!(original,last_label)
+            last_label in factor.scope && last_label!=first_label && push!(original,last_label)
             table[order]=factor.values[Tuple(original)]
         end
         push!(result,LocalFactor(scope,table))
@@ -386,10 +391,6 @@ function bag_order_dp(labels, factors, bags, tree_edges;
     cost_bits<=max_cost_bits || return _refusal(:cost_bit_limit,"rational arithmetic bit bound exceeded";
                                                details=(cost_bits=cost_bits,))
     validate_decomposition(vertices,fs,bags,tree_edges)
-    if length(vertices)==1 && first_label==last_label && first_label!==nothing
-        return (status=:complete,complete=true,reason="",order=copy(vertices),
-            cost=evaluate_factors(fs,vertices),details=(states=big(1),encoded_tables_exact=true))
-    end
     interior=[v for v in vertices if v!=first_label && v!=last_label]
     bs=[Int[v for v in bag if v!=first_label && v!=last_label] for bag in bags]
     counts=[factorial(big(length(bag))) for bag in bs]
@@ -455,7 +456,7 @@ function bag_order_dp(labels, factors, bags, tree_edges;
         end
     end
     function recover(node,oi)
-        order=collect(orders[node][oi])
+        order=Int[orders[node][oi]...]
         for child in tree[node]
             parent[child]==node || continue
             key=_restrict(order,intersect(bs[node],bs[child]))
@@ -465,7 +466,7 @@ function bag_order_dp(labels, factors, bags, tree_edges;
     end
     chosen=messages[1][()];order=recover(1,chosen)
     first_label===nothing || pushfirst!(order,first_label)
-    last_label===nothing || push!(order,last_label)
+    last_label===nothing || last_label==first_label || push!(order,last_label)
     length(order)==length(vertices) && Set(order)==Set(vertices) || error("DP witness is not a permutation")
     actual=evaluate_factors(fs,order)
     actual==costs[1][chosen] || error("DP traceback changed factor cost")

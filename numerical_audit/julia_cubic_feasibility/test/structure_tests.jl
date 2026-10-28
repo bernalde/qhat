@@ -133,3 +133,35 @@ end
     @test !limited.complete && limited.status==:work_limit
     @test limited.width_upper_bound===nothing
 end
+
+@testset "Singleton endpoints retain normal admission and result details" begin
+    constant=LocalFactor(Int[],Dict(()=>3//7))
+    args=([9],[constant],[[9]],Tuple{Int,Int}[])
+    result=bag_order_dp(args...;first_label=9,last_label=9)
+    @test result.complete && result.order==[9] && result.cost==3//7
+    @test result.details.states==1
+    @test result.details.work>0 && result.details.estimated_bytes>0
+    @test result.details.cost_bits>0 && !result.details.physical_response_exactness_claim
+    for (name,status) in ((:max_bag_states,:bag_state_limit),(:max_states,:state_limit),
+                          (:max_work,:work_limit),(:max_bytes,:memory_limit))
+        caps=NamedTuple{(name,)}((0,))
+        refused=bag_order_dp(args...;first_label=9,last_label=9,caps...)
+        @test !refused.complete && refused.status==status
+    end
+    @test_throws ErrorException bag_order_dp(args...;first_label=9,last_label=9,
+                                             guard=()->error("declared cancellation"))
+end
+
+@testset "Capped factor graph audit retains only complete prefix factors" begin
+    pair=structure_indicator([1,2],(1,2),-1)
+    triple=structure_indicator([2,3,4],(2,3,4),-1)
+    partial=audit_factors(1:4,[pair,triple];max_edges=1)
+    @test !partial.complete && partial.status==:edge_limit
+    @test partial.factors_visited==1 && partial.entries_visited==2
+    @test partial.edges==Set([(1,2)])
+    @test partial.clique_witness==[1,2] && partial.clique_width_lower_bound==1
+    empty=audit_factors(1:4,[triple];max_edges=2)
+    @test !empty.complete && empty.status==:edge_limit
+    @test empty.factors_visited==0 && empty.entries_visited==0
+    @test isempty(empty.edges) && isempty(empty.clique_witness)
+end

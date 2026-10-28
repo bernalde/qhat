@@ -67,19 +67,21 @@ end
 function _validate_flat(flat::FlatWindow,b::Budget)
     k=length(flat.labels);d=length(flat.destinations)
     1<=k<=9 || throw(ArgumentError("cubic DP window width must be 1:9"))
+    length(flat.baseline)==d || throw(ArgumentError("baseline response dimension differs"))
     supplied=big(2)*length(flat.baseline)
     supplied<=b.max_exact_vector_entries || _refuse(:vector_entry_limit,"supplied scalar vector-entry count exceeds cap")
-    _memory!(b,16big(k+d))
+    b.vector_bytes+=16big(k+d)+128big(length(flat.factors))
+    _memory!(b)
     _work!(b,1+k+d)
     length(unique(flat.labels))==k || throw(ArgumentError("duplicate global window labels"))
     length(unique(flat.destinations))==d || throw(ArgumentError("duplicate response destinations"))
-    length(flat.baseline)==d || throw(ArgumentError("baseline response dimension differs"))
     # Admit the supplied representation before scanning or converting entries.
     for factor in flat.factors
         _work!(b,1+length(factor.scope)+length(factor.destinations))
         supplied+=2big(length(factor.values))
         supplied<=b.max_exact_vector_entries || _refuse(:vector_entry_limit,"supplied scalar vector-entry count exceeds cap")
-        _memory!(b,16big(k+d+length(factor.destinations)))
+        b.vector_bytes+=16big(length(factor.scope)+length(factor.destinations))
+        _memory!(b)
         2<=length(factor.scope)<=3 || throw(ArgumentError("response factor arity must be two or three"))
         length(unique(factor.scope))==length(factor.scope) || throw(ArgumentError("duplicate response factor label"))
         all(i->1<=i<=k,factor.scope) || throw(ArgumentError("response factor uses nonlocal labels"))
@@ -125,6 +127,14 @@ function _integer_component(value::Float64,denominator::BigInt,b::Budget)
     _checked(numerator(q)*quotient,b)
 end
 
+function _scaled_component_bits(value::Float64,denominator::BigInt)
+    iszero(value) && return 0
+    q=Rational{BigInt}(value)
+    shift=_bits(denominator)-_bits(Base.denominator(q))
+    shift>=0 || error("component denominator exceeds the admitted dyadic scale")
+    _bits(numerator(q))+shift
+end
+
 function _integer_vector(destinations,values,denominator,b::Budget)
     result=IntegerVector()
     for (destination,value) in zip(destinations,values)
@@ -132,7 +142,9 @@ function _integer_vector(destinations,values,denominator,b::Budget)
         iszero(value) && continue
         b.vector_entries+2<=b.max_exact_vector_entries || _refuse(:vector_entry_limit,"retained integer vector-entry cap exceeded")
         # Check conservative integer storage before allocating the BigInts.
-        bytes=128+2cld(b.max_bits,8)
+        re_bits=_scaled_component_bits(real(value),denominator)
+        im_bits=_scaled_component_bits(imag(value),denominator)
+        bytes=128+cld(max(1,re_bits),8)+cld(max(1,im_bits),8)
         b.vector_entries+=2;b.vector_bytes+=bytes;_memory!(b)
         result[destination]=(_integer_component(real(value),denominator,b),
                              _integer_component(imag(value),denominator,b))

@@ -30,6 +30,20 @@ function literal_word(n,letters)
     matrix
 end
 
+@testset "Rotation buffers admit only positive power-of-two dimensions" begin
+    for (dimension,flip) in ((0,0),(3,1),(6,3))
+        input=fill(ComplexF64(1,0),dimension)
+        output=fill(ComplexF64(7,3),dimension)
+        original_input=copy(input);original_output=copy(output)
+        @test_throws ArgumentError apply_word_rotation!(output,input,UInt64(flip),UInt64(0),1,0.37)
+        @test input==original_input
+        @test output==original_output
+    end
+    input=ComplexF64[1+im];output=similar(input)
+    apply_word_rotation!(output,input,UInt64(0),UInt64(0),1,0.23)
+    @test output ≈ exp(-im*0.23)*input atol=3e-14
+end
+
 @testset "Full-space Pauli rotations agree with independent dense exp" begin
     state=ComplexF64[1,im,2,-1];state/=norm(state)
     output=similar(state)

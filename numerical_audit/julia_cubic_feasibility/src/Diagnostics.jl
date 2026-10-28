@@ -3,6 +3,7 @@ using ..ResponseCore, ..StructureDP
 export select_window, structural_audit
 
 function select_window(units,order,hf,width;guard=()->nothing)
+    order=ResponseCore._validate_order(order,length(units))
     2<=width<=min(9,length(order)-2) || error("invalid interior window width")
     centered=center_units(units,hf); cache=AmplitudeCache(centered)
     beststart=2; bestcount=-1
@@ -24,8 +25,14 @@ function select_window(units,order,hf,width;guard=()->nothing)
      selection="maximum computed nonzero internal cubic pair scopes, earliest interior start on ties")
 end
 
+"""Capped support audit in canonical unit-index order, independently of a valid parent permutation.
+
+A cap retains a deterministic canonical prefix; it is not a scan of the parent's
+adjacent or early-position scopes, and cannot certify the full coherent graph.
+"""
 function structural_audit(units,order,hf;max_scopes=150_000,max_atoms=75_000,
                           max_pair_events=1_000_000,max_states=100_000,guard=()->nothing)
+    order=ResponseCore._validate_order(order,length(units))
     m=length(units); centered=center_units(units,hf); cache=AmplitudeCache(centered)
     buckets=Dict{UInt64,Vector{NTuple{3,Int}}}()
     scopes=0; nonzero=0; stopped=false; pairscopes=0; triplescopes=0
@@ -68,6 +75,7 @@ function structural_audit(units,order,hf;max_scopes=150_000,max_atoms=75_000,
     # full DP feasibility. Large widths here do not prove minimum-width bounds.
     go=!stopped && audit.complete && decomposition.complete && states<=max_states && audit.full_pair_enumeration_admissible
     Dict("status"=>stopped ? "scope_or_atom_cap" : "complete",
+      "scope_traversal"=>"canonical unit-index order; independent of the validated parent permutation",
       "scope_count"=>scopes,"nonzero_computed_atoms"=>nonzero,"pairs_visited"=>pairscopes,
       "triples_visited"=>triplescopes,"total_pair_scopes"=>binomial(big(m),2),
       "total_triple_scopes"=>binomial(big(m),3),"destinations"=>length(buckets),

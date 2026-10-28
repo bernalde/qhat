@@ -92,4 +92,6 @@ function main(args)
     println(record["status"]," ",output)
     record["status"]=="complete" || exit(2)
 end
-main(ARGS)
+if abspath(PROGRAM_FILE)==abspath(@__FILE__)
+    main(ARGS)
+end

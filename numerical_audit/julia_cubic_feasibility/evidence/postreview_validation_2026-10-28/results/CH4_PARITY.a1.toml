@@ -1,0 +1,172 @@
+DP_optimum_certified = true
+baseline_window = [331, 333, 152, 174, 154, 178, 221, 293]
+case = "CH4_r1p09"
+common_response_setup_cpu_seconds = 0.48472199999999965
+expected_J = "17842979072903551871497154175377324815006597581125628966258649418451642676623331463793357003529442895796081952946965701//6693191684001267064388142493831806778262597415013347345257069052153358636267652376480040755702117259081861021753361502830592000"
+expected_Q = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505//661055968790248598951915308032771039828404682964281219284648795274405791236311345825189210439715284847591212025023358304256"
+expected_order = [152, 154, 293, 331, 174, 178, 221, 333]
+flat_sha256 = "a71284340c9d0d0e2b88beb5f8214fc61a533d2c6413865efb9bb101f5b49dac"
+input_sha256 = "00a283f3736e331b2c3bfc140213e1d5d1d3a62f119b34ab1450a1b091afbc97"
+julia_version = "1.10.11"
+mode = "validation"
+parse_cpu_seconds = 0.13843799999999984
+physical_reuse = true
+prior_sha256 = "5776984f5d1bc4bde55758c1695bdeb8df6c86dce41be02a407edf78daf374d5"
+process_cpu_seconds = 21.622666
+process_wall_seconds = 86.49969100952148
+requested_warm_repetitions = 0
+scope = "Exact supplied cubic response DELTA tables; fixed outside and steps. No exact-transcendental/global/physical-optimality certificate."
+skipped_runs = []
+status = "complete"
+steps = 15
+width = 8
+window_positions = [157, 158, 159, 160, 161, 162, 163, 164]
+
+[full_Taylor_validation]
+allocated_bytes = 113057968
+cpu_seconds = 0.08709999999999951
+gc_wall_seconds = 0.095387928
+wall_seconds = 0.314922931
+
+    [full_Taylor_validation.result]
+    cubic_response = 0.00013495815721592164
+    steps = 15
+    value = 2.6658401425367236e-9
+
+[physical_binding]
+full_order = [25, 70, 77, 2, 74, 63, 67, 61, 65, 4, 14, 6, 16, 60, 66, 71, 75, 62, 68, 27, 35, 3, 15, 5, 17, 26, 36, 127, 158, 95, 108, 209, 45, 274, 53, 98, 43, 48, 47, 114, 64, 51, 46, 52, 54, 55, 206, 29, 31, 30, 11, 28, 268, 34, 37, 39, 40, 23, 38, 205, 1, 8, 41, 7, 32, 266, 13, 12, 22, 18, 33, 19, 42, 128, 160, 121, 24, 335, 131, 50, 20, 49, 9, 166, 56, 10, 21, 189, 94, 106, 217, 59, 287, 327, 81, 192, 351, 250, 303, 126, 82, 86, 232, 57, 286, 148, 171, 139, 179, 90, 236, 313, 197, 227, 281, 118, 342, 204, 241, 316, 246, 297, 79, 80, 330, 141, 180, 190, 191, 72, 252, 301, 44, 83, 88, 147, 172, 130, 161, 123, 125, 247, 299, 343, 347, 119, 120, 211, 270, 96, 107, 338, 341, 254, 305, 93, 152, 154, 293, 331, 174, 178, 221, 333, 234, 295, 264, 325, 238, 314, 133, 162, 239, 318, 140, 181, 137, 168, 122, 124, 229, 285, 149, 173, 85, 89, 199, 202, 332, 334, 198, 201, 248, 298, 157, 188, 226, 279, 151, 177, 249, 300, 99, 115, 102, 111, 101, 112, 207, 267, 251, 304, 97, 109, 263, 324, 136, 165, 194, 196, 214, 273, 155, 186, 150, 176, 237, 315, 144, 182, 145, 183, 129, 159, 142, 184, 253, 302, 225, 280, 219, 288, 104, 116, 328, 329, 242, 317, 143, 185, 245, 322, 257, 311, 260, 308, 261, 312, 262, 323, 135, 163, 134, 164, 132, 167, 346, 350, 153, 175, 220, 292, 224, 278, 218, 289, 156, 187, 240, 319, 212, 272, 213, 271, 210, 275, 105, 117, 230, 282, 235, 296, 208, 269, 146, 170, 73, 193, 195, 69, 100, 110, 259, 307, 244, 321, 256, 310, 231, 283, 138, 169, 84, 87, 255, 309, 258, 306, 243, 320, 103, 113, 228, 76, 284, 78, 58, 265, 326, 345, 349, 216, 277, 337, 340, 223, 291, 336, 339, 91, 92, 215, 276, 233, 294, 344, 348, 222, 290, 200, 203]
+interpretation = "Reused archived full-circuit evidence for the identical input and full order; no new physical simulation."
+rows_bound = 4
+sha256 = "26844a3653c0392a1d141ff434d5064e0bc9082fcbf1c457076aa794d2463927"
+source = "evidence/results/PHYSICAL_CUBIC.a1.toml"
+
+    [[physical_binding.conditions]]
+    budget_multiplier = 10
+    steps = 5
+    time = 0.5
+    [[physical_binding.conditions]]
+    budget_multiplier = 30
+    steps = 15
+    time = 0.5
+    [[physical_binding.conditions]]
+    budget_multiplier = 10
+    steps = 5
+    time = 1.5
+    [[physical_binding.conditions]]
+    budget_multiplier = 30
+    steps = 15
+    time = 1.5
+
+[[records]]
+allocated_bytes = 306403984
+complete = true
+cpu_seconds = 0.7897449999999999
+flat_sha256 = "a71284340c9d0d0e2b88beb5f8214fc61a533d2c6413865efb9bb101f5b49dac"
+gc_wall_seconds = 0.0201934
+method = "enumeration"
+stage = "first"
+wall_seconds = 3.189238335
+
+    [records.solver]
+    certificate = "exact optimum of supplied frozen binary64 response DELTA tables"
+    destinations = 1020
+    exact_contenders = 1
+    factors = 84
+    minimizers = 1
+    numerator = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505//661055968790248598951915308032771039828404682964281219284648795274405791236311345825189210439715284847591212025023358304256"
+    order = [152, 154, 293, 331, 174, 178, 221, 333]
+    permutations = 40320
+    roundoff_bound = 1.2811454790942724e-16
+    score = 0.00013495815721592164
+    status = "complete"
+[[records]]
+allocated_bytes = 4238886040
+complete = true
+cpu_seconds = 14.895981000000003
+flat_sha256 = "a71284340c9d0d0e2b88beb5f8214fc61a533d2c6413865efb9bb101f5b49dac"
+gc_wall_seconds = 5.65179563
+method = "dp"
+stage = "first"
+wall_seconds = 59.594799515
+
+    [records.solver]
+    complete = true
+    denominator = "661055968790248598951915308032771039828404682964281219284648795274405791236311345825189210439715284847591212025023358304256"
+    local_order = [3, 5, 8, 1, 4, 6, 7, 2]
+    numerator = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505"
+    order = [152, 154, 293, 331, 174, 178, 221, 333]
+    reason = ""
+    scope = "Exact supplied frozen complex response DELTA tables; Q only, fixed r^4 external"
+    score = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505//661055968790248598951915308032771039828404682964281219284648795274405791236311345825189210439715284847591212025023358304256"
+    status = "complete"
+    vector_denominator = "25711008708143844408671393477458601640355247900524685364822016"
+
+        [records.solver.dp]
+        complete = true
+        cost = "89214895364517759357485770876886624075032987905628144831293247092258213383116657318966785017647214478980409764734828505//1"
+        order = [3, 5, 8, 1, 4, 6, 7, 2]
+        reason = ""
+        status = "complete"
+
+            [records.solver.dp.details]
+            cost_bits = "406"
+            encoded_tables_exact = true
+            estimated_bytes = "46219616"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "45334774"
+
+        [records.solver.stats]
+        bag_sizes = [8, 7, 6, 5, 4, 3, 2, 1]
+        constant_factor_value = "89244175858643238202707569620030081048436182127366255505942518676315342464128421302172333583186120116112753878054731737"
+        cost_bit_bound = 420
+        estimated_peak_bytes = "1911244"
+        exact_vector_entries = 3924
+        exact_zero_groups_removed = 0
+        factor_CPU_seconds = 2.0576220000000003
+        factor_wall_seconds = 8.281628723
+        gram_dot_products = 17221
+        graph_decomposition_CPU_seconds = 0.5730219999999999
+        graph_decomposition_wall_seconds = 2.297196949
+        graph_edges = 28
+        input_response_factors = 84
+        integerization_CPU_seconds = 0.2016410000000004
+        integerization_wall_seconds = 0.803472134
+        local_labels = [1, 2, 3, 4, 5, 6, 7, 8]
+        max_retained_scope = 6
+        nonzero_response_factors = 49
+        retained_factor_entries = 3271
+        retained_factors = 159
+        scalar_entries_before_reduction = 3271
+        solve_CPU_seconds = 10.693586999999999
+        solve_wall_seconds = 42.717711571
+        used_width = 7
+        valid_pair_variants = 2
+        valid_triple_variants = 6
+        witness_CPU_seconds = 0.031535000000001645
+        witness_exact_score_matches = true
+        witness_wall_seconds = 0.110166767
+        work = 106828
+
+            [records.solver.stats.dp_details]
+            cost_bits = "406"
+            encoded_tables_exact = true
+            estimated_bytes = "46219616"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "45334774"
+
+[[scheduled_runs]]
+method = "enumeration"
+stage = "first"
+[[scheduled_runs]]
+method = "dp"
+stage = "first"
+
+[source_hashes]
+"cubic_dp_study.jl" = "310251d752340da676308ef9234629c1961b5904617d826797bdee5dca578493"
+"src/CubicDP.jl" = "f368ae362e55b0a61b966bf22efe21b2d70b5b0510e757e15758e5771272f472"
+"src/ResponseCore.jl" = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
+"src/StructureDP.jl" = "c4971eaa11d75b489f0157914e4d2e710bb1e9a6b3a17ebf8f23681b45fed396"
+"src/StudyIO.jl" = "42cc1dae609c6758581bc85e2d08c5b4652a6552fe34ef10d1ba252432e8aec0"
+"src/WindowSearch.jl" = "ad8d4b80bd34b8ea078726bfc4f648ff2d4e5c68f3ff225bf883a3b3c8ce500c"

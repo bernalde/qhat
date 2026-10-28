@@ -1,5 +1,7 @@
 # Cubic Strang DP integration: correctness and cost
 
+> Post-review provenance, 2026-10-28: the numerical tables, warm timings and original test/resource counts in this report describe the historical measured sources retained at `974ce5b3dc9b804935f5618dbda7060a7f953725`. Current admission/reporting hardening and fresh zero-warm parity are documented separately in [post-review validation](evidence/postreview_validation_2026-10-28/README.md). No performance equivalence is inferred from unchanged optima.
+
 2026-10-28. Follow-up to the first-order DP and separate cubic-window pilot at local commit `5b9e57f5873ec6b6948b70671a5b00d0a6cffb34`. This report addresses the previously unvalidated cubic integration. The original `REPORT.md`, input copies, certificates, and physical results remain intact.
 
 ## Outcome
