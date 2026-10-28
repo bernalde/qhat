@@ -1,7 +1,7 @@
 module BoundsCommon
 using SHA, TOML
 export Caps, Budget, Refusal, tick!, reserve!, checked, mulchecked, addchecked,
-       bigparse, rationalparse, filehash, clean, write_record, permutations,
+       bigparse, rationalparse, filehash, clean, write_record, write_final_record, permutations,
        VectorFactor, IntegerResponse, response_digest, validate_response,
        exact_value, factor_choice, bitlength, scope_digest, caps_dict,
        select_caps, verify_caps_declaration, parse_caps_cli
@@ -185,6 +185,39 @@ function write_record(path,value;caps=Caps())
     length(bytes)<=caps.max_output_bytes || throw(Refusal("output_limit","serialized output exceeds cap"))
     mkpath(dirname(abspath(path)));open(path,"w") do f;write(f,bytes);end
     nothing
+end
+
+"""Persist a final result, or a small explicit receipt if ONLY its output cap fails.
+
+The fallback uses the same Caps and never replaces an existing path. If even the
+receipt does not fit, or any other I/O error occurs, the exception propagates.
+No mathematical claim from the unpersisted payload is retained as verified.
+"""
+function write_final_record(path,value;caps=Caps())
+    try
+        write_record(path,value;caps)
+        return value
+    catch e
+        e isa Refusal && e.status=="output_limit" || rethrow()
+        receipt=Dict{String,Any}("schema"=>"bounded-output-refusal-v1",
+            "complete"=>false,"status"=>"output_limit",
+            "reason"=>"Final payload exceeded the declared output cap; only this incomplete receipt was persisted.",
+            "output_refusal_receipt"=>true,"result_payload_persisted"=>false,
+            "all_cases_completed"=>false,"positive_full_bound"=>false,
+            "positive_certificate_verified"=>false,"scientific_verification_performed"=>false,
+            "artifact_links_authenticated"=>false)
+        for key in ("id","schema","status")
+            v=get(value,key,nothing)
+            v isa AbstractString && ncodeunits(v)<=128 && (receipt["payload_"*key]=String(v))
+        end
+        # Retain bounded links as recorded bytes, without asserting authentication.
+        for key in ("input_sha256","kernel_sha256","result_sha256","registry_sha256")
+            v=get(value,key,nothing)
+            v isa AbstractString && occursin(r"^[0-9a-fA-F]{64}$",v) && (receipt[key]=String(v))
+        end
+        write_record(path,receipt;caps)
+        return receipt
+    end
 end
 function permutations(labels)
     length(labels)<=3 || throw(ArgumentError("only pair/triple variants are generated"))

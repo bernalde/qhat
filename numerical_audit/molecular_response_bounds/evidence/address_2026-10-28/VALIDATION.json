@@ -1,0 +1,54 @@
+{
+  "schema": "bounds-address-validation-v1",
+  "reviewed_head": "e0698f79fd73a2e53a4a14a5c3c4193cfe8f6fa2",
+  "source_freeze": "SOURCE_FREEZE.a1.json",
+  "attempts": [
+    {
+      "label": "bounds-admission-red-a1",
+      "exit_code": 1,
+      "expected_failure": true,
+      "charged_CPU_seconds": 5.539000000000001,
+      "absolute_guarded_wall_seconds": 24.07629810704384,
+      "receipt": "bounds-admission-red-a1.resources.json",
+      "receipt_sha256": "cb66289e65e43b4fd27ec48a0976f57aed0eaeb747c7b51dffb6517df6da6948",
+      "log": "bounds-admission-red-a1.log",
+      "log_sha256": "4e2edd57a8e281263f1ac7d2e6b861f4b4ba63ca25a0f47c50aacd342d951fdf"
+    },
+    {
+      "label": "bounds-admission-green-a1",
+      "exit_code": 0,
+      "expected_failure": false,
+      "charged_CPU_seconds": 4.36,
+      "absolute_guarded_wall_seconds": 18.07283004099736,
+      "receipt": "bounds-admission-green-a1.resources.json",
+      "receipt_sha256": "37540d1e1dd9442a25f6383a6198b87abcc8773e719e9d123eeea0439e7585dd",
+      "log": "bounds-admission-green-a1.log",
+      "log_sha256": "dc75a8cd62556476ebf7db9bcd59b9f6c4e6ec748192d0604c3f3a484cd2f14a"
+    },
+    {
+      "label": "bounds-address-tests-a1",
+      "exit_code": 0,
+      "expected_failure": false,
+      "charged_CPU_seconds": 37.751,
+      "absolute_guarded_wall_seconds": 153.35191915399628,
+      "receipt": "bounds-address-tests-a1.resources.json",
+      "receipt_sha256": "87ad00f5a340c137ad084119054a34ca04897af9fb7dd578f215871eacc1b2b3",
+      "log": "bounds-address-tests-a1.log",
+      "log_sha256": "4b94fc3a832b0ec7016e200440494a75127ebfca467090181934a7e404b1ec06"
+    }
+  ],
+  "assertions": 624,
+  "testsets": 15,
+  "admission_old_probe": {
+    "passed": 1,
+    "failed": 4,
+    "expected_red": true
+  },
+  "admission_fixed_probe": {
+    "passed": 11,
+    "failed": 0
+  },
+  "total_charged_CPU_seconds": 47.65,
+  "total_guarded_wall_seconds": 195.50104730203748,
+  "scope": "Driver regressions only; mathematical sources and historical study evidence unchanged; no molecular quality rerun"
+}

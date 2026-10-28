@@ -49,7 +49,8 @@ function run_registry(registry_path,output_dir;caps_profile=nothing)
             "caps_profile_validation"=>"validated_bounded_profile","input_admission_status"=>"not_checked")
         write_record(joinpath(output_dir,id*".START.toml"),row;caps)
         try
-            filesize(input)<=caps.max_input_bytes && (row["input_sha256"]=filehash(input))
+            filesize(input)<=caps.max_input_bytes || throw(Refusal("input_limit","coefficient input byte cap exceeded before hashing"))
+            row["input_sha256"]=filehash(input)
             data=read_coefficients(input;caps,guard)
             row["input_file"]=String(case["input"]);row["input_sha256"]=data.input_sha256
             row["input_admission_status"]="admitted_under_declared_caps"
@@ -61,7 +62,9 @@ function run_registry(registry_path,output_dir;caps_profile=nothing)
             else
                 abspath(joinpath(root,String(case["kernel"])))
             end
-            row["kernel_file"]=kernelpath;row["kernel_sha256"]=filehash(kernelpath)
+            row["kernel_file"]=kernelpath
+            filesize(kernelpath)<=caps.max_input_bytes || throw(Refusal("input_limit","kernel input byte cap exceeded before hashing"))
+            row["kernel_sha256"]=filehash(kernelpath)
             field=String(get(case,"order_field","cubic_order"))
             order=haskey(case,"order") ? Int.(case["order"]) : Int.(data.source[field])
             lengths=[length(u.numerators) for u in data.units]
@@ -83,14 +86,13 @@ function run_registry(registry_path,output_dir;caps_profile=nothing)
             # Errors/refusals remain distinct from completed zero certificates.
         end
         row["CPU_seconds"]=cpu()-started;row["wall_seconds"]=(time_ns()-wall)/1e9
-        path=joinpath(output_dir,id*".RESULT.toml");write_record(path,row;caps)
+        path=joinpath(output_dir,id*".RESULT.toml");row=write_final_record(path,row;caps)
         push!(summary["cases"],Dict("id"=>id,"complete"=>row["complete"],"status"=>row["status"],
             "result"=>basename(path),"sha256"=>filehash(path)))
     end
     summary["status"]="inventory_complete"
     summary["all_cases_completed"]=all(c->c["complete"],summary["cases"])
-    write_record(joinpath(output_dir,"RUN.RESULT.toml"),summary;caps)
-    summary
+    write_final_record(joinpath(output_dir,"RUN.RESULT.toml"),summary;caps)
 end
 function study_arguments(args)
     profile,positional=parse_caps_cli(args)

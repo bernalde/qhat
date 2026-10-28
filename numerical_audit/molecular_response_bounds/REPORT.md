@@ -44,9 +44,13 @@ The predeclared feasibility gate therefore failed. The two unaltered full
 development cases and four prospective fourteen-mode full-domain bound cases
 were not run; they remain explicitly unperformed. No easier input, reduced
 target set, increased scope cap or fresh budget replaced this failed attempt.
-The separate refusal checker authenticated the input/kernel/result links and
-bounded cap declaration; it explicitly records
+The original refusal checker recorded the input/kernel/result digests and checked
+the bounded cap declaration and executable sources; it explicitly records
 `scientific_verification_performed=false` and verifies no positive certificate.
+It did not enforce equality of the producer's input/kernel digests with the
+supplied artifacts. The paired review independently compared the retained
+digests and found those particular links agree. This passive agreement must not
+be confused with enforcement by that historical checker.
 
 This failure concerns the current explicit scope representation under the
 frozen limits. It is not an impossibility theorem for molecular approximation.
@@ -71,6 +75,35 @@ rational ratios and cumulative costs through the window checks:116.16 charged
 CPU seconds and481.411 guarded wall seconds, including all failed attempts.
 The derivation's own later cost and packaging costs are separate receipts.
 These costs are well inside the unchanged2160-CPU/10800-wall campaign pool.
+
+## Driver hardening after the retained study
+
+The review fixes add handled input/kernel byte admission before user-artifact
+hashing, enforce available producer digests during refusal replay, and label
+pre-digest or missing-artifact refusals explicitly `recorded_refusal_unbound`.
+These unbound receipts authenticate no complete input/kernel link and verify
+no scientific or positive certificate. A completed proof still requires both
+artifacts and their matching digests. Final output-cap failures now attempt a
+small incomplete receipt under the same cap so a batch can continue; all other
+I/O errors and non-overwrite checks remain failures. The revised suite passed624 assertions across15 test sets. The standalone
+admission probe failed on the immutable old checker (1 pass,4 expected failures)
+and passed on the revised checker (11 passes). The new small-cap and sparse-file
+checks exercise actual guarded driver paths. All three attempts, including the
+expected failure, are retained in [the Address validation](evidence/address_2026-10-28/VALIDATION.json).
+
+The existing independent scientific replay retains stricter cumulative
+accounting than the producer's separate component budgets. Its reconstructed
+projection stays live while uncached rational Taylor replay shares the same
+monotone Budget. A valid near-cap producer proof may therefore be refused by
+the checker under the same Caps. Improving that replay efficiency requires
+separate future work with explicit live-storage accounting; no Budget or cap
+has been weakened or reset in this driver fix.
+
+Historical evidence, producer source hashes, numerical results and execution
+freezes are unchanged. Current-source regression fixtures are newly generated.
+Because executable-source identity is enforced, the revised active checker
+does not retroactively accept old producer records as if the new code had
+produced or checked them.
 
 No new molecular performance winner, universal approximation algorithm or
 physical-error guarantee follows from these results.
