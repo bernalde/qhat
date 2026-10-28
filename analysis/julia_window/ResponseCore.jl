@@ -1,6 +1,6 @@
 module ResponseCore
 
-# Product target v1. The historical study sources remain immutable. This scoped
+# Product local target v2; wire protocol v1. Historical sources remain immutable. This scoped
 # callback is separate from floating-resolution `guard` and is used only in the
 # single-threaded, single-request worker. It also meters cumulative atom/actions.
 const BUDGET_CHECK = Ref{Function}((kind, amount) -> nothing)
@@ -25,6 +25,57 @@ const RealColumn = Dict{UInt64,Float64}
 const ResponseVector = Dict{UInt64,ComplexF64}
 const OrderKey = Tuple{Vararg{Int}}
 const RESOLUTION_RATIO = 2.0^-24
+const LOCAL_TARGET = "exact_real_deltas_before_transport_v2"
+const EXACT_CACHE_BYTE_LIMIT = 64*1024^2
+const ExactScalar = Rational{BigInt}
+const ExactColumn = Dict{UInt64,ExactScalar}
+const EXACT_ZERO = big(0)//big(1)
+
+# These helpers bound every new local-arithmetic integer before products/adds.
+_integer_bits(value::BigInt) = iszero(value) ? 0 : ndigits(abs(value);base=2)
+function _exact_int_product(a::BigInt,b::BigInt)
+    check_budget()
+    max(_integer_bits(a),_integer_bits(b))<=16384 || throw(ArgumentError("local integer bit cap"))
+    (iszero(a)||iszero(b)) && return big(0)
+    a==1 && return b
+    b==1 && return a
+    a==-1 && return -b
+    b==-1 && return -a
+    _integer_bits(a)+_integer_bits(b)<=16384 || throw(ArgumentError("local prospective product bit cap"))
+    a*b
+end
+function _exact_int_sum(a::BigInt,b::BigInt)
+    check_budget()
+    bits=max(_integer_bits(a),_integer_bits(b))
+    bits<=16384 && (sign(a)!=sign(b)||bits<16384) || throw(ArgumentError("local prospective sum bit cap"))
+    a+b
+end
+function _qadd(a::ExactScalar,b::ExactScalar)
+    _check_rational_bits(a);_check_rational_bits(b)
+    iszero(a) && return b
+    iszero(b) && return a
+    common=gcd(denominator(a),denominator(b));check_budget()
+    left=div(denominator(b),common);right=div(denominator(a),common)
+    num=_exact_int_sum(_exact_int_product(numerator(a),left),_exact_int_product(numerator(b),right))
+    iszero(num) && return EXACT_ZERO
+    den=_exact_int_product(denominator(a),left)
+    _check_rational_bits(num//den)
+end
+function _qneg(a::ExactScalar)
+    _check_rational_bits(a)
+    -a
+end
+_qsub(a::ExactScalar,b::ExactScalar)=_qadd(a,_qneg(b))
+function _qmul(a::ExactScalar,b::ExactScalar)
+    _check_rational_bits(a);_check_rational_bits(b)
+    (iszero(a)||iszero(b)) && return EXACT_ZERO
+    first=gcd(abs(numerator(a)),denominator(b));check_budget()
+    second=gcd(abs(numerator(b)),denominator(a));check_budget()
+    num=_exact_int_product(div(numerator(a),first),div(numerator(b),second))
+    den=_exact_int_product(div(denominator(a),second),div(denominator(b),first))
+    _check_rational_bits(num//den)
+end
+_qscale(a::ExactScalar,n::Int,d::Int=1)=_qmul(a,big(n)//big(d))
 
 struct NumericalResolution <: Exception
     message::String
@@ -320,18 +371,53 @@ function cubic_column(units::AbstractVector{Unit}, order, hf::Integer; kwargs...
     first(_cubic_with_scale(units, order, hf; kwargs...))
 end
 
-mutable struct AmplitudeCache
+mutable struct AmplitudeCache{T}
     units::Vector{Unit}
-    amplitudes::Dict{Tuple{Int,UInt64},Float64}
+    amplitudes::Dict{Tuple{Int,UInt64},T}
     max_entries::Int
     hits::Int
     misses::Int
     guard::Bool
+    max_bytes::Int
+    accounted_bytes::Int
+    skipped::Int
+    kernels::Dict{UInt64,ComplexF64}
+    kernel_reference::Union{Nothing,UInt64}
+    kernel_time::Union{Nothing,Float64}
 end
-AmplitudeCache(units::AbstractVector{Unit}; max_entries::Int=100000, guard::Bool=true) =
-    AmplitudeCache(collect(units), Dict{Tuple{Int,UInt64},Float64}(), max_entries, 0, 0, guard)
+function AmplitudeCache(units::AbstractVector{Unit}; max_entries::Int=100000, guard::Bool=true,
+                        max_bytes::Int=EXACT_CACHE_BYTE_LIMIT)
+    check_budget()
+    0<=max_entries<=100000 && length(units)<=1024 || throw(ArgumentError("local cache count cap"))
+    base=4096+128length(units) # Containers, units-vector copies, empty tables.
+    base<=max_bytes<=EXACT_CACHE_BYTE_LIMIT || throw(ArgumentError("local cache byte allowance"))
+    T=guard ? ExactScalar : Float64
+    AmplitudeCache{T}(collect(units),Dict{Tuple{Int,UInt64},T}(),max_entries,0,0,guard,
+        max_bytes,base,0,Dict{UInt64,ComplexF64}(),nothing,nothing)
+end
 
-function _amplitude(cache::AmplitudeCache, index::Int, state::UInt64)
+function _cache_entry_bytes(value::ExactScalar)
+    _check_rational_bits(value)
+    # Julia's own summarysize(BigInt) uses alloc*sizeof(Base.GMP.Limb).
+    # Charge allocated capacity, including retained excess after reduction,
+    # twice;1024 extra bytes cover objects, keys, slots and resize coexistence.
+    a=Int(getfield(numerator(value),:alloc));b=Int(getfield(denominator(value),:alloc))
+    a>=0 && b>=0 || throw(ArgumentError("invalid BigInt allocation capacity"))
+    1024+2*(a+b)*sizeof(Base.GMP.Limb)
+end
+_cache_entry_bytes(::Union{Float64,ComplexF64})=1024
+function _cache_admit!(cache::AmplitudeCache,bytes::Int)
+    check_budget()
+    if length(cache.amplitudes)+length(cache.kernels)<cache.max_entries &&
+            0<=bytes<=cache.max_bytes-cache.accounted_bytes
+        cache.accounted_bytes+=bytes
+        return true
+    end
+    cache.skipped+=1
+    false # Recompute exactly next time; never thin an input or clip a value.
+end
+
+function _amplitude(cache::AmplitudeCache{Float64}, index::Int, state::UInt64)
     check_budget()
     key = (index, state)
     if haskey(cache.amplitudes, key)
@@ -340,11 +426,11 @@ function _amplitude(cache::AmplitudeCache, index::Int, state::UInt64)
     end
     cache.misses += 1
     value = unitvalue(cache.units[index], state; guard=cache.guard)
-    length(cache.amplitudes) < cache.max_entries && (cache.amplitudes[key] = value)
+    _cache_admit!(cache,_cache_entry_bytes(value)) && (cache.amplitudes[key] = value)
     value
 end
 
-function _product3(cache::AmplitudeCache, a::Int, b::Int, c::Int, state::UInt64)
+function _product3(cache::AmplitudeCache{Float64}, a::Int, b::Int, c::Int, state::UInt64)
     vc = _amplitude(cache, c, state)
     sb = state ⊻ cache.units[c].flip
     vb = _amplitude(cache, b, sb)
@@ -352,7 +438,8 @@ function _product3(cache::AmplitudeCache, a::Int, b::Int, c::Int, state::UInt64)
     vc * vb * _amplitude(cache, a, sa)
 end
 
-function _atom_column(cache::AmplitudeCache, order::Tuple, hf::UInt64, maximum::Int; guard::Bool=true)
+function _atom_column(cache::AmplitudeCache{Float64}, order::Tuple, hf::UInt64, maximum::Int; guard::Bool=true)
+    guard && throw(ArgumentError("guarded atoms require the exact-only cache"))
     check_budget(:atom)
     result = RealColumn()
     local_scale = 0.0
@@ -382,6 +469,116 @@ function _atom_column(cache::AmplitudeCache, order::Tuple, hf::UInt64, maximum::
     result
 end
 
+function _amplitude(cache::AmplitudeCache{ExactScalar},index::Int,state::UInt64)
+    check_budget()
+    key=(index,state)
+    if haskey(cache.amplitudes,key)
+        cache.hits+=1
+        return cache.amplitudes[key]
+    end
+    cache.misses+=1;check_budget(:action)
+    unit=cache.units[index];value=EXACT_ZERO
+    for j in eachindex(unit.exact)
+        check_budget()
+        sign=isodd(count_ones(state&unit.parity[j])) ? -unit.signs[j] : unit.signs[j]
+        term=sign==1 ? unit.exact[j] : _qneg(unit.exact[j])
+        value=_qadd(value,term)
+    end
+    _cache_admit!(cache,_cache_entry_bytes(value)) && (cache.amplitudes[key]=value)
+    value
+end
+function _exact_product3(cache::AmplitudeCache{ExactScalar},a::Int,b::Int,c::Int,state::UInt64)
+    vc=_amplitude(cache,c,state)
+    iszero(vc) && return EXACT_ZERO
+    sb=state⊻cache.units[c].flip
+    vb=_amplitude(cache,b,sb)
+    iszero(vb) && return EXACT_ZERO
+    va=_amplitude(cache,a,sb⊻cache.units[b].flip)
+    _qmul(_qmul(vc,vb),va)
+end
+function _exact_accumulate!(target::ExactColumn,state::UInt64,value::ExactScalar,maximum::Int)
+    check_budget();_check_rational_bits(value)
+    iszero(value) && return target
+    updated=_qadd(get(target,state,EXACT_ZERO),value)
+    if iszero(updated)
+        delete!(target,state)
+    else
+        !haskey(target,state) && length(target)>=maximum && throw(ArgumentError("exact response support cap"))
+        target[state]=updated
+    end
+    target
+end
+function _exact_add!(target::ExactColumn,source::ExactColumn,maximum::Int;subtract::Bool=false)
+    for (state,value) in source
+        check_budget()
+        _exact_accumulate!(target,state,subtract ? _qneg(value) : value,maximum)
+    end
+    target
+end
+function _atom_column(cache::AmplitudeCache{ExactScalar},order::Tuple,hf::UInt64,maximum::Int;guard::Bool=true)
+    guard || throw(ArgumentError("floating atoms require an explicit guard=false floating cache"))
+    check_budget(:atom)
+    length(unique(order))==length(order) && all(i->1<=i<=length(cache.units),order) ||
+        throw(ArgumentError("exact atom labels must be distinct and in range"))
+    result=ExactColumn()
+    p(a,b,c)=_exact_product3(cache,a,b,c,hf)
+    if length(order)==2
+        a,b=order
+        aa_b=_qadd(_qsub(p(a,a,b),_qscale(p(a,b,a),2)),p(b,a,a))
+        b_ab=_qsub(_qsub(_qscale(p(b,a,b),2),p(b,b,a)),p(a,b,b))
+        _exact_accumulate!(result,hf⊻cache.units[b].flip,_qscale(aa_b,-1,24),maximum)
+        _exact_accumulate!(result,hf⊻cache.units[a].flip,_qscale(b_ab,-1,12),maximum)
+    elseif length(order)==3
+        a,b,c=order
+        # Six distinct monomials, combining the two repeated ones exactly.
+        positive=_qscale(_qadd(p(b,a,c),p(c,a,b)),2)
+        negative=_qadd(_qadd(p(b,c,a),p(a,c,b)),_qadd(p(c,b,a),p(a,b,c)))
+        value=_qscale(_qsub(positive,negative),-1,12)
+        _exact_accumulate!(result,hf⊻cache.units[a].flip⊻cache.units[b].flip⊻cache.units[c].flip,value,maximum)
+    else
+        throw(ArgumentError("an atom has two or three distinct labels"))
+    end
+    result # Exact support includes HF until the final projection boundary.
+end
+
+function _certified_real_column(column::ExactColumn,maximum::Int)
+    result=RealColumn()
+    for (state,value) in column
+        check_budget()
+        _accumulate!(result,state,_rounded_exact_action(value),maximum)
+    end
+    result
+end
+
+function _local_kernel(cache::AmplitudeCache{ExactScalar},state::UInt64,hf::UInt64,time::Float64)
+    check_budget()
+    if isnothing(cache.kernel_reference)
+        cache.kernel_reference=hf;cache.kernel_time=time
+    else
+        cache.kernel_reference==hf && cache.kernel_time==time || throw(ArgumentError("local kernel cache target differs"))
+    end
+    haskey(cache.kernels,state) && return cache.kernels[state]
+    value=_kernel(_diagonal_gap(cache.units,hf,state),time)
+    _cache_admit!(cache,_cache_entry_bytes(value)) && (cache.kernels[state]=value)
+    value
+end
+function _transport_exact_delta(cache::AmplitudeCache{ExactScalar},column::ExactColumn,hf::UInt64,
+                                time::Float64,maximum::Int)
+    isfinite(time) || throw(NumericalResolution("nonfinite exact DELTA time"))
+    result=ResponseVector()
+    for (state,value) in column
+        check_budget()
+        state==hf && continue # Project only after complete exact accumulation/subtraction.
+        iszero(value) && continue
+        real_value=_rounded_exact_action(value)
+        transported=_local_kernel(cache,state,hf,time)*real_value
+        isfinite(transported) || throw(NumericalResolution("nonfinite exact DELTA transport"))
+        iszero(transported) && throw(NumericalResolution("nonzero exact DELTA erased by floating transport"))
+        _accumulate!(result,state,transported,maximum)
+    end
+    result
+end
+
 # This is a refusal heuristic, not an interval certificate. Computed zero atoms
 # and deltas are admitted without claiming their mathematical exactness.
 function _local_resolved(value, scale, guard, label)
@@ -407,7 +604,8 @@ function atom_column(units::AbstractVector{Unit}, order, hf::Integer;
     all(i -> 1 <= i <= length(units), local_order) || throw(ArgumentError("atom label out of range"))
     isnothing(cache) || length(cache.units)==length(units) || throw(ArgumentError("atom cache unit count differs"))
     context = isnothing(cache) ? AmplitudeCache(center ? center_units(units,hf) : units; guard=guard) : cache
-    _atom_column(context, local_order, UInt64(hf), max_entries; guard=guard)
+    column=_atom_column(context,local_order,UInt64(hf),max_entries;guard=guard)
+    column isa ExactColumn ? _certified_real_column(column,max_entries) : column
 end
 
 function _check_rational_bits(value)
@@ -547,11 +745,12 @@ refusal relative to their operand scale. Computed zeros are admitted without
 claiming mathematical exactness; this is not an
 interval/relative-error certificate. Full Taylor acceptance remains mandatory.
 """
-function build_window_model(units::AbstractVector{Unit}, baseline_order, hf::Integer,
+function _build_window_model_float(units::AbstractVector{Unit}, baseline_order, hf::Integer,
                             window_positions::AbstractUnitRange{<:Integer};
                             time::Real=1.0, max_entries::Int=50000,
                             max_cached_actions::Int=100000,
-                            max_factor_entries::Int=250000, guard::Bool=true)
+                            max_factor_entries::Int=250000, guard::Bool=false)
+    guard && throw(ArgumentError("legacy floating builder requires guard=false"))
     order = _validate_order(baseline_order, length(units))
     2 <= length(window_positions) <= 9 || throw(ArgumentError("pilot window width must be between two and nine"))
     max_factor_entries >= 1 || throw(ArgumentError("factor entry cap must be positive"))
@@ -559,8 +758,8 @@ function build_window_model(units::AbstractVector{Unit}, baseline_order, hf::Int
     2 <= lo <= hi < length(order) || throw(ArgumentError("window must be strictly interior"))
     labels = order[lo:hi]
     baseline_rank = invperm(order)
-    column, scale = _cubic_with_scale(units, order, hf; max_entries=max_entries, guard=guard)
-    baseline = diagonal_response(units, column, hf; time=time, max_entries=max_entries,
+    baseline_column, scale = _cubic_with_scale(units, order, hf; max_entries=max_entries, guard=guard)
+    baseline = diagonal_response(units, baseline_column, hf; time=time, max_entries=max_entries,
                                  guard=guard, resolution_scale=scale)
     centered = center_units(units, hf)
     cache = AmplitudeCache(centered; max_entries=max_cached_actions, guard=guard)
@@ -616,7 +815,91 @@ function build_window_model(units::AbstractVector{Unit}, baseline_order, hf::Int
              aggregation="real_columns_before_transport_v1", local_resolution_ratio=RESOLUTION_RATIO,
              delta_entries=sum(length(v) for factor in factors for v in values(factor.variants)))
     WindowModel(collect(units), order, labels, lo:hi, UInt64(hf), Float64(time),
-                column, baseline, factors, max_entries, guard, stats)
+                baseline_column, baseline, factors, max_entries, guard, stats)
+end
+
+function _exact_pair_column(cache::AmplitudeCache{ExactScalar},pair_order::Tuple,outside,
+                            baseline_rank,lo::Int,hf::UInt64,maximum::Int)
+    column=_atom_column(cache,pair_order,hf,maximum)
+    for c in outside
+        check_budget()
+        local_order=baseline_rank[c]<lo ? (c,pair_order...) : (pair_order...,c)
+        _exact_add!(column,_atom_column(cache,local_order,hf,maximum),maximum)
+    end
+    column
+end
+
+"""Exact local differences anchored to the independent floating full Taylor.
+
+Accumulate complete pair/exterior-triple columns and subtract their baseline
+variant over original rationals BEFORE conversion/kernel. This new v2 frozen
+target is not an exact global-response certificate. Full/global/native guards
+remain mandatory. Explicit guard=false retains the legacy floating helper.
+"""
+function build_window_model(units::AbstractVector{Unit},baseline_order,hf::Integer,
+                            window_positions::AbstractUnitRange{<:Integer};
+                            time::Real=1.0,max_entries::Int=50000,
+                            max_cached_actions::Int=100000,max_factor_entries::Int=250000,
+                            guard::Bool=true)
+    if !guard
+        return _build_window_model_float(units,baseline_order,hf,window_positions;
+            time,max_entries,max_cached_actions,max_factor_entries,guard=false)
+    end
+    order=_validate_order(baseline_order,length(units))
+    2<=length(window_positions)<=9 || throw(ArgumentError("pilot window width must be between two and nine"))
+    max_factor_entries>=1 || throw(ArgumentError("factor entry cap must be positive"))
+    lo,hi=Int(first(window_positions)),Int(last(window_positions))
+    2<=lo<=hi<length(order) || throw(ArgumentError("window must be strictly interior"))
+    duration=Float64(time);isfinite(duration) || throw(ArgumentError("time must be finite"))
+    labels=order[lo:hi];rank=invperm(order);source=UInt64(hf)
+    baseline_column,scale=_cubic_with_scale(units,order,hf;max_entries,guard=true)
+    baseline=diagonal_response(units,baseline_column,hf;time,max_entries,guard=true,resolution_scale=scale)
+    cache=AmplitudeCache(center_units(units,hf);max_entries=max_cached_actions,guard=true)
+    outside=[i for i in order if !(i in labels)]
+    factors=ResponseFactor[];raw_atoms=0;factor_entries=0
+    function freeze_exact_factor(scope,orders,column_for)
+        baseline_key=Tuple(sort(collect(scope);by=i->rank[i]))
+        reference=column_for(baseline_key)
+        variants=Dict{OrderKey,ResponseVector}()
+        for key in orders
+            check_budget()
+            vector=ResponseVector()
+            if key!=baseline_key
+                exact_delta=column_for(key)
+                _exact_add!(exact_delta,reference,max_entries;subtract=true)
+                remaining=min(max_entries,max_factor_entries-factor_entries)
+                vector=_transport_exact_delta(cache,exact_delta,source,duration,remaining)
+            end
+            factor_entries+=length(vector)
+            factor_entries<=max_factor_entries || throw(ArgumentError("conditioned factor storage cap exceeded"))
+            variants[key]=vector
+        end
+        push!(factors,ResponseFactor(sort(collect(scope)),variants))
+    end
+    for ia in 1:length(labels)-1,ib in ia+1:length(labels)
+        check_budget();a,b=labels[ia],labels[ib]
+        function pair_column(key)
+            raw_atoms+=1+length(outside)
+            _exact_pair_column(cache,key,outside,rank,lo,source,max_entries)
+        end
+        freeze_exact_factor((a,b),_permutations2(a,b),pair_column)
+    end
+    for ia in 1:length(labels)-2,ib in ia+1:length(labels)-1,ic in ib+1:length(labels)
+        check_budget();a,b,c=labels[ia],labels[ib],labels[ic]
+        function triple_column(key)
+            raw_atoms+=1
+            _atom_column(cache,key,source,max_entries)
+        end
+        freeze_exact_factor((a,b,c),_permutations3(a,b,c),triple_column)
+    end
+    stats=(raw_atom_variants=raw_atoms,factors=length(factors),cached_actions=length(cache.amplitudes),
+        cached_kernels=length(cache.kernels),cache_combined_entries=length(cache.amplitudes)+length(cache.kernels),
+        cache_hits=cache.hits,cache_misses=cache.misses,cache_skipped=cache.skipped,
+        exact_cache_accounted_bytes=cache.accounted_bytes,exact_cache_byte_limit=cache.max_bytes,
+        cache_policy="allocated_limb_capacity_noinsert_v2",aggregation=LOCAL_TARGET,
+        local_resolution_ratio=RESOLUTION_RATIO,delta_entries=factor_entries)
+    WindowModel(collect(units),order,labels,lo:hi,source,duration,baseline_column,baseline,
+        factors,max_entries,true,stats)
 end
 
 function _window_order(model::WindowModel, window_order)

@@ -29,6 +29,9 @@ def test_installed_asset_manifest_binds_the_product_target():
     assets=window.asset_path().parent
     manifest=tomllib.loads((assets/'SOURCE.toml').read_text())
     assert manifest['version']==1
+    assert manifest['aggregation']=='exact_real_deltas_before_transport_v2'
+    assert manifest['local_cache_accounted_byte_limit']==64*1024**2
+    assert manifest['local_cache_entry_limit']==100000
     assert set(manifest['files'])=={'ResponseCore.jl','WindowSearch.jl','worker.jl','tests.jl','Project.toml','README.md'}
     for name,digest in manifest['files'].items():
         assert hashlib.sha256((assets/name).read_bytes()).hexdigest()==digest
@@ -139,7 +142,11 @@ def test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority(tmp_pat
     assert Fraction(request['request']['time'])==Fraction(float(Fraction(37,100)))
     assert request['request']['budget']==80
     assert '--startup-file=no' in request['argv'] and '--threads=1' in request['argv']
-    assert '--heap-size-hint=250M' in request['argv']
+    assert '--heap-size-hint=64M' in request['argv']
+    assert result.stats['aggregation']=='exact_real_deltas_before_transport_v2'
+    assert result.stats['local_cache_policy']=='allocated_limb_capacity_noinsert_v2'
+    assert result.stats['storage_caps']['local_cache_accounted_bytes']==64*1024**2
+    assert result.stats['storage_caps']['local_cache_combined_entries']==50000
     lengths=request['request']['word_lengths'];r=result.score.steps
     assert r*(2*sum(lengths)-lengths[parent[0]]-lengths[parent[-1]])+lengths[parent[0]]<=80
     assert result.evaluations<=100

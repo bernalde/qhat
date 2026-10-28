@@ -105,7 +105,9 @@ function select_window(request, order, used)
     # Declared deterministic heuristic: maximum count of nonzero pair atoms.
     # It uses supplied units/reference only, never a physical-error oracle.
     centered=center_units(request.units,request.hf)
-    cache=AmplitudeCache(centered;max_entries=request.max_cached_actions)
+    # Production selection counts exact preprojection pair support, including
+    # HF; the one rational-only store shares its byte/count cap with kernels.
+    cache=AmplitudeCache(centered;max_entries=request.max_cached_actions,guard=true)
     best=nothing; best_count=-1
     for lo in 2:length(order)-request.width
         check_budget()

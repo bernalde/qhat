@@ -20,6 +20,7 @@ if EXACT_ACTION_PROBE
     end
     exit()
 end
+using LinearAlgebra
 include(joinpath(@__DIR__,"WindowSearch.jl"))
 using .WindowSearch
 struct InjectedDeadline <: Exception end
@@ -43,7 +44,10 @@ end
     units=fixture();parent=[6,4,2,5,3,1];hf=UInt64(2)
     for duration in (.37,1.6), budget in (17,32,80)
         model=build_window_model(units,parent,hf,2:5;time=duration)
-        @test model.setup_stats.aggregation=="real_columns_before_transport_v1"
+        @test model.setup_stats.aggregation=="exact_real_deltas_before_transport_v2"
+        @test model.baseline_column==cubic_column(units,parent,hf)
+        @test model.setup_stats.exact_cache_accounted_bytes<=64*1024^2
+        @test model.setup_stats.cache_combined_entries<=100000
         flat=prepare_window(model)
         baseline_only=score_order(units[parent[2:5]],collect(1:4),hf,80;time=duration)
         @test !isapprox(baseline_only.cubic_response,score_order(units,parent,hf,budget;time=duration).cubic_response;rtol=1e-4)
@@ -201,6 +205,210 @@ end
     @test_throws NumericalResolution score_order([x,ztiny],[1,2],0,64;time=1.0)
     @test_throws NumericalResolution ResponseCore._score(Dict(UInt64(1)=>ComplexF64(reinterpret(Float64,UInt64(1)))),1)
     @test_throws NumericalResolution ResponseCore._score(Dict(UInt64(1)=>ComplexF64(1e-100)),big(1)<<180)
+end
+
+const V2Q=Rational{BigInt}
+function v2_u(a::V2Q=big(1)//big(1))
+    exact=V2Q[a/2,a/2]
+    Unit(UInt64(3),UInt64[0,3],Int8[1,-1],Float64.(exact);exact)
+end
+function v2_d(b::V2Q=big(1)//big(1))
+    exact=V2Q[b/2,-b/2]
+    Unit(UInt64(0),UInt64[2,1],Int8[1,1],Float64.(exact);exact)
+end
+v2_i()=Unit(UInt64(0),UInt64[0],Int8[1],[1.0])
+function v2_literal_paulis()
+    # Literal Pauli matrices and little-endian tensor placement; no unit action,
+    # sparse atom helper or producer Taylor recurrence defines this oracle.
+    one=V2Q[1 0;0 1];x=V2Q[0 1;1 0];z=V2Q[1 0;0 -1]
+    y=Complex{V2Q}[0 -im;im 0]
+    u=real.((kron(x,x)+kron(y,y))/2)
+    d=(kron(z,one)-kron(one,z))/2
+    u,d,Matrix{V2Q}(I,4,4)
+end
+v2_commutator(a,b)=a*b-b*a
+function v2_literal_atom(matrices,order)
+    a,b=matrices[order[1]],matrices[order[2]]
+    if length(order)==2
+        comm=v2_commutator(a,b)
+        return -v2_commutator(a,comm)/24-v2_commutator(b,comm)/12
+    end
+    c=matrices[order[3]]
+    -(v2_commutator(b,v2_commutator(a,c))+v2_commutator(c,v2_commutator(a,b)))/12
+end
+function v2_dense_cubic(matrices,order;physical=false)
+    mats=physical ? [-im*a for a in matrices] : matrices
+    T=eltype(first(mats));dim=size(first(mats),1)
+    identity=Matrix{T}(I,dim,dim)
+    coefficients=[identity,zeros(T,dim,dim),zeros(T,dim,dim),zeros(T,dim,dim)]
+    stages=[(i,big(1)//big(2)) for i in order[1:end-1]]
+    push!(stages,(last(order),big(1)//big(1)))
+    append!(stages,[(i,big(1)//big(2)) for i in reverse(order[1:end-1])])
+    for (label,tau) in stages
+        # Independent dense convolution of literal exponential polynomials.
+        exponential=[(tau^j/factorial(j))*(mats[label]^j) for j in 0:3]
+        coefficients=[sum(exponential[p+1]*coefficients[j-p+1] for p in 0:j) for j in 0:3]
+    end
+    h=sum(mats)
+    coefficients[4]-h^3/6
+end
+v2_column(column,dim=4)=[get(column,UInt64(j),big(0)//big(1)) for j in 0:dim-1]
+
+@testset "V2 exact Pauli atoms: independent matrices, all orders and coincident flips" begin
+    u,d,identity=v2_literal_paulis();hf=UInt64(1)
+    @test u[:,2]==V2Q[0,0,1,0] && d[:,2]==V2Q[0,1,0,0]
+    t=big(1)//(big(1)<<27)
+    commuting=[v2_u(1+t),v2_u(1-t)]
+    matrices=[(1+t)*u,(1-t)*u]
+    @test v2_commutator(matrices...)==zeros(V2Q,4,4)
+    for order in ((1,2),(2,1))
+        @test isempty(atom_column(commuting,collect(order),hf))
+        @test isempty(ResponseCore._atom_column(AmplitudeCache(commuting),order,hf,16))
+        @test v2_literal_atom(matrices,order)==zeros(V2Q,4,4)
+    end
+    units=[v2_u(),v2_d(big(2)//big(5)),v2_d(big(3)//big(7)),v2_i()]
+    mats=[u,(big(2)//big(5))*d,(big(3)//big(7))*d,identity]
+    for centered in (false,true)
+        cache=AmplitudeCache(centered ? center_units(units,hf) : units)
+        for a in 1:3,b in a+1:4
+            for order in ((a,b),(b,a))
+                actual=ResponseCore._atom_column(cache,order,hf,16)
+                @test v2_column(actual)==v2_literal_atom(mats,order)[:,2]
+            end
+        end
+        visit_orders([1,2,3]) do order
+            actual=ResponseCore._atom_column(cache,Tuple(order),hf,16)
+            @test v2_column(actual)==v2_literal_atom(mats,order)[:,2]
+        end
+    end
+    @test ResponseCore._exact_product3(AmplitudeCache(units),1,2,1,hf)==-big(2)//big(5)
+    @test_throws ArgumentError atom_column(units,[1,2],hf;cache=AmplitudeCache(units;guard=false))
+    @test_throws ArgumentError atom_column(units,[1,2],hf;guard=false,cache=AmplitudeCache(units))
+    float_atom=atom_column(units,[1,2],hf;guard=false)
+    @test float_atom isa Dict{UInt64,Float64}
+end
+
+@testset "V2 exact conditioned DELTA survives rounded columns and retains exterior/HF" begin
+    u,d,identity=v2_literal_paulis();hf=UInt64(1);c=(big(1)<<60)//big(1)
+    for b in (big(1)//big(1),big(1)//(big(1)<<30))
+        units=[v2_d(c),v2_u(),v2_d(b),v2_i()]
+        cache=AmplitudeCache(center_units(units,hf))
+        rank=[1,2,3,4];outside=[1,4]
+        base=ResponseCore._exact_pair_column(cache,(2,3),outside,rank,2,hf,16)
+        changed=ResponseCore._exact_pair_column(cache,(3,2),outside,rank,2,hf,16)
+        @test get(base,UInt64(2),0)==(b*b-b*c)/3
+        @test get(changed,UInt64(2),0)==-(b*b+2b*c)/6
+        @test Float64(base[UInt64(2)])==Float64(changed[UInt64(2)])
+        delta=copy(changed);ResponseCore._exact_add!(delta,base,16;subtract=true)
+        @test delta==Dict(UInt64(1)=>b/2,UInt64(2)=>-b*b/2)
+        @test ResponseCore._rounded_exact_action(delta[UInt64(2)])==-Float64(b*b/2)
+        # Full exact Taylor oracle in the complete invariant one-electron sector.
+        mats=[c*d,u,b*d,identity]
+        sector=[mat[[2,3],[2,3]] for mat in mats]
+        expected=(v2_dense_cubic(sector,[1,3,2,4])-v2_dense_cubic(sector,[1,2,3,4]))[:,1]
+        @test expected==V2Q[b/2,-b*b/2]
+        @test V2Q[delta[UInt64(1)],delta[UInt64(2)]]==expected
+        # Exterior terms individually nonzero/equal: dropping them loses the
+        # conditioned columns even though they cancel in this particular delta.
+        @test ResponseCore._atom_column(cache,(1,2,3),hf,16)[UInt64(2)]==-b*c/3
+        @test ResponseCore._atom_column(cache,(1,3,2),hf,16)[UInt64(2)]==-b*c/3
+        @test get(ResponseCore._atom_column(cache,(2,3),hf,16),UInt64(2),0)!=base[UInt64(2)]
+        transported=ResponseCore._transport_exact_delta(cache,delta,hf,1.0,16)
+        x=-Float64(b+c);kernel=(sin(x)/x)*cis(x) # Analytical D gap, not helper output.
+        @test !haskey(transported,hf)
+        @test transported[UInt64(2)]≈(-Float64(b*b/2))*kernel rtol=1e-14 atol=0
+    end
+    # A suffix exterior changes the DELTA itself; a dropped exterior term
+    # therefore cannot pass merely because prefix contributions cancel.
+    b=big(2)//big(5);c=big(3)//big(5)
+    suffix_units=[v2_i(),v2_u(),v2_d(b),v2_d(c)]
+    suffix_cache=AmplitudeCache(center_units(suffix_units,hf))
+    suffix_base=ResponseCore._exact_pair_column(suffix_cache,(2,3),[1,4],[1,2,3,4],2,hf,16)
+    suffix_changed=ResponseCore._exact_pair_column(suffix_cache,(3,2),[1,4],[1,2,3,4],2,hf,16)
+    ResponseCore._exact_add!(suffix_changed,suffix_base,16;subtract=true)
+    @test suffix_changed==Dict(UInt64(1)=>b/2,UInt64(2)=>-b*b/2-b*c)
+    @test suffix_changed[UInt64(2)]!=-b*b/2
+    suffix_mats=[identity,u,b*d,c*d]
+    @test v2_column(suffix_changed)==(v2_dense_cubic(suffix_mats,[1,3,2,4])-v2_dense_cubic(suffix_mats,[1,2,3,4]))[:,2]
+    # All24 full orders use independent dense polynomial algebra.
+    units=[v2_d(big(3)//big(5)),v2_u(),v2_d(big(2)//big(5)),v2_i()]
+    matrices=[(big(3)//big(5))*d,u,(big(2)//big(5))*d,identity]
+    cache=AmplitudeCache(center_units(units,hf))
+    visit_orders([1,2,3,4]) do order
+        atom_sum=ResponseCore.ExactColumn()
+        for ia in 1:3,ib in ia+1:4
+            ResponseCore._exact_add!(atom_sum,ResponseCore._atom_column(cache,Tuple(order[[ia,ib]]),hf,16),16)
+        end
+        for ia in 1:2,ib in ia+1:3,ic in ib+1:4
+            ResponseCore._exact_add!(atom_sum,ResponseCore._atom_column(cache,Tuple(order[[ia,ib,ic]]),hf,16),16)
+        end
+        @test v2_column(atom_sum)==v2_dense_cubic(matrices,order)[:,2]
+    end
+    @test v2_dense_cubic(matrices,[1,2,3,4];physical=true)==im*v2_dense_cubic(matrices,[1,2,3,4])
+    # Nonmonotone global labels remain original labels at the window boundary.
+    model=build_window_model(units,[4,3,2,1],hf,2:3;time=.37)
+    @test model.baseline_window==[3,2]
+    @test model.baseline_column==cubic_column(units,[4,3,2,1],hf)
+    for local_order in ([3,2],[2,3])
+        full=[4;local_order;1]
+        @test window_score(model,local_order,40).value≈score_order(units,full,hf,40;time=.37).value rtol=1e-10 atol=1e-26
+    end
+end
+
+@testset "V2 bounded exact cache, allocated capacity, transport and interruptions" begin
+    unit=v2_u();hf=UInt64(1)
+    cache=AmplitudeCache([unit];max_entries=1)
+    ResponseCore._amplitude(cache,1,hf)
+    first=cache.accounted_bytes
+    ResponseCore._amplitude(cache,1,UInt64(2))
+    @test length(cache.amplitudes)==1 && cache.skipped==1 && cache.accounted_bytes==first
+    ResponseCore._local_kernel(cache,UInt64(2),hf,1.0)
+    @test isempty(cache.kernels) && length(cache.amplitudes)+length(cache.kernels)==1
+    @test cache.accounted_bytes<=cache.max_bytes==64*1024^2
+    uncached=AmplitudeCache([unit];max_entries=0)
+    for _ in 1:2;@test ResponseCore._amplitude(uncached,1,hf)==1;end
+    @test isempty(uncached.amplitudes) && uncached.misses==2
+    padded=deepcopy(big(1)//big(1))
+    before=ResponseCore._cache_entry_bytes(padded)
+    # Test-only capacity change preserves value; no production arithmetic uses
+    # GMP mutation. Charge actual allocation, not the resulting one-bit value.
+    Base.GMP.MPZ.realloc2!(numerator(padded),1_000_000)
+    @test padded==1 && ResponseCore._cache_entry_bytes(padded)>before+100000
+    padded_unit=Unit(UInt64(0),UInt64[0],Int8[1],[1.0];exact=V2Q[padded])
+    basebytes=4096+128
+    bytecache=AmplitudeCache([padded_unit];max_bytes=basebytes+2048)
+    @test ResponseCore._amplitude(bytecache,1,UInt64(0))==1
+    @test isempty(bytecache.amplitudes) && bytecache.skipped==1 && bytecache.accounted_bytes==basebytes
+    @test_throws ArgumentError AmplitudeCache([unit];max_entries=100001)
+    @test_throws ArgumentError AmplitudeCache([unit];max_bytes=64*1024^2+1)
+    @test ResponseCore._qmul((big(1)<<9000)//big(3),big(3)//(big(1)<<9000))==1
+    @test_throws ArgumentError ResponseCore._qmul((big(1)<<9000)//big(1),(big(1)<<9000)//big(1))
+    @test_throws ArgumentError ResponseCore._qadd((big(1)<<16383)//big(1),(big(1)<<16383)//big(1))
+    emptycache=AmplitudeCache(Unit[])
+    tiny=big(1)//(big(1)<<1074)
+    @test isempty(ResponseCore._transport_exact_delta(emptycache,Dict(hf=>tiny/4),hf,1.0,16))
+    @test_throws NumericalResolution ResponseCore._transport_exact_delta(emptycache,Dict(UInt64(2)=>tiny/4),hf,1.0,16)
+    @test_throws NumericalResolution ResponseCore._transport_exact_delta(emptycache,Dict(UInt64(2)=>tiny),hf,1e-300,16)
+    @test_throws NumericalResolution ResponseCore._transport_exact_delta(AmplitudeCache(Unit[]),Dict(UInt64(2)=>big(1)//big(1)),hf,0.0,16)
+    @test_throws NumericalResolution ResponseCore._transport_exact_delta(AmplitudeCache(Unit[]),Dict(UInt64(2)=>big(1)//big(1)),hf,Inf,16)
+    for limit in (2,6,15,35)
+        calls=Ref(0)
+        callback=(kind,amount)->begin
+            calls[]+=1;calls[]>=limit && throw(InjectedDeadline())
+        end
+        @test_throws InjectedDeadline with_budget(()->begin
+            context=AmplitudeCache([v2_u(),v2_d()])
+            column=ResponseCore._atom_column(context,(1,2),hf,16)
+            ResponseCore._exact_add!(column,copy(column),16;subtract=true)
+            ResponseCore._transport_exact_delta(context,column,hf,1.0,16)
+        end,callback)
+        @test calls[]==limit
+    end
+    counted=Dict(:action=>0,:atom=>0)
+    with_budget((kind,amount)->haskey(counted,kind) && (counted[kind]+=amount)) do
+        ResponseCore._atom_column(AmplitudeCache([v2_u(),v2_d()]),(1,2),hf,16)
+    end
+    @test counted[:atom]==1 && counted[:action]>0
 end
 
 using TOML, SHA

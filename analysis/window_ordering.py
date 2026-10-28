@@ -171,7 +171,7 @@ def _run_worker(executable, request, checkpoint, child_cap, wall_cap, check, sta
     if not worker.is_file():
         raise native.ResourceLimit('installed Julia worker assets are missing')
     argv = [executable, '--startup-file=no', '--history-file=no', '--threads=1', '--gcthreads=1',
-            '--heap-size-hint=250M', '--project=' + str(worker.parent),
+            '--heap-size-hint=64M', '--project=' + str(worker.parent),
             str(worker), str(request), str(checkpoint), repr(child_cap), repr(wall_cap)]
     env = os.environ.copy()
     env.update(JULIA_NUM_THREADS='1', JULIA_NUM_GC_THREADS='1', OPENBLAS_NUM_THREADS='1',
@@ -402,11 +402,13 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
                  evaluation_accounting_scope='Completed native scores plus authenticated child checkpoint prefix; later uncheckpointed child work can remain unknown',
                  serialization_CPU_seconds=0., cleanup_CPU_seconds=0.,
                  native_verification_attempts=0, native_verifications=0,
-                 selection='max_nonzero_pair', aggregation='real_columns_before_transport_v1')
+                 selection='max_nonzero_pair', aggregation='exact_real_deltas_before_transport_v2',
+                 local_cache_policy='allocated_limb_capacity_noinsert_v2')
     stats['storage_caps'] = dict(entries=max_entries, cached_actions=max_cached_actions,
         factor_entries=options.max_factor_entries, flat_entries=options.max_flat_entries,
         units=1024, words=8192, register_bits=20, coefficient_bits=4096,
-        intermediate_rational_bits=16384, exact_witness_bits=8192)
+        intermediate_rational_bits=16384, exact_witness_bits=8192,
+        local_cache_combined_entries=max_cached_actions,local_cache_accounted_bytes=64*1024**2)
     def check(live_child=0.):
         charged = _time.process_time()-began + max(live_child, stats['child_process_CPU_seconds'])
         if charged >= allowance or _time.monotonic()-wall_began >= wall_allowance:

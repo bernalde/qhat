@@ -1,4 +1,4 @@
-# Normal window backend v1
+# Normal window backend: exact local target v2, protocol v1
 
 These installed assets are the product authority for `method='window'`. They
 adapt the audited `ResponseCore` and insertion portion of `WindowSearch`; their
@@ -6,21 +6,32 @@ ancestry is pinned in `SOURCE.toml`. Research inputs, results, manifests and sou
 snapshots under `numerical_audit` remain frozen and are not imported at runtime.
 This backend has no external Julia dependencies, DP or enumeration entry point.
 
-The new target aggregates each pair's real column with its conditioned exterior
-triple columns before transport. It retains the independent full-order Taylor
-baseline and every coherent DELTA, including exterior interference. A nonzero
-local atom/aggregate/DELTA below 2^-24 of its operand norm scale is refused;
-computed zero atoms/DELTAs are admitted without claiming exactness. Near-zero
-unit actions instead sum the supplied exact rational coefficients. Exact zero
-returns zero; nonzero sums require a certified binary64 rounding cell, using
-exact adjacent-float midpoints and ties-to-even. Float64 conversion proposes a
-candidate only; checking its two neighbors can repair double rounding without
-changing global precision. Nonzero subnormals can certify, while zero underflow,
-nonfinite results, unsupported infinite-neighbor boundaries and arithmetic-cap
-exhaustion refuse. All atom/DELTA/full-Taylor/transport/global-acceptance guards
-remain in force. Those downstream guards remain a cancellation heuristic, not an
-interval-error certificate. The resulting binary64 tables differ from historical
-study tables and inherit no historical timing or optimum claims. Insertion uses
+The `exact_real_deltas_before_transport_v2` target computes local unit actions
+and two/three-label atoms from supplied exact rational coefficients. It merges
+coincident destinations, aggregates every pair's conditioned exterior triples,
+and subtracts its baseline variant exactly BEFORE floating conversion/kernel.
+HF intermediates remain present; only final factor output projects HF away.
+The selector counts exact preprojection pair support, including HF, with the
+same earliest-tie policy. Zero-flip/exterior units and all2/6 variants remain.
+The public `atom_column` still returns Float64 columns; only its internal
+selector/builder path retains rational columns through subtraction.
+
+Exact zeros are authenticated. Each final nonzero real DELTA requires a proved
+binary64 rounding cell using exact adjacent midpoints and ties-to-even.
+Conversion proposes a candidate only; checking its two neighbors can repair
+double rounding without changing global precision. Unsupported zero underflow,
+nonfinite values, infinite-neighbor boundaries and bit exhaustion refuse.
+Nonzero non-HF DELTAs erased to an all-zero complex product also refuse, even
+if the approximate kernel itself is floating zero. There is no small-term
+clipping or lowered local threshold. Explicit `guard=false` keeps the separate
+legacy floating helper; a floating cache cannot service a guarded exact request.
+
+The independent full-order Taylor/native baseline and all global response,
+transport, score-underflow and final-acceptance guards remain mandatory. The
+model is a declared floating baseline plus newly rounded exact local differences,
+not an exact global-response or interval-error certificate. It differs from old
+floating aggregation and historical study tables, inheriting no old optimum,
+bound certificate or timing claim. Insertion uses
 an outward roundoff envelope and exact dyadic vector rescoring when intervals
 overlap. Every global proposal needs a resolved full Taylor decrease, followed by
 the unchanged native scorer's independent acceptance.
@@ -65,15 +76,27 @@ Owned child startup/JIT/user/system CPU remains charged for the entire process.
 
 The reader admits n<=20, m<=1024, total words<=8192; none of those limits promises
 that setup/search fits a chosen CPU allowance. Additional bounded caps cover
-50000 vector/destination entries, 100000 cached amplitudes, 250000 DELTA entries,
+50000 vector/destination entries, 100000 combined local amplitude/kernel entries, 250000 DELTA entries,
 1000000 flat complex entries, cumulative action/atom work and total evaluations.
+Guarded local caches own only rational amplitudes; they never duplicate a float
+amplitude store. They share a fixed64MiB accounted-byte allowance with reusable
+complex kernel entries. Accounting uses actual GMP allocated limb capacity,
+not current value bitlength, plus conservative object/dictionary/resize charges.
+When either cache allowance fills, insertion stops and the value is recomputed;
+inputs/terms are never thinned. Setup stats expose actual charged bytes, limit,
+combined entries and skipped insertions; Python provenance records the declared
+policy/caps. The unchanged checkpoint wire schema reports its usual counters.
+Each exact product/addition bounds prospective intermediates to16384bits before
+large integer arithmetic. Cache and arithmetic loops retain scoped deadlines
+and the existing atom/action counter meanings. This is not a global RAM bound.
 The reader boundary test parses 1024 labels and 8192 words on 20 bits without
 running a large search. Every explicit numerical loop checks a separate scoped
 budget callback. Startup/JIT and non-cooperative allocations are covered by the
-parent's owned-PID watchdog. The worker's `--heap-size-hint=250M` guides Julia GC;
+parent's owned-PID watchdog. The normal worker's `--heap-size-hint=64M` guides Julia GC;
 the 512MiB/no-swap owning cgroup is the hard memory bound, and the continued
 prospective preflight must still satisfy its 400MiB admission gate. The hint does
-not raise that gate or any numerical/resource limit. The supported production path is single-threaded,
+not raise that gate or any numerical/resource limit; physical/independent drivers
+retain their separate250M guidance. The supported production path is single-threaded,
 single-request and has one worker for all windows. `with_budget` restores its
 callback even on refusal; it is not a concurrent Julia library API.
 
@@ -102,5 +125,9 @@ tiny cancellation/zero checks against that read-only source and exits; old
 conservative refusal is expected to fail the nonzero checks. The normal suite
 also covers exact midpoint ties and either side beyond 256 bits, subnormal/range
 refusals, centered HF/other-state actions, bit/budget interruption and unchanged
-global projection/kernel/Taylor/score-underflow guards. Test authorship alone is
+global projection/kernel/Taylor/score-underflow guards. V2 tests independently
+construct literal rational Pauli matrices and dense Taylor polynomials for all
+tiny orders, including coincident flips, large exterior cancellation before
+conversion, suffix-exterior interference, HF intermediates, original costs,
+allocated-capacity cache admission and local transport refusal. Test authorship alone is
 not a recorded pass or a successful molecular preflight.

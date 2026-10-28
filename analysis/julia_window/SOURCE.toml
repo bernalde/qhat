@@ -5,13 +5,16 @@ ancestor_core = "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl"
 ancestor_core_sha256 = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
 ancestor_search = "numerical_audit/julia_cubic_feasibility/src/WindowSearch.jl"
 ancestor_search_sha256 = "ad8d4b80bd34b8ea078726bfc4f648ff2d4e5c68f3ff225bf883a3b3c8ce500c"
-aggregation = "real_columns_before_transport_v1"
+aggregation = "exact_real_deltas_before_transport_v2"
+local_cache_accounted_byte_limit = 67108864
+local_cache_entry_limit = 100000
+local_cache_policy = "exact-only amplitudes plus kernels; allocated limb capacity; noinsert/recompute"
 certificate = "none; heuristic proposals require full Taylor and native verification"
 
 [files]
-"ResponseCore.jl" = "b7044f31c7c76644ecafa11b604eafa99034134b0bc7116cd38ca0070a76516a"
+"ResponseCore.jl" = "a4a2ac13e0acbe9945998c486eb9bcd4dae06196db5cf19cb5e136b58d0a82e1"
 "WindowSearch.jl" = "bd6678e05077d2f6e33a72f9b23c6df24a456b7aa8c04053efc0d57e74232532"
-"worker.jl" = "30915f35e079e8335bd8fd08242cb98f549fb9e5b2fd4ca9c86764f5be484e1a"
-"tests.jl" = "1e22bbc93405a3664a2b8241226836f2a72b9deac3ae86f2b686460e22287fa6"
+"worker.jl" = "55902b8e0e28f93656b906ca8482249adb0d7163620bdb74af331f7696f4dd58"
+"tests.jl" = "7bdf162a4f33a2faf576dfbfc26425c81a7d328927f3772ae3cbdbd0f5c68382"
 "Project.toml" = "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d"
-"README.md" = "f1295093b22f34fdfddb7d60d2a73a5edc32dc630cb1976d4a4205489981ec0b"
+"README.md" = "6e712be8fd945c7240dc65ddbe2aa99d98f1f103c029e740d77a219b4c69f1e5"
