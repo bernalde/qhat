@@ -1,8 +1,27 @@
 # Tiny independent identities and interruption checks; no molecular generation.
 using Test
-include(joinpath(@__DIR__,"ResponseCore.jl"))
+const EXACT_ACTION_PROBE = length(ARGS)==2 && ARGS[1]=="--exact-action-probe"
+isempty(ARGS) || EXACT_ACTION_PROBE || error("usage: tests.jl [--exact-action-probe CORE_PATH]")
+include(EXACT_ACTION_PROBE ? abspath(ARGS[2]) : joinpath(@__DIR__,"ResponseCore.jl"))
+using .ResponseCore
+
+function cancellation_unit(delta::Rational{BigInt})
+    exact=Rational{BigInt}[big(1)//big(1)+delta,-big(1)//big(1)]
+    Unit(UInt64(1),UInt64[0,0],Int8[1,1],Float64.(exact);exact=exact)
+end
+if EXACT_ACTION_PROBE
+    # Root may point this one test set at a preserved pre-repair Core. Its
+    # expected old-code failure is a NumericalResolution, never a large job.
+    @testset "Exact action repair probe: supplied nonzero cancellation and exact zero" begin
+        delta=big(1)//(big(1)<<80)
+        @test unitvalue(cancellation_unit(delta),0)==2.0^-80
+        @test unitvalue(cancellation_unit(-delta),0)==-2.0^-80
+        @test unitvalue(cancellation_unit(big(0)//big(1)),0)===0.0
+    end
+    exit()
+end
 include(joinpath(@__DIR__,"WindowSearch.jl"))
-using .ResponseCore, .WindowSearch
+using .WindowSearch
 struct InjectedDeadline <: Exception end
 
 function fixture()
@@ -81,6 +100,107 @@ end
     @test_throws ArgumentError prepare_window(model;max_flat_entries=1)
     huge=(big(1)<<16400)//big(1)
     @test_throws ArgumentError ResponseCore._check_rational_bits(huge)
+end
+
+@testset "Exact unit actions repair floating cancellation and preserve centered targets" begin
+    delta=big(1)//(big(1)<<80)
+    positive=cancellation_unit(delta);negative=cancellation_unit(-delta)
+    # Both supplied Float64 sums vanish, while their exact source actions do not.
+    @test positive.coeff==[1.0,-1.0] && negative.coeff==[1.0,-1.0]
+    @test unitvalue(positive,0)==2.0^-80
+    @test unitvalue(negative,0)==-2.0^-80
+    @test unitvalue(positive,0;guard=false)==0.0 # Existing explicit opt-out.
+    # A different rounded input has a nonzero floating residual but exact zero.
+    large=big(10)^16
+    zeroexact=Rational{BigInt}[large//big(1),-(large+1)//big(1),big(1)//big(1)]
+    zerounit=Unit(UInt64(1),UInt64[0,0,0],Int8[1,1,1],Float64.(zeroexact);exact=zeroexact)
+    @test unitvalue(zerounit,0;guard=false)==1.0
+    @test unitvalue(zerounit,0)===0.0
+    tinyexact=copy(zeroexact);tinyexact[2]+=delta
+    tinyunit=Unit(UInt64(1),UInt64[0,0,0],Int8[1,1,1],Float64.(tinyexact);exact=tinyexact)
+    @test unitvalue(tinyunit,0;guard=false)==1.0
+    @test unitvalue(tinyunit,0)==2.0^-80
+    original=Unit(UInt64(0),UInt64[1,2],Int8[1,1],[1.0,-1.0];exact=copy(positive.exact))
+    centered=only(center_units([original],0))
+    @test unitvalue(original,0)==2.0^-80
+    @test unitvalue(centered,0)===0.0
+    @test unitvalue(centered,3)==-2.0^-79
+    @test original.exact==positive.exact && length(original.coeff)==2
+    @test length(centered.coeff)==3 # Numerical scalar does not alter original counts.
+    @test affordable_steps([original],[1],2)==1
+    @test_throws ArgumentError affordable_steps([original],[1],1)
+end
+
+@testset "Exact midpoint cells authenticate ties and repair double-round proposals" begin
+    q(x)=Rational{BigInt}(x)
+    one=1.0;odd=nextfloat(one);even=nextfloat(odd)
+    midpoint1=(q(one)+q(odd))/2
+    midpoint2=(q(odd)+q(even))/2
+    beyond256=big(1)//(big(1)<<400)
+    # Expected values are adjacent binary64 literals, never Float64(rational).
+    cases=[(midpoint1-beyond256,one),(midpoint1,one),(midpoint1+beyond256,odd),
+           (midpoint2-beyond256,odd),(midpoint2,even),(midpoint2+beyond256,even)]
+    for (exact,expected) in cases
+        @test ResponseCore._rounded_exact_action(exact)===expected
+        @test ResponseCore._rounded_exact_action(-exact)===-expected
+        @test ResponseCore._rounding_cell_contains(exact,expected)
+    end
+    @test !ResponseCore._rounding_cell_contains(midpoint1,odd)
+    @test !ResponseCore._rounding_cell_contains(midpoint2,odd)
+    @test ResponseCore._rounded_exact_action(q(floatmin(Float64)))===floatmin(Float64)
+end
+
+@testset "Exact action rounding refuses unsupported range and bounded arithmetic" begin
+    smallest=reinterpret(Float64,UInt64(1))
+    second=reinterpret(Float64,UInt64(2))
+    qsmall=big(1)//(big(1)<<1074)
+    @test ResponseCore._rounded_exact_action(qsmall)===smallest
+    @test ResponseCore._rounded_exact_action(-qsmall)===-smallest
+    @test unitvalue(cancellation_unit(qsmall),0)===smallest
+    @test ResponseCore._rounded_exact_action(3qsmall/2)===second # Subnormal tie-to-even.
+    @test ResponseCore._rounded_exact_action(qsmall/2+big(1)//(big(1)<<1500))===smallest
+    @test_throws NumericalResolution ResponseCore._rounded_exact_action(qsmall/2)
+    @test_throws NumericalResolution ResponseCore._rounded_exact_action(qsmall/4)
+    @test_throws NumericalResolution unitvalue(cancellation_unit(qsmall/4),0)
+    @test_throws NumericalResolution ResponseCore._rounded_exact_action((big(1)<<1024)//big(1))
+    @test_throws NumericalResolution ResponseCore._rounded_exact_action(Rational{BigInt}(floatmax(Float64)))
+    @test_throws NumericalResolution ResponseCore._rounded_exact_action(-Rational{BigInt}(floatmax(Float64)))
+    overcap=big(1)//(big(1)<<16400)
+    @test_throws ArgumentError ResponseCore._rounded_exact_action(overcap)
+    @test_throws ArgumentError unitvalue(cancellation_unit(overcap),0)
+    # Candidate/midpoint components fit individually, but an odd denominator
+    # requiring oversized proof cross-products still refuses rather than grows.
+    nearcap=(big(1)<<16383)+1
+    @test_throws ArgumentError ResponseCore._rounding_compare(nearcap//(nearcap+2),
+        ((big(1)<<52)+1)//(big(1)<<52))
+    overflowing=Unit(UInt64(1),UInt64[0,0],Int8[1,1],[floatmax(Float64),floatmax(Float64)])
+    @test_throws NumericalResolution unitvalue(overflowing,0)
+end
+
+@testset "Exact fallback interruption and downstream global guards remain mandatory" begin
+    exact=(big(1)//big(1))+(big(1)//(big(1)<<400))
+    for limit in (2,4,8,14)
+        calls=Ref(0)
+        callback=(kind,amount)->begin
+            calls[]+=1
+            calls[]>=limit && throw(InjectedDeadline())
+        end
+        @test_throws InjectedDeadline with_budget(()->ResponseCore._rounded_exact_action(exact),callback)
+        @test calls[]==limit
+    end
+    @test unitvalue(cancellation_unit(big(1)//(big(1)<<80)),0)==2.0^-80 # Callback restored.
+    @test_throws NumericalResolution ResponseCore._resolved(0.0,1.0,true)
+    @test_throws NumericalResolution ResponseCore._resolved(1e-30,1.0,true)
+    @test_throws NumericalResolution diagonal_response(Unit[],Dict(UInt64(0)=>1.0),0;
+        guard=true,resolution_scale=1.0) # Genuine HF projection is still guarded.
+    zpi=Unit(UInt64(0),UInt64[1],Int8[1],[Float64(pi)])
+    @test_throws NumericalResolution diagonal_response([zpi],Dict(UInt64(1)=>1.0),0;
+        time=1.0,guard=true,resolution_scale=1.0) # Genuine kernel suppression.
+    x=Unit(UInt64(1),UInt64[0],Int8[1],[1.0])
+    ztiny=Unit(UInt64(0),UInt64[1],Int8[1],[2.0^-80])
+    @test_throws NumericalResolution score_order([x,ztiny],[1,2],0,64;time=1.0)
+    @test_throws NumericalResolution ResponseCore._score(Dict(UInt64(1)=>ComplexF64(reinterpret(Float64,UInt64(1)))),1)
+    @test_throws NumericalResolution ResponseCore._score(Dict(UInt64(1)=>ComplexF64(1e-100)),big(1)<<180)
 end
 
 using TOML, SHA

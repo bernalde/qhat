@@ -81,6 +81,10 @@ if mode=='burn':
     while time.process_time()-started<.06: pass
 order=CANDIDATE if CANDIDATE is not None else request['order']
 score=SCORE if SCORE is not None else request['parent_score']
+if mode=='budget_changed':
+    assert request['max_evaluations']>=4, 'child lacks a parent/baseline/trial/changed-checkpoint prefix'
+    order=list(request['order']);order[1],order[2]=order[2],order[1]
+    score=request['parent_score'] # Native rescore, not this claim, remains authoritative.
 lengths=request['word_lengths'];steps=(request['budget']-lengths[order[0]])//(2*sum(lengths)-lengths[order[0]]-lengths[order[-1]])
 changed=order!=request['order']
 windows=[[1,len(order)-2]] if changed else []
@@ -91,7 +95,13 @@ values=dict(version=1,request_sha256=digest,order=order,word_lengths=lengths,
             checked_updates=len(windows),windows=windows)
 text=''.join(k+'='+json.dumps(v)+'\\n' for k,v in values.items())
 text+='history=['+('{positions='+json.dumps(windows[0])+',baseline_labels='+json.dumps(request['order'][1:-1])+',proposal_labels='+json.dumps(order[1:-1])+',accepted=true}' if changed else '')+']\\n'
-text+='[counters]\\nevaluation=1\\naction=0\\natom=0\\nfull_score=1\\nflat_candidate=0\\nexact_witness=0\\ninsertion_move=0\\n[phases]\\nsetup_CPU_seconds=0.0\\n'
+evaluation=1;full_scores=1;flat_candidates=0
+if mode in ('budget_changed','budget_saturated','budget_excess'):
+    assert request['max_evaluations']>=3, 'serialized child allocation must admit its first trial'
+    evaluation=request['max_evaluations']+(1 if mode=='budget_excess' else 0)
+    full_scores=2 if changed else 1
+    flat_candidates=evaluation-full_scores
+text+='[counters]\\nevaluation='+str(evaluation)+'\\naction=0\\natom=0\\nfull_score='+str(full_scores)+'\\nflat_candidate='+str(flat_candidates)+'\\nexact_witness=0\\ninsertion_move=0\\n[phases]\\nsetup_CPU_seconds=0.0\\n'
 checkpoint_path.write_text(text)
 if mode=='checkpoint_crash': sys.exit(7)
 if mode=='checkpoint_burn':
@@ -129,6 +139,7 @@ def test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority(tmp_pat
     assert Fraction(request['request']['time'])==Fraction(float(Fraction(37,100)))
     assert request['request']['budget']==80
     assert '--startup-file=no' in request['argv'] and '--threads=1' in request['argv']
+    assert '--heap-size-hint=250M' in request['argv']
     lengths=request['request']['word_lengths'];r=result.score.steps
     assert r*(2*sum(lengths)-lengths[parent[0]]-lengths[parent[-1]])+lengths[parent[0]]<=80
     assert result.evaluations<=100
@@ -251,6 +262,121 @@ def test_no_completed_parent_is_never_zero(tmp_path,witness):
         max_evaluations=0,starts=[parent],method='window')
     assert result.order==parent and result.score is None
     assert result.stats['window_status']=='parent_unscored'
+
+
+def test_evaluation_allocation_formula_keeps_existing_fraction_and_absolute_cap():
+    for total,expected in ((0,0),(1,1),(5,5),(6,1),(7,2),(8,3),(12,6),(20,10),(3000,1798)):
+        assert window._parent_evaluation_cap(total,.60)==expected
+    assert window._parent_evaluation_cap(6,.01)==1
+    assert window._parent_evaluation_cap(12,.20)==2
+    for total in range(6,80):
+        parent=window._parent_evaluation_cap(total,.60)
+        assert 1<=parent<=total-2-3
+        assert parent+2+3<=total
+
+
+@pytest.mark.parametrize('total',range(6))
+def test_insufficient_evaluation_pool_keeps_real_parent_and_never_launches(tmp_path,total,monkeypatch):
+    def forbidden(*args,**kwargs):
+        raise AssertionError('insufficient evaluation pool launched a child')
+    monkeypatch.setattr(window.subprocess,'Popen',forbidden)
+    parent=(5,3,1,4,2,0)
+    result=native.train_ordering(tiny_blocks(),3,2,time=Fraction(37,100),rotation_budget=80,
+        cpu_seconds=2,max_evaluations=total,max_moves=0,starts=[parent],method='window',
+        window_options=window.WindowOptions(width=4,parent_method='magnitude',julia_executable=sys.executable))
+    assert result.order==parent
+    assert result.evaluations==(1 if total else 0)
+    assert (result.score is None)==(total==0)
+    stats=result.stats
+    assert stats['requested_evaluations']==total
+    assert stats['parent_allocated_evaluations']==total
+    assert stats['parent_evaluations']==result.evaluations<=total
+    assert stats['native_reserved_evaluations']==0
+    assert stats['native_parent_revalidation_evaluations']==0
+    assert stats['native_final_reserved_evaluations']==0
+    assert stats['child_allocated_evaluations']==0
+    assert stats['child_completed_evaluations'] is None
+    assert stats['window_status']==('parent_unscored' if total==0 else 'insufficient_evaluation_budget')
+
+
+def test_real_sparse_parent_saturates_reserved_cap_then_real_native_checks_changed_reply(tmp_path,monkeypatch):
+    blocks=tiny_blocks();parent=(5,3,1,4,2,0)
+    executable,record=fake_worker(tmp_path,'budget_changed')
+    original=native.SparseResponse.score
+    native_calls=[]
+    def recorded_score(self,order,budget,deadline=float('inf')):
+        native_calls.append((id(self),tuple(order)))
+        return original(self,order,budget,deadline)
+    monkeypatch.setattr(native.SparseResponse,'score',recorded_score)
+    # For this six-unit fixture the real first native insertion sweep has30
+    # trials; its six-evaluation cap is reached before that sweep completes.
+    # No TrainingResult/evaluation count is manufactured by the test.
+    result=native.train_ordering(blocks,3,2,time=Fraction(37,100),rotation_budget=80,
+        cpu_seconds=3,max_evaluations=12,max_moves=10,starts=[parent],method='window',
+        window_options=window.WindowOptions(width=4,parent_method='sparse',julia_executable=str(executable)))
+    request=json.loads(record.read_text())['request']
+    stats=result.stats
+    assert stats['parent_allocated_evaluations']==6
+    assert stats['parent_evaluations']==6 and stats['parent_evaluation_cap_saturated']
+    assert stats['parent_status']=='evaluation_limit'
+    assert stats['native_reserved_evaluations']==2
+    assert stats['native_parent_revalidation_evaluations']==1
+    assert stats['native_final_reserved_evaluations']==1
+    assert request['max_evaluations']==stats['child_allocated_evaluations']==4
+    assert stats['child_completed_evaluations']==4
+    assert stats['parent_evaluations']+stats['native_parent_revalidation_evaluations']+request['max_evaluations']+stats['native_final_reserved_evaluations']==12
+    assert result.evaluations==12
+    assert stats['native_verification_attempts']==stats['native_verifications']==1
+    assert len(native_calls)==8 # Six real parent scores, revalidation, final.
+    expected=list(request['order']);expected[1],expected[2]=expected[2],expected[1]
+    assert native_calls[-1][1]==tuple(expected)
+    assert native_calls[-2][1]==tuple(request['order'])
+    assert expected[0]==request['order'][0] and expected[-1]==request['order'][-1]
+    assert stats['window_status'] in ('native_julia_score_mismatch','native_no_resolved_improvement','verified_improvement')
+    assert stats['child_evaluation_scope']=='checkpoint_prefix'
+    assert 'uncheckpointed' in stats['evaluation_accounting_scope']
+    # Recheck the retained result independently; this extra fixture check is
+    # outside the construction call and is not attributed to its evaluation cap.
+    check=native.SparseResponse(blocks,3,2,time=Fraction(37,100)).score(result.order,80)
+    assert result.score==check
+
+
+@pytest.mark.parametrize('total,parent_cap',[(6,1),(20,10),(3000,1798)])
+def test_early_parent_releases_unused_evaluations_to_saturated_child_prefix(tmp_path,total,parent_cap):
+    parent=(5,3,1,4,2,0)
+    executable,record=fake_worker(tmp_path,'budget_saturated')
+    result=native.train_ordering(tiny_blocks(),3,2,time=Fraction(37,100),rotation_budget=80,
+        cpu_seconds=2,max_evaluations=total,max_moves=0,starts=[parent],method='window',
+        window_options=window.WindowOptions(width=4,parent_method='magnitude',julia_executable=str(executable)))
+    stats=result.stats;request=json.loads(record.read_text())['request']
+    assert stats['parent_allocated_evaluations']==parent_cap
+    assert stats['parent_evaluations']==1
+    assert stats['parent_allocation_fraction']==.60
+    assert 0<stats['parent_allocated_CPU_seconds']<=2*.60
+    assert stats['native_parent_revalidation_evaluations']==1
+    assert request['max_evaluations']==stats['child_allocated_evaluations']==total-3
+    assert request['max_evaluations']>=3 # Parent full score, flat baseline, first trial.
+    assert stats['child_completed_evaluations']==request['max_evaluations']
+    assert stats['parent_evaluations']+stats['native_parent_revalidation_evaluations']+request['max_evaluations']+stats['native_final_reserved_evaluations']==total
+    assert result.evaluations==total-1 # Unchanged order leaves final reserve unused.
+    assert stats['native_verification_attempts']==0
+    assert result.order==parent and result.score is not None
+    assert stats['child_evaluation_scope']=='checkpoint_prefix'
+
+
+def test_child_reply_cannot_extend_the_serialized_evaluation_allocation(tmp_path):
+    executable,record=fake_worker(tmp_path,'budget_excess')
+    result=native.train_ordering(tiny_blocks(),3,2,time=Fraction(37,100),rotation_budget=80,
+        cpu_seconds=2,max_evaluations=8,max_moves=0,starts=[(5,3,1,4,2,0)],method='window',
+        window_options=window.WindowOptions(width=4,parent_method='magnitude',julia_executable=str(executable)))
+    request=json.loads(record.read_text())['request'];stats=result.stats
+    assert request['max_evaluations']==stats['child_allocated_evaluations']==5
+    assert stats['window_status']=='invalid_worker_reply'
+    assert 'allocated evaluation cap' in stats['refusal_reason']
+    assert stats['child_completed_evaluations'] is None
+    assert stats['native_verification_attempts']==0
+    assert result.evaluations==2 and result.score is not None
+    assert result.evaluations<=8
 
 
 def test_normalized_underflow_is_unscored_instead_of_completed_zero():

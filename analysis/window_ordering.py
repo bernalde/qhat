@@ -60,6 +60,18 @@ def asset_path():
     return Path(__file__).resolve().parent / 'julia_window' / 'worker.jl'
 
 
+def _parent_evaluation_cap(total, fraction):
+    """Reserve two native scores and the first three child prefix evaluations.
+
+    Fewer than six evaluations fund only the parent. Otherwise apply the same
+    parent fraction as the CPU allocation, while retaining at least one parent
+    score and the child parent/flat-baseline/first-trial prefix.
+    """
+    if total < 6:
+        return total
+    return min(max(1, math.floor(fraction * (total - 2))), total - 2 - 3)
+
+
 def _checked_score(score):
     if score is not None and score.cubic_response > 0 and score.value == 0:
         raise native.NumericalResolution('window normalized native score underflows')
@@ -159,7 +171,7 @@ def _run_worker(executable, request, checkpoint, child_cap, wall_cap, check, sta
     if not worker.is_file():
         raise native.ResourceLimit('installed Julia worker assets are missing')
     argv = [executable, '--startup-file=no', '--history-file=no', '--threads=1', '--gcthreads=1',
-            '--project=' + str(worker.parent),
+            '--heap-size-hint=250M', '--project=' + str(worker.parent),
             str(worker), str(request), str(checkpoint), repr(child_cap), repr(wall_cap)]
     env = os.environ.copy()
     env.update(JULIA_NUM_THREADS='1', JULIA_NUM_GC_THREADS='1', OPENBLAS_NUM_THREADS='1',
@@ -371,6 +383,8 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
     options = WindowOptions() if window_options is None else window_options
     if not isinstance(options, WindowOptions):
         raise ValueError('window_options must be WindowOptions')
+    child_evaluation_eligible = max_evaluations >= 6
+    parent_evaluation_cap = _parent_evaluation_cap(max_evaluations, options.parent_fraction)
     wall_allowance = native._finite(options.wall_seconds if options.wall_seconds is not None
         else max(1.,4*allowance), 'window wall_seconds', positive=True)
     stats = dict(method='window', backend_version=1, accounting_version='owned-wait4-v1',
@@ -378,7 +392,14 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
                  window_status='not_started', response_is_error_bound=False,
                  requested_CPU_seconds=allowance, requested_wall_seconds=wall_allowance,
                  child_process_CPU_seconds=0., verification_CPU_seconds=0.,
+                 requested_evaluations=max_evaluations, parent_allocation_fraction=float(options.parent_fraction),
+                 parent_allocated_evaluations=parent_evaluation_cap,
+                 native_reserved_evaluations=2 if child_evaluation_eligible else 0,
+                 native_parent_revalidation_evaluations=0,
+                 native_final_reserved_evaluations=1 if child_evaluation_eligible else 0,
+                 child_minimum_evaluations=3, child_allocated_evaluations=0,
                  child_completed_evaluations=None,
+                 evaluation_accounting_scope='Completed native scores plus authenticated child checkpoint prefix; later uncheckpointed child work can remain unknown',
                  serialization_CPU_seconds=0., cleanup_CPU_seconds=0.,
                  native_verification_attempts=0, native_verifications=0,
                  selection='max_nonzero_pair', aggregation='real_columns_before_transport_v1')
@@ -423,22 +444,27 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
     try:
         check()
         parent_allowance = allowance*options.parent_fraction-(_time.process_time()-began)
+        stats['parent_allocated_CPU_seconds']=max(0.,parent_allowance)
         if parent_allowance<=0:
             raise native.SearchDeadline("parent setup exhausted its allocation")
         parent = native.train_ordering(blocks, n_qubits, reference, time=time,
             rotation_budget=rotation_budget, cpu_seconds=parent_allowance,
-            max_evaluations=(max(1,max_evaluations-3) if max_evaluations else 0),
+            max_evaluations=parent_evaluation_cap,
             max_moves=0 if options.parent_method=='magnitude' else max_moves,
             max_entries=max_entries,max_cached_actions=max_cached_actions,
             starts=seeds if options.parent_method=='magnitude' or starts is not None else None)
         best_order = parent.order
         evaluations, moves = parent.evaluations, parent.accepted_moves
         stats.update(parent_CPU_seconds=parent.CPU_seconds, parent_status=parent.status,
-                     parent_evaluations=parent.evaluations, parent_stats=parent.stats)
+                     parent_evaluations=parent.evaluations, parent_stats=parent.stats,
+                     parent_evaluation_cap_saturated=bool(parent_evaluation_cap and
+                                                        parent.evaluations==parent_evaluation_cap))
         best_score = _checked_score(parent.score)
         if best_score is None:
             stats['window_status']='parent_unscored'
-        elif max_evaluations-evaluations < 3:
+        elif not child_evaluation_eligible:
+            stats['window_status']='insufficient_evaluation_budget'
+        elif max_evaluations-evaluations < 2+stats['child_minimum_evaluations']:
             stats['window_status']='evaluation_limit'
         else:
             # Reuse the existing native kernel to establish a measured verification
@@ -450,6 +476,7 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
             verified=_checked_score(context.score(best_order,rotation_budget,deadline()))
             score_time=_time.process_time()-score_began
             evaluations+=1
+            stats['native_parent_revalidation_evaluations']=1
             stats['parent_revalidation_CPU_seconds']=_time.process_time()-phase
             best_score=verified
             refused=_domain(blocks,compiled,context,check)

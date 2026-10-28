@@ -52,6 +52,77 @@ struct Unit
     end
 end
 
+"""Exact rational comparison with bounded cross-products for rounding proofs."""
+function _rounding_compare(a::Rational{BigInt}, b::Rational{BigInt})
+    _check_rational_bits(a); _check_rational_bits(b)
+    an, ad = numerator(a), denominator(a)
+    bn, bd = numerator(b), denominator(b)
+    check_budget()
+    sign(an) != sign(bn) && return cmp(sign(an), sign(bn))
+    iszero(an) && return 0 # Both numerators are zero after the sign check.
+    # Divide positive common factors before comparing integer products. This
+    # keeps dyadic midpoint proofs small without enlarging the intermediate cap.
+    common_numerator = gcd(abs(an), abs(bn))
+    common_denominator = gcd(ad, bd)
+    check_budget()
+    left_numerator = div(an, common_numerator)
+    right_numerator = div(bn, common_numerator)
+    left_denominator = div(bd, common_denominator)
+    right_denominator = div(ad, common_denominator)
+    ndigits(abs(left_numerator);base=2) + ndigits(left_denominator;base=2) <= 16384 &&
+        ndigits(abs(right_numerator);base=2) + ndigits(right_denominator;base=2) <= 16384 ||
+        throw(ArgumentError("rounding comparison bit cap"))
+    check_budget()
+    left = left_numerator * left_denominator
+    right = right_numerator * right_denominator
+    check_budget()
+    cmp(left, right)
+end
+
+function _rounding_cell_contains(exact::Rational{BigInt}, candidate::Float64)
+    check_budget()
+    # Nonzero exact amplitudes rounding to zero are deliberately unsupported.
+    isfinite(candidate) && !iszero(candidate) || return false
+    below, above = prevfloat(candidate), nextfloat(candidate)
+    isfinite(below) && isfinite(above) || return false
+    center = _check_rational_bits(Rational{BigInt}(candidate))
+    low = _check_rational_bits(Rational{BigInt}(below))
+    high = _check_rational_bits(Rational{BigInt}(above))
+    lower = _check_rational_bits((low + center) / 2)
+    upper = _check_rational_bits((center + high) / 2)
+    lower_comparison = _rounding_compare(exact, lower)
+    upper_comparison = _rounding_compare(exact, upper)
+    # The stored significand's low bit determines round-to-nearest ties-to-even
+    # for both signs, subnormals and the normal/subnormal boundary.
+    even = iseven(reinterpret(UInt64, candidate))
+    (lower_comparison > 0 || (iszero(lower_comparison) && even)) &&
+        (upper_comparison < 0 || (iszero(upper_comparison) && even))
+end
+
+"""Correctly rounded nonzero binary64 action, authenticated by exact midpoints.
+
+Float64(exact) is only a proposal: an intermediate BigFloat conversion can
+double-round near a midpoint. Check that proposal and at most its two neighbors;
+return only a proved rounding cell. No precision or rounding mode is mutated.
+"""
+function _rounded_exact_action(exact::Rational{BigInt})
+    _check_rational_bits(exact)
+    iszero(exact) && return 0.0
+    check_budget()
+    candidate = try
+        Float64(exact)
+    catch error
+        error isa Union{OverflowError,InexactError} || rethrow()
+        throw(NumericalResolution("exact unit action conversion outside resolution"))
+    end
+    isfinite(candidate) || throw(NumericalResolution("nonfinite exact unit action conversion"))
+    for value in (candidate, prevfloat(candidate), nextfloat(candidate))
+        check_budget()
+        _rounding_cell_contains(exact, value) && return value
+    end
+    throw(NumericalResolution("exact unit action has no certified supported nonzero binary64 rounding"))
+end
+
 """Scalar action: A|state> = unitvalue(A,state)|state xor A.flip>."""
 function unitvalue(unit::Unit, state::UInt64; guard::Bool=true)
     check_budget(:action)
@@ -80,7 +151,10 @@ function unitvalue(unit::Unit, state::UInt64; guard::Bool=true)
         # Centered diagonal and forbidden equal-flip actions commonly vanish
         # identically. Authenticate that identity instead of refusing roundoff.
         iszero(exact) && return 0.0
-        iszero(total) && throw(NumericalResolution("zero unit action hides a nonzero exact amplitude"))
+        isfinite(scale) || throw(NumericalResolution("nonfinite unit action scale"))
+        # This replaces only the unresolved scalar action. Atom, DELTA, full
+        # Taylor and global acceptance guards continue to apply independently.
+        return _rounded_exact_action(exact)
     end
     _local_resolved(abs(total), scale, guard, "unit action")
     total

@@ -9,11 +9,16 @@ This backend has no external Julia dependencies, DP or enumeration entry point.
 The new target aggregates each pair's real column with its conditioned exterior
 triple columns before transport. It retains the independent full-order Taylor
 baseline and every coherent DELTA, including exterior interference. A nonzero
-local unit action/atom/aggregate/DELTA below 2^-24 of its operand norm scale is
-refused; computed zero atoms/DELTAs are admitted without claiming exactness.
-Near-zero unit actions are additionally checked with their supplied exact
-coefficients, admitting certified scalar/forbidden-action zeros. This is a
-cancellation heuristic, not an
+local atom/aggregate/DELTA below 2^-24 of its operand norm scale is refused;
+computed zero atoms/DELTAs are admitted without claiming exactness. Near-zero
+unit actions instead sum the supplied exact rational coefficients. Exact zero
+returns zero; nonzero sums require a certified binary64 rounding cell, using
+exact adjacent-float midpoints and ties-to-even. Float64 conversion proposes a
+candidate only; checking its two neighbors can repair double rounding without
+changing global precision. Nonzero subnormals can certify, while zero underflow,
+nonfinite results, unsupported infinite-neighbor boundaries and arithmetic-cap
+exhaustion refuse. All atom/DELTA/full-Taylor/transport/global-acceptance guards
+remain in force. Those downstream guards remain a cancellation heuristic, not an
 interval-error certificate. The resulting binary64 tables differ from historical
 study tables and inherit no historical timing or optimum claims. Insertion uses
 an outward roundoff envelope and exact dyadic vector rescoring when intervals
@@ -33,6 +38,31 @@ and acceptance for each completed window, Q, J=Q/r^4 and r. The Python owner
 replays that history from the authenticated parent, verifying each fixed
 exterior and original global label transition.
 
+Exact centering retains the original rational target and original rotation-word
+counts; its scalar conversion is unchanged by this repair. The repaired action
+can differ from summing independently rounded native coefficients. It establishes
+no identity with old frozen tables or the native floating aggregation. Full
+Taylor/native parent compatibility and the native scorer's independent
+acceptance remain required.
+
+The existing `parent_fraction` (at most 0.60) allocates both parent CPU and
+parent evaluations. For total evaluation ceiling N>=6, reserve R=2 native
+scores (parent revalidation and a final candidate check) and Cmin=3 child
+evaluations (child parent score, flat baseline and first trial). The parent cap
+is `min(max(1,floor(f*(N-2))),N-5)`. After actual parent use P, the child can
+receive `N-P-2`; an early parent stop releases unused evaluations. For N<6 the
+native parent stays within N and the child is explicitly skipped. These are
+allocations within the unchanged absolute ceiling, not additional evaluations.
+The minimum child prefix does not promise a completed insertion sweep or an
+improving checkpoint. All hard refusals, checkpoint authentication and native
+final acceptance still apply.
+
+Stats retain the parent cap/use, native reserves and serialized child cap.
+Reported evaluations combine completed native scores with the authenticated
+child checkpoint prefix. Work after the last checkpoint can remain unknown;
+its absence from that prefix is not a claim that it was free or completed.
+Owned child startup/JIT/user/system CPU remains charged for the entire process.
+
 The reader admits n<=20, m<=1024, total words<=8192; none of those limits promises
 that setup/search fits a chosen CPU allowance. Additional bounded caps cover
 50000 vector/destination entries, 100000 cached amplitudes, 250000 DELTA entries,
@@ -40,7 +70,10 @@ that setup/search fits a chosen CPU allowance. Additional bounded caps cover
 The reader boundary test parses 1024 labels and 8192 words on 20 bits without
 running a large search. Every explicit numerical loop checks a separate scoped
 budget callback. Startup/JIT and non-cooperative allocations are covered by the
-parent's owned-PID watchdog. The supported production path is single-threaded,
+parent's owned-PID watchdog. The worker's `--heap-size-hint=250M` guides Julia GC;
+the 512MiB/no-swap owning cgroup is the hard memory bound, and the continued
+prospective preflight must still satisfy its 400MiB admission gate. The hint does
+not raise that gate or any numerical/resource limit. The supported production path is single-threaded,
 single-request and has one worker for all windows. `with_budget` restores its
 callback even on refusal; it is not a concurrent Julia library API.
 
@@ -62,3 +95,12 @@ Set `QHAT_JULIA_EXECUTABLE` to an existing Julia 1.10+ binary. Set
 wheel subprocess/CLI check; the focused CI lane does both. The Julia tests use
 only tiny coupled fixtures and a reader-only cap boundary. They make no molecular
 performance or physical-accuracy claim.
+
+For a separately guarded old/current scalar-action regression, the same test
+file accepts `--exact-action-probe PATH_TO_RESPONSECORE`. It runs only three
+tiny cancellation/zero checks against that read-only source and exits; old
+conservative refusal is expected to fail the nonzero checks. The normal suite
+also covers exact midpoint ties and either side beyond 256 bits, subnormal/range
+refusals, centered HF/other-state actions, bit/budget interruption and unchanged
+global projection/kernel/Taylor/score-underflow guards. Test authorship alone is
+not a recorded pass or a successful molecular preflight.
