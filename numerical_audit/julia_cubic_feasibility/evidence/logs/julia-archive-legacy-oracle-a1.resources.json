@@ -1,0 +1,142 @@
+{
+  "unit": "fermionic-future-julia-archive-legacy-oracle-a1-2275470",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "100",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/numba-cache",
+    "MPLCONFIGDIR": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-julia-cubic-2026-10-27/coordination/legacy_comparison.py",
+    "/tmp/qhat-julia-cubic-2026-10-27/runs/LEGACY_COMPARISON.a1.json"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 36.10547419497743,
+  "samples": [
+    {
+      "elapsed": 0.0009404669981449842,
+      "available_bytes": 25490808832,
+      "frozen": false,
+      "service": "MemoryCurrent=294912\nMemoryPeak=294912\nCPUUsageNSec=77000",
+      "output_bytes": 30574
+    },
+    {
+      "elapsed": 3.030947502993513,
+      "available_bytes": 25496125440,
+      "frozen": false,
+      "service": "MemoryCurrent=29691904\nMemoryPeak=29761536\nCPUUsageNSec=773247000",
+      "output_bytes": 30574
+    },
+    {
+      "elapsed": 6.0373448099708185,
+      "available_bytes": 25423740928,
+      "frozen": false,
+      "service": "MemoryCurrent=29700096\nMemoryPeak=29954048\nCPUUsageNSec=1522551000",
+      "output_bytes": 32711
+    },
+    {
+      "elapsed": 9.044165323954076,
+      "available_bytes": 25416904704,
+      "frozen": false,
+      "service": "MemoryCurrent=29962240\nMemoryPeak=29962240\nCPUUsageNSec=2272361000",
+      "output_bytes": 34846
+    },
+    {
+      "elapsed": 12.051274544966873,
+      "available_bytes": 25530949632,
+      "frozen": false,
+      "service": "MemoryCurrent=29724672\nMemoryPeak=29962240\nCPUUsageNSec=3022682000",
+      "output_bytes": 36997
+    },
+    {
+      "elapsed": 15.057586508977693,
+      "available_bytes": 25610829824,
+      "frozen": false,
+      "service": "MemoryCurrent=29986816\nMemoryPeak=29986816\nCPUUsageNSec=3772234000",
+      "output_bytes": 39167
+    },
+    {
+      "elapsed": 18.064328954962548,
+      "available_bytes": 25428369408,
+      "frozen": false,
+      "service": "MemoryCurrent=29986816\nMemoryPeak=29986816\nCPUUsageNSec=4522389000",
+      "output_bytes": 39167
+    },
+    {
+      "elapsed": 21.070871762989555,
+      "available_bytes": 25380524032,
+      "frozen": false,
+      "service": "MemoryCurrent=29990912\nMemoryPeak=29990912\nCPUUsageNSec=5272318000",
+      "output_bytes": 41344
+    },
+    {
+      "elapsed": 24.078041660948656,
+      "available_bytes": 25454018560,
+      "frozen": false,
+      "service": "MemoryCurrent=29736960\nMemoryPeak=29990912\nCPUUsageNSec=6022441000",
+      "output_bytes": 41344
+    },
+    {
+      "elapsed": 27.08467353496235,
+      "available_bytes": 25525075968,
+      "frozen": false,
+      "service": "MemoryCurrent=29999104\nMemoryPeak=29999104\nCPUUsageNSec=6772202000",
+      "output_bytes": 43521
+    },
+    {
+      "elapsed": 30.09194127895171,
+      "available_bytes": 25582006272,
+      "frozen": false,
+      "service": "MemoryCurrent=29999104\nMemoryPeak=29999104\nCPUUsageNSec=7522435000",
+      "output_bytes": 45448
+    },
+    {
+      "elapsed": 33.09851224295562,
+      "available_bytes": 25585209344,
+      "frozen": false,
+      "service": "MemoryCurrent=29757440\nMemoryPeak=30261248\nCPUUsageNSec=8272210000",
+      "output_bytes": 47368
+    }
+  ],
+  "completed_utc": "2026-10-28T04:26:26.698258+00:00",
+  "budget": {
+    "cpu_seconds": 20.0,
+    "wall_seconds": 100,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/julia-archive-legacy-oracle-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 8.72,
+    "system_cpu_seconds": 0.03,
+    "max_rss_kib": 32256.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 8.75,
+    "output_bytes": 75763,
+    "elapsed_seconds": 36.10547419497743,
+    "process_CPU_timing_available": true
+  }
+}

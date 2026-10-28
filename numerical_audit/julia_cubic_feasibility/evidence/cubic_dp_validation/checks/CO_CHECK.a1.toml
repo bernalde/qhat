@@ -1,0 +1,91 @@
+CPU_seconds = 0.2557339999999986
+case = "CO_r1p13"
+complete_DP_records_checked = 4
+complete_enumeration_records_checked = 4
+expected_J = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//2042600001221089802364545438791444939655333683780928755266439530076098216634415398095715562653234026819415595017505341440000"
+expected_Q = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+factor_identities_checked = 32
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+input_sha256 = "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52"
+julia_version = "1.10.11"
+main_result_sha256 = "ce2636ae6c846a20e453206e2c39a4f4404461e6a2955d7ac887de29f0074125"
+prior_sha256 = "76aeb4c9a525e105fd0d292d84da6f394159848609e0b181b524c611ecf71c07"
+random_draws = 30
+recorded_solver_outputs_checked = 8
+sampled_local_orders = [[1, 2, 3, 4, 5, 6, 7, 8], [8, 7, 6, 5, 4, 3, 2, 1], [1, 5, 3, 8, 4, 7, 2, 6], [1, 8, 5, 7, 3, 4, 6, 2], [7, 4, 3, 6, 1, 8, 2, 5], [4, 8, 5, 1, 3, 6, 7, 2], [4, 8, 1, 7, 3, 6, 5, 2], [4, 6, 7, 5, 8, 2, 3, 1], [1, 3, 5, 6, 4, 2, 8, 7], [8, 3, 5, 1, 7, 6, 4, 2], [4, 6, 3, 5, 7, 2, 1, 8], [8, 3, 1, 6, 4, 5, 2, 7], [1, 5, 6, 7, 4, 3, 8, 2], [7, 3, 6, 8, 1, 4, 5, 2], [6, 2, 4, 3, 1, 5, 8, 7], [4, 6, 7, 2, 1, 8, 3, 5], [8, 1, 3, 2, 7, 5, 6, 4], [3, 6, 1, 7, 5, 2, 8, 4], [5, 3, 2, 7, 6, 8, 1, 4], [7, 2, 1, 4, 3, 8, 6, 5], [4, 8, 7, 6, 3, 1, 2, 5], [3, 5, 2, 8, 7, 6, 4, 1], [4, 8, 6, 3, 2, 5, 1, 7], [1, 3, 7, 2, 4, 5, 8, 6], [1, 3, 6, 4, 5, 8, 7, 2], [2, 8, 7, 5, 1, 3, 6, 4], [7, 4, 1, 5, 2, 8, 3, 6], [6, 1, 3, 8, 2, 7, 4, 5], [7, 8, 3, 5, 1, 2, 6, 4], [2, 5, 3, 4, 7, 8, 1, 6], [8, 3, 5, 6, 7, 2, 4, 1], [3, 6, 5, 4, 7, 8, 1, 2]]
+scope = "Independent nonoptimal-order checks of exact frozen-vector/scalar-factor identity and recorded witness bindings. No DP, exhaustive enumeration, or new physical propagation is performed."
+seed = 20261028
+status = "passed"
+wall_seconds = 1.080833963
+
+[factor_stats]
+constant_factor_value = "39076883623772321573496175811901496916066222921329348676185972017934375344083325941208474777539145940880892682662465"
+cost_bit_bound = 409
+estimated_peak_bytes = "2214016"
+exact_vector_entries = 1612
+exact_zero_groups_removed = 0
+factor_CPU_seconds = 0.07337599999999966
+factor_wall_seconds = 0.298329131
+gram_dot_products = 35749
+input_response_factors = 84
+integerization_CPU_seconds = 0.005656999999999357
+integerization_wall_seconds = 0.081426978
+local_labels = [1, 2, 3, 4, 5, 6, 7, 8]
+max_retained_scope = 6
+nonzero_response_factors = 62
+retained_factor_entries = 2759
+retained_factors = 103
+scalar_entries_before_reduction = 2759
+valid_pair_variants = 2
+valid_triple_variants = 6
+work = 125230
+
+[full_Taylor_numerical_parity]
+exact_transcendental_or_interval_claim = false
+fresh_J = 1.4546310479658738e-8
+max_absolute_difference = 0.0
+max_relative_difference = 0.0
+predicted_J = 1.4546310479658738e-8
+recorded_J = 1.4546310479658738e-8
+steps = 15
+
+[physical_evidence_binding]
+new_propagation_performed = false
+rows_bound = 4
+sha256 = "26844a3653c0392a1d141ff434d5064e0bc9082fcbf1c457076aa794d2463927"
+source = "evidence/results/PHYSICAL_CUBIC.a1.toml"
+
+[source_checks]
+checker = "b914779e16f642141539d952ea003f079a01b295f9f44a664e25d2fbaa9478dd"
+prior_response_snapshot = "24736a2eb1bbdd9e45bf13c3c2c4e747e9a9672a4239a65f48c2c6df80260d3c"
+
+    [source_checks.current]
+    "cubic_dp_study.jl" = "5b0d603c7bef8331a5862f8132537ca803b5406ebf2ed6a4fdba39eb984eb8b1"
+    "src/CubicDP.jl" = "d1ad1e9f1339130d3441b0c9a22f686e6335bf80e21ded87866fc900d2426cef"
+    "src/ResponseCore.jl" = "636ce3a0e8d171e64708e90e60a2fa83bb7c508d9804ffc7cb5945887bbfe58b"
+    "src/StructureDP.jl" = "1ececaddab86fe8ca2c7463d96ad0dda79e256068879ac4cb4caa207f562818a"
+    "src/StudyIO.jl" = "42cc1dae609c6758581bc85e2d08c5b4652a6552fe34ef10d1ba252432e8aec0"
+    "src/WindowSearch.jl" = "a7844dca038f32f82f4be9f8cb0fc35e17c6cb06957b810e6bf7c70f2757f815"
+
+[warm_summary]
+aggregation = "Every field is its own sorted-middle-of-three median; ratios divide the two CPU medians, not paired ratios. No new timing is measured by this postprocessing."
+enumeration_over_DP_CPU_median_ratio = 0.03263493623217857
+
+    [warm_summary.dp]
+    CPU_median_seconds = 5.585027000000011
+    available = true
+    samples = 3
+    wall_median_seconds = 22.313823637
+
+        [warm_summary.dp.phase_CPU_median_seconds]
+        factor_CPU_seconds = 0.030116999999989957
+        graph_decomposition_CPU_seconds = 0.0001200000000025625
+        integerization_CPU_seconds = 0.00461299999999909
+        solve_CPU_seconds = 5.544072999999997
+        witness_CPU_seconds = 0.0018300000000124328
+
+    [warm_summary.enumeration]
+    CPU_median_seconds = 0.18226699999999596
+    available = true
+    samples = 3
+    wall_median_seconds = 0.709447896

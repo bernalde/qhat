@@ -1,0 +1,73 @@
+blas_threads = 1
+julia_version = "1.10.11"
+mode = "preflight_enumeration"
+process_cpu_seconds = 9.153592999999999
+process_wall_seconds = 36.60369086265564
+status = "complete"
+threads = 1
+
+[[cases]]
+case = "H2O_scale1p10"
+expected_integer_minimum = "5465978184112638363228567877540939659774205078039132893503777968294960948449159607181481564793373813144622001569606662805974108446653209390269288356511744"
+expected_minimizers = 44
+first_call_context = "One shared process; later methods/cases may reuse JIT helpers. Whole-process startup is in the external receipt."
+input_sha256 = "080c42bd33f20d9a188f46055d2bf17fb95abaf4607e08ff474993bfd8261c9f"
+objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+original_window = [36, 37, 38, 39, 40, 41, 42, 43, 0]
+parse_cpu_seconds = 0.20071800000000017
+scope = "Same archived first-order JD integer objective; original outside order fixed; no cubic or physical-error optimality claim"
+warm_integer_score = "8410874057295281401754434628132304658882490051498191884484381603253745130485818094645826945905161631904445132948061091135966987483648144224779250580848640"
+warm_samples = []
+width = 9
+
+    [[cases.first_calls]]
+    allocated_bytes = 2062498536
+    cpu_seconds = 7.538029000000001
+    gc_wall_seconds = 18.748145612
+    method = "enumeration"
+    wall_seconds = 30.189090389
+
+        [cases.first_calls.solver]
+        active_destination_count = 8
+        complete = true
+        constant_destination_count = 0
+        cost = "5465978184112638363228567877540939659774205078039132893503777968294960948449159607181481564793373813144622001569606662805974108446653209390269288356511744"
+        coverage_complete = true
+        coverage_lehmer_count = 362880
+        estimated_bytes = "4771872"
+        evaluated = 362880
+        expected_minimizers_match = true
+        minimizers = 44
+        order = [42, 38, 39, 40, 37, 41, 43, 0, 36]
+        original_destination_count = 8
+        outside_constant = "0"
+        setup_CPU_seconds = 0.006037999999999766
+        setup_wall_seconds = 0.005963643
+        solve_CPU_seconds = 7.501259
+        solve_wall_seconds = 30.005017361
+        status = "complete"
+        validation_CPU_seconds = 0.030695999999998946
+        validation_wall_seconds = 0.178080535
+
+            [cases.first_calls.solver.validation]
+            JD = "405488798000677216146309633257747371673998636255958283720896906533370465372455173010493//127314748520905380391777855525586135065716774604121015664758778084648831235208544136462336"
+            expected_matches = true
+            full_order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 42, 38, 39, 40, 37, 41, 43, 0, 36, 44, 45, 46, 47]
+            numerator = "5465978184112638363228567877540939659774205078039132893503777968294960948449159607181481564793373813144622001569606662805974108446653209390269288356511744"
+            objective_denominator = "1716199415032652428745475199770348304317358825035826352348615864796385795849414013030639910165363638744324077847870214509280496999929160953143507072778764288"
+            scope = "archived first-order JD; fixed outside; supplied exact weight ratios"
+            score_matches = true
+            valid = true
+
+    [cases.metadata]
+    archived_enumeration_cpu_seconds = 1.3917344729999999
+    certificate_sha256 = "d9bd1a941febac91eec7dcd3faff069dfa3f0b880612e5cb569cf11e066eb47e"
+    domain_sha256 = "5d5557351820f3a0bb31e5c08b3c6aabaea07e66e4bbfe5e726b538ce0b9bcdc"
+    weight_multiplier = "7"
+
+[source_sha256]
+"ArchivedWindows.jl" = "a24bb4489ea8c8649f74fe3a6d41884a4a383bdb53df9add144e2da0a166410b"
+"ResponseCore.jl" = "24736a2eb1bbdd9e45bf13c3c2c4e747e9a9672a4239a65f48c2c6df80260d3c"
+"StructureDP.jl" = "e063a3e7a33ae7ec1f0601c02aa031720adfdc83435257f122a50ea0804b2d22"
+"StudyIO.jl" = "42cc1dae609c6758581bc85e2d08c5b4652a6552fe34ef10d1ba252432e8aec0"
+"archive_study.jl" = "cf8ff3119f44245e0d8c94599e24c78b4f247fbb5634e64bfb5dc8d7e7c06713"

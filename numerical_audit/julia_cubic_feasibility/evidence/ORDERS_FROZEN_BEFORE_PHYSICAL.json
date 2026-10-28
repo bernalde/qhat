@@ -1,0 +1,33 @@
+{
+  "parameters": {
+    "archive_times": [
+      1.0
+    ],
+    "archive_formulas": [
+      1,
+      2
+    ],
+    "cubic_times": [
+      0.5,
+      1.5
+    ],
+    "cubic_formulas": [
+      2
+    ],
+    "rotation_cap_multipliers": [
+      10,
+      30
+    ],
+    "metric": "1-abs(normalized overlap)",
+    "comparison_floor": 1e-12,
+    "absolute_tie_tolerance": 1e-12
+  },
+  "files": {
+    "runs/ARCHIVE_MAIN.a1.toml": "35c591f07c83807be4e19dd8815d97a92353d807f4c9756b2771bffeafa83d43",
+    "runs/CH4_WINDOW.a2.toml": "5776984f5d1bc4bde55758c1695bdeb8df6c86dce41be02a407edf78daf374d5",
+    "runs/CO_WINDOW.a2.toml": "76aeb4c9a525e105fd0d292d84da6f394159848609e0b181b524c611ecf71c07",
+    "runs/CH4_r1p09.CONTINUATION.a1.toml": "391daacae420965d25f16cb7eb11361aa685c30037d001d876d2e72d027801c0",
+    "runs/CO_r1p13.CONTINUATION.a1.toml": "cb7f0e79e420e13c111965d23ecaaeebdb07a1dc4a626d6b842d87539c5edd45"
+  },
+  "binding_scope": "Written before cubic physical measurement. Archive orders were already fixed in completed ARCHIVE_MAIN.a1.toml before PHYSICAL_ARCHIVE.a1; this additive record repeats that file hash."
+}

@@ -1,0 +1,32 @@
+{
+  "objective_checks": [
+    {
+      "case": "CH4_r1p09",
+      "arm": "window_exact",
+      "value": 2.665840142536718e-09,
+      "expected": 2.6658401425367236e-09
+    },
+    {
+      "case": "CH4_r1p09",
+      "arm": "legacy_continuation",
+      "value": 2.3596171277296295e-09,
+      "expected": 2.359617127729608e-09
+    }
+  ],
+  "physical_checks": [
+    {
+      "case": "CH4_r1p09",
+      "arm": "window_exact",
+      "error": 8.739076131356599e-07,
+      "julia_error": 8.739076131369759e-07,
+      "absolute_difference": 1.3159715626779624e-18
+    },
+    {
+      "case": "CH4_r1p09",
+      "arm": "legacy_continuation",
+      "error": 7.838824209815591e-07,
+      "julia_error": 7.838824209816421e-07,
+      "absolute_difference": 8.300922883092143e-20
+    }
+  ]
+}

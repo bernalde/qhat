@@ -1,0 +1,453 @@
+baseline_window = [108, 61, 99, 131, 90, 84, 118, 102]
+case = "CO_r1p13"
+common_response_setup_cpu_seconds = 0.029201000000000477
+expected_J = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//2042600001221089802364545438791444939655333683780928755266439530076098216634415398095715562653234026819415595017505341440000"
+expected_Q = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+expected_order = [99, 118, 90, 102, 84, 131, 108, 61]
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+input_sha256 = "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52"
+julia_version = "1.10.11"
+parse_cpu_seconds = 0.0053799999999952774
+physical_reuse = true
+prior_sha256 = "76aeb4c9a525e105fd0d292d84da6f394159848609e0b181b524c611ecf71c07"
+scope = "Exact supplied cubic response DELTA tables; fixed outside and steps. No exact-transcendental/global/physical-optimality certificate."
+status = "complete"
+steps = 15
+width = 8
+window_positions = [168, 169, 170, 171, 172, 173, 174, 175]
+
+[full_Taylor_validation]
+allocated_bytes = 20650448
+cpu_seconds = 0.016005999999990195
+gc_wall_seconds = 0.0
+wall_seconds = 0.089524154
+
+    [full_Taylor_validation.result]
+    cubic_response = 0.0007364069680327236
+    steps = 15
+    value = 1.4546310479658738e-8
+
+[physical_binding]
+full_order = [188, 186, 194, 192, 169, 146, 179, 156, 189, 187, 193, 191, 147, 178, 155, 138, 136, 130, 115, 165, 76, 150, 175, 160, 139, 137, 129, 114, 166, 170, 151, 174, 159, 117, 103, 93, 87, 127, 109, 119, 104, 91, 86, 163, 143, 162, 142, 94, 88, 121, 106, 173, 152, 182, 161, 95, 89, 120, 105, 83, 82, 140, 124, 111, 81, 184, 183, 78, 167, 148, 177, 158, 171, 144, 181, 154, 190, 195, 168, 149, 176, 157, 9, 96, 134, 49, 135, 100, 172, 145, 180, 153, 34, 98, 22, 97, 125, 113, 122, 110, 80, 79, 126, 107, 133, 132, 63, 74, 72, 185, 26, 17, 73, 58, 27, 16, 19, 7, 40, 30, 45, 55, 66, 60, 52, 48, 37, 29, 20, 10, 62, 75, 32, 23, 15, 3, 59, 70, 33, 2, 123, 36, 5, 69, 64, 35, 6, 53, 47, 46, 54, 68, 71, 42, 11, 12, 25, 112, 18, 8, 39, 65, 67, 14, 4, 128, 31, 99, 118, 90, 102, 84, 131, 108, 61, 51, 56, 50, 164, 43, 141, 92, 85, 116, 101, 38, 28, 21, 57, 41, 44, 24, 13, 1, 77]
+interpretation = "Reused archived full-circuit evidence for the identical input and full order; no new physical simulation."
+rows_bound = 4
+sha256 = "26844a3653c0392a1d141ff434d5064e0bc9082fcbf1c457076aa794d2463927"
+source = "evidence/results/PHYSICAL_CUBIC.a1.toml"
+
+    [[physical_binding.conditions]]
+    budget_multiplier = 10
+    steps = 5
+    time = 0.5
+    [[physical_binding.conditions]]
+    budget_multiplier = 30
+    steps = 15
+    time = 0.5
+    [[physical_binding.conditions]]
+    budget_multiplier = 10
+    steps = 5
+    time = 1.5
+    [[physical_binding.conditions]]
+    budget_multiplier = 30
+    steps = 15
+    time = 1.5
+
+[[records]]
+allocated_bytes = 284651784
+complete = true
+cpu_seconds = 0.1900359999999992
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 0.161662615
+method = "enumeration"
+stage = "first"
+wall_seconds = 0.720504724
+
+    [records.solver]
+    certificate = "exact optimum of supplied frozen binary64 response DELTA tables"
+    destinations = 504
+    exact_contenders = 1
+    factors = 84
+    minimizers = 1
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    permutations = 40320
+    roundoff_bound = 8.506271834852046e-16
+    score = 0.0007364069680327236
+    status = "complete"
+[[records]]
+allocated_bytes = 2651783712
+complete = true
+cpu_seconds = 5.946596999999997
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 4.375884085
+method = "dp"
+stage = "first"
+wall_seconds = 23.797109164
+
+    [records.solver]
+    complete = true
+    denominator = "40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    local_order = [3, 7, 5, 8, 6, 4, 1, 2]
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    reason = ""
+    scope = "Exact supplied frozen complex response DELTA tables; Q only, fixed r^4 external"
+    score = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    status = "complete"
+    vector_denominator = "200867255532373784442745261542645325315275374222849104412672"
+
+        [records.solver.dp]
+        complete = true
+        cost = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//1"
+        order = [3, 7, 5, 8, 6, 4, 1, 2]
+        reason = ""
+        status = "complete"
+
+            [records.solver.dp.details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+
+        [records.solver.stats]
+        bag_sizes = [8, 7, 6, 5, 4, 3, 2, 1]
+        constant_factor_value = "39076883623772321573496175811901496916066222921329348676185972017934375344083325941208474777539145940880892682662465"
+        cost_bit_bound = 409
+        estimated_peak_bytes = "2214016"
+        exact_vector_entries = 1612
+        exact_zero_groups_removed = 0
+        factor_CPU_seconds = 0.0395639999999986
+        factor_wall_seconds = 0.189331776
+        gram_dot_products = 35749
+        graph_decomposition_CPU_seconds = 0.00011200000000144428
+        graph_decomposition_wall_seconds = 0.00011278
+        graph_edges = 28
+        input_response_factors = 84
+        integerization_CPU_seconds = 0.004259000000004676
+        integerization_wall_seconds = 0.004259394
+        local_labels = [1, 2, 3, 4, 5, 6, 7, 8]
+        max_retained_scope = 6
+        nonzero_response_factors = 62
+        retained_factor_entries = 2759
+        retained_factors = 103
+        scalar_entries_before_reduction = 2759
+        solve_CPU_seconds = 5.8994320000000045
+        solve_wall_seconds = 23.600181677
+        used_width = 7
+        valid_pair_variants = 2
+        valid_triple_variants = 6
+        witness_CPU_seconds = 0.0018409999999988713
+        witness_exact_score_matches = true
+        witness_wall_seconds = 0.001842962
+        work = 125230
+
+            [records.solver.stats.dp_details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+[[records]]
+allocated_bytes = 2648669712
+complete = true
+cpu_seconds = 5.228625000000001
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 3.308638828
+method = "dp"
+stage = "warm1"
+wall_seconds = 20.906767282
+
+    [records.solver]
+    complete = true
+    denominator = "40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    local_order = [3, 7, 5, 8, 6, 4, 1, 2]
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    reason = ""
+    scope = "Exact supplied frozen complex response DELTA tables; Q only, fixed r^4 external"
+    score = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    status = "complete"
+    vector_denominator = "200867255532373784442745261542645325315275374222849104412672"
+
+        [records.solver.dp]
+        complete = true
+        cost = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//1"
+        order = [3, 7, 5, 8, 6, 4, 1, 2]
+        reason = ""
+        status = "complete"
+
+            [records.solver.dp.details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+
+        [records.solver.stats]
+        bag_sizes = [8, 7, 6, 5, 4, 3, 2, 1]
+        constant_factor_value = "39076883623772321573496175811901496916066222921329348676185972017934375344083325941208474777539145940880892682662465"
+        cost_bit_bound = 409
+        estimated_peak_bytes = "2214016"
+        exact_vector_entries = 1612
+        exact_zero_groups_removed = 0
+        factor_CPU_seconds = 0.03010900000000305
+        factor_wall_seconds = 0.107348238
+        gram_dot_products = 35749
+        graph_decomposition_CPU_seconds = 0.0001200000000025625
+        graph_decomposition_wall_seconds = 0.075135422
+        graph_edges = 28
+        input_response_factors = 84
+        integerization_CPU_seconds = 0.0045919999999952665
+        integerization_wall_seconds = 0.004592705
+        local_labels = [1, 2, 3, 4, 5, 6, 7, 8]
+        max_retained_scope = 6
+        nonzero_response_factors = 62
+        retained_factor_entries = 2759
+        retained_factors = 103
+        scalar_entries_before_reduction = 2759
+        solve_CPU_seconds = 5.190661999999996
+        solve_wall_seconds = 20.716571087
+        used_width = 7
+        valid_pair_variants = 2
+        valid_triple_variants = 6
+        witness_CPU_seconds = 0.0017759999999995557
+        witness_exact_score_matches = true
+        witness_wall_seconds = 0.001777671
+        work = 125230
+
+            [records.solver.stats.dp_details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+[[records]]
+allocated_bytes = 284651784
+complete = true
+cpu_seconds = 0.18588700000000102
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 0.014383753
+method = "enumeration"
+stage = "warm1"
+wall_seconds = 0.712798074
+
+    [records.solver]
+    certificate = "exact optimum of supplied frozen binary64 response DELTA tables"
+    destinations = 504
+    exact_contenders = 1
+    factors = 84
+    minimizers = 1
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    permutations = 40320
+    roundoff_bound = 8.506271834852046e-16
+    score = 0.0007364069680327236
+    status = "complete"
+[[records]]
+allocated_bytes = 284651784
+complete = true
+cpu_seconds = 0.17635299999999887
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 0.014716168
+method = "enumeration"
+stage = "warm2"
+wall_seconds = 0.703879558
+
+    [records.solver]
+    certificate = "exact optimum of supplied frozen binary64 response DELTA tables"
+    destinations = 504
+    exact_contenders = 1
+    factors = 84
+    minimizers = 1
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    permutations = 40320
+    roundoff_bound = 8.506271834852046e-16
+    score = 0.0007364069680327236
+    status = "complete"
+[[records]]
+allocated_bytes = 2648669712
+complete = true
+cpu_seconds = 5.6085430000000045
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 3.797900035
+method = "dp"
+stage = "warm2"
+wall_seconds = 22.411760154
+
+    [records.solver]
+    complete = true
+    denominator = "40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    local_order = [3, 7, 5, 8, 6, 4, 1, 2]
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    reason = ""
+    scope = "Exact supplied frozen complex response DELTA tables; Q only, fixed r^4 external"
+    score = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    status = "complete"
+    vector_denominator = "200867255532373784442745261542645325315275374222849104412672"
+
+        [records.solver.dp]
+        complete = true
+        cost = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//1"
+        order = [3, 7, 5, 8, 6, 4, 1, 2]
+        reason = ""
+        status = "complete"
+
+            [records.solver.dp.details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+
+        [records.solver.stats]
+        bag_sizes = [8, 7, 6, 5, 4, 3, 2, 1]
+        constant_factor_value = "39076883623772321573496175811901496916066222921329348676185972017934375344083325941208474777539145940880892682662465"
+        cost_bit_bound = 409
+        estimated_peak_bytes = "2214016"
+        exact_vector_entries = 1612
+        exact_zero_groups_removed = 0
+        factor_CPU_seconds = 0.034928000000000736
+        factor_wall_seconds = 0.113265737
+        gram_dot_products = 35749
+        graph_decomposition_CPU_seconds = 0.00011299999999891952
+        graph_decomposition_wall_seconds = 0.000113125
+        graph_edges = 28
+        input_response_factors = 84
+        integerization_CPU_seconds = 0.00461299999999909
+        integerization_wall_seconds = 0.004614051
+        local_labels = [1, 2, 3, 4, 5, 6, 7, 8]
+        max_retained_scope = 6
+        nonzero_response_factors = 62
+        retained_factor_entries = 2759
+        retained_factors = 103
+        scalar_entries_before_reduction = 2759
+        solve_CPU_seconds = 5.564750000000004
+        solve_wall_seconds = 22.289634519
+        used_width = 7
+        valid_pair_variants = 2
+        valid_triple_variants = 6
+        witness_CPU_seconds = 0.0022100000000051523
+        witness_exact_score_matches = true
+        witness_wall_seconds = 0.002212279
+        work = 125230
+
+            [records.solver.stats.dp_details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+[[records]]
+allocated_bytes = 2648669712
+complete = true
+cpu_seconds = 5.585027000000011
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 3.371851507
+method = "dp"
+stage = "warm3"
+wall_seconds = 22.313823637
+
+    [records.solver]
+    complete = true
+    denominator = "40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    local_order = [3, 7, 5, 8, 6, 4, 1, 2]
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    reason = ""
+    scope = "Exact supplied frozen complex response DELTA tables; Q only, fixed r^4 external"
+    score = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    status = "complete"
+    vector_denominator = "200867255532373784442745261542645325315275374222849104412672"
+
+        [records.solver.dp]
+        complete = true
+        cost = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//1"
+        order = [3, 7, 5, 8, 6, 4, 1, 2]
+        reason = ""
+        status = "complete"
+
+            [records.solver.dp.details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+
+        [records.solver.stats]
+        bag_sizes = [8, 7, 6, 5, 4, 3, 2, 1]
+        constant_factor_value = "39076883623772321573496175811901496916066222921329348676185972017934375344083325941208474777539145940880892682662465"
+        cost_bit_bound = 409
+        estimated_peak_bytes = "2214016"
+        exact_vector_entries = 1612
+        exact_zero_groups_removed = 0
+        factor_CPU_seconds = 0.030116999999989957
+        factor_wall_seconds = 0.108807215
+        gram_dot_products = 35749
+        graph_decomposition_CPU_seconds = 0.00014600000000086766
+        graph_decomposition_wall_seconds = 0.000146133
+        graph_edges = 28
+        input_response_factors = 84
+        integerization_CPU_seconds = 0.006283999999993739
+        integerization_wall_seconds = 0.00628596
+        local_labels = [1, 2, 3, 4, 5, 6, 7, 8]
+        max_retained_scope = 6
+        nonzero_response_factors = 62
+        retained_factor_entries = 2759
+        retained_factors = 103
+        scalar_entries_before_reduction = 2759
+        solve_CPU_seconds = 5.544072999999997
+        solve_wall_seconds = 22.194189132
+        used_width = 7
+        valid_pair_variants = 2
+        valid_triple_variants = 6
+        witness_CPU_seconds = 0.0018300000000124328
+        witness_exact_score_matches = true
+        witness_wall_seconds = 0.00183064
+        work = 125230
+
+            [records.solver.stats.dp_details]
+            cost_bits = "393"
+            encoded_tables_exact = true
+            estimated_bytes = "45788128"
+            physical_response_exactness_claim = false
+            states = "46233"
+            work = "29528822"
+[[records]]
+allocated_bytes = 284651784
+complete = true
+cpu_seconds = 0.18226699999999596
+flat_sha256 = "867b9ca93c79df336103a6d132cda95cbf85339713a8df371731ded8fad85967"
+gc_wall_seconds = 0.087289861
+method = "enumeration"
+stage = "warm3"
+wall_seconds = 0.709447896
+
+    [records.solver]
+    certificate = "exact optimum of supplied frozen binary64 response DELTA tables"
+    destinations = 504
+    exact_contenders = 1
+    factors = 84
+    minimizers = 1
+    numerator = "29712293803513292485347354375988924299580673795414336420421665259968512591016048870444979086720220414480211046920769//40347654345107946713373737062547060536401653012956617387979052445947619094013143666088208645002153616185987062074179584"
+    order = [99, 118, 90, 102, 84, 131, 108, 61]
+    permutations = 40320
+    roundoff_bound = 8.506271834852046e-16
+    score = 0.0007364069680327236
+    status = "complete"
+
+[source_hashes]
+"cubic_dp_study.jl" = "5b0d603c7bef8331a5862f8132537ca803b5406ebf2ed6a4fdba39eb984eb8b1"
+"src/CubicDP.jl" = "d1ad1e9f1339130d3441b0c9a22f686e6335bf80e21ded87866fc900d2426cef"
+"src/ResponseCore.jl" = "636ce3a0e8d171e64708e90e60a2fa83bb7c508d9804ffc7cb5945887bbfe58b"
+"src/StructureDP.jl" = "1ececaddab86fe8ca2c7463d96ad0dda79e256068879ac4cb4caa207f562818a"
+"src/StudyIO.jl" = "42cc1dae609c6758581bc85e2d08c5b4652a6552fe34ef10d1ba252432e8aec0"
+"src/WindowSearch.jl" = "a7844dca038f32f82f4be9f8cb0fc35e17c6cb06957b810e6bf7c70f2757f815"

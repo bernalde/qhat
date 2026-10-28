@@ -1,0 +1,7 @@
+include("core_tests.jl")
+include("structure_tests.jl")
+include("window_tests.jl")
+include("archive_tests.jl")
+include("physical_tests.jl")
+include("entrypoint_tests.jl")
+include("cubic_dp_tests.jl")

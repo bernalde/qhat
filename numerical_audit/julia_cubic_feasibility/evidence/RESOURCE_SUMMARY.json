@@ -1,0 +1,257 @@
+{
+  "phases": [
+    {
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 51.75,
+      "guarded_wall_seconds": 219.73246970190667,
+      "CPU_ceiling": 180,
+      "wall_ceiling": 900,
+      "attempts": 7
+    },
+    {
+      "phase": "representative_preflight",
+      "CPU_seconds": 55.676139,
+      "guarded_wall_seconds": 228.72910035500536,
+      "CPU_ceiling": 60,
+      "wall_ceiling": 300,
+      "attempts": 5
+    },
+    {
+      "phase": "main_structure",
+      "CPU_seconds": 8.98,
+      "guarded_wall_seconds": 36.133736393006984,
+      "CPU_ceiling": 160,
+      "wall_ceiling": 800,
+      "attempts": 1
+    },
+    {
+      "phase": "main_comparisons",
+      "CPU_seconds": 141.89295900000002,
+      "guarded_wall_seconds": 574.5605926580029,
+      "CPU_ceiling": 160,
+      "wall_ceiling": 800,
+      "attempts": 5
+    },
+    {
+      "phase": "independent_verification",
+      "CPU_seconds": 35.1,
+      "guarded_wall_seconds": 144.5036929170019,
+      "CPU_ceiling": 180,
+      "wall_ceiling": 900,
+      "attempts": 4
+    },
+    {
+      "phase": "physical_validation",
+      "CPU_seconds": 20.71,
+      "guarded_wall_seconds": 87.3014572559623,
+      "CPU_ceiling": 180,
+      "wall_ceiling": 900,
+      "attempts": 3
+    }
+  ],
+  "attempts": [
+    {
+      "label": "julia-archive-legacy-oracle-a1",
+      "phase": "independent_verification",
+      "CPU_seconds": 8.75,
+      "wall_seconds": 36.10547419497743,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-archive-main-a1",
+      "phase": "main_comparisons",
+      "CPU_seconds": 65.63000000000001,
+      "wall_seconds": 264.6860578029882,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-archive-preflight-a1",
+      "phase": "representative_preflight",
+      "CPU_seconds": 17.81,
+      "wall_seconds": 72.18977456702851,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-archive-preflight-a2",
+      "phase": "representative_preflight",
+      "CPU_seconds": 16.546139,
+      "wall_seconds": 66.22733714903006,
+      "exit_code": 1,
+      "termination": "CPU budget exhausted"
+    },
+    {
+      "label": "julia-archive-preflight-a3",
+      "phase": "representative_preflight",
+      "CPU_seconds": 12.559999999999999,
+      "wall_seconds": 51.16015305003384,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-archive-unit-tests-a1",
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 6.5200000000000005,
+      "wall_seconds": 27.097475297981873,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-CH4-continuation-a1",
+      "phase": "main_comparisons",
+      "CPU_seconds": 33.75,
+      "wall_seconds": 135.35572607599897,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-CO-continuation-a1",
+      "phase": "main_comparisons",
+      "CPU_seconds": 32.352959,
+      "wall_seconds": 132.35622503201012,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-affected-tests-a1",
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 3.64,
+      "wall_seconds": 15.079655159963295,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-core-tests-a1",
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 3.06,
+      "wall_seconds": 15.057725634018425,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-final-tests-a1",
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 23.88,
+      "wall_seconds": 96.26839288702467,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-representative-preflight-a1",
+      "phase": "representative_preflight",
+      "CPU_seconds": 1.6800000000000002,
+      "wall_seconds": 9.046461959951557,
+      "exit_code": 1,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-representative-preflight-a2",
+      "phase": "representative_preflight",
+      "CPU_seconds": 7.08,
+      "wall_seconds": 30.105373628961388,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-structure-main-a1",
+      "phase": "main_structure",
+      "CPU_seconds": 8.98,
+      "wall_seconds": 36.133736393006984,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-structure-window-tests-a1",
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 9.930000000000001,
+      "wall_seconds": 42.12222788395593,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-toolchain-a1",
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 0.77,
+      "wall_seconds": 6.046476163959596,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-window-main-a1",
+      "phase": "main_comparisons",
+      "CPU_seconds": 1.97,
+      "wall_seconds": 9.046244597993791,
+      "exit_code": 1,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-window-main-a2",
+      "phase": "main_comparisons",
+      "CPU_seconds": 8.19,
+      "wall_seconds": 33.116339149011765,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-cubic-window-tests-a2",
+      "phase": "toolchain_and_tests",
+      "CPU_seconds": 3.9499999999999997,
+      "wall_seconds": 18.060516675002873,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-physical-archive-a1",
+      "phase": "physical_validation",
+      "CPU_seconds": 5.11,
+      "wall_seconds": 21.095534574007615,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-physical-cubic-a1",
+      "phase": "physical_validation",
+      "CPU_seconds": 10.72,
+      "wall_seconds": 45.12031583196949,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-physical-preflight-a1",
+      "phase": "physical_validation",
+      "CPU_seconds": 4.88,
+      "wall_seconds": 21.085606849985197,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-public-package-smoke-a1",
+      "phase": "independent_verification",
+      "CPU_seconds": 5.1899999999999995,
+      "wall_seconds": 21.09035254700575,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-results-independent-check-a1",
+      "phase": "independent_verification",
+      "CPU_seconds": 10.65,
+      "wall_seconds": 45.15042030898621,
+      "exit_code": 0,
+      "termination": null
+    },
+    {
+      "label": "julia-results-independent-check-portable-a1",
+      "phase": "independent_verification",
+      "CPU_seconds": 10.510000000000002,
+      "wall_seconds": 42.1574458660325,
+      "exit_code": 0,
+      "termination": null
+    }
+  ],
+  "total_CPU_seconds": 314.109098,
+  "total_guarded_wall_seconds": 1290.961049280886,
+  "note": "Receipt accounting includes failures; service CPU rounding may differ slightly. Language-model use and unguarded file packaging are separate."
+}

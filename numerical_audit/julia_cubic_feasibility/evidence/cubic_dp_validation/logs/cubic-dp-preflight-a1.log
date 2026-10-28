@@ -1,0 +1,32 @@
+Running as unit: fermionic-future-cubic-dp-preflight-a1-2350675.service; invocation ID: 970bd38dd350423eb13b76ab55e7bea6
+CO_r1p13 first enumeration true CPU=0.43001500000000004
+CO_r1p13 first dp true CPU=10.442547000000001
+	Command being timed: "/usr/bin/env JULIA_NUM_THREADS=1 JULIA_NUM_GC_THREADS=1 JULIA_PKG_OFFLINE=true /home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia --startup-file=no --history-file=no --threads=1 --gcthreads=1 --heap-size-hint=300M --project=numerical_audit/julia_cubic_feasibility numerical_audit/julia_cubic_feasibility/cubic_dp_study.jl preflight numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CO_r1p13.toml numerical_audit/julia_cubic_feasibility/evidence/results/CO_WINDOW.a2.toml /tmp/qhat-julia-cubic-dp-validation-2026-10-28/runs/PREFLIGHT.a1.toml"
+	User time (seconds): 20.69
+	System time (seconds): 0.23
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:23.71
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 417316
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 76968
+	Voluntary context switches: 6
+	Involuntary context switches: 907
+	Swaps: 0
+	File system inputs: 16
+	File system outputs: 48
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 1min 23.715s
+CPU time consumed: 20.937s
+Memory peak: 252.6M
+Memory swap peak: 0B

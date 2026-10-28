@@ -1,0 +1,46 @@
+Running as unit: fermionic-future-cubic-dp-main-a1-2356744.service; invocation ID: fb4c9ebd746b4ba0a7f835fe9020dbd0
+CH4_r1p09 first enumeration true CPU=0.5160700000000009
+CH4_r1p09 first dp true CPU=12.849393
+CH4_r1p09 warm1 dp true CPU=7.945539999999998
+CH4_r1p09 warm1 enumeration true CPU=0.2543960000000034
+CH4_r1p09 warm2 enumeration true CPU=0.22229400000000155
+CH4_r1p09 warm2 dp true CPU=8.798549000000001
+CH4_r1p09 warm3 dp true CPU=8.174065999999996
+CH4_r1p09 warm3 enumeration true CPU=0.24004900000000617
+CO_r1p13 first enumeration true CPU=0.1900359999999992
+CO_r1p13 first dp true CPU=5.946596999999997
+CO_r1p13 warm1 dp true CPU=5.228625000000001
+CO_r1p13 warm1 enumeration true CPU=0.18588700000000102
+CO_r1p13 warm2 enumeration true CPU=0.17635299999999887
+CO_r1p13 warm2 dp true CPU=5.6085430000000045
+CO_r1p13 warm3 dp true CPU=5.585027000000011
+CO_r1p13 warm3 enumeration true CPU=0.18226699999999596
+	Command being timed: "/usr/bin/env JULIA_NUM_THREADS=1 JULIA_NUM_GC_THREADS=1 JULIA_PKG_OFFLINE=true /home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia --startup-file=no --history-file=no --threads=1 --gcthreads=1 --heap-size-hint=300M --project=numerical_audit/julia_cubic_feasibility numerical_audit/julia_cubic_feasibility/cubic_dp_study.jl main numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CH4_r1p09.toml numerical_audit/julia_cubic_feasibility/evidence/results/CH4_WINDOW.a2.toml /tmp/qhat-julia-cubic-dp-validation-2026-10-28/runs/CH4_MAIN.a1.toml numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CO_r1p13.toml numerical_audit/julia_cubic_feasibility/evidence/results/CO_WINDOW.a2.toml /tmp/qhat-julia-cubic-dp-validation-2026-10-28/runs/CO_MAIN.a1.toml"
+	User time (seconds): 74.91
+	System time (seconds): 0.59
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 5:01.96
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 449376
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 9
+	Minor (reclaiming a frame) page faults: 127523
+	Voluntary context switches: 63
+	Involuntary context switches: 3149
+	Swaps: 0
+	File system inputs: 424
+	File system outputs: 312
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 5min 1.968s
+CPU time consumed: 1min 15.510s
+Memory peak: 286.8M
+Memory swap peak: 0B

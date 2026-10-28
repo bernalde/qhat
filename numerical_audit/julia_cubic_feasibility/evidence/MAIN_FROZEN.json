@@ -1,0 +1,39 @@
+{
+  "source_base": "9a19a118247aeca74f968084c74533c1fd529d85",
+  "files": {
+    "archive_inputs/F2_r1p55.toml": "ae0a45a395de7372b7a64605f04bd4cd675b4f7792a66b185872912229b9781b",
+    "archive_inputs/H2O_scale1p10.toml": "080c42bd33f20d9a188f46055d2bf17fb95abaf4607e08ff474993bfd8261c9f",
+    "archive_inputs/Li2_r2p95.toml": "2e4abf77cb832af1f55b2423948dd4752ba8b5f04ba0be573a5f063fbfe0053b",
+    "inputs/CH4_r1p09.toml": "00a283f3736e331b2c3bfc140213e1d5d1d3a62f119b34ab1450a1b091afbc97",
+    "inputs/CO_r1p13.toml": "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52",
+    "worktree/numerical_audit/julia_cubic_feasibility/PROTOCOL.md": "bbf77c65ee8ca0d565511de0e07b6990a08bb780d8f9dc8607e9cacc2bf32770",
+    "worktree/numerical_audit/julia_cubic_feasibility/archive_study.jl": "cf8ff3119f44245e0d8c94599e24c78b4f247fbb5634e64bfb5dc8d7e7c06713",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/ArchivedWindows.jl": "a24bb4489ea8c8649f74fe3a6d41884a4a383bdb53df9add144e2da0a166410b",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/CubicOrderingFeasibility.jl": "6aed312a1606e46000dba5d87b3ad6649f9bfcc6ec138a565309b08444208f9a",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/Diagnostics.jl": "576b8884fadf57eef2d0b31a5ff6c1097c538d21a3f305c2afbfc0474ea59188",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/PhysicalCheck.jl": "bbd9f343642ce83964eb1a5fb7562076c0f1f92db94d59118f8639e8a0f6194a",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl": "24736a2eb1bbdd9e45bf13c3c2c4e747e9a9672a4239a65f48c2c6df80260d3c",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/StructureDP.jl": "e063a3e7a33ae7ec1f0601c02aa031720adfdc83435257f122a50ea0804b2d22",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/StudyIO.jl": "42cc1dae609c6758581bc85e2d08c5b4652a6552fe34ef10d1ba252432e8aec0",
+    "worktree/numerical_audit/julia_cubic_feasibility/src/WindowSearch.jl": "a7844dca038f32f82f4be9f8cb0fc35e17c6cb06957b810e6bf7c70f2757f815",
+    "worktree/numerical_audit/julia_cubic_feasibility/window_batch.jl": "e6d0d1fe85aed8290770795418256f7c188adb732f065869ea85501905a80301",
+    "worktree/numerical_audit/julia_cubic_feasibility/window_study.jl": "a1e74948fbb882238f0c745dc1e3da11e03704892738f9983d19e10e865f573b"
+  },
+  "preflight_evidence": [
+    "ARCHIVE_PREFLIGHT.a1.toml",
+    "ARCHIVE_PREFLIGHT.a2.toml.H2O_scale1p10.cold_dp.toml",
+    "ARCHIVE_PREFLIGHT.a3.toml",
+    "CUBIC_PREFLIGHT.a2.toml"
+  ],
+  "main_phase_allocation": {
+    "archive_comparison": [
+      140,
+      700
+    ],
+    "cubic_window_batch": [
+      20,
+      100
+    ]
+  },
+  "global_continuation_control": "Conditional control not scheduled: prioritizing requested9! comparison within unchanged160CPU/800wall main pool; same-window Julia insertion comparison remains mandatory."
+}

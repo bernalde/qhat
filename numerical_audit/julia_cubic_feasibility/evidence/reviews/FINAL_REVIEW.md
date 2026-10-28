@@ -1,0 +1,9 @@
+# Final independent review and dispositions
+
+Read-only scientific/source reviews found no remaining blocking issue. The reviews distinguished exact encoded-window optima, floating/transcendental approximations, and physical-error measurements. They checked bag-order gluing, signed factors, fixed-outside interference, exact DFS coverage, the float-screen/exact-contender certificate, full-space physical propagation, sector-reference checks, rotation fusion, and original-label index conversion.
+
+Resolved findings: shared-process first calls were relabelled; factor/graph/solve/validation costs were separated; global-label tie breaking and independent Heap coverage tests were added; physical input/parent bindings were made fail-fast; conditioned-window width and cumulative-entry guards were added; ignored TOML and log files were explicitly included; and the optional legacy verifier was made portable and replayed from packaged model inputs. Test stdout is retained beside each resource receipt.
+
+The original main freeze also records the initial planned window driver. A later entry-point syntax repair occurred before the successful window measurement; the failed attempt is retained and the successful window result records its actual driver hashes. Source-only window selection, objectives, input data, and resource ceilings were not changed to select favourable errors. The exact measured response module is preserved under source_at_measurements; its later difference is limited to allocation/admission guards.
+
+Limitations remain: three archived nine-unit first-order domains, two known cubic development cases, no full molecular DP, no generic approximation ratio, no exact-transcendental/physical-error optimum, and selected rather than all-row fresh independent physical replay. Local technical review is not a GitHub approval or formal proof verification.

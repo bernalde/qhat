@@ -1,0 +1,194 @@
+{
+  "scope": "Post-review Address validation; distinct from original scientific study and external model-review pools. All failed/successful local attempts are charged.",
+  "caps": {
+    "CPU_seconds": 180,
+    "absolute_wall_seconds": 900,
+    "output_MiB": 128,
+    "memory_MiB": 512
+  },
+  "CPU_seconds": 131.04,
+  "wall_seconds": 535.8632759980392,
+  "attempts": [
+    {
+      "attempt": "ordering-address-guard-tests-a1",
+      "exit_code": 0,
+      "termination": null,
+      "CPU_seconds": 0.22,
+      "wall_seconds": 3.03816790797282,
+      "original_receipt_sha256": "c33a887f6053346764cd5fa018657a28779e9328612779f6d0b4c45a9ce90cc3",
+      "shared_guard_batch": true,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "50",
+        "TimeoutStopSec": "5s"
+      },
+      "process_measurements": {
+        "user_cpu_seconds": 0.19,
+        "system_cpu_seconds": 0.03,
+        "max_rss_kib": 22464.0
+      },
+      "scope_note": "Complete shared guard batch charged once; per-target share unallocated. Only public QHAT test outcome is included in GUARD_TESTS.a1.json; original mixed log/receipt stay local."
+    },
+    {
+      "attempt": "ordering-address-independent-a1",
+      "exit_code": 0,
+      "termination": null,
+      "CPU_seconds": 15.19,
+      "wall_seconds": 63.2462754920125,
+      "original_receipt_sha256": "fcf66bcd03fcc521601e9492ddc5a52d9ae185b79368ddc3af74a74ed19a149b",
+      "shared_guard_batch": false,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "140",
+        "TimeoutStopSec": "5s"
+      },
+      "process_measurements": {
+        "user_cpu_seconds": 14.95,
+        "system_cpu_seconds": 0.24,
+        "max_rss_kib": 449908.0
+      },
+      "receipt": "logs/ordering-address-independent-a1.resources.json",
+      "log": "logs/ordering-address-independent-a1.log"
+    },
+    {
+      "attempt": "ordering-address-julia-suite-a1",
+      "exit_code": 1,
+      "termination": null,
+      "CPU_seconds": 10.1,
+      "wall_seconds": 42.14717201096937,
+      "original_receipt_sha256": "e5f2a6c366841b6f316ae7c19b53074e28000d1200855861139211bd6b6112cf",
+      "shared_guard_batch": false,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "350",
+        "TimeoutStopSec": "5s"
+      },
+      "process_measurements": {
+        "user_cpu_seconds": 9.9,
+        "system_cpu_seconds": 0.2,
+        "max_rss_kib": 484940.0
+      },
+      "receipt": "logs/ordering-address-julia-suite-a1.resources.json",
+      "log": "logs/ordering-address-julia-suite-a1.log"
+    },
+    {
+      "attempt": "ordering-address-julia-suite-a2",
+      "exit_code": 1,
+      "termination": null,
+      "CPU_seconds": 30.68,
+      "wall_seconds": 123.41149817605037,
+      "original_receipt_sha256": "5e4a452b66ae088f0cd35eee4069f105176f1b3eb4c88718691250ef508ae835",
+      "shared_guard_batch": false,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "350",
+        "TimeoutStopSec": "5s"
+      },
+      "process_measurements": {
+        "user_cpu_seconds": 30.37,
+        "system_cpu_seconds": 0.31,
+        "max_rss_kib": 568144.0
+      },
+      "receipt": "logs/ordering-address-julia-suite-a2.resources.json",
+      "log": "logs/ordering-address-julia-suite-a2.log"
+    },
+    {
+      "attempt": "ordering-address-julia-suite-a3",
+      "exit_code": 0,
+      "termination": null,
+      "CPU_seconds": 41.62,
+      "wall_seconds": 168.56831199699081,
+      "original_receipt_sha256": "93ea68f4bb38b22e1bd773a616dfa7342f4c9041bef9956aa3bb248738735a8f",
+      "shared_guard_batch": false,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "350",
+        "TimeoutStopSec": "5s"
+      },
+      "process_measurements": {
+        "user_cpu_seconds": 41.19,
+        "system_cpu_seconds": 0.43,
+        "max_rss_kib": 479860.0
+      },
+      "receipt": "logs/ordering-address-julia-suite-a3.resources.json",
+      "log": "logs/ordering-address-julia-suite-a3.log"
+    },
+    {
+      "attempt": "ordering-address-parity-a1",
+      "exit_code": 0,
+      "termination": null,
+      "CPU_seconds": 33.230000000000004,
+      "wall_seconds": 135.4518504140433,
+      "original_receipt_sha256": "04234ba47e7eb714460c5f6e5b27079bd9620129907a52a0d02165b084af1da9",
+      "shared_guard_batch": false,
+      "settings": {
+        "CPUQuota": "25%",
+        "CPUWeight": "5",
+        "IOWeight": "10",
+        "Nice": "19",
+        "MemoryHigh": "448M",
+        "MemoryMax": "512M",
+        "MemorySwapMax": "0",
+        "TasksMax": "32",
+        "MemoryAccounting": "yes",
+        "CPUAccounting": "yes",
+        "RuntimeMaxSec": "230",
+        "TimeoutStopSec": "5s"
+      },
+      "process_measurements": {
+        "user_cpu_seconds": 32.84,
+        "system_cpu_seconds": 0.39,
+        "max_rss_kib": 460948.0
+      },
+      "receipt": "logs/ordering-address-parity-a1.resources.json",
+      "log": "logs/ordering-address-parity-a1.log"
+    }
+  ],
+  "frozen_wall_is_charged": true,
+  "packaging_and_model_usage_separate": true
+}

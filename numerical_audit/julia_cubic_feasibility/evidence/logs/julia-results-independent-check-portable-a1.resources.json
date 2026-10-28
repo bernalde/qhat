@@ -1,0 +1,156 @@
+{
+  "unit": "fermionic-future-julia-results-independent-check-portable-a1-2308315",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "200",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/numba-cache",
+    "MPLCONFIGDIR": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "numerical_audit/julia_cubic_feasibility/tools/verify_legacy_oracles.py",
+    "/tmp/qhat-julia-cubic-2026-10-27/runs/PORTABLE_CHECK.a1.json"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 42.1574458660325,
+  "samples": [
+    {
+      "elapsed": 0.0009957250440493226,
+      "available_bytes": 22286446592,
+      "frozen": false,
+      "service": "MemoryCurrent=528384\nMemoryPeak=528384\nCPUUsageNSec=325000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 3.059248527046293,
+      "available_bytes": 22182051840,
+      "frozen": false,
+      "service": "MemoryCurrent=100622336\nMemoryPeak=106491904\nCPUUsageNSec=773123000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 6.067211961024441,
+      "available_bytes": 22157008896,
+      "frozen": false,
+      "service": "MemoryCurrent=129101824\nMemoryPeak=134852608\nCPUUsageNSec=1523890000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 9.074900367995724,
+      "available_bytes": 22156083200,
+      "frozen": false,
+      "service": "MemoryCurrent=130428928\nMemoryPeak=134852608\nCPUUsageNSec=2272789000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 12.081829284026753,
+      "available_bytes": 22149787648,
+      "frozen": false,
+      "service": "MemoryCurrent=142901248\nMemoryPeak=143101952\nCPUUsageNSec=3031214000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 15.08938057301566,
+      "available_bytes": 22174982144,
+      "frozen": false,
+      "service": "MemoryCurrent=145784832\nMemoryPeak=145784832\nCPUUsageNSec=3789278000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 18.09625814598985,
+      "available_bytes": 22171070464,
+      "frozen": false,
+      "service": "MemoryCurrent=147836928\nMemoryPeak=147836928\nCPUUsageNSec=4544491000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 21.103903288021684,
+      "available_bytes": 22175019008,
+      "frozen": false,
+      "service": "MemoryCurrent=147836928\nMemoryPeak=147836928\nCPUUsageNSec=5296064000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 24.111822899023537,
+      "available_bytes": 22183378944,
+      "frozen": false,
+      "service": "MemoryCurrent=148099072\nMemoryPeak=148099072\nCPUUsageNSec=6048696000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 27.120049674995244,
+      "available_bytes": 22192472064,
+      "frozen": false,
+      "service": "MemoryCurrent=148099072\nMemoryPeak=148099072\nCPUUsageNSec=6798711000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 30.127515739004593,
+      "available_bytes": 22197252096,
+      "frozen": false,
+      "service": "MemoryCurrent=148099072\nMemoryPeak=148099072\nCPUUsageNSec=7547396000",
+      "output_bytes": 553516
+    },
+    {
+      "elapsed": 33.13533618301153,
+      "available_bytes": 22228492288,
+      "frozen": false,
+      "service": "MemoryCurrent=120868864\nMemoryPeak=148099072\nCPUUsageNSec=8297054000",
+      "output_bytes": 554289
+    },
+    {
+      "elapsed": 36.142828578012995,
+      "available_bytes": 22213582848,
+      "frozen": false,
+      "service": "MemoryCurrent=131354624\nMemoryPeak=148099072\nCPUUsageNSec=9048729000",
+      "output_bytes": 554289
+    },
+    {
+      "elapsed": 39.15025709301699,
+      "available_bytes": 22207373312,
+      "frozen": false,
+      "service": "MemoryCurrent=133451776\nMemoryPeak=148099072\nCPUUsageNSec=9797995000",
+      "output_bytes": 554289
+    }
+  ],
+  "completed_utc": "2026-10-28T05:17:30.271201+00:00",
+  "budget": {
+    "cpu_seconds": 40.0,
+    "wall_seconds": 200,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/tmp/qhat-julia-cubic-2026-10-27/runs/logs/julia-results-independent-check-portable-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 10.13,
+    "system_cpu_seconds": 0.38,
+    "max_rss_kib": 169772.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 10.510000000000002,
+    "output_bytes": 559023,
+    "elapsed_seconds": 42.1574458660325,
+    "process_CPU_timing_available": true
+  }
+}
