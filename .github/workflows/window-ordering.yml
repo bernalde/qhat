@@ -1,0 +1,65 @@
+name: Normal Julia window ordering
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'analysis/window_ordering.py'
+      - 'analysis/sparse_response_ordering.py'
+      - 'analysis/train_ordering.py'
+      - 'analysis/strang_schedule.py'
+      - 'analysis/julia_window/**'
+      - 'analysis/tests/test_window_ordering.py'
+      - 'analysis/tests/test_sparse_response_ordering.py'
+      - 'analysis/tests/test_train_ordering_cli.py'
+      - 'pyproject.toml'
+      - '.github/workflows/window-ordering.yml'
+  pull_request:
+    paths:
+      - 'analysis/window_ordering.py'
+      - 'analysis/sparse_response_ordering.py'
+      - 'analysis/train_ordering.py'
+      - 'analysis/strang_schedule.py'
+      - 'analysis/julia_window/**'
+      - 'analysis/tests/test_window_ordering.py'
+      - 'analysis/tests/test_sparse_response_ordering.py'
+      - 'analysis/tests/test_train_ordering_cli.py'
+      - 'pyproject.toml'
+      - '.github/workflows/window-ordering.yml'
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  window-ordering:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container:
+      image: python:3.12-slim
+      options: --cpus=0.25 --memory=512m --memory-swap=512m
+    env:
+      JULIA_NUM_THREADS: '1'
+      JULIA_NUM_GC_THREADS: '1'
+      JULIA_IMAGE_THREADS: '1'
+      JULIA_NUM_PRECOMPILE_TASKS: '1'
+      JULIA_PKG_PRECOMPILE_AUTO: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      QHAT_WINDOW_WHEEL: /tmp/qhat-wheel/qhat-0.1.0-py3-none-any.whl
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
+        with:
+          version: '1.10.11'
+      - name: Minimal test and packaging tools
+        run: python -m pip install pytest==8.3.5 setuptools==80.9.0 wheel==0.45.1 numpy==2.5.3 scipy==1.18.1
+      - name: Build and install this source without chemistry dependencies
+        run: |
+          python -m pip wheel . --no-deps --no-build-isolation --wheel-dir /tmp/qhat-wheel
+          python -m pip install --no-deps --no-index /tmp/qhat-wheel/qhat-0.1.0-py3-none-any.whl
+      - name: Julia tiny coherent parity and deadline admission
+        run: julia --startup-file=no --history-file=no --threads=1 --gcthreads=1 --heap-size-hint=250M --project=analysis/julia_window analysis/julia_window/tests.jl
+      - name: Normal API, CLI, owned-worker failures and installed wheel
+        run: python -m pytest analysis/tests/test_window_ordering.py analysis/tests/test_sparse_response_ordering.py analysis/tests/test_train_ordering_cli.py -q

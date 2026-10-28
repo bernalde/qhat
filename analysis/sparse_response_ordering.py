@@ -12,6 +12,7 @@ tail and unitary telescoping. It makes no claim about SCF, synthesis or hardware
 from __future__ import annotations
 
 from collections import OrderedDict
+from contextvars import ContextVar
 from dataclasses import dataclass
 from fractions import Fraction
 import math
@@ -22,6 +23,10 @@ from qhat.analysis.strang_schedule import plan_strang_schedule
 
 Word = tuple[tuple[int, str], ...]
 Vector = dict[int, complex]
+
+# The opt-in process bridge installs a call-scoped whole-call CPU/wall check.
+# ContextVar keeps unrelated trainers in other embedding threads independent.
+_EXTERNAL_BUDGET_CHECK = ContextVar('qhat_ordering_budget_check', default=None)
 
 
 class ResourceLimit(RuntimeError):
@@ -37,6 +42,9 @@ class SearchDeadline(RuntimeError):
 
 
 def _check(deadline):
+    external = _EXTERNAL_BUDGET_CHECK.get()
+    if external is not None:
+        external()
     if _time.process_time() >= deadline:
         raise SearchDeadline('ordering CPU deadline reached')
 
@@ -617,7 +625,8 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
 
 def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
                    cpu_seconds=2., max_evaluations=3000, max_moves=5,
-                   max_entries=50000, max_cached_actions=50000, starts=None):
+                   max_entries=50000, max_cached_actions=50000, starts=None,
+                   method='sparse', window_options=None):
     """Return the best fully scored candidate under a cooperative CPU allowance.
 
     If context/seed work exhausts the cap, a valid initializer is returned with
@@ -625,7 +634,22 @@ def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
     A score is a response heuristic, not an actual finite-state-error certificate.
     Callers needing strict total construction accounting must time the complete
     call, including input loading and object cleanup, as the benchmark does.
+    Opt-in method='window' uses the Julia conditioned-window backend and charges
+    owned child startup/JIT/user/system CPU in the same whole-call allowance.
+    See WindowOptions in qhat.analysis.window_ordering for its narrower domain.
     """
+    if method == 'window':
+        began, wall_began = _time.process_time(), _time.monotonic()
+        from qhat.analysis.window_ordering import train_window
+        return train_window(blocks, n_qubits, reference, time=time,
+            rotation_budget=rotation_budget, cpu_seconds=cpu_seconds,
+            max_evaluations=max_evaluations, max_moves=max_moves, max_entries=max_entries,
+            max_cached_actions=max_cached_actions, starts=starts, window_options=window_options,
+            _began=began, _wall_began=wall_began)
+    if method != 'sparse':
+        raise ValueError('method must be sparse or window')
+    if window_options is not None:
+        raise ValueError('window_options requires method=window')
     began = _time.process_time()
     allowance = _finite(cpu_seconds, 'cpu_seconds', positive=True)
     _integer(max_evaluations, 'max_evaluations', 0, 1000000)

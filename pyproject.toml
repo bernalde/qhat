@@ -30,3 +30,6 @@ dependencies = [
 [tool.setuptools]
 packages = ["qhat", "qhat.analysis", "qhat.common", "qhat.hamiltonian_generator"]
 package-dir = {"qhat" = ".", "qhat.analysis" = "analysis", "qhat.common" = "common", "qhat.hamiltonian_generator" = "hamiltonian_generator"}
+
+[tool.setuptools.package-data]
+"qhat.analysis" = ["julia_window/*.jl", "julia_window/*.toml", "julia_window/*.md"]
