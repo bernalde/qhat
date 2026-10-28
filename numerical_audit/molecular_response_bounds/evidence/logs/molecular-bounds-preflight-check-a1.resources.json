@@ -1,0 +1,127 @@
+{
+  "unit": "fermionic-future-molecular-bounds-preflight-check-a1-2752922",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "500",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=250M",
+    "--project=.",
+    "independent_check.jl",
+    "--caps-profile",
+    "default",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/preparation-a1/CH4_r1p09.coeff7over5.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/preflight-a1/CH4-altered-preflight.KERNEL.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/preflight-a1/CH4-altered-preflight.RESULT.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/preflight-a1/INDEPENDENT_REFUSAL_CHECK.a1.toml"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 21.103854949993547,
+  "samples": [
+    {
+      "elapsed": 0.0010374219855293632,
+      "available_bytes": 19141054464,
+      "frozen": false,
+      "service": "MemoryCurrent=294912\nMemoryPeak=294912\nCPUUsageNSec=107000",
+      "output_bytes": 435624
+    },
+    {
+      "elapsed": 3.0570749830221757,
+      "available_bytes": 19020709888,
+      "frozen": false,
+      "service": "MemoryCurrent=142774272\nMemoryPeak=142774272\nCPUUsageNSec=774215000",
+      "output_bytes": 435624
+    },
+    {
+      "elapsed": 6.064600743004121,
+      "available_bytes": 18867908608,
+      "frozen": false,
+      "service": "MemoryCurrent=167149568\nMemoryPeak=167149568\nCPUUsageNSec=1524497000",
+      "output_bytes": 435624
+    },
+    {
+      "elapsed": 9.073660048015881,
+      "available_bytes": 18730975232,
+      "frozen": false,
+      "service": "MemoryCurrent=182525952\nMemoryPeak=182525952\nCPUUsageNSec=2274688000",
+      "output_bytes": 435624
+    },
+    {
+      "elapsed": 12.080558134010062,
+      "available_bytes": 18925232128,
+      "frozen": false,
+      "service": "MemoryCurrent=194215936\nMemoryPeak=197251072\nCPUUsageNSec=3024868000",
+      "output_bytes": 435624
+    },
+    {
+      "elapsed": 15.08803262503352,
+      "available_bytes": 18981888000,
+      "frozen": false,
+      "service": "MemoryCurrent=194121728\nMemoryPeak=197251072\nCPUUsageNSec=3775211000",
+      "output_bytes": 435624
+    },
+    {
+      "elapsed": 18.095808020036202,
+      "available_bytes": 18818646016,
+      "frozen": false,
+      "service": "MemoryCurrent=200937472\nMemoryPeak=200937472\nCPUUsageNSec=4525637000",
+      "output_bytes": 435624
+    }
+  ],
+  "completed_utc": "2026-10-28T17:00:23.714934+00:00",
+  "budget": {
+    "cpu_seconds": 100.0,
+    "wall_seconds": 500,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/bounds_2026-10-28/logs/molecular-bounds-preflight-check-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 4.67,
+    "system_cpu_seconds": 0.16,
+    "max_rss_kib": 351484.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 4.83,
+    "output_bytes": 439499,
+    "elapsed_seconds": 21.103854949993547,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

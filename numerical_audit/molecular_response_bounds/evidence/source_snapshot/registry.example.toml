@@ -1,0 +1,33 @@
+schema = "molecular-bounds-registry-v1"
+# Development identities only, not new holdouts or evidence of any successful run.
+# Root freezes an actual registry/source/protocol before dispatch.
+
+[caps]
+profile = "default"
+# Explicit prospective extension: profile="larger14" (or CLI --caps-profile larger14).
+# larger14 fixes1024 units,8192 words,4_500_000 probes; memory/work/etc stay fixed.
+# Optional max_units/max_words may only reduce the selected profile's count limits.
+
+[options]
+iterations = 64
+max_witnesses = 8
+target_count = 8
+comparison_count = 1
+attempt_CPU_seconds = 180.0
+attempt_wall_seconds = 900.0
+
+[[cases]]
+id = "CH4-development"
+input = "../julia_cubic_feasibility/evidence/inputs/cubic/CH4_r1p09.toml"
+freeze_kernel = true
+time = 1.0
+order_field = "cubic_order"
+budget_multiplier = 30
+
+[[cases]]
+id = "CO-development"
+input = "../julia_cubic_feasibility/evidence/inputs/cubic/CO_r1p13.toml"
+freeze_kernel = true
+time = 1.0
+order_field = "cubic_order"
+budget_multiplier = 30

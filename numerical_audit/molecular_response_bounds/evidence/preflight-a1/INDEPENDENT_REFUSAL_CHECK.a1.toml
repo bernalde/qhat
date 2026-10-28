@@ -1,0 +1,72 @@
+CPU_seconds = 0.6777730000000002
+caps_profile = "default"
+caps_validation_status = "validated_bounded_profile"
+checker_sha256 = "81bb6821ba98b343577247a4ba836f9178c9a62d4e1b1791faa8fabfc8d85150"
+complete = false
+input_sha256 = "aaa320b3a61bb493604f84a0d81e8357848541192271786d82eda01db66e4535"
+kernel_sha256 = "92fe5eabfc92853add38d9fcf22af12a4da91b8b42fc6fa11dd34bcc03c662bd"
+positive_certificate_verified = false
+producer_refusal_reason = "scope_limit: complete target scope inventory exceeds cap"
+producer_refusal_status = "scope_limit"
+result_sha256 = "f1f33f66f5c90a69d5c47ec9962ec51c0bf14613cbf182407b84f1bb7424a0c0"
+schema = "independent-molecular-bound-v1"
+scientific_verification_performed = false
+status = "recorded_refusal"
+wall_seconds = 2.703894222
+
+[caps]
+max_bits = 4096
+max_bytes = 134217728
+max_cache = 100000
+max_entries = 1000000
+max_input_bytes = 8388608
+max_n = 14
+max_output_bytes = 33554432
+max_probes = 2000000
+max_scopes = 50000
+max_states = 10000
+max_units = 512
+max_variants = 300000
+max_words = 4096
+max_work = 50000000
+
+[caps_declaration]
+cli_profile = "none"
+effective_profile = "default"
+schema = "bounded-caps-v1"
+selection_source = "registry"
+
+    [caps_declaration.effective]
+    max_bits = 4096
+    max_bytes = 134217728
+    max_cache = 100000
+    max_entries = 1000000
+    max_input_bytes = 8388608
+    max_n = 14
+    max_output_bytes = 33554432
+    max_probes = 2000000
+    max_scopes = 50000
+    max_states = 10000
+    max_units = 512
+    max_variants = 300000
+    max_words = 4096
+    max_work = 50000000
+
+    [caps_declaration.hard_ceilings]
+    max_bits = 4096
+    max_bytes = 134217728
+    max_cache = 100000
+    max_entries = 1000000
+    max_input_bytes = 8388608
+    max_n = 14
+    max_output_bytes = 33554432
+    max_probes = 4500000
+    max_scopes = 50000
+    max_states = 10000
+    max_units = 1024
+    max_variants = 300000
+    max_words = 8192
+    max_work = 50000000
+
+    [caps_declaration.registry]
+    profile = "default"
