@@ -141,6 +141,8 @@ python -m qhat.analysis.train_ordering model.json --time 1 \
 The command reports the response score and analytic certificate separately.
 `fits_rotation_budget=false` means the certified target is not established under
 that budget. It never uses exact-reference screening to select an order or step
-count. The independently validated larger-case benchmark lives under
-`numerical_audit/scalable_ordering`; measured outcomes and limits are reported
-there after execution, not inferred from the implementation.
+count. The [independently validated larger-case comparison](../numerical_audit/scalable_ordering/evidence/README.md)
+retains all 96 circuit outcomes. Cubic construction took 3.4–30 CPU seconds on
+these four twelve-mode cases. The measured accuracy/cost tradeoffs are specific
+to the panel; avoiding full-state arrays does not establish inexpensive training
+on arbitrarily larger molecules.

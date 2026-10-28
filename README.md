@@ -15,8 +15,10 @@ See the README file in each directory for component-specific documentation. The 
 
 The [sparse molecular orderer](analysis/RESPONSE_ORDERING.md) constructs bounded
 per-instance symmetric schedules without full-state allocation during training.
-Its [larger-case benchmark](numerical_audit/scalable_ordering) keeps numerical
-validation and compiled costs separate from the response objective.
+Its [verified twelve-mode comparison](numerical_audit/scalable_ordering/evidence)
+reports accuracy, training costs and compiled resources separately. Cubic
+ordering has the lowest or tied error in this four-case panel; cheaper methods
+remain competitive on some cases.
 
 If you need support or have a feature request, the best way to reach out to the team is to open an
 issue in the GitHub repository.

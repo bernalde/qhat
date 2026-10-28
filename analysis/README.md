@@ -11,6 +11,8 @@ For bounded optimization of molecular-unit permutations, see
 on reachable occupation states, supports sparse reference states, and provides a
 separate conservative ideal-error step certificate. The response score itself
 is a heuristic, with explicit CPU, support and cache limits.
+The [completed molecular comparison](../numerical_audit/scalable_ordering/evidence)
+reports all six methods, actual construction charges and independent replay.
 
 This directory contains the modules for performing analysis.  This is run
 by

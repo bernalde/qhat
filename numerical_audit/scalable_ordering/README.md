@@ -1,9 +1,19 @@
 # Sparse ordering on larger molecular cases
 
-This directory provides the prospective twelve-mode benchmark for the reusable
-`analysis.sparse_response_ordering` library. Read [PROTOCOL.md](PROTOCOL.md) and
-[REGISTRY.json](REGISTRY.json) before running it. Source preparation alone makes
-no performance, accuracy, chemistry, generalization or hardware claim.
+This directory provides the frozen twelve-mode comparison for the reusable
+`analysis.sparse_response_ordering` library. The [completed evidence guide](evidence/README.md)
+and [full six-arm report](evidence/report/REPORT.md) retain 24 orders, 96 actual
+circuits, eight references and 240 independently verified comparisons. Read
+[PROTOCOL.md](PROTOCOL.md) and [REGISTRY.json](REGISTRY.json) before reproducing it.
+
+Cubic response has the lowest or tied state error in all 16 case/time/budget
+settings. Its advantage over first-response search is strongest for CO; stretched
+N2 ties that cheaper search, and CH4 improves only about 1% over cheap current
+placement. Actual construction CPU is 3.4–30 seconds for cubic. These are
+dependent observations from four active-space cases in three families, with no
+universal winner, literature-novelty or hardware claim. All circuits use the
+symmetric formula; first-response and individual-Pauli controls use a
+first-response search objective.
 
 The frozen design contains four previously unrecorded geometries from three
 molecular families, six ordering arms, two validation times and two rotation caps. It
