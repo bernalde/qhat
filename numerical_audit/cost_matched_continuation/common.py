@@ -41,7 +41,18 @@ def sha(path):
 def read(path):
     path = Path(path)
     require(path.is_file() and path.stat().st_size <= 32*1024**2, 'Bounded JSON input')
-    return json.loads(path.read_text())
+    with path.open('rb') as stream:
+        raw = stream.read(32*1024**2+1)
+    require(len(raw) <= 32*1024**2, 'JSON input grew beyond byte cap')
+    def unique(items):
+        value = {}
+        for key, item in items:
+            require(key not in value, 'Duplicate JSON key: '+key)
+            value[key] = item
+        return value
+    def reject(value):
+        raise ValueError('Nonfinite JSON constant: '+value)
+    return json.loads(raw, object_pairs_hook=unique, parse_constant=reject)
 
 
 def write_new(path, value):
@@ -103,10 +114,10 @@ def registry():
 
 
 def source_paths():
-    own = [path for path in HERE.rglob('*') if path.is_file()
-           and 'evidence' not in path.relative_to(HERE).parts
-           and not {'__pycache__', 'test'} & set(path.relative_to(HERE).parts)
-           and path.name != 'analyze.py'
+    # Runtime outputs live in subdirectories. Include every top-level producer
+    # and the decision consumer, including new/uncommitted source (which the
+    # subsequent committed_sources check must reject before execution).
+    own = [path for path in HERE.iterdir() if path.is_file()
            and (path.suffix in ('.py', '.jl', '.json', '.toml')
                 or path.name in ('README.md', 'PROTOCOL.md'))]
     return sorted(set(own + prior.source_paths()))
@@ -144,6 +155,21 @@ def validate_protocol(value):
             value['native']['max_moves'] == MAX_MOVES, 'Continuation evaluation/move ceiling')
     require(value['window']['width'] == 8 and value['window']['parent_method'] == 'magnitude',
             'Exact supplied-parent window continuation')
+    require(value['parent']['CPU_seconds'] == PARENT_CPU and
+            value['parent']['wall_seconds'] == PARENT_WALL and
+            value['parent']['max_evaluations'] == 3000 and value['parent']['max_moves'] == 5,
+            'Frozen parent prefix procedure')
+    require(value['accounting']['CPU_cleanup_reserve'] == CLEANUP_RESERVE and
+            value['accounting']['total_wall_multiplier'] == 5 and
+            value['accounting']['wall_cleanup_reserve'] == 5, 'Frozen accounting reserves')
+    require(value['native']['restarts']['count'] == 4 and
+            value['native']['restarts']['insertions'] == [0, 1, 2, 4] and
+            value['native']['max_entries'] == 50000 and value['native']['max_cached_actions'] == 100000,
+            'Frozen full continuation starts/storage')
+    require(all(value['window'][key] == expected for key, expected in dict(
+            max_windows=32, max_sweeps=100, parent_fraction=.6, max_entries=50000,
+            max_cached_actions=100000, max_factor_entries=250000, max_flat_entries=1000000,
+            max_actions=2000000, max_atoms=200000).items()), 'Frozen window bounds')
     return value
 
 

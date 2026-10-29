@@ -15,6 +15,8 @@ import re
 import tomllib
 
 import common as k
+from admission import execution_admission
+from provenance import bind_worker, raw_cpu, relative
 
 PROTOCOL_PATH = 'source_snapshot/numerical_audit/cost_matched_continuation/PROTOCOL.json'
 SOURCE_PATH = 'INPUT_PROTOCOL_FROZEN.json'
@@ -118,35 +120,49 @@ def authenticate_model(artifacts, case, declared):
     return model
 
 
-def cost_evidence(artifacts, cost, exit_code):
+def cost_evidence(artifacts, cost, record, parent, worker, config):
     name = cost['label']
     require(label(name) and '/' not in name, 'Bounded owning-job label')
     require(cost['final_path'] == 'campaign/jobs/'+name+'.FINAL.json' and
             cost['receipt_path'] == 'campaign/logs/'+name+'.resources.json', 'Canonical owning-job evidence paths')
     final = artifacts.load(cost['final_path'], cost['final_sha256'])
     receipt = artifacts.load(cost['receipt_path'], cost['receipt_sha256'])
+    plan_path = 'campaign/jobs/'+name+'.PLAN.json'
+    require(cost.get('plan_path', plan_path) == plan_path, 'Canonical owning PLAN path')
+    plan = artifacts.load(plan_path, cost.get('plan_sha256'))
     require(final['phase'] == 'constructors' and final['label'] == name and
             final['receipt_sha256'] == cost['receipt_sha256'], 'Owning-job FINAL/receipt identity')
-    require(cost['raw_CPU_seconds'] == receipt['final_accounting']['CPU_seconds'] and
+    require(cost['raw_CPU_seconds'] == raw_cpu(final, receipt) and
             cost['charged_CPU_seconds'] == final['charged_CPU_seconds'] and
             cost['wall_seconds'] == final['absolute_guarded_wall_seconds'], 'Canonical costs differ from OS evidence')
-    require(final['exit_code'] == receipt['exit_code'] == exit_code and
+    require(final['exit_code'] == receipt['exit_code'] == record['guard_exit_code'] and
             cost['wall_seconds'] >= number(receipt['elapsed']), 'Guard exit/wall evidence differs')
+    binding = bind_worker(plan, receipt, record, parent, worker, config)
+    require(record.get('cost_binding', binding) == binding, 'Canonical cost binding differs from executed PLAN')
+    if worker is not None:
+        require(cost['charged_CPU_seconds'] >= number(worker['process_CPU_before_output']), 'CPU charge below worker observation')
 
 
-def cost_check(artifacts, record, parent, config):
+def cost_check(artifacts, record, parent, config, worker):
     costs = record['costs']
     require(isinstance(costs, dict) and all(boundary in costs for boundary in ('prefix', 'continuation', 'total')),
             'Complete prefix/continuation/total cost record')
     for boundary in ('prefix', 'continuation', 'total'):
         for field in COST_FIELDS:
-            number(costs[boundary][field])
-        require(costs[boundary]['charged_CPU_seconds'] >= costs[boundary]['raw_CPU_seconds'],
+            if field == 'raw_CPU_seconds' and costs[boundary][field] is None:
+                require(record['eligible'] is False, 'Unknown raw CPU cannot be eligible')
+            else:
+                number(costs[boundary][field])
+        require(costs[boundary]['raw_CPU_seconds'] is None or
+                costs[boundary]['charged_CPU_seconds'] >= costs[boundary]['raw_CPU_seconds'],
                 'Conservative CPU below raw CPU')
     for field in COST_FIELDS:
         require(costs['prefix'][field] == parent['costs']['total'][field], 'Measured shared parent prefix differs')
-        require(math.isclose(costs['total'][field], costs['prefix'][field]+costs['continuation'][field],
-                             rel_tol=0., abs_tol=1e-9), 'Prefix/continuation total differs')
+        if costs['prefix'][field] is None or costs['continuation'][field] is None:
+            require(field == 'raw_CPU_seconds' and costs['total'][field] is None, 'Unknown raw total differs')
+        else:
+            require(math.isclose(costs['total'][field], costs['prefix'][field]+costs['continuation'][field],
+                                 rel_tol=0., abs_tol=1e-9), 'Prefix/continuation total differs')
     parent_arm = record['arm'] == 'parent'
     cap = config['parent']['CPU_seconds'] if parent_arm else record['total_CPU_budget']
     if record['eligible']:
@@ -160,7 +176,51 @@ def cost_check(artifacts, record, parent, config):
         wall_cap = config['accounting']['total_wall_multiplier']*cap
     if record['eligible']:
         require(costs['total']['wall_seconds'] <= wall_cap, 'Strict complete construction wall ceiling')
-    cost_evidence(artifacts, costs['prefix'] if parent_arm else costs['continuation'], record['guard_exit_code'])
+    cost_evidence(artifacts, costs['prefix'] if parent_arm else costs['continuation'], record, parent, worker, config)
+
+
+def worker_witness(artifacts, record, parent):
+    spelling, expected = record['worker_output_path'], record['worker_output_sha256']
+    relative(spelling)
+    path = (artifacts.root/spelling).resolve()
+    require(path.is_relative_to(artifacts.root), 'Worker path outside archive')
+    fallback = record['controller_fallback']
+    if expected is None:
+        require(fallback and not path.exists() and record['result'] is None, 'Missing worker contradicts canonical result')
+        worker = None
+    else:
+        worker = artifacts.load(spelling, expected)
+        keys = ('case', 'repetition', 'arm', 'total_CPU_budget', 'protocol_sha256',
+                'source_freeze_sha256', 'parent_sha256', 'model_json_sha256', 'model_toml_sha256')
+        require(worker['schema'] == 'cost-matched-worker-v1' and
+                all(worker[key] == record[key] for key in keys) and worker['result'] == record['result'], 'Worker identity/result differs')
+        if not fallback:
+            require(worker['result']['order'] == record['order'] and worker['result']['score'] == record['score'],
+                    'Selected incumbent differs from worker')
+            if record['arm'] == 'parent':
+                require(worker.get('restarts') == record.get('restarts'), 'Measured restart preparation differs')
+            else:
+                expected_starts = parent['restarts']['orders'] if record['arm'] == 'full' else [parent['order']]
+                require(worker['starts'] == expected_starts, 'Continuation input starts differ from frozen parent')
+    if fallback:
+        require(record['eligible'] is False and (record['result'] is None or record['result'].get('score') is None),
+                'Controller fallback contradicts a scored/eligible result')
+        if record['arm'] == 'parent':
+            require(record['score'] is None and record['order'] == list(range(len(record['order']))), 'Unscored parent fallback differs')
+        else:
+            require(record['order'] == parent['order'] and record['score'] == parent['score'], 'Controller fallback is not the frozen parent')
+    method = execution_admission(record['arm'], None if worker is None else worker['result'],
+        parent_order=None if record['arm'] == 'parent' else parent['order'],
+        refusal=dict(type='missing_worker') if worker is None else worker.get('refusal'))
+    if record['arm'] == 'parent' and record.get('restarts') is None:
+        method['admitted'] = False
+    if record['arm'] != 'parent' and not parent['eligible']:
+        method['admitted'] = False
+    require(record['execution_admission']['admitted'] is method['admitted'], 'Method execution admission differs')
+    if record['eligible']:
+        require(not fallback and record['guard_exit_code'] == 0 and worker is not None and method['admitted'],
+                'Eligible constructor has an unverified execution/fallback')
+    return worker
 
 
 def constructor_identity(record):
@@ -241,7 +301,8 @@ def authenticate(artifacts):
                 parent_key = case, rep, 'parent', 0
                 parent = records[parent_key]
                 require(record['parent_sha256'] == hashes[parent_key], 'Continuation frozen-parent hash differs')
-            cost_check(artifacts, record, parent, protocol)
+            worker = worker_witness(artifacts, record, parent)
+            cost_check(artifacts, record, parent, protocol, worker)
             records[key] = record; hashes[key] = digest(entry['sha256'])
         require(observed == expected, 'Missing frozen constructor identity')
     return dict(protocol=protocol, protocol_sha256=protocol_sha, source_freeze_sha256=source_sha,

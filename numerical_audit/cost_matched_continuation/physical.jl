@@ -28,7 +28,7 @@ function bounded_toml(path)
     require(length(raw) <= MAX_BYTES, "TOML grew beyond admission cap")
     # Bound nesting before parsing; scientific strings are single-line.
     quotechar = UInt8(0); escaped = false; comment = false; stack = UInt8[]
-    for byte in raw
+    for (index, byte) in enumerate(raw)
         if comment
             byte in (0x0a, 0x0d) && (comment = false)
         elseif quotechar != 0
@@ -38,7 +38,10 @@ function bounded_toml(path)
             elseif byte == quotechar; quotechar = 0
             end
         elseif byte == UInt8('#'); comment = true
-        elseif byte in (UInt8('"'), UInt8('\'')); quotechar = byte
+        elseif byte in (UInt8('"'), UInt8('\''))
+            require(!(index + 2 <= length(raw) && raw[index + 1] == byte && raw[index + 2] == byte),
+                "triple-quoted TOML strings are outside scientific schema")
+            quotechar = byte
         elseif byte in (UInt8('['), UInt8('{'))
             require(length(stack) < 8, "TOML nesting cap"); push!(stack, byte)
         elseif byte in (UInt8(']'), UInt8('}'))

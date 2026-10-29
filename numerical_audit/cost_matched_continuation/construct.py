@@ -14,6 +14,8 @@ import math
 import random
 import shutil
 import common as k
+from admission import execution_admission
+from provenance import bind_worker, raw_cpu
 
 
 def header(root):
@@ -73,7 +75,7 @@ def canonical_path(root, case, repetition, arm, budget):
             root/'orders'/case/('rep'+str(repetition))/(arm+'_B'+str(budget)+'.json'))
 
 
-def parent_record(root, case, repetition):
+def parent_record(root, case, repetition, *, require_eligible=True):
     index = k.read(root/'PARENTS_FROZEN.json')
     info, _, _ = header(root)
     k.require(all(index[key] == info[key] for key in info), 'Parent index header identity')
@@ -85,27 +87,37 @@ def parent_record(root, case, repetition):
     k.require(len(rows) == 1 and rows[0]['path'] == str(path.relative_to(root)) and
               k.sha(path) == rows[0]['sha256'], 'Frozen parent bytes changed')
     value = k.read(path)
-    k.require(value['eligible'] and value['score'] is not None, 'Parent must be checked and within its cap')
+    k.require(value['protocol_sha256'] == info['protocol_sha256'] and
+              value['source_freeze_sha256'] == info['source_freeze_sha256'], 'Frozen parent source identity')
+    if require_eligible:
+        k.require(value['eligible'] and value['score'] is not None, 'Parent must be checked and within its cap')
     return value, rows[0]['sha256']
 
 
 def worker(root, case, repetition, arm, budget, cpu_cap, wall_cap, output, julia):
     info, config, model = identity(root, case, repetition, arm, budget)
     k.require(not output.exists(), 'Fresh worker output')
-    parent, parent_sha = (None, None) if arm == 'parent' else parent_record(root, case, repetition)
+    parent, parent_sha = (None, None) if arm == 'parent' else parent_record(root, case, repetition, require_eligible=False)
     prefix = 0. if parent is None else parent['costs']['total']['charged_CPU_seconds']
     prefix_wall = 0. if parent is None else parent['costs']['total']['wall_seconds']
     expected_cpu = config['parent']['CPU_seconds'] if parent is None else budget-prefix
-    expected_wall = config['parent']['wall_seconds'] if parent is None else math.floor(5*budget-prefix_wall)
-    k.require(cpu_cap == expected_cpu and wall_cap == expected_wall, 'Guard/API complete remaining allowance differs')
-    units = k.prior.blocks(model)
-    ordering = k.bootstrap()
-    starts = None if parent is None else (parent['restarts']['orders'] if arm == 'full' else [parent['order']])
-    available = cpu_cap-time.process_time()-config['accounting']['CPU_cleanup_reserve']
-    wall_available = wall_cap-(time.monotonic()-BOOT_WALL)-config['accounting']['wall_cleanup_reserve']
+    expected_wall = config['parent']['wall_seconds'] if parent is None else math.floor(
+        config['accounting']['total_wall_multiplier']*budget-prefix_wall)
+    k.require(math.isfinite(cpu_cap) and 0 < cpu_cap <= expected_cpu and expected_cpu-cpu_cap <= 1e-12 and
+              wall_cap == expected_wall, 'Guard/API complete remaining allowance differs')
+    starts, available, wall_available = None, None, None
     result = None
     refusal = None
+    restart_plan = None
+    restart_CPU = None
     try:
+        k.require(parent is None or parent['eligible'] and parent['score'] is not None,
+                  'Frozen parent is ineligible; dependent construction refused')
+        units = k.prior.blocks(model)
+        ordering = k.bootstrap()
+        starts = None if parent is None else (parent['restarts']['orders'] if arm == 'full' else [parent['order']])
+        available = cpu_cap-time.process_time()-config['accounting']['CPU_cleanup_reserve']
+        wall_available = wall_cap-(time.monotonic()-BOOT_WALL)-config['accounting']['wall_cleanup_reserve']
         k.require(available > 0 and wall_available > 0, 'Startup exhausted the continuation allowance')
         options = {}
         if arm == 'window':
@@ -127,6 +139,10 @@ def worker(root, case, repetition, arm, budget, cpu_cap, wall_cap, output, julia
         if result['score'] is not None:
             k.require(all(math.isfinite(result['score'][key]) and result['score'][key] >= 0
                 for key in ('value', 'cubic_response')), 'Finite fully scored result')
+            if arm == 'parent':
+                phase = time.process_time()
+                restart_plan = restarts(result['order'], case, repetition)
+                restart_CPU = time.process_time()-phase
     except Exception as exc:
         refusal = dict(type=type(exc).__name__, message=str(exc))
     k.write_new(output, dict(schema='cost-matched-worker-v1', case=case, repetition=repetition,
@@ -134,7 +150,8 @@ def worker(root, case, repetition, arm, budget, cpu_cap, wall_cap, output, julia
         source_freeze_sha256=info['source_freeze_sha256'], parent_sha256=parent_sha,
         model_json_sha256=k.sha(root/'inputs'/case/'model.json'),
         model_toml_sha256=k.sha(root/'inputs'/case/'model.toml'),
-        result=result, refusal=refusal, starts=starts, API_CPU_allowance=available,
+        result=result, refusal=refusal, starts=starts, restarts=restart_plan,
+        restart_generation_CPU_seconds=restart_CPU, API_CPU_allowance=available,
         API_wall_allowance=wall_available, guarded_CPU_cap=cpu_cap, guarded_wall_cap=wall_cap,
         process_CPU_before_output=time.process_time(), wall_before_output=time.monotonic()-BOOT_WALL,
         physical_error_read=False, response_is_error_bound=False))
@@ -151,26 +168,36 @@ def copy_evidence(source, target):
 
 
 def measured_cost(root, campaign, label):
+    k.require(isinstance(label, str) and label.isascii() and label.replace('-', '').isalnum(), 'Owning job label')
+    plan_name = 'jobs/'+label+'.PLAN.json'
     final_name, receipt_name = 'jobs/'+label+'.FINAL.json', 'logs/'+label+'.resources.json'
-    for name in ('jobs/'+label+'.PLAN.json', final_name, receipt_name):
+    for name in (plan_name, final_name, receipt_name):
         copy_evidence(campaign/name, root/'campaign'/name)
     final = k.read(campaign/final_name)
     receipt = k.read(campaign/receipt_name)
     k.require(final['phase'] == 'constructors' and final['label'] == label and
         final['receipt_sha256'] == k.sha(campaign/receipt_name), 'Constructor receipt identity')
-    return dict(raw_CPU_seconds=receipt.get('final_accounting', {}).get('CPU_seconds'),
+    return dict(raw_CPU_seconds=raw_cpu(final, receipt),
         charged_CPU_seconds=final['charged_CPU_seconds'], wall_seconds=final['absolute_guarded_wall_seconds'],
         label=label, final_path='campaign/'+final_name, final_sha256=k.sha(campaign/final_name),
-        receipt_path='campaign/'+receipt_name, receipt_sha256=k.sha(campaign/receipt_name)), final['exit_code']
+        receipt_path='campaign/'+receipt_name, receipt_sha256=k.sha(campaign/receipt_name),
+        plan_path='campaign/'+plan_name, plan_sha256=k.sha(campaign/plan_name)), final['exit_code']
 
 
 def finalize(root, case, repetition, arm, budget, raw, campaign, label):
     info, config, model = identity(root, case, repetition, arm, budget)
     path = canonical_path(root, case, repetition, arm, budget)
     k.require(not path.exists(), 'One canonical construction per identity; preserve attempts')
-    parent, parent_sha = (None, None) if arm == 'parent' else parent_record(root, case, repetition)
+    parent, parent_sha = (None, None) if arm == 'parent' else parent_record(root, case, repetition, require_eligible=False)
     cost, exit_code = measured_cost(root, campaign, label)
     record = k.read(raw) if raw.exists() else None
+    owner = dict(case=case, repetition=repetition, arm=arm, total_CPU_budget=budget,
+                 worker_output_path=str(raw.relative_to(root)))
+    binding = bind_worker(k.read(campaign/'jobs'/(label+'.PLAN.json')),
+        k.read(campaign/'logs'/(label+'.resources.json')), owner, parent, record, config)
+    if record is not None:
+        k.require(cost['charged_CPU_seconds'] >= record['process_CPU_before_output'],
+                  'Owning CPU charge is below worker CPU before serialization')
     if record is not None:
         k.require(all(record[key] == value for key, value in dict(case=case, repetition=repetition,
             arm=arm, total_CPU_budget=budget, parent_sha256=parent_sha,
@@ -185,14 +212,31 @@ def finalize(root, case, repetition, arm, budget, raw, campaign, label):
     else:
         order, score = result['order'], result['score']
     k.validate_order(order, len(model['blocks']))
+    admission = execution_admission(arm, result,
+        parent_order=None if parent is None else parent['order'],
+        refusal=dict(type='missing_worker') if record is None else record.get('refusal'))
+    if parent is not None and not parent['eligible']:
+        admission.update(admitted=False, category='ineligible_parent', reason='frozen_parent_not_admitted')
+    restart_plan = None
+    if arm == 'parent' and not fallback:
+        restart_plan = record.get('restarts')
+        if restart_plan is None:
+            admission.update(admitted=False, category='missing_parent_preparation', reason='missing_measured_restart_plan')
+        else:
+            plans = restart_plan['orders']
+            k.require(len(plans) == 4 and plans[0] == order and
+                      len({tuple(value) for value in plans}) == 4, 'Four distinct measured parent starts')
+            for candidate in plans:
+                k.validate_order(candidate, len(order))
+                k.require(candidate[0] == order[0] and candidate[-1] == order[-1], 'Interior frozen perturbations')
     fields = ('raw_CPU_seconds', 'charged_CPU_seconds', 'wall_seconds')
     zero = {key: 0. for key in fields}
     prefix, continuation = (cost, zero) if parent is None else (parent['costs']['prefix'], cost)
     total = {key: None if prefix[key] is None or continuation[key] is None else prefix[key]+continuation[key]
              for key in fields}
     ceiling = config['parent']['CPU_seconds'] if parent is None else budget
-    wall_ceiling = config['parent']['wall_seconds'] if parent is None else 5*budget
-    eligible = (exit_code == 0 and not fallback and score is not None and
+    wall_ceiling = config['parent']['wall_seconds'] if parent is None else config['accounting']['total_wall_multiplier']*budget
+    eligible = (exit_code == 0 and not fallback and score is not None and admission['admitted'] and
                 total['raw_CPU_seconds'] is not None and total['raw_CPU_seconds'] <= ceiling and
                 total['charged_CPU_seconds'] <= ceiling and total['wall_seconds'] <= wall_ceiling)
     value = dict(schema='cost-matched-constructor-v1', case=case, repetition=repetition, arm=arm,
@@ -203,10 +247,12 @@ def finalize(root, case, repetition, arm, budget, raw, campaign, label):
         model_toml_sha256=k.sha(root/'inputs'/case/'model.toml'),
         costs=dict(prefix=prefix, continuation=continuation, total=total),
         eligible=bool(eligible), guard_exit_code=exit_code, controller_fallback=bool(fallback),
+        execution_admission=admission,
+        cost_binding=binding,
         worker_output_path=str(raw.relative_to(root)), worker_output_sha256=k.sha(raw) if raw.exists() else None,
         physical_error_read=False, response_is_error_bound=False)
     if arm == 'parent':
-        value['restarts'] = restarts(order, case, repetition)
+        value['restarts'] = restart_plan
     k.write_new(path, value)
     return value
 
@@ -224,6 +270,11 @@ def freeze(root, parents):
                 record = k.read(path)
                 k.require((record['case'], record['repetition'], record['arm'], record['total_CPU_budget']) ==
                           (case, rep, arm, budget), 'Canonical constructor identity')
+                k.require(record['protocol_sha256'] == info['protocol_sha256'] and
+                          record['source_freeze_sha256'] == info['source_freeze_sha256'], 'Constructor freeze source identity')
+                if not parents:
+                    _, parent_sha = parent_record(root, case, rep, require_eligible=False)
+                    k.require(record['parent_sha256'] == parent_sha, 'Constructor freeze parent identity')
                 entry = dict(case=case, repetition=rep, path=str(path.relative_to(root)), sha256=k.sha(path))
                 if not parents:
                     entry.update(arm=arm, total_CPU_budget=budget)

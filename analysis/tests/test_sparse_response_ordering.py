@@ -36,6 +36,52 @@ _MIXED = [
 ]
 
 
+def test_later_restart_can_accept_multiple_moves_after_an_earlier_slice_expires(monkeypatch):
+    """A prior seed's stop flag must not truncate later local searches."""
+    from types import SimpleNamespace
+    from qhat.analysis import sparse_response_ordering as native
+
+    early = (3, 2, 1, 0)
+    start = (0, 1, 2, 3)
+    first_gain = (1, 0, 2, 3)
+    second_gain = (1, 0, 3, 2)
+    values = {early: 1., start: 10., first_gain: 8., second_gain: .5}
+
+    class Context:
+        stats = {}
+
+        def columns(self, order, deadline):
+            return order
+
+        def adjacent_columns(self, order, columns, position, deadline):
+            trial = list(order)
+            trial[position], trial[position+1] = trial[position+1], trial[position]
+            return tuple(trial), tuple(trial)
+
+        def affordable_steps(self, order, budget):
+            return 1
+
+        def score_columns(self, order, budget, columns, deadline):
+            return native.Score(values.get(order, 100.), 0., 1)
+
+        def score(self, order, budget, deadline):
+            return self.score_columns(order, budget, order, deadline)
+
+    def check(deadline):
+        if deadline < 20.:
+            raise native.SearchDeadline('first seed exhausted its own slice')
+
+    monkeypatch.setattr(native, '_time', SimpleNamespace(process_time=lambda: 0.))
+    monkeypatch.setattr(native, '_check', check)
+    best, score, _, moves, status = native._incremental_search(
+        Context(), [(early, native.Score(1., 0., 1)), (start, native.Score(10., 0., 1))],
+        100, 20., 1000, 5, early, native.Score(1., 0., 1), 0, 0.)
+    assert best == second_gain
+    assert score.value == .5
+    assert moves == 2
+    assert status == 'cpu_limit'  # Preserve the earlier truncation in metadata.
+
+
 def _dense_word(word, n_qubits):
     # Deliberately do not use sparse bit masks or the implementation's action.
     assert n_qubits <= 6, "dense oracle is restricted to small registers"

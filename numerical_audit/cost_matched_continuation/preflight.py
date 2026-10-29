@@ -28,6 +28,10 @@ def prepare(output):
     for name in ('model.json', 'model.toml', 'orbitals.npz', 'tensors.npz'):
         k.require(k.sha(retained/'inputs'/case/name) == files[name], 'Retained input digest differs')
         shutil.copyfile(retained/'inputs'/case/name, target/name)
+    model = k.read(target/'model.json')
+    k.require((target/'model.json').stat().st_size <= k.prior.MAX_MODEL_BYTES and
+              model['tensors_sha256'] == files['tensors.npz'] and
+              model['orbitals_sha256'] == files['orbitals.npz'], 'Retained model/tensor/orbital binding')
     k.write_new(output/'INPUTS_FROZEN.json', dict(status='complete', expected_cases=1,
         successes={case: files}, refusals={}, protocol_sha256=k.sha(k.HERE/'PROTOCOL.json'),
         source_freeze_sha256=k.sha(output/'INPUT_PROTOCOL_FROZEN.json')))

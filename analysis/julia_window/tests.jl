@@ -495,6 +495,22 @@ end
 end
 
 using TOML, SHA
+@testset "An identical trial does not repeat the exact incumbent norm" begin
+    factor=WindowSearch.FlatFactor([1,2],[1],reshape(ComplexF64[1,-1],1,2))
+    flat=WindowSearch.FlatWindow([17,4],UInt64[1],ComplexF64[1+2im],[factor],0.0)
+    witnesses=Ref(0)
+    callback=(kind,amount)->begin
+        kind==:exact_witness && (witnesses[]+=amount)
+        nothing
+    end
+    result=with_budget(()->insertion_window(flat;max_sweeps=2),callback)
+    # Literal norms: |2+2im|^2=8 and |2im|^2=4. Accepting the one move
+    # checks old/new norms, followed by the final witness: three exact calls.
+    @test result.order==[4,17]
+    @test result.numerator==big(4)//big(1)
+    @test result.evaluations==5 # Candidate counting is unchanged.
+    @test witnesses[]==3
+end
 include(joinpath(@__DIR__,"worker.jl"))
 @testset "Worker CPU admission includes process startup and compilation" begin
     mktempdir() do directory

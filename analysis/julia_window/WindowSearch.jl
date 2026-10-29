@@ -258,9 +258,11 @@ function insertion_window(flat::FlatWindow; guard=()->nothing,max_sweeps=10)
             next=response!(buffer,flat,trial,positions); evaluations+=1
             if next<value-bound*2
                 value=next;best=trial
-            elseif next<=value+bound*2
+            elseif trial!=best && next<=value+bound*2
                 # Overlapping floating screening intervals are resolved using
-                # exact dyadic evaluation of these supplied tables only.
+                # exact dyadic evaluation of these supplied tables only. The
+                # same adjacent swap may be visited twice; equality with the
+                # incumbent cannot be a strict improvement.
                 guard()
                 if _exact_numerator_validated(flat,trial)<_exact_numerator_validated(flat,best)
                     value=next;best=trial
