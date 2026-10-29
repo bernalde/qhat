@@ -286,6 +286,7 @@ class Audit:
         self.attempt('constructor ledger inventory', lambda: require(attributed == constructor_labels,
             'Constructor ledger has missing/unattributed attempts: '+repr(sorted(attributed ^ constructor_labels))))
         observed = {str(path.relative_to(self.root)) for path in self.path('campaign/jobs').rglob('*.json')}
+        observed.update(str(path.relative_to(self.root)) for path in self.path('campaign/logs').rglob('*.resources.json'))
         self.attempt('ledger artifact inventory', lambda: require(observed == paths, 'Unindexed/missing archived job JSON'))
         totals = {}
         for phase, rows in phases.items():

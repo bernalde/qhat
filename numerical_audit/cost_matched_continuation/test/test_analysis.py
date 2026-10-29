@@ -292,7 +292,7 @@ class ArchivedEvidenceTests(unittest.TestCase):
         for label in labels:
             cpu = 1. if label == 'parent' else 10.
             reference = dict(label=label, final_path='campaign/jobs/'+label+'.FINAL.json',
-                receipt_path='campaign/jobs/'+label+'.receipt.json')
+                receipt_path='campaign/logs/'+label+'.resources.json')
             reference['receipt_sha256'] = write_json(root, reference['receipt_path'], dict(settings=settings,
                 exit_code=2 if label == 'failed-attempt' else 0, elapsed=cpu*4, final_accounting=dict(CPU_seconds=cpu)))
             reference['final_sha256'] = write_json(root, reference['final_path'], dict(label=label, phase='constructors',
@@ -315,6 +315,19 @@ class ArchivedEvidenceTests(unittest.TestCase):
                 row['costs']['continuation'] = references[arm+str(budget)]
                 constructors['A', 1, arm, budget] = row
         return constructors
+
+    def test_ledger_receipts_in_logs_and_extra_receipt_refusal(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            constructors = self.ledger_fixture(root)
+            audit = a.Audit(root)
+            result = audit.ledger(constructors)
+            self.assertEqual(audit.issues, [])
+            self.assertEqual(result['reconciled_jobs'], 5)
+            write_json(root, 'campaign/logs/unindexed.resources.json', dict(retained='yes'))
+            audit = a.Audit(root)
+            audit.ledger(constructors)
+            self.assertTrue(any('Unindexed/missing archived job' in issue['message'] for issue in audit.issues))
 
     def test_ledger_joins_once_per_actual_job_and_retains_failures(self):
         with tempfile.TemporaryDirectory() as folder:

@@ -99,7 +99,8 @@
       64
     ],
     "logical_physical_rows": 20,
-    "gate": "Complete source/order/cost/objective/primary/independent paths, no algorithm cap prematurely stopping intendedCPU-limited continuation, memory upper<=400MiB; fail/retain without changing holdout choices"
+    "gate": "Complete source/order/cost/objective/primary/independent paths, no algorithm cap prematurely stopping intended CPU-limited continuation; amended owned-service cgroup MemoryPeak<=448MiB, enforced512MiB/no-swap profile unchanged; retain separate RSS diagnostics and original ambiguous400MiB estimate",
+    "resource_amendment": "PREFLIGHT_RESOURCE_AMENDMENT.json"
   },
   "failures": "Retain all attempts/costs/partial outputs; fully checked incumbents only; controller parent fallback explicit; no geometry substitution after input freeze; failed or unverified primary comparisons cannot support advantage",
   "scope": "Cost/quality allocation on two fixed new geometries and two CPU allowances, not global ordering/approximation/hardware claim",
