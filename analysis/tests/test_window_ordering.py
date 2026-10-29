@@ -15,7 +15,6 @@ import shutil
 import subprocess
 import sys
 import textwrap
-import time
 
 import pytest
 
@@ -66,7 +65,7 @@ def fake_worker(tmp_path, mode='valid', candidate=None, score=None):
     record=tmp_path/'record.json'
     program='''\
 #!/usr/bin/env python3
-import hashlib,json,os,pathlib,signal,sys,time,tomllib
+import hashlib,json,os,pathlib,signal,sys,tomllib
 request_path, checkpoint_path = map(pathlib.Path,sys.argv[-4:-2])
 raw=request_path.read_bytes();request=tomllib.loads(raw.decode())
 record=pathlib.Path(RECORD)
@@ -81,9 +80,6 @@ if mode=='comment_quote_reply': checkpoint_path.write_text("# '"+chr(10)+"x="+'[
 if mode=='deep_inline_reply': checkpoint_path.write_text('x='+'{a='*100+'0'+'}'*100);sys.exit(0)
 if mode=='startup_burn':
     while True: pass
-if mode=='burn':
-    started=time.process_time()
-    while time.process_time()-started<.06: pass
 order=CANDIDATE if CANDIDATE is not None else request['order']
 score=SCORE if SCORE is not None else request['parent_score']
 if mode=='budget_changed':
@@ -202,27 +198,61 @@ def test_fully_checked_checkpoint_survives_later_child_failure(tmp_path,witness,
     assert result.stats['child_process_CPU_seconds']>0
 
 
-def test_owned_cpu_receipt_excludes_an_unrelated_child(tmp_path,witness):
+def test_owned_cpu_receipt_excludes_an_unrelated_child(tmp_path,witness,monkeypatch):
+    import resource
     blocks,parent,_,_=witness
-    executable,_=fake_worker(tmp_path,'burn')
-    # A separately reaped child makes global RUSAGE_CHILDREN deltas unsuitable.
-    other=subprocess.Popen([sys.executable,'-c','import time; a=time.process_time();\nwhile time.process_time()-a<.12: pass'])
+    executable,record=fake_worker(tmp_path)
+    receipts={}
+    wait4=os.wait4
+    def observed_receipt(pid,options):
+        result=wait4(pid,options)
+        if result[0]:
+            receipts[result[0]]=result[2].ru_utime+result[2].ru_stime
+        return result
+    monkeypatch.setattr(window.os,'wait4',observed_receipt)
+    # Global child counters may include unrelated work and must not be used,
+    # either cumulatively or as a before/after delta.
+    getrusage=resource.getrusage
+    samples=0
+    def unrelated_global_usage(who):
+        nonlocal samples
+        usage=getrusage(who)
+        if who==resource.RUSAGE_CHILDREN:
+            samples+=1
+            values=list(usage)
+            values[0]+=1000*samples
+            values[1]+=1000*samples
+            return resource.struct_rusage(values)
+        return usage
+    monkeypatch.setattr(resource,'getrusage',unrelated_global_usage)
+    other=subprocess.Popen([sys.executable,'-c','pass'])
     other.wait()
     result=invoke(blocks,parent,executable)
+    owned_pid=json.loads(record.read_text())['pid']
+    assert set(receipts)=={owned_pid} and owned_pid!=other.pid
     charged=result.stats['child_process_CPU_seconds']
-    assert .05<=charged<.16
+    # Interpreter startup belongs to this PID, whatever its measured cost.
+    assert charged==pytest.approx(receipts[owned_pid],rel=1e-8,abs=1e-9)
     assert result.CPU_seconds>=charged
 
 
-def test_startup_watchdog_kills_and_reaps_owned_child(tmp_path,witness):
+def test_startup_watchdog_kills_and_reaps_owned_child(tmp_path,witness,monkeypatch):
     blocks,parent,_,_=witness
-    executable,record=fake_worker(tmp_path,'startup_burn')
+    executable,_=fake_worker(tmp_path,'startup_burn')
+    spawned=[];sampled=[];original=window.subprocess.Popen
+    def spawn(*args,**kwargs):
+        process=original(*args,**kwargs);spawned.append(process.pid);return process
+    def exhausted(pid):
+        sampled.append(pid)
+        return 2. # Drive the watchdog without waiting for a real CPU burn.
+    monkeypatch.setattr(window.subprocess,'Popen',spawn)
+    monkeypatch.setattr(window,'_proc_cpu',exhausted)
     result=invoke(blocks,parent,executable)
     assert result.order==parent and result.score is not None
-    assert result.stats['window_status'] in ('child_cpu_limit','whole_call_limit','child_wall_limit')
+    assert result.stats['window_status']=='child_cpu_limit'
     assert result.stats['child_returncode']==-9
-    assert result.CPU_seconds<2.20 # sampling/kill/cleanup tolerance, no cap extension
-    with pytest.raises(ProcessLookupError): os.kill(json.loads(record.read_text())['pid'],0)
+    assert len(spawned)==1 and sampled==spawned
+    with pytest.raises(ProcessLookupError): os.kill(spawned[0],0)
 
 
 @pytest.mark.parametrize('reason',['child_cpu_limit','child_wall_limit'])
@@ -357,14 +387,15 @@ def test_context_setup_deadline_preserves_completed_parent(tmp_path,witness,monk
 
 def test_no_child_is_launched_without_a_measured_verification_reserve(tmp_path,witness,monkeypatch):
     blocks,parent,_,_=witness
+    now=[0.]
+    monkeypatch.setattr(window._time,'process_time',lambda:now[0])
     original=native.SparseResponse.score;calls=0
     def measured_slow_score(self,*args,**kwargs):
         nonlocal calls
         calls+=1
         result=original(self,*args,**kwargs)
         if calls==2:
-            began=time.process_time()
-            while time.process_time()-began<.05: pass
+            now[0]+=.05
         return result
     def forbidden(*args,**kwargs): raise AssertionError('worker launched without reserve')
     monkeypatch.setattr(native.SparseResponse,'score',measured_slow_score)
@@ -374,6 +405,8 @@ def test_no_child_is_launched_without_a_measured_verification_reserve(tmp_path,w
         window_options=window.WindowOptions(width=4,parent_method='magnitude',julia_executable=sys.executable))
     assert result.order==parent and result.score is not None
     assert result.stats['window_status']=='verification_reserve_unavailable'
+    assert calls==2
+    assert result.stats['verification_reserve_CPU_seconds']==pytest.approx(1.25*.05)
 
 
 def test_no_completed_parent_is_never_zero(tmp_path,witness):

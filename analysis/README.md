@@ -59,6 +59,18 @@ This feature is particularly useful for:
 - Automating analyses with scripts or job schedulers
 - Quick testing of different parameter values
 
+## Timing benchmarks
+
+Routine tests check numerical results and budget behavior without fixed speed
+requirements. Run the exact/Monte Carlo timing and scaling comparison explicitly:
+
+```bash
+python -m qhat.analysis.benchmark_exact_vs_monte_carlo
+```
+
+This benchmark includes a 60-second Monte Carlo allowance. Its timing ratios are
+diagnostic and are excluded from normal pytest discovery.
+
 ## Configuration Options
 
 Configuration files are themselves Python scripts, allowing users to use control logic to build up
