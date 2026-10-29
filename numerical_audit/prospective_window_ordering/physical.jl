@@ -13,6 +13,12 @@ const CAPS=(8,24)
 forms(arm)=arm in ("canonical","current","first") ? (1,2) : (2,)
 filehash(path)=bytes2hex(sha256(read(path)))
 
+function source_hashes()
+    names=("physical.jl","src/WindowPhysical.jl","src/WindowStudyIO.jl",
+           "../julia_cubic_feasibility/src/ResponseCore.jl")
+    Dict(name=>filehash(joinpath(@__DIR__,name)) for name in names)
+end
+
 function save_state(path,state)
     ispath(path) && error("refuse existing state")
     temporary=path*".partial"
@@ -85,6 +91,7 @@ function run_case(input,orders_path,output)
     mkdir(output)
     started=cpu_seconds();wall=time_ns();records=Dict{String,Any}[]
     header=Dict{String,Any}("status"=>"incomplete","mode"=>mode,"case"=>data.case,
+        "source_hashes"=>source_hashes(),
         "input_sha256"=>data.input_sha256,"source_json_sha256"=>data.source["source_json_sha256"],
         "orders_sha256"=>filehash(orders_path),"n"=>data.n,"hf"=>string(data.hf),
         "expected_logical_rows"=>length(expected),"physical_panel_complete"=>false,

@@ -6,6 +6,9 @@ export load_model, write_result, cpu_seconds
 cpu_seconds() = ccall(:clock, Int64, ()) / 1.0e6
 
 function load_model(path::AbstractString; scale::Rational=1//1)
+    # input_sha256 authenticates the serialized coefficient target. A scaled
+    # target must therefore be written to distinct bytes before it is loaded.
+    scale==1//1 || throw(ArgumentError("nonunit scale requires a distinct serialized model input"))
     filesize(path) <= 8*1024^2 || error("model input too large")
     data = TOML.parsefile(path)
     n = Int(data["n"])

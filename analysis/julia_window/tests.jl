@@ -411,8 +411,107 @@ end
     @test counted[:atom]==1 && counted[:action]>0
 end
 
+function caught_argument_message(f)
+    try
+        f()
+        nothing
+    catch error
+        error isa ArgumentError || rethrow()
+        error.msg
+    end
+end
+
+@testset "Distinct factor and response support refusals preserve prospective admission" begin
+    # The failed entry must never enter the retained target under either cap.
+    target=Dict(UInt64(1)=>ComplexF64(1))
+    before=copy(target)
+    @test caught_argument_message(()->ResponseCore._accumulate!(target,UInt64(2),1.0im,1))==
+        "response support cap exceeded"
+    @test target==before
+    @test caught_argument_message(()->ResponseCore._accumulate!(target,UInt64(2),1.0im,1;
+        cap_message="conditioned factor storage cap exceeded"))=="conditioned factor storage cap exceeded"
+    @test target==before
+    column=Dict(UInt64(1)=>big(1)//big(1),UInt64(2)=>big(1)//big(1))
+    @test caught_argument_message(()->ResponseCore._transport_exact_delta(
+        AmplitudeCache(Unit[]),column,UInt64(0),1.0,1))=="response support cap exceeded"
+    units=fixture();parent=[6,4,2,5,3,1]
+    @test caught_argument_message(()->build_window_model(units,parent,2,2:5;max_factor_entries=1))==
+        "conditioned factor storage cap exceeded"
+end
+
+@testset "Checked scalar and phase paths refuse hidden oversized intermediates" begin
+    # All three reduced coefficients fit the declared16k-bit input domain.
+    # Their exact sum is zero, but forming a+b with the checked common-
+    # denominator rule requires a prospective denominator beyond that domain.
+    g=(big(1)<<16382)+1
+    a=big(1)//(2g);b=((g-3)÷2)//(3g);c=-big(1)//big(6)
+    @test a+b==big(1)//big(6) && a+b+c==0
+    exact=V2Q[a,b,c]
+    coefficients=Float64.(exact)
+    @test sum(coefficients)==0.0
+    action=Unit(UInt64(1),UInt64[1,1,1],Int8[1,1,1],coefficients;exact)
+    diagonal=Unit(UInt64(0),UInt64[1,1,1],Int8[1,1,1],coefficients;exact)
+    @test_throws ArgumentError unitvalue(action,0)
+    @test_throws ArgumentError center_units([diagonal],0)
+    @test_throws ArgumentError ResponseCore._diagonal_gap([diagonal],UInt64(0),UInt64(1))
+    # No cancellation threshold or floating opt-out has been changed.
+    @test unitvalue(action,0;guard=false)===0.0
+    # Multiplication by4 then division by2 has a bounded reduced final phase,
+    # but the intermediate numerator exceeds the pre-existing arithmetic cap.
+    p=big(1)<<16382;gap=p//(p+1)
+    @test ndigits(numerator(2gap);base=2)==16384
+    @test_throws ArgumentError ResponseCore._kernel(gap,4.0)
+    # A raw externally constructed Unit must not hide an oversized operand
+    # behind a zero occupation difference or a zero supplied kernel time.
+    huge=(big(1)<<16400)//big(1)
+    raw=Unit(UInt64(0),UInt64[0],Int8[1],[1.0];exact=V2Q[huge])
+    @test_throws ArgumentError ResponseCore._diagonal_gap([raw],UInt64(0),UInt64(1))
+    @test_throws ArgumentError ResponseCore._kernel(huge,0.0)
+    ordinary=Unit(UInt64(0),UInt64[1],Int8[1],[.25];exact=V2Q[big(1)//big(4)])
+    @test ResponseCore._diagonal_gap([ordinary],UInt64(0),UInt64(1))==-big(1)//big(2)
+    @test ResponseCore._kernel(big(1)//big(2),2.0)≈2sin(.5)/.5*cis(.5)
+end
+
+@testset "Public exact witness uses validated local indices, not global labels" begin
+    factor=WindowSearch.FlatFactor([1,2],[1],reshape(ComplexF64[1,-1],1,2))
+    flat=WindowSearch.FlatWindow([17,4,29],UInt64[1],ComplexF64[1+2im],[factor],0.0)
+    # Literal response vectors are2+2im and2im; no search/helper computes these norms.
+    @test exact_numerator(flat,[1,2,3])==big(8)//big(1)
+    @test exact_numerator(flat,(2,1,3))==big(4)//big(1)
+    @test exact_numerator(flat,(i for i in 1:3))==big(8)//big(1)
+    for order in ([1,1,3],[1,2],[1,2,3,4],[0,2,3],[1,2,4],flat.labels,
+                  Any[true,2,3],[1.0,2.0,3.0],nothing)
+        @test_throws ArgumentError exact_numerator(flat,order)
+    end
+    duplicate_labels=WindowSearch.FlatWindow([17,4,17],flat.destinations,flat.baseline,flat.factors,0.0)
+    @test_throws ArgumentError exact_numerator(duplicate_labels,[1,2,3])
+    outside_range=WindowSearch.FlatWindow(flat.labels,flat.destinations,ComplexF64[1e-150],flat.factors,0.0)
+    @test_throws ArgumentError exact_numerator(outside_range,[1,2,3])
+    candidate=insertion_window(flat;max_sweeps=2)
+    @test candidate.numerator==big(4)//big(1)
+    local_indices=Int[findfirst(==(label),flat.labels) for label in candidate.order]
+    @test exact_numerator(flat,local_indices)==candidate.numerator
+    @test_throws ArgumentError exact_numerator(flat,candidate.order)
+end
+
 using TOML, SHA
 include(joinpath(@__DIR__,"worker.jl"))
+@testset "Worker CPU admission includes process startup and compilation" begin
+    mktempdir() do directory
+        consumed=cpu_seconds()
+        @test consumed>0
+        output=joinpath(directory,"checkpoint.toml")
+        refusal=try
+            run(joinpath(directory,"missing-request.toml"),output,consumed/2,10.0)
+            nothing
+        catch error
+            error
+        end
+        @test refusal isa BudgetRefusal
+        @test refusal isa BudgetRefusal && refusal.reason=="cpu_limit"
+        @test !ispath(output)
+    end
+end
 @testset "Explicit 1024-label/8192-word/20-bit reader admission" begin
     # Parsing only: there is no large-domain numerical search in this test.
     mktempdir() do directory

@@ -148,9 +148,9 @@ class TestPairedContracts(unittest.TestCase):
                         expected[(case, rep, t, cap)] = (we - be, 8. + k / 2)
                         windows.append(we); baselines.append(be); k += 1
         pairs, medians, summaries = A.paired_derivations(rows, CASES, 2)
-        self.assertEqual(len(pairs), 8 * 32)
-        self.assertEqual(len(medians), 8 * 16)
-        self.assertEqual(len(summaries), 8)
+        self.assertEqual(len(pairs), 12 * 32)
+        self.assertEqual(len(medians), 12 * 16)
+        self.assertEqual(len(summaries), 12)
         chosen = [p for p in pairs if p["window"] == "window_sparse" and p["baseline"] == "cubic"]
         self.assertEqual(len(chosen), 32)
         for pair in chosen:
@@ -171,6 +171,68 @@ class TestPairedContracts(unittest.TestCase):
         self.assertEqual(group["available_repetitions"], [1, 2])
         self.assertTrue(group["complete_repetitions"])
         self.assertAlmostEqual(group["median_paired_error_delta"], -.1)
+
+    def test_first_and_pauli_formula2_pairs_keep_counts_costs_and_censors(self):
+        rows = raw_panel()
+        for case in CASES:
+            for rep in (1, 2):
+                for t in TIMES:
+                    for cap in CAPS:
+                        # Formula-1 first remains a distinct reported control;
+                        # its deliberately different numbers must not be paired.
+                        first1 = select(rows, case=case, arm="first", rep=rep,
+                                        formula=1, t=t, cap=cap)
+                        first1["metrics"]["projective_error"] = .9
+                        first1.update(constructor_CPU_seconds=99., constructor_wall_seconds=199.)
+                        first2 = select(rows, case=case, arm="first", rep=rep, t=t, cap=cap)
+                        first2["metrics"]["projective_error"] = .4
+                        first2.update(constructor_CPU_seconds=5., constructor_wall_seconds=20.)
+                        pauli = select(rows, case=case, arm="pauli", rep=rep, t=t, cap=cap)
+                        pauli["metrics"]["projective_error"] = .1
+                        pauli.update(constructor_CPU_seconds=7., constructor_wall_seconds=28.)
+        missing = select(rows, arm="first", rep=2)
+        missing.update(physical_checked=False, fully_validated=False, status="censored",
+                       constructor_CPU_seconds=None, constructor_wall_seconds=None)
+        # A measured control with an unavailable cost is not a free constructor.
+        select(rows, case=CASES[1], arm="pauli")["constructor_CPU_seconds"] = None
+        pairs, medians, summaries = A.paired_derivations(rows, CASES, 2)
+        self.assertEqual(len(pairs), 384)
+        self.assertEqual(len(medians), 192)
+        self.assertEqual(len(summaries), 12)
+        self.assertEqual({s["baseline"] for s in summaries},
+                         {"cubic", "current", "magnitude", "canonical", "first", "pauli"})
+        for window in ("window_sparse", "window_magnitude"):
+            for baseline, expected_delta, expected_cpu, expected_wall in (
+                    ("first", -.1, -3., -12.), ("pauli", .2, -5., -20.)):
+                chosen = [p for p in pairs if p["window"] == window and p["baseline"] == baseline]
+                self.assertEqual(len(chosen), 32)
+                self.assertTrue(all(p["formula"] == 2 for p in chosen))
+                summary = comparison(summaries, window, baseline)
+                self.assertEqual(summary["expected_pairs"], 32)
+                if baseline == "first":
+                    self.assertEqual((summary["win"], summary["loss"], summary["censored"]), (31, 0, 1))
+                    self.assertIsNone(summary["complete_panel_median_of_paired_deltas"])
+                    censored = next(p for p in chosen if p["classification"] == "censored")
+                    self.assertIsNone(censored["error_delta"])
+                    self.assertIsNone(censored["CPU_delta"])
+                    self.assertIsNone(censored["wall_delta"])
+                    group = next(g for g in medians if g["window"] == window and
+                                 g["baseline"] == baseline and g["case"] == CASES[0] and
+                                 g["time"] == .4 and g["budget_multiplier"] == 8)
+                    self.assertFalse(group["complete_repetitions"])
+                    self.assertIsNone(group["median_paired_error_delta"])
+                else:
+                    self.assertEqual((summary["win"], summary["loss"], summary["censored"]), (0, 32, 0))
+                    self.assertAlmostEqual(summary["complete_panel_median_of_paired_deltas"], .2)
+                    unknown_cost = next(p for p in chosen if p["case"] == CASES[1] and
+                                        p["repetition"] == 1 and p["time"] == .4 and
+                                        p["budget_multiplier"] == 8)
+                    self.assertIsNone(unknown_cost["CPU_delta"])
+                    self.assertEqual(unknown_cost["classification"], "loss")
+                known = next(p for p in chosen if p["case"] == CASES[2] and p["repetition"] == 1)
+                self.assertAlmostEqual(known["error_delta"], expected_delta)
+                self.assertEqual(known["CPU_delta"], expected_cpu)
+                self.assertEqual(known["wall_delta"], expected_wall)
 
     def test_missing_repetition_and_cost_remain_null_not_free(self):
         rows = raw_panel()
@@ -288,7 +350,9 @@ class TestAuthenticatedPartialGraph(unittest.TestCase):
             prep = bound_json(root, "receipts/prep.json", guard_receipt("fixture-preparation", .5, 2.))
             index["partial_attempts"] = [dict(case=CASES[0], arm="window_sparse", repetition=1,
                 receipt=r, record=None) for r in (r1, r2)]
-            index["phase_receipts"] = [dict(phase="construction", receipt=r1), dict(phase="preparation", receipt=prep)]
+            # Main's documented owner is constructors; the old synthetic
+            # singular construction spelling was not a frozen campaign phase.
+            index["phase_receipts"] = [dict(phase="constructors", receipt=r1), dict(phase="preparation", receipt=prep)]
             save_index(root, index)
             summary = A.analyze(root, "main")
             self.assertEqual(summary["schema"], "prospective-window-report-data-v1")
@@ -300,9 +364,9 @@ class TestAuthenticatedPartialGraph(unittest.TestCase):
             self.assertTrue(all(r["constructor_CPU_seconds"] is None for r in summary["raw_rows"]))
             self.assertEqual(summary["completion"]["expected_logical_rows"], 352)
             self.assertFalse(summary["completion"]["complete_352_main_claim_allowed"])
-            self.assertEqual(len(summary["paired_observations"]), 256)
+            self.assertEqual(len(summary["paired_observations"]), 384)
             self.assertTrue(all(p["classification"] == "censored" for p in summary["paired_observations"]))
-            self.assertEqual(len(summary["comparisons"]), 8)
+            self.assertEqual(len(summary["comparisons"]), 12)
             self.assertTrue(all(c["expected_pairs"] == 32 and c["censored"] == 32 for c in summary["comparisons"]))
             totals = summary["construction_totals"]
             self.assertEqual(totals["expected_calls"], 64)
@@ -318,8 +382,8 @@ class TestAuthenticatedPartialGraph(unittest.TestCase):
             self.assertTrue(call["provided_receipts_accounting_complete"])
             self.assertEqual(len(call["attempts"]), 2)
             self.assertTrue(summary["other_phase_costs"][0]["already_counted_in_construction"])
-            self.assertEqual(summary["other_phase_totals"]["construction"]["indexed_attempts"], 0)
-            self.assertEqual(summary["other_phase_totals"]["construction"]["CPU_seconds"], 0)
+            self.assertEqual(summary["other_phase_totals"]["constructors"]["indexed_attempts"], 0)
+            self.assertEqual(summary["other_phase_totals"]["constructors"]["CPU_seconds"], 0)
             self.assertEqual(summary["other_phase_totals"]["preparation"]["CPU_seconds"], .5)
             source = "data-a2/source_snapshot/numerical_audit/prospective_window_ordering/REGISTRY.json"
             self.assertIn(source, summary["source_artifact_SHA256_map"])
@@ -357,8 +421,68 @@ class TestAuthenticatedPartialGraph(unittest.TestCase):
             save_index(root, index)
             summary = A.analyze(root, "main")
             self.assertTrue(any("receipt repeated" in f["message"] for f in summary["failures"]))
-            self.assertEqual(summary["construction_totals"]["known_CPU_seconds"], 0)
+            self.assertEqual(summary["construction_totals"]["known_CPU_seconds"], 1.25)
+            self.assertEqual(summary["construction_totals"]["known_wall_seconds"], 5.)
+            self.assertEqual(sum(f.get("phase")=="partial_attempts" for f in summary["failures"]), 1)
             self.assertIsNone(summary["construction_totals"]["CPU_seconds"])
+
+
+class TestPrimarySourceBinding(unittest.TestCase):
+    """Tiny inventory contracts; no fake complete physics/constructor graph.
+
+    Protocol-source authentication is exercised elsewhere. These tests pin the
+    primary driver's exact runtime dependency inventory and frozen-value check.
+    """
+
+    def fixture(self):
+        # Independent literal logical paths, not a production inventory constant.
+        sources = {
+            "numerical_audit/prospective_window_ordering/physical.jl": "a" * 64,
+            "numerical_audit/prospective_window_ordering/src/WindowPhysical.jl": "b" * 64,
+            "numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl": "c" * 64,
+            "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl": "d" * 64,
+        }
+        hashes = {"physical.jl": "a" * 64, "src/WindowPhysical.jl": "b" * 64,
+                  "src/WindowStudyIO.jl": "c" * 64,
+                  "../julia_cubic_feasibility/src/ResponseCore.jl": "d" * 64}
+        return dict(source_hashes=hashes), dict(sources=sources)
+
+    def test_exact_primary_inventory_matches_frozen_protocol_without_mutation(self):
+        manifest, protocol = self.fixture()
+        before = copy.deepcopy((manifest, protocol))
+        A.primary_source_binding(manifest, protocol)
+        self.assertEqual((manifest, protocol), before)
+
+    def test_missing_or_extra_primary_dependency_rejected(self):
+        manifest, protocol = self.fixture()
+        for name in tuple(manifest["source_hashes"]):
+            changed = copy.deepcopy(manifest)
+            del changed["source_hashes"][name]
+            with self.subTest(missing=name), self.assertRaisesRegex(ValueError, "Complete primary"):
+                A.primary_source_binding(changed, protocol)
+        changed = copy.deepcopy(manifest)
+        changed["source_hashes"]["unused.jl"] = "e" * 64
+        with self.assertRaisesRegex(ValueError, "Complete primary"):
+            A.primary_source_binding(changed, protocol)
+        for hashes in (None, [], {}):
+            with self.subTest(inventory=hashes), self.assertRaisesRegex(ValueError, "Complete primary"):
+                A.primary_source_binding(dict(source_hashes=hashes), protocol)
+        with self.assertRaisesRegex(ValueError, "Complete primary"):
+            A.primary_source_binding({}, protocol)
+
+    def test_changed_driver_or_dependency_hash_cannot_inherit_input_order_identity(self):
+        manifest, protocol = self.fixture()
+        for name in manifest["source_hashes"]:
+            changed = copy.deepcopy(manifest)
+            changed["source_hashes"][name] = "f" * 64
+            with self.subTest(changed=name), self.assertRaisesRegex(ValueError, "scientific source differs"):
+                A.primary_source_binding(changed, protocol)
+        changed = copy.deepcopy(manifest)
+        changed["source_hashes"]["physical.jl"] = None
+        del protocol["sources"]["numerical_audit/prospective_window_ordering/physical.jl"]
+        # Missing expected and claimed values cannot authenticate as None==None.
+        with self.assertRaisesRegex(ValueError, "scientific source differs"):
+            A.primary_source_binding(changed, protocol)
 
 
 class TestArtifactAndOutputContracts(unittest.TestCase):
@@ -602,6 +726,320 @@ class PreflightRelocationContracts(unittest.TestCase):
                 index['plan'] = bound_json(root, 'preflight-plan.json', plan)
                 with self.assertRaisesRegex(ValueError, 'Canonical recorded absolute path'):
                     self.read_graph(root, index)
+
+
+def constructor_metadata(key, source="a" * 64, model="b" * 64):
+    """Literal authenticated call metadata only, not a molecular result graph."""
+    return dict(schema="prospective-window-constructor-v1", artifact_complete=True,
+        case=key[0], arm=key[1], repetition=key[2], source_freeze_sha256=source,
+        model_sha256=model, physical_error_read=False,
+        score_kind="diagonal_reference_cubic_response",
+        constructor=dict(order=[0, 1], score=.25, status="complete",
+            stats=dict(window_status="completed")))
+
+
+def panel_receipt_fixture(root, case, shared=None):
+    """Eight cost-only censored ledgers; no candidate/physical completeness."""
+    entries, retained = [], []
+    for arm in ("canonical", "magnitude", "current", "first", "pauli", "cubic",
+                "window_sparse", "window_magnitude"):
+        rd = bound_json(root, f"{case}-{arm}.json",
+                        guard_receipt(f"{case}-{arm}-unit", .25, 1.))
+        attempts = [dict(receipt=rd, record=None)]
+        cpu, wall = .25, 1.
+        if shared is not None and arm == "cubic":
+            attempts.insert(0, dict(receipt=shared, record=None))
+            cpu += 1.25; wall += 5.
+        entries.append(dict(arm=arm, repetition=1, attempts=attempts, selected_attempt=None))
+        retained.append(dict(arm=arm, repetition=1, status="censored", constructor=None,
+            selected_record=None, attempts=[dict(receipt=a["receipt"], constructor=None) for a in attempts],
+            cost_complete=True, guard_CPU_seconds=cpu, guard_wall_seconds=wall,
+            within_total_construction_ceiling=True))
+    return dict(constructors=retained), dict(constructors=entries)
+
+
+class TestCampaignReceiptOwnership(unittest.TestCase):
+    def test_exact_hash_duplicate_within_and_across_partial_calls_keeps_prefix(self):
+        for cross_call in (False, True):
+            with self.subTest(cross_call=cross_call), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp); index, _ = partial_graph(root)
+                rd = bound_json(root, "first.json", guard_receipt("prefix-unit", 1.25, 5.))
+                alias = bound_json(root, "copy.json", guard_receipt("prefix-unit", 1.25, 5.))
+                tail = bound_json(root, "tail.json", guard_receipt("tail-unit", .75, 3.))
+                self.assertEqual(rd["sha256"], alias["sha256"])
+                index["partial_attempts"] = [
+                    dict(case=CASES[0], arm="cubic", repetition=1, receipt=rd, record=None),
+                    dict(case=CASES[1] if cross_call else CASES[0], arm="cubic",
+                         repetition=1, receipt=alias, record=None),
+                    "malformed row",
+                    dict(case=CASES[0], arm="current", repetition=2, receipt=tail, record=None)]
+                save_index(root, index); result = A.analyze(root, "main")
+                self.assertEqual(result["construction_totals"]["known_CPU_seconds"], 2.)
+                self.assertEqual(result["construction_totals"]["known_wall_seconds"], 8.)
+                self.assertIsNone(result["construction_totals"]["CPU_seconds"])
+                errors = [f for f in result["failures"] if f.get("phase") == "partial_attempts"]
+                self.assertEqual(len(errors), 2)
+                self.assertTrue(all(f["quarantined"] for f in errors))
+                self.assertIn("fully_validated_rows", result["completion"])
+                self.assertNotIn("source_or_artifact_validation_failed", result["completion"])
+                self.assertEqual(len(result["raw_rows"]), 352)
+                self.assertEqual(len(result["constructor_costs"]), 2)
+
+    def test_own_panel_and_global_reference_is_one_attempt_not_a_duplicate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); reader = A.Artifacts(root)
+            rd = bound_json(root, "own.json", guard_receipt("own-unit", 1.25, 5.))
+            measured = A.receipt(reader, rd); key = (CASES[0], "cubic", 1)
+            ctor = dict(status="complete", score=.25, score_kind="diagonal_reference_cubic_response",
+                        order=[0, 1], window_status="completed")
+            existing = {key: dict(case=key[0], arm=key[1], repetition=1, status="retained_order",
+                constructor=ctor, attempts=[measured], accounting_complete=True,
+                CPU_seconds=1.25, wall_seconds=5., known_CPU_seconds=1.25, known_wall_seconds=5.,
+                source="PANEL complete per-call attempt ledger")}
+            global_map = {key: dict(receipt=measured, record=constructor_metadata(key))}
+            row = dict(case=key[0], arm=key[1], repetition=1, receipt=rd, record=None)
+            errors = []
+            A.partial_costs(reader, dict(partial_attempts=[row]), CASES, 2,
+                            global_map, existing, errors)
+            self.assertEqual(errors, [])
+            self.assertEqual(existing[key]["constructor"], ctor)
+            self.assertEqual(existing[key]["known_CPU_seconds"], 1.25)
+            self.assertEqual(len(existing[key]["attempts"]), 1)
+
+    def test_partial_retry_union_preserves_distinct_global_final_and_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); reader = A.Artifacts(root); key = (CASES[0], "cubic", 1)
+            first = bound_json(root, "retry.json", guard_receipt("retry-unit", 1.25, 5.))
+            last = bound_json(root, "final.json", guard_receipt("final-unit", .75, 3.))
+            global_map = {key: dict(receipt=A.receipt(reader, last), record=constructor_metadata(key))}
+            rows = [dict(case=key[0], arm=key[1], repetition=1, receipt=rd, record=None)
+                    for rd in (first, last, last)]
+            costs, errors = {}, []
+            A.partial_costs(reader, dict(partial_attempts=rows), CASES, 2, global_map, costs, errors)
+            cost = costs[key]
+            self.assertEqual(cost["known_CPU_seconds"], 2.)
+            self.assertEqual(cost["known_wall_seconds"], 8.)
+            self.assertEqual({a["descriptor"]["sha256"] for a in cost["attempts"]},
+                             {first["sha256"], last["sha256"]})
+            self.assertEqual(cost["constructor"]["score"], .25)
+            self.assertEqual(cost["constructor"]["window_status"], "completed")
+            self.assertIsNone(cost["CPU_seconds"])
+            self.assertFalse(cost["accounting_complete"])
+            self.assertEqual(len(errors), 1)
+
+    def test_partial_constructor_must_bind_source_model_call_and_completion(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); key = (CASES[0], "cubic", 1)
+            rd = bound_json(root, "guard.json", guard_receipt("identity-unit", 1.25, 5.))
+            good = constructor_metadata(key)
+            variants = [("valid", good)]
+            for field, value in (("schema", "wrong"), ("artifact_complete", False),
+                    ("case", CASES[1]), ("source_freeze_sha256", "c" * 64),
+                    ("model_sha256", "d" * 64), ("physical_error_read", True)):
+                bad = copy.deepcopy(good); bad[field] = value; variants.append((field, bad))
+            for name, record in variants:
+                with self.subTest(field=name):
+                    desc = bound_json(root, name + ".json", record)
+                    index = dict(input_protocol=dict(sha256="a" * 64),
+                        partial_attempts=[dict(case=key[0], arm=key[1], repetition=1, receipt=rd, record=desc)])
+                    costs, errors = {}, []
+                    A.partial_costs(A.Artifacts(root), index, CASES, 2, {}, costs, errors,
+                                    models={key[0]: dict(json_hash="b" * 64)})
+                    if name == "valid":
+                        self.assertEqual(errors, [])
+                        self.assertEqual(costs[key]["known_CPU_seconds"], 1.25)
+                    else:
+                        self.assertEqual(costs, {})
+                        self.assertEqual(len(errors), 1)
+                        self.assertTrue(errors[0]["quarantined"])
+                        self.assertEqual(errors[0]["measurement"]["CPU_seconds"], 1.25)
+
+    def test_cross_case_nonfinal_panel_alias_is_rejected_and_first_costs_survive(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); reader = A.Artifacts(root); owners = A.ReceiptOwners()
+            rd = bound_json(root, "shared.json", guard_receipt("shared-nonfinal-unit", 1.25, 5.))
+            panel, inventory = panel_receipt_fixture(root, CASES[0], rd)
+            first = {}
+            A.panel_costs(reader, panel, inventory, CASES[0], 1, {}, owners=owners, retained=first)
+            panel, inventory = panel_receipt_fixture(root, CASES[1], rd)
+            second = {}
+            with self.assertRaisesRegex(ValueError, "receipt/unit reused"):
+                A.panel_costs(reader, panel, inventory, CASES[1], 1, {}, owners=owners, retained=second)
+            costs = {(CASES[0], *key): value for key, value in first.items()}
+            costs.update({(CASES[1], *key): value for key, value in second.items()})
+            errors = []
+            A.partial_costs(reader, {}, CASES, 1, {}, costs, errors, owners=owners)
+            self.assertEqual(sum(c["known_CPU_seconds"] for c in costs.values()), 3.5)
+            self.assertEqual(sum(a["descriptor"]["sha256"] == rd["sha256"]
+                                 for c in costs.values() for a in c["attempts"]), 1)
+
+    def test_global_final_owner_blocks_other_case_nonfinal_retry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); reader = A.Artifacts(root); owners = A.ReceiptOwners()
+            rd = bound_json(root, "global.json", guard_receipt("global-final-unit", 1.25, 5.))
+            key = (CASES[1], "current", 1); measured = A.receipt(reader, rd)
+            owners.claim(key, measured)
+            panel, inventory = panel_receipt_fixture(root, CASES[0], rd)
+            with self.assertRaisesRegex(ValueError, "receipt/unit reused"):
+                A.panel_costs(reader, panel, inventory, CASES[0], 1, {}, owners=owners)
+            self.assertEqual(owners.lookup(measured)["key"], key)
+            self.assertEqual(len(owners.calls[key]), 1)
+
+    def test_phase_duplicates_invalid_receipts_and_nullable_tombstones(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); index, _ = partial_graph(root)
+            valid = bound_json(root, "prep.json", guard_receipt("prep-unit", 1.25, 5.))
+            bad = guard_receipt("invalid-unit", .75, 3.); bad["settings"]["MemoryMax"] = "1G"
+            invalid = bound_json(root, "invalid.json", bad)
+            index["phase_receipts"] = [
+                dict(phase="preparation", receipt=valid),
+                dict(phase="preparation", receipt=valid),
+                dict(phase="independent", receipt=invalid),
+                dict(phase="physical", receipt=dict(path="missing.json", sha256="a" * 64))]
+            save_index(root, index); result = A.analyze(root, "main")
+            prep = result["other_phase_totals"]["preparation"]
+            self.assertEqual(prep["known_CPU_seconds"], 1.25)
+            self.assertEqual(prep["quarantined_attempts"], 1)
+            self.assertFalse(prep["accounting_complete"])
+            self.assertIsNone(prep["CPU_seconds"])
+            for phase in ("physical", "independent"):
+                total = result["other_phase_totals"][phase]
+                self.assertEqual(total["quarantined_attempts"], 1)
+                self.assertEqual(total["indexed_attempts"], 0)
+                self.assertFalse(total["accounting_complete"])
+                self.assertIsNone(total["CPU_seconds"])
+                self.assertIsNone(next(p for p in result["other_phase_costs"] if p["phase"] == phase)["measurement"])
+
+    def test_exact_constructor_receipt_only_deduplicates_in_owning_phase(self):
+        for wrong in ("physical", "packaging", "construction"):
+            with self.subTest(phase=wrong), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp); index, _ = partial_graph(root)
+                rd = bound_json(root, "construction.json", guard_receipt("owner-unit", 1.25, 5.))
+                index["partial_attempts"] = [dict(case=CASES[0], arm="cubic", repetition=1, receipt=rd, record=None)]
+                index["phase_receipts"] = [dict(phase=wrong, receipt=rd), dict(phase="constructors", receipt=rd)]
+                save_index(root, index); result = A.analyze(root, "main")
+                self.assertEqual(result["construction_totals"]["known_CPU_seconds"], 1.25)
+                self.assertFalse(result["other_phase_totals"][wrong]["accounting_complete"])
+                self.assertIsNone(result["other_phase_totals"][wrong]["CPU_seconds"])
+                own = result["other_phase_totals"]["constructors"]
+                self.assertTrue(own["accounting_complete"])
+                self.assertEqual(own["already_counted_in_construction_attempts"], 1)
+                self.assertEqual(own["CPU_seconds"], 0.)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); reader = A.Artifacts(root); owners = A.ReceiptOwners()
+            rd = bound_json(root, "preflight.json", guard_receipt("preflight-owner", 1.25, 5.))
+            owners.claim((CASES[0], "cubic", 1), A.receipt(reader, rd)); failures = []
+            phase = A.phase_costs(reader, dict(phase_receipts=[dict(phase="preflight", receipt=rd)]),
+                                  owners, "preflight", failures)
+            self.assertEqual(failures, [])
+            self.assertTrue(phase[0]["already_counted_in_construction"])
+            self.assertFalse(phase[0]["quarantined"])
+
+
+class TestObjectiveNumbersAndCaseFlags(unittest.TestCase):
+    def fixture(self, actual=1.000000002, claimed=1.):
+        # Existing producer compare_scores contract, stated independently in
+        # literals. This fixture asserts no molecular/scorer result.
+        difference = abs(actual - claimed); scale = max(actual, claimed)
+        tolerance = 1e-24 + 1e-8 * scale
+        within, floor = difference <= tolerance, scale <= 1e-24
+        status = "mismatch" if not within else "floor_censored" if floor else "verified"
+        candidate = dict(name="literal", partition="conserving", order=[1, 2],
+            constructor_scored=True, constructor_score=claimed,
+            score_kind="diagonal_reference_cubic_response")
+        logical = dict(arm="cubic", repetition=1, formula=2, time=.4, budget_multiplier=8,
+            name="literal", partition="conserving", candidate_index=1, check_index=1, status=status)
+        record = dict(check_index=1, partition="conserving", order=[1, 2],
+            score_kind=candidate["score_kind"], constructor_score=claimed, replayed_score=actual,
+            absolute_difference=difference, relative_difference=difference / scale if scale else 0.,
+            tolerance=tolerance, numerical_floor=floor, within_tolerance=within,
+            verified=within and not floor, status=status)
+        check = dict(relative_tolerance=1e-8, absolute_tolerance=1e-24, logical_rows=[logical], checks=[record])
+        return check, {("cubic", 1, 2, .4, 8): candidate}
+
+    def test_numeric_rule_verified_mismatch_and_boolean_floor(self):
+        for actual, claimed, accepted, status in (
+                (1.000000002, 1., True, "verified"), (1.1, 1., False, "mismatch"),
+                (0., 0., False, "floor_censored"), (5e-25, 1e-25, False, "floor_censored")):
+            with self.subTest(actual=actual, claimed=claimed):
+                check, candidates = self.fixture(actual, claimed)
+                row = next(iter(A.objective_rows(check, candidates, 2).values()))
+                self.assertIs(row["accepted"], accepted)
+                self.assertEqual(row["status"], status)
+                self.assertIs(type(row["numerical_floor"]), bool)
+
+    def test_missing_nonfinite_negative_and_forged_comparison_fields_fail(self):
+        fields = ("replayed_score", "absolute_difference", "relative_difference", "tolerance",
+                  "numerical_floor", "verified", "within_tolerance")
+        for field in fields:
+            check, candidates = self.fixture()
+            del check["checks"][0][field]
+            with self.subTest(missing=field), self.assertRaises((ValueError, KeyError)):
+                A.objective_rows(check, candidates, 2)
+        for field in ("replayed_score", "constructor_score", "absolute_difference", "relative_difference", "tolerance"):
+            for value in (float("nan"), float("inf"), -1.):
+                check, candidates = self.fixture()
+                check["checks"][0][field] = value
+                with self.subTest(field=field, value=value), self.assertRaises((ValueError, KeyError)):
+                    A.objective_rows(check, candidates, 2)
+        for field, value in (("absolute_difference", 0.), ("relative_difference", 0.),
+                ("tolerance", 1.), ("numerical_floor", True), ("numerical_floor", 0),
+                ("verified", False), ("within_tolerance", False)):
+            check, candidates = self.fixture(); check["checks"][0][field] = value
+            with self.subTest(forged=field, value=value), self.assertRaises(ValueError):
+                A.objective_rows(check, candidates, 2)
+        check, candidates = self.fixture(1.1, 1.)
+        check["checks"][0].update(status="verified", verified=True, within_tolerance=True)
+        check["logical_rows"][0]["status"] = "verified"
+        with self.assertRaises(ValueError): A.objective_rows(check, candidates, 2)
+        check, candidates = self.fixture(0., 0.)
+        check["checks"][0].update(numerical_floor=False, verified=True, status="verified")
+        check["logical_rows"][0]["status"] = "verified"
+        with self.assertRaises(ValueError): A.objective_rows(check, candidates, 2)
+
+    def test_refused_objective_stays_censored_without_invented_numbers(self):
+        check, candidates = self.fixture()
+        record = check["checks"][0]
+        for field in ("replayed_score", "absolute_difference", "relative_difference", "tolerance", "numerical_floor"):
+            del record[field]
+        record.update(status="numerical_refusal", verified=False, within_tolerance=False)
+        check["logical_rows"][0]["status"] = "numerical_refusal"
+        output = next(iter(A.objective_rows(check, candidates, 2).values()))
+        self.assertFalse(output["accepted"])
+        self.assertIsNone(output["replayed_score"])
+
+    def test_selected_constructor_identity_and_metadata_parity_without_whole_freeze(self):
+        key = (CASES[0], "cubic", 1); record = constructor_metadata(key)
+        presented = dict(order=[0, 1], score=.25, score_kind="diagonal_reference_cubic_response",
+                         status="complete", window_status="completed")
+        A.selected_constructor_binding(record, presented, key, "a" * 64, "b" * 64)
+        for field, value in (("schema", "wrong"), ("artifact_complete", False),
+                ("source_freeze_sha256", "c" * 64), ("model_sha256", "d" * 64),
+                ("case", CASES[1]), ("physical_error_read", True)):
+            changed = copy.deepcopy(record); changed[field] = value
+            with self.subTest(record=field), self.assertRaises(ValueError):
+                A.selected_constructor_binding(changed, presented, key, "a" * 64, "b" * 64)
+        for field, value in (("score_kind", "retained_first_order_response"), ("status", "wrong"),
+                              ("window_status", "cpu_refusal"), ("order", [1, 0]), ("score", .5)):
+            changed = dict(presented, **{field: value})
+            with self.subTest(presented=field), self.assertRaises(ValueError):
+                A.selected_constructor_binding(record, changed, key, "a" * 64, "b" * 64)
+
+    def test_case_completion_cannot_override_incomplete_row_or_graph_failure(self):
+        check = dict(status="complete", failures=[], checked_logical_rows=1)
+        candidates = {("literal",): {}}
+        rows = {("literal",): dict(status="complete")}
+        self.assertTrue(A.independent_complete(check, candidates, rows))
+        rows[("literal",)]["status"] = "incomplete"
+        self.assertFalse(A.independent_complete(check, candidates, rows))
+        self.assertFalse(A.independent_complete(dict(check, checked_logical_rows=0), {}, {}))
+        case = dict(primary_panel_complete=True, independent_panel_complete=True,
+                    objective_claims_complete=True, graph_valid=True, failures=[], input_hash="retained")
+        A.case_failure(case, ValueError("saved state hash differs"))
+        self.assertFalse(any(case[key] for key in ("primary_panel_complete",
+            "independent_panel_complete", "objective_claims_complete", "graph_valid")))
+        self.assertEqual(case["input_hash"], "retained")
+        self.assertEqual(len(case["failures"]), 1)
 
 
 if __name__ == "__main__":

@@ -6,6 +6,16 @@ ancestry is pinned in `SOURCE.toml`. Research inputs, results, manifests and sou
 snapshots under `numerical_audit` remain frozen and are not imported at runtime.
 This backend has no external Julia dependencies, DP or enumeration entry point.
 
+Before spawning, the Python owner boundedly parses installed `SOURCE.toml` and
+verifies the fixed runtime files `worker.jl`, `ResponseCore.jl`, `WindowSearch.jl`
+and `Project.toml` against its declared hashes. It never follows manifest paths.
+The manifest is limited to8KiB/scalar metadata and each runtime file to1MiB;
+this work is charged to serialization inside the same whole-call allocation.
+Stats retain the manifest hash, verified runtime hashes and verification state.
+Missing, malformed or mismatched assets refuse the optional stage while keeping
+the checked native parent. This authenticates installed files before launch;
+it is not a signature or protection against concurrent hostile file replacement.
+
 The `exact_real_deltas_before_transport_v2` target computes local unit actions
 and two/three-label atoms from supplied exact rational coefficients. It merges
 coincident destinations, aggregates every pair's conditioned exterior triples,
@@ -65,7 +75,9 @@ receive `N-P-2`; an early parent stop releases unused evaluations. For N<6 the
 native parent stays within N and the child is explicitly skipped. These are
 allocations within the unchanged absolute ceiling, not additional evaluations.
 The minimum child prefix does not promise a completed insertion sweep or an
-improving checkpoint. All hard refusals, checkpoint authentication and native
+improving checkpoint; exact tie witnesses and a checked changed-order update can
+need additional evaluations. Stats label this three-evaluation prefix explicitly.
+All hard refusals, checkpoint authentication and native
 final acceptance still apply.
 
 Stats retain the parent cap/use, native reserves and serialized child cap.
@@ -73,6 +85,13 @@ Reported evaluations combine completed native scores with the authenticated
 child checkpoint prefix. Work after the last checkpoint can remain unknown;
 its absence from that prefix is not a claim that it was free or completed.
 Owned child startup/JIT/user/system CPU remains charged for the entire process.
+The cooperative child CPU check uses that same process-total origin, while its
+phase timings remain differences from phase starts. Child CPU/wall cutoffs that
+preserve the native verification reserve retain those distinct diagnostics;
+genuine whole-call exhaustion remains separate. The parent still kills/reaps its
+owned child and obtains the exact wait4 receipt on every cutoff.
+`stats.child_outcome` retains the child outcome even if later native verification
+produces a different optional-stage status.
 
 The reader admits n<=20, m<=1024, total words<=8192; none of those limits promises
 that setup/search fits a chosen CPU allowance. Additional bounded caps cover
@@ -105,6 +124,14 @@ The Python owner authenticates and independently scores the final checkpoint; a
 late interruption never promotes a partial candidate. A worker exit code of two
 may leave a valid earlier checkpoint. No automatic download, environment
 instantiation, package installation or saved Julia configuration change occurs.
+
+Top-level `TrainingResult.status` describes the usable native incumbent under
+this optional-stage contract; it is not an assertion that every requested search
+phase finished. A completed native parent can retain `status='complete'` when
+the optional backend fails. A completed optional stage may also finish after a
+parent sub-search reached its allocated cap. Inspect `stats.parent_status` and
+`stats.window_status` separately for those phase outcomes. Both remain explicit;
+backend failure never promotes an unverified changed order.
 
 Root-run checks (use the task's existing external CPU/memory guard):
 

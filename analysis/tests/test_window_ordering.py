@@ -77,6 +77,8 @@ if mode=='missing_reply': sys.exit(0)
 if mode=='malformed': checkpoint_path.write_text('this = [ broken');sys.exit(0)
 if mode=='deep_reply': checkpoint_path.write_text('x='+ '['*500+'0'+']'*500);sys.exit(0)
 if mode=='deep_literal_reply': checkpoint_path.write_text("prefix='"+']'*500+"'\\nx="+'['*500+'0'+']'*500);sys.exit(0)
+if mode=='comment_quote_reply': checkpoint_path.write_text("# '"+chr(10)+"x="+'['*100+'0'+']'*100);sys.exit(0)
+if mode=='deep_inline_reply': checkpoint_path.write_text('x='+'{a='*100+'0'+'}'*100);sys.exit(0)
 if mode=='startup_burn':
     while True: pass
 if mode=='burn':
@@ -147,6 +149,12 @@ def test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority(tmp_pat
     assert result.stats['local_cache_policy']=='allocated_limb_capacity_noinsert_v2'
     assert result.stats['storage_caps']['local_cache_accounted_bytes']==64*1024**2
     assert result.stats['storage_caps']['local_cache_combined_entries']==50000
+    assert result.stats['backend_runtime_assets_verified'] is True
+    assets=window.asset_path().parent
+    assert result.stats['backend_manifest_sha256']==hashlib.sha256((assets/'SOURCE.toml').read_bytes()).hexdigest()
+    verified=result.stats['backend_verified_runtime_sha256']
+    assert set(verified)=={'worker.jl','ResponseCore.jl','WindowSearch.jl','Project.toml'}
+    assert all(verified[name]==hashlib.sha256((assets/name).read_bytes()).hexdigest() for name in verified)
     lengths=request['request']['word_lengths'];r=result.score.steps
     assert r*(2*sum(lengths)-lengths[parent[0]]-lengths[parent[-1]])+lengths[parent[0]]<=80
     assert result.evaluations<=100
@@ -158,6 +166,7 @@ def test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority(tmp_pat
 @pytest.mark.parametrize('mode,expected',[('hash','invalid_worker_reply'),('malformed','invalid_worker_reply'),
     ('deep_reply','invalid_worker_reply'),('outside','invalid_worker_reply'),
     ('deep_literal_reply','invalid_worker_reply'),
+    ('comment_quote_reply','invalid_worker_reply'),('deep_inline_reply','invalid_worker_reply'),
     ('crash','child_failure'),('missing_reply','missing_worker_reply')])
 def test_bad_or_crashed_worker_retains_checked_parent(tmp_path,witness,mode,expected):
     blocks,parent,_,_=witness
@@ -166,6 +175,10 @@ def test_bad_or_crashed_worker_retains_checked_parent(tmp_path,witness,mode,expe
     assert result.order==parent and result.score is not None
     assert result.stats['window_status']==expected
     assert result.stats['child_process_CPU_seconds']>0
+    # The optional-stage failure is explicit without relabeling the completed
+    # native parent's usable incumbent as an unfinished native search.
+    assert result.stats['parent_status']=='complete'
+    assert result.status=='complete'
 
 
 def test_native_verification_rejects_worker_claim(tmp_path,witness):
@@ -210,6 +223,106 @@ def test_startup_watchdog_kills_and_reaps_owned_child(tmp_path,witness):
     assert result.stats['child_returncode']==-9
     assert result.CPU_seconds<2.20 # sampling/kill/cleanup tolerance, no cap extension
     with pytest.raises(ProcessLookupError): os.kill(json.loads(record.read_text())['pid'],0)
+
+
+@pytest.mark.parametrize('reason',['child_cpu_limit','child_wall_limit'])
+def test_explicit_watchdog_reason_is_not_overwritten_and_child_is_reaped(tmp_path,monkeypatch,reason):
+    executable,_=fake_worker(tmp_path,'startup_burn')
+    request=tmp_path/'request.toml';request.write_text('')
+    spawned=[];original=window.subprocess.Popen
+    def spawn(*args,**kwargs):
+        process=original(*args,**kwargs);spawned.append(process.pid);return process
+    monkeypatch.setattr(window.subprocess,'Popen',spawn)
+    checks=[]
+    def would_overwrite(observed):
+        checks.append(observed)
+        raise native.SearchDeadline('must not replace an explicit child limit')
+    stats={}
+    outcome=window._run_worker(str(executable),request,tmp_path/'checkpoint.toml',
+        0. if reason=='child_cpu_limit' else 10.,
+        0. if reason=='child_wall_limit' else 10.,would_overwrite,stats)
+    assert outcome==reason and checks==[]
+    assert len(spawned)==1 and stats['child_returncode']==-9
+    assert stats['child_process_CPU_seconds']>=0 and stats['child_wall_seconds']>=0
+    with pytest.raises(ProcessLookupError): os.kill(spawned[0],0)
+
+
+@pytest.mark.parametrize('reason',['child_cpu_limit','child_wall_limit','whole_call_limit'])
+def test_reserve_cutoff_and_whole_call_cutoff_keep_distinct_reasons(tmp_path,reason):
+    executable,_=fake_worker(tmp_path,'startup_burn')
+    request=tmp_path/'request.toml';request.write_text('')
+    calls=[]
+    def stop(observed):
+        calls.append(observed)
+        if reason=='whole_call_limit':
+            raise native.SearchDeadline('genuine whole-call exhaustion')
+        raise window._ChildLimit(reason)
+    stats={}
+    outcome=window._run_worker(str(executable),request,tmp_path/'checkpoint.toml',10.,10.,stop,stats)
+    assert outcome==reason and len(calls)==1
+    assert stats['child_returncode']==-9 and stats['child_process_CPU_seconds']>=0
+
+
+def copied_runtime_assets(tmp_path):
+    original=window.asset_path().parent
+    assets=tmp_path/'runtime_assets';assets.mkdir()
+    for name in ('SOURCE.toml','worker.jl','ResponseCore.jl','WindowSearch.jl','Project.toml'):
+        shutil.copyfile(original/name,assets/name)
+    return assets
+
+
+@pytest.mark.parametrize('name,damage',[
+    ('worker.jl','missing'),('ResponseCore.jl','mismatch'),('WindowSearch.jl','mismatch'),
+    ('Project.toml','mismatch'),('SOURCE.toml','malformed'),('SOURCE.toml','oversize'),
+    ('ResponseCore.jl','oversize')])
+def test_bad_runtime_assets_refuse_before_spawn_and_keep_native_parent(tmp_path,witness,monkeypatch,name,damage):
+    blocks,parent,_,_=witness
+    assets=copied_runtime_assets(tmp_path);path=assets/name
+    if damage=='missing': path.unlink()
+    elif damage=='mismatch': path.write_bytes(path.read_bytes()+b'\n# changed\n')
+    elif damage=='malformed': path.write_bytes(b'version=1\nx={a={a={a=0}}}\n')
+    else:
+        # Sparse bounded refusal fixture: no huge read or allocation is needed.
+        with path.open('wb') as handle:
+            handle.seek(8192 if name=='SOURCE.toml' else 1024**2)
+            handle.write(b'x')
+    monkeypatch.setattr(window,'asset_path',lambda:assets/'worker.jl')
+    def forbidden(*args,**kwargs): raise AssertionError('unverified runtime asset spawned')
+    monkeypatch.setattr(window.subprocess,'Popen',forbidden)
+    result=invoke(blocks,parent,sys.executable)
+    assert result.order==parent and result.score is not None
+    assert result.status=='complete' and result.stats['parent_status']=='complete'
+    assert result.stats['window_status']=='support_limit'
+    assert 'backend' in result.stats['refusal_reason']
+    assert result.stats['backend_runtime_assets_verified'] is False
+    assert result.stats['child_process_CPU_seconds']==0
+    assert not native._EXTERNAL_BUDGET_CHECK.get()
+
+
+@pytest.mark.parametrize('raw',[
+    b"# '\nx="+b'['*100+b'0'+b']'*100,
+    b'x='+b'{a='*100+b'0'+b'}'*100,
+    b"x='unterminated\n",b'x="escaped'+bytes([92,10]),
+    b"x='unterminated",b'x=[0',b'x=[}',
+])
+def test_reply_prescan_rejects_before_toml_parser(tmp_path,monkeypatch,raw):
+    tomllib=pytest.importorskip('tomllib')
+    path=tmp_path/'checkpoint.toml';path.write_bytes(raw)
+    def forbidden(*args,**kwargs): raise AssertionError('unsafe reply reached TOML parser')
+    monkeypatch.setattr(tomllib,'loads',forbidden)
+    with pytest.raises(ValueError):
+        window._reply(path,'a'*64,None,(),window.WindowOptions(width=2),80,lambda:None)
+
+
+def test_reply_prescan_keeps_quoted_structural_characters(tmp_path,monkeypatch):
+    tomllib=pytest.importorskip('tomllib')
+    raw=b'x="[{]} # literal"\n';path=tmp_path/'checkpoint.toml';path.write_bytes(raw)
+    parsed=[]
+    def parser(text): parsed.append(text);return {}
+    monkeypatch.setattr(tomllib,'loads',parser)
+    with pytest.raises(ValueError,match='schema'):
+        window._reply(path,'a'*64,None,(),window.WindowOptions(width=2),80,lambda:None)
+    assert parsed==[raw.decode()]
 
 
 def test_final_verification_deadline_preserves_native_parent(tmp_path,witness,monkeypatch):
@@ -341,6 +454,9 @@ def test_real_sparse_parent_saturates_reserved_cap_then_real_native_checks_chang
     assert expected[0]==request['order'][0] and expected[-1]==request['order'][-1]
     assert stats['window_status'] in ('native_julia_score_mismatch','native_no_resolved_improvement','verified_improvement')
     assert stats['child_evaluation_scope']=='checkpoint_prefix'
+    assert stats['child_minimum_evaluations']==3
+    assert 'first trial response only' in stats['child_minimum_evaluation_scope']
+    assert 'no complete sweep or checked improvement' in stats['child_minimum_evaluation_scope']
     assert 'uncheckpointed' in stats['evaluation_accounting_scope']
     # Recheck the retained result independently; this extra fixture check is
     # outside the construction call and is not attributed to its evaluation cap.

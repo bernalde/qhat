@@ -27,6 +27,11 @@ PROFILE = dict(CPUQuota='25%', CPUWeight='5', IOWeight='10', Nice='19',
                MemoryHigh='448M', MemoryMax='512M', MemorySwapMax='0',
                MemoryAccounting='yes', CPUAccounting='yes')
 ROUNDING_CPU_SECONDS = .03  # GNU time's decimal receipt, never a cap extension.
+ALLOCATION_TOLERANCE = 1e-9  # Remainder comparisons only; actual ceilings stay strict.
+THREAD_KEYS = {'OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS',
+               'NUMBA_NUM_THREADS', 'NUMEXPR_NUM_THREADS', 'JULIA_NUM_THREADS',
+               'JULIA_NUM_GC_THREADS', 'JULIA_IMAGE_THREADS'}
+COMMAND_ENV_KEYS = THREAD_KEYS | {'TMPDIR', 'JULIA_PKG_OFFLINE'}
 
 
 def require(condition, message):
@@ -123,6 +128,8 @@ def bounded_coefficient(value):
 
 def authenticate_model(model, registry, *, parent_case=None):
     require(isinstance(model, dict), 'Model object required')
+    require(isinstance(registry, dict) and isinstance(registry.get('cases'), list) and
+            all(isinstance(spec, dict) for spec in registry['cases']), 'Registry case objects required')
     case = model['case'] if parent_case is None else parent_case
     specs = [spec for spec in registry['cases'] if spec['case'] == case]
     require(len(specs) == 1, 'Unique frozen registry identity required')
@@ -154,6 +161,7 @@ def authenticate_toml(raw, model, model_hash, units):
     require(isinstance(raw_units, list) and len(raw_units) == len(units), 'Original unit-label cardinality differs')
     denominator = bounded_coefficient(model['denominator'])
     for raw_unit, unit in zip(raw_units, units):
+        require(isinstance(raw_unit, dict), 'TOML unit object required')
         expected = sorted(unit.items())
         require(raw_unit.get('words') == [','.join(str(site) + letter for site, letter in word)
                                         for word, _ in expected],
@@ -195,27 +203,33 @@ def generation_protocol(root, index, frozen_input, source_freeze, registry):
 
 
 def frozen_case(root, freeze_path, frozen, name, registry):
+    require(isinstance(frozen.get('successes'), dict), 'Frozen input success map required')
     hashes = frozen['successes'][name]
     require(isinstance(hashes, dict) and all(key in hashes for key in ('model.json', 'model.toml')),
             'Frozen JSON/TOML input identities required')
     # This path convention is the one authored by generate_inputs.py.
     parent = freeze_path.parent
-    model_path = parent / 'inputs' / name / 'model.json'
+    model_path = relative_path(root, str((parent / 'inputs' / name / 'model.json').relative_to(root)))
     model_raw = raw_file(model_path, k.MAX_MODEL_BYTES)
     require(digest(model_raw) == hashes['model.json'], 'Frozen original model JSON hash differs')
     model = decode_json(model_raw)
-    authenticate_model(model, registry)
-    toml_path = model_path.with_suffix('.toml')
-    require(digest(raw_file(toml_path, k.MAX_MODEL_BYTES)) == hashes['model.toml'], 'Frozen original model TOML hash differs')
+    require(model.get('case') == name, 'Frozen inventory key/model case differs')
+    units = authenticate_model(model, registry)
+    toml_path = relative_path(root, str((parent / 'inputs' / name / 'model.toml').relative_to(root)))
+    toml_raw = raw_file(toml_path, k.MAX_MODEL_BYTES)
+    require(digest(toml_raw) == hashes['model.toml'], 'Frozen original model TOML hash differs')
+    authenticate_toml(toml_raw, model, hashes['model.json'], units)
     for filename, field in (('tensors.npz', 'tensors_sha256'), ('orbitals.npz', 'orbitals_sha256')):
         require(hashes.get(filename) == model.get(field) and isinstance(hashes.get(filename), str) and
                 HEX.fullmatch(hashes[filename]), 'Frozen tensor/orbital provenance differs')
-        require(digest(raw_file(model_path.with_name(filename))) == hashes[filename], 'Frozen tensor/orbital bytes differ')
+        path = relative_path(root, str((parent / 'inputs' / name / filename).relative_to(root)))
+        require(digest(raw_file(path)) == hashes[filename], 'Frozen tensor/orbital bytes differ')
     return model, hashes
 
 
 def input_binding(root, index, source_freeze, registry):
     input_path, frozen = artifact(root, index['input_freeze'])
+    require(isinstance(frozen.get('successes'), dict), 'Input success map required')
     require(frozen.get('status') == 'complete' and not frozen.get('refusals'), 'Complete pre-physical input freeze required')
     model_path, model = artifact(root, index['model_json'], maximum=k.MAX_MODEL_BYTES)
     toml_path, toml_raw = artifact(root, index['model_toml'], maximum=k.MAX_MODEL_BYTES, parse=False)
@@ -234,6 +248,7 @@ def input_binding(root, index, source_freeze, registry):
         require(frozen.get('expected_cases') == 1 and frozen.get('preflight_only') is True and
                 set(frozen.get('successes', {})) == {case}, 'Distinct one-case altered-input preflight freeze required')
         parent_path, parent = artifact(root, index['parent_input_freeze'])
+        require(isinstance(parent.get('successes'), dict), 'Parent input success map required')
         links = [parent_hash for field in ('parent_inventory_sha256', 'parent_input_freeze_sha256')
                  if (parent_hash := frozen.get(field)) is not None]
         require(links and all(value == index['parent_input_freeze']['sha256'] for value in links),
@@ -249,6 +264,9 @@ def input_binding(root, index, source_freeze, registry):
                 model.get('preflight_parent_model_sha256') == parent_hashes['model.json'] and
                 model.get('preflight_scale') == '7/5', 'Frozen largest-case/7-over-5 preflight identity differs')
         units = authenticate_model(model, registry, parent_case=chosen)
+        require(model.get('tensors_sha256') == parent_hashes['tensors.npz'] and
+                model.get('orbitals_sha256') == parent_hashes['orbitals.npz'],
+                'Preflight tensor/orbital identities must match the authenticated parent')
         require(bounded_coefficient(model['denominator']) == 5 * bounded_coefficient(parent_model['denominator']),
                 'Preflight denominator must be exactly parent denominator times five')
         for field in ('coefficients', 'blocks'):
@@ -257,13 +275,20 @@ def input_binding(root, index, source_freeze, registry):
             require(len(raw_parent) == len(raw_altered), 'Preflight original block cardinality differs')
             for before, after in zip(raw_parent, raw_altered):
                 a, b = k.decode(before), k.decode(after)
+                require([entry[0] for entry in before] == [entry[0] for entry in after],
+                        'Preflight must preserve exact within-block word ordering')
                 require(set(a) == set(b) and all(b[word] == 7 * value for word, value in a.items()),
                         'Preflight must scale every exact original numerator by seven without thinning/regrouping')
     hashes = frozen['successes'][case]
+    require(isinstance(hashes, dict), 'Selected input hash object required')
     require(hashes.get('model.json') == index['model_json']['sha256'] and
             hashes.get('model.toml') == index['model_toml']['sha256'], 'Selected input artifacts differ from frozen inventory')
     authenticate_toml(toml_raw, model, index['model_json']['sha256'], units)
-    return model_path, toml_path, model, units
+    models = ({name: dict(model=value[0], model_hash=value[1]['model.json'], units=k.blocks(value[0]),
+                         model_path=relative_path(root, str((input_path.parent/'inputs'/name/'model.json').relative_to(root))))
+               for name, value in original.items()} if index['mode'] == 'main' else {})
+    models[case] = dict(model=model, model_hash=index['model_json']['sha256'], units=units, model_path=model_path)
+    return model_path, toml_path, model, units, models
 
 
 def execution_path(value, execution_root, root):
@@ -279,12 +304,15 @@ def execution_path(value, execution_root, root):
 
 def receipt_binding(root, receipt, *, arm, repetition, model_path, model_hash, source_path,
                     execution_root, execution_source_root, seen_receipts):
+    require(isinstance(receipt, dict), 'Guard receipt object required')
     unit = receipt.get('unit')
     require(isinstance(unit, str) and unit and unit not in seen_receipts, 'Guard unit reused or missing')
     seen_receipts.add(unit)
     settings = receipt.get('settings', {})
+    require(isinstance(settings, dict), 'Guard settings object required')
     require(all(settings.get(key) == value for key, value in PROFILE.items()), 'Mandatory guard profile differs')
     budget = receipt['budget']
+    require(isinstance(budget, dict), 'Guard budget object required')
     cpu_cap = number(budget['cpu_seconds'], 'guard CPU cap', positive=True)
     wall_cap = number(budget['wall_seconds'], 'guard wall cap', positive=True)
     require(cpu_cap <= k.TRAIN_CPU_SECONDS and wall_cap <= k.TRAIN_WALL_SECONDS and
@@ -305,16 +333,21 @@ def receipt_binding(root, receipt, *, arm, repetition, model_path, model_hash, s
         for setting in prefix[1:-1]:
             require(re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*=.*',setting), 'Literal environment assignment required')
             key,value=setting.split('=',1)
-            require(key not in overrides, 'Repeated command environment override')
+            require(key in COMMAND_ENV_KEYS and key not in overrides, 'Unknown/repeated command environment override')
             overrides[key]=value
-    environment=dict(receipt.get('environment', {}),**overrides)
+    base_environment=receipt.get('environment', {})
+    require(isinstance(base_environment, dict), 'Guard environment object required')
+    environment=dict(base_environment);environment.update(overrides)
     require(all(environment.get(key) == '1' for key in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS',
                                                       'NUMBA_NUM_THREADS', 'NUMEXPR_NUM_THREADS')),
             'Effective numerical thread profile differs')
     require(all(environment[key]=='1' for key in ('JULIA_NUM_THREADS','JULIA_NUM_GC_THREADS','JULIA_IMAGE_THREADS')
                 if key in environment), 'Effective Julia thread profile differs')
-    if 'TMPDIR' in overrides:
-        execution_path(overrides['TMPDIR'],execution_root,root)
+    if 'JULIA_PKG_OFFLINE' in environment:
+        require(environment['JULIA_PKG_OFFLINE'] in ('true','1'), 'Effective Julia offline profile differs')
+    for key in ('TMPDIR','NUMBA_CACHE_DIR','MPLCONFIGDIR'):
+        if key in environment:
+            execution_path(environment[key],execution_root,root)
     tail = command[positions[0] + 1:]
     require(len(tail) >= 8, 'Constructor argv is incomplete')
     require(execution_path(tail[0], execution_root, root).resolve() == model_path.resolve() and
@@ -332,6 +365,7 @@ def receipt_binding(root, receipt, *, arm, repetition, model_path, model_hash, s
     require(execution_path(parsed['--source-freeze'], execution_root, root).resolve() == source_path.resolve(),
             'Guard source freeze PATH differs from authenticated source freeze')
     accounting = receipt['final_accounting']
+    require(isinstance(accounting, dict), 'Guard final accounting object required')
     complete = (accounting.get('CPU_accounting_available') is True and
                 accounting.get('process_CPU_timing_available') is True and
                 receipt.get('guard_error') is None and not receipt.get('cleanup_errors') and
@@ -350,7 +384,8 @@ def receipt_binding(root, receipt, *, arm, repetition, model_path, model_hash, s
         frozen_seconds=(number(receipt['frozen_seconds'], 'guard frozen wall') if 'frozen_seconds' in receipt else None))
 
 
-def constructor_record(record, *, model, units, arm, repetition, model_hash, source_hash, receipt_cpu):
+def constructor_record(record, *, model, units, arm, repetition, model_hash, source_hash, receipt_cpu, receipt_wall):
+    require(isinstance(record, dict), 'Constructor record object required')
     partition = 'pauli' if arm == 'pauli' else 'conserving'
     physical = k.blocks(model, pauli=partition == 'pauli')
     require(record.get('schema') == 'prospective-window-constructor-v1' and record.get('artifact_complete') is True,
@@ -377,8 +412,8 @@ def constructor_record(record, *, model, units, arm, repetition, model_hash, sou
               for index in order for word, value in sorted(physical[index].items())]
     require(record.get('pulse_layout_sha256') == digest(json.dumps(layout, separators=(',', ':')).encode()),
             'Original pulse-layout hash differs')
-    status = result.get('status');require(status in STATUSES, 'Unknown constructor status')
-    kind = record.get('score_kind');require(kind is None or kind in KINDS, 'Unknown score kind')
+    status = result.get('status');require(isinstance(status,str) and status in STATUSES, 'Unknown constructor status')
+    kind = record.get('score_kind');require(kind is None or isinstance(kind,str) and kind in KINDS, 'Unknown score kind')
     expected_kind = ('retained_first_order_response' if arm in ('first', 'pauli') else
                      'diagonal_reference_cubic_response' if arm in ('cubic', 'window_sparse', 'window_magnitude') else None)
     score = result.get('score')
@@ -387,19 +422,41 @@ def constructor_record(record, *, model, units, arm, repetition, model_hash, sou
         require(kind == expected_kind and kind in KINDS, 'Scored constructor/score-kind membership differs')
     elif kind is not None:
         require(kind == expected_kind, 'Unscored constructor/score-kind membership differs')
+    require(expected_kind is None or status != 'complete' or score is not None,
+            'Complete scored constructor requires a resolved score')
     components = result.get('score_components')
+    require(kind != 'diagonal_reference_cubic_response' or score is None or components is not None,
+            'Scored native constructor requires score components')
     if components is not None:
         require(isinstance(components, dict) and set(components) == {'value', 'cubic_response', 'steps'} and
                 kind == 'diagonal_reference_cubic_response' and score is not None,
                 'Native score components schema')
         require(number(components['value'], 'native score component') == score, 'Native score value differs')
-        number(components['cubic_response'], 'native cubic response')
-        integer(components['steps'], 'native score steps', 1)
+        cubic=number(components['cubic_response'], 'native cubic response')
+        steps=integer(components['steps'], 'native score steps', 1)
+        expected_steps=(1 if len(lengths)==1 else
+            (k.TRAIN_CAP*len(model['coefficients'])-lengths[0])//(2*sum(lengths)-lengths[0]-lengths[-1]))
+        require(steps==expected_steps, 'Native score steps differ from original-word affordability')
+        require((cubic == 0) == (score == 0), 'Native score/components unresolved zero differs')
+        require(abs(score-cubic/steps**4)<=max(1e-30,abs(score)*1e-12), 'Native score normalization differs')
     parent_cpu = number(record['process_CPU_before_output'], 'parent CPU before output')
-    number(record['wall_seconds_before_output'], 'constructor wall before output')
+    parent_wall=number(record['wall_seconds_before_output'], 'constructor wall before output')
+    require(receipt_wall is None or parent_wall<=receipt_wall, 'Constructor wall exceeds absolute guard wall')
     child_cpu = 0.
     stats = result.get('stats', {})
     require(isinstance(stats, dict), 'Constructor stats object')
+    evaluations=integer(result['evaluations'], 'completed constructor evaluations',0,k.NATIVE_EVALUATIONS)
+    moves=integer(result['accepted_moves'], 'accepted constructor moves')
+    rescored=integer(stats.get('full_move_rescores',0), 'completed full move rescores')
+    require(moves<=evaluations+rescored, 'Accepted moves exceed completed score work')
+    if 'window_status' in stats:
+        require(isinstance(stats['window_status'],str) and 0<len(stats['window_status'])<=256,
+                'Window status must be a bounded phase string')
+    if 'wall_seconds' in stats:
+        require(receipt_wall is None or number(stats['wall_seconds'],'window whole wall')<=receipt_wall,
+                'Window wall exceeds absolute guard wall')
+    if 'CPU_seconds' in result:
+        number(result['CPU_seconds'],'reported constructor CPU')
     if 'child_process_CPU_seconds' in stats:
         child_cpu = (None if stats['child_process_CPU_seconds'] is None else
                      number(stats['child_process_CPU_seconds'], 'owned child CPU'))
@@ -408,10 +465,11 @@ def constructor_record(record, *, model, units, arm, repetition, model_hash, sou
     return dict(order=order, partition=partition, status=status, score=score, score_kind=kind,
         score_components=components, window_status=stats.get('window_status'),
         parent_CPU_before_output=parent_cpu, owned_child_CPU_seconds=child_cpu,
-        reason=result.get('reason'), evaluations=result.get('evaluations'), accepted_moves=result.get('accepted_moves'))
+        reason=result.get('reason'), evaluations=evaluations, accepted_moves=moves)
 
 
-def whole_orders_binding(root, index, registry, entries):
+def whole_orders_binding(root, index, registry, entries, models, source_path,
+                         execution_root, execution_source_root, current):
     """Authenticate the whole attempted-call freeze, including other-case censors.
 
     Artifact presence does not establish successful construction, a complete
@@ -434,57 +492,95 @@ def whole_orders_binding(root, index, registry, entries):
             'Whole-order freeze must bind the planned inventory hash')
     rows=frozen['artifacts']
     require(isinstance(rows,list) and len(rows)==len(expected), 'Whole-order freeze exact artifact roster')
-    _,inputs=artifact(root,index['input_freeze'])
-    observed={};receipt_hashes=set();receipt_units=set();record_hashes=set();censors=[]
+    # Current final edges intentionally appear in both graphs. Only earlier
+    # attempts seed collision sets; legitimate identical final references are
+    # checked below and then registered once by the whole roster.
+    finals={}
+    for entry in entries:
+        require(isinstance(entry,dict), 'Current constructor entry object required')
+        attempts=entry['attempts']
+        require(isinstance(attempts,list) and attempts, 'Unperformed call cannot satisfy Freeze C: actual receipt required')
+        require(isinstance(attempts[-1],dict), 'Final attempt object required')
+        finals[(index['case'],entry['arm'],entry['repetition'])]=attempts[-1]
+    observed={};receipt_hashes=set();receipt_units=set();record_hashes=set();destinations=set();record_paths=set();censors=[]
+    for retained in current:
+        for attempt in retained['attempts'][:-1]:
+            require('failure' not in attempt, 'Malformed earlier attempt cannot bind whole-order freeze')
+            receipt_hashes.add(attempt['receipt']['sha256']);receipt_units.add(attempt['unit'])
+            destinations.add(relative_path(root,attempt['constructor_output_path']).resolve())
+            if attempt.get('constructor') is not None:
+                record_hashes.add(attempt['constructor']['sha256'])
+                record_paths.add(relative_path(root,attempt['constructor']['path']).resolve())
     for row in rows:
         require(isinstance(row,dict), 'Whole-order artifact object required')
         identity=(row['case'],row['arm'],integer(row['repetition'],'whole-freeze repetition',1,repetitions))
         require(identity in expected and identity not in observed, 'Duplicate or unknown whole-order identity')
         observed[identity]=row
+        require(row.get('not_launched') is not True,
+                'Unperformed whole-order call cannot satisfy Freeze C: actual receipt required')
+        if identity in finals:
+            require(finals[identity].get('receipt')==row.get('receipt') and
+                    finals[identity].get('record')==row.get('record'),
+                    'Current-case final descriptors differ from whole freeze')
         _,receipt=artifact(root,row['receipt'])
-        require(row['receipt']['sha256'] not in receipt_hashes and
-                isinstance(receipt.get('unit'),str) and receipt['unit'] and receipt['unit'] not in receipt_units,
-                'Whole-order freeze reuses a guard receipt/service')
-        receipt_hashes.add(row['receipt']['sha256']);receipt_units.add(receipt['unit'])
+        require(row['receipt']['sha256'] not in receipt_hashes, 'Whole-order freeze reuses a guard receipt')
+        receipt_hashes.add(row['receipt']['sha256'])
+        target=models[identity[0]]
+        destination,accounting=receipt_binding(root,receipt,arm=identity[1],repetition=identity[2],
+            model_path=target['model_path'],model_hash=target['model_hash'],source_path=source_path,
+            execution_root=execution_root,execution_source_root=execution_source_root,seen_receipts=receipt_units)
+        require(destination.resolve() not in destinations, 'Whole-order freeze reuses a constructor destination')
+        destinations.add(destination.resolve())
+        require(accounting['accounting_complete'] and accounting['within_attempt_ceiling'],
+                'Whole-order receipt accounting/attempt ceiling is incomplete')
         require(type(row.get('exit_code')) in (int,type(None)) and
                 type(row.get('exit_code')) is type(receipt.get('exit_code')) and
                 row.get('exit_code')==receipt.get('exit_code'), 'Whole-order receipt exit identity differs')
         if row.get('record') is None:
+            require(not destination.exists(), 'Whole-order unindexed constructor output exists')
             censors.append(dict(case=identity[0],arm=identity[1],repetition=identity[2],
                 receipt=row['receipt'],exit_code=row.get('exit_code'),
                 reason=row.get('censor_reason','No final constructor artifact; attempted call retained')))
             continue
-        _,record=artifact(root,row['record'])
+        record_path,record=artifact(root,row['record'])
+        require(record_path.resolve()==destination.resolve(), 'Whole-order command/result path differs')
+        require(record_path.resolve() not in record_paths, 'Whole-order freeze reuses a constructor record path')
+        record_paths.add(record_path.resolve())
         require(row['record']['sha256'] not in record_hashes, 'Whole-order freeze reuses a constructor artifact')
         record_hashes.add(row['record']['sha256'])
-        require(record.get('schema')=='prospective-window-constructor-v1' and record.get('artifact_complete') is True and
-                (record.get('case'),record.get('arm'),record.get('repetition'))==identity and
-                type(record.get('repetition')) is int and
-                record.get('source_freeze_sha256')==index['source_freeze']['sha256'] and
-                record.get('model_sha256')==inputs['successes'][identity[0]]['model.json'] and
-                record.get('physical_error_read') is False,
-                'Whole-order constructor case/arm/repetition/input/source identity differs')
+        value=constructor_record(record,model=target['model'],units=target['units'],arm=identity[1],
+            repetition=identity[2],model_hash=target['model_hash'],source_hash=index['source_freeze']['sha256'],
+            receipt_cpu=accounting['CPU_seconds'],receipt_wall=accounting['wall_seconds'])
+        if not clean_outer(accounting) or value['status']=='unexpected_error':
+            censors.append(dict(case=identity[0],arm=identity[1],repetition=identity[2],
+                receipt=row['receipt'],record=row['record'],exit_code=row.get('exit_code'),
+                reason='Outer constructor did not complete cleanly; record retained but not admitted'))
     require(set(observed)==expected, 'Missing whole-order call identity')
-    present=not censors
+    present=all(row.get('record') is not None for row in rows)
     require(type(frozen.get('all_calls_have_artifacts')) is bool and
             frozen['all_calls_have_artifacts']==present, 'Whole-order artifact presence flag differs')
-    for entry in entries:
-        identity=(index['case'],entry['arm'],entry['repetition']);row=observed[identity]
-        attempts=entry['attempts']
-        require(isinstance(attempts,list) and attempts, 'Current-case whole freeze requires its final attempted receipt')
-        selected=entry.get('selected_attempt')
-        require(selected is None or integer(selected,'whole-freeze selected attempt',1,len(attempts))==len(attempts),
-                'Whole freeze cannot select an earlier constructor attempt')
-        final=attempts[-1]
-        require(final.get('receipt')==row['receipt'], 'Current-case final receipt differs from whole freeze')
-        expected_record=final.get('record') if selected is not None else None
-        require(expected_record==row.get('record') and final.get('record')==expected_record,
-                'Current-case final selected constructor differs from whole freeze')
     return dict(descriptor=descriptor,mode=mode,expected_calls=len(expected),
-        inventory_complete=True,all_calls_have_artifacts=present,censored_calls=censors,
+        inventory_complete=True,all_calls_attempted=True,all_calls_have_artifacts=present,
+        all_calls_have_admitted_orders=not censors,censored_calls=censors,
         censored_call_count=len(censors),plan_sha256=frozen['plan_sha256'],
         current_case_final_descriptors_match=True,
         scope='Complete logical-call inventory with final artifacts; earlier attempts stay in per-case cost ledgers, and other-case censors do not establish a complete campaign comparison')
+
+
+def clean_outer(accounting):
+    return (accounting['exit_code']==0 and accounting['supervisor_exit_code']==0 and
+            accounting['termination'] is None)
+
+
+def allocations_preserve_budget(attempts):
+    used_cpu=used_wall=0.
+    for attempt in attempts:
+        if (attempt.get('CPU_ceiling',float('inf'))>k.TRAIN_CPU_SECONDS-used_cpu+ALLOCATION_TOLERANCE or
+                attempt.get('wall_ceiling',float('inf'))>k.TRAIN_WALL_SECONDS-used_wall+ALLOCATION_TOLERANCE):
+            return False
+        used_cpu+=attempt.get('CPU_seconds') or 0.
+        used_wall+=attempt.get('wall_seconds') or 0.
+    return True
 
 
 def toml_scalar(value):
@@ -551,7 +647,7 @@ def assemble(index_path, output):
         execution_source_root = PurePosixPath(index.get('execution_source_root', str(k.ROOT)))
         require(execution_root.is_absolute() and execution_source_root.is_absolute(), 'Explicit absolute execution roots')
         source_path, frozen, registry, registry_hash = source_binding(root, index)
-        model_path, toml_path, model, units = input_binding(root, index, frozen, registry)
+        model_path, toml_path, model, units, models = input_binding(root, index, frozen, registry)
         report.update(mode=mode, case=model['case'], n=model['n'], hf=str((1 << model['electrons']) - 1),
             source_commit=frozen['source_commit'], source_freeze=index['source_freeze'], input_freeze=index['input_freeze'],
             model_json=index['model_json'], model_toml=index['model_toml'], registry_sha256=registry_hash,
@@ -559,10 +655,11 @@ def assemble(index_path, output):
             expected_constructor_calls=len(expected), expected_logical_rows=44 * repetitions)
         entries = index['constructors']
         require(isinstance(entries, list) and len(entries) == len(expected), 'Exact frozen constructor roster required')
+        require(all(isinstance(entry,dict) for entry in entries), 'Constructor entry objects required')
         identities = [(entry['arm'], integer(entry['repetition'], 'constructor repetition', 1, repetitions)) for entry in entries]
         require(len(set(identities)) == len(expected) and set(identities) == expected,
                 'Duplicate/missing/unrecognized constructor identity')
-        seen_receipts = set();seen_receipt_hashes = set();all_complete = True
+        seen_receipts = set();seen_receipt_hashes = set();seen_destinations=set();seen_records=set();seen_record_paths=set();all_complete = True
         for entry in sorted(entries, key=lambda item: (item['repetition'], k.ARMS.index(item['arm']))):
             arm, repetition = entry['arm'], entry['repetition']
             retained = dict(arm=arm, repetition=repetition, status='censored', attempts=[],
@@ -574,8 +671,8 @@ def assemble(index_path, output):
                 if not attempts:
                     require(entry.get('not_launched') is True and isinstance(entry.get('censor_reason'), str) and
                             entry['censor_reason'], 'Unlaunched censor requires explicit scheduler attestation')
-                    retained.update(reason=entry['censor_reason'], guard_CPU_seconds=0., guard_wall_seconds=0.,
-                                    cost_complete=True, cost_scope='explicit not-launched attestation')
+                    retained.update(status='unperformed',reason=entry['censor_reason'],not_launched=True,
+                                    cost_complete=False,cost_scope='unperformed; no completed-cost claim')
                     all_complete = False
                     continue
                 selected = entry.get('selected_attempt')
@@ -583,11 +680,13 @@ def assemble(index_path, output):
                         'Selected attempt must be final; no outcome-based earlier selection')
                 selected_value = None;selected_descriptor = None
                 for position, attempt in enumerate(attempts, 1):
-                    record = dict(attempt=position, receipt=attempt.get('receipt'),
-                                  constructor=attempt.get('record'), status='incomplete')
+                    record = dict(attempt=position, status='incomplete')
                     retained['attempts'].append(record)
                     try:
+                        require(isinstance(attempt,dict), 'Attempt object required')
+                        record.update(receipt=attempt.get('receipt'),constructor=attempt.get('record'))
                         descriptor = attempt['receipt']
+                        require(isinstance(descriptor,dict), 'Attempt receipt descriptor object required')
                         require(descriptor['sha256'] not in seen_receipt_hashes, 'Guard receipt charged more than once')
                         seen_receipt_hashes.add(descriptor['sha256'])
                         _, receipt = artifact(root, descriptor)
@@ -597,15 +696,23 @@ def assemble(index_path, output):
                             seen_receipts=seen_receipts)
                         record.update(accounting)
                         record['constructor_output_path'] = str(destination.relative_to(root))
+                        require(destination.resolve() not in seen_destinations, 'Constructor output destination reused across attempts')
+                        seen_destinations.add(destination.resolve())
                         if attempt.get('record') is not None:
                             record_path, original = artifact(root, attempt['record'])
                             require(record_path.resolve() == destination.resolve(), 'Guard output/constructor record path differs')
+                            require(attempt['record']['sha256'] not in seen_records and record_path.resolve() not in seen_record_paths,
+                                    'Constructor record reused across attempts')
+                            seen_records.add(attempt['record']['sha256']);seen_record_paths.add(record_path.resolve())
                             value = constructor_record(original, model=model, units=units, arm=arm, repetition=repetition,
                                 model_hash=index['model_json']['sha256'], source_hash=index['source_freeze']['sha256'],
-                                receipt_cpu=accounting['CPU_seconds'])
+                                receipt_cpu=accounting['CPU_seconds'],receipt_wall=accounting['wall_seconds'])
                             record.update(status='retained_record', constructor=attempt['record'],
-                                          constructor_status=value['status'], scored=value['score'] is not None)
-                            if position == selected:
+                                          constructor_status=value['status'], scored=value['score'] is not None,
+                                          outer_constructor_success=clean_outer(accounting))
+                            if not clean_outer(accounting):
+                                record['status']='failed_outer_record_retained'
+                            if position == selected and clean_outer(accounting):
                                 selected_value=value;selected_descriptor=attempt['record']
                         else:
                             require(not destination.exists(), 'Unindexed constructor output exists; retain/hash it explicitly')
@@ -623,14 +730,7 @@ def assemble(index_path, output):
                 retained.update(known_guard_CPU_seconds=known_cpu, known_guard_wall_seconds=known_wall,
                     guard_CPU_seconds=known_cpu if complete_cost else None,
                     guard_wall_seconds=known_wall if complete_cost else None,cost_complete=complete_cost)
-                allocated_without_reset=True
-                used_cpu=used_wall=0.
-                for attempt in costs:
-                    if (attempt.get('CPU_ceiling',float('inf'))>k.TRAIN_CPU_SECONDS-used_cpu or
-                            attempt.get('wall_ceiling',float('inf'))>k.TRAIN_WALL_SECONDS-used_wall):
-                        allocated_without_reset=False
-                    used_cpu+=attempt.get('CPU_seconds') or 0.
-                    used_wall+=attempt.get('wall_seconds') or 0.
+                allocated_without_reset=allocations_preserve_budget(costs)
                 within = complete_cost and known_cpu <= k.TRAIN_CPU_SECONDS and known_wall <= k.TRAIN_WALL_SECONDS and all(
                     attempt.get('within_attempt_ceiling') is True for attempt in costs) and allocated_without_reset
                 retained['attempt_allocations_preserve_whole_call_ceiling']=allocated_without_reset
@@ -681,7 +781,8 @@ def assemble(index_path, output):
             report['guard_wall_seconds']=sum(entry['guard_wall_seconds'] for entry in report['constructors'])
         report['available_logical_rows']=len(rows)
         try:
-            whole=whole_orders_binding(root,index,registry,entries)
+            whole=whole_orders_binding(root,index,registry,entries,models,source_path,
+                execution_root,execution_source_root,report['constructors'])
             report['all_orders_freeze']=whole
         except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
             report['failures'].append(dict(phase='all_orders_freeze',type=type(error).__name__,message=str(error)[:500]))

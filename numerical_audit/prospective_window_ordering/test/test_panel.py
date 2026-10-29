@@ -148,6 +148,7 @@ def bundle(tmp_path,monkeypatch):
         put(index_path,index)
         return index_path
     return dict(root=root,index=index,publish=publish,put=put,ref=ref,receipt=receipt,
+                registry=registry,original=original,parent_path=parent_path,
                 sources=source_map,output=tmp_path/'panel',whole_control=whole_control,
                 whole_path=whole_path,refresh_whole=refresh_whole)
 
@@ -304,7 +305,7 @@ def test_whole_order_freeze_is_required_and_hash_bound_without_losing_costs(bund
     assert any(reason.get('phase')=='all_orders_freeze' for reason in report['failures'])
 
 
-def test_main_whole_freeze_preserves_other_case_censor_without_campaign_completion_claim(bundle):
+def main_bundle(bundle):
     root=bundle['root'];index=bundle['index'];templates=copy.deepcopy(index['constructors'])
     parent_ref=index['parent_input_freeze']
     parent=json.loads((root/parent_ref['path']).read_text())
@@ -338,13 +339,22 @@ def test_main_whole_freeze_preserves_other_case_censor_without_campaign_completi
         model_json=bundle['ref'](root/'inputs'/current/'model.json'),
         model_toml=bundle['ref'](root/'inputs'/current/'model.toml'))
     index.pop('parent_input_freeze')
+    whole=dict(schema='prospective-window-all-orders-freeze-v1',mode='main',
+        source_freeze=index['source_freeze'],plan_sha256='b'*64,inventory_complete=True,
+        expected_calls=64,artifacts=artifacts,all_calls_have_artifacts=True,
+        physical_error_read=False,no_selected_repetition=True)
+    index['all_orders_freeze']=bundle['put'](bundle['whole_path'],whole)
+    bundle['whole_control']['auto']=False
+    return whole
+
+
+def test_main_whole_freeze_preserves_other_case_censor_without_campaign_completion_claim(bundle):
+    whole=main_bundle(bundle);root=bundle['root'];index=bundle['index'];current=index['case']
+    artifacts=whole['artifacts']
     censored=next(row for row in artifacts if row['case']!=current)
     (root/censored['record']['path']).unlink()
     censored['record']=None;censored['censor_reason']='guarded constructor produced no final record'
-    whole=dict(schema='prospective-window-all-orders-freeze-v1',mode='main',
-        source_freeze=index['source_freeze'],plan_sha256='b'*64,inventory_complete=True,
-        expected_calls=64,artifacts=artifacts,all_calls_have_artifacts=False,
-        physical_error_read=False,no_selected_repetition=True)
+    whole['all_calls_have_artifacts']=False
     index['all_orders_freeze']=bundle['put'](bundle['whole_path'],whole)
     bundle['whole_control']['auto']=False
     report=assemble(bundle)
@@ -357,3 +367,286 @@ def test_main_whole_freeze_preserves_other_case_censor_without_campaign_completi
     candidate=tomllib.loads((bundle['output']/'CANDIDATES.toml').read_text())
     assert not candidate['whole_constructor_artifacts_present']
     assert candidate['all_orders_freeze_sha256']==index['all_orders_freeze']['sha256']
+
+
+def test_all_four_parent_tomls_are_authenticated_before_preflight_selection(bundle):
+    index=bundle['index'];root=bundle['root'];path=bundle['parent_path']
+    frozen=json.loads(path.read_text());other=max(frozen['successes'])
+    toml_path=path.parent/'inputs'/other/'model.toml'
+    toml_path.write_text(toml_path.read_text().replace('10Z','9Z'))
+    frozen['successes'][other]['model.toml']=sha(toml_path)
+    index['parent_input_freeze']=bundle['put'](path,frozen)
+    altered_path=root/index['input_freeze']['path'];altered=json.loads(altered_path.read_text())
+    altered['parent_inventory_sha256']=index['parent_input_freeze']['sha256']
+    index['input_freeze']=bundle['put'](altered_path,altered)
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert any('TOML original words' in f['message'] for f in report['failures'])
+    assert (bundle['output']/'PANEL.json').is_file()
+
+
+def test_frozen_case_inventory_key_cannot_be_another_registry_case(bundle):
+    root=bundle['root'];path=bundle['parent_path'];frozen=json.loads(path.read_text())
+    first,last=sorted(frozen['successes'])[::3]
+    source=path.parent/'inputs'/last/'model.json';target=path.parent/'inputs'/first/'model.json'
+    target.write_bytes(source.read_bytes());frozen['successes'][first]['model.json']=sha(target)
+    with pytest.raises(ValueError,match='inventory key/model case'):
+        panel.frozen_case(root,path,frozen,first,bundle['registry'])
+
+
+@pytest.mark.parametrize('filename',['model.json','model.toml','tensors.npz','orbitals.npz'])
+def test_every_frozen_case_payload_refuses_symlink_escape(bundle,tmp_path,filename):
+    root=bundle['root'];path=bundle['parent_path'];frozen=json.loads(path.read_text())
+    case=max(frozen['successes']);target=path.parent/'inputs'/case/filename
+    outside=tmp_path/('external-'+filename);outside.write_bytes(target.read_bytes())
+    target.unlink();target.symlink_to(outside)
+    with pytest.raises(ValueError,match='symlink escape'):
+        panel.frozen_case(root,path,frozen,case,bundle['registry'])
+
+
+@pytest.mark.parametrize('tamper',['record','profile','command'])
+def test_main_other_case_receipt_and_full_constructor_semantics_are_required(bundle,tamper):
+    whole=main_bundle(bundle);root=bundle['root'];index=bundle['index']
+    row=next(r for r in whole['artifacts'] if r['case']!=index['case'])
+    descriptor=row['record'] if tamper=='record' else row['receipt']
+    path=root/descriptor['path'];data=json.loads(path.read_text())
+    if tamper=='record': data.pop('constructor')
+    elif tamper=='profile': data['settings']['CPUQuota']='50%'
+    else: data['command'][data['command'].index(row['arm'])]='cubic' if row['arm']!='cubic' else 'canonical'
+    row['record' if tamper=='record' else 'receipt']=bundle['put'](path,data)
+    index['all_orders_freeze']=bundle['put'](bundle['whole_path'],whole)
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert any(f.get('phase')=='all_orders_freeze' for f in report['failures'])
+    assert report['all_guard_accounting_complete']
+
+
+def test_whole_roster_cannot_reuse_a_current_nonfinal_service(bundle):
+    whole=main_bundle(bundle);root=bundle['root'];index=bundle['index']
+    other=next(r for r in whole['artifacts'] if r['case']!=index['case'])
+    other_receipt=json.loads((root/other['receipt']['path']).read_text())
+    entry=index['constructors'][0];source=entry['attempts'][0]['receipt']
+    failed=json.loads((root/source['path']).read_text())
+    failed.update(unit=other_receipt['unit'],exit_code=2,supervisor_exit_code=2)
+    failed['command'][failed['command'].index(str(HERE/'constructors.py'))+4]=str(root/'failed-distinct.json')
+    failed_ref=bundle['put'](root/'earlier.resources.json',failed)
+    entry['attempts'].insert(0,dict(receipt=failed_ref,record=None,censor_reason='failed earlier call'))
+    entry['selected_attempt']=2
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert any(f.get('phase')=='all_orders_freeze' and 'unit' in f['message'].lower()
+               for f in report['failures'])
+
+
+def test_not_launched_is_an_unperformed_audit_not_a_free_completed_method(bundle):
+    entry=bundle['index']['constructors'][0]
+    entry.update(attempts=[],selected_attempt=None,not_launched=True,censor_reason='never dispatched')
+    bundle['whole_control']['auto']=False
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    row=report['constructors'][0]
+    assert row['status']=='unperformed' and not row['cost_complete']
+    assert row['guard_CPU_seconds'] is None and row['guard_wall_seconds'] is None
+    assert any('actual receipt required' in f['message'] for f in report['failures'])
+    assert (bundle['output']/'PANEL.json').is_file()
+
+
+def test_stale_earlier_output_cannot_be_selected_from_a_later_failed_attempt(bundle):
+    entry=bundle['index']['constructors'][0];first=entry['attempts'][0]
+    root=bundle['root'];destination=root/first['record']['path']
+    second=bundle['receipt']('canonical',destination,suffix='a2',cpu=.1,wall=1.,exit_code=2)
+    entry['attempts'].append(dict(receipt=second,record=copy.deepcopy(first['record'])))
+    entry['selected_attempt']=2
+    report=assemble(bundle)
+    retained=report['constructors'][0]
+    assert not report['candidate_panel_complete']
+    assert retained['known_guard_CPU_seconds']==pytest.approx(.3)
+    assert 'destination' in retained['attempts'][1]['failure']['message']
+    assert destination.is_file() and retained['attempts'][1]['constructor']==first['record']
+
+
+@pytest.mark.parametrize('field,value',[('exit_code',2),('supervisor_exit_code',2),('termination','cpu_limit')])
+def test_outer_failure_retains_record_and_cost_but_not_an_admitted_order(bundle,field,value):
+    entry=bundle['index']['constructors'][0];path=bundle['root']/entry['attempts'][0]['receipt']['path']
+    receipt=json.loads(path.read_text());receipt[field]=value
+    entry['attempts'][0]['receipt']=bundle['put'](path,receipt)
+    report=assemble(bundle);retained=report['constructors'][0]
+    assert not report['candidate_panel_complete']
+    assert retained['attempts'][0]['status']=='failed_outer_record_retained'
+    assert retained['guard_CPU_seconds']==pytest.approx(.2)
+    assert (bundle['root']/entry['attempts'][0]['record']['path']).is_file()
+
+
+@pytest.mark.parametrize('key',['PYTHONPATH','LD_PRELOAD','JULIA_LOAD_PATH'])
+def test_command_environment_cannot_redirect_imports(bundle,key):
+    entry=bundle['index']['constructors'][0];path=bundle['root']/entry['attempts'][0]['receipt']['path']
+    receipt=json.loads(path.read_text());receipt['command']=['/usr/bin/env',key+'=/outside',*receipt['command']]
+    entry['attempts'][0]['receipt']=bundle['put'](path,receipt)
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert 'environment override' in report['constructors'][0]['attempts'][0]['failure']['message']
+
+
+def test_effective_tmpdir_and_guard_cache_paths_are_checked(bundle):
+    entry=bundle['index']['constructors'][0];path=bundle['root']/entry['attempts'][0]['receipt']['path']
+    receipt=json.loads(path.read_text());receipt['environment']['TMPDIR']='/outside'
+    entry['attempts'][0]['receipt']=bundle['put'](path,receipt)
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert 'outside declared execution_root' in report['constructors'][0]['attempts'][0]['failure']['message']
+
+
+@pytest.mark.parametrize('field',['settings','final_accounting'])
+def test_malformed_nested_receipt_writes_refusal_audit(bundle,field):
+    entry=bundle['index']['constructors'][0];path=bundle['root']/entry['attempts'][0]['receipt']['path']
+    receipt=json.loads(path.read_text());receipt[field]=None
+    entry['attempts'][0]['receipt']=bundle['put'](path,receipt)
+    assert not assemble(bundle)['candidate_panel_complete']
+    assert (bundle['output']/'PANEL.json').is_file()
+
+
+def test_nonobject_attempt_is_caught_inside_the_audit_boundary(bundle):
+    bundle['index']['constructors'][0]['attempts']=[None]
+    bundle['whole_control']['auto']=False
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert 'Attempt object required' in report['constructors'][0]['attempts'][0]['failure']['message']
+    assert (bundle['output']/'PANEL.json').is_file()
+
+
+def test_nonobject_selected_input_hashes_write_a_refusal_audit(bundle):
+    root=bundle['root'];index=bundle['index'];path=root/index['input_freeze']['path']
+    frozen=json.loads(path.read_text());frozen['successes'][index['case']]=None
+    index['input_freeze']=bundle['put'](path,frozen)
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert any('hash object' in f['message'] for f in report['failures'])
+    assert (bundle['output']/'PANEL.json').is_file()
+
+
+def test_toml_unit_objects_are_checked_before_attribute_access(bundle):
+    root=bundle['root'];index=bundle['index'];model=json.loads((root/index['model_json']['path']).read_text())
+    raw=('case='+json.dumps(model['case'])+'\nn=14\nelectrons=4\npartition="conserving"\n'+
+         'denominator="40"\nsource_json_sha256='+json.dumps(index['model_json']['sha256'])+
+         '\nbaseline_order=[1,2]\nunits=[0,0]\n').encode()
+    with pytest.raises(ValueError,match='TOML unit object'):
+        panel.authenticate_toml(raw,model,index['model_json']['sha256'],panel.k.blocks(model))
+
+
+@pytest.mark.parametrize('tamper',['missing_score','missing_components','wall','evaluations','moves','window_status'])
+def test_selected_constructor_metadata_must_match_declared_semantics(bundle,tamper):
+    entry=next(e for e in bundle['index']['constructors'] if e['arm']=='window_sparse')
+    path=bundle['root']/entry['attempts'][0]['record']['path'];record=json.loads(path.read_text())
+    if tamper=='missing_score': record['constructor']['score']=None;record['constructor']['score_components']=None
+    elif tamper=='missing_components': record['constructor']['score_components']=None
+    elif tamper=='wall': record['wall_seconds_before_output']=2.
+    elif tamper=='evaluations': record['constructor']['evaluations']=True
+    elif tamper=='moves': record['constructor']['accepted_moves']=-1
+    else: record['constructor']['stats']['window_status']=[]
+    entry['attempts'][0]['record']=bundle['put'](path,record)
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert (bundle['output']/'PANEL.json').is_file()
+
+
+def test_allocation_rounding_tolerance_does_not_extend_actual_totals():
+    attempts=[dict(CPU_ceiling=64.,wall_ceiling=320.,CPU_seconds=.1,wall_seconds=.1),
+              dict(CPU_ceiling=63.9,wall_ceiling=319.9,CPU_seconds=.2,wall_seconds=.2),
+              dict(CPU_ceiling=63.7,wall_ceiling=319.7,CPU_seconds=0.,wall_seconds=0.)]
+    assert panel.allocations_preserve_budget(attempts)
+    attempts[-1]['CPU_ceiling']=63.70000001
+    assert not panel.allocations_preserve_budget(attempts)
+
+
+def test_preflight_tensor_identity_cannot_be_replaced_under_new_hashes(bundle):
+    root=bundle['root'];index=bundle['index'];path=root/index['model_json']['path']
+    model=json.loads(path.read_text());old=index['model_json']['sha256']
+    model['tensors_sha256']='f'*64
+    index['model_json']=bundle['put'](path,model)
+    toml_path=root/index['model_toml']['path']
+    toml_path.write_text(toml_path.read_text().replace(old,index['model_json']['sha256']))
+    index['model_toml']=bundle['ref'](toml_path)
+    freeze_path=root/index['input_freeze']['path'];frozen=json.loads(freeze_path.read_text())
+    frozen['successes'][index['case']].update({'model.json':index['model_json']['sha256'],
+                                             'model.toml':index['model_toml']['sha256']})
+    index['input_freeze']=bundle['put'](freeze_path,frozen)
+    protocol=json.loads((root/index['source_freeze']['path']).read_text())
+    with pytest.raises(ValueError,match='tensor/orbital identities'):
+        panel.input_binding(root,index,protocol,bundle['registry'])
+
+
+def test_preflight_intrablock_order_is_part_of_the_supplied_target(bundle):
+    root=bundle['root'];index=bundle['index'];parent_path=bundle['parent_path']
+    frozen=json.loads(parent_path.read_text());chosen=min(frozen['successes'])
+    parent_model_path=parent_path.parent/'inputs'/chosen/'model.json'
+    parent=json.loads(parent_model_path.read_text())
+    # One original block has literal10Z,2Z word order; the altered block swaps
+    # only that order. Exact coefficients, unit membership and counts coincide.
+    parent['blocks']=[[parent['coefficients'][1],parent['coefficients'][0]]]
+    parent_ref=bundle['put'](parent_model_path,parent)
+    def one_block_toml(path,model,json_hash,numerators):
+        path.write_text('\n'.join(['case='+json.dumps(model['case']),'n=14','electrons=4',
+            'partition="conserving"','denominator='+json.dumps(model['denominator']),
+            'source_json_sha256='+json.dumps(json_hash),'baseline_order=[1]','[[units]]',
+            'words=["2Z","10Z"]','numerators='+json.dumps(numerators)])+'\n')
+        return bundle['ref'](path)
+    parent_toml=one_block_toml(parent_model_path.with_suffix('.toml'),parent,parent_ref['sha256'],['3','5'])
+    frozen['successes'][chosen].update({'model.json':parent_ref['sha256'],'model.toml':parent_toml['sha256']})
+    index['parent_input_freeze']=bundle['put'](parent_path,frozen)
+    altered_path=root/index['model_json']['path'];altered=json.loads(altered_path.read_text())
+    altered['blocks']=[[altered['coefficients'][0],altered['coefficients'][1]]]
+    altered['preflight_parent_model_sha256']=parent_ref['sha256']
+    index['model_json']=bundle['put'](altered_path,altered)
+    index['model_toml']=one_block_toml(altered_path.with_suffix('.toml'),altered,index['model_json']['sha256'],['21','35'])
+    input_path=root/index['input_freeze']['path'];preflight=json.loads(input_path.read_text())
+    preflight['parent_inventory_sha256']=index['parent_input_freeze']['sha256']
+    preflight['successes'][index['case']].update({'model.json':index['model_json']['sha256'],
+                                               'model.toml':index['model_toml']['sha256']})
+    index['input_freeze']=bundle['put'](input_path,preflight)
+    protocol=json.loads((root/index['source_freeze']['path']).read_text())
+    with pytest.raises(ValueError,match='within-block word ordering'):
+        panel.input_binding(root,index,protocol,bundle['registry'])
+
+
+def test_guard_cache_environment_is_preserved_without_whitelisting_all_inherited_keys(bundle):
+    for entry in bundle['index']['constructors']:
+        path=bundle['root']/entry['attempts'][0]['receipt']['path'];receipt=json.loads(path.read_text())
+        receipt['environment'].update(NUMBA_CACHE_DIR=str(bundle['root']/'logs'/'numba-cache'),
+            MPLCONFIGDIR=str(bundle['root']/'logs'/'matplotlib-cache'),TMPDIR=str(bundle['root']/'tmp'))
+        entry['attempts'][0]['receipt']=bundle['put'](path,receipt)
+    assert assemble(bundle)['candidate_panel_complete']
+
+
+@pytest.mark.parametrize('boundary',['CPU','wall'])
+def test_actual_call_ceiling_has_no_allocation_rounding_extension(bundle,boundary):
+    entry=bundle['index']['constructors'][0];path=bundle['root']/entry['attempts'][0]['receipt']['path']
+    receipt=json.loads(path.read_text())
+    if boundary=='CPU':
+        receipt['budget']['cpu_seconds']=64.;receipt['final_accounting']['CPU_seconds']=64.+5e-10
+    else:
+        receipt['budget']['wall_seconds']=320.;receipt['settings']['RuntimeMaxSec']='320'
+        receipt['elapsed']=receipt['final_accounting']['elapsed_seconds']=320.+5e-10
+    entry['attempts'][0]['receipt']=bundle['put'](path,receipt)
+    report=assemble(bundle)
+    assert not report['candidate_panel_complete']
+    assert report['constructors'][0]['within_total_construction_ceiling'] is False
+
+
+def test_generated_preflight_preserves_parent_payload_identity_for_panel(bundle):
+    import preflight
+    root=bundle['root'];index=copy.deepcopy(bundle['index'])
+    # Use the real altered-input producer, rather than the fixture's separately
+    # authored altered model. Opaque parent payloads remain synthetic metadata.
+    (root/'INPUT_PROTOCOL_FROZEN.json').write_bytes((root/index['source_freeze']['path']).read_bytes())
+    output=root/'generated-preflight'
+    preflight.alter(root,output)
+    inventory=json.loads((output/'INPUTS_FROZEN.json').read_text())
+    case=next(iter(inventory['successes']))
+    model_path=output/'inputs'/case/'model.json'
+    index.update(input_freeze=bundle['ref'](output/'INPUTS_FROZEN.json'),
+                 model_json=bundle['ref'](model_path),model_toml=bundle['ref'](model_path.with_suffix('.toml')))
+    protocol=json.loads((root/index['source_freeze']['path']).read_text())
+    _,_,model,_,_=panel.input_binding(root,index,protocol,bundle['registry'])
+    parent=bundle['original'][inventory['selected_case']][0]
+    assert model['tensors_sha256']==parent['tensors_sha256']
+    assert model['orbitals_sha256']==parent['orbitals_sha256']

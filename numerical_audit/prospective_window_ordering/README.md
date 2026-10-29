@@ -34,3 +34,13 @@ the frozen quarter-core/512MiB guard; the following describes the stage order:
 The campaign planner preserves the selected Python virtual-environment path
 without resolving its interpreter symlink. The computational kernels are Julia;
 the data/identity glue and unchanged Python control methods remain explicit.
+
+## 2026-10-28 pre-main review clarification
+
+The opening preparation statements are preserved as their original chronological record. This appendix is added during pre-main source review, not presented as an earlier pre-data declaration. Original freezes, sources, attempts and measurements remain immutable. Main64/352 is UNPERFORMED; the final independent reconciliation is PENDING.
+
+The frozen3000 setting belongs to the native evaluation configuration. Retained first/Pauli `evaluations` counts completed seeds and incremental candidates; `stats.full_move_rescores` is separate. Report both and any meaningful completed-work sum, retaining unknown/interrupted work. Comparisons claim the same whole-call64CPU/320wall ceilings and actual costs, not identical arithmetic or total objective evaluations across methods. No algorithm, seed/control policy or numerical allowance changes.
+
+PANEL/analyzer comparison costs use raw guard CPU and absolute guarded wall. Conservative FINAL service charges can additionally reflect final queries and a CPU-footer rounding allowance through a maximum of overlapping measurements. Retain and label both boundaries. The final independent checker must join all64 calls' PLAN/FINAL/receipt/log bindings and the complete phase ledger, reconcile differences without duplicate owned units, and reject an unqualified under-ceiling claim whenever FINAL exceeds64CPU or320wall even if the raw guard is inside. Missing links remain incomplete; this is a required future check, not an executed result.
+
+See the [dated protocol clarification](PROTOCOL.md#2026-10-28-pre-main-review-clarification) for counter definitions, accounting and acceptance requirements. All existing caps, models, physical metrics/ambiguity and study settings remain unchanged.

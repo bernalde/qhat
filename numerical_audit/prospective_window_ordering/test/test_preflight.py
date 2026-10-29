@@ -24,7 +24,7 @@ def source_inventory(directory):
         words = [[[[0, 'Z']], str(2**100 + 1)], [[[13, 'Z']], '-3']]
         data = dict(spec, basis=registry['basis'], unit=registry['unit'], charge=0, spin=0,
                     denominator=str(2**107), coefficients=words, blocks=[[words[0]], [words[1]]],
-                    removed_scalar_exact='-3/7')
+                    removed_scalar_exact='-3/7', tensors_sha256='b'*64, orbitals_sha256='c'*64)
         k.write_new(target / 'model.json', data)
         successes[spec['case']] = {'model.json': k.sha(target / 'model.json')}
     k.write_new(directory / 'INPUTS_FROZEN.json', dict(status='complete', expected_cases=4,
@@ -46,6 +46,8 @@ def test_exact_scaling_and_lexical_tie_preserve_originals(tmp_path):
     assert k.blocks(model)[0][((0, 'Z'),)] == Fraction(7 * (2**100 + 1), 5 * 2**107)
     assert k.blocks(model)[1][((13, 'Z'),)] == Fraction(-21, 5 * 2**107)
     assert model['removed_scalar_exact'] == '-3/5'
+    assert model['tensors_sha256'] == 'b'*64
+    assert model['orbitals_sha256'] == 'c'*64
     assert inventory['parent_inventory_sha256'] == k.sha(source / 'INPUTS_FROZEN.json')
     encoded = tomllib.loads((output / 'inputs' / name / 'model.toml').read_text())
     assert encoded['units'][0]['numerators'] == [str(7 * (2**100 + 1))]

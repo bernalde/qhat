@@ -1,6 +1,8 @@
 using Test, TOML, SHA, LinearAlgebra
 include(joinpath(@__DIR__,"..","objective_check.jl"))
 const OC=ObjectiveCheck
+const OC_DRIVER_LIMITS_ONLY=ARGS==["--driver-limits-only"]
+isempty(ARGS) || OC_DRIVER_LIMITS_ONLY || error("usage: objective_tests.jl [--driver-limits-only]")
 
 function oc_input(path; n=1,electrons=0,denominator="100",units=nothing)
     units=isnothing(units) ? [Dict("words"=>["0X"],"numerators"=>["100"]),
@@ -68,6 +70,7 @@ function oc_manifest(path,input,rows;hash=nothing)
     data
 end
 
+if !OC_DRIVER_LIMITS_ONLY
 @testset "Analytic X/Z fixes first pair sign, sinc and absence of r normalization" begin
     mktempdir() do dir
         path=joinpath(dir,"model.toml");oc_input(path)
@@ -200,4 +203,105 @@ end
     @test !OC.compare_scores(1.0,1.0+5e-7).within_tolerance
     @test OC.compare_scores(0.0,0.0).numerical_floor
     @test_throws ArgumentError OC.compare_scores(Inf,1.0)
+end
+end # Explicit driver-only selection skips the unchanged four oracle testsets.
+
+function oc_driver_fixture(directory)
+    input=joinpath(directory,"model.toml");oc_input(input)
+    rows=[oc_candidate("first","retained_first_order_response",sin(1.0)^2),
+          oc_candidate("second","retained_first_order_response",sin(1.0)^2;order=[2,1])]
+    manifest=joinpath(directory,"candidates.toml");oc_manifest(manifest,input,rows)
+    input,manifest,joinpath(directory,"check.toml")
+end
+
+@testset "Run-wide objective refusals stop before any second unique checkpoint" begin
+    for status in ("cpu_refusal","wall_refusal","work_refusal","custom_guard_refusal","output_refusal","numerical_refusal")
+        mktempdir() do directory
+            input,manifest,output=oc_driver_fixture(directory)
+            guard=()->begin
+                # The last name deliberately overlaps a known per-check status:
+                # a custom process guard is still run-wide by its origin.
+                isfile(output*".CHECK.001.START.toml") && throw(OC.ObjectiveLimit(status,"injected shared guard"))
+            end
+            result=OC.run_check(input,manifest,output;check_budget=guard)
+            @test result["status"]==status && result["run_aborted"]
+            @test !result["complete"] && !result["all_scored_objectives_verified"]
+            @test length(result["logical_rows"])==length(result["checks"])==1
+            @test result["logical_rows"][1]["status"]==status
+            @test !haskey(result["checks"][1],"replayed_score")
+            @test !ispath(output*".CHECK.002.START.toml")
+            @test TOML.parsefile(output)["status"]==status
+        end
+    end
+end
+
+@testset "Verified objective prefix survives later global refusal without completion" begin
+    mktempdir() do directory
+        input,manifest,output=oc_driver_fixture(directory);saved=Ref(UInt8[])
+        partial=output*".PARTIAL.001.toml"
+        guard=()->begin
+            if isfile(partial)
+                saved[]=read(partial)
+                throw(OC.ObjectiveLimit("custom_guard_refusal","stop after valid prefix"))
+            end
+        end
+        result=OC.run_check(input,manifest,output;check_budget=guard)
+        @test result["status"]=="custom_guard_refusal" && !result["complete"]
+        @test result["expected_logical_rows"]==2 && result["processed_logical_rows"]==1
+        @test result["checks"][1]["verified"] && result["logical_rows"][1]["status"]=="verified"
+        @test read(partial)==saved[] && !isempty(saved[])
+        @test !ispath(output*".CHECK.002.START.toml")
+    end
+end
+
+@testset "Objective unique cap is run-wide and only lower test limits are admitted" begin
+    mktempdir() do directory
+        input,manifest,output=oc_driver_fixture(directory)
+        result=OC.run_check(input,manifest,output;max_unique=1)
+        @test result["status"]=="unique_refusal" && !result["complete"]
+        @test result["checks"][1]["verified"] && length(result["checks"])==1
+        @test result["logical_rows"][1]["status"]=="verified"
+        @test result["logical_rows"][2]["status"]=="unique_refusal"
+        @test !ispath(output*".CHECK.002.START.toml")
+        for cap in (0,true,257)
+            @test_throws ArgumentError OC.run_check(input,manifest,output*string(cap);max_unique=cap)
+        end
+    end
+end
+
+@testset "Objective checkpoint collisions halt once and preserve original bytes" begin
+    for suffix in (".START.toml",".CHECK.001.RESULT.toml",".PARTIAL.001.toml")
+        mktempdir() do directory
+            input,manifest,output=oc_driver_fixture(directory)
+            blocked=output*suffix;original=Vector{UInt8}(codeunits("retained checkpoint sentinel\n"))
+            write(blocked,original)
+            result=OC.run_check(input,manifest,output)
+            @test result["status"]=="io_refusal" && result["run_aborted"]
+            @test !result["complete"] && !result["all_scored_objectives_verified"]
+            @test read(blocked)==original && !ispath(output*".CHECK.002.START.toml")
+            if suffix!=".START.toml"
+                @test result["checks"][1]["verified"]
+                @test result["logical_rows"][1]["status"]=="verified"
+            else
+                @test isempty(result["logical_rows"]) && isempty(result["checks"])
+            end
+        end
+    end
+end
+
+@testset "Known per-check numerical refusal remains local under the new driver" begin
+    mktempdir() do directory
+        input=joinpath(directory,"tiny.toml")
+        oc_input(input;denominator=string(big(2)^500),units=[
+            Dict("words"=>["0X"],"numerators"=>["1"]),
+            Dict("words"=>["0Z"],"numerators"=>["1"])])
+        manifest=joinpath(directory,"rows.toml")
+        oc_manifest(manifest,input,[oc_candidate("a","retained_first_order_response",0.0),
+            oc_candidate("b","retained_first_order_response",0.0;order=[2,1])])
+        output=joinpath(directory,"check.toml");result=OC.run_check(input,manifest,output)
+        @test !result["run_aborted"] && !result["complete"]
+        @test length(result["checks"])==2
+        @test all(row["status"]=="numerical_refusal" && !haskey(row,"replayed_score") for row in result["checks"])
+        @test isfile(output*".CHECK.002.RESULT.toml")
+    end
 end

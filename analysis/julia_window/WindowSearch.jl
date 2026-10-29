@@ -189,7 +189,29 @@ function response!(buffer,flat::FlatWindow,order,positions)
     score
 end
 
+"""Exact squared response norm of the supplied binary64 tables.
+
+`order` must contain every LOCAL index in `1:length(flat.labels)` exactly once.
+These indices differ from the global labels returned by `insertion_window`.
+Validate the supplied flat table and local permutation before exact arithmetic.
+"""
 function exact_numerator(flat::FlatWindow,order)
+    _validate_flat_for_screen(flat)
+    applicable(iterate,order) || throw(ArgumentError("exact witness order must be a local-index permutation"))
+    k=length(flat.labels);local_order=Int[];seen=falses(k)
+    for label in order
+        check_budget()
+        length(local_order)<k && label isa Integer && !(label isa Bool) && 1<=label<=k ||
+            throw(ArgumentError("exact witness order must be a local-index permutation"))
+        index=Int(label)
+        seen[index] && throw(ArgumentError("exact witness order must be a local-index permutation"))
+        seen[index]=true;push!(local_order,index)
+    end
+    length(local_order)==k || throw(ArgumentError("exact witness order must be a local-index permutation"))
+    _exact_numerator_validated(flat,local_order)
+end
+
+function _exact_numerator_validated(flat::FlatWindow,order)
     check_budget(:evaluation)
     positions=zeros(Int,length(flat.labels))
     for (i,label) in enumerate(order); positions[label]=i; end
@@ -240,21 +262,21 @@ function insertion_window(flat::FlatWindow; guard=()->nothing,max_sweeps=10)
                 # Overlapping floating screening intervals are resolved using
                 # exact dyadic evaluation of these supplied tables only.
                 guard()
-                if exact_numerator(flat,trial)<exact_numerator(flat,best)
+                if _exact_numerator_validated(flat,trial)<_exact_numerator_validated(flat,best)
                     value=next;best=trial
                 end
             end
         end
         best==current && break
         guard()
-        exact_next=exact_numerator(flat,best)
-        exact_current=exact_numerator(flat,current)
+        exact_next=_exact_numerator_validated(flat,best)
+        exact_current=_exact_numerator_validated(flat,current)
         exact_next < exact_current || break
         current=best; score=value; moves+=1
         check_budget(:insertion_move)
     end
     guard()
-    exact=exact_numerator(flat,current)
+    exact=_exact_numerator_validated(flat,current)
     (order=flat.labels[current],score=Float64(exact),numerator=exact,evaluations=evaluations,moves=moves)
 end
 end

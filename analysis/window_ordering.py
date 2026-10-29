@@ -13,6 +13,7 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import shutil
 import signal
 import subprocess
@@ -58,6 +59,75 @@ class WindowOptions:
 def asset_path():
     """Installed-wheel location, independent of the working directory."""
     return Path(__file__).resolve().parent / 'julia_window' / 'worker.jl'
+
+
+class _ChildLimit(native.SearchDeadline):
+    """Stop optional work while retaining the whole-call verification reserve."""
+    def __init__(self, reason):
+        if reason not in ('child_cpu_limit', 'child_wall_limit'):
+            raise ValueError('invalid private child-limit reason')
+        self.reason = reason
+        super().__init__(reason)
+
+
+def _verify_runtime_assets(check, stats):
+    """Verify fixed installed runtime basenames; never follow manifest paths."""
+    try:
+        import tomllib
+    except ImportError as exc:
+        raise native.ResourceLimit('window backend requires Python 3.11+ tomllib') from exc
+    assets = asset_path().parent
+    stats['backend_runtime_assets_verified'] = False
+    verified = stats['backend_verified_runtime_sha256'] = {}
+    check()
+    try:
+        with (assets / 'SOURCE.toml').open('rb') as handle:
+            raw = handle.read(8193)
+    except OSError as exc:
+        raise native.ResourceLimit('backend source manifest missing or unreadable') from exc
+    if len(raw) > 8192:
+        raise native.ResourceLimit('backend source manifest byte cap')
+    stats['backend_manifest_sha256'] = hashlib.sha256(raw).hexdigest()
+    # SOURCE v1 uses scalar metadata and one files table. Reject recursive TOML
+    # before parsing, rather than exposing the parser to arrays/inline tables.
+    scalar = re.compile(rb'(?:[A-Za-z_]\w*|"[^"\\]*")\s*=\s*(?:[0-9]+|"(?:[^"\\]|\\.)*")')
+    if (not raw.isascii() or len(raw.splitlines()) > 128 or
+            any(line.strip() and line.strip() != b'[files]' and not scalar.fullmatch(line.strip())
+                for line in raw.splitlines())):
+        raise native.ResourceLimit('backend source manifest scalar schema')
+    check()
+    try:
+        manifest = tomllib.loads(raw.decode('ascii'))
+    except (ValueError, UnicodeError, RecursionError) as exc:
+        raise native.ResourceLimit('malformed backend source manifest') from exc
+    files = manifest.get('files')
+    if (type(manifest.get('version')) is not int or manifest['version'] != 1 or
+            not isinstance(files, dict) or set(files) != {
+                'worker.jl', 'ResponseCore.jl', 'WindowSearch.jl', 'Project.toml', 'tests.jl', 'README.md'}):
+        raise native.ResourceLimit('backend source manifest runtime inventory differs')
+    if any(not isinstance(value, str) or re.fullmatch(r'[0-9a-f]{64}', value) is None
+           for value in files.values()):
+        raise native.ResourceLimit('backend source manifest file SHA-256 spelling')
+    for name in ('worker.jl', 'ResponseCore.jl', 'WindowSearch.jl', 'Project.toml'):
+        check()
+        expected = files[name]
+        path = assets / name
+        try:
+            if not path.is_file() or path.stat().st_size > 1024**2:
+                raise native.ResourceLimit('backend runtime asset missing/byte cap: ' + name)
+            with path.open('rb') as handle:
+                value = handle.read(1024**2 + 1)
+        except OSError as exc:
+            raise native.ResourceLimit('backend runtime asset unreadable: ' + name) from exc
+        check()
+        if len(value) > 1024**2:
+            raise native.ResourceLimit('backend runtime asset byte cap: ' + name)
+        observed = hashlib.sha256(value).hexdigest()
+        if observed != expected:
+            raise native.ResourceLimit('backend runtime asset SHA-256 mismatch: ' + name)
+        verified[name] = observed
+    stats['backend_runtime_assets_verified'] = True
+    check()
 
 
 def _parent_evaluation_cap(total, fraction):
@@ -200,17 +270,17 @@ def _run_worker(executable, request, checkpoint, child_cap, wall_cap, check, sta
                 observed = max(observed, current)
                 if observed >= child_cap:
                     termination = 'child_cpu_limit'
-            if _time.monotonic() - began >= wall_cap:
+            if termination is None and _time.monotonic() - began >= wall_cap:
                 termination = 'child_wall_limit'
-            try:
-                check(observed)
-            except native.SearchDeadline:
-                termination = 'whole_call_limit'
-            if termination:
+            if termination is None:
                 try:
-                    os.killpg(process.pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
+                    check(observed)
+                except _ChildLimit as exc:
+                    termination = exc.reason
+                except native.SearchDeadline:
+                    termination = 'whole_call_limit'
+            if termination:
+                break # The existing finally block owns kill and exact wait4.
             _time.sleep(.005)
     finally:
         if not reaped:
@@ -252,12 +322,14 @@ def _reply(path, digest, context, baseline, options, budget, check):
     if (not raw.isascii() or len(raw.splitlines()) > 512
             or b'"""' in raw or b"'''" in raw):
         raise ValueError('window reply text cap')
-    nesting = 0
+    nesting = []
     quote = 0
     escaped = False
     for at, byte in enumerate(raw):
         if at % 1024 == 0:
             check()
+        if quote and byte in (10,13):
+            raise ValueError('window reply text cap')
         if escaped:
             escaped = False
         elif quote == 34 and byte == 92:
@@ -267,14 +339,19 @@ def _reply(path, digest, context, baseline, options, budget, check):
                 quote = 0
         elif byte in (34,39):
             quote = byte
-        elif byte == 91:
-            nesting += 1
-            if nesting > 3:
+        elif byte == 35:
+            raise ValueError('window reply comments are unsupported')
+        elif byte in (91,123):
+            nesting.append(93 if byte == 91 else 125)
+            if len(nesting) > 3:
                 raise ValueError('window reply nesting cap')
-        elif byte == 93:
-            nesting -= 1
-            if nesting < 0:
+        elif byte in (93,125):
+            if not nesting or nesting.pop() != byte:
                 raise ValueError('window reply nesting differs')
+    if quote:
+        raise ValueError('window reply text cap')
+    if nesting:
+        raise ValueError('window reply nesting differs')
     check()
     data = tomllib.loads(raw.decode('utf-8'))
     expected = {'version', 'request_sha256', 'order', 'word_lengths', 'score', 'cubic_response',
@@ -398,6 +475,7 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
                  native_parent_revalidation_evaluations=0,
                  native_final_reserved_evaluations=1 if child_evaluation_eligible else 0,
                  child_minimum_evaluations=3, child_allocated_evaluations=0,
+                 child_minimum_evaluation_scope='parent_checked plus flat baseline and first trial response only; no complete sweep or checked improvement guaranteed',
                  child_completed_evaluations=None,
                  evaluation_accounting_scope='Completed native scores plus authenticated child checkpoint prefix; later uncheckpointed child work can remain unknown',
                  serialization_CPU_seconds=0., cleanup_CPU_seconds=0.,
@@ -512,11 +590,7 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
                                      child_evaluations,check)
                         digest=hashlib.sha256(raw).hexdigest()
                         stats['request_sha256']=digest
-                        with (asset_path().parent/'SOURCE.toml').open('rb') as handle:
-                            manifest=handle.read(8193)
-                        if len(manifest)>8192:
-                            raise native.ResourceLimit('backend source manifest byte cap')
-                        stats['backend_manifest_sha256']=hashlib.sha256(manifest).hexdigest()
+                        _verify_runtime_assets(check,stats)
                         check()
                         with tempfile.TemporaryDirectory(prefix='qhat-window-') as temporary:
                             request=Path(temporary)/'request.toml';checkpoint=Path(temporary)/'checkpoint.toml'
@@ -531,10 +605,12 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
                                 stats['child_allocated_evaluations']=child_evaluations
                                 def worker_check(live_child):
                                     check(live_child)
-                                    if (_time.process_time()-began+live_child+reserve+cleanup_reserve>=allowance
-                                            or _time.monotonic()-wall_began+reserve+cleanup_reserve>=wall_allowance):
-                                        raise native.SearchDeadline('preserve verification reserve')
+                                    if _time.process_time()-began+live_child+reserve+cleanup_reserve>=allowance:
+                                        raise _ChildLimit('child_cpu_limit')
+                                    if _time.monotonic()-wall_began+reserve+cleanup_reserve>=wall_allowance:
+                                        raise _ChildLimit('child_wall_limit')
                                 outcome=_run_worker(executable,request,checkpoint,child_cap,child_wall,worker_check,stats)
+                                stats['child_outcome']=outcome
                                 stats['window_status']=outcome
                                 if checkpoint.is_file():
                                     try:
@@ -573,6 +649,8 @@ def _train_window(blocks, n_qubits, reference, *, time=1., rotation_budget,
                                         stats['refusal_reason']=str(exc)[:240]
                                 elif outcome=='complete':
                                     stats['window_status']='missing_worker_reply'
+    except _ChildLimit as exc:
+        stats['window_status']=exc.reason
     except native.SearchDeadline:
         stats['window_status']='whole_call_limit'
     except native.NumericalResolution:

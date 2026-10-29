@@ -196,8 +196,7 @@ function unitvalue(unit::Unit, state::UInt64; guard::Bool=true)
         for j in eachindex(unit.exact)
             check_budget()
             sign=isodd(count_ones(state&unit.parity[j])) ? -unit.signs[j] : unit.signs[j]
-            exact += sign*unit.exact[j]
-            _check_rational_bits(exact)
+            exact=_qadd(exact,_qscale(unit.exact[j],Int(sign)))
         end
         # Centered diagonal and forbidden equal-flip actions commonly vanish
         # identically. Authenticate that identity instead of refusing roundoff.
@@ -212,7 +211,8 @@ function unitvalue(unit::Unit, state::UInt64; guard::Bool=true)
 end
 unitvalue(unit::Unit, state::Integer; kwargs...) = unitvalue(unit, UInt64(state); kwargs...)
 
-function _accumulate!(target::Dict{UInt64,T}, key::UInt64, value, maximum::Int) where T
+function _accumulate!(target::Dict{UInt64,T}, key::UInt64, value, maximum::Int;
+                      cap_message::String="response support cap exceeded") where T
     check_budget()
     iszero(value) && return target
     updated = get(target, key, zero(T)) + value
@@ -220,7 +220,7 @@ function _accumulate!(target::Dict{UInt64,T}, key::UInt64, value, maximum::Int) 
     if iszero(updated)
         delete!(target, key)
     else
-        !haskey(target, key) && length(target) >= maximum && throw(ArgumentError("response support cap exceeded"))
+        !haskey(target, key) && length(target) >= maximum && throw(ArgumentError(cap_message))
         target[key] = updated
     end
     target
@@ -279,13 +279,12 @@ function center_units(units::AbstractVector{Unit}, hf::Integer)
                 push!(parity,unit.parity[j]);push!(signs,unit.signs[j])
                 push!(coeff,unit.coeff[j]);push!(exact,unit.exact[j])
                 sign=isodd(count_ones(state&unit.parity[j])) ? -unit.signs[j] : unit.signs[j]
-                shift += sign*unit.exact[j]
-                _check_rational_bits(shift)
+                shift=_qadd(shift,_qscale(unit.exact[j],Int(sign)))
             end
             if !iszero(shift)
                 scalar=Float64(shift)
                 isfinite(scalar) && scalar!=0 || throw(NumericalResolution("centering conversion outside resolution"))
-                push!(parity,UInt64(0));push!(signs,Int8(1));push!(coeff,-scalar);push!(exact,-shift)
+                push!(parity,UInt64(0));push!(signs,Int8(1));push!(coeff,-scalar);push!(exact,_qneg(shift))
             end
             push!(result,Unit(unit.flip,parity,signs,coeff;exact=exact))
         else
@@ -563,7 +562,8 @@ function _local_kernel(cache::AmplitudeCache{ExactScalar},state::UInt64,hf::UInt
     value
 end
 function _transport_exact_delta(cache::AmplitudeCache{ExactScalar},column::ExactColumn,hf::UInt64,
-                                time::Float64,maximum::Int)
+                                time::Float64,maximum::Int;
+                                cap_message::String="response support cap exceeded")
     isfinite(time) || throw(NumericalResolution("nonfinite exact DELTA time"))
     result=ResponseVector()
     for (state,value) in column
@@ -574,7 +574,7 @@ function _transport_exact_delta(cache::AmplitudeCache{ExactScalar},column::Exact
         transported=_local_kernel(cache,state,hf,time)*real_value
         isfinite(transported) || throw(NumericalResolution("nonfinite exact DELTA transport"))
         iszero(transported) && throw(NumericalResolution("nonzero exact DELTA erased by floating transport"))
-        _accumulate!(result,state,transported,maximum)
+        _accumulate!(result,state,transported,maximum;cap_message)
     end
     result
 end
@@ -624,8 +624,7 @@ function _diagonal_gap(units, source::UInt64, destination::UInt64)
             check_budget()
             zs=isodd(count_ones(source&unit.parity[j])) ? -1 : 1
             zd=isodd(count_ones(destination&unit.parity[j])) ? -1 : 1
-            gap += (zd-zs)*unit.signs[j]*unit.exact[j]
-            _check_rational_bits(gap)
+            gap=_qadd(gap,_qscale(unit.exact[j],Int((zd-zs)*unit.signs[j])))
         end
     end
     gap
@@ -633,7 +632,8 @@ end
 
 function _kernel(gap::Rational, time::Float64)
     # Match the native exact dyadic-time/exact coefficient phase convention.
-    phase=_check_rational_bits(Rational{BigInt}(time)*gap/2)
+    _check_rational_bits(gap)
+    phase=_qscale(_qmul(Rational{BigInt}(time),Rational{BigInt}(gap)),1,2)
     x=Float64(phase)
     isfinite(x) || throw(NumericalResolution("nonfinite diagonal phase"))
     ratio=iszero(x) ? 1.0 : sin(x)/x
@@ -867,11 +867,12 @@ function build_window_model(units::AbstractVector{Unit},baseline_order,hf::Integ
             if key!=baseline_key
                 exact_delta=column_for(key)
                 _exact_add!(exact_delta,reference,max_entries;subtract=true)
-                remaining=min(max_entries,max_factor_entries-factor_entries)
-                vector=_transport_exact_delta(cache,exact_delta,source,duration,remaining)
+                remaining_factor=max_factor_entries-factor_entries
+                remaining=min(max_entries,remaining_factor)
+                cap_message=remaining_factor<max_entries ? "conditioned factor storage cap exceeded" : "response support cap exceeded"
+                vector=_transport_exact_delta(cache,exact_delta,source,duration,remaining;cap_message)
             end
             factor_entries+=length(vector)
-            factor_entries<=max_factor_entries || throw(ArgumentError("conditioned factor storage cap exceeded"))
             variants[key]=vector
         end
         push!(factors,ResponseFactor(sort(collect(scope)),variants))

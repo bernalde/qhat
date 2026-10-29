@@ -217,8 +217,8 @@ function source_hashes()
     Dict(name=>filehash(joinpath(@__DIR__,name)) for name in names)
 end
 function write_new(path,record)
-    ispath(path) && error("refuse existing objective output")
-    partial=path*".partial";ispath(partial) && error("refuse retained partial objective output")
+    ispath(path) && throw(ObjectiveLimit("io_refusal","refuse existing objective output"))
+    partial=path*".partial";ispath(partial) && throw(ObjectiveLimit("io_refusal","refuse retained partial objective output"))
     io=IOBuffer();TOML.print(io,WindowStudyIO.clean(record);sorted=true);bytes=take!(io)
     length(bytes)<=32*1024^2 || throw(ObjectiveLimit("output_refusal","objective output byte cap"))
     mkpath(dirname(abspath(path)));open(partial,"w") do f;write(f,bytes);end
@@ -253,13 +253,33 @@ function scored_row(row,model)
     key=partition*"|"*kind*"|"*bitstring(score)*"|"*join(order,',')
     (scored=true,partition=partition,order=order,kind=kind,score=score,key=key)
 end
+struct RunBudgetRefusal <: Exception
+    cause::Exception
+end
+Base.showerror(io::IO,e::RunBudgetRefusal)=showerror(io,e.cause)
+const LOCAL_CHECK_REFUSALS=("numerical_refusal","support_refusal","integer_refusal",
+                          "pair_refusal","unit_refusal","register_refusal")
+function run_refusal_status(e,phase)
+    if e isa RunBudgetRefusal
+        return e.cause isa ObjectiveLimit ? e.cause.status : "budget_refusal"
+    end
+    e isa ObjectiveLimit && return e.status
+    e isa Union{Base.IOError,Base.SystemError} && return "io_refusal"
+    phase=="replay" ? "replay_error" : phase=="checkpoint_io" ? "checkpoint_error" : "input_or_manifest_error"
+end
 function run_check(input,candidates_path,output;cpu_limit=180.0,wall_limit=900.0,
-        check_budget=()->nothing,max_work=MAX_WORK)
+        check_budget=()->nothing,max_work=MAX_WORK,max_unique=MAX_UNIQUE)
     0<cpu_limit<=180 && 0<wall_limit<=900 || throw(ArgumentError("objective process allowance outside ceiling"))
+    max_unique isa Integer && !(max_unique isa Bool) && 0<max_unique<=MAX_UNIQUE ||
+        throw(ArgumentError("objective unique allowance outside ceiling"))
     ispath(output) && error("refuse existing objective summary")
     began=cpu_seconds();wall=time_ns()
     guard=()->begin
-        check_budget()
+        try
+            check_budget()
+        catch e
+            throw(RunBudgetRefusal(e))
+        end
         cpu_seconds()-began<=cpu_limit || throw(ObjectiveLimit("cpu_refusal","whole objective replay CPU allowance"))
         (time_ns()-wall)/1e9<=wall_limit || throw(ObjectiveLimit("wall_refusal","whole objective replay wall allowance"))
     end
@@ -270,10 +290,12 @@ function run_check(input,candidates_path,output;cpu_limit=180.0,wall_limit=900.0
         "scope"=>"Every supplied scored witness, deduplicated by exact partition/order/kind/score; unscored and floor/refused checks retained. No physical/interval/optimality certificate.",
         "logical_rows"=>Dict{String,Any}[],"checks"=>Dict{String,Any}[],"new_physical_propagation"=>false,
         "input_file"=>abspath(input),"candidates_file"=>abspath(candidates_path))
-    write_new(output*".START.toml",header)
     budget=ReplayBudget(()->nothing;max_work);budget.check=guard
-    bykey=Dict{String,Int}();model=nothing
+    bykey=Dict{String,Int}();model=nothing;aborted=false;phase="checkpoint_io"
+    header["unique_limit"]=Int(max_unique)
     try
+        write_new(output*".START.toml",header)
+        phase="input_or_manifest"
         guard()
         filesize(input)<=8*1024^2 && filesize(candidates_path)<=8*1024^2 || throw(ObjectiveLimit("input_refusal","objective input/candidate byte cap"))
         header["input_sha256"]=filehash(input);header["candidates_sha256"]=filehash(candidates_path)
@@ -287,67 +309,93 @@ function run_check(input,candidates_path,output;cpu_limit=180.0,wall_limit=900.0
         header["original_words"]=data.words;header["training_rotation_budget"]=30data.words
         header["expected_logical_rows"]=length(rows)
         for (index,row) in enumerate(rows)
-            info=Dict{String,Any}("candidate_index"=>index)
+            phase="row_guard";guard()
+            info=Dict{String,Any}("candidate_index"=>index,"status"=>"pending")
             push!(header["logical_rows"],info)
+            parsed=nothing;phase="candidate_validation"
             try
                 row isa AbstractDict || throw(ArgumentError("candidate row must be a table"))
                 merge!(info,candidate_identity(row,index))
                 parsed=scored_row(row,model)
                 info["partition"]=parsed.partition
-                if !parsed.scored
-                    info["status"]="unscored_censored";info["reason"]="No numeric constructor objective was supplied"
-                    continue
-                end
-                if haskey(bykey,parsed.key)
-                    info["check_index"]=bykey[parsed.key];info["deduplicated"]=true
-                    continue
-                end
-                length(header["checks"])<MAX_UNIQUE || throw(ObjectiveLimit("unique_refusal","objective task count cap"))
-                check_index=length(header["checks"])+1;bykey[parsed.key]=check_index
-                info["check_index"]=check_index;info["deduplicated"]=false
-                rec=Dict{String,Any}("check_index"=>check_index,"status"=>"started","verified"=>false,
-                    "partition"=>parsed.partition,"order"=>parsed.order,"score_kind"=>parsed.kind,
-                    "constructor_score"=>parsed.score,"objective_sha256"=>bytes2hex(sha256(parsed.key)))
-                push!(header["checks"],rec)
-                checkpoint=output*".CHECK."*lpad(string(check_index),3,'0')
-                write_new(checkpoint*".START.toml",rec)
-                try
-                    guard();replayed=replay_objective(model,parsed.partition,parsed.order,parsed.kind;budget)
-                    comparison=compare_scores(replayed.value,parsed.score)
-                    rec["replayed_score"]=replayed.value;rec["steps"]=replayed.steps;rec["details"]=replayed.details
-                    for (key,value) in pairs(comparison);rec[string(key)]=value;end
-                catch e
-                    rec["status"]=e isa ResponseCore.NumericalResolution ? "numerical_refusal" : e isa ObjectiveLimit ? e.status : "replay_error"
-                    rec["reason"]=sprint(showerror,e)
-                end
-                write_new(checkpoint*".RESULT.toml",rec)
-                write_new(output*".PARTIAL."*lpad(string(check_index),3,'0')*".toml",header)
             catch e
-                info["status"]=e isa ObjectiveLimit ? e.status : "invalid_candidate"
+                e isa Union{ArgumentError,KeyError,TypeError} || rethrow()
+                info["status"]="invalid_candidate"
                 info["reason"]=sprint(showerror,e)
+                continue
             end
+            if !parsed.scored
+                info["status"]="unscored_censored";info["reason"]="No numeric constructor objective was supplied"
+                continue
+            end
+            if haskey(bykey,parsed.key)
+                info["check_index"]=bykey[parsed.key];info["deduplicated"]=true
+                info["status"]=header["checks"][info["check_index"]]["status"]
+                continue
+            end
+            phase="unique_admission"
+            length(header["checks"])<max_unique || throw(ObjectiveLimit("unique_refusal","objective task count cap"))
+            check_index=length(header["checks"])+1;bykey[parsed.key]=check_index
+            info["check_index"]=check_index;info["deduplicated"]=false;info["status"]="started"
+            rec=Dict{String,Any}("check_index"=>check_index,"status"=>"started","verified"=>false,
+                "partition"=>parsed.partition,"order"=>parsed.order,"score_kind"=>parsed.kind,
+                "constructor_score"=>parsed.score,"objective_sha256"=>bytes2hex(sha256(parsed.key)))
+            push!(header["checks"],rec)
+            checkpoint=output*".CHECK."*lpad(string(check_index),3,'0')
+            phase="checkpoint_io";write_new(checkpoint*".START.toml",rec)
+            phase="replay"
+            try
+                guard();replayed=replay_objective(model,parsed.partition,parsed.order,parsed.kind;budget)
+                comparison=compare_scores(replayed.value,parsed.score)
+                rec["replayed_score"]=replayed.value;rec["steps"]=replayed.steps;rec["details"]=replayed.details
+                for (key,value) in pairs(comparison);rec[string(key)]=value;end
+            catch e
+                rec["status"]=e isa ResponseCore.NumericalResolution ? "numerical_refusal" :
+                    e isa ObjectiveLimit ? e.status : run_refusal_status(e,phase)
+                rec["reason"]=sprint(showerror,e);info["status"]=rec["status"]
+                (e isa ResponseCore.NumericalResolution || e isa ObjectiveLimit && e.status in LOCAL_CHECK_REFUSALS) || rethrow()
+            end
+            info["status"]=rec["status"]
+            phase="checkpoint_io"
+            write_new(checkpoint*".RESULT.toml",rec)
+            write_new(output*".PARTIAL."*lpad(string(check_index),3,'0')*".toml",header)
+        end
+    catch e
+        aborted=true;header["status"]=run_refusal_status(e,phase)
+        header["reason"]=sprint(showerror,e)
+        header["failed_phase"]=phase
+        for rec in header["checks"]
+            if rec["status"]=="started";rec["status"]=header["status"];rec["reason"]=header["reason"];end
         end
         for row in header["logical_rows"]
-            if haskey(row,"check_index");row["status"]=header["checks"][row["check_index"]]["status"];end
+            if row["status"] in ("pending","started");row["status"]=header["status"];row["reason"]=header["reason"];end
         end
-        header["unscored_rows"]=count(r->r["status"]=="unscored_censored",header["logical_rows"])
-        header["scored_logical_rows"]=count(r->haskey(r,"check_index"),header["logical_rows"])
-        header["unique_objectives"]=length(header["checks"])
-        header["all_scored_objectives_verified"]=!isempty(header["checks"]) && all(r->r["verified"],header["checks"])
-        valid_rows=all(r->(haskey(r,"check_index") && !haskey(r,"reason")) || r["status"]=="unscored_censored",header["logical_rows"])
-        header["complete"]=valid_rows && header["all_scored_objectives_verified"]
-        header["mismatched_objectives"]=count(r->r["status"]=="mismatch",header["checks"])
-        header["floor_censored_objectives"]=count(r->r["status"]=="floor_censored",header["checks"])
+    end
+    header["run_aborted"]=aborted;header["processed_logical_rows"]=length(header["logical_rows"])
+    header["unscored_rows"]=count(r->r["status"]=="unscored_censored",header["logical_rows"])
+    header["scored_logical_rows"]=count(r->haskey(r,"check_index"),header["logical_rows"])
+    header["unique_objectives"]=length(header["checks"])
+    header["all_scored_objectives_verified"]=!aborted && !isempty(header["checks"]) && all(r->r["verified"],header["checks"])
+    valid_rows=all(r->(haskey(r,"check_index") && !haskey(r,"reason")) || r["status"]=="unscored_censored",header["logical_rows"])
+    header["complete"]=!aborted && valid_rows && header["all_scored_objectives_verified"]
+    header["mismatched_objectives"]=count(r->r["status"]=="mismatch",header["checks"])
+    header["floor_censored_objectives"]=count(r->r["status"]=="floor_censored",header["checks"])
+    if !aborted
         header["status"]=header["complete"] ? "complete_for_supplied_scored_orders" : !valid_rows ? "invalid_candidates" :
             header["mismatched_objectives"]>0 ? "score_mismatch" : isempty(header["checks"]) ? "no_scored_orders_supplied" : "partial_or_censored"
-    catch e
-        header["status"]=e isa ObjectiveLimit ? e.status : "input_or_manifest_error"
-        header["reason"]=sprint(showerror,e)
     end
     header["charged_work_first_and_compile"]=budget.work
     header["work_scope"]="Own first-order/compiler counters; cubic action and order/IO parsing use bounded dimensions plus the owning process CPU/memory guard"
     header["CPU_seconds"]=cpu_seconds()-began;header["wall_seconds"]=(time_ns()-wall)/1e9
-    write_new(output,header);header
+    try
+        write_new(output,header)
+    catch e
+        header["summary_write_refusal"]=run_refusal_status(e,"checkpoint_io")
+        header["summary_write_reason"]=sprint(showerror,e)
+        !aborted && (header["status"]=header["summary_write_refusal"])
+        header["complete"]=false;header["all_scored_objectives_verified"]=false;header["run_aborted"]=true
+    end
+    header
 end
 function main(args=ARGS)
     length(args)==3 || error("usage: objective_check.jl INPUT_TOML CANDIDATES_TOML NEW_CHECK_TOML")

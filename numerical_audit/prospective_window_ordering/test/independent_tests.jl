@@ -294,3 +294,147 @@ end
         @test check_manifest(model,path)["status"]=="incomplete"
     end
 end
+
+@testset "Pre-parser comments, strings, typed nesting and EOF admission" begin
+    mktempdir() do directory
+        path=joinpath(directory,"admission.toml")
+        valid=string("# quote ' and ", '"', " and unbalanced ] } are only a comment\n",
+            "basic = ", '"', "escaped ", '\\', '"', " [ { # ] }", '"', "\n",
+            "literal = '[{#}]'\n",
+            "boundary = ",repeat("[",8),"1",repeat("]",8)," # trailing ' \" ] }\n")
+        write(path,valid)
+        parsed=IP.bounded_toml(path)
+        @test parsed.data["basic"]=="escaped \" [ { # ] }"
+        @test parsed.data["literal"]=="[{#}]"
+        @test parsed.sha256==bytes2hex(sha256(read(path)))
+        @test parsed.data["boundary"] isa Vector
+
+        # These tiny inputs must be rejected by our scanner (Refusal), rather
+        # than delegated to TOML.parse (which has a different error type).
+        masked=string("# an unmatched quote ' must not mask the following line\n",
+            "x = ",repeat("[",9),"1",repeat("]",9),"\n")
+        deep_inline="x = "*repeat("{a = ",9)*"1"*repeat("}",9)*"\n"
+        refused=[
+            (masked,"TOML nesting admission bound"),
+            (deep_inline,"TOML nesting admission bound"),
+            ("x = [1}","malformed TOML nesting"),
+            ("x = {a = 1]","malformed TOML nesting"),
+            ("x = [1","unterminated TOML nesting"),
+            ("x = \"unfinished","unterminated TOML string"),
+            ("x = 'unfinished","unterminated TOML string"),
+            ("x = \"raw\nnewline\"","raw newline in TOML string"),
+            (string("x = ", '"', "escaped", '\\', '\n', "newline", '"'),"raw newline in TOML string"),
+            ("x = \"\"\"multiline\"\"\"","multiline TOML strings are outside schema"),
+            ("x = '''multiline'''","multiline TOML strings are outside schema")]
+        for (payload,message) in refused
+            write(path,payload)
+            error=try
+                IP.bounded_toml(path)
+                nothing
+            catch caught
+                caught
+            end
+            @test error isa Refusal
+            @test error isa Refusal && occursin(message,sprint(showerror,error))
+        end
+        write(path,"x = 1\n")
+        @test_throws Refusal IP.bounded_toml(path;max_bytes=2)
+    end
+end
+
+@testset "Independent reference metrics detect sub-state-tolerance reference drift" begin
+    mktempdir() do directory
+        input=joinpath(directory,"model.toml");write_input(input);model=load_model(input)
+        manifest=complete_panel(directory,model);path=joinpath(directory,"panel.toml")
+        open(path,"w") do io;TOML.print(io,manifest);end
+        original=check_manifest(model,path)
+        @test original["status"]=="complete"
+        hard=filter(row->get(row,"independent_unfused_replay",false),original["rows"])
+        @test !isempty(hard)
+        @test all(row->haskey(row,"unfused_saved_reference_metrics") &&
+            haskey(row,"unfused_independent_reference_metrics") &&
+            haskey(row,"unfused_independent_reference_metric_discrepancies") &&
+            maximum(values(row["unfused_independent_reference_metric_discrepancies"]))<=IP.METRIC_TOLERANCE,hard)
+
+        # Deliberately alter just one non-hard saved-state fixture. This test
+        # concerns reference/metric admission, not a claimed circuit replay.
+        index=findfirst(row->row["arm"]=="canonical" && row["formula"]==1 &&
+            row["time"]==.4 && row["budget_multiplier"]==8,manifest["rows"])
+        row=manifest["rows"][index]
+        u=reference_action(model,.4).state
+        # The supplied four-mode fixture has one alpha and one beta electron.
+        sector=[3,6,9,12];basis=sector[argmin(abs2.(u[sector.+1]))]
+        q=zeros(ComplexF64,length(u));q[basis+1]=1
+        q.-=dot(u,q).*u;q./=norm(q)
+        @test abs(dot(u,q))<1e-14
+        delta=5e-11
+        perturbed=cos(delta).*u.+sin(delta).*q
+        actual=(u.+q)./sqrt(2)
+        @test norm(perturbed-u)<IP.STATE_TOLERANCE
+        # At angle pi/4 this perturbation changes overlap metrics linearly,
+        # with a discrepancy well above 1e-12 but below the 1e-10 state gate.
+        saved_metrics=oracle_metrics(perturbed,actual,model.n,model.hf)
+        independent_metrics=oracle_metrics(u,actual,model.n,model.hf)
+        @test abs(saved_metrics["projective_error"]-independent_metrics["projective_error"])>20*IP.METRIC_TOLERANCE
+        row["reference_file"]="drifted_reference.bin"
+        row["reference_sha256"]=write_state(joinpath(directory,row["reference_file"]),perturbed)
+        row["actual_file"]="controlled_actual.bin"
+        row["actual_sha256"]=write_state(joinpath(directory,row["actual_file"]),actual)
+        for (metric,value) in saved_metrics;row[metric]=value;end
+        open(path,"w") do io;TOML.print(io,manifest);end
+        report=check_manifest(model,path)
+        checked=report["rows"][index]
+        @test report["status"]=="incomplete"
+        @test report["checked_logical_rows"]==43
+        @test checked["status"]=="incomplete"
+        @test occursin("independent-reference saved-state metric",get(get(checked,"failure",Dict()),"message",""))
+        @test get(get(checked,"saved_reference_metric_discrepancies",Dict()),"projective_error",Inf)<=IP.METRIC_TOLERANCE
+        @test get(get(checked,"independent_reference_metric_discrepancies",Dict()),"projective_error",0.)>IP.METRIC_TOLERANCE
+        drift_check=only(filter(check->check["reference_file"]=="drifted_reference.bin",report["reference_checks"]))
+        @test drift_check["status"]=="complete"
+        @test drift_check["state_norm_residual"]<IP.STATE_TOLERANCE
+    end
+end
+
+# Test-only loader contract: the independent checker above still imports only
+# stdlibs and independently parses its model. This separate module exercises
+# the prospective primary loader's serialized-identity boundary.
+module ProspectiveInputIdentityContract
+    include(joinpath(@__DIR__,"..","..","julia_cubic_feasibility","src","ResponseCore.jl"))
+    include(joinpath(@__DIR__,"..","src","WindowStudyIO.jl"))
+end
+
+@testset "Only serialized coefficient changes receive a distinct model identity" begin
+    mktempdir() do directory
+        loader=ProspectiveInputIdentityContract.WindowStudyIO.load_model
+        input=joinpath(directory,"model.toml");data=write_input(input)
+        original=loader(input)
+        @test loader(input;scale=1//1).input_sha256==original.input_sha256
+        @test loader(input;scale=2//2).input_sha256==original.input_sha256
+        @test_throws ArgumentError loader(input;scale=7//5)
+        # No filesystem read or coefficient construction should precede this
+        # refusal, even when the named file does not exist.
+        @test_throws ArgumentError loader(joinpath(directory,"absent.toml");scale=7//5)
+
+        scaled=deepcopy(data)
+        scaled["case"]="independent_mechanics_preflight_7over5"
+        scaled["denominator"]=string(5*parse(BigInt,data["denominator"]))
+        for block in scaled["units"]
+            block["numerators"]=[string(7*parse(BigInt,value)) for value in block["numerators"]]
+        end
+        target=joinpath(directory,"serialized_scaled.toml")
+        open(target,"w") do io;TOML.print(io,scaled);end
+        primary=loader(target);independent=IP.load_model(target)
+        @test primary.input_sha256!=original.input_sha256
+        @test primary.input_sha256==independent.input_sha256==bytes2hex(sha256(read(target)))
+        @test primary.case==independent.case==scaled["case"]
+        expected=sort!([(word,Float64(parse(BigInt,num)//parse(BigInt,scaled["denominator"])))
+            for block in scaled["units"] for (word,num) in zip(block["words"],block["numerators"])])
+        actual=sort!([(join((string(site)*string(letter) for (site,letter) in word.key),","),word.coefficient)
+            for word in independent.words])
+        @test actual==expected
+        @test [unit.coeff for unit in primary.units]==
+            [[Float64(parse(BigInt,num)//parse(BigInt,scaled["denominator"])) for num in block["numerators"]]
+                for block in scaled["units"]]
+    end
+end

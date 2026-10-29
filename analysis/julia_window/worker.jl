@@ -146,7 +146,7 @@ function run(request_path, result_path, cpu_cap, wall_cap)
     limits=Dict("evaluation"=>1000000,"action"=>10000000,"atom"=>1000000,
                 "full_score"=>33,"flat_candidate"=>1000000,"exact_witness"=>1000000,"insertion_move"=>3200)
     function check(kind=:loop,amount=1)
-        cpu_seconds()-started < cpu_cap || throw(BudgetRefusal("cpu_limit"))
+        cpu_seconds() < cpu_cap || throw(BudgetRefusal("cpu_limit"))
         (time_ns()-wall_started)/1e9 < wall_cap || throw(BudgetRefusal("wall_limit"))
         key=String(kind)
         if haskey(counters,key)
@@ -159,6 +159,8 @@ function run(request_path, result_path, cpu_cap, wall_cap)
         request=read_request(request_path,check)
         limits["evaluation"]=request.max_evaluations
         limits["action"]=request.max_actions;limits["atom"]=request.max_atoms
+        limits["full_score"]=request.max_windows+1
+        limits["insertion_move"]=request.max_sweeps*request.max_windows
         phases["request_CPU_seconds"]=cpu_seconds()-started
         order=copy(request.order); updates=0; windows=Vector{Vector{Int}}(); used=Set{Int}()
         history=Vector{Dict{String,Any}}()

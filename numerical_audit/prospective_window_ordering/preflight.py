@@ -42,6 +42,7 @@ def alter(inputs, output):
         blocks=[[[word, str(7 * int(value))] for word, value in block] for block in parent['blocks']],
         preflight_parent_case=case, preflight_parent_model_sha256=k.sha(path),
         preflight_scale='7/5', preflight_only=True,
+        tensors_sha256=parent['tensors_sha256'], orbitals_sha256=parent['orbitals_sha256'],
         provenance='Exact rescaling of the retained nonscalar Hamiltonian; no new SCF/tensor result')
     if 'removed_scalar_exact' in parent:
         model['removed_scalar_exact'] = str(Fraction(parent['removed_scalar_exact']) * Fraction(7, 5))

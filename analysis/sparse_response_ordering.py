@@ -563,6 +563,8 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
             proposal, proposal_score = current, current_score
             try:
                 _check(end)
+                if evaluations >= max_evaluations - 1:
+                    raise SearchDeadline('evaluation limit reached')
                 columns = seed_columns.get(current)
                 if columns is None:
                     columns = context.columns(current, end)
@@ -607,8 +609,11 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
             except NumericalResolution:
                 status = 'numerical_limit'
                 break
-            except (SearchDeadline, ResourceLimit):
-                status = 'cpu_limit' if _time.process_time() >= deadline else 'support_limit'
+            except SearchDeadline:
+                status = 'cpu_limit'
+                break
+            except ResourceLimit:
+                status = 'support_limit'
                 break
             if actual.value >= current_score.value - threshold:
                 break
@@ -618,7 +623,14 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
                 best_order, best_score = proposal, actual
             if status != 'complete':
                 break
-        if _time.process_time() >= deadline or evaluations >= max_evaluations:
+        if evaluations >= max_evaluations - 1:
+            break
+        # A seed's local slice may expire while the next seed remains eligible.
+        # Only the global CPU/wall check ends the remaining seed allocations.
+        try:
+            _check(deadline)
+        except SearchDeadline:
+            status = 'cpu_limit'
             break
     return best_order, best_score, evaluations, moves, status
 
@@ -630,7 +642,9 @@ def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
     """Return the best fully scored candidate under a cooperative CPU allowance.
 
     If context/seed work exhausts the cap, a valid initializer is returned with
-    score=None. Deadline/support failures never become a zero or partial score.
+    score=None. Admission interrupted before a valid initializer exists raises
+    SearchDeadline explicitly. Deadline/support failures never become a zero or
+    partial score.
     A score is a response heuristic, not an actual finite-state-error certificate.
     Callers needing strict total construction accounting must time the complete
     call, including input loading and object cleanup, as the benchmark does.
@@ -657,7 +671,8 @@ def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
     _integer(rotation_budget, 'rotation_budget')
     deadline = began + allowance
     # Materialize and validate once; even an interrupted search returns a valid
-    # permutation of the caller's units. Validation cannot be bypassed by timeout.
+    # permutation of the caller's units. Interrupted admission raises explicitly;
+    # no unvalidated initializer is returned.
     _integer(max_entries, 'max_entries', 1, 1000000)
     _integer(max_cached_actions, 'max_cached_actions', 0, 1000000)
     _finite(time, 'time', positive=True)

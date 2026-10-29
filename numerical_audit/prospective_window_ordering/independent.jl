@@ -58,26 +58,43 @@ function integer_string(value,name;positive=false)
 end
 function bounded_toml(path;max_bytes=MAX_MODEL_BYTES)
     require(isfile(path) && filesize(path)<=max_bytes,"TOML file admission bound")
-    raw=read(path)
+    # A growing file must not turn the size precheck into an unbounded read.
+    raw=open(path,"r") do io;read(io,max_bytes+1);end
     require(length(raw)<=max_bytes,"TOML read bound")
     # Admit only shallow scientific tables/arrays before invoking the parser.
-    quote_char=UInt8(0);escaped=false;depth=0
-    for byte in raw
-        if escaped
-            escaped=false
-        elseif quote_char==UInt8('"') && byte==UInt8('\\')
-            escaped=true
+    quote_char=UInt8(0);escaped=false;comment=false;nesting=UInt8[]
+    for (index,byte) in enumerate(raw)
+        if comment
+            byte in (0x0a,0x0d) && (comment=false)
         elseif quote_char!=0
-            byte==quote_char && (quote_char=0)
+            # Basic and literal strings in this schema are single-line.
+            # Check this before consuming an escaped character.
+            require(!(byte in (0x0a,0x0d)),"raw newline in TOML string")
+            if escaped
+                escaped=false
+            elseif quote_char==UInt8('"') && byte==UInt8('\\')
+                escaped=true
+            elseif byte==quote_char
+                quote_char=0
+            end
+        elseif byte==UInt8('#')
+            # Quote and bracket bytes in a line comment are not TOML syntax.
+            comment=true
         elseif byte in (UInt8('"'),UInt8('\''))
+            require(!(index+2<=length(raw) && raw[index+1]==byte && raw[index+2]==byte),
+                "multiline TOML strings are outside schema")
             quote_char=byte
         elseif byte==UInt8('[') || byte==UInt8('{')
-            depth+=1;require(depth<=8,"TOML nesting admission bound")
+            require(length(nesting)<8,"TOML nesting admission bound")
+            push!(nesting,byte)
         elseif byte==UInt8(']') || byte==UInt8('}')
-            depth-=1;require(depth>=0,"malformed TOML nesting")
+            opening=byte==UInt8(']') ? UInt8('[') : UInt8('{')
+            require(!isempty(nesting) && last(nesting)==opening,"malformed TOML nesting")
+            pop!(nesting)
         end
     end
-    require(!occursin("\"\"\"",String(copy(raw))) && !occursin("'''",String(copy(raw))),"multiline TOML strings are outside schema")
+    require(quote_char==0 && !escaped,"unterminated TOML string")
+    require(isempty(nesting),"unterminated TOML nesting")
     (data=TOML.parse(String(copy(raw))),sha256=bytes2hex(sha256(raw)))
 end
 function compile_word(spelling,n,numerator,denominator)
@@ -479,6 +496,7 @@ function check_manifest(model,manifest_path;check_budget=()->nothing)
         "source_json_sha256"=>model.source_json_sha256,"manifest_sha256"=>parsed.sha256,
         "case"=>model.case,"n"=>model.n,"hf"=>string(model.hf),"rows"=>Any[],"failures"=>Any[],
         "reference_checks"=>Any[],"replay_scope"=>"only distinct T=1.6 / 24U circuits; other rows independently check saved-state metrics",
+        "reference_metric_scope"=>"saved actual and hard unfused metrics checked against both saved and independently reconstructed references",
         "state_norm_tolerance"=>STATE_TOLERANCE,"absolute_metric_tolerance"=>METRIC_TOLERANCE,
         "julia_version"=>string(VERSION),"julia_threads"=>Threads.nthreads(),"blas_threads"=>BLAS.get_num_threads(),
         "exact_polynomial_conservation"=>"[N,H]=[Nalpha,H]=0 and every original conserving unit checked over supplied integer coefficients",
@@ -552,12 +570,22 @@ function check_manifest(model,manifest_path;check_budget=()->nothing)
                     push!(saved_reference_checks,refidentity)
                 end
                 metrics=state_metrics(reference,actual,model.n,model.hf)
+                independent_metrics=state_metrics(references[t].state,actual,model.n,model.hf)
+                entry["metrics"]=metrics
+                entry["independent_reference_metrics"]=independent_metrics
+                entry["saved_reference_metric_discrepancies"]=Dict{String,Float64}()
+                entry["independent_reference_metric_discrepancies"]=Dict{String,Float64}()
                 for metric in ("projective_error","infidelity","norm_drift","number_leakage","spin_leakage")
                     require(row[metric] isa Real && !(row[metric] isa Bool),"numeric saved physical metric")
                     value=Float64(row[metric]);require(isfinite(value) && value>=0,"finite saved physical metric")
-                    require(abs(value-metrics[metric])<=METRIC_TOLERANCE,"independent saved-state metric differs: "*metric)
+                    saved_difference=abs(value-metrics[metric])
+                    independent_difference=abs(value-independent_metrics[metric])
+                    entry["saved_reference_metric_discrepancies"][metric]=saved_difference
+                    entry["independent_reference_metric_discrepancies"][metric]=independent_difference
+                    require(saved_difference<=METRIC_TOLERANCE,"independent saved-state metric differs: "*metric)
+                    require(independent_difference<=METRIC_TOLERANCE,"independent-reference saved-state metric differs: "*metric)
                 end
-                entry["metrics"]=metrics;entry["saved_actual_sha256"]=row["actual_sha256"]
+                entry["saved_actual_sha256"]=row["actual_sha256"]
                 entry["independent_unfused_replay"]=false
                 if t==1.6 && multiplier==24
                     # Partition is part of the meaning of the original order IDs.
@@ -575,8 +603,15 @@ function check_manifest(model,manifest_path;check_budget=()->nothing)
                     residual=norm(replay.state-actual)
                     require(residual<=STATE_TOLERANCE,"independent unfused/main full-state norm mismatch")
                     replay_metrics=state_metrics(reference,replay.state,model.n,model.hf)
+                    independent_replay_metrics=state_metrics(references[t].state,replay.state,model.n,model.hf)
+                    entry["unfused_saved_reference_metrics"]=replay_metrics
+                    entry["unfused_independent_reference_metrics"]=independent_replay_metrics
+                    entry["unfused_independent_reference_metric_discrepancies"]=Dict{String,Float64}()
                     for metric in ("projective_error","infidelity","norm_drift","number_leakage","spin_leakage")
                         require(abs(replay_metrics[metric]-metrics[metric])<=METRIC_TOLERANCE,"unfused/main physical metric mismatch: "*metric)
+                        difference=abs(Float64(row[metric])-independent_replay_metrics[metric])
+                        entry["unfused_independent_reference_metric_discrepancies"][metric]=difference
+                        require(difference<=METRIC_TOLERANCE,"independent-reference unfused/main physical metric mismatch: "*metric)
                     end
                     entry["independent_unfused_replay"]=true
                     entry["unfused_state_norm_residual"]=residual

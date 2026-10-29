@@ -26,7 +26,7 @@ FORMULAS={arm:(1,2) if arm in ('canonical','current','first') else (2,) for arm 
 TIMES=(.4,1.6)
 CAPS=(8,24)
 WINDOWS=('window_sparse','window_magnitude')
-BASELINES=('cubic','current','magnitude','canonical')
+BASELINES=('cubic','current','magnitude','canonical','first','pauli')
 METRICS=('projective_error','infidelity','norm_drift','number_leakage','spin_leakage')
 EPS=1e-12
 STATE_TOL=1e-10
@@ -333,7 +333,9 @@ def source_and_inputs(reader,index,mode,summary):
 
 def receipt(reader,descriptor):
     _,data=reader.read(descriptor)
+    require(isinstance(data,dict),'Guard receipt object required')
     final=data.get('final_accounting',{})
+    require(isinstance(final,dict) and isinstance(data.get('settings',{}),dict),'Guard accounting/profile objects required')
     require(all(data.get('settings',{}).get(name)==value for name,value in PROFILE.items()),'Mandatory guard resource profile differs')
     require(isinstance(data.get('unit'),str) and 0<len(data['unit'])<=512,'Guard unit identity required')
     cpu=None if final.get('CPU_seconds') is None else finite(final['CPU_seconds'],'guard CPU')
@@ -346,10 +348,71 @@ def receipt(reader,descriptor):
         frozen_seconds=data.get('frozen_seconds'),budget=data.get('budget'),command=data.get('command'))
 
 
-def global_inventory(reader,index,protocol,cases,models,mode,summary):
+class ReceiptAlias(ValueError):
+    def __init__(self,message,owner):
+        super().__init__(message)
+        self.owner=owner
+
+
+class ReceiptOwners:
+    """One service/hash has one campaign owner; layers may cite that owner."""
+    def __init__(self):
+        self.hashes={};self.units={};self.calls=defaultdict(dict)
+
+    def lookup(self,measured):
+        return self.hashes.get(measured['descriptor']['sha256']) or self.units.get(measured['unit'])
+
+    def claim(self,key,measured,kind='construction'):
+        key=tuple(key);sha=measured['descriptor']['sha256'];unit=measured['unit']
+        for owner in (self.hashes.get(sha),self.units.get(unit)):
+            if owner is not None and (owner['key']!=key or owner['sha256']!=sha or
+                                      owner['unit']!=unit or owner['kind']!=kind):
+                raise ReceiptAlias('Guard receipt/unit reused by a distinct attempt or call: '+unit,owner)
+        owner=dict(key=key,sha256=sha,unit=unit,kind=kind)
+        self.hashes.setdefault(sha,owner);self.units.setdefault(unit,owner)
+        if kind=='construction': self.calls[key].setdefault(sha,measured)
+
+
+def quarantine(failures,phase,row,error,measurement=None):
+    item=row if isinstance(row,dict) else {}
+    record=dict(phase=phase,**issue(error),quarantined=True,receipt=item.get('receipt'),
+                record=item.get('record'),measurement=measurement)
+    if isinstance(error,ReceiptAlias):
+        record.update(first_call=list(error.owner['key']),first_receipt_sha256=error.owner['sha256'])
+    failures.append(record)
+    return record
+
+
+def constructor_identity(record,key,source_sha,model_sha):
+    require(isinstance(record,dict) and record.get('schema')=='prospective-window-constructor-v1' and
+            record.get('artifact_complete') is True and
+            (record.get('case'),record.get('arm'),record.get('repetition'))==tuple(key) and
+            isinstance(source_sha,str) and HEX.fullmatch(source_sha) and
+            isinstance(model_sha,str) and HEX.fullmatch(model_sha) and
+            record.get('source_freeze_sha256')==source_sha and record.get('model_sha256')==model_sha and
+            record.get('physical_error_read') is False,'Constructor source/target/call identity differs')
+    require(isinstance(record.get('constructor'),dict) and
+            isinstance(record['constructor'].get('stats',{}),dict),'Constructor result/stats object required')
+
+
+def selected_constructor_binding(record,presented,key,source_sha,model_sha):
+    constructor_identity(record,key,source_sha,model_sha)
+    body=record['constructor']
+    require(isinstance(presented,dict) and
+            {'order','score','score_kind','status','window_status'}<=set(presented) and
+            isinstance(body.get('status'),str) and bool(body['status']) and
+            presented.get('order')==body.get('order') and
+            presented.get('score')==body.get('score') and presented.get('score_kind')==record.get('score_kind') and
+            presented.get('status')==body.get('status') and
+            presented.get('window_status')==body.get('stats',{}).get('window_status'),
+            'PANEL/selected constructor witness/status differs')
+
+
+def global_inventory(reader,index,protocol,cases,models,mode,summary,owners=None,retained=None):
     repetitions=2 if mode=='main' else 1
     expected={(case,arm,rep) for case in cases for arm in ARMS for rep in range(1,repetitions+1)}
-    plan_map={};global_map={}
+    owners=ReceiptOwners() if owners is None else owners
+    plan_map={};global_map={} if retained is None else retained
     if index.get('plan') is not None:
         _,plan=reader.read(index['plan'])
         require(plan.get('schema')=='prospective-window-constructor-plan-v1' and plan.get('mode')==mode and
@@ -378,14 +441,12 @@ def global_inventory(reader,index,protocol,cases,models,mode,summary):
             rec=receipt(reader,row['receipt']);require(rec['unit'] not in units and row['receipt']['sha256'] not in hashes,'Guard receipt reused globally')
             units.add(rec['unit']);hashes.add(row['receipt']['sha256'])
             require(rec['command']==plan_map[key]['command'] and rec['exit_code']==row.get('exit_code'), 'Executed/planned command or exit differs')
+            owners.claim(key,rec)
             item=dict(artifact=row,receipt=rec)
             if row.get('record') is not None:
                 _,record=reader.read(row['record'])
-                require(record.get('schema')=='prospective-window-constructor-v1' and record.get('artifact_complete') is True and
-                        (record.get('case'),record.get('arm'),record.get('repetition'))==key and
-                        record.get('source_freeze_sha256')==index['input_protocol']['sha256'] and
-                        key[0] in models and record.get('model_sha256')==models[key[0]]['json_hash'] and
-                        record.get('physical_error_read') is False,'Whole-order constructor target/source identity')
+                require(key[0] in models,'Whole-order constructor requires authenticated model identity')
+                constructor_identity(record,key,index['input_protocol']['sha256'],models[key[0]]['json_hash'])
                 item['record']=record
             else: missing.append(dict(case=key[0],arm=key[1],repetition=key[2],receipt=row['receipt']))
             global_map[key]=item
@@ -401,7 +462,30 @@ def global_inventory(reader,index,protocol,cases,models,mode,summary):
     return expected,plan_map,global_map
 
 
+def objective_comparison(record,relative_tolerance,absolute_tolerance):
+    claimed=finite(record['constructor_score'],'claimed objective')
+    actual=finite(record['replayed_score'],'replayed objective')
+    difference=finite(record['absolute_difference'],'objective absolute difference')
+    tolerance=finite(record['tolerance'],'objective comparison tolerance')
+    relative=finite(record['relative_difference'],'objective relative difference')
+    scale=max(actual,claimed);expected_difference=abs(actual-claimed)
+    expected_tolerance=absolute_tolerance+relative_tolerance*scale
+    require(math.isfinite(expected_tolerance) and tolerance==expected_tolerance and
+            difference==expected_difference and relative==(difference/scale if scale>0 else 0.),
+            'Objective comparison arithmetic differs')
+    floor=scale<=absolute_tolerance;within=difference<=expected_tolerance
+    status='mismatch' if not within else 'floor_censored' if floor else 'verified'
+    require(type(record.get('numerical_floor')) is bool and record['numerical_floor'] is floor and
+            type(record.get('within_tolerance')) is bool and record['within_tolerance'] is within and
+            type(record.get('verified')) is bool and record['verified'] is (within and not floor) and
+            record.get('status')==status,'Objective comparison flags/status differ')
+    return within and not floor
+
+
 def objective_rows(check,candidates,repetitions):
+    relative_tolerance=finite(check['relative_tolerance'],'objective relative tolerance')
+    absolute_tolerance=finite(check['absolute_tolerance'],'objective absolute tolerance')
+    require(0<relative_tolerance<=1e-8 and 0<absolute_tolerance<=1e-24,'Positive bounded objective tolerances required')
     logical=check.get('logical_rows',[]);require(isinstance(logical,list) and len(logical)<=88,'Objective logical row bound')
     checks=check.get('checks',[]);require(isinstance(checks,list) and len(checks)<=256,'Objective unique task bound')
     output={};seen_indices=set()
@@ -425,12 +509,19 @@ def objective_rows(check,candidates,repetitions):
                 claimed_score=candidate['constructor_score'],check_index=None)
             continue
         index=integer(row['check_index'],'objective check index',1,len(checks));record=checks[index-1]
+        require(isinstance(record,dict),'Objective check record object required')
         require(record.get('check_index')==index and record.get('partition')==candidate['partition'] and
                 record.get('order')==candidate['order'] and record.get('score_kind')==candidate['score_kind'] and
                 finite(record['constructor_score'],'claimed objective')==finite(candidate['constructor_score'],'candidate objective'),
                 'Objective check/order/score identity differs')
         require(row.get('status')==record.get('status'),'Objective logical/check status differs')
-        accepted=(record.get('status')=='verified' and record.get('verified') is True and record.get('within_tolerance') is True)
+        numeric_fields=('replayed_score','absolute_difference','relative_difference','tolerance','numerical_floor')
+        if record.get('status') in ('verified','mismatch','floor_censored') or any(field in record for field in numeric_fields):
+            accepted=objective_comparison(record,relative_tolerance,absolute_tolerance)
+        else:
+            require(record.get('verified') is False and record.get('within_tolerance') is not True,
+                    'Refused objective cannot claim numeric verification')
+            accepted=False
         output[key]=dict(status=record.get('status'),accepted=accepted,claimed_score=record['constructor_score'],
             replayed_score=record.get('replayed_score'),absolute_difference=record.get('absolute_difference'),
             numerical_floor=record.get('numerical_floor'),check_index=index,reason=record.get('reason'))
@@ -458,15 +549,17 @@ def affordability(model,candidate,physical):
             physical.get('ideal_rotations')==rotations<=budget,'Original-word affordability/count differs')
 
 
-def panel_costs(reader,panel,inventory,case,repetitions,global_map):
+def panel_costs(reader,panel,inventory,case,repetitions,global_map,owners=None,retained=None,source_sha=None,model_sha=None):
+    owners=ReceiptOwners() if owners is None else owners
     expected={(arm,rep) for arm in ARMS for rep in range(1,repetitions+1)}
     entries={(entry['arm'],entry['repetition']):entry for entry in inventory['constructors']}
-    retained={(entry['arm'],entry['repetition']):entry for entry in panel['constructors']}
-    require(len(entries)==len(inventory['constructors']) and len(retained)==len(panel['constructors']) and
-            set(entries)==expected and set(retained)==expected,'Panel constructor roster differs')
-    costs={};all_receipts=set();all_units=set()
+    retained_entries={(entry['arm'],entry['repetition']):entry for entry in panel['constructors']}
+    require(len(entries)==len(inventory['constructors']) and len(retained_entries)==len(panel['constructors']) and
+            set(entries)==expected and set(retained_entries)==expected,'Panel constructor roster differs')
+    costs={} if retained is None else retained
+    all_receipts=set();all_units=set()
     for arm,rep in sorted(expected):
-        key=(arm,rep);item=retained[key];ledger=entries[key];attempts=item.get('attempts',[])
+        key=(arm,rep);item=retained_entries[key];ledger=entries[key];attempts=item.get('attempts',[])
         require(len(attempts)==len(ledger['attempts']) and len(attempts)<=32,'Complete attempt-ledger identity')
         receipts=[];complete=True;known_cpu=known_wall=0.;hashes=set();within=True
         for recorded,original in zip(attempts,ledger['attempts']):
@@ -478,6 +571,7 @@ def panel_costs(reader,panel,inventory,case,repetitions,global_map):
             require(original['receipt']['sha256'] not in all_receipts and measured['unit'] not in all_units,
                     'One guard receipt/unit charged to multiple constructor attempts')
             all_receipts.add(original['receipt']['sha256']);all_units.add(measured['unit'])
+            owners.claim((case,arm,rep),measured)
             budget=measured['budget'];cpu_cap=finite(budget['cpu_seconds'],'constructor attempt CPU ceiling')
             wall_cap=finite(budget['wall_seconds'],'constructor attempt wall ceiling')
             require(cpu_cap>0 and wall_cap>0 and cpu_cap<=64-known_cpu and wall_cap<=320-known_wall,
@@ -507,9 +601,7 @@ def panel_costs(reader,panel,inventory,case,repetitions,global_map):
                     item.get('selected_attempt')==ledger.get('selected_attempt')==len(ledger['attempts']),
                     'Final selected constructor descriptor differs')
             _,record=reader.read(selected)
-            require((record.get('case'),record.get('arm'),record.get('repetition'))==(case,arm,rep),'Selected constructor identity differs')
-            require(item['constructor']['order']==record['constructor']['order'] and
-                    item['constructor']['score']==record['constructor'].get('score'),'PANEL/selected constructor witness differs')
+            selected_constructor_binding(record,item.get('constructor'),(case,arm,rep),source_sha,model_sha)
         costs[key]=dict(case=case,arm=arm,repetition=rep,status=item.get('status'),
             constructor=item.get('constructor'),reason=item.get('reason'),selected_record=selected,
             CPU_seconds=known_cpu if complete else None,wall_seconds=known_wall if complete else None,
@@ -519,7 +611,31 @@ def panel_costs(reader,panel,inventory,case,repetitions,global_map):
     return costs
 
 
-def case_artifacts(reader,entry,index,case,model,repetitions,global_map,protocol,summary):
+def primary_source_binding(manifest,protocol):
+    hashes=manifest.get('source_hashes')
+    require(isinstance(hashes,dict) and set(hashes)=={'physical.jl','src/WindowPhysical.jl',
+            'src/WindowStudyIO.jl','../julia_cubic_feasibility/src/ResponseCore.jl'},
+            'Complete primary physical source-hash inventory required')
+    for name,sha256 in hashes.items():
+        normalized=PurePosixPath(os.path.normpath('numerical_audit/prospective_window_ordering/'+name))
+        require(isinstance(sha256,str) and HEX.fullmatch(sha256) and
+                protocol['sources'].get(str(normalized))==sha256,
+                'Primary physical scientific source differs')
+
+
+def independent_complete(check,candidates,independent):
+    return (bool(candidates) and check.get('status')=='complete' and not check.get('failures') and
+            check.get('checked_logical_rows')==len(candidates) and set(independent)==set(candidates) and
+            all(row.get('status')=='complete' for row in independent.values()))
+
+
+def case_failure(result,error):
+    result.update(primary_panel_complete=False,independent_panel_complete=False,
+                  objective_claims_complete=False,graph_valid=False)
+    result['failures'].append(issue(error))
+
+
+def case_artifacts(reader,entry,index,case,model,repetitions,global_map,protocol,summary,owners=None):
     result=dict(case=case,status='partial',graph_valid=False,failures=[],objective_status=None,independent_status=None,physical_status=None,
                 primary_panel_complete=False,independent_panel_complete=False,objective_claims_complete=False)
     costs={};candidates={};physical={};independent={};objectives={};references=[]
@@ -542,7 +658,8 @@ def case_artifacts(reader,entry,index,case,model,repetitions,global_map,protocol
                 panel.get('source_commit')==protocol['source_commit'] and
                 panel.get('model_json')==inventory['model_json'] and panel.get('model_toml')==inventory['model_toml'],
                 'PANEL/inventory/source linkage')
-        costs=panel_costs(reader,panel,inventory,case,repetitions,global_map)
+        panel_costs(reader,panel,inventory,case,repetitions,global_map,owners=owners,retained=costs,
+                    source_sha=index['input_protocol']['sha256'],model_sha=model['json_hash'])
         result['panel_status']=panel.get('status');result['censor_reason']=entry.get('censor_reason')
         if entry.get('candidates') is None:
             require(panel.get('candidate_panel_complete') is not True,'Complete PANEL must retain its candidates')
@@ -602,13 +719,12 @@ def case_artifacts(reader,entry,index,case,model,repetitions,global_map,protocol
                 (objective.get('complete') is True if scored else objective.get('status')=='no_scored_orders_supplied'))
         if entry.get('physical') is None: return result,costs,candidates,physical,independent,objectives,references
         pp,p=reader.read(entry['physical'],'toml')
+        primary_source_binding(p,protocol)
         require(p.get('case')==case and p.get('mode')==index['mode'] and p.get('input_sha256')==model['toml_hash'] and
                 p.get('source_json_sha256')==model['json_hash'] and p.get('orders_sha256')==entry['candidates']['sha256'] and
                 p.get('n')==14 and p.get('hf')=='15' and p.get('expected_logical_rows')==44*repetitions,
                 'Physical manifest/frozen candidate target differs')
         physical=keyed(p['rows'],repetitions);result['physical_status']=p.get('status')
-        result['primary_panel_complete']=(p.get('status')=='complete' and p.get('physical_panel_complete') is True and
-                                           set(physical)==set(candidates))
         for key,row in physical.items():
             require(key in candidates and row.get('name')==candidates[key]['name'] and row.get('order')==candidates[key]['order'] and
                     row.get('partition')==candidates[key]['partition'],'Physical/frozen candidate order differs')
@@ -616,6 +732,8 @@ def case_artifacts(reader,entry,index,case,model,repetitions,global_map,protocol
             for prefix in ('actual','reference'):
                 state_path,_=reader.child(pp,row[prefix+'_file'],row[prefix+'_sha256'],'binary',16*16384)
                 require(reader.hashes[reader.relative(state_path)]['bytes']==16*16384,'Full physical state exact file length')
+        result['primary_panel_complete']=(p.get('status')=='complete' and p.get('physical_panel_complete') is True and
+                                           set(physical)==set(candidates))
         if entry.get('independent_check') is None: return result,costs,candidates,physical,independent,objectives,references
         _,check=reader.read(entry['independent_check'],'toml')
         require(check.get('input_toml_sha256')==model['toml_hash'] and check.get('source_json_sha256')==model['json_hash'] and
@@ -650,65 +768,112 @@ def case_artifacts(reader,entry,index,case,model,repetitions,global_map,protocol
             require(row.get('independent_unfused_replay') is hard,'Independent propagation scope differs')
             if hard: require(finite(row['unfused_state_norm_residual'],'unfused state residual')<=STATE_TOL,'Unfused replay residual')
         result['independent_status']=check.get('status')
-        result['independent_panel_complete']=(check.get('status')=='complete' and not check.get('failures') and
-            check.get('checked_logical_rows')==len(candidates) and set(independent)==set(candidates))
+        result['independent_panel_complete']=independent_complete(check,candidates,independent)
         result['status']='authenticated';result['graph_valid']=True
     except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
-        result['failures'].append(issue(error))
+        case_failure(result,error)
         # Retain quarantined raw rows, but never derive from an invalid graph.
     return result,costs,candidates,physical,independent,objectives,references
 
 
-def partial_costs(reader,index,cases,repetitions,global_map,existing,failures=None):
-    records=index.get('partial_attempts',[])
-    require(isinstance(records,list) and len(records)<=2048,'Partial attempt bound')
-    grouped=defaultdict(list);seen=set();units={}
-    # A partial descriptor may repeat its own authenticated PANEL/final link,
-    # but cannot turn that service into another attempt or another call.
-    for key,call in existing.items():
-        for measured in call['attempts']:
-            units.setdefault(measured['unit'],(key,measured['descriptor']['sha256']))
+def partial_costs(reader,index,cases,repetitions,global_map,existing,failures=None,owners=None,models=None):
+    failures=[] if failures is None else failures
+    owners=ReceiptOwners() if owners is None else owners
+    models={} if models is None else models
+    # Cross-layer references may repeat their own owner; each layer below
+    # separately rejects repeated attempts. Seed before reading partial rows.
     for key,item in global_map.items():
-        measured=item['receipt']
-        units.setdefault(measured['unit'],(key,measured['descriptor']['sha256']))
+        try: owners.claim(key,item['receipt'])
+        except (ValueError,KeyError,TypeError) as error:
+            quarantine(failures,'whole_orders',item.get('artifact'),error,item.get('receipt'))
+    for key,call in existing.items():
+        accepted=[]
+        for measured in call['attempts']:
+            try:
+                owners.claim(key,measured);accepted.append(measured)
+            except (ValueError,KeyError,TypeError) as error:
+                quarantine(failures,'PANEL',dict(receipt=measured.get('descriptor')),error,measured)
+        if len(accepted)!=len(call['attempts']):
+            call.update(attempts=accepted,accounting_complete=False,CPU_seconds=None,wall_seconds=None,
+                known_CPU_seconds=sum(a['CPU_seconds'] for a in accepted if a['CPU_seconds'] is not None),
+                known_wall_seconds=sum(a['wall_seconds'] for a in accepted if a['wall_seconds'] is not None))
+    records=index.get('partial_attempts',[])
+    if not isinstance(records,list) or len(records)>2048:
+        quarantine(failures,'partial_attempts',{},ValueError('Partial attempt bound'));records=[]
+    seen=set()
     for row in records:
-        require(row['receipt']['sha256'] not in seen,'Partial attempt receipt repeated')
-        seen.add(row['receipt']['sha256'])
-        key=call_key(row,cases,repetitions);measured=receipt(reader,row['receipt'])
-        if row.get('record') is not None: reader.read(row['record'])
-        owner=units.get(measured['unit']);identity=(key,row['receipt']['sha256'])
-        if owner is not None and owner!=identity:
-            message='Guard unit reused by a distinct partial attempt/call: '+measured['unit']
-            if failures is None: raise ValueError(message)
-            failures.append(dict(phase='partial_attempts',type='ValueError',message=message,
-                quarantined=True,receipt=row['receipt'],record=row.get('record'),measurement=measured,
-                first_call=list(owner[0]),first_receipt_sha256=owner[1]))
-            continue
-        units[measured['unit']]=identity
-        grouped[key].append(measured)
-    for key,attempts in grouped.items():
-        if key in existing:
-            require({a['descriptor']['sha256'] for a in attempts}<=
-                    {a['descriptor']['sha256'] for a in existing[key]['attempts']},'Partial ledger omits a PANEL attempt linkage')
-            continue
-        complete=all(a['accounting_complete'] for a in attempts)
-        existing[key]=dict(case=key[0],arm=key[1],repetition=key[2],status='partial_attempts_only',constructor=None,
-            attempts=attempts,accounting_complete=False,provided_receipts_accounting_complete=complete,
+        measured=None
+        try:
+            require(isinstance(row,dict),'Partial attempt object required')
+            key=call_key(row,cases,repetitions);measured=receipt(reader,row['receipt'])
+            sha=measured['descriptor']['sha256']
+            if sha in seen:
+                raise ReceiptAlias('Partial attempt receipt repeated',owners.lookup(measured))
+            if row.get('record') is not None:
+                _,record=reader.read(row['record'])
+                require(key[0] in models,'Partial constructor requires authenticated model identity')
+                constructor_identity(record,key,index['input_protocol']['sha256'],models[key[0]]['json_hash'])
+            if key in existing:
+                require(sha in {a['descriptor']['sha256'] for a in existing[key]['attempts']},
+                        'Partial ledger omits a PANEL attempt linkage')
+            owners.claim(key,measured)
+            seen.add(sha)
+        except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
+            quarantine(failures,'partial_attempts',row,error,measured)
+    # Union all authenticated attempts, including a distinct frozen final.
+    # Without a complete PANEL ledger these remain cost lower bounds.
+    for key,bysha in owners.calls.items():
+        if key in existing: continue
+        attempts=list(bysha.values());item=global_map.get(key,{})
+        record=item.get('record');body=None if record is None else record.get('constructor')
+        ctor=None if not isinstance(body,dict) else dict(status=body.get('status'),score=body.get('score'),
+            score_kind=record.get('score_kind'),order=body.get('order'),reason=body.get('reason'),
+            window_status=body.get('stats',{}).get('window_status'))
+        existing[key]=dict(case=key[0],arm=key[1],repetition=key[2],
+            status='whole_freeze_without_PANEL' if item else 'partial_attempts_only',
+            constructor=ctor,attempts=attempts,accounting_complete=False,
+            provided_receipts_accounting_complete=all(a['accounting_complete'] for a in attempts),
             CPU_seconds=None,wall_seconds=None,
             known_CPU_seconds=sum(a['CPU_seconds'] for a in attempts if a['CPU_seconds'] is not None),
             known_wall_seconds=sum(a['wall_seconds'] for a in attempts if a['wall_seconds'] is not None),
-            source='Hash-bound partial attempt ledger; total whole-call cost remains unknown without a complete PANEL ledger')
-    for key,item in global_map.items():
-        if key not in existing:
-            a=item['receipt'];record=item.get('record');body=None if record is None else record.get('constructor')
-            ctor=None if not isinstance(body,dict) else dict(status=body.get('status'),score=body.get('score'),
-                score_kind=record.get('score_kind'),order=body.get('order'),reason=body.get('reason'),
-                window_status=body.get('stats',{}).get('window_status'))
-            existing[key]=dict(case=key[0],arm=key[1],repetition=key[2],status='whole_freeze_without_PANEL',
-                constructor=ctor,attempts=[a],accounting_complete=False,CPU_seconds=None,wall_seconds=None,
-                known_CPU_seconds=a['CPU_seconds'] if a['CPU_seconds'] is not None else 0.,
-                known_wall_seconds=a['wall_seconds'] if a['wall_seconds'] is not None else 0.,
-                source='Whole-freeze final receipt only; earlier attempts unknown without PANEL')
+            source='Union of authenticated attempts and frozen final; whole-call total unknown without complete PANEL')
+
+
+def phase_costs(reader,index,owners,mode,failures):
+    records=index.get('phase_receipts',[])
+    if not isinstance(records,list) or len(records)>2048:
+        quarantine(failures,'phase_receipts',{},ValueError('Phase receipt bound'));records=[]
+    phase=[];seen=set();owning_phase='constructors' if mode=='main' else 'preflight'
+    for item in records:
+        measurement=None;construction_owner=False
+        name=item.get('phase') if isinstance(item,dict) else None
+        known_name=isinstance(name,str) and 0<len(name)<=256
+        try:
+            require(known_name,'Phase receipt metadata')
+            measurement=receipt(reader,item['receipt']);sha=measurement['descriptor']['sha256']
+            owner=owners.lookup(measurement)
+            construction_owner=owner is not None and owner['kind']=='construction'
+            require(sha not in seen,'Phase receipt duplicated')
+            if construction_owner:
+                require(owner['sha256']==sha and owner['unit']==measurement['unit'],
+                        'Guard unit aliases construction with a different phase receipt: '+measurement['unit'])
+                require(name==owning_phase,'Construction receipt reused outside its owning phase: '+name)
+                if item.get('case') is not None:
+                    require(item['case']==owner['key'][0],'Construction phase/call case differs')
+            else:
+                owners.claim(('phase',name),measurement,kind='phase')
+            seen.add(sha)
+            phase.append(dict(phase=name,case=item.get('case'),measurement=measurement,
+                already_counted_in_construction=construction_owner,quarantined=False))
+        except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
+            quarantine(failures,'phase_receipts',item,error,measurement)
+            # Retain a tombstone even when the receipt cannot be parsed. All
+            # downstream consumers must allow this explicit missing measurement.
+            phase.append(dict(phase=name if known_name else None,
+                case=item.get('case') if isinstance(item,dict) else None,measurement=measurement,
+                already_counted_in_construction=construction_owner,quarantined=True,
+                quarantine_reason=str(error)))
+    return phase
 
 
 def row_record(case,key,case_result,cost,candidate,primary,independent,objective):
@@ -842,10 +1007,14 @@ def analyze(root,mode):
             ratio_policy='Suppress at/below1e-12 physical error or unverified/unknown operands; retain floor and loss records',
             PySCF_memory='PySCF max_memory=256 is its documented MB soft guidance, recorded by internal_PySCF_max_memory_MB. Any obsolete historical MiB-named label is not an exact unit conversion or hard limit. Owning cgroup512MiB/no-swap is authoritative.',
             limits='No time/accuracy universality, finite-error certificate, compiled-gate claim, or confidence interval. Pareto membership is descriptive for recorded valid costs.'))
-    cases=[];models={};input_complete=False;global_map={};cost_map={};partial_loaded=False
+    cases=[];models={};input_complete=False;global_map={};cost_map={};source_loaded=False
+    owners=ReceiptOwners();expected_calls=set();bycase={}
     try:
         protocol,registry,models,cases,input_complete=source_and_inputs(reader,index,mode,summary)
-        expected_calls,plan_map,global_map=global_inventory(reader,index,protocol,cases,models,mode,summary)
+        source_loaded=True
+        expected_calls={(case,arm,rep) for case in cases for arm in ARMS for rep in range(1,repetitions+1)}
+        expected_calls,plan_map,_=global_inventory(reader,index,protocol,cases,models,mode,summary,
+                                                  owners=owners,retained=global_map)
         supplied=index.get('cases',[]);require(isinstance(supplied,list) and len(supplied)<=len(cases),'Case analysis-index bound')
         bycase={entry['case']:entry for entry in supplied}
         require(len(bycase)==len(supplied) and set(bycase)<=set(cases),'Duplicate/foreign analysis case')
@@ -855,45 +1024,18 @@ def analyze(root,mode):
                 costs={};candidates={};physical={};independent={};objectives={};references=[]
             else:
                 result,costs,candidates,physical,independent,objectives,references=case_artifacts(reader,bycase.get(case),index,
-                    case,models[case],repetitions,global_map,protocol,summary)
+                    case,models[case],repetitions,global_map,protocol,summary,owners=owners)
             summary['cases'].append(result)
             for key,value in costs.items(): cost_map[(case,*key)]=value
             for key in expected_keys(repetitions):
                 summary['raw_rows'].append(row_record(case,key,result,costs.get(key[:2]),candidates.get(key),physical.get(key),independent.get(key),objectives.get(key)))
-        partial_costs(reader,index,cases,repetitions,global_map,cost_map,summary['failures'])
-        partial_loaded=True
-        # Fill constructor provenance for censored raw cells after partial ledgers.
-        for row in summary['raw_rows']:
-            cost=cost_map.get((row['case'],row['arm'],row['repetition']))
-            if cost is not None:
-                row['constructor_CPU_seconds']=cost['CPU_seconds'];row['constructor_wall_seconds']=cost['wall_seconds']
-                ctor=cost.get('constructor')
-                if ctor is not None:
-                    row['constructor_status']=ctor.get('status');row['constructor_window_status']=ctor.get('window_status')
-                    row['constructor_scored']=ctor.get('score') is not None
-        pairs,medians,comparisons=paired_derivations(summary['raw_rows'],cases,repetitions)
-        summary.update(paired_observations=pairs,paired_repetition_medians=medians,comparisons=comparisons,
-            pareto_memberships=pareto_sets(summary['raw_rows'],cases,repetitions))
-        expected_count=len(cases)*44*repetitions
-        verified=sum(row['fully_validated'] for row in summary['raw_rows'])
-        physical_count=sum(row['physical_checked'] for row in summary['raw_rows'])
-        constructor_complete=(set(cost_map)==expected_calls and all(c['accounting_complete'] for c in cost_map.values()))
-        all_artifacts=summary.get('whole_orders',{}).get('all_calls_have_artifacts') is True
-        complete=(input_complete and bool(global_map) and all_artifacts and physical_count==expected_count and
-                  verified==expected_count and constructor_complete and len(bycase)==len(cases) and
-                  all(case['status']=='authenticated' and not case['failures'] and case['primary_panel_complete'] and
-                      case['independent_panel_complete'] and case['objective_claims_complete'] for case in summary['cases']))
-        summary['completion']=dict(expected_logical_rows=expected_count,authenticated_independent_physical_rows=physical_count,
-            fully_validated_rows=verified,missing_or_censored_rows=expected_count-physical_count,
-            objective_unverified_rows=physical_count-verified,expected_constructor_calls=len(expected_calls),
-            known_constructor_calls=sum(c['accounting_complete'] for c in cost_map.values()),
-            source_and_inputs_complete=input_complete,whole_call_artifacts_present=all_artifacts,
-            complete_352_main_claim_allowed=complete and mode=='main' and expected_count==352)
-        if complete: summary['status']='complete_declared_panel'
     except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
         summary['failures'].append(issue(error))
-        summary['completion']=dict(expected_logical_rows=352 if mode=='main' else 44,
-            complete_352_main_claim_allowed=False,source_or_artifact_validation_failed=True)
+        if not source_loaded:
+            # Preserve the historical narrow fallback only for failure of the
+            # whole source/input graph, not an individual receipt.
+            summary['completion']=dict(expected_logical_rows=352 if mode=='main' else 44,
+                complete_352_main_claim_allowed=False,source_or_artifact_validation_failed=True)
     if not cases:
         cases=list(MAIN_CASES) if mode=='main' else [index.get('cases',[{}])[0].get('case','unperformed_preflight')
             if index.get('cases') else 'unperformed_preflight']
@@ -903,10 +1045,9 @@ def analyze(root,mode):
             if (case,*key) not in observed:
                 invalid=dict(status='artifact_validation_failed',failures=summary['failures'])
                 summary['raw_rows'].append(row_record(case,key,invalid,None,None,None,None,None))
-    if not partial_loaded:
-        try: partial_costs(reader,index,cases,repetitions,global_map,cost_map,summary['failures'])
-        except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
-            summary['failures'].append(dict(phase='partial_costs',**issue(error)))
+    # Exactly one pass, with per-entry quarantine and a retained global/PANEL
+    # owner registry. No receipt error can replace the completion structure.
+    partial_costs(reader,index,cases,repetitions,global_map,cost_map,summary['failures'],owners=owners,models=models)
     for row in summary['raw_rows']:
         cost=cost_map.get((row['case'],row['arm'],row['repetition']))
         if cost is not None:
@@ -919,6 +1060,23 @@ def analyze(root,mode):
     pairs,medians,comparisons=paired_derivations(summary['raw_rows'],cases,repetitions)
     summary.update(paired_observations=pairs,paired_repetition_medians=medians,comparisons=comparisons,
         pareto_memberships=pareto_sets(summary['raw_rows'],cases,repetitions))
+    if source_loaded:
+        expected_count=len(cases)*44*repetitions
+        verified=sum(row['fully_validated'] for row in summary['raw_rows'])
+        physical_count=sum(row['physical_checked'] for row in summary['raw_rows'])
+        constructor_complete=(set(cost_map)==expected_calls and all(c['accounting_complete'] for c in cost_map.values()))
+        all_artifacts=summary.get('whole_orders',{}).get('all_calls_have_artifacts') is True
+        complete=(not summary['failures'] and input_complete and bool(global_map) and all_artifacts and
+            physical_count==verified==expected_count and constructor_complete and len(bycase)==len(cases) and
+            all(case['status']=='authenticated' and not case['failures'] and case['primary_panel_complete'] and
+                case['independent_panel_complete'] and case['objective_claims_complete'] for case in summary['cases']))
+        summary['completion']=dict(expected_logical_rows=expected_count,authenticated_independent_physical_rows=physical_count,
+            fully_validated_rows=verified,missing_or_censored_rows=expected_count-physical_count,
+            objective_unverified_rows=physical_count-verified,expected_constructor_calls=len(expected_calls),
+            known_constructor_calls=sum(c['accounting_complete'] for c in cost_map.values()),
+            source_and_inputs_complete=input_complete,whole_call_artifacts_present=all_artifacts,
+            complete_352_main_claim_allowed=complete and mode=='main' and expected_count==352)
+        if complete: summary['status']='complete_declared_panel'
     summary['constructor_costs']=[cost_map[key] for key in sorted(cost_map)]
     expected_total=(64 if mode=='main' else 8)
     known=[cost for cost in cost_map.values() if cost['accounting_complete']]
@@ -939,43 +1097,19 @@ def analyze(root,mode):
             known_CPU_seconds=sum(c.get('known_CPU_seconds',0.) for c in calls),
             known_wall_seconds=sum(c.get('known_wall_seconds',0.) for c in calls),
             call_status_counts=dict(Counter(c['status'] for c in calls)))
-    phase=[];seen=set();phase_units={}
-    construction_hashes={attempt['descriptor']['sha256'] for call in cost_map.values() for attempt in call['attempts']}
-    construction_units={attempt['unit']:attempt['descriptor']['sha256'] for call in cost_map.values() for attempt in call['attempts']}
-    phase_records=index.get('phase_receipts',[])
-    if not isinstance(phase_records,list) or len(phase_records)>2048:
-        summary['failures'].append(dict(phase='phase_receipts',message='Phase receipt bound'));phase_records=[]
-    for item in phase_records:
-        try:
-            require(isinstance(item,dict) and isinstance(item.get('phase'),str),'Phase receipt metadata')
-            measurement=receipt(reader,item['receipt']);sha256=item['receipt']['sha256']
-            require(sha256 not in seen,'Phase receipt duplicated');seen.add(sha256)
-            unit=measurement['unit'];owner=construction_units.get(unit)
-            message=None
-            if owner is not None and owner!=sha256:
-                message='Guard unit aliases construction with a different phase receipt: '+unit
-            elif unit in phase_units:
-                message='Guard unit reused by distinct phase receipts: '+unit
-            if message is not None:
-                summary['failures'].append(dict(phase='phase_receipts',type='ValueError',message=message,
-                    quarantined=True,receipt=item['receipt']))
-                phase.append(dict(phase=item['phase'],case=item.get('case'),measurement=measurement,
-                    already_counted_in_construction=owner is not None,quarantined=True,
-                    quarantine_reason=message))
-                continue
-            phase_units[unit]=sha256
-            phase.append(dict(phase=item['phase'],case=item.get('case'),measurement=measurement,
-                already_counted_in_construction=sha256 in construction_hashes,quarantined=False))
-        except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
-            summary['failures'].append(dict(phase='phase_receipts',**issue(error)))
+    phase=phase_costs(reader,index,owners,mode,summary['failures'])
     summary['other_phase_costs']=phase
     summary['other_phase_totals']={}
-    for name in sorted({entry['phase'] for entry in phase}):
+    for name in sorted({entry['phase'] for entry in phase if entry['phase'] is not None}):
         records=[entry for entry in phase if entry['phase']==name]
-        group=[entry['measurement'] for entry in records if not entry['already_counted_in_construction'] and not entry['quarantined']]
+        group=[entry['measurement'] for entry in records if not entry['already_counted_in_construction'] and
+               not entry['quarantined'] and entry['measurement'] is not None]
         quarantined=sum(entry['quarantined'] for entry in records)
-        complete=not quarantined and all(entry['accounting_complete'] for entry in group)
-        summary['other_phase_totals'][name]=dict(indexed_attempts=len(group),quarantined_attempts=quarantined,accounting_complete=complete,
+        complete=not quarantined and bool(records) and all(
+            entry['measurement'] is not None and entry['measurement']['accounting_complete'] for entry in records)
+        summary['other_phase_totals'][name]=dict(indexed_attempts=len(group),quarantined_attempts=quarantined,
+            already_counted_in_construction_attempts=sum(entry['already_counted_in_construction'] and not entry['quarantined'] for entry in records),
+            accounting_complete=complete,
             CPU_seconds=sum(entry['CPU_seconds'] for entry in group) if complete else None,
             wall_seconds=sum(entry['wall_seconds'] for entry in group) if complete else None,
             known_CPU_seconds=sum(entry['CPU_seconds'] for entry in group if entry['CPU_seconds'] is not None),
@@ -993,7 +1127,8 @@ def analyze(root,mode):
                 descriptor=item['artifact'],record=value,scope='Historical/refused preparation artifact; not mixed into current physical targets'))
         except (ValueError,KeyError,TypeError,OSError,RecursionError) as error:
             summary['failures'].append(dict(phase='historical_artifacts',**issue(error)))
-    if summary['failures'] or any(not entry['measurement']['accounting_complete'] for entry in phase):
+    if summary['failures'] or any(entry['quarantined'] or entry['measurement'] is None or
+                                  not entry['measurement']['accounting_complete'] for entry in phase):
         summary['status']='partial_or_censored';summary['completion']['complete_352_main_claim_allowed']=False
     summary['source_artifact_SHA256_map']=reader.hashes
     summary['bytes_hashed']=reader.bytes_hashed
