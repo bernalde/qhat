@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "exit_code": 0,
+  "driver_sha256": "9f50191489f758844db68c9c52bb39f60f59745316b2d4a7a3694988b365f537",
+  "product_source_freeze_sha256": "595625105e05a1c4e9a96ff481ca27136a6dfc2d9b98a503363cd2288dd2b1b3",
+  "source_commit": "722013aa6d9a0a48776e26de5f356b5a441c3f61",
+  "loaded_modules": {
+    "sparse_response_ordering": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a6/qhat/analysis/sparse_response_ordering.py",
+    "strang_schedule": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a6/qhat/analysis/strang_schedule.py",
+    "window_ordering": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a6/qhat/analysis/window_ordering.py",
+    "train_ordering": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a6/qhat/analysis/train_ordering.py"
+  },
+  "wheel_sha256": "c845563f9bd0b33100bcb4324c6000f94573f4eeef0a3215072ecbfe4ce862b2",
+  "test_files": [
+    "analysis/tests/test_window_ordering.py"
+  ],
+  "phase_reports": [
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_wheel_normal_cli_and_asset_discovery",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.08245437999721617
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_wheel_normal_cli_and_asset_discovery",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 39.107106191979256
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_wheel_normal_cli_and_asset_discovery",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00018737197387963533
+    }
+  ],
+  "test_source_hashes": {
+    "analysis/tests/test_window_ordering.py": "9a837d4914176951af6333b2235cc851f7fa42b0381b66f10999ce52ac65cd8d"
+  },
+  "calls_passed": 1,
+  "skipped": 0,
+  "scope": "Parent test-process product imports pinned to isolated installed wheel; dedicated -S wheel CLI test independently exercises real installed Julia assets. No molecular quality measured."
+}

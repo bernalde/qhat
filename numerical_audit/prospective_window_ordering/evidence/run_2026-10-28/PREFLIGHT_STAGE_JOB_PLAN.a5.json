@@ -1,0 +1,112 @@
+{
+  "schema": "root-bounded-preflight-stage-plan-v1",
+  "root": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+  "cwd": "/tmp/qhat-normal-window-2026-10-28/worktree",
+  "scientific_source": "722013aa6d9a0a48776e26de5f356b5a441c3f61",
+  "physical_metric_values_to_remain_sealed": true,
+  "all_existing_pools_unchanged": true,
+  "jobs": [
+    {
+      "label": "window-preflight-freeze-a5",
+      "phase": "preflight",
+      "cpu": 5,
+      "wall": 25,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "numerical_audit/prospective_window_ordering/construct_campaign.py",
+        "freeze",
+        "--root",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "--plan",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-plan.a5.json",
+        "--output",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/ALL_ORDERS_FROZEN.preflight.a5.json",
+        "--attempt-tag",
+        "a5"
+      ]
+    },
+    {
+      "label": "window-preflight-panel-a5",
+      "phase": "preflight",
+      "cpu": 10,
+      "wall": 50,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "numerical_audit/prospective_window_ordering/panel.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-a5-LiH_r1p487_631g_14m4e_preflight_7over5.PANEL_INVENTORY.json",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-panel-a5"
+      ]
+    },
+    {
+      "label": "window-preflight-objectives-a5",
+      "phase": "preflight",
+      "cpu": 60,
+      "wall": 300,
+      "command": [
+        "/usr/bin/env",
+        "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+        "JULIA_NUM_THREADS=1",
+        "JULIA_NUM_GC_THREADS=1",
+        "JULIA_PKG_OFFLINE=true",
+        "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+        "--startup-file=no",
+        "--history-file=no",
+        "--threads=1",
+        "--gcthreads=1",
+        "--heap-size-hint=250M",
+        "numerical_audit/prospective_window_ordering/objective_check.jl",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-data-a5/inputs/LiH_r1p487_631g_14m4e_preflight_7over5/model.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-panel-a5/CANDIDATES.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-objectives-a5.toml"
+      ]
+    },
+    {
+      "label": "window-preflight-physical-a5",
+      "phase": "preflight",
+      "cpu": 180,
+      "wall": 900,
+      "command": [
+        "/usr/bin/env",
+        "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+        "JULIA_NUM_THREADS=1",
+        "JULIA_NUM_GC_THREADS=1",
+        "JULIA_PKG_OFFLINE=true",
+        "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+        "--startup-file=no",
+        "--history-file=no",
+        "--threads=1",
+        "--gcthreads=1",
+        "--heap-size-hint=250M",
+        "numerical_audit/prospective_window_ordering/physical.jl",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-data-a5/inputs/LiH_r1p487_631g_14m4e_preflight_7over5/model.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-panel-a5/CANDIDATES.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-physical-a5"
+      ]
+    },
+    {
+      "label": "window-preflight-independent-a5",
+      "phase": "preflight",
+      "cpu": 100,
+      "wall": 500,
+      "command": [
+        "/usr/bin/env",
+        "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+        "JULIA_NUM_THREADS=1",
+        "JULIA_NUM_GC_THREADS=1",
+        "JULIA_PKG_OFFLINE=true",
+        "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+        "--startup-file=no",
+        "--history-file=no",
+        "--threads=1",
+        "--gcthreads=1",
+        "--heap-size-hint=250M",
+        "numerical_audit/prospective_window_ordering/independent.jl",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-data-a5/inputs/LiH_r1p487_631g_14m4e_preflight_7over5/model.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-physical-a5/PHYSICAL.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-independent-a5.toml"
+      ]
+    }
+  ],
+  "runner_sha256": "0e9e59fd2c99b4455f08764596f4d5177adda241b2c04ba44b823360749c33eb",
+  "frozen_UTC": "2026-10-29T01:34:45.132026+00:00"
+}

@@ -1,0 +1,69 @@
+{
+  "unit": "fermionic-future-window-integration-actionlint-a1-2747510",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "15",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/.local/bin/actionlint",
+    "-oneline",
+    ".github/workflows/window-ordering.yml"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 3.0485389020177536,
+  "samples": [
+    {
+      "elapsed": 0.0008428739965893328,
+      "available_bytes": 19418910720,
+      "frozen": false,
+      "service": "MemoryCurrent=266240\nMemoryPeak=266240\nCPUUsageNSec=87000",
+      "output_bytes": 6525152
+    }
+  ],
+  "completed_utc": "2026-10-28T16:52:41.416260+00:00",
+  "budget": {
+    "cpu_seconds": 2.0,
+    "wall_seconds": 15,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/window-integration-actionlint-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 0.0,
+    "system_cpu_seconds": 0.0,
+    "max_rss_kib": 6048.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 8.7e-05,
+    "output_bytes": 6526124,
+    "elapsed_seconds": 3.0485389020177536,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

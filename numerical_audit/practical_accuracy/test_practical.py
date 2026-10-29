@@ -92,7 +92,7 @@ def test_context_cleanup_is_charged(monkeypatch):
 def test_full_order_constructor_returns_exact_complete_partition(tmp_path, method):
     path = tmp_path / 'model.json'
     common.write(path, toy())
-    result = c.construct_order(path, common.sha(path), method, 2.)
+    result = c.construct_order(path, common.sha(path), method, 2., clock=lambda: 0.)
     c.validate_record(toy(), result['record'])
     assert result['ordering_CPU_seconds'] >= sum(result['phases'].values()) - 1e-12
     if method == 'cubic_warm_JD':

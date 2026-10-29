@@ -1,0 +1,2274 @@
+{
+  "status": "passed",
+  "exit_code": 0,
+  "loaded_modules": {
+    "sparse_response_ordering": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a1/qhat/analysis/sparse_response_ordering.py",
+    "strang_schedule": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a1/qhat/analysis/strang_schedule.py",
+    "window_ordering": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a1/qhat/analysis/window_ordering.py",
+    "train_ordering": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/installed-a1/qhat/analysis/train_ordering.py"
+  },
+  "wheel_sha256": "2e95e58cab8a3fc4f19901b5325171b3f1aacb0c2fabcae1507fd515c5b492ba",
+  "test_files": [
+    "analysis/tests/test_window_ordering.py",
+    "analysis/tests/test_sparse_response_ordering.py",
+    "analysis/tests/test_train_ordering_cli.py",
+    "analysis/tests/test_sparse_ordering_updates.py",
+    "analysis/tests/test_response_resolution.py",
+    "numerical_audit/prospective_window_ordering/test/test_contracts.py"
+  ],
+  "phase_reports": [
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_asset_manifest_binds_the_product_target",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0007220839615911245
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_asset_manifest_binds_the_product_target",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0008338619954884052
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_asset_manifest_binds_the_product_target",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001088010030798614
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.006835556996520609
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.1902334190090187
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011628097854554653
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[hash-invalid_worker_reply]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.004891058022622019
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[hash-invalid_worker_reply]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.1886666730279103
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[hash-invalid_worker_reply]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00017838500207290053
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[malformed-invalid_worker_reply]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.007205455971416086
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[malformed-invalid_worker_reply]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.19705042097484693
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[malformed-invalid_worker_reply]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00012685899855569005
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[deep_reply-invalid_worker_reply]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.005686317977961153
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[deep_reply-invalid_worker_reply]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.1937607849831693
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[deep_reply-invalid_worker_reply]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001718899584375322
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[outside-invalid_worker_reply]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00631821301067248
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[outside-invalid_worker_reply]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.19320215296465904
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[outside-invalid_worker_reply]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00013084005331620574
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[deep_literal_reply-invalid_worker_reply]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.004648104950319976
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[deep_literal_reply-invalid_worker_reply]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.18930077902041376
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[deep_literal_reply-invalid_worker_reply]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00014457397628575563
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[crash-child_failure]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.004653609998058528
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[crash-child_failure]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.11583763704402372
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[crash-child_failure]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00012408901238813996
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[missing_reply-missing_worker_reply]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.07647963502677158
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[missing_reply-missing_worker_reply]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.11771211499581113
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_bad_or_crashed_worker_retains_checked_parent[missing_reply-missing_worker_reply]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00017345696687698364
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_native_verification_rejects_worker_claim",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.08093557402025908
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_native_verification_rejects_worker_claim",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.11405816103797406
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_native_verification_rejects_worker_claim",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00017012195894494653
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_fully_checked_checkpoint_survives_later_child_failure[checkpoint_crash]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.005825025029480457
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_fully_checked_checkpoint_survives_later_child_failure[checkpoint_crash]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.19317424902692437
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_fully_checked_checkpoint_survives_later_child_failure[checkpoint_crash]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00014780397759750485
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_fully_checked_checkpoint_survives_later_child_failure[checkpoint_burn]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00514549296349287
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_fully_checked_checkpoint_survives_later_child_failure[checkpoint_burn]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.894264754024334
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_fully_checked_checkpoint_survives_later_child_failure[checkpoint_burn]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001668530167080462
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_owned_cpu_receipt_excludes_an_unrelated_child",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.005175283993594348
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_owned_cpu_receipt_excludes_an_unrelated_child",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.9884158709901385
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_owned_cpu_receipt_excludes_an_unrelated_child",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011934200301766396
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_startup_watchdog_kills_and_reaps_owned_child",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.004515730019193143
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_startup_watchdog_kills_and_reaps_owned_child",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.9104309970280156
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_startup_watchdog_kills_and_reaps_owned_child",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00013769097859039903
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_final_verification_deadline_preserves_native_parent",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0790923279710114
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_final_verification_deadline_preserves_native_parent",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.11499093001475558
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_final_verification_deadline_preserves_native_parent",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001438939943909645
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_context_setup_deadline_preserves_completed_parent",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.08335076400544494
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_context_setup_deadline_preserves_completed_parent",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0017530469922348857
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_context_setup_deadline_preserves_completed_parent",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00015037402044981718
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_no_child_is_launched_without_a_measured_verification_reserve",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.007600089011248201
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_no_child_is_launched_without_a_measured_verification_reserve",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.20427215698873624
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_no_child_is_launched_without_a_measured_verification_reserve",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001621670089662075
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_no_completed_parent_is_never_zero",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.08089486800599843
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_no_completed_parent_is_never_zero",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0004261540016159415
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_no_completed_parent_is_never_zero",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.267100201919675e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_normalized_underflow_is_unscored_instead_of_completed_zero",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.258498903363943e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_normalized_underflow_is_unscored_instead_of_completed_zero",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0003535409923642874
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_normalized_underflow_is_unscored_instead_of_completed_zero",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 6.845599273219705e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_missing_julia_and_unsupported_domains_are_explicit",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.006585207011085004
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_missing_julia_and_unsupported_domains_are_explicit",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.006652693031355739
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_missing_julia_and_unsupported_domains_are_explicit",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00022257998352870345
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_width_is_not_silently_shrunk_and_default_never_launches",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.007567627995740622
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_width_is_not_silently_shrunk_and_default_never_launches",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.07698416098719463
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_width_is_not_silently_shrunk_and_default_never_launches",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00014494499191641808
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_normal_cli_window_selection_and_schema",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00591540097957477
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_normal_cli_window_selection_and_schema",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00261285703163594
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_normal_cli_window_selection_and_schema",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00013244798174127936
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_real_julia_normal_api_and_native_parity[duration0-17]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001803730265237391
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_real_julia_normal_api_and_native_parity[duration0-17]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 20.80623246502364
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_real_julia_normal_api_and_native_parity[duration0-17]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00014579499838873744
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_real_julia_normal_api_and_native_parity[duration1-32]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0002392090391367674
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_real_julia_normal_api_and_native_parity[duration1-32]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 21.18198841996491
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_real_julia_normal_api_and_native_parity[duration1-32]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00015344400890171528
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_wheel_normal_cli_and_asset_discovery",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.004569403012283146
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_wheel_normal_cli_and_asset_discovery",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 24.30888883001171
+    },
+    {
+      "nodeid": "analysis/tests/test_window_ordering.py::test_installed_wheel_normal_cli_and_asset_discovery",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00024182198103517294
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_hand_derived_cubic_column_and_complex_y_sign[X-expected0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00025252701016142964
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_hand_derived_cubic_column_and_complex_y_sign[X-expected0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0003965189680457115
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_hand_derived_cubic_column_and_complex_y_sign[X-expected0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.39289859868586e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_hand_derived_cubic_column_and_complex_y_sign[Y-expected1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00022944400552660227
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_hand_derived_cubic_column_and_complex_y_sign[Y-expected1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0003807949833571911
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_hand_derived_cubic_column_and_complex_y_sign[Y-expected1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.992705261334777e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[0-0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00019948597764596343
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[0-0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.08417672401992604
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[0-0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011476298095658422
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[0-reference1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0002029470051638782
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[0-reference1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.007274208997841924
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[0-reference1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00010081700747832656
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[2-0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00018183200154453516
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[2-0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.004245804972015321
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[2-0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 9.915197733789682e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[2-reference1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00018251599976792932
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[2-reference1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.08597511798143387
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[2-reference1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00017739000031724572
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[128-0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0004184599965810776
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[128-0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.005071345018222928
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[128-0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011823599925264716
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[128-reference1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0002298180479556322
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[128-reference1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.006671706971246749
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_all_permutations_match_commutator_and_coherent_dense_oracles[128-reference1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00010249600745737553
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_complex_reference_columns_interfere_before_projection",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011537398677319288
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_complex_reference_columns_interfere_before_projection",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0014693760313093662
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_complex_reference_columns_interfere_before_projection",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.985497359186411e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_physical_exponential_has_positive_i_times_the_cubic_column",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 8.638401050120592e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_physical_exponential_has_positive_i_times_the_cubic_column",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.009167315030936152
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_physical_exponential_has_positive_i_times_the_cubic_column",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00014860398368909955
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_137_qubit_response_only_visits_four_configurations",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00017400801880285144
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_137_qubit_response_only_visits_four_configurations",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0009926650091074407
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_137_qubit_response_only_visits_four_configurations",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 9.080203017219901e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_molecular_adapter_preserves_coefficients_and_conserving_units",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00014412100426852703
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_molecular_adapter_preserves_coefficients_and_conserving_units",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.07095279399072751
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_molecular_adapter_preserves_coefficients_and_conserving_units",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00010260601993650198
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_adapter_accepts_hermitian_odd_y_but_rejects_noncommuting_flip_group",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00015338504454120994
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_adapter_accepts_hermitian_odd_y_but_rejects_noncommuting_flip_group",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0003187989932484925
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_adapter_accepts_hermitian_odd_y_but_rejects_noncommuting_flip_group",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.150196375325322e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks0-0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00020313996355980635
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks0-0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.728399941697717e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks0-0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.984900053590536e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks1--1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001360290334559977
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks1--1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.190002361312509e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks1--1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.5747979786247015e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks2-True]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011910899775102735
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks2-True]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.251904414966702e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks2-True]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.9810041673481464e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks3-1.5]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001135190250352025
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks3-1.5]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.447604391723871e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks3-1.5]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.3387018851935863e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks4-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00012396200327202678
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks4-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.992596900090575e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks4-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.1081005949527025e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks5-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011689303210005164
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks5-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.609898991882801e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks5-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.299097392708063e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks6-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001460100174881518
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks6-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.899897173047066e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks6-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.677004810422659e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks7-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011606799671426415
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks7-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.699695950374007e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks7-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.896300379186869e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks8-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00012146803783252835
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks8-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.697303615510464e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks8-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.130300996825099e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks9-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011895201168954372
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks9-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.969401147216558e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks9-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00018275598995387554
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks10-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001891239662654698
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks10-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00010134902549907565
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks10-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.8955978602170944e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks11-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00012409599730744958
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks11-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.354799890890718e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks11-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.440699169412255e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks12-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011900201207026839
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks12-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 8.885998977348208e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_pauli_domains_are_rejected[blocks12-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.489698378369212e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.317899821326137e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 8.0001016613096e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.3543015383183956e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[2]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00031610700534656644
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[2]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00017668702639639378
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[2]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 6.622500950470567e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[True]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00012803799472749233
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[True]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0001303509925492108
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[True]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.3541967645287514e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference3]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00010295602260157466
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference3]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.831299444660544e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference3]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.818501813337207e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference4]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.865901665762067e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference4]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 8.461903780698776e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference4]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.031394539400935e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference5]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00010140001541003585
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference5]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 9.95149603113532e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference5]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.688999615609646e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference6]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.665201650932431e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference6]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.715902756899595e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference6]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.444399382919073e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference7]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.019102435559034e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference7]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.581803947687149e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[reference7]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.690198693424463e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.145296644419432e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0001025209785439074
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_reference_is_not_accepted[0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.362497176975012e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_reference_support_limit_and_working_support_refuse_truncation",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 6.417400436475873e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_reference_support_limit_and_working_support_refuse_truncation",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0002385179977864027
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_reference_support_limit_and_working_support_refuse_truncation",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.6299013774842024e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_single_commuting_unit_needs_no_expanding_cubic_column",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 5.985499592497945e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_single_commuting_unit_needs_no_expanding_cubic_column",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00012780801625922322
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_single_commuting_unit_needs_no_expanding_cubic_column",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.870002157986164e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001756459823809564
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00016216200310736895
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.189600728452206e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001024280209094286
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00010716001270338893
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.0701957661658525e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order2]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.290705202147365e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order2]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00010137195931747556
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order2]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.9058988224714994e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order3]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.090197272598743e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order3]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 9.794998914003372e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order3]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 6.0098012909293175e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order4]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011023704428225756
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order4]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00011289300164207816
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_permutation_is_rejected[order4]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.657400470227003e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0003296260256320238
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00012911198427900672
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011869799345731735
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00014775898307561874
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00012059498112648726
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00010292697697877884
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs2]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001905430108308792
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs2]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0003376620006747544
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs2]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00010892696445807815
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs3]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00017404998652637005
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs3]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00010983098763972521
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs3]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.137297118082643e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs4]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001412479905411601
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs4]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.178098894655704e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs4]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.8491015806794167e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs5]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00019593199249356985
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs5]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.000112613954115659
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_context_resource_and_time_settings[kwargs5]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.9978978242725134e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00015697599155828357
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00020174600649625063
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 6.95799826644361e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[2]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001574139459989965
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[2]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0001708470517769456
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[2]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.65679869800806e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0003267310094088316
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0002104679588228464
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.683300646021962e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[True]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00014786701649427414
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[True]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00014860095689073205
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[True]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.295300019904971e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[3.5]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00016624998534098268
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[3.5]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00016927497927099466
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_unaffordable_or_invalid_rotation_budget_is_rejected[3.5]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.470103446394205e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_expired_deadlines_do_not_become_zero_response",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.524100460112095e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_expired_deadlines_do_not_become_zero_response",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00031672598561272025
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_expired_deadlines_do_not_become_zero_response",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 6.914901314303279e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001512069720774889
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 9.730097372084856e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.17350048944354e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001314220135100186
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 8.70020012371242e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.154501508921385e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[inf]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00014425104018300772
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[inf]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 9.351503103971481e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[inf]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.124600233510137e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[nan]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.07563899998785928
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[nan]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00021102401660755277
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[nan]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011165795149281621
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[True]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00023626594338566065
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[True]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00011509197065606713
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_training_requires_a_positive_finite_cpu_allowance[True]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.628003368154168e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_zero_evaluations_returns_no_invented_score",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00010287802433595061
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_zero_evaluations_returns_no_invented_score",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.000721265038009733
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_zero_evaluations_returns_no_invented_score",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.704297943040729e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_completed_improvement_survives_an_interrupted_insertion_sweep",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.055103873834014e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_completed_improvement_survives_an_interrupted_insertion_sweep",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0008172880043275654
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_completed_improvement_survives_an_interrupted_insertion_sweep",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.707202944904566e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_completed_insertion_sweep_records_a_real_improving_move",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 7.319299038499594e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_completed_insertion_sweep_records_a_real_improving_move",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0006565389921888709
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_completed_insertion_sweep_records_a_real_improving_move",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.251000402495265e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[operator-tolerance0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00015402899589389563
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[operator-tolerance0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0006030539516359568
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[operator-tolerance0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.084495155140758e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[infidelity-tolerance1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00020518398378044367
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[infidelity-tolerance1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0005171390366740525
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[infidelity-tolerance1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.076299516484141e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[squared_infidelity-tolerance2]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00014299899339675903
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[squared_infidelity-tolerance2]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00039997498970478773
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_conservative_certificate_bounds_independent_physical_evolution[squared_infidelity-tolerance2]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 6.20689825154841e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks0-5.0-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00015900097787380219
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks0-5.0-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 7.660698611289263e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks0-5.0-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.601195152848959e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks1-1.0-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00015474704559892416
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks1-1.0-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00024961703456938267
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks1-1.0-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00010318000568076968
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks2-0.0-1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00018038501730188727
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks2-0.0-1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0001108890282921493
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks2-0.0-1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.789595888927579e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks3--0.7-2]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00013692403445020318
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks3--0.7-2]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 9.223999222740531e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_exact_zero_and_single_commuting_unit_certificates[blocks3--0.7-2]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.651795072481036e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_step_certificate_refuses_an_unaffordable_target",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 6.324099376797676e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_step_certificate_refuses_an_unaffordable_target",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 9.201903594657779e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_step_certificate_refuses_an_unaffordable_target",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.663698099553585e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs0]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00024431198835372925
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs0]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 9.495497215539217e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs0]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.804299144074321e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs1]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001067830016836524
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs1]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.77659991197288e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs1]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.7195989433676e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs2]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.659002535045147e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs2]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.224005483090878e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs2]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.7727953642606735e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs3]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00010799098527058959
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs3]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.0229969676584005e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs3]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.773604450747371e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs4]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00011834199540317059
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs4]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.712100002914667e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs4]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.709302447736263e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs5]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.38590383157134e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs5]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.26719556748867e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs5]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.985899431630969e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs6]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.026500629261136e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs6]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 5.766598042100668e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs6]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 4.7761015594005585e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs7]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.081000462174416e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs7]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 6.422901060432196e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_response_ordering.py::test_invalid_certificate_settings_are_rejected[kwargs7]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.163002060726285e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_command_reports_real_order_and_separate_certificate",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0011877529905177653
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_command_reports_real_order_and_separate_certificate",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0014235189883038402
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_command_reports_real_order_and_separate_certificate",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001111250021494925
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_command_discloses_unresolved_step_cap_and_refuses_overwrite",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0008031050092540681
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_command_discloses_unresolved_step_cap_and_refuses_overwrite",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.001736744015943259
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_command_discloses_unresolved_step_cap_and_refuses_overwrite",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.661496056243777e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_denominator_is_not_silently_coerced[denominator-True]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0009144460200332105
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_denominator_is_not_silently_coerced[denominator-True]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0006566389929503202
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_denominator_is_not_silently_coerced[denominator-True]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.638395229354501e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_denominator_is_not_silently_coerced[denominator-1.5]",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0009081070311367512
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_denominator_is_not_silently_coerced[denominator-1.5]",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.000566379982046783
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_denominator_is_not_silently_coerced[denominator-1.5]",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 9.29219531826675e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_coefficient_is_not_silently_truncated",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0007140400120988488
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_coefficient_is_not_silently_truncated",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.07597482396522537
+    },
+    {
+      "nodeid": "analysis/tests/test_train_ordering_cli.py::test_coefficient_is_not_silently_truncated",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00017187197227030993
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_adjacent_swaps_with_nonzero_suffix_and_reverse_insertion",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001625239965505898
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_adjacent_swaps_with_nonzero_suffix_and_reverse_insertion",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.010697545018047094
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_adjacent_swaps_with_nonzero_suffix_and_reverse_insertion",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001614270149730146
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_larger_training_returns_fully_rescored_incumbent",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0001841349876485765
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_larger_training_returns_fully_rescored_incumbent",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0044795499998144805
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_larger_training_returns_fully_rescored_incumbent",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00013385701458901167
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_many_y_phases_are_exact_and_column_cache_is_not_exposed",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00013104500249028206
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_many_y_phases_are_exact_and_column_cache_is_not_exposed",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0005189419607631862
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_many_y_phases_are_exact_and_column_cache_is_not_exposed",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.266702596098185e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_huge_finite_reference_is_rejected_as_invalid_norm",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 7.814500713720918e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_huge_finite_reference_is_rejected_as_invalid_norm",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00018821301637217402
+    },
+    {
+      "nodeid": "analysis/tests/test_sparse_ordering_updates.py::test_huge_finite_reference_is_rejected_as_invalid_norm",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.126398850232363e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_large_identity_shift_preserves_analytic_cubic_and_public_unit_actions",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 8.248101221397519e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_large_identity_shift_preserves_analytic_cubic_and_public_unit_actions",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0004554219776764512
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_large_identity_shift_preserves_analytic_cubic_and_public_unit_actions",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.423001807183027e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_multiple_unit_identity_shifts_preserve_columns_and_coherent_transport",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.170302655547857e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_multiple_unit_identity_shifts_preserve_columns_and_coherent_transport",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.08276058797491714
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_multiple_unit_identity_shifts_preserve_columns_and_coherent_transport",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00012692395830526948
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_adjacent_updates_are_scalar_invariant_for_coherent_reference_columns",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00010364799527451396
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_adjacent_updates_are_scalar_invariant_for_coherent_reference_columns",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.004196500056423247
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_adjacent_updates_are_scalar_invariant_for_coherent_reference_columns",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011081103002652526
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_scalar_only_unit_keeps_rotation_cost_without_changing_the_defect",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00010912201832979918
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_scalar_only_unit_keeps_rotation_cost_without_changing_the_defect",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0013672339846380055
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_scalar_only_unit_keeps_rotation_cost_without_changing_the_defect",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.0001342149917036295
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_scalar_free_dynamic_range_is_resolved_or_explicitly_refused",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00012566900113597512
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_scalar_free_dynamic_range_is_resolved_or_explicitly_refused",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00025030499091371894
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_scalar_free_dynamic_range_is_resolved_or_explicitly_refused",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.561299182474613e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_unresolved_first_seed_never_becomes_a_completed_zero_training_score",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 7.656001253053546e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_unresolved_first_seed_never_becomes_a_completed_zero_training_score",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00026713096303865314
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_unresolved_first_seed_never_becomes_a_completed_zero_training_score",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 5.018198862671852e-05
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_numerical_refusal_retains_the_earlier_fully_scored_seed",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00014491495676338673
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_numerical_refusal_retains_the_earlier_fully_scored_seed",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.000581033993512392
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_numerical_refusal_retains_the_earlier_fully_scored_seed",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00010260200360789895
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_shared_rescore_reserve_can_fund_a_checked_best_seed_improvement",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.00016617897199466825
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_shared_rescore_reserve_can_fund_a_checked_best_seed_improvement",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0004210780025459826
+    },
+    {
+      "nodeid": "analysis/tests/test_response_resolution.py::test_shared_rescore_reserve_can_fund_a_checked_best_seed_improvement",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.433900075033307e-05
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_exact_json_to_toml_and_original_labels",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0020142029970884323
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_exact_json_to_toml_and_original_labels",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0010383700137026608
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_exact_json_to_toml_and_original_labels",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.652498945593834e-05
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_partition_and_register_identity_are_not_inferred_from_labels",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 7.276004180312157e-05
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_partition_and_register_identity_are_not_inferred_from_labels",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00028069503605365753
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_partition_and_register_identity_are_not_inferred_from_labels",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 8.186802733689547e-05
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_result_publication_cannot_replace_existing_evidence",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 0.0007596040377393365
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_result_publication_cannot_replace_existing_evidence",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00030444300500676036
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_result_publication_cannot_replace_existing_evidence",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 7.554399780929089e-05
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_retained_control_has_unchanged_bounds_and_scoped_import_alias",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 5.9590034652501345e-05
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_retained_control_has_unchanged_bounds_and_scoped_import_alias",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.005736559978686273
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_retained_control_has_unchanged_bounds_and_scoped_import_alias",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00011539598926901817
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_predata_inventory_counts_include_pauli_and_first_order_controls",
+      "when": "setup",
+      "outcome": "passed",
+      "duration_seconds": 9.473896352574229e-05
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_predata_inventory_counts_include_pauli_and_first_order_controls",
+      "when": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.00021219596965238452
+    },
+    {
+      "nodeid": "numerical_audit/prospective_window_ordering/test/test_contracts.py::test_predata_inventory_counts_include_pauli_and_first_order_controls",
+      "when": "teardown",
+      "outcome": "passed",
+      "duration_seconds": 0.00022549496497958899
+    }
+  ],
+  "calls_passed": 125,
+  "skipped": 0,
+  "scope": "Parent test-process product imports pinned to isolated installed wheel; dedicated -S wheel CLI test independently exercises real installed Julia assets. No molecular quality measured."
+}

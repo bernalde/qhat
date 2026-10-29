@@ -1,0 +1,32 @@
+{
+  "schema": "postreview-cpu-pareto-sensitivity-freeze-v1",
+  "frozen_UTC": "2026-10-29T05:45:07.150835+00:00",
+  "stage": "postreview_numerical_cost_sensitivity_not_primary",
+  "reason": "Argon A09P2-F01 identifies binary64 1ULP cost tie-breaking; append a complete sensitivity view without rewriting primary results.",
+  "original_head": "31c420d5f88c893d3ad44e915a6fff265696cd95",
+  "original_summary_sha256": "db2e4271d53fc140168352cf70a430d4cfecfe8b939db0ed2d7738477cf387f0",
+  "populations": {
+    "all_groups": 32,
+    "all_paths_per_group": 11
+  },
+  "CPU_cost_tolerance_seconds": 1e-12,
+  "physical_error_tolerance_unchanged": 1e-12,
+  "retain_original_costs_errors_statuses_and_wall_sets": true,
+  "filter_objective_unscored_baselines": false,
+  "primary_source_inputs_orders_errors_pairs_medians_comparisons_frontiers_unchanged": true,
+  "resource_admission_and_accounting_ceilings_unchanged": true,
+  "producer_source_sha256": "f12fd31c707660a7c221d987a04f5e441bc62b2020ac734bdef06badcb0b722c",
+  "independent_checker_method": "Separately authored exact Fraction comparisons of supplied binary64 values; all groups and changed-frontier inventory, not selected examples.",
+  "execution": "Only after all22Argonpackets terminate, one guarded metadata worker then one independent checker; no scientific kernels or tests during reviewer client.",
+  "planned_attempts_CPU_wall_each": [
+    5,
+    25
+  ],
+  "planned_output_MiB": 2,
+  "existing_independent_pool_caps_CPU_wall": [
+    2000,
+    10000
+  ],
+  "no_resource_extension_needed": true,
+  "claim_boundary": "Appendix addresses numeric representation of recorded costs; not a new training result or replacement for the predeclared primary analysis."
+}

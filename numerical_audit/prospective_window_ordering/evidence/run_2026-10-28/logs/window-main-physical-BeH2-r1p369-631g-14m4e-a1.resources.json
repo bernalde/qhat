@@ -1,0 +1,291 @@
+{
+  "unit": "fermionic-future-window-main-physical-BeH2-r1p369-631g-14m4e-a1-3403827",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "900",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=250M",
+    "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/physical.jl",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/inputs/BeH2_r1p369_631g_14m4e/model.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/BeH2_r1p369_631g_14m4e/CANDIDATES.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-physical/BeH2_r1p369_631g_14m4e"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 93.7899265299784,
+  "samples": [
+    {
+      "elapsed": 0.001033334992825985,
+      "available_bytes": 14227808256,
+      "frozen": false,
+      "service": "MemoryCurrent=32768\nMemoryPeak=262144\nCPUUsageNSec=89000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 3.0719827889697626,
+      "available_bytes": 14045532160,
+      "frozen": false,
+      "service": "MemoryCurrent=148795392\nMemoryPeak=148795392\nCPUUsageNSec=776510000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 6.095012838952243,
+      "available_bytes": 14008799232,
+      "frozen": false,
+      "service": "MemoryCurrent=165367808\nMemoryPeak=166899712\nCPUUsageNSec=1546149000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 9.11934965196997,
+      "available_bytes": 13986693120,
+      "frozen": false,
+      "service": "MemoryCurrent=184733696\nMemoryPeak=187564032\nCPUUsageNSec=2298367000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 12.147535342955962,
+      "available_bytes": 13972447232,
+      "frozen": false,
+      "service": "MemoryCurrent=185065472\nMemoryPeak=187564032\nCPUUsageNSec=3051611000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 15.16948031494394,
+      "available_bytes": 14421164032,
+      "frozen": false,
+      "service": "MemoryCurrent=185413632\nMemoryPeak=187564032\nCPUUsageNSec=3800257000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 18.195245439943392,
+      "available_bytes": 14413856768,
+      "frozen": false,
+      "service": "MemoryCurrent=191197184\nMemoryPeak=192794624\nCPUUsageNSec=4569930000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 21.2269108259934,
+      "available_bytes": 14411456512,
+      "frozen": false,
+      "service": "MemoryCurrent=195653632\nMemoryPeak=195653632\nCPUUsageNSec=5323409000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 24.251764884975273,
+      "available_bytes": 14401282048,
+      "frozen": false,
+      "service": "MemoryCurrent=198963200\nMemoryPeak=198963200\nCPUUsageNSec=6072727000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 27.271735882968642,
+      "available_bytes": 14382305280,
+      "frozen": false,
+      "service": "MemoryCurrent=205799424\nMemoryPeak=208293888\nCPUUsageNSec=6825574000",
+      "output_bytes": 123032203
+    },
+    {
+      "elapsed": 30.298956086975522,
+      "available_bytes": 14331756544,
+      "frozen": false,
+      "service": "MemoryCurrent=256913408\nMemoryPeak=256913408\nCPUUsageNSec=7598577000",
+      "output_bytes": 123556491
+    },
+    {
+      "elapsed": 33.32181115198182,
+      "available_bytes": 14314344448,
+      "frozen": false,
+      "service": "MemoryCurrent=261885952\nMemoryPeak=261885952\nCPUUsageNSec=8347425000",
+      "output_bytes": 123818635
+    },
+    {
+      "elapsed": 36.346410395985004,
+      "available_bytes": 14336933888,
+      "frozen": false,
+      "service": "MemoryCurrent=232337408\nMemoryPeak=261894144\nCPUUsageNSec=9100461000",
+      "output_bytes": 123820354
+    },
+    {
+      "elapsed": 39.368456861993764,
+      "available_bytes": 14349803520,
+      "frozen": false,
+      "service": "MemoryCurrent=232894464\nMemoryPeak=261894144\nCPUUsageNSec=9849422000",
+      "output_bytes": 124348072
+    },
+    {
+      "elapsed": 42.39242719998583,
+      "available_bytes": 14355886080,
+      "frozen": false,
+      "service": "MemoryCurrent=233725952\nMemoryPeak=261894144\nCPUUsageNSec=10615119000",
+      "output_bytes": 125139659
+    },
+    {
+      "elapsed": 45.41534329595743,
+      "available_bytes": 14337613824,
+      "frozen": false,
+      "service": "MemoryCurrent=237342720\nMemoryPeak=261894144\nCPUUsageNSec=11375808000",
+      "output_bytes": 125931221
+    },
+    {
+      "elapsed": 48.438210768974386,
+      "available_bytes": 14359343104,
+      "frozen": false,
+      "service": "MemoryCurrent=204558336\nMemoryPeak=261894144\nCPUUsageNSec=12124937000",
+      "output_bytes": 126458939
+    },
+    {
+      "elapsed": 51.45838269998785,
+      "available_bytes": 14359937024,
+      "frozen": false,
+      "service": "MemoryCurrent=207261696\nMemoryPeak=261894144\nCPUUsageNSec=12873405000",
+      "output_bytes": 127250519
+    },
+    {
+      "elapsed": 54.4811416399898,
+      "available_bytes": 14328422400,
+      "frozen": false,
+      "service": "MemoryCurrent=211161088\nMemoryPeak=261894144\nCPUUsageNSec=13629264000",
+      "output_bytes": 128042069
+    },
+    {
+      "elapsed": 57.507449906959664,
+      "available_bytes": 14321192960,
+      "frozen": false,
+      "service": "MemoryCurrent=214310912\nMemoryPeak=261894144\nCPUUsageNSec=14398246000",
+      "output_bytes": 128569784
+    },
+    {
+      "elapsed": 60.530015857948456,
+      "available_bytes": 14318034944,
+      "frozen": false,
+      "service": "MemoryCurrent=219082752\nMemoryPeak=261894144\nCPUUsageNSec=15150012000",
+      "output_bytes": 129361350
+    },
+    {
+      "elapsed": 63.55249427998206,
+      "available_bytes": 14303096832,
+      "frozen": false,
+      "service": "MemoryCurrent=223629312\nMemoryPeak=261894144\nCPUUsageNSec=15898739000",
+      "output_bytes": 130152892
+    },
+    {
+      "elapsed": 66.57757888099877,
+      "available_bytes": 14300954624,
+      "frozen": false,
+      "service": "MemoryCurrent=226795520\nMemoryPeak=261894144\nCPUUsageNSec=16651450000",
+      "output_bytes": 130680596
+    },
+    {
+      "elapsed": 69.60027041495778,
+      "available_bytes": 14282534912,
+      "frozen": false,
+      "service": "MemoryCurrent=246743040\nMemoryPeak=261894144\nCPUUsageNSec=17424321000",
+      "output_bytes": 130944440
+    },
+    {
+      "elapsed": 72.6228659429471,
+      "available_bytes": 14290497536,
+      "frozen": false,
+      "service": "MemoryCurrent=254439424\nMemoryPeak=261894144\nCPUUsageNSec=18173494000",
+      "output_bytes": 130944440
+    },
+    {
+      "elapsed": 75.64560849498957,
+      "available_bytes": 14283776000,
+      "frozen": false,
+      "service": "MemoryCurrent=257236992\nMemoryPeak=265187328\nCPUUsageNSec=18926372000",
+      "output_bytes": 131210631
+    },
+    {
+      "elapsed": 78.67000759596704,
+      "available_bytes": 14305689600,
+      "frozen": false,
+      "service": "MemoryCurrent=231763968\nMemoryPeak=265187328\nCPUUsageNSec=19675676000",
+      "output_bytes": 131742995
+    },
+    {
+      "elapsed": 81.69453482294921,
+      "available_bytes": 14282571776,
+      "frozen": false,
+      "service": "MemoryCurrent=234467328\nMemoryPeak=265187328\nCPUUsageNSec=20445677000",
+      "output_bytes": 132800724
+    },
+    {
+      "elapsed": 84.71632301196223,
+      "available_bytes": 14274121728,
+      "frozen": false,
+      "service": "MemoryCurrent=236929024\nMemoryPeak=265187328\nCPUUsageNSec=21197817000",
+      "output_bytes": 133328443
+    },
+    {
+      "elapsed": 87.74386678496376,
+      "available_bytes": 14283333632,
+      "frozen": false,
+      "service": "MemoryCurrent=239116288\nMemoryPeak=265187328\nCPUUsageNSec=21951324000",
+      "output_bytes": 133856177
+    },
+    {
+      "elapsed": 90.7660146819544,
+      "available_bytes": 14271696896,
+      "frozen": false,
+      "service": "MemoryCurrent=244228096\nMemoryPeak=265187328\nCPUUsageNSec=22700580000",
+      "output_bytes": 134911665
+    }
+  ],
+  "completed_utc": "2026-10-29T03:07:53.488676+00:00",
+  "budget": {
+    "cpu_seconds": 180.0,
+    "wall_seconds": 900,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-main-physical-BeH2-r1p369-631g-14m4e-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 23.03,
+    "system_cpu_seconds": 0.26,
+    "max_rss_kib": 411196.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 23.290000000000003,
+    "output_bytes": 135429904,
+    "elapsed_seconds": 93.7899265299784,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

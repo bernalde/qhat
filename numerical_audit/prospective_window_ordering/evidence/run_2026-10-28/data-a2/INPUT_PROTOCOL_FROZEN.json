@@ -1,0 +1,342 @@
+{
+  "source_commit": "87da247744ed58b7a96759fd8af3a44235b6cb38",
+  "sources": {
+    "analysis/__init__.py": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/julia_window/Project.toml": "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d",
+    "analysis/julia_window/README.md": "69c2f8be207bd6dc7fca2918ba1cf25f9dca6ace0c7e19585ad5fedf1490cc95",
+    "analysis/julia_window/ResponseCore.jl": "8207a5496f5510cafa7aac6bd4eac337be07a8d64a7dbfdd1d5121a9dc51e80e",
+    "analysis/julia_window/SOURCE.toml": "7fa93a91f44da5f6a395ca443b6aff0cd80533aee88ee9e6c371fd9ecc7f75b2",
+    "analysis/julia_window/WindowSearch.jl": "bd6678e05077d2f6e33a72f9b23c6df24a456b7aa8c04053efc0d57e74232532",
+    "analysis/julia_window/tests.jl": "d14bfb1f41578a692461dc15f93188a32f998db2690897b10907127414b09c76",
+    "analysis/julia_window/worker.jl": "30915f35e079e8335bd8fd08242cb98f549fb9e5b2fd4ca9c86764f5be484e1a",
+    "analysis/sparse_response_ordering.py": "52c6c095a752e9505c88fbb3d22db7201d2f0dd06b32f239114361be83bef421",
+    "analysis/strang_schedule.py": "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a",
+    "analysis/train_ordering.py": "56b2aa6eaf7637ff57d476db0c85478902089fb3dcb31ec1d109ee960e108abd",
+    "analysis/window_ordering.py": "e8b059402fd6cf8277c338e0c76537f5674582fe719ab5d3f39578b34f9aac50",
+    "numerical_audit/__init__.py": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca",
+    "numerical_audit/followup_classes/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3",
+    "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl": "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605",
+    "numerical_audit/prospective_window_ordering/PROTOCOL.md": "03033ed713a8d841414bd30eef0d0bf9a372cbf27d07d4be70e56db3beeff206",
+    "numerical_audit/prospective_window_ordering/README.md": "46a468373c22103167cded565a0ace1bce120d67d8fb7abd68437715dd7fd065",
+    "numerical_audit/prospective_window_ordering/REGISTRY.json": "42c101dacdc537b154ce835699d5bd101a18d8fb214eab0b7596f5984175f825",
+    "numerical_audit/prospective_window_ordering/SOURCE_ORIGINS.json": "71495b64429177cdc65a332afcaccf44371af9f6825f9de7e30f4068cf7b6769",
+    "numerical_audit/prospective_window_ordering/construct_campaign.py": "98b35b0a85419cdd70f0d799a9dd413c1c498a453572ec297c8edf4125058522",
+    "numerical_audit/prospective_window_ordering/constructors.py": "ba1cc0e2ee3b64eb4a4f22df6bed1d828bbf52f1a7d8ea057f7588cf02f5c27e",
+    "numerical_audit/prospective_window_ordering/generate_inputs.py": "af9366d1b32056159dd94d33bf140ef621f4e9092849880fb2ae3c9521e04389",
+    "numerical_audit/prospective_window_ordering/identity.py": "ec324925e8bb408e39b032656f07a7ea9b892a3cb16df64a8355312ae7e5dd05",
+    "numerical_audit/prospective_window_ordering/independent.jl": "1595009f21a2d086c4a0bce7702c608d57257b2d05009e08b8916276fa4eaa73",
+    "numerical_audit/prospective_window_ordering/objective_check.jl": "79b9d4c57aad9a273c641bfc7cc915c52f19b55488560587009fa1cc3c376d0f",
+    "numerical_audit/prospective_window_ordering/panel.py": "9d8a9fd7e3f7f8b193f018464e2f87b81e4df2c8efd9ae88c12be95e66e8f63d",
+    "numerical_audit/prospective_window_ordering/physical.jl": "d9bd78ce615c9c41aa0b9902411a56b00a607f4b2e2699ff3a457a5afc8f7eb7",
+    "numerical_audit/prospective_window_ordering/preflight.py": "9012631a324408d79a3e2bdf71afed16f02961c47df738a3bb1cc0f04d20220b",
+    "numerical_audit/prospective_window_ordering/src/WindowPhysical.jl": "c6452aab650e30dff83376a3a21151210e76b1089fc8828fb32740c27689487b",
+    "numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl": "292b09e49f0c09386f4400163c79077f1ce5da570d435234497a3034c7b07a4d",
+    "numerical_audit/prospective_window_ordering/study_common.py": "3cd92614801ab47e2c7583ad5fe7c5f84b8ef3991d78a3d7f3944c3a3f3a0a0f",
+    "numerical_audit/prospective_window_ordering/test/driver_tests.jl": "24013ff0f7898a203fda43c302e4c140dd5fb4c1176f501b2ea04cdaeb9d5812",
+    "numerical_audit/prospective_window_ordering/test/independent_tests.jl": "496eb8eee6c574a5b543b6a43144138e0ab77009659acd102e7025cf1af6470b",
+    "numerical_audit/prospective_window_ordering/test/objective_tests.jl": "15d216741e1ee6e2e13c6672ebe566623570998766e92753146e2cb11df51d57",
+    "numerical_audit/prospective_window_ordering/test/physical_tests.jl": "2eacfea3df1438babaf49064e4315fef87bd1c36877be8eb610798f7ed73bddf",
+    "numerical_audit/prospective_window_ordering/test/test_campaign.py": "907ef3f2f66741c23c0def3cc103af01621a7461cddf3d8924f4dbd4f455d2f2",
+    "numerical_audit/prospective_window_ordering/test/test_contracts.py": "8dc4bf5aaec6850db74b13e659cd3e8eb5ca7644ae47f5ba4310c125109ffb3c",
+    "numerical_audit/prospective_window_ordering/test/test_input_boundary.py": "80eed2013d8e06b89e38166c629b005b08dc6d1287a386862c997aca388f74cd",
+    "numerical_audit/prospective_window_ordering/test/test_panel.py": "5d2ab7bfe3f920c9bf55b6d0a0ef392c3d7841a673808a4305cef8e5d156a892",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py": "82054d96a161a21fa83b7d453d959486fb93164deec98b3eb974cd18f03b8123",
+    "numerical_audit/scalable_ordering/common.py": "44d223e5bf6ce4706b11b4bdd9630b730d0c0631fcb6a5d2eed98aada2a8279b",
+    "numerical_audit/scalable_ordering/training.py": "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+  },
+  "environment": {
+    "python": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+    "executable": "/home/bernalde/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/bin/python3.12",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "basis": {
+      "path": "pyscf/gto/basis/pople-basis/6-31G.dat",
+      "sha256": "2ac806c7ac6e8e8dc357187561c586d13e99abd7a25fbb9872dc300bbcf138c0",
+      "bytes": 34316
+    },
+    "packages": {
+      "numpy": "2.5.3",
+      "scipy": "1.18.1",
+      "openfermion": "1.8.1",
+      "openfermionpyscf": "0.5",
+      "pyscf": "2.14.0",
+      "h5py": "3.16.0"
+    }
+  },
+  "registry": {
+    "schema": "prospective-window-registry-v1",
+    "base_commit": "24b3bf5388dfd19196e4ef210ba73fa9c574a11e",
+    "basis": "6-31g",
+    "unit": "Angstrom",
+    "charge": 0,
+    "spin": 0,
+    "symmetry": false,
+    "novelty_scope": "New geometry/basis/active-space instances in two seen families; prior baseline numerical-audit JSON identity audit required. No new-family claim.",
+    "cases": [
+      {
+        "case": "LiH_r1p487_631g_14m4e",
+        "family": "LiH",
+        "geometry": [
+          [
+            "Li",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              1.487
+            ]
+          ]
+        ],
+        "frozen_spatial": [],
+        "active_spatial": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "electrons": 4,
+        "n": 14
+      },
+      {
+        "case": "LiH_r2p113_631g_14m4e",
+        "family": "LiH",
+        "geometry": [
+          [
+            "Li",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              2.113
+            ]
+          ]
+        ],
+        "frozen_spatial": [],
+        "active_spatial": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "electrons": 4,
+        "n": 14
+      },
+      {
+        "case": "BeH2_r1p369_631g_14m4e",
+        "family": "BeH2",
+        "geometry": [
+          [
+            "Be",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              -1.369
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              1.369
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0
+        ],
+        "active_spatial": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "electrons": 4,
+        "n": 14
+      },
+      {
+        "case": "BeH2_r1p907_631g_14m4e",
+        "family": "BeH2",
+        "geometry": [
+          [
+            "Be",
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              -1.907
+            ]
+          ],
+          [
+            "H",
+            [
+              0,
+              0,
+              1.907
+            ]
+          ]
+        ],
+        "frozen_spatial": [
+          0
+        ],
+        "active_spatial": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "electrons": 4,
+        "n": 14
+      }
+    ]
+  },
+  "configuration": {
+    "training_time": 1.0,
+    "training_cap_times_original_words": 30,
+    "process_CPU_ceiling": 64.0,
+    "process_wall_ceiling": 320.0,
+    "fresh_repetitions": 2,
+    "arms": [
+      "canonical",
+      "magnitude",
+      "current",
+      "first",
+      "pauli",
+      "cubic",
+      "window_sparse",
+      "window_magnitude"
+    ],
+    "native": {
+      "max_evaluations": 3000,
+      "max_moves": 5,
+      "max_entries": 50000,
+      "max_cached_actions": 100000
+    },
+    "window": {
+      "width": 8,
+      "max_windows": 1,
+      "max_sweeps": 10,
+      "parent_fraction": 0.6,
+      "strictly_interior": true
+    },
+    "physical": {
+      "times": [
+        0.4,
+        1.6
+      ],
+      "cap_times_original_words": [
+        8,
+        24
+      ],
+      "formulas": {
+        "canonical": [
+          1,
+          2
+        ],
+        "magnitude": [
+          2
+        ],
+        "current": [
+          1,
+          2
+        ],
+        "first": [
+          1,
+          2
+        ],
+        "pauli": [
+          2
+        ],
+        "cubic": [
+          2
+        ],
+        "window_sparse": [
+          2
+        ],
+        "window_magnitude": [
+          2
+        ]
+      },
+      "full_dimension": 16384,
+      "reference_sector_cap": 2000,
+      "win_tie_ambiguity": 1e-12
+    },
+    "admission": {
+      "modes": 14,
+      "electrons": 4,
+      "original_units": 1024,
+      "original_words": 8192,
+      "model_bytes": 8388608
+    },
+    "scope": "No physical-error observation or free historical parent enters construction"
+  },
+  "geometry_identity": {
+    "base": "24b3bf5388dfd19196e4ef210ba73fa9c574a11e",
+    "cases": [
+      {
+        "case": "LiH_r1p487_631g_14m4e",
+        "matches": []
+      },
+      {
+        "case": "LiH_r2p113_631g_14m4e",
+        "matches": []
+      },
+      {
+        "case": "BeH2_r1p369_631g_14m4e",
+        "matches": []
+      },
+      {
+        "case": "BeH2_r1p907_631g_14m4e",
+        "matches": []
+      }
+    ],
+    "unique_JSON_blobs": 13010,
+    "geometry_occurrences": 38,
+    "scanned_bytes": 358967184,
+    "tolerance_Angstrom": 1e-09,
+    "scope": "Recorded baseline numerical-audit JSON; no claim about external or unrecorded data"
+  },
+  "scope": "Input generation only; no ordering or validation errors; no new-family claim",
+  "internal_PySCF_max_memory_MB": 256
+}

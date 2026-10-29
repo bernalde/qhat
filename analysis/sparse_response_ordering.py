@@ -12,6 +12,7 @@ tail and unitary telescoping. It makes no claim about SCF, synthesis or hardware
 from __future__ import annotations
 
 from collections import OrderedDict
+from contextvars import ContextVar
 from dataclasses import dataclass
 from fractions import Fraction
 import math
@@ -22,6 +23,10 @@ from qhat.analysis.strang_schedule import plan_strang_schedule
 
 Word = tuple[tuple[int, str], ...]
 Vector = dict[int, complex]
+
+# The opt-in process bridge installs a call-scoped whole-call CPU/wall check.
+# ContextVar keeps unrelated trainers in other embedding threads independent.
+_EXTERNAL_BUDGET_CHECK = ContextVar('qhat_ordering_budget_check', default=None)
 
 
 class ResourceLimit(RuntimeError):
@@ -37,6 +42,9 @@ class SearchDeadline(RuntimeError):
 
 
 def _check(deadline):
+    external = _EXTERNAL_BUDGET_CHECK.get()
+    if external is not None:
+        external()
     if _time.process_time() >= deadline:
         raise SearchDeadline('ordering CPU deadline reached')
 
@@ -555,6 +563,8 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
             proposal, proposal_score = current, current_score
             try:
                 _check(end)
+                if evaluations >= max_evaluations - 1:
+                    raise SearchDeadline('evaluation limit reached')
                 columns = seed_columns.get(current)
                 if columns is None:
                     columns = context.columns(current, end)
@@ -599,8 +609,11 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
             except NumericalResolution:
                 status = 'numerical_limit'
                 break
-            except (SearchDeadline, ResourceLimit):
-                status = 'cpu_limit' if _time.process_time() >= deadline else 'support_limit'
+            except SearchDeadline:
+                status = 'cpu_limit'
+                break
+            except ResourceLimit:
+                status = 'support_limit'
                 break
             if actual.value >= current_score.value - threshold:
                 break
@@ -610,22 +623,47 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
                 best_order, best_score = proposal, actual
             if status != 'complete':
                 break
-        if _time.process_time() >= deadline or evaluations >= max_evaluations:
+        if evaluations >= max_evaluations - 1:
+            break
+        # A seed's local slice may expire while the next seed remains eligible.
+        # Only the global CPU/wall check ends the remaining seed allocations.
+        try:
+            _check(deadline)
+        except SearchDeadline:
+            status = 'cpu_limit'
             break
     return best_order, best_score, evaluations, moves, status
 
 
 def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
                    cpu_seconds=2., max_evaluations=3000, max_moves=5,
-                   max_entries=50000, max_cached_actions=50000, starts=None):
+                   max_entries=50000, max_cached_actions=50000, starts=None,
+                   method='sparse', window_options=None):
     """Return the best fully scored candidate under a cooperative CPU allowance.
 
     If context/seed work exhausts the cap, a valid initializer is returned with
-    score=None. Deadline/support failures never become a zero or partial score.
+    score=None. Admission interrupted before a valid initializer exists raises
+    SearchDeadline explicitly. Deadline/support failures never become a zero or
+    partial score.
     A score is a response heuristic, not an actual finite-state-error certificate.
     Callers needing strict total construction accounting must time the complete
     call, including input loading and object cleanup, as the benchmark does.
+    Opt-in method='window' uses the Julia conditioned-window backend and charges
+    owned child startup/JIT/user/system CPU in the same whole-call allowance.
+    See WindowOptions in qhat.analysis.window_ordering for its narrower domain.
     """
+    if method == 'window':
+        began, wall_began = _time.process_time(), _time.monotonic()
+        from qhat.analysis.window_ordering import train_window
+        return train_window(blocks, n_qubits, reference, time=time,
+            rotation_budget=rotation_budget, cpu_seconds=cpu_seconds,
+            max_evaluations=max_evaluations, max_moves=max_moves, max_entries=max_entries,
+            max_cached_actions=max_cached_actions, starts=starts, window_options=window_options,
+            _began=began, _wall_began=wall_began)
+    if method != 'sparse':
+        raise ValueError('method must be sparse or window')
+    if window_options is not None:
+        raise ValueError('window_options requires method=window')
     began = _time.process_time()
     allowance = _finite(cpu_seconds, 'cpu_seconds', positive=True)
     _integer(max_evaluations, 'max_evaluations', 0, 1000000)
@@ -633,7 +671,8 @@ def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
     _integer(rotation_budget, 'rotation_budget')
     deadline = began + allowance
     # Materialize and validate once; even an interrupted search returns a valid
-    # permutation of the caller's units. Validation cannot be bypassed by timeout.
+    # permutation of the caller's units. Interrupted admission raises explicitly;
+    # no unvalidated initializer is returned.
     _integer(max_entries, 'max_entries', 1, 1000000)
     _integer(max_cached_actions, 'max_cached_actions', 0, 1000000)
     _finite(time, 'time', positive=True)

@@ -436,3 +436,90 @@ def test_invalid_certificate_settings_are_rejected(kwargs):
     settings.update(kwargs)
     with pytest.raises(ValueError):
         conservative_steps(_XZ, 1, **settings)
+
+
+class _IncrementalBudgetContext:
+    """Two literal objective values; exercise search accounting, no physics mock."""
+    def __init__(self, *, rescore_deadline=False, slice_once=False):
+        from qhat.analysis import sparse_response_ordering as native
+        self.stats = {}
+        self.values = {(0, 1): native.Score(1., 1., 1),
+                       (1, 0): native.Score(2., 2., 1)}
+        self.columns_calls = []
+        self.rescore_deadline = rescore_deadline
+        self.slice_once = slice_once
+
+    def columns(self, order, deadline):
+        self.columns_calls.append(tuple(order))
+        if self.slice_once and len(self.columns_calls) == 1:
+            raise SearchDeadline('first seed local slice expired')
+        return tuple(order)
+
+    def adjacent_columns(self, order, columns, position, deadline):
+        result = list(order)
+        result[position], result[position + 1] = result[position + 1], result[position]
+        return tuple(result), tuple(result)
+
+    def affordable_steps(self, order, budget):
+        return 1
+
+    def score_columns(self, order, budget, columns, deadline):
+        return self.values[tuple(order)]
+
+    def score(self, order, budget, deadline):
+        if self.rescore_deadline:
+            raise SearchDeadline('external whole-call deadline')
+        return self.values[tuple(order)]
+
+
+def test_incremental_full_rescore_deadline_is_not_a_support_refusal():
+    from qhat.analysis import sparse_response_ordering as native
+    context = _IncrementalBudgetContext(rescore_deadline=True)
+    initial = (1, 0)
+    result = native._incremental_search(context, [(initial, context.values[initial])],
+        10, native._time.process_time() + 10., 8, 1,
+        initial, context.values[initial], 1, .01)
+    assert result[0] == initial and result[1] == context.values[initial]
+    assert result[4] == 'cpu_limit'
+    assert context.stats['full_move_rescore_attempts'] == 1
+    assert context.stats['full_move_rescores'] == 0
+
+
+def test_incremental_reserved_last_evaluation_does_not_rebuild_other_seeds():
+    from qhat.analysis import sparse_response_ordering as native
+    context = _IncrementalBudgetContext()
+    first, second = (0, 1), (1, 0)
+    result = native._incremental_search(context,
+        [(first, context.values[first]), (second, context.values[second])],
+        10, native._time.process_time() + 10., 3, 1,
+        first, context.values[first], 2, .01, seed_columns={first: first})
+    assert context.columns_calls == []
+    assert result[2:5] == (2, 0, 'evaluation_limit')
+    assert context.stats['incremental_candidates'] == 0
+    assert context.stats['full_move_rescore_attempts'] == 0
+
+
+def test_local_seed_slice_expiry_preserves_later_global_budget_allocation():
+    from qhat.analysis import sparse_response_ordering as native
+    context = _IncrementalBudgetContext(slice_once=True)
+    first, second = (0, 1), (1, 0)
+    result = native._incremental_search(context,
+        [(first, context.values[first]), (second, context.values[second])],
+        10, native._time.process_time() + 10., 8, 1,
+        first, context.values[first], 2, .01)
+    assert context.columns_calls == [first, second]
+    assert result[0] == first and result[3] == 1
+    assert context.stats['full_move_rescores'] == 1
+
+
+def test_interrupted_admission_raises_before_returning_an_unvalidated_initializer():
+    from qhat.analysis import sparse_response_ordering as native
+    def exhausted():
+        raise SearchDeadline('whole-call admission deadline')
+    token = native._EXTERNAL_BUDGET_CHECK.set(exhausted)
+    try:
+        with pytest.raises(SearchDeadline):
+            native.train_ordering(_XZ, 1, 0, rotation_budget=30,
+                                  cpu_seconds=5., max_evaluations=0)
+    finally:
+        native._EXTERNAL_BUDGET_CHECK.reset(token)

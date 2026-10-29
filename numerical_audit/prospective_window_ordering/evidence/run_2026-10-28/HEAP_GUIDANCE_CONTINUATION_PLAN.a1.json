@@ -1,0 +1,27 @@
+{
+  "schema": "prospective-heap-guidance-continuation-v1",
+  "declared_before_edit_UTC": "2026-10-29T01:10:02.349831+00:00",
+  "prior_source_commit": "a45e836458274a4ff2f37477951c2e92eabb218d",
+  "prior_failed_decision_sha256": "af6cafe8504982b0aca7b1b9627bfa1d49473f8b39c19cdee6abd75ed24c8487",
+  "old_child_hint": "64M",
+  "new_child_hint": "32M",
+  "reason": "Completed F sparse preflight exceeded fixed400MiB margin at402.7MiB; change GC guidance before any physical quality inspection",
+  "paths": [
+    "analysis/window_ordering.py",
+    "analysis/tests/test_window_ordering.py",
+    "analysis/julia_window/README.md",
+    "analysis/julia_window/SOURCE.toml"
+  ],
+  "models_coefficients_policies_tolerances_unchanged": true,
+  "hard_memory_MiB": 512,
+  "admission_margin_MiB": 400,
+  "whole_call_CPU_wall": [
+    64,
+    320
+  ],
+  "original_payloads_reused": true,
+  "physical_quality_inspected": false,
+  "new_input_namespace": "data-a6",
+  "new_preflight_attempt_tag": "a5",
+  "all_old_attempts_and_costs_retained": true
+}

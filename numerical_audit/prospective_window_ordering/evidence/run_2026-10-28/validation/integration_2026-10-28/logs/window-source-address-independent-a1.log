@@ -1,0 +1,82 @@
+Running as unit: fermionic-future-window-source-address-independent-a1-3112841.service; invocation ID: 2d8584cfe1e44c9288789ad748b6b2f8
+ERROR: LoadError: Some tests did not pass: 8 passed, 0 failed, 1 errored, 0 broken.
+in expression starting at /tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/test/independent_tests.jl:407
+Test Summary:                                               | Pass  Total   Time
+Raw Pauli masks, complex Y phase and disjoint-pair rotation |   28     28  21.6s
+Test Summary:                                                               | Pass  Total   Time
+Independent sector Krylov reference versus full dense Kronecker exponential |   17     17  34.9s
+Test Summary:                                                                   | Pass  Total  Time
+Both literal formulas, unequal lengths, original costs and unprojected circuits |   38     38  4.2s
+Test Summary:                                                      | Pass  Total  Time
+Exact conservation, canonical numeric labels and bounded admission |   20     20  3.0s
+Test Summary:                                                                  | Pass  Total  Time
+Stable projective metric, little-endian/hash/path binding and malformed states |   12     12  1.2s
+Test Summary:                                                                            | Pass  Total   Time
+Fixed matrix inventory, all saved metrics, scoped hard replay and incomplete CLI reports |   12     12  15.0s
+Test Summary:                                                 | Pass  Total  Time
+Pre-parser comments, strings, typed nesting and EOF admission |   27     27  0.7s
+Test Summary:                                                            | Pass  Total  Time
+Independent reference metrics detect sub-state-tolerance reference drift |   14     14  2.6s
+Only serialized coefficient changes receive a distinct model identity: Error During Test at /tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/test/independent_tests.jl:436
+  Test threw exception
+  Expression: [unit.coeff for unit = primary.units] == [[Float64(parse(BigInt(num) // parse(BigInt, scaled["denominator"]))) for num = block["numerators"]] for block = scaled["units"]]
+  MethodError: no method matching BigInt(::String)
+  
+  Closest candidates are:
+    BigInt(!Matched::Float16)
+     @ Base gmp.jl:328
+    BigInt(!Matched::Bool)
+     @ Base gmp.jl:314
+    BigInt(!Matched::BigFloat)
+     @ Base mpfr.jl:373
+    ...
+  
+  Stacktrace:
+   [1] (::var"#85#95"{Dict{String, Any}})(num::String)
+     @ Main ./none:0
+   [2] iterate
+     @ ./generator.jl:47 [inlined]
+   [3] collect
+     @ ./array.jl:834 [inlined]
+   [4] #84
+     @ ./none:0 [inlined]
+   [5] iterate
+     @ ./generator.jl:47 [inlined]
+   [6] collect(itr::Base.Generator{Vector{Dict{String, Vector{String}}}, var"#84#94"{Dict{String, Any}}})
+     @ Base ./array.jl:834
+   [7] macro expansion
+     @ ~/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:670 [inlined]
+   [8] (::var"#76#86")(directory::String)
+     @ Main /tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/test/independent_tests.jl:436
+Test Summary:                                                         | Pass  Error  Total   Time
+Only serialized coefficient changes receive a distinct model identity |    8      1      9  10.3s
+Command exited with non-zero status 1
+	Command being timed: "/usr/bin/env TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/tmp JULIA_NUM_THREADS=1 JULIA_NUM_GC_THREADS=1 JULIA_PKG_OFFLINE=true /home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia --startup-file=no --history-file=no --threads=1 --gcthreads=1 --heap-size-hint=250M --project=numerical_audit/julia_cubic_feasibility numerical_audit/prospective_window_ordering/test/independent_tests.jl"
+	User time (seconds): 24.34
+	System time (seconds): 0.62
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:39.75
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 604508
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 34
+	Minor (reclaiming a frame) page faults: 133429
+	Voluntary context switches: 60
+	Involuntary context switches: 1076
+	Swaps: 0
+	File system inputs: 6336
+	File system outputs: 1536
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 1min 39.754s
+CPU time consumed: 24.972s
+Memory peak: 388.3M
+Memory swap peak: 0B

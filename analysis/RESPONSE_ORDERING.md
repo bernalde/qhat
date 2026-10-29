@@ -146,3 +146,81 @@ retains all 96 circuit outcomes. Cubic construction took 3.4–30 CPU seconds on
 these four twelve-mode cases. The measured accuracy/cost tradeoffs are specific
 to the panel; avoiding full-state arrays does not establish inexpensive training
 on arbitrarily larger molecules.
+
+## Opt-in Julia conditioned windows
+
+`train_ordering(..., method='window', window_options=WindowOptions(...))` runs
+bounded Julia insertion after a declared native sparse or coefficient-magnitude
+parent. The default `method='sparse'` is unchanged. Import `WindowOptions` from
+`qhat.analysis.window_ordering`. For example:
+
+```python
+from qhat.analysis.sparse_response_ordering import train_ordering
+from qhat.analysis.window_ordering import WindowOptions
+result = train_ordering(blocks, n_qubits, occupation, time=.37,
+    rotation_budget=budget, cpu_seconds=12, method='window',
+    window_options=WindowOptions(width=8, parent_method='sparse'))
+```
+
+The ordinary CLI exposes the same opt-in path:
+
+```
+python -m qhat.analysis.train_ordering model.json --time 1.6 \
+  --rotation-budget 1000 --cpu-seconds 12 --method window \
+  --window-width 8 --window-parent sparse --julia-executable /path/to/julia
+```
+
+Resolve Julia from that option, `QHAT_JULIA_EXECUTABLE`, or PATH. The backend uses
+installed stdlib-only assets and never downloads Julia or installs packages.
+Linux `/proc` and owned-PID `wait4` accounting, Python 3.11+ `tomllib`, and an
+existing Julia 1.10+ binary are required for this optional stage. A missing or
+failed backend retains the native parent and records `stats.window_status`.
+`score=None` remains unscored. Invalid inputs or an infeasible minimum rotation
+cap remain exceptions; admission interrupted before a valid initializer exists
+also raises explicitly.
+
+Initial support is one supplied basis occupation (arbitrary normalized global
+phase allowed), real equal-flip internally commuting nonempty units, n<=20,
+m<=1024, total original words<=8192, and bounded storage/work/rational bit sizes.
+Empty units, zero coefficient words, mixed-flip/complex units and coherent
+references retain a checked native parent with an explicit refusal. Terms are
+never thinned or regrouped to gain admission. The unchanged current T=1/HF
+control and supplied historical parents are not supported parent policies.
+`starts` supplies seed permutations; each is validated and freshly scored, with
+all cost charged to this invocation. It is not a free or trusted historical parent.
+
+Widths are 2..9, default eight; a missing strictly interior window is reported as
+`window_unavailable`. Windows keep global endpoints and original word counts, so
+`r*(2U-l_first-l_last)+l_first <= rotation_budget` continues to use the actual cap.
+Selection maximizes the number of nonzero local pair atoms, deterministically,
+without inspecting physical errors. Each sequential window starts from the last
+fully Taylor-checked global incumbent; the new table target aggregates real
+conditioned columns before transport, preserving coherent exterior interference.
+See [backend details](julia_window/README.md) for local cancellation refusals and
+exact supplied-table screening. These are heuristic proposals, not optimality,
+approximation-ratio or physical-error certificates.
+
+`CPU_seconds` for the window method includes parent/setup, serialization, the
+single owned child's startup/JIT and user+system CPU, final native verification
+and cleanup. It does not use process-global `RUSAGE_CHILDREN`. Stats separate the
+complete child receipt from informational phase timings (which are not added
+again). Startup/JIT plus uninstrumented child work is reported as a residual,
+not a separately measured JIT duration. Parent construction receives at most 60%
+of the same CPU cap; a measured native full-score duration determines a reserved
+final verification allowance. The remaining allocation includes Julia startup.
+A parent-side CPU/wall watchdog kills and reaps the child. Default wall allowance
+is max(1,4*CPU cap), configurable through `WindowOptions.wall_seconds` or
+`--window-wall-seconds`; CPU and wall are distinct. Sampling and cleanup can have
+a small observed overrun, which is reported without extending the declared cap.
+There is no built-in hard memory containment; run under the documented external
+memory guard when strict process-group limits are required.
+
+A final authenticated checkpoint replaces the native parent only after the
+existing full native scorer resolves an improvement greater than
+`max(1e-30, abs(parent_J)*1e-12)` and agrees with Julia within its stated numerical
+comparison tolerance. On a verification deadline/refusal or malformed checkpoint,
+the native parent remains. An earlier atomic, fully checked child checkpoint may
+still be independently verified after later worker failure. `status` describes
+the usable native incumbent; `stats.window_status` describes the optional stage.
+The result dataclass and CLI JSON fields are unchanged, and the optional
+conservative certificate remains a separate order-independent calculation.

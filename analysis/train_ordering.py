@@ -78,6 +78,14 @@ def main(argv=None):
     parser.add_argument('--cpu-seconds', type=float, default=2.)
     parser.add_argument('--max-evaluations', type=int, default=3000)
     parser.add_argument('--max-entries', type=int, default=50000)
+    parser.add_argument('--method', choices=['sparse', 'window'], default='sparse')
+    parser.add_argument('--window-width', type=int, default=8)
+    parser.add_argument('--window-max-windows', type=int, default=1)
+    parser.add_argument('--window-max-sweeps', type=int, default=10)
+    parser.add_argument('--window-parent', choices=['sparse', 'magnitude'], default='sparse')
+    parser.add_argument('--julia-executable', help='existing Julia binary; otherwise QHAT_JULIA_EXECUTABLE or PATH')
+    parser.add_argument('--window-wall-seconds', type=float,
+                        help='whole-call wall limit for method=window (default max(1, 4*CPU cap))')
     parser.add_argument('--error-tolerance', help='optional conservative ideal-error target')
     parser.add_argument('--metric', choices=['operator', 'infidelity', 'squared_infidelity'],
                         default='operator')
@@ -87,9 +95,16 @@ def main(argv=None):
     model, blocks, digest = load_model(args.model)
     duration = Fraction(args.time)
     reference = (1 << model['electrons']) - 1
+    window_options = None
+    if args.method == 'window':
+        from qhat.analysis.window_ordering import WindowOptions
+        window_options = WindowOptions(width=args.window_width, max_windows=args.window_max_windows,
+            max_sweeps=args.window_max_sweeps, parent_method=args.window_parent,
+            julia_executable=args.julia_executable, wall_seconds=args.window_wall_seconds)
     trained = train_ordering(blocks, model['n'], reference, time=duration,
                              rotation_budget=args.rotation_budget, cpu_seconds=args.cpu_seconds,
-                             max_evaluations=args.max_evaluations, max_entries=args.max_entries)
+                             max_evaluations=args.max_evaluations, max_entries=args.max_entries,
+                             method=args.method, window_options=window_options)
     output = dict(model_sha256=digest, n_qubits=model['n'], reference='Hartree-Fock determinant',
                   time=str(duration), training=asdict(trained),
                   score_scope='estimated diagonal-reference cubic response; not a finite-error bound',

@@ -1,0 +1,71 @@
+{
+  "schema": "prospective-window-resource-gate-v1",
+  "frozen_UTC": "2026-10-28T19:59:07.933348+00:00",
+  "input_protocol_sha256": "f4d6c2e99f18af455995c975274cf57f881b3e007853669a76d5feb39ed203d3",
+  "input_inventory_sha256": "75be22df4bc407340673c389fccec4334787cc37c1efcdf5393e82f8d8c53f5e",
+  "resource_pools_sha256": "13529471aedb416ef95eb9889a4c8c4a08af2e7fb2f2cfbb3e31016fa3cb5a3f",
+  "quality_used": false,
+  "gate": "all conditions required",
+  "conditions": [
+    "Exact largest-word lexical-tie case with distinct exact 7/5 coefficients; no substituted source, instance, or settings",
+    "All eight preflight calls retained, each whole-call receipt and final/checkpoint accounted; both window policies deliver complete checked procedures rather than timeout/fallback-only evidence",
+    "Whole order inventory frozen before physical computation; objective checks and complete 44-row primary and independent checks pass",
+    "Every preflight numerical job owned-cgroup peak <=400 MiB, no swap",
+    "Conservative phase CPU and wall projections <=80% of remaining frozen main phase pools; include whole-call setup and every distinct order; failed attempts retained; use at least 8x the single-case one-repetition cost for 4 cases x2 repetitions and any additional count scaling"
+  ],
+  "projection": {
+    "constructors_multiplier_minimum": 8,
+    "physical_multiplier_minimum": 8,
+    "independent_multiplier_minimum": 8,
+    "word_count_scaling": "max(1, largest main words / preflight words)",
+    "unit_count_scaling": "max(1, largest main units / preflight units)",
+    "quality_unsealed_only_after_resource_decision": true
+  },
+  "preflight_max_reservations_CPU_wall": {
+    "prepare": [
+      5,
+      25
+    ],
+    "plan": [
+      5,
+      25
+    ],
+    "eight_constructors": [
+      512,
+      2560
+    ],
+    "whole_freeze": [
+      5,
+      25
+    ],
+    "panel": [
+      10,
+      50
+    ],
+    "objectives": [
+      60,
+      300
+    ],
+    "physical": [
+      180,
+      900
+    ],
+    "independent": [
+      100,
+      500
+    ],
+    "analysis": [
+      10,
+      50
+    ],
+    "gate": [
+      5,
+      25
+    ]
+  },
+  "failure_action": "Retain failed attempt and all costs; main unperformed; no retune/easier case/budget reset",
+  "prior_gate_sha256": "b26c47f8741c683995680e814b26bd3515dcda196714c29145743d51440efb06",
+  "prior_failed_decision_sha256": "f28e7520694f591fd5deaa19b347d40f95db18c178c2655a2cbb35f9af438b4a",
+  "source_continuation": "Same criteria/settings/pools; sourcefixes declared beforeedits; olda1retained; inputreuse auditauthenticated16payloads",
+  "attempt_tag": "a2"
+}

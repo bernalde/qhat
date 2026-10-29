@@ -1,0 +1,388 @@
+import logging
+import math
+from typing import Dict
+import cirq
+import numpy as np
+from openfermion import QubitOperator
+from qhat.common.pauli_string import PauliString
+
+from qualtran import (
+    Bloq,
+    BloqBuilder,
+    SoquetT,
+)
+from qualtran._infra.registers import Signature
+from qualtran.bloqs.block_encoding import LCUBlockEncoding
+from qualtran.bloqs.multiplexers.select_pauli_lcu import SelectPauliLCU
+from qualtran.bloqs.state_preparation import StatePreparationAliasSampling
+
+from pyLIQTR.BlockEncodings import VALID_ENCODINGS
+from pyLIQTR.BlockEncodings.DoubleFactorized import DoubleFactorized
+from pyLIQTR.BlockEncodings.LinearT import Fermionic_LinearT
+from pyLIQTR.BlockEncodings.PauliStringLCU import PauliStringLCU as PyLIQTRPauliStringLCU_orig
+from pyLIQTR.ProblemInstances.ChemicalHamiltonian import ChemicalHamiltonian
+
+from qhat.analysis.config_types import UnitaryConfiguration
+from qhat.analysis.ordering import reorder_paulis
+from qhat.analysis.utils import value
+
+logger = logging.getLogger(__name__)
+
+# -------------------------------------------------------------------------------------------------
+
+class PauliStringLCU(LCUBlockEncoding):
+
+    def __init__(self, hamiltonian, prepare_type=None, energy_error=None, **kwargs):
+
+        pauli_terms = [cirq.DensePauliString(term[0],coefficient=term[1])
+                          for term in hamiltonian.get_all_pauli_strings(return_as='strings').items()
+                      ]
+
+        ##  n_terms   :   Number of problem terms
+        ##  n_pad     :   Number of padding terms
+        ##  n_tot     :   Total number of terms
+        ##
+        n_terms  =  len(pauli_terms)
+        n_tot    =  2**(int(np.ceil(np.log2(n_terms))))
+        n_pad    =  n_tot - n_terms
+
+        weights = [np.abs(t.coefficient) for t in pauli_terms]
+        alpha = np.sum(weights)
+
+        selection_bitsize = int(np.ceil(np.log2(n_tot)))
+
+        eps = energy_error / (2 * np.sqrt(2) * alpha * n_terms)
+
+        select = SelectPauliLCU(
+                     selection_bitsize=selection_bitsize,
+                     target_bitsize=hamiltonian.num_qubits(),
+                     select_unitaries=pauli_terms,
+                 )
+
+        if prepare_type is None:
+            # The following ought to work, but doesn't -
+            # see https://github.com/quantumlib/Qualtran/issues/1045
+            #prepare = StatePreparationViaRotations(
+            #              phase_bitsize = 4,
+            #              state_coefficients = weights,
+            #          )
+            raise NotImplementedError("PauliStringLCU")
+
+        elif prepare_type=='AS':
+            prepare = StatePreparationAliasSampling.from_lcu_probs(
+                          lcu_probabilities=weights,
+                          probability_epsilon=eps,
+                      )
+
+        super().__init__(
+            alpha=alpha, epsilon=eps,
+            select=select, prepare=prepare
+        )
+
+    # Add aliases for 'select' and 'prepare' to match PyLIQTR
+    @property
+    def _select_gate(self):
+        return self.select
+
+    @property
+    def _prepare_gate(self):
+        return self.prepare
+
+    # Backport corrected LCUBlockEncoding method from v0.5.0
+    def build_composite_bloq(self, bb: 'BloqBuilder', **soqs: SoquetT) -> Dict[str, 'SoquetT']:
+        def _extract_soqs(bloq: Bloq) -> Dict[str, 'SoquetT']:
+            return {reg.name: soqs.pop(reg.name) for reg in bloq.signature.lefts()}
+
+        soqs |= bb.add_d(self.prepare, **_extract_soqs(self.prepare))
+        soqs |= bb.add_d(self.select, **_extract_soqs(self.select))
+        soqs |= bb.add_d(self.prepare.adjoint(), **_extract_soqs(self.prepare.adjoint()))
+        return soqs
+
+# -------------------------------------------------------------------------------------------------
+
+# wrapper to add bugfixes to PyLIQTR's class
+class PyLIQTRPauliStringLCU(PyLIQTRPauliStringLCU_orig):
+    # use energy_error to determine probability_eps
+    def __init__(self,ProblemInstance, prepare_type=None, energy_error=None, **kwargs):
+        alpha = ProblemInstance.get_alpha()
+        n_terms = ProblemInstance.n_terms(VALID_ENCODINGS.PauliLCU)
+        eps = energy_error / (2 * np.sqrt(2) * alpha * n_terms)
+        super().__init__(ProblemInstance, prepare_type, probability_eps=eps, **kwargs)
+
+    # correct ordering of Signature registers
+    @property
+    def signature(self):
+        return Signature(
+            [*self.control_registers, *self.selection_registers,
+             *self.junk_registers, *self.target_registers] )
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_linear_t(
+        config_unitary: UnitaryConfiguration,
+        hamiltonian):
+
+    logger.verbose("Encoding with fermionic linear-T block encoding from pyLIQTR.")
+
+    raise NotImplementedError()
+
+    # TODO: Needs to be ElectronicStructure instead of ChemicalHamiltonian.  Unfortunately,
+    #       ElectronicStructure is hard-coded to work with data files generated by PEST instead of
+    #       a Hamiltonian object constructed with pySCF.
+    problem_instance = ChemicalHamiltonian(mol_ham=hamiltonian, mol_name="molecular hamiltonian")
+    # TODO: Do we want to exercise any of the other options to Fermionic_LinearT?
+    return Fermionic_LinearT(
+            ProblemInstance=problem_instance,
+            energy_error=config_unitary.energy_error
+            )
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_pauli_lcu(
+        config_unitary: UnitaryConfiguration,
+        hamiltonian):
+
+    if config_unitary.use_library.lower() == "pyliqtr":
+        return encode_pauli_lcu_pyliqtr(config_unitary, hamiltonian)
+    elif config_unitary.use_library.lower() == "qualtran":
+        return encode_pauli_lcu_qualtran(config_unitary, hamiltonian)
+    else:
+        raise ValueError(f"Invalid unitary library \"{config_unitary.use_library}\".")
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_pauli_lcu_pyliqtr(
+        config_unitary: UnitaryConfiguration,
+        hamiltonian):
+
+    logger.verbose(
+            "Encoding with Pauli linear-combination-of-unitaries block encoding from pyLIQTR.")
+
+    # TODO: If every encoding method wraps the hamiltonian in the ChemicalHamiltonian class, then I
+    #       should move that wrapping step to the part of the code that generates the hamiltonian.
+    #       Then I can do things like have the hamiltonian part of the code return a simplified
+    #       test object.  But note that Fermionic_LinearT requires an ElectronicStruture instead of
+    #       a ChemicalHamiltonian (see details in encode_linear_t for current problems there).  Can
+    #       the ElectronicStructure be wrapped in a ChemicalHamiltonian?  Can methods other than
+    #       Linear T use an ElectronicStructure?
+    problem_instance = ChemicalHamiltonian(
+            mol_ham=hamiltonian.get_core_operator(),
+            mol_name="molecular hamiltonian")
+    # TODO: Do we want to exercise any of the other options to PauliStringLCU?
+    return PyLIQTRPauliStringLCU(
+            ProblemInstance=problem_instance,
+            # TODO: Setting `prepare_type='AS'` might give the alias sampling Obenland mentioned?
+            prepare_type='AS',
+            energy_error=config_unitary.energy_error
+            )
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_pauli_lcu_qualtran(
+        config_unitary: UnitaryConfiguration,
+        hamiltonian):
+
+    logger.verbose(
+            "Encoding with Pauli linear-combination-of-unitaries block encoding from Qualtran.")
+
+    return PauliStringLCU(
+            hamiltonian=hamiltonian,
+            prepare_type='AS',
+            energy_error=config_unitary.energy_error
+            )
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_double_factorization(
+        config_unitary: UnitaryConfiguration,
+        hamiltonian) -> DoubleFactorized:
+
+    logger.verbose("Encoding with double-factorized block encoding from pyLIQTR.")
+
+    # TODO: We need to process the Hamiltonian into a ChemicalHamiltonian.  Under what conditions
+    #       can that happen?  Purely-fermionic only?
+    problem_instance = ChemicalHamiltonian(
+            mol_ham=hamiltonian.get_core_operator(),
+            mol_name="molecular hamiltonian")
+    # TODO: Do we want to exercise any of the other options to DoubleFactorized?
+    return DoubleFactorized(
+            ProblemInstance=problem_instance,
+            energy_error=config_unitary.energy_error
+            )
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_ramped_trotter(
+        config_unitary: UnitaryConfiguration,
+        hamiltonian,
+        tevol_hbar):
+
+    # Get the implementation choice from config
+    trotter_impl = config_unitary.trotter_implementation
+
+    # Validate the implementation choice
+    if trotter_impl not in ('original', 'flattened'):
+        raise ValueError(
+            f"Invalid trotter_implementation '{trotter_impl}'. "
+            f"Must be 'original' or 'flattened'."
+        )
+
+    impl_label = f"{trotter_impl} QHAT"
+    logger.verbose(f"Encoding with ramped-trotterization method from `common` ({impl_label}).")
+
+    assert tevol_hbar >= 0.0
+    logger.info(f"-- using timestep = {tevol_hbar}")
+
+    # Check if user provided manual step count
+    user_provided_steps = (hasattr(config_unitary, 'trotter_steps') and
+                          config_unitary.trotter_steps is not None)
+
+    # Get the requested Trotter order/method
+    requested_order = config_unitary.trotter_order
+
+    if not user_provided_steps and requested_order is not None:
+        if requested_order.lower() not in ("first order", "second order"):
+            raise ValueError(
+                "Automatic step calculation supports first and second order only; "
+                "provide trotter_steps manually for fourth order or other formulas."
+            )
+
+    # Estimate and emit exactly the same ordered Pauli sequence.
+    pauli_strings = reorder_paulis(
+        hamiltonian.get_all_pauli_strings(return_as='strings'),
+        config_unitary.ordering_method)
+
+    if user_provided_steps:
+        # User provided step count manually - allow any method from the implementation
+        Nsteps = config_unitary.trotter_steps
+        logger.info(f"-- User provided number of Trotter steps: {Nsteps}")
+
+        if requested_order is None:
+            raise ValueError(
+                "When providing trotter_steps manually, you must also specify trotter_order."
+            )
+
+        # When steps are provided, we use the requested method directly
+        method = requested_order.lower()
+        logger.info(f"-- Using user-specified Trotter method: {method}")
+
+    else:
+        # Auto-calculate optimal step count - only certain methods support this
+        # Compute the number of Trotter steps based on the Trotter error from arXiv:1912.08854v3
+        # Using fast implementation for better performance (100-150x more samples per second)
+        from qhat.analysis.trotter_coefficients_fast import trotter_error_estimator_fast
+
+        # Read error coefficient computation mode from config (with backward-compatible defaults)
+        error_coeff_mode = getattr(config_unitary, 'error_coeff_mode', 'monte_carlo')
+        error_coeff_auto_exact = getattr(config_unitary, 'error_coeff_auto_exact', False)
+        error_coeff_time_limit = getattr(config_unitary, 'error_coeff_time_limit', 60)
+
+        # Validate user configuration
+        if error_coeff_mode not in ('monte_carlo', 'exact'):
+            raise ValueError("error_coeff_mode must be 'monte_carlo' or 'exact'")
+
+        logger.info(f"-- Error coefficient computation mode: {error_coeff_mode}")
+        if error_coeff_mode == 'monte_carlo' and error_coeff_auto_exact:
+            logger.info(f"-- Auto-switch to exact coefficient computation: enabled")
+        logger.info(f"-- Error coefficient time limit: {error_coeff_time_limit}s")
+
+        # Compute error coefficients with user-specified mode
+        c1, c2 = trotter_error_estimator_fast(
+            [QubitOperator(PauliString.from_dense(word).to_sparse(), coefficient)
+             for word, coefficient in pauli_strings.items()],
+            error_coeff_time_limit,
+            mode=error_coeff_mode,
+            auto_exact=error_coeff_auto_exact
+        )
+        logger.info(f"-- Trotter error coefficients: C1 = {c1}, C2 = {c2}")
+        assert config_unitary.energy_error is not None
+        logger.info(f"-- allowable energy error = {config_unitary.energy_error} Hartrees")
+        logger.info(f"-- effective energy range = {2 * math.pi / tevol_hbar} Hartrees")
+        eps_trotter = config_unitary.energy_error * tevol_hbar / (2 * math.pi)
+        logger.info(f"-- allowable fractional Trotter error = {eps_trotter}")
+        # use config_unitary.energy_error here instead of eps_trotter, because these equations are
+        # derived in terms of the absolute energy error rather than the fractional energy error
+        s1 = tevol_hbar * config_unitary.error_scale * c1 / config_unitary.energy_error
+        s2 = tevol_hbar * math.sqrt(config_unitary.error_scale * c2 / config_unitary.energy_error)
+        logger.info(f"-- Trotter step count: s1 = {s1}, s2 = {s2}")
+
+        # Cost factors: r1=1 (single ramp), r2=2 (forward+backward)
+        r1 = 1
+        r2 = 2
+
+        if requested_order is not None:
+            # User explicitly requested a specific order for auto-calculation
+            if requested_order.lower() == "first order":
+                method = "first order"
+                Nsteps0 = s1
+                ramps_per_step = 1
+            elif requested_order.lower() == "second order":
+                method = "second order"
+                Nsteps0 = s2
+                ramps_per_step = 2
+            logger.info(f"-- User requested {method}")
+        else:
+            # Auto-select between first and second order based on cost
+            # -- Fourth order is excluded because the step estimate is not as reliable.  It should be
+            #    added here once we have a better calculation of C4 and therefore s4.
+            method = "second order"
+            Nsteps0 = s2
+            ramps_per_step = 2
+            if r1 * s1 < r2 * s2:
+                method = "first order"
+                Nsteps0 = s1
+                ramps_per_step = 1
+            logger.verbose("-- auto selecting order based on unoptimized ramp count")
+
+        Nsteps = max(1, math.ceil(Nsteps0))
+        logger.info(f"-- Trotter recommendation: use {method} formula with {Nsteps} steps ({Nsteps0})")
+        logger.verbose(f"-- unoptimized ramp count = {Nsteps * ramps_per_step}")
+
+    # Import the appropriate implementation
+    if trotter_impl == 'flattened':
+        from qhat.common.trotter_flattened import build_ramped_trotterized_unitary
+        # Pass combine_terms and tensor_contraction_method parameters only for flattened implementation
+        tensor_contraction_method = getattr(config_unitary, 'tensor_contraction_method', None)
+        return build_ramped_trotterized_unitary(
+                pauli_strings.items(),
+                method,
+                tevol_hbar,
+                Nsteps,
+                combine_terms=config_unitary.trotter_combine_terms,
+                tensor_contraction_method=tensor_contraction_method)
+    else:  # 'original'
+        from qhat.common.trotter_original import build_ramped_trotterized_unitary
+        # Original implementation doesn't support combine_terms or tensor_contraction_method parameters
+        return build_ramped_trotterized_unitary(
+                pauli_strings.items(),
+                method,
+                tevol_hbar,
+                Nsteps)
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_as_unitary(
+        config_unitary: UnitaryConfiguration,
+        hamiltonian,
+        tevol_hbar):
+
+    logger.info("Beginning to encode the Hamiltonian as a unitary.")
+
+    if config_unitary.method.strip().lower() in ("double factorization", "double-factorization"):
+        return encode_double_factorization(config_unitary, hamiltonian)
+    elif config_unitary.method.strip().lower() in ("pauli lcu", "pauli-lcu", "paulilcu",):
+        return encode_pauli_lcu(config_unitary, hamiltonian)
+    elif config_unitary.method.strip().lower() in ("linear t", "linear-t", "lineart",):
+        return encode_linear_t(config_unitary, hamiltonian)
+    elif config_unitary.method.strip().lower() in ("first quantization",):
+        # TODO: This will be important for Marian's team.  Something is available in pyLIQTR, but
+        #       I've not yet looked to see how it works.
+        #       -- I'm not sure if it's correct to break first quantization out as a separate
+        #          encoding method.  I now suspect that it will probably be part of defining the
+        #          Hamiltonian, and then any Hamiltonian will be eligible for encoding to
+        #          unitaries.  But I've not confirmed this.
+        raise NotImplementedError()
+    elif config_unitary.method.strip().lower() in ("ramped trotter",):
+        return encode_ramped_trotter(config_unitary, hamiltonian, tevol_hbar)
+    else:
+        raise ValueError(f"Invalid unitary encoding method \"{config_unitary.method}\".")

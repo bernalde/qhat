@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=40.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qhat"
+version = "0.1.0"
+
+dependencies = [
+    # Dependencies required for resource estimation
+    "juliacall<=0.9.28",
+    "pyLIQTR>=1.4.2",
+    # Dependencies required for Hamiltonian generation
+    # -- basis-set-exchange is technically optional if you use a basis set already provided by pySCF
+    "basis-set-exchange",
+    "mendeleev",
+    "openfermionpyscf",
+    # Dependencies to accelerate / improve double-factorization
+    # -- most or all are technically optional, but give faster or better results
+    "baytune",
+    "chocolate",
+    "cmaes",
+    #"kahypar", # Fails to install on my laptop, so commented out
+    "nevergrad",
+    "optuna",
+    # Dependencies for fast Trotter error estimation
+    "numba>=0.56.0",  # JIT compilation for jkg_utils_fast.py
+]
+
+[tool.setuptools]
+packages = ["qhat", "qhat.analysis", "qhat.common", "qhat.hamiltonian_generator"]
+package-dir = {"qhat" = ".", "qhat.analysis" = "analysis", "qhat.common" = "common", "qhat.hamiltonian_generator" = "hamiltonian_generator"}
+
+[tool.setuptools.package-data]
+"qhat.analysis" = ["julia_window/*.jl", "julia_window/*.toml", "julia_window/*.md"]

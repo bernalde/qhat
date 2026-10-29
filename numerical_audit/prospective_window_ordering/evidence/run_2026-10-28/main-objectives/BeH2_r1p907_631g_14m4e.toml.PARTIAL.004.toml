@@ -1,0 +1,543 @@
+absolute_tolerance = 1.0e-24
+all_scored_objectives_verified = false
+candidates_file = "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/BeH2_r1p907_631g_14m4e/CANDIDATES.toml"
+candidates_sha256 = "f627eeb98853eb85f8ad361efef6cc3115f5f1280bec3e60818308d77e50fe5e"
+case = "BeH2_r1p907_631g_14m4e"
+complete = false
+expected_logical_rows = 88
+hf = "15"
+input_file = "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/inputs/BeH2_r1p907_631g_14m4e/model.toml"
+input_sha256 = "c484e82f0b4326a46a88e9575e1c6840f36eb2cad599e68320d26175ec22479b"
+n = 14
+new_physical_propagation = false
+numerical_comparison_only = true
+original_words = 757
+relative_tolerance = 1.0e-8
+schema = "prospective-window-objective-check-v1"
+scope = "Every supplied scored witness, deduplicated by exact partition/order/kind/score; unscored and floor/refused checks retained. No physical/interval/optimality certificate."
+status = "incomplete"
+training_budget_multiplier = 30
+training_rotation_budget = 22710
+training_time = 1.0
+unique_limit = 256
+
+[[checks]]
+absolute_difference = 5.421010862427522e-20
+check_index = 1
+constructor_score = 0.00016283715443159394
+numerical_floor = false
+objective_sha256 = "bde205fedc0faecf701f052a9627e89153d034c6215c70bf7fc8ebd60369d6d0"
+order = [10, 105, 51, 61, 70, 78, 104, 29, 60, 68, 52, 71, 83, 76, 84, 101, 54, 62, 69, 58, 66, 75, 81, 53, 63, 57, 67, 151, 181, 126, 96, 24, 136, 100, 47, 45, 114, 118, 2, 106, 131, 141, 115, 119, 150, 123, 28, 40, 22, 49, 38, 50, 33, 43, 36, 48, 30, 32, 44, 9, 23, 122, 4, 16, 26, 94, 88, 92, 18, 8, 20, 56, 73, 79, 11, 25, 19, 7, 21, 34, 46, 55, 65, 87, 93, 3, 17, 209, 130, 90, 99, 13, 98, 6, 89, 64, 31, 74, 5, 72, 142, 86, 102, 95, 41, 82, 42, 80, 134, 143, 145, 35, 39, 132, 140, 124, 125, 133, 91, 1, 97, 139, 85, 15, 144, 27, 107, 111, 12, 116, 117, 120, 121, 154, 185, 163, 188, 173, 198, 127, 135, 169, 202, 148, 149, 215, 113, 213, 214, 160, 191, 207, 103, 77, 59, 167, 195, 164, 187, 152, 179, 159, 192, 146, 147, 128, 129, 137, 138, 108, 112, 218, 212, 216, 217, 177, 205, 208, 170, 201, 210, 211, 174, 197, 165, 190, 109, 110, 175, 200, 158, 186, 171, 204, 153, 180, 162, 193, 168, 196, 166, 189, 155, 182, 161, 194, 178, 206, 172, 203, 176, 199, 157, 184, 156, 183, 37, 14]
+partition = "conserving"
+relative_difference = 3.3290994806132076e-16
+replayed_score = 0.000162837154431594
+score_kind = "retained_first_order_response"
+status = "verified"
+steps = "not_used"
+tolerance = 1.62837154431694e-12
+verified = true
+within_tolerance = true
+
+    [checks.details]
+    destinations = 84
+    nonzero_pairs = 1790
+    pair_events = 23653
+    r_normalized = false
+    scope = "Exact-integer projected ordered pair action, independently rounded T=1 diagonal sinc norm; unit-modulus phase cancels in norm; NO r normalization"
+[[checks]]
+absolute_difference = 1.0842021724855044e-18
+check_index = 2
+constructor_score = 0.00015214060577094324
+numerical_floor = false
+objective_sha256 = "c43b1847458e8479c810c81634b9ffd2e165b347f685d892e4d58a99d1f26d05"
+order = [757, 587, 641, 718, 756, 413, 602, 652, 590, 691, 172, 723, 696, 724, 753, 596, 644, 653, 600, 650, 695, 721, 593, 647, 599, 651, 159, 160, 282, 283, 414, 415, 505, 506, 546, 547, 548, 549, 550, 551, 552, 553, 554, 578, 579, 580, 581, 582, 583, 584, 585, 586, 162, 163, 285, 286, 417, 418, 508, 509, 588, 589, 614, 615, 616, 617, 618, 619, 620, 621, 633, 634, 635, 636, 637, 638, 639, 640, 153, 154, 276, 277, 342, 343, 344, 345, 348, 349, 350, 351, 352, 353, 354, 397, 398, 399, 400, 403, 404, 405, 406, 407, 408, 409, 748, 296, 156, 157, 279, 280, 411, 412, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 752, 519, 517, 58, 59, 60, 61, 62, 63, 68, 69, 70, 71, 72, 73, 74, 132, 133, 134, 135, 136, 137, 142, 143, 144, 145, 146, 147, 148, 150, 151, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 152, 1, 13, 75, 87, 183, 184, 233, 234, 29, 30, 104, 105, 177, 180, 226, 229, 25, 26, 100, 101, 725, 727, 729, 731, 306, 315, 361, 370, 410, 504, 294, 521, 430, 522, 425, 513, 428, 520, 416, 422, 516, 171, 295, 10, 22, 84, 96, 158, 278, 298, 742, 736, 740, 284, 170, 290, 598, 693, 719, 173, 297, 287, 167, 293, 426, 518, 597, 649, 735, 741, 155, 281, 528, 534, 560, 566, 27, 28, 31, 99, 102, 103, 738, 751, 175, 750, 164, 737, 648, 419, 694, 161, 692, 185, 186, 187, 232, 235, 236, 734, 754, 743, 507, 722, 510, 720, 454, 455, 490, 491, 340, 341, 395, 396, 307, 316, 362, 371, 427, 431, 179, 182, 228, 231, 32, 34, 106, 108, 526, 532, 558, 564, 654, 657, 671, 674, 33, 35, 107, 109, 739, 149, 749, 178, 181, 227, 230, 733, 275, 11, 23, 85, 97, 299, 4, 16, 78, 90, 7, 688, 19, 81, 93, 174, 188, 191, 237, 240, 199, 202, 248, 251, 36, 37, 111, 112, 47, 48, 122, 123, 165, 166, 288, 289, 420, 421, 511, 512, 591, 592, 642, 643, 664, 665, 666, 667, 668, 669, 670, 681, 682, 683, 684, 685, 686, 687, 168, 169, 291, 292, 423, 424, 514, 515, 594, 595, 645, 646, 689, 690, 702, 703, 704, 705, 706, 707, 712, 713, 714, 715, 716, 717, 190, 193, 239, 242, 43, 45, 117, 119, 434, 437, 470, 473, 325, 327, 380, 382, 3, 15, 77, 89, 2, 14, 76, 88, 320, 321, 324, 373, 376, 377, 440, 441, 442, 474, 477, 478, 210, 212, 259, 261, 64, 66, 138, 140, 726, 728, 730, 732, 523, 529, 555, 561, 211, 213, 260, 262, 65, 67, 139, 141, 194, 195, 244, 245, 40, 41, 115, 116, 12, 24, 86, 98, 755, 697, 601, 610, 611, 629, 630, 542, 543, 574, 575, 44, 46, 118, 120, 189, 192, 238, 241, 6, 18, 80, 92, 5, 17, 79, 91, 38, 39, 42, 110, 113, 114, 196, 197, 198, 243, 246, 247, 527, 533, 559, 565, 655, 658, 672, 675, 432, 435, 468, 471, 443, 446, 479, 482, 318, 319, 374, 375, 329, 330, 385, 386, 300, 309, 355, 364, 303, 312, 358, 367, 744, 745, 746, 747, 656, 659, 673, 676, 456, 457, 492, 493, 346, 347, 401, 402, 612, 613, 631, 632, 544, 545, 576, 577, 308, 317, 363, 372, 438, 439, 475, 476, 322, 323, 378, 379, 604, 606, 623, 625, 540, 541, 572, 573, 326, 328, 381, 383, 433, 436, 469, 472, 201, 204, 250, 253, 54, 56, 128, 130, 535, 538, 539, 567, 570, 571, 607, 608, 609, 626, 627, 628, 445, 448, 481, 484, 336, 338, 391, 393, 603, 605, 622, 624, 536, 537, 568, 569, 331, 332, 335, 384, 387, 388, 451, 452, 453, 485, 488, 489, 302, 311, 357, 366, 301, 310, 356, 365, 205, 206, 255, 256, 51, 52, 126, 127, 698, 699, 708, 709, 660, 661, 677, 678, 55, 57, 129, 131, 200, 203, 249, 252, 9, 21, 83, 95, 8, 20, 82, 94, 49, 50, 53, 121, 124, 125, 207, 208, 209, 254, 257, 258, 700, 701, 710, 711, 662, 663, 679, 680, 449, 450, 486, 487, 333, 334, 389, 390, 337, 339, 392, 394, 444, 447, 480, 483, 525, 531, 557, 563, 524, 530, 556, 562, 305, 314, 360, 369, 304, 313, 359, 368, 429, 176]
+partition = "pauli"
+relative_difference = 7.12631691579982e-15
+replayed_score = 0.00015214060577094216
+score_kind = "retained_first_order_response"
+status = "verified"
+steps = "not_used"
+tolerance = 1.5214060577104324e-12
+verified = true
+within_tolerance = true
+
+    [checks.details]
+    destinations = 84
+    nonzero_pairs = 100980
+    pair_events = 286146
+    r_normalized = false
+    scope = "Exact-integer projected ordered pair action, independently rounded T=1 diagonal sinc norm; unit-modulus phase cancels in norm; NO r normalization"
+[[checks]]
+absolute_difference = 0.0
+check_index = 3
+constructor_score = 1.8226062412807426e-10
+numerical_floor = false
+objective_sha256 = "d32547d58ccd2036283fcbe5b3c164d38afe40ba0afe6c25d9d04854852ac1b1"
+order = [37, 183, 156, 184, 157, 199, 176, 203, 172, 206, 178, 194, 161, 182, 155, 189, 166, 196, 168, 193, 162, 180, 153, 204, 171, 186, 158, 200, 175, 110, 109, 190, 165, 197, 174, 211, 210, 201, 170, 208, 205, 177, 217, 216, 212, 218, 112, 108, 138, 137, 129, 128, 147, 146, 192, 159, 179, 152, 187, 164, 195, 167, 59, 77, 103, 207, 191, 160, 214, 213, 113, 215, 149, 148, 202, 169, 135, 127, 198, 173, 188, 163, 185, 154, 121, 120, 117, 116, 12, 111, 107, 14, 27, 144, 15, 85, 139, 97, 1, 91, 133, 125, 124, 140, 132, 39, 35, 145, 143, 134, 80, 42, 82, 41, 95, 102, 86, 142, 72, 5, 74, 31, 64, 89, 6, 98, 13, 99, 90, 130, 209, 17, 3, 93, 87, 65, 55, 46, 34, 21, 7, 19, 25, 11, 79, 73, 56, 20, 8, 18, 92, 88, 94, 26, 16, 4, 122, 23, 9, 44, 32, 30, 48, 36, 43, 33, 50, 38, 49, 22, 40, 28, 123, 150, 119, 115, 141, 131, 106, 2, 118, 114, 45, 47, 100, 136, 24, 96, 126, 181, 151, 67, 57, 63, 53, 81, 75, 66, 58, 69, 62, 54, 101, 84, 76, 83, 10, 71, 52, 68, 60, 29, 104, 78, 70, 61, 51, 105]
+partition = "conserving"
+relative_difference = 0.0
+replayed_score = 1.8226062412807426e-10
+score_kind = "diagonal_reference_cubic_response"
+status = "verified"
+steps = 15
+tolerance = 1.8226072412807425e-18
+verified = true
+within_tolerance = true
+
+    [checks.details]
+    cubic_response = 9.22694409648376e-6
+    r_normalized = true
+    scope = "Reviewed Julia sparse degree3 Taylor/diagonal transport, separate from native Python cubic implementation; numerical parity only"
+[[checks]]
+absolute_difference = 0.0
+check_index = 4
+constructor_score = 1.822085314708474e-10
+numerical_floor = false
+objective_sha256 = "d6fa1f66bae82799f4bc729e591740287948e1f3321fadae19fda0589b62a15b"
+order = [37, 183, 156, 184, 157, 199, 176, 203, 172, 206, 178, 194, 161, 182, 155, 189, 166, 196, 168, 193, 162, 180, 153, 204, 171, 186, 158, 200, 175, 110, 109, 190, 165, 197, 174, 211, 210, 201, 170, 208, 205, 177, 217, 216, 212, 218, 112, 108, 138, 137, 129, 128, 147, 146, 192, 159, 179, 152, 187, 164, 195, 167, 59, 77, 103, 207, 191, 160, 214, 213, 113, 215, 149, 148, 202, 169, 135, 127, 198, 173, 188, 163, 185, 154, 121, 120, 117, 116, 12, 107, 111, 14, 27, 144, 15, 85, 139, 97, 1, 91, 133, 125, 124, 140, 132, 39, 35, 145, 143, 134, 80, 42, 82, 41, 95, 102, 86, 142, 72, 5, 74, 31, 64, 89, 6, 98, 13, 99, 90, 130, 209, 17, 3, 93, 87, 65, 55, 46, 34, 21, 7, 19, 25, 11, 79, 73, 56, 20, 8, 18, 92, 88, 94, 26, 16, 4, 122, 23, 9, 44, 32, 30, 48, 36, 43, 33, 50, 38, 49, 22, 40, 28, 123, 150, 119, 115, 141, 131, 106, 2, 118, 114, 45, 47, 100, 136, 24, 96, 126, 181, 151, 67, 57, 63, 53, 81, 75, 66, 58, 69, 62, 54, 101, 84, 76, 83, 10, 71, 52, 68, 60, 29, 104, 78, 70, 61, 51, 105]
+partition = "conserving"
+relative_difference = 0.0
+replayed_score = 1.822085314708474e-10
+score_kind = "diagonal_reference_cubic_response"
+status = "verified"
+steps = 15
+tolerance = 1.822086314708474e-18
+verified = true
+within_tolerance = true
+
+    [checks.details]
+    cubic_response = 9.22430690571165e-6
+    r_normalized = true
+    scope = "Reviewed Julia sparse degree3 Taylor/diagonal transport, separate from native Python cubic implementation; numerical parity only"
+
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 1
+formula = 1
+name = "canonical_r1_f1_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 2
+formula = 1
+name = "canonical_r1_f1_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 3
+formula = 1
+name = "canonical_r1_f1_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 4
+formula = 1
+name = "canonical_r1_f1_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 5
+formula = 2
+name = "canonical_r1_f2_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 6
+formula = 2
+name = "canonical_r1_f2_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 7
+formula = 2
+name = "canonical_r1_f2_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 8
+formula = 2
+name = "canonical_r1_f2_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 8
+candidate_index = 9
+formula = 2
+name = "magnitude_r1_f2_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 24
+candidate_index = 10
+formula = 2
+name = "magnitude_r1_f2_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 8
+candidate_index = 11
+formula = 2
+name = "magnitude_r1_f2_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 24
+candidate_index = 12
+formula = 2
+name = "magnitude_r1_f2_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 13
+formula = 1
+name = "current_r1_f1_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 14
+formula = 1
+name = "current_r1_f1_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 15
+formula = 1
+name = "current_r1_f1_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 16
+formula = 1
+name = "current_r1_f1_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 17
+formula = 2
+name = "current_r1_f2_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 18
+formula = 2
+name = "current_r1_f2_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 19
+formula = 2
+name = "current_r1_f2_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 20
+formula = 2
+name = "current_r1_f2_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 8
+candidate_index = 21
+check_index = 1
+deduplicated = false
+formula = 1
+name = "first_r1_f1_t0.4_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 24
+candidate_index = 22
+check_index = 1
+deduplicated = true
+formula = 1
+name = "first_r1_f1_t0.4_b24"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 8
+candidate_index = 23
+check_index = 1
+deduplicated = true
+formula = 1
+name = "first_r1_f1_t1.6_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 24
+candidate_index = 24
+check_index = 1
+deduplicated = true
+formula = 1
+name = "first_r1_f1_t1.6_b24"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 8
+candidate_index = 25
+check_index = 1
+deduplicated = true
+formula = 2
+name = "first_r1_f2_t0.4_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 24
+candidate_index = 26
+check_index = 1
+deduplicated = true
+formula = 2
+name = "first_r1_f2_t0.4_b24"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 8
+candidate_index = 27
+check_index = 1
+deduplicated = true
+formula = 2
+name = "first_r1_f2_t1.6_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 24
+candidate_index = 28
+check_index = 1
+deduplicated = true
+formula = 2
+name = "first_r1_f2_t1.6_b24"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "pauli"
+budget_multiplier = 8
+candidate_index = 29
+check_index = 2
+deduplicated = false
+formula = 2
+name = "pauli_r1_f2_t0.4_b8"
+partition = "pauli"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "pauli"
+budget_multiplier = 24
+candidate_index = 30
+check_index = 2
+deduplicated = true
+formula = 2
+name = "pauli_r1_f2_t0.4_b24"
+partition = "pauli"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "pauli"
+budget_multiplier = 8
+candidate_index = 31
+check_index = 2
+deduplicated = true
+formula = 2
+name = "pauli_r1_f2_t1.6_b8"
+partition = "pauli"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "pauli"
+budget_multiplier = 24
+candidate_index = 32
+check_index = 2
+deduplicated = true
+formula = 2
+name = "pauli_r1_f2_t1.6_b24"
+partition = "pauli"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "cubic"
+budget_multiplier = 8
+candidate_index = 33
+check_index = 3
+deduplicated = false
+formula = 2
+name = "cubic_r1_f2_t0.4_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "cubic"
+budget_multiplier = 24
+candidate_index = 34
+check_index = 3
+deduplicated = true
+formula = 2
+name = "cubic_r1_f2_t0.4_b24"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+[[logical_rows]]
+arm = "cubic"
+budget_multiplier = 8
+candidate_index = 35
+check_index = 3
+deduplicated = true
+formula = 2
+name = "cubic_r1_f2_t1.6_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "cubic"
+budget_multiplier = 24
+candidate_index = 36
+check_index = 3
+deduplicated = true
+formula = 2
+name = "cubic_r1_f2_t1.6_b24"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 1.6
+[[logical_rows]]
+arm = "window_sparse"
+budget_multiplier = 8
+candidate_index = 37
+check_index = 4
+deduplicated = false
+formula = 2
+name = "window_sparse_r1_f2_t0.4_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+
+[source_hashes]
+"../../analysis/sparse_response_ordering.py" = "022b634c74597a9443aae8d888969abbd658ef8f0c5864c9e20146798df94013"
+"../julia_cubic_feasibility/src/ResponseCore.jl" = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
+"../scalable_ordering/training.py" = "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+"objective_check.jl" = "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0"
+"src/WindowStudyIO.jl" = "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77"

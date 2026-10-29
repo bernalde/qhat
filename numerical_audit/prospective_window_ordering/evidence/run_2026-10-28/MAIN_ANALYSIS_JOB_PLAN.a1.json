@@ -1,0 +1,135 @@
+{
+  "schema": "root-bounded-main-derived-audit-plan-v1",
+  "root": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+  "cwd": "/tmp/qhat-normal-window-2026-10-28/worktree",
+  "frozen_UTC": "2026-10-29T03:15:13.432872+00:00",
+  "ledger_cutoff_UTC": "2026-10-29T03:15:13.811928+00:00",
+  "execution_head": "c27fcd7337a965b879e41dc094ba8fb0f8b5bd8e",
+  "scientific_source_commit": "722013aa6d9a0a48776e26de5f356b5a441c3f61",
+  "root_safe_completion_counts": [
+    {
+      "case": "LiH_r1p487_631g_14m4e",
+      "physical_rows": 88,
+      "independent_rows": 88,
+      "objective_complete": true,
+      "objective_mismatches": 0,
+      "objective_floor_censors": 0,
+      "reference_times": 2,
+      "distinct_hard_unfused_replays": 11
+    },
+    {
+      "case": "LiH_r2p113_631g_14m4e",
+      "physical_rows": 88,
+      "independent_rows": 88,
+      "objective_complete": true,
+      "objective_mismatches": 0,
+      "objective_floor_censors": 0,
+      "reference_times": 2,
+      "distinct_hard_unfused_replays": 11
+    },
+    {
+      "case": "BeH2_r1p369_631g_14m4e",
+      "physical_rows": 88,
+      "independent_rows": 88,
+      "objective_complete": true,
+      "objective_mismatches": 0,
+      "objective_floor_censors": 0,
+      "reference_times": 2,
+      "distinct_hard_unfused_replays": 11
+    },
+    {
+      "case": "BeH2_r1p907_631g_14m4e",
+      "physical_rows": 88,
+      "independent_rows": 88,
+      "objective_complete": true,
+      "objective_mismatches": 0,
+      "objective_floor_censors": 0,
+      "reference_times": 2,
+      "distinct_hard_unfused_replays": 11
+    }
+  ],
+  "quality_values_inspected": false,
+  "conditions": [
+    "All352physical and case-independent rows complete beforeaudit",
+    "Allhistoricjobs throughcutoffincluded includingfailedphysicala1; aftercutoffcosts separatelycharged",
+    "Nonzero/censored/veto retainsreport; rootinspects beforecontinueddependentjob, no rewritingolddata"
+  ],
+  "jobs": [
+    {
+      "label": "window-main-index-prepare-H-a1",
+      "phase": "packaging",
+      "cpu": 5,
+      "wall": 25,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/build_main_indices.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "prepare",
+        "--cutoff",
+        "2026-10-29T03:15:13.811928+00:00",
+        "--guard-source",
+        "tools/resource_guard.py",
+        "--analyzer-source",
+        "tools/analyze_study.py",
+        "--checker-source",
+        "tools/independent_derived_check.py",
+        "--dispatcher-source",
+        "tools/run_guarded_job.py",
+        "--dispatcher-source",
+        "tools/run_guarded_job.cf08ea11.py",
+        "--analysis-index",
+        "ANALYSIS_INDEX.main.H.a1.json",
+        "--seed",
+        "MAIN_DERIVED_INDEX_SEED.H.a1.json"
+      ]
+    },
+    {
+      "label": "window-main-analysis-H-a1",
+      "phase": "independent",
+      "cpu": 15,
+      "wall": 75,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/analyze_study.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/ANALYSIS_SUMMARY.main.H.a1.json",
+        "--mode",
+        "main",
+        "--index",
+        "ANALYSIS_INDEX.main.H.a1.json"
+      ]
+    },
+    {
+      "label": "window-main-index-finish-H-a1",
+      "phase": "packaging",
+      "cpu": 5,
+      "wall": 25,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/build_main_indices.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "finish",
+        "--seed",
+        "MAIN_DERIVED_INDEX_SEED.H.a1.json",
+        "--summary",
+        "ANALYSIS_SUMMARY.main.H.a1.json",
+        "--output",
+        "INDEPENDENT_DERIVED_INDEX.main.H.a1.json"
+      ]
+    },
+    {
+      "label": "window-main-derived-check-H-a1",
+      "phase": "independent",
+      "cpu": 20,
+      "wall": 100,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/independent_derived_check.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "INDEPENDENT_DERIVED_INDEX.main.H.a1.json",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/INDEPENDENT_DERIVED_CHECK.main.H.a1.json"
+      ]
+    }
+  ],
+  "runner_sha256": "0e9e59fd2c99b4455f08764596f4d5177adda241b2c04ba44b823360749c33eb"
+}

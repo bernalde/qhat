@@ -1,0 +1,118 @@
+{
+  "unit": "fermionic-future-window-main-LiH-r2p113-631g-14m4e-cubic-r1-a1-3355575",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "320",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/constructors.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/inputs/LiH_r2p113_631g_14m4e/model.json",
+    "66010f0d6604fe8297b90e1c56a745d02509d17adb1718d28af45348c1a40fc5",
+    "cubic",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/constructors-main/LiH_r2p113_631g_14m4e/r1/cubic.a1.json",
+    "--repetition",
+    "1",
+    "--julia-executable",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--source-freeze",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/INPUT_PROTOCOL_FROZEN.json"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 18.160358160035685,
+  "samples": [
+    {
+      "elapsed": 0.0010192859917879105,
+      "available_bytes": 15153156096,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=106000",
+      "output_bytes": 94909137
+    },
+    {
+      "elapsed": 3.062611611036118,
+      "available_bytes": 15025549312,
+      "frozen": false,
+      "service": "MemoryCurrent=42475520\nMemoryPeak=43184128\nCPUUsageNSec=773001000",
+      "output_bytes": 94909137
+    },
+    {
+      "elapsed": 6.0803820849978365,
+      "available_bytes": 15032602624,
+      "frozen": false,
+      "service": "MemoryCurrent=49598464\nMemoryPeak=49860608\nCPUUsageNSec=1523000000",
+      "output_bytes": 94909137
+    },
+    {
+      "elapsed": 9.099312053993344,
+      "available_bytes": 14997168128,
+      "frozen": false,
+      "service": "MemoryCurrent=49598464\nMemoryPeak=49860608\nCPUUsageNSec=2273969000",
+      "output_bytes": 94909137
+    },
+    {
+      "elapsed": 12.122376186016481,
+      "available_bytes": 14963200000,
+      "frozen": false,
+      "service": "MemoryCurrent=49598464\nMemoryPeak=49860608\nCPUUsageNSec=3023071000",
+      "output_bytes": 94909137
+    },
+    {
+      "elapsed": 15.140896851022262,
+      "available_bytes": 14985420800,
+      "frozen": false,
+      "service": "MemoryCurrent=49598464\nMemoryPeak=49860608\nCPUUsageNSec=3778148000",
+      "output_bytes": 94909137
+    }
+  ],
+  "completed_utc": "2026-10-29T02:27:40.711011+00:00",
+  "budget": {
+    "cpu_seconds": 64.0,
+    "wall_seconds": 320,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-main-LiH-r2p113-631g-14m4e-cubic-r1-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 3.91,
+    "system_cpu_seconds": 0.44,
+    "max_rss_kib": 65272.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 4.3500000000000005,
+    "output_bytes": 94918058,
+    "elapsed_seconds": 18.160358160035685,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

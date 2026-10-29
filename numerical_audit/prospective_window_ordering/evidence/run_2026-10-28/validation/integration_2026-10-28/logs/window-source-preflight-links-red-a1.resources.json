@@ -1,0 +1,75 @@
+{
+  "unit": "fermionic-future-window-source-preflight-links-red-a1-3130273",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "15",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/tmp",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "-m",
+    "pytest",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py",
+    "numerical_audit/prospective_window_ordering/test/test_panel.py::test_generated_preflight_preserves_parent_payload_identity_for_panel",
+    "-q"
+  ],
+  "exit_code": 1,
+  "supervisor_exit_code": 1,
+  "elapsed": 3.097952496027574,
+  "samples": [
+    {
+      "elapsed": 0.0008410420268774033,
+      "available_bytes": 23171506176,
+      "frozen": false,
+      "service": "MemoryCurrent=36864\nMemoryPeak=262144\nCPUUsageNSec=82000",
+      "output_bytes": 34319440
+    }
+  ],
+  "completed_utc": "2026-10-29T00:36:35.792027+00:00",
+  "budget": {
+    "cpu_seconds": 2.0,
+    "wall_seconds": 15,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/window-source-preflight-links-red-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 0.31,
+    "system_cpu_seconds": 0.05,
+    "max_rss_kib": 40436.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 0.36,
+    "output_bytes": 32490612,
+    "elapsed_seconds": 3.097952496027574,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

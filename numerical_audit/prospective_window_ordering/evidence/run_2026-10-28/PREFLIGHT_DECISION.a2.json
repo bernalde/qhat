@@ -1,0 +1,47 @@
+{
+  "schema": "prospective-window-preflight-decision-v1",
+  "decision": "failed_window_procedure_and_memory_margin_gates",
+  "gate_sha256": "e051a44d9e2f7e0bbe1a221cd67edac60b360312329e8454d2f9132987538eaa",
+  "source_commit": "709d08899d5bc7b55f8ea27f3f1212d57be29cde",
+  "evidence": [
+    {
+      "arm": "window_sparse",
+      "record": {
+        "path": "constructors-preflight/LiH_r1p487_631g_14m4e_preflight_7over5/r1/window_sparse.a2.json",
+        "sha256": "64edaa3468e064a3c63f881acd2e72f05f589ba3ab7558fc0a24e0bf851eba7c"
+      },
+      "window_status": "child_numerical_limit",
+      "checkpoint_status": "parent_checked",
+      "checked_child_evaluations": 1,
+      "native_window_verifications": 0,
+      "parent_evaluations": 1798,
+      "child_allocated_evaluations": 1200
+    },
+    {
+      "arm": "window_magnitude",
+      "record": {
+        "path": "constructors-preflight/LiH_r1p487_631g_14m4e_preflight_7over5/r1/window_magnitude.a2.json",
+        "sha256": "4bf15c63491b3c8446daac53b45c51356c0e3570bb4d3118f64ab73556abe847"
+      },
+      "window_status": "child_numerical_limit",
+      "checkpoint_status": "parent_checked",
+      "checked_child_evaluations": 1,
+      "native_window_verifications": 0,
+      "parent_evaluations": 1,
+      "child_allocated_evaluations": 2997
+    }
+  ],
+  "observed_sparse_guard_memory_peak_MiB": 448.25,
+  "required_peak_max_MiB": 400,
+  "main_calls_performed": 0,
+  "main_expected_calls": 64,
+  "main_physical_rows_performed": 0,
+  "main_expected_physical_rows": 352,
+  "physical_quality_computed": false,
+  "quality_used_in_decision": false,
+  "more_source_or_configuration_retuning_planned": false,
+  "old_attempts_retained": true,
+  "all_cumulative_pools_unchanged": true,
+  "remaining_preflight": "Bounded diagnostics/objectives and single44-row altered-case primary/independent pipeline may run under remaining original900CPU4500wall; completion of those records does not reverse failedadmission",
+  "recorded_UTC": "2026-10-28T20:05:18.848425+00:00"
+}

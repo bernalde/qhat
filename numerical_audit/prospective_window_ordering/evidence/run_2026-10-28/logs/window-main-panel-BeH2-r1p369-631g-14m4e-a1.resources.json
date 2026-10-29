@@ -1,0 +1,84 @@
+{
+  "unit": "fermionic-future-window-main-panel-BeH2-r1p369-631g-14m4e-a1-3383087",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "50",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/panel.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-BeH2_r1p369_631g_14m4e.PANEL_INVENTORY.json",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/BeH2_r1p369_631g_14m4e"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 9.066215400001965,
+  "samples": [
+    {
+      "elapsed": 0.0013275360106490552,
+      "available_bytes": 14440976384,
+      "frozen": false,
+      "service": "MemoryCurrent=[not set]\nMemoryPeak=[not set]\nCPUUsageNSec=[not set]",
+      "output_bytes": 96515012
+    },
+    {
+      "elapsed": 3.027862669026945,
+      "available_bytes": 14418247680,
+      "frozen": false,
+      "service": "MemoryCurrent=34619392\nMemoryPeak=34705408\nCPUUsageNSec=751667000",
+      "output_bytes": 96515012
+    },
+    {
+      "elapsed": 6.047218378982507,
+      "available_bytes": 14135328768,
+      "frozen": false,
+      "service": "MemoryCurrent=34508800\nMemoryPeak=34729984\nCPUUsageNSec=1507908000",
+      "output_bytes": 96515012
+    }
+  ],
+  "completed_utc": "2026-10-29T02:49:09.473020+00:00",
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 50,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-main-panel-BeH2-r1p369-631g-14m4e-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 1.56,
+    "system_cpu_seconds": 0.05,
+    "max_rss_kib": 43400.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 1.61,
+    "output_bytes": 96780544,
+    "elapsed_seconds": 9.066215400001965,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

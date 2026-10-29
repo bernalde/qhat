@@ -1,0 +1,92 @@
+{
+  "schema": "prospective-window-partial-resource-decision-v1",
+  "decision": "failed_memory_margin",
+  "source_commit": "a45e836458274a4ff2f37477951c2e92eabb218d",
+  "gate_sha256": "679f9a7a797687f8303003776a76b06340bcf33f65a951b6f8f32798bae154b2",
+  "all_conditions_required": true,
+  "criterion_MiB": 400,
+  "hard_memory_MiB": 512,
+  "constructors": [
+    {
+      "arm": "canonical",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-canonical-r1-a4",
+      "CPU_seconds": 0.133,
+      "wall_seconds": 3.0560637090238743,
+      "displayed_cgroup_peak_MiB": [
+        1.1
+      ]
+    },
+    {
+      "arm": "magnitude",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-magnitude-r1-a4",
+      "CPU_seconds": 0.13,
+      "wall_seconds": 3.047603846003767,
+      "displayed_cgroup_peak_MiB": []
+    },
+    {
+      "arm": "current",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-current-r1-a4",
+      "CPU_seconds": 0.338,
+      "wall_seconds": 3.046876731037628,
+      "displayed_cgroup_peak_MiB": []
+    },
+    {
+      "arm": "first",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-first-r1-a4",
+      "CPU_seconds": 0.485,
+      "wall_seconds": 3.0572978730197065,
+      "displayed_cgroup_peak_MiB": [
+        3.3
+      ]
+    },
+    {
+      "arm": "pauli",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-pauli-r1-a4",
+      "CPU_seconds": 2.424,
+      "wall_seconds": 12.102398351999,
+      "displayed_cgroup_peak_MiB": [
+        82.0
+      ]
+    },
+    {
+      "arm": "cubic",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-cubic-r1-a4",
+      "CPU_seconds": 4.33,
+      "wall_seconds": 18.123321861959994,
+      "displayed_cgroup_peak_MiB": [
+        46.5
+      ]
+    },
+    {
+      "arm": "window_sparse",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-window-sparse-r1-a4",
+      "CPU_seconds": 27.464000000000002,
+      "wall_seconds": 111.59199743997306,
+      "displayed_cgroup_peak_MiB": [
+        402.7
+      ]
+    },
+    {
+      "arm": "window_magnitude",
+      "label": "window-preflight-LiH-r1p487-631g-14m4e-preflight-7over5-window-magnitude-r1-a4",
+      "CPU_seconds": 23.161,
+      "wall_seconds": 93.5207393449964,
+      "displayed_cgroup_peak_MiB": [
+        323.2
+      ]
+    }
+  ],
+  "all8constructors_exited_cleanly": true,
+  "both_window_procedures_complete_and_native_verified": true,
+  "physical_quality_inspected": false,
+  "main64_352_admitted": false,
+  "continuation": "Finish already-bounded F physical/independent correctness/source-binding audit with values sealed; resource gate remains failed. Then prepare a prospective smaller GC heap hint and rerun same case/gate, preserving all attempts.",
+  "recorded_UTC": "2026-10-29T00:59:25.411745+00:00",
+  "primary_physical_rows": 44,
+  "independently_checked_rows": 44,
+  "objective_replay_complete": true,
+  "all_preflight_numerical_jobs_terminal": true,
+  "gate_execution_exit_code": 1,
+  "gate_receipt_sha256": "74b4bbb85626e6de7f55d16fdf9bba15f77d53408a0ad2323d1980c85e4a8ef6",
+  "actual_max_cgroup_display_upper_MiB": 402.8
+}

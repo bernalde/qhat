@@ -1,0 +1,25 @@
+{
+  "root": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+  "cwd": "/tmp/qhat-normal-window-2026-10-28/worktree",
+  "frozen_UTC": "2026-10-29T04:17:31.880867+00:00",
+  "source_sha256": "a834a2a86154d5fcabfd380d3069f0e22dab9a45c29f08dd55000672050c5941",
+  "mapping_sha256": "54015231c1c310f6bcee918ff7a117ffcc2f6fd9bd163b96c31d0153bf47be19",
+  "purpose": "Exact byte copy under disclosed historical source gaps; copy success does not certify source closure",
+  "jobs": [
+    {
+      "label": "window-public-archive-copy-a1",
+      "phase": "packaging",
+      "cpu": 20,
+      "wall": 100,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/archive_copy.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28",
+        "coordination/PUBLIC_ARCHIVE_COPY_MAP.a3.json",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/evidence/run_2026-10-28",
+        "--mapping-sha256",
+        "54015231c1c310f6bcee918ff7a117ffcc2f6fd9bd163b96c31d0153bf47be19"
+      ]
+    }
+  ]
+}

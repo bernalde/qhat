@@ -1,0 +1,49 @@
+{
+  "checker_sha256": "4ca02076449b5a1f0e49c187e01c425b60330a5d0320895728fc68bab23fc41d",
+  "driver_sha256": "68f059d199a20838032e6096f65e42f016be33b3b75bf0e17770a7e50fd74da8",
+  "numerical_kernels_executed": false,
+  "original_bindings_unchanged": true,
+  "original_report_sha256": "438fb0bdb444d9162f50ceeaeeed330e106304fb6d5f5f48045c231766474636",
+  "results": [
+    {
+      "baseline_counts": {
+        "paired_observations": 384,
+        "paired_repetition_medians": 192,
+        "pareto_groups_checked": 32,
+        "raw_rows_checked": 352,
+        "win_tie_loss_summaries": 12
+      },
+      "check_report_sha256": "438fb0bdb444d9162f50ceeaeeed330e106304fb6d5f5f48045c231766474636",
+      "exact_outcome": "verified_complete_derived_panel",
+      "exit_code": 0,
+      "index_sha256": "caccad36d551610a1e99224c0addcbdaaced5115b2def61f17a5c3042dc862c2",
+      "mirrored_files": 1084,
+      "mode": "baseline",
+      "overlay_original_path": null,
+      "overlay_sha256": null
+    },
+    {
+      "baseline_counts": null,
+      "check_report_sha256": "9658578c3c810597def63a16b0f821f4340b3e1dd9ff6d288e954689cff27085",
+      "exact_outcome": "FINAL charge does not reconcile guard/footer/service",
+      "exit_code": 2,
+      "index_sha256": "9ccb009151d641dffbc3e28d45905bf999cb9bbd4d9bfd35f03d1c33a05a4123",
+      "mirrored_files": 1084,
+      "mode": "final-charge",
+      "overlay_original_path": "jobs/window-main-LiH-r1p487-631g-14m4e-canonical-r1-a1.FINAL.json",
+      "overlay_sha256": "e72f1311e78d5ca203745577706677b68dbbfffb822174121eb5c03c58b8ed44"
+    },
+    {
+      "baseline_counts": null,
+      "check_report_sha256": "e8209181325c50fbfb7c5e6a9bfb1682005cae6c5932a732c5045a9851a2909d",
+      "exact_outcome": "paired_observations('window_sparse', 'cubic', 'LiH_r1p487_631g_14m4e', 1, 2, 0.4, 8): error_delta",
+      "exit_code": 2,
+      "index_sha256": "2b1f67d6d3a2e5bf5e761256786c9adb58edde7faae9d754ae73416ffb86058b",
+      "mirrored_files": 1084,
+      "mode": "paired-delta",
+      "overlay_original_path": "ANALYSIS_SUMMARY.main.H.a1.json",
+      "overlay_sha256": "694ce3f2c81a943c0407f6787587d985f98289fd5fd176b1dde6dfff557c0a9b"
+    }
+  ],
+  "status": "passed"
+}

@@ -1,0 +1,4172 @@
+absolute_metric_tolerance = 1.0e-12
+blas_threads = 1
+case = "LiH_r1p487_631g_14m4e"
+checked_logical_rows = 88
+checker_source_sha256 = "ef0b74f7349e82b6054ba1a3fd279115bf8278e3bad4a2beb5ac4cc89fc4cef2"
+distinct_hard_circuit_identities = 11
+distinct_successful_unfused_replays = 11
+exact_polynomial_conservation = "[N,H]=[Nalpha,H]=0 and every original conserving unit checked over supplied integer coefficients"
+expected_logical_rows = 88
+failures = []
+hf = "15"
+input_toml_sha256 = "8467a7625b67790cea46af821cfa8b88f47fbbcef60f5b620a6a2b3fc1677f5a"
+julia_threads = 1
+julia_version = "1.10.11"
+manifest_sha256 = "dbf12fa560508e132b06f5ea03c26d0a791468487aa1167313061f3cd7beb936"
+n = 14
+provided_logical_rows = 88
+reference_metric_scope = "saved actual and hard unfused metrics checked against both saved and independently reconstructed references"
+replay_scope = "only distinct T=1.6 / 24U circuits; other rows independently check saved-state metrics"
+source_json_sha256 = "a98914135ae21ade581b480e6ef209f9c0511ba7fe3f2781f6d3968785ab08ee"
+state_norm_tolerance = 1.0e-10
+status = "complete"
+
+[[reference_checks]]
+phase_aligned_residual = 3.6295954257059166e-15
+reference_file = "reference_4600877379321698714.bin"
+reference_sha256 = "69e8fe9b92494787545d6bf8051a260af6953549ea2ea1d91f1b625579f60520"
+state_norm_residual = 5.522321822303534e-15
+status = "complete"
+time = 0.4
+
+    [reference_checks.diagnostic]
+    certificate = "numerical convergence/norm checks; no interval certificate"
+    global_phase_restored = true
+    krylov_dimension = 15
+    max_krylov = 160
+    method = "independent raw-Pauli sparse-sector fully reorthogonalized Hermitian Krylov"
+    norm_drift = 0.0
+    number_leakage = 0.0
+    original_words = 1289
+    orthogonality_residual = 7.420580812048316e-16
+    sampled_residual_indicator = 3.862815894602745e-16
+    scalar_shift = -3.821322391302523
+    sector_dimension = 1001
+    sector_hermiticity_residual = 0.0
+    sector_nnz = 39681
+    sector_outside_max = 4.336808689942018e-19
+    spin_leakage = 0.0
+    spin_outside_max = 0.0
+    successive_action_change = 9.70126352848549e-16
+    tolerance = 1.0e-13
+[[reference_checks]]
+phase_aligned_residual = 1.1550635110157444e-14
+reference_file = "reference_4609884578576439706.bin"
+reference_sha256 = "5a5af78d2b0275d7e27005caf8f1636489b30cf8244d89a2aed1c55142e174f5"
+state_norm_residual = 1.645245337094475e-14
+status = "complete"
+time = 1.6
+
+    [reference_checks.diagnostic]
+    certificate = "numerical convergence/norm checks; no interval certificate"
+    global_phase_restored = true
+    krylov_dimension = 24
+    max_krylov = 160
+    method = "independent raw-Pauli sparse-sector fully reorthogonalized Hermitian Krylov"
+    norm_drift = 8.881784197001252e-16
+    number_leakage = 0.0
+    original_words = 1289
+    orthogonality_residual = 9.890605185536676e-16
+    sampled_residual_indicator = 3.483316000406342e-15
+    scalar_shift = -3.821322391302523
+    sector_dimension = 1001
+    sector_hermiticity_residual = 0.0
+    sector_nnz = 39681
+    sector_outside_max = 4.336808689942018e-19
+    spin_leakage = 0.0
+    spin_outside_max = 0.0
+    successive_action_change = 4.6288015371641455e-15
+    tolerance = 1.0e-13
+
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "canonical_r1_f1_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "ddbeb475470abfcde1d64951b179a3a024497738c19e31814d23e2188ef6d143"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 8.544444855427755e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 4.2722224277138773e-20
+    spin_leakage = 5.345529420184391e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 7.831087934801867e-7
+    norm_drift = 2.631228568361621e-14
+    number_leakage = 1.2553999716396273e-35
+    projective_error = 3.9155447339754613e-7
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2554366420476455e-35
+
+    [rows.metrics]
+    infidelity = 7.831087934802723e-7
+    norm_drift = 2.631228568361621e-14
+    number_leakage = 1.2553999716396273e-35
+    projective_error = 3.9155447339758896e-7
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2554366420476455e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.117582368135751e-22
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 1.0587911840678754e-22
+    spin_leakage = 5.345529420184391e-51
+[[rows]]
+arm = "canonical"
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = false
+name = "canonical_r1_f1_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "0432ebf69dcc3abbb45daa5381e094ade0464d9ff12b5f0735687669f28a8d68"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2401091743394991e-20
+    norm_drift = 0.0
+    number_leakage = 2.405488239082976e-50
+    projective_error = 6.2005458716974955e-21
+    spin_leakage = 2.405488239082976e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 8.68722747385031e-8
+    norm_drift = 8.548717289613705e-14
+    number_leakage = 1.0250666676710468e-35
+    projective_error = 4.343613831260061e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.0250688249318968e-35
+
+    [rows.metrics]
+    infidelity = 8.687227473851547e-8
+    norm_drift = 8.548717289613705e-14
+    number_leakage = 1.0250666676710468e-35
+    projective_error = 4.343613831260679e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.0250688249318968e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.970466940254533e-23
+    norm_drift = 0.0
+    number_leakage = 2.405488239082976e-50
+    projective_error = 1.9852334701272664e-23
+    spin_leakage = 2.405488239082976e-50
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "canonical_r1_f1_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "b001069649599c95365430aa4aca796e7a3964440a77dfa37f39938c8a2d2da7"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2153228727204701e-17
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 6.074920297707842e-18
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.9274601119963076e-5
+    norm_drift = 1.9984014443252818e-15
+    number_leakage = 2.610795945131525e-34
+    projective_error = 1.4637407686833432e-5
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.610850624324457e-34
+
+    [rows.metrics]
+    infidelity = 2.927460111995092e-5
+    norm_drift = 1.9984014443252818e-15
+    number_leakage = 2.610795945131525e-34
+    projective_error = 1.4637407686827354e-5
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.610850624324457e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.3881317890172014e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 3.3881317890172014e-21
+    spin_leakage = 4.276423536147513e-50
+[[rows]]
+arm = "canonical"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = true
+name = "canonical_r1_f1_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "d71c24a27d9aff7b866dfc06210fb7c57f9bbb506e249b6c2db22f9a9b240d66"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 0.0
+unfused_state_norm_residual = 0.0
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.417276819931176e-18
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 2.208638409965588e-18
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 3.208351049383378e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.60417681138331e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 7.336859897948176e-35
+
+    [rows.metrics]
+    infidelity = 3.208351049378962e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.6041768113811018e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 7.336859897948176e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2705494208814505e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 4.235164736271502e-22
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 4.417276819931176e-18
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 2.208638409965588e-18
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 3.208351049383378e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.60417681138331e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 7.336859897948176e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 3.208351049378962e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.6041768113811018e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 7.336859897948176e-35
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "canonical_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "8fbef7b80d267d9d0f34c341eb44bc9b090b4a808d6615ba3d3d00eb3248636c"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.1415009735170527e-19
+    norm_drift = 0.0
+    number_leakage = 9.354676485322685e-51
+    projective_error = 5.707504867585263e-20
+    spin_leakage = 9.354676485322685e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.747648508937553e-9
+    norm_drift = 3.8191672047105385e-14
+    number_leakage = 9.92630502563084e-36
+    projective_error = 2.8738242585982095e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.926601909133217e-36
+
+    [rows.metrics]
+    infidelity = 5.747648508823403e-9
+    norm_drift = 3.8191672047105385e-14
+    number_leakage = 9.92630502563084e-36
+    projective_error = 2.8738242585411345e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.926601909133217e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 0.0
+    norm_drift = 0.0
+    number_leakage = 9.354676485322685e-51
+    projective_error = 0.0
+    spin_leakage = 9.354676485322685e-51
+[[rows]]
+arm = "canonical"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "canonical_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "06361a66dac94a505429f21ed35122e2ae268b9e6eedd24b176513b0e046041c"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2581727309661258e-20
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 6.290863654830629e-21
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 6.982050063684046e-11
+    norm_drift = 4.8405723873656825e-14
+    number_leakage = 3.090610640697136e-36
+    projective_error = 3.491025031902959e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.090631287954198e-36
+
+    [rows.metrics]
+    infidelity = 6.982050062425974e-11
+    norm_drift = 4.8405723873656825e-14
+    number_leakage = 3.090610640697136e-36
+    projective_error = 3.491025031273923e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.090631287954198e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0081263715490025e-24
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 5.040631857745012e-25
+    spin_leakage = 0.0
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "canonical_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "90e33b65f908c1c84fbe29192c221bb3472ba6291c54cbeedcf50dc88d23f211"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.949905332221534e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.477070248478903e-19
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.3548778247884463e-6
+    norm_drift = 8.104628079763643e-15
+    number_leakage = 2.7034125891062e-34
+    projective_error = 1.1774396055762356e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.7034752522375397e-34
+
+    [rows.metrics]
+    infidelity = 2.35487782478775e-6
+    norm_drift = 8.104628079763643e-15
+    number_leakage = 2.7034125891062e-34
+    projective_error = 1.1774396055758873e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.7034752522375397e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2705494208814505e-21
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 6.352747104407253e-22
+    spin_leakage = 0.0
+[[rows]]
+arm = "canonical"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "canonical_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "fc4a96ed979a2598e3019252ea5930caabffc081ec2354c62db864a4e272e2e4"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 8.083288031731162e-17
+unfused_state_norm_residual = 2.563050999404296e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.397292136331895e-20
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 2.198480632043437e-20
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.2291727370637945e-8
+    norm_drift = 9.026113190202523e-14
+    number_leakage = 5.28681361248218e-35
+    projective_error = 1.114586374743411e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.286878189478209e-35
+
+    [rows.metrics]
+    infidelity = 2.229172737059324e-8
+    norm_drift = 9.026113190202523e-14
+    number_leakage = 5.28681361248218e-35
+    projective_error = 1.1145863747411758e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.286878189478209e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.312276614968765e-22
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 3.672681919735443e-22
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 4.491259853917919e-20
+    norm_drift = 3.9968028886505635e-15
+    number_leakage = 2.248622779546284e-35
+    projective_error = 2.2456299269589595e-20
+    spin_leakage = 2.248670053053136e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.2291727370638885e-8
+    norm_drift = 8.626432901337466e-14
+    number_leakage = 3.038190832935893e-35
+    projective_error = 1.1145863747434582e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.038208136425071e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.22917273705937e-8
+    norm_drift = 8.626432901337466e-14
+    number_leakage = 3.038190832935893e-35
+    projective_error = 1.1145863747411988e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.038208136425071e-35
+[[rows]]
+arm = "magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "magnitude_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "c24af3b56beec1edcea51277684606416e05a87da92cfefaca55cef60ec6de07"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.1522295060618654e-19
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 5.761147530309327e-20
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.780979558124361e-9
+    norm_drift = 3.11972669919669e-14
+    number_leakage = 1.2252265398127626e-35
+    projective_error = 2.8904897832396457e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2252560876499572e-35
+
+    [rows.metrics]
+    infidelity = 5.7809795580091555e-9
+    norm_drift = 3.11972669919669e-14
+    number_leakage = 1.2252265398127626e-35
+    projective_error = 2.890489783182043e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2252560876499572e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.737079286361358e-23
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 8.68539643180679e-24
+    spin_leakage = 0.0
+[[rows]]
+arm = "magnitude"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "magnitude_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "21f998fa330af16c24a8e4a61cc5bfcdaacb65db9ce9fa6f47c0020695d063dd"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2682759666666368e-20
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 6.341379833333184e-21
+    spin_leakage = 3.3409558876152446e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 7.022484407882656e-11
+    norm_drift = 8.681944052568724e-14
+    number_leakage = 1.507624537772248e-36
+    projective_error = 3.511242204002972e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5076456631560014e-36
+
+    [rows.metrics]
+    infidelity = 7.022484406615026e-11
+    norm_drift = 8.681944052568724e-14
+    number_leakage = 1.507624537772248e-36
+    projective_error = 3.511242203369157e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5076456631560014e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.462348535570529e-24
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 3.2311742677852644e-24
+    spin_leakage = 3.3409558876152446e-52
+[[rows]]
+arm = "magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "magnitude_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "5a1098fed47a44ac2beb8be3a6a84c171aed57ae9f1f0ad575fadaf97a4963a1"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 8.326333871509772e-19
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 4.163166935754886e-19
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.3637245247918203e-6
+    norm_drift = 1.687538997430238e-14
+    number_leakage = 3.8301281628785857e-34
+    projective_error = 1.181862960795939e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.8301651644790073e-34
+
+    [rows.metrics]
+    infidelity = 2.3637245247909894e-6
+    norm_drift = 1.687538997430238e-14
+    number_leakage = 3.8301281628785857e-34
+    projective_error = 1.1818629607955236e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.8301651644790073e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.6940658945086007e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 8.470329472543003e-22
+    spin_leakage = 0.0
+[[rows]]
+arm = "magnitude"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "magnitude_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "23a6915e3a60c80b6ca17efc0b9c834985cb098622dc29673392b25d218dbfac"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 9.813428871127771e-17
+unfused_state_norm_residual = 2.6869966278892325e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 5.96959704467269e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 2.984798522336345e-20
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.236186743488643e-8
+    norm_drift = 9.08162434143378e-14
+    number_leakage = 5.937257836354353e-35
+    projective_error = 1.1180933779949855e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.937306466303854e-35
+
+    [rows.metrics]
+    infidelity = 2.2361867434826702e-8
+    norm_drift = 9.08162434143378e-14
+    number_leakage = 5.937257836354353e-35
+    projective_error = 1.118093377991999e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.937306466303854e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.3087224502121107e-23
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 1.6543612251060553e-23
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 5.946105115276184e-20
+    norm_drift = 5.329070518200751e-15
+    number_leakage = 1.3818237170748005e-35
+    projective_error = 2.9732179937606027e-20
+    spin_leakage = 1.381723970371711e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.2361867434886196e-8
+    norm_drift = 9.614531393253856e-14
+    number_leakage = 4.5554341192795467e-35
+    projective_error = 1.1180933779949739e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 4.555582495932139e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.2361867434826427e-8
+    norm_drift = 9.614531393253856e-14
+    number_leakage = 4.5554341192795467e-35
+    projective_error = 1.1180933779919853e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 4.555582495932139e-35
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "current_r1_f1_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "e3b4dad1c01ed9e953fcab031cd2a2279424851860b60198e70ecf3a7b7545c2"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.5719926817030946e-20
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 2.2859963408515473e-20
+    spin_leakage = 2.6727647100921956e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.182442011953407e-8
+    norm_drift = 1.2212453270876722e-15
+    number_leakage = 1.5250709828838574e-35
+    projective_error = 2.0912210278427303e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5250905096187184e-35
+
+    [rows.metrics]
+    infidelity = 4.182442011948833e-8
+    norm_drift = 1.2212453270876722e-15
+    number_leakage = 1.5250709828838574e-35
+    projective_error = 2.0912210278404433e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5250905096187184e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.9852334701272664e-23
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 9.926167350636332e-24
+    spin_leakage = 2.6727647100921956e-51
+[[rows]]
+arm = "current"
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = false
+name = "current_r1_f1_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "6193249315558d775b061bfdfdfbe2bca5a1a789c473247bbfd595415ec26f2d"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.0792225451979352e-20
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 5.396112725989676e-21
+    spin_leakage = 6.681911775230489e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.606457316084204e-9
+    norm_drift = 1.0125233984581428e-13
+    number_leakage = 2.2306918069548482e-36
+    projective_error = 2.303228660694533e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.2307232699604943e-36
+
+    [rows.metrics]
+    infidelity = 4.606457316073417e-9
+    norm_drift = 1.0125233984581428e-13
+    number_leakage = 2.2306918069548482e-36
+    projective_error = 2.30322866068914e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.2307232699604943e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.790264287871194e-24
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 2.895132143935597e-24
+    spin_leakage = 6.681911775230489e-52
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "current_r1_f1_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "c6071f51a897db62c07cfd2ca538a03bdad9cc759202bdd8cec362d46b4bc9fc"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.884224791167191e-18
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 9.421123955835956e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.330874400503205e-6
+    norm_drift = 5.773159728050814e-15
+    number_leakage = 1.5615795764682222e-34
+    projective_error = 1.1654378793743278e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.5616132246464586e-34
+
+    [rows.metrics]
+    infidelity = 2.330874400501319e-6
+    norm_drift = 5.773159728050814e-15
+    number_leakage = 1.5615795764682222e-34
+    projective_error = 1.1654378793733848e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.5616132246464586e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.6940658945086007e-21
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 8.470329472543003e-22
+    spin_leakage = 2.1382117680737565e-50
+[[rows]]
+arm = "current"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = true
+name = "current_r1_f1_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "9cc544e6a1a92275be722d744a72eee763a0ac17b460ebb5403476a3df91ec4e"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 0.0
+unfused_state_norm_residual = 0.0
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.27174957882606e-19
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-50
+    projective_error = 3.13587478941303e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.4484436417651914e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.2242218958185582e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.357879897817009e-35
+
+    [rows.metrics]
+    infidelity = 2.448443641758909e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.224221895815417e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.357879897817009e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0587911840678754e-21
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-50
+    projective_error = 5.293955920339377e-22
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 6.27174957882606e-19
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-50
+    projective_error = 3.13587478941303e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.4484436417651914e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.2242218958185582e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.357879897817009e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.448443641758909e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.224221895815417e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.357879897817009e-35
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "current_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "95ab436c3f60ed41c88c15bc9a11972901700086737c47217208c606d6ddd192"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.2881728598383274e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 1.1440864299191637e-20
+    spin_leakage = 5.345529420184391e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.302454368743966e-10
+    norm_drift = 2.6978419498391304e-14
+    number_leakage = 7.035936563905241e-36
+    projective_error = 2.1512271846033719e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.036238148462558e-36
+
+    [rows.metrics]
+    infidelity = 4.302454368515225e-10
+    norm_drift = 2.6978419498391304e-14
+    number_leakage = 7.035936563905241e-36
+    projective_error = 2.1512271844890012e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.036238148462558e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.599721877830942e-24
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 3.799860938915471e-24
+    spin_leakage = 5.345529420184391e-51
+[[rows]]
+arm = "current"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "current_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "b71e2f9e0683788e184a7c55a8a4b6c51de881f89b7c6d2ad78aab985fa693c4"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.532388403730519e-21
+    norm_drift = 0.0
+    number_leakage = 2.0045735325691467e-51
+    projective_error = 1.266193797968476e-21
+    spin_leakage = 1.3363823550460978e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.266359269157791e-12
+    norm_drift = 9.414691248821327e-14
+    number_leakage = 3.346778885854294e-36
+    projective_error = 2.633179634582362e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.346804046970163e-36
+
+    [rows.metrics]
+    infidelity = 5.266359266622291e-12
+    norm_drift = 9.414691248821327e-14
+    number_leakage = 3.346778885854294e-36
+    projective_error = 2.633179633314612e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.346804046970163e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.1116208198772096e-24
+    norm_drift = 0.0
+    number_leakage = 2.0045735325691467e-51
+    projective_error = 1.556214306722078e-24
+    spin_leakage = 1.3363823550460978e-51
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "current_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "7d74aafd8be96b8c958cd81f4b20d6b80733c498755482b9a50bfc33ad51662b"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1440521477374477e-20
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 1.0720260738687239e-20
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.9563654012962825e-7
+    norm_drift = 9.547918011776346e-15
+    number_leakage = 1.307182389412617e-34
+    projective_error = 9.781827484902157e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.3072541868729003e-34
+
+    [rows.metrics]
+    infidelity = 1.9563654012960572e-7
+    norm_drift = 9.547918011776346e-15
+    number_leakage = 1.307182389412617e-34
+    projective_error = 9.781827484901029e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.3072541868729003e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0852609636695723e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 5.558653716356346e-22
+    spin_leakage = 2.1382117680737565e-50
+[[rows]]
+arm = "current"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "current_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "4962b0d0cd36f246e22d0a4e33b61f2435412d3ddcf2234b09576ea45cd0cc76"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.335655220567319e-16
+unfused_state_norm_residual = 2.8893926635217186e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 7.4859845436049e-22
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 3.74299227180245e-22
+    spin_leakage = 3.207317652110635e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.1296706299379626e-9
+    norm_drift = 7.038813976123492e-14
+    number_leakage = 5.945471409995504e-35
+    projective_error = 1.0648353155359185e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.945657654413605e-35
+
+    [rows.metrics]
+    infidelity = 2.129670629937149e-9
+    norm_drift = 7.038813976123492e-14
+    number_leakage = 5.945471409995504e-35
+    projective_error = 1.0648353155355117e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.945657654413605e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.493367808541267e-23
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 3.2466839042706336e-23
+    spin_leakage = 3.207317652110635e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 1.4798261158573665e-21
+    norm_drift = 5.662137425588298e-15
+    number_leakage = 3.498183613776135e-35
+    projective_error = 7.399130579286833e-22
+    spin_leakage = 3.4980959639472686e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.1296706299386938e-9
+    norm_drift = 7.605027718682322e-14
+    number_leakage = 9.443655023771643e-35
+    projective_error = 1.064835315536284e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 9.443753618360877e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.1296706299377835e-9
+    norm_drift = 7.605027718682322e-14
+    number_leakage = 9.443655023771643e-35
+    projective_error = 1.064835315535829e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 9.443753618360877e-35
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "first_r1_f1_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "0ed26d3b2ac761f83787eea252abc75781a943bceeba6f924cea84e5606cf0bb"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.566036981292713e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 2.2830184906463564e-20
+    spin_leakage = 2.6727647100921956e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.1824420119534195e-8
+    norm_drift = 1.3322676295501878e-15
+    number_leakage = 1.1193165184266837e-35
+    projective_error = 2.0912210278427366e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1193551922119816e-35
+
+    [rows.metrics]
+    infidelity = 4.182442011948852e-8
+    norm_drift = 1.3322676295501878e-15
+    number_leakage = 1.1193165184266837e-35
+    projective_error = 2.091221027840453e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1193551922119816e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.3234889800848443e-23
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 6.617444900424222e-24
+    spin_leakage = 2.6727647100921956e-51
+[[rows]]
+arm = "first"
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = false
+name = "first_r1_f1_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "412e1041a8623759b77125254827fb9aefd1255dab954de8d45f7c0c4667606d"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.0787262368304034e-20
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 5.393631184152017e-21
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.606457316084342e-9
+    norm_drift = 1.0047518372857667e-13
+    number_leakage = 3.709892410816927e-36
+    projective_error = 2.303228660694602e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.709937992732269e-36
+
+    [rows.metrics]
+    infidelity = 4.606457316073554e-9
+    norm_drift = 1.0047518372857667e-13
+    number_leakage = 3.709892410816927e-36
+    projective_error = 2.303228660689208e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.709937992732269e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 8.271806125530277e-25
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 4.1359030627651384e-25
+    spin_leakage = 0.0
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "first_r1_f1_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "1df4a0199f603f0becf55e3f2cda5a8449926bbe2e8e4844ef2a8b895b5bd63e"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.886765890008954e-18
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 9.43382945004477e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.33087440050323e-6
+    norm_drift = 5.551115123125783e-15
+    number_leakage = 6.414252289713253e-35
+    projective_error = 1.1654378793743405e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 6.414660093925609e-35
+
+    [rows.metrics]
+    infidelity = 2.330874400501343e-6
+    norm_drift = 5.551115123125783e-15
+    number_leakage = 6.414252289713253e-35
+    projective_error = 1.1654378793733969e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 6.414660093925609e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 4.235164736271502e-22
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 2.117582368135751e-22
+    spin_leakage = 2.1382117680737565e-50
+[[rows]]
+arm = "first"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = true
+name = "first_r1_f1_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "48809467e1c8046e029e9b601ad0236114c66aee786f33deffac50590615fb13"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 0.0
+unfused_state_norm_residual = 0.0
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.283396281850807e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.1416981409254034e-19
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.448443641765252e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958185883e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.348081476659226e-35
+
+    [rows.metrics]
+    infidelity = 2.448443641758962e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958154435e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.348081476659226e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.352747104407253e-22
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.1763735522036263e-22
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 6.283396281850807e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.1416981409254034e-19
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.448443641765252e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958185883e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.348081476659226e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.448443641758962e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958154435e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.348081476659226e-35
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "first_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "0e6a85f9959e3c4505d161d78e23ca8bfef9f40e5d429dcd7427e27047878e79"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.2878419875933062e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 1.1439209937966531e-20
+    spin_leakage = 4.0091470651382935e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.3024543687425853e-10
+    norm_drift = 2.5424107263916085e-14
+    number_leakage = 7.069159579546488e-36
+    projective_error = 2.1512271846026814e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.06945055875944e-36
+
+    [rows.metrics]
+    infidelity = 4.3024543685138486e-10
+    norm_drift = 2.5424107263916085e-14
+    number_leakage = 7.069159579546488e-36
+    projective_error = 2.151227184488313e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.06945055875944e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 4.756288522179909e-24
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 2.3781442610899546e-24
+    spin_leakage = 4.0091470651382935e-51
+[[rows]]
+arm = "first"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "first_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "f0a36e6f10e6c344c1728c96ef128b92c0348eebbb7f75a83f0d602ad17947e9"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.5332349713886786e-21
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 1.2666170817975558e-21
+    spin_leakage = 1.0022867662845734e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.266359269153441e-12
+    norm_drift = 9.348077867343818e-14
+    number_leakage = 2.9499753441204043e-36
+    projective_error = 2.633179634580187e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.950078920416382e-36
+
+    [rows.metrics]
+    infidelity = 5.266359266617803e-12
+    norm_drift = 9.348077867343818e-14
+    number_leakage = 2.9499753441204043e-36
+    projective_error = 2.633179633312368e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.950078920416382e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.4031858616652904e-24
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 1.2019968276161183e-24
+    spin_leakage = 1.0022867662845734e-51
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "first_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "44bc75180def23e4b1d2a08251bccb3f061f879db1914d0b27196c29a80f8fc2"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.2128735747018596e-20
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-49
+    projective_error = 1.1064367873509298e-20
+    spin_leakage = 1.282927060844254e-49
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.956365401296253e-7
+    norm_drift = 1.0880185641326534e-14
+    number_leakage = 1.345516462121997e-34
+    projective_error = 9.78182748490201e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.3455331366637543e-34
+
+    [rows.metrics]
+    infidelity = 1.9563654012960265e-7
+    norm_drift = 1.0880185641326534e-14
+    number_leakage = 1.345516462121997e-34
+    projective_error = 9.781827484900875e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.3455331366637543e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.293955920339377e-22
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-49
+    projective_error = 2.779326858178173e-22
+    spin_leakage = 1.282927060844254e-49
+[[rows]]
+arm = "first"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "first_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "76db191363f5ed65fde79ad1f00a65e441c70a60274afb911ceeeae6debca421"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 8.047604424299234e-17
+unfused_state_norm_residual = 2.3554733058924586e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 9.016268676828002e-22
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 4.508134338414001e-22
+    spin_leakage = 5.345529420184391e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.129670629939147e-9
+    norm_drift = 7.4495964952348e-14
+    number_leakage = 8.053316308158518e-35
+    projective_error = 1.0648353155365107e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.053341331936162e-35
+
+    [rows.metrics]
+    infidelity = 2.129670629938167e-9
+    norm_drift = 7.4495964952348e-14
+    number_leakage = 8.053316308158518e-35
+    projective_error = 1.0648353155360206e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.053341331936162e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.858215819253763e-23
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 3.9291079096268815e-23
+    spin_leakage = 5.345529420184391e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 8.503416697045124e-22
+    norm_drift = 4.440892098500626e-15
+    number_leakage = 4.949832798269752e-35
+    projective_error = 4.251708348522562e-22
+    spin_leakage = 4.949621262090725e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.1296706299390958e-9
+    norm_drift = 7.893685705084863e-14
+    number_leakage = 3.103483509888772e-35
+    projective_error = 1.064835315536485e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.1037200698454424e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.129670629938088e-9
+    norm_drift = 7.893685705084863e-14
+    number_leakage = 3.103483509888772e-35
+    projective_error = 1.0648353155359811e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.1037200698454424e-35
+[[rows]]
+arm = "pauli"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "pauli_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "a8dac9907d53ec0570d94c315fd34fdf35e893f5cd2e309923f1a99525239d81"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.3556811375803114e-20
+    norm_drift = 0.0
+    number_leakage = 3.1554436208840472e-30
+    projective_error = 1.1778379838507415e-20
+    spin_leakage = 3.1554436208840472e-30
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.3301759351122943e-10
+    norm_drift = 1.3322676295501878e-14
+    number_leakage = 9.64602909528327e-15
+    projective_error = 2.1650879677905275e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.64602909528327e-15
+
+    [rows.metrics]
+    infidelity = 4.3301759348766787e-10
+    norm_drift = 1.3322676295501878e-14
+    number_leakage = 9.64602909528327e-15
+    projective_error = 2.1650879676727197e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.64602909528327e-15
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 4.756288522179909e-24
+    norm_drift = 0.0
+    number_leakage = 3.1554436208840472e-30
+    projective_error = 2.4039936552322367e-24
+    spin_leakage = 3.1554436208840472e-30
+[[rows]]
+arm = "pauli"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "pauli_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "6b9f1df60cde8cf6710c10b7c486bd6b30ff8bd254321ab9b420add28ae2cb70"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.61015226703974e-21
+    norm_drift = 0.0
+    number_leakage = 4.930380657631324e-32
+    projective_error = 1.30507613351987e-21
+    spin_leakage = 4.930380657631324e-32
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.300729154619435e-12
+    norm_drift = 7.416289804496046e-14
+    number_leakage = 1.1864410443282983e-16
+    projective_error = 2.65036457731323e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1864410443282983e-16
+
+    [rows.metrics]
+    infidelity = 5.300729152006583e-12
+    norm_drift = 7.416289804496046e-14
+    number_leakage = 1.1864410443282983e-16
+    projective_error = 2.650364576006804e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1864410443282983e-16
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.6996461007345884e-24
+    norm_drift = 0.0
+    number_leakage = 4.930380657631324e-32
+    projective_error = 1.3498230503672942e-24
+    spin_leakage = 4.930380657631324e-32
+[[rows]]
+arm = "pauli"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "pauli_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "da096e4b10b9d1a33164361372e4969ae7bf4ac253863ef300876485d04fc94d"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 3.272194154361769e-19
+    norm_drift = 0.0
+    number_leakage = 3.2311742677852644e-27
+    projective_error = 1.635964728282876e-19
+    spin_leakage = 3.2311742677852644e-27
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.9254555456380565e-7
+    norm_drift = 1.4432899320127035e-14
+    number_leakage = 2.1155369186675907e-11
+    projective_error = 9.627278191612708e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.1155369186675907e-11
+
+    [rows.metrics]
+    infidelity = 1.9254555456347809e-7
+    norm_drift = 1.4432899320127035e-14
+    number_leakage = 2.1155369186675907e-11
+    projective_error = 9.62727819159633e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.1155369186675907e-11
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.441071348220595e-22
+    norm_drift = 0.0
+    number_leakage = 3.2311742677852644e-27
+    projective_error = 1.852884572118782e-22
+    spin_leakage = 3.2311742677852644e-27
+[[rows]]
+arm = "pauli"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "pauli_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "a2de70ad45d6202260193974453a779a82792cbb8e05583ead7ac379e08385a8"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.2307889917545896e-16
+unfused_state_norm_residual = 1.1307089653545048e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 3.5091069536030817e-20
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 1.7545741563168547e-20
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.0936175722209417e-9
+    norm_drift = 9.392486788328824e-14
+    number_leakage = 2.529465428534143e-13
+    projective_error = 1.0468087866583752e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.529465428534143e-13
+
+    [rows.metrics]
+    infidelity = 2.0936175721859643e-9
+    norm_drift = 9.392486788328824e-14
+    number_leakage = 2.529465428534143e-13
+    projective_error = 1.0468087866408863e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.529465428534143e-13
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.137373342260413e-22
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 5.686866711302065e-23
+    spin_leakage = 0.0
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 3.501124660691945e-20
+    norm_drift = 2.3314683517128287e-15
+    number_leakage = 1.3575980634491525e-25
+    projective_error = 1.7505623303459725e-20
+    spin_leakage = 1.3575980634491525e-25
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.093617572220862e-9
+    norm_drift = 9.159339953157541e-14
+    number_leakage = 2.5294654285327853e-13
+    projective_error = 1.046808786658335e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.5294654285327853e-13
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.093617572185899e-9
+    norm_drift = 9.159339953157541e-14
+    number_leakage = 2.5294654285327853e-13
+    projective_error = 1.0468087866408537e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.5294654285327853e-13
+[[rows]]
+arm = "cubic"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "cubic_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "87673e47b4c47930f49ca878c7bcfa36ac03456f3fbcdd343e019e578523c3d1"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.9181439525703874e-20
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 9.590719762851937e-21
+    spin_leakage = 2.6727647100921956e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 3.631487339528267e-10
+    norm_drift = 3.597122599785507e-14
+    number_leakage = 6.150114758520362e-36
+    projective_error = 1.8157436699289798e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 6.15036770584152e-36
+
+    [rows.metrics]
+    infidelity = 3.6314873393363787e-10
+    norm_drift = 3.597122599785507e-14
+    number_leakage = 6.150114758520362e-36
+    projective_error = 1.8157436698330356e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 6.15036770584152e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.392926724692685e-24
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 3.6964633623463424e-24
+    spin_leakage = 2.6727647100921956e-51
+[[rows]]
+arm = "cubic"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "cubic_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "9281ac9cf5fe9e5148adb863cc63cdfd99095b9a230e1fa15f39dcc98d276897"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1286491400029154e-21
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 1.0643245700014577e-21
+    spin_leakage = 3.3409558876152446e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.445649296423335e-12
+    norm_drift = 1.0735856648125264e-13
+    number_leakage = 2.0717635518860604e-36
+    projective_error = 2.222824648214138e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.0718277075988467e-36
+
+    [rows.metrics]
+    infidelity = 4.445649294293634e-12
+    norm_drift = 1.0735856648125264e-13
+    number_leakage = 2.0717635518860604e-36
+    projective_error = 2.222824647149287e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.0718277075988467e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0525550177310499e-24
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 5.262775088655249e-25
+    spin_leakage = 3.3409558876152446e-52
+[[rows]]
+arm = "cubic"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "cubic_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "bfc530fea3a6c03c6f436a5b9d210af939e581034328c2a21c0de8f49e5b5cf5"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.8499728963625953e-19
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 9.249864481812977e-20
+    spin_leakage = 6.41463530422127e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.6798859758699794e-7
+    norm_drift = 1.1324274851176597e-14
+    number_leakage = 1.741035483449865e-34
+    projective_error = 8.399430232102038e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.7410853925102295e-34
+
+    [rows.metrics]
+    infidelity = 1.6798859758718325e-7
+    norm_drift = 1.1324274851176597e-14
+    number_leakage = 1.741035483449865e-34
+    projective_error = 8.399430232111304e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.7410853925102295e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.1763735522036263e-22
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 1.5881867761018131e-22
+    spin_leakage = 6.41463530422127e-50
+[[rows]]
+arm = "cubic"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "cubic_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "0d27a8e293582391acad814fda687fe80e3750fa6003d32287870cfc5bd839cc"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 6.980057401902413e-17
+unfused_state_norm_residual = 3.1282144211173158e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1180166379573412e-20
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 1.0590186587363275e-20
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.8250472403432733e-9
+    norm_drift = 5.81756864903582e-14
+    number_leakage = 5.013526858450983e-35
+    projective_error = 9.125236205879863e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.013540368279708e-35
+
+    [rows.metrics]
+    infidelity = 1.8250472403643964e-9
+    norm_drift = 5.81756864903582e-14
+    number_leakage = 5.013526858450983e-35
+    projective_error = 9.125236205985479e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.013540368279708e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.707546226615891e-23
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 2.8641128709648583e-23
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 2.157783345905828e-20
+    norm_drift = 6.106226635438361e-15
+    number_leakage = 9.180980097037722e-36
+    projective_error = 1.0789020127105709e-20
+    spin_leakage = 9.181499429330375e-36
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 1.8250472403428756e-9
+    norm_drift = 6.428191312579656e-14
+    number_leakage = 5.931624868154758e-35
+    projective_error = 9.125236205877875e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.931690311212747e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 1.8250472403640037e-9
+    norm_drift = 6.428191312579656e-14
+    number_leakage = 5.931624868154758e-35
+    projective_error = 9.125236205983515e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.931690311212747e-35
+[[rows]]
+arm = "window_sparse"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_sparse_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "624746b74b38b857b63ce77e7c88ad9a921eb71ab84583096dc5e8612c914e51"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.9184541453000948e-20
+    norm_drift = 0.0
+    number_leakage = 4.0091470651382935e-51
+    projective_error = 9.592270726500474e-21
+    spin_leakage = 5.345529420184391e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 3.6251640286172847e-10
+    norm_drift = 4.873879078104437e-14
+    number_leakage = 7.781710475486114e-36
+    projective_error = 1.812582014472915e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.782070813423214e-36
+
+    [rows.metrics]
+    infidelity = 3.62516402842542e-10
+    norm_drift = 4.873879078104437e-14
+    number_leakage = 7.781710475486114e-36
+    projective_error = 1.8125820143769827e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.782070813423214e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.9128551665288765e-24
+    norm_drift = 0.0
+    number_leakage = 4.0091470651382935e-51
+    projective_error = 9.564275832644382e-25
+    spin_leakage = 5.345529420184391e-51
+[[rows]]
+arm = "window_sparse"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "window_sparse_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "f52807c2e0e8acb3ac071824ae35fdd0e45130fd5c3849f5f0768a523be64a3d"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.128817968858407e-21
+    norm_drift = 0.0
+    number_leakage = 8.352389719038111e-52
+    projective_error = 1.0644089844292036e-21
+    spin_leakage = 6.681911775230489e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.4378857621472375e-12
+    norm_drift = 8.970602038971265e-14
+    number_leakage = 1.1358522136162027e-36
+    projective_error = 2.2189428810760805e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.135876517035654e-36
+
+    [rows.metrics]
+    infidelity = 4.4378857600173985e-12
+    norm_drift = 8.970602038971265e-14
+    number_leakage = 1.1358522136162027e-36
+    projective_error = 2.218942880011161e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.135876517035654e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0210510686201435e-24
+    norm_drift = 0.0
+    number_leakage = 8.352389719038111e-52
+    projective_error = 5.105255343100718e-25
+    spin_leakage = 6.681911775230489e-52
+[[rows]]
+arm = "window_sparse"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_sparse_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "e955b8c304111f1aa4d3ed91d1b446add67efdb1105ed05d74e8d67fd329511e"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.9219706968792109e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 9.609853484396054e-20
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.6756989025882035e-7
+    norm_drift = 1.9761969838327786e-14
+    number_leakage = 1.388175589017638e-34
+    projective_error = 8.378494863936899e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.3882234306330108e-34
+
+    [rows.metrics]
+    infidelity = 1.675698902590125e-7
+    norm_drift = 1.9761969838327786e-14
+    number_leakage = 1.388175589017638e-34
+    projective_error = 8.378494863946506e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.3882234306330108e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.293955920339377e-23
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 2.6469779601696886e-23
+    spin_leakage = 0.0
+[[rows]]
+arm = "window_sparse"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "window_sparse_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "8efaee0cd8f90a1eac11d83f59f5b43105de656d4fa2237f9838a4426fcbbef9"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.2962673461122612e-16
+unfused_state_norm_residual = 1.9151764873987776e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1911600836223427e-20
+    norm_drift = 0.0
+    number_leakage = 7.483741188258148e-50
+    projective_error = 1.0955800418111713e-20
+    spin_leakage = 8.552847072295026e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.8200966389442742e-9
+    norm_drift = 5.5067062021407764e-14
+    number_leakage = 8.743636901521424e-35
+    projective_error = 9.100483198862312e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.743668930817631e-35
+
+    [rows.metrics]
+    infidelity = 1.8200966389661625e-9
+    norm_drift = 5.5067062021407764e-14
+    number_leakage = 8.743636901521424e-35
+    projective_error = 9.100483198971752e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.743668930817631e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.3367852304623032e-23
+    norm_drift = 0.0
+    number_leakage = 7.483741188258148e-50
+    projective_error = 1.1787323728880644e-23
+    spin_leakage = 8.552847072295026e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 2.2495383553532726e-20
+    norm_drift = 3.6637359812630166e-15
+    number_leakage = 1.9377645579924876e-35
+    projective_error = 1.1247795174342932e-20
+    spin_leakage = 1.9377320587060447e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 1.8200966389436904e-9
+    norm_drift = 5.873079800267078e-14
+    number_leakage = 6.805872343528944e-35
+    projective_error = 9.100483198859392e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 6.805936872111594e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 1.8200966389656264e-9
+    norm_drift = 5.873079800267078e-14
+    number_leakage = 6.805872343528944e-35
+    projective_error = 9.100483198969071e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 6.805936872111594e-35
+[[rows]]
+arm = "window_magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_magnitude_r1_f2_t0.4_b8"
+repetition = 1
+saved_actual_sha256 = "f47049bdeba8915db8397580bd99a275cf4fed0cb7af1d143859945e6050b28a"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.1529656968070376e-19
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 5.764828484035188e-20
+    spin_leakage = 2.0045735325691467e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.780979558676987e-9
+    norm_drift = 3.1530333899354446e-14
+    number_leakage = 5.9298171176895306e-36
+    projective_error = 2.8904897835159588e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 5.930247555598954e-36
+
+    [rows.metrics]
+    infidelity = 5.7809795585616964e-9
+    norm_drift = 3.1530333899354446e-14
+    number_leakage = 5.9298171176895306e-36
+    projective_error = 2.8904897834583134e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 5.930247555598954e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.790264287871194e-24
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 2.895132143935597e-24
+    spin_leakage = 2.0045735325691467e-51
+[[rows]]
+arm = "window_magnitude"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "window_magnitude_r1_f2_t0.4_b24"
+repetition = 1
+saved_actual_sha256 = "99248c6ee3e4ff3c85774c0d5c3194a1b53ad044ba0c8d49a73519627167630b"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.268527998259524e-20
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 6.34263999129762e-21
+    spin_leakage = 1.3363823550460978e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 7.022484408540903e-11
+    norm_drift = 8.537615059367454e-14
+    number_leakage = 2.3478207989854796e-36
+    projective_error = 3.511242204332095e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.347883936800353e-36
+
+    [rows.metrics]
+    infidelity = 7.022484407272388e-11
+    norm_drift = 8.537615059367454e-14
+    number_leakage = 2.3478207989854796e-36
+    projective_error = 3.511242203697838e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.347883936800353e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2924697071141057e-25
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 6.462348535570529e-26
+    spin_leakage = 1.3363823550460978e-51
+[[rows]]
+arm = "window_magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_magnitude_r1_f2_t1.6_b8"
+repetition = 1
+saved_actual_sha256 = "da445a28630da1d3791fe6e063d9635050abe96a382187d62f555effb6aabf3a"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 8.34750969519113e-19
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-49
+    projective_error = 4.173754847595565e-19
+    spin_leakage = 2.1382117680737565e-49
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.3637245250968424e-6
+    norm_drift = 1.3766765505351941e-14
+    number_leakage = 3.108660881296375e-34
+    projective_error = 1.1818629609484503e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.1086853046203106e-34
+
+    [rows.metrics]
+    infidelity = 2.3637245250960064e-6
+    norm_drift = 1.3766765505351941e-14
+    number_leakage = 3.108660881296375e-34
+    projective_error = 1.1818629609480323e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.1086853046203106e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2705494208814505e-21
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-49
+    projective_error = 6.352747104407253e-22
+    spin_leakage = 2.1382117680737565e-49
+[[rows]]
+arm = "window_magnitude"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "window_magnitude_r1_f2_t1.6_b24"
+repetition = 1
+saved_actual_sha256 = "0cce7c9f85f2a1e2986cb8c993b5aae156be59cefed6fa205768ff7f0a34875e"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.3382448257530102e-16
+unfused_state_norm_residual = 2.6518321920081972e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.016580903465702e-20
+    norm_drift = 0.0
+    number_leakage = 1.6036588260553174e-50
+    projective_error = 3.008290451732851e-20
+    spin_leakage = 1.6036588260553174e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.2361867437710786e-8
+    norm_drift = 8.926193117986259e-14
+    number_leakage = 2.706472631703315e-35
+    projective_error = 1.1180933781362032e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.706536646781056e-35
+
+    [rows.metrics]
+    infidelity = 2.236186743765069e-8
+    norm_drift = 8.926193117986259e-14
+    number_leakage = 2.706472631703315e-35
+    projective_error = 1.1180933781331984e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.706536646781056e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.948317145445432e-23
+    norm_drift = 0.0
+    number_leakage = 1.6036588260553174e-50
+    projective_error = 3.474158572722716e-23
+    spin_leakage = 1.6036588260553174e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 5.870997115656369e-20
+    norm_drift = 4.773959005888173e-15
+    number_leakage = 5.893707684280839e-35
+    projective_error = 2.9354985578281846e-20
+    spin_leakage = 5.893709869534357e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.236186743770933e-8
+    norm_drift = 9.403589018575076e-14
+    number_leakage = 8.600180315984152e-35
+    projective_error = 1.1180933781361304e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.600246516315412e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.2361867437649727e-8
+    norm_drift = 9.403589018575076e-14
+    number_leakage = 8.600180315984152e-35
+    projective_error = 1.1180933781331503e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.600246516315412e-35
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "canonical_r2_f1_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "ddbeb475470abfcde1d64951b179a3a024497738c19e31814d23e2188ef6d143"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 8.544444855427755e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 4.2722224277138773e-20
+    spin_leakage = 5.345529420184391e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 7.831087934801867e-7
+    norm_drift = 2.631228568361621e-14
+    number_leakage = 1.2553999716396273e-35
+    projective_error = 3.9155447339754613e-7
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2554366420476455e-35
+
+    [rows.metrics]
+    infidelity = 7.831087934802723e-7
+    norm_drift = 2.631228568361621e-14
+    number_leakage = 1.2553999716396273e-35
+    projective_error = 3.9155447339758896e-7
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2554366420476455e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.117582368135751e-22
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 1.0587911840678754e-22
+    spin_leakage = 5.345529420184391e-51
+[[rows]]
+arm = "canonical"
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = false
+name = "canonical_r2_f1_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "0432ebf69dcc3abbb45daa5381e094ade0464d9ff12b5f0735687669f28a8d68"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2401091743394991e-20
+    norm_drift = 0.0
+    number_leakage = 2.405488239082976e-50
+    projective_error = 6.2005458716974955e-21
+    spin_leakage = 2.405488239082976e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 8.68722747385031e-8
+    norm_drift = 8.548717289613705e-14
+    number_leakage = 1.0250666676710468e-35
+    projective_error = 4.343613831260061e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.0250688249318968e-35
+
+    [rows.metrics]
+    infidelity = 8.687227473851547e-8
+    norm_drift = 8.548717289613705e-14
+    number_leakage = 1.0250666676710468e-35
+    projective_error = 4.343613831260679e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.0250688249318968e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.970466940254533e-23
+    norm_drift = 0.0
+    number_leakage = 2.405488239082976e-50
+    projective_error = 1.9852334701272664e-23
+    spin_leakage = 2.405488239082976e-50
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "canonical_r2_f1_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "b001069649599c95365430aa4aca796e7a3964440a77dfa37f39938c8a2d2da7"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2153228727204701e-17
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 6.074920297707842e-18
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.9274601119963076e-5
+    norm_drift = 1.9984014443252818e-15
+    number_leakage = 2.610795945131525e-34
+    projective_error = 1.4637407686833432e-5
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.610850624324457e-34
+
+    [rows.metrics]
+    infidelity = 2.927460111995092e-5
+    norm_drift = 1.9984014443252818e-15
+    number_leakage = 2.610795945131525e-34
+    projective_error = 1.4637407686827354e-5
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.610850624324457e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.3881317890172014e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 3.3881317890172014e-21
+    spin_leakage = 4.276423536147513e-50
+[[rows]]
+arm = "canonical"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = true
+name = "canonical_r2_f1_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "d71c24a27d9aff7b866dfc06210fb7c57f9bbb506e249b6c2db22f9a9b240d66"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 0.0
+unfused_state_norm_residual = 0.0
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.417276819931176e-18
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 2.208638409965588e-18
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 3.208351049383378e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.60417681138331e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 7.336859897948176e-35
+
+    [rows.metrics]
+    infidelity = 3.208351049378962e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.6041768113811018e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 7.336859897948176e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2705494208814505e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 4.235164736271502e-22
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 4.417276819931176e-18
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 2.208638409965588e-18
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 3.208351049383378e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.60417681138331e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 7.336859897948176e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 3.208351049378962e-6
+    norm_drift = 1.1157741397482823e-13
+    number_leakage = 7.33678595515094e-35
+    projective_error = 1.6041768113811018e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 7.336859897948176e-35
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "canonical_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "8fbef7b80d267d9d0f34c341eb44bc9b090b4a808d6615ba3d3d00eb3248636c"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.1415009735170527e-19
+    norm_drift = 0.0
+    number_leakage = 9.354676485322685e-51
+    projective_error = 5.707504867585263e-20
+    spin_leakage = 9.354676485322685e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.747648508937553e-9
+    norm_drift = 3.8191672047105385e-14
+    number_leakage = 9.92630502563084e-36
+    projective_error = 2.8738242585982095e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.926601909133217e-36
+
+    [rows.metrics]
+    infidelity = 5.747648508823403e-9
+    norm_drift = 3.8191672047105385e-14
+    number_leakage = 9.92630502563084e-36
+    projective_error = 2.8738242585411345e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.926601909133217e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 0.0
+    norm_drift = 0.0
+    number_leakage = 9.354676485322685e-51
+    projective_error = 0.0
+    spin_leakage = 9.354676485322685e-51
+[[rows]]
+arm = "canonical"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "canonical_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "06361a66dac94a505429f21ed35122e2ae268b9e6eedd24b176513b0e046041c"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2581727309661258e-20
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 6.290863654830629e-21
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 6.982050063684046e-11
+    norm_drift = 4.8405723873656825e-14
+    number_leakage = 3.090610640697136e-36
+    projective_error = 3.491025031902959e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.090631287954198e-36
+
+    [rows.metrics]
+    infidelity = 6.982050062425974e-11
+    norm_drift = 4.8405723873656825e-14
+    number_leakage = 3.090610640697136e-36
+    projective_error = 3.491025031273923e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.090631287954198e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0081263715490025e-24
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 5.040631857745012e-25
+    spin_leakage = 0.0
+[[rows]]
+arm = "canonical"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "canonical_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "90e33b65f908c1c84fbe29192c221bb3472ba6291c54cbeedcf50dc88d23f211"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.949905332221534e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.477070248478903e-19
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.3548778247884463e-6
+    norm_drift = 8.104628079763643e-15
+    number_leakage = 2.7034125891062e-34
+    projective_error = 1.1774396055762356e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.7034752522375397e-34
+
+    [rows.metrics]
+    infidelity = 2.35487782478775e-6
+    norm_drift = 8.104628079763643e-15
+    number_leakage = 2.7034125891062e-34
+    projective_error = 1.1774396055758873e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.7034752522375397e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2705494208814505e-21
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 6.352747104407253e-22
+    spin_leakage = 0.0
+[[rows]]
+arm = "canonical"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "canonical_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "fc4a96ed979a2598e3019252ea5930caabffc081ec2354c62db864a4e272e2e4"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 8.083288031731162e-17
+unfused_state_norm_residual = 2.563050999404296e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.397292136331895e-20
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 2.198480632043437e-20
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.2291727370637945e-8
+    norm_drift = 9.026113190202523e-14
+    number_leakage = 5.28681361248218e-35
+    projective_error = 1.114586374743411e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.286878189478209e-35
+
+    [rows.metrics]
+    infidelity = 2.229172737059324e-8
+    norm_drift = 9.026113190202523e-14
+    number_leakage = 5.28681361248218e-35
+    projective_error = 1.1145863747411758e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.286878189478209e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.312276614968765e-22
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 3.672681919735443e-22
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 4.491259853917919e-20
+    norm_drift = 3.9968028886505635e-15
+    number_leakage = 2.248622779546284e-35
+    projective_error = 2.2456299269589595e-20
+    spin_leakage = 2.248670053053136e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.2291727370638885e-8
+    norm_drift = 8.626432901337466e-14
+    number_leakage = 3.038190832935893e-35
+    projective_error = 1.1145863747434582e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.038208136425071e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.22917273705937e-8
+    norm_drift = 8.626432901337466e-14
+    number_leakage = 3.038190832935893e-35
+    projective_error = 1.1145863747411988e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.038208136425071e-35
+[[rows]]
+arm = "magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "magnitude_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "c24af3b56beec1edcea51277684606416e05a87da92cfefaca55cef60ec6de07"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.1522295060618654e-19
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 5.761147530309327e-20
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.780979558124361e-9
+    norm_drift = 3.11972669919669e-14
+    number_leakage = 1.2252265398127626e-35
+    projective_error = 2.8904897832396457e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2252560876499572e-35
+
+    [rows.metrics]
+    infidelity = 5.7809795580091555e-9
+    norm_drift = 3.11972669919669e-14
+    number_leakage = 1.2252265398127626e-35
+    projective_error = 2.890489783182043e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.2252560876499572e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.737079286361358e-23
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 8.68539643180679e-24
+    spin_leakage = 0.0
+[[rows]]
+arm = "magnitude"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "magnitude_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "21f998fa330af16c24a8e4a61cc5bfcdaacb65db9ce9fa6f47c0020695d063dd"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.2682759666666368e-20
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 6.341379833333184e-21
+    spin_leakage = 3.3409558876152446e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 7.022484407882656e-11
+    norm_drift = 8.681944052568724e-14
+    number_leakage = 1.507624537772248e-36
+    projective_error = 3.511242204002972e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5076456631560014e-36
+
+    [rows.metrics]
+    infidelity = 7.022484406615026e-11
+    norm_drift = 8.681944052568724e-14
+    number_leakage = 1.507624537772248e-36
+    projective_error = 3.511242203369157e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5076456631560014e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.462348535570529e-24
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 3.2311742677852644e-24
+    spin_leakage = 3.3409558876152446e-52
+[[rows]]
+arm = "magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "magnitude_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "5a1098fed47a44ac2beb8be3a6a84c171aed57ae9f1f0ad575fadaf97a4963a1"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 8.326333871509772e-19
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 4.163166935754886e-19
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.3637245247918203e-6
+    norm_drift = 1.687538997430238e-14
+    number_leakage = 3.8301281628785857e-34
+    projective_error = 1.181862960795939e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.8301651644790073e-34
+
+    [rows.metrics]
+    infidelity = 2.3637245247909894e-6
+    norm_drift = 1.687538997430238e-14
+    number_leakage = 3.8301281628785857e-34
+    projective_error = 1.1818629607955236e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.8301651644790073e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.6940658945086007e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 8.470329472543003e-22
+    spin_leakage = 0.0
+[[rows]]
+arm = "magnitude"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "magnitude_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "23a6915e3a60c80b6ca17efc0b9c834985cb098622dc29673392b25d218dbfac"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 9.813428871127771e-17
+unfused_state_norm_residual = 2.6869966278892325e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 5.96959704467269e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 2.984798522336345e-20
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.236186743488643e-8
+    norm_drift = 9.08162434143378e-14
+    number_leakage = 5.937257836354353e-35
+    projective_error = 1.1180933779949855e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.937306466303854e-35
+
+    [rows.metrics]
+    infidelity = 2.2361867434826702e-8
+    norm_drift = 9.08162434143378e-14
+    number_leakage = 5.937257836354353e-35
+    projective_error = 1.118093377991999e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.937306466303854e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.3087224502121107e-23
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 1.6543612251060553e-23
+    spin_leakage = 4.276423536147513e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 5.946105115276184e-20
+    norm_drift = 5.329070518200751e-15
+    number_leakage = 1.3818237170748005e-35
+    projective_error = 2.9732179937606027e-20
+    spin_leakage = 1.381723970371711e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.2361867434886196e-8
+    norm_drift = 9.614531393253856e-14
+    number_leakage = 4.5554341192795467e-35
+    projective_error = 1.1180933779949739e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 4.555582495932139e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.2361867434826427e-8
+    norm_drift = 9.614531393253856e-14
+    number_leakage = 4.5554341192795467e-35
+    projective_error = 1.1180933779919853e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 4.555582495932139e-35
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "current_r2_f1_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "e3b4dad1c01ed9e953fcab031cd2a2279424851860b60198e70ecf3a7b7545c2"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.5719926817030946e-20
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 2.2859963408515473e-20
+    spin_leakage = 2.6727647100921956e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.182442011953407e-8
+    norm_drift = 1.2212453270876722e-15
+    number_leakage = 1.5250709828838574e-35
+    projective_error = 2.0912210278427303e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5250905096187184e-35
+
+    [rows.metrics]
+    infidelity = 4.182442011948833e-8
+    norm_drift = 1.2212453270876722e-15
+    number_leakage = 1.5250709828838574e-35
+    projective_error = 2.0912210278404433e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.5250905096187184e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.9852334701272664e-23
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 9.926167350636332e-24
+    spin_leakage = 2.6727647100921956e-51
+[[rows]]
+arm = "current"
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = false
+name = "current_r2_f1_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "6193249315558d775b061bfdfdfbe2bca5a1a789c473247bbfd595415ec26f2d"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.0792225451979352e-20
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 5.396112725989676e-21
+    spin_leakage = 6.681911775230489e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.606457316084204e-9
+    norm_drift = 1.0125233984581428e-13
+    number_leakage = 2.2306918069548482e-36
+    projective_error = 2.303228660694533e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.2307232699604943e-36
+
+    [rows.metrics]
+    infidelity = 4.606457316073417e-9
+    norm_drift = 1.0125233984581428e-13
+    number_leakage = 2.2306918069548482e-36
+    projective_error = 2.30322866068914e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.2307232699604943e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.790264287871194e-24
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 2.895132143935597e-24
+    spin_leakage = 6.681911775230489e-52
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "current_r2_f1_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "c6071f51a897db62c07cfd2ca538a03bdad9cc759202bdd8cec362d46b4bc9fc"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.884224791167191e-18
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 9.421123955835956e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.330874400503205e-6
+    norm_drift = 5.773159728050814e-15
+    number_leakage = 1.5615795764682222e-34
+    projective_error = 1.1654378793743278e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.5616132246464586e-34
+
+    [rows.metrics]
+    infidelity = 2.330874400501319e-6
+    norm_drift = 5.773159728050814e-15
+    number_leakage = 1.5615795764682222e-34
+    projective_error = 1.1654378793733848e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.5616132246464586e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.6940658945086007e-21
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 8.470329472543003e-22
+    spin_leakage = 2.1382117680737565e-50
+[[rows]]
+arm = "current"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = true
+name = "current_r2_f1_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "9cc544e6a1a92275be722d744a72eee763a0ac17b460ebb5403476a3df91ec4e"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 0.0
+unfused_state_norm_residual = 0.0
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.27174957882606e-19
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-50
+    projective_error = 3.13587478941303e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.4484436417651914e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.2242218958185582e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.357879897817009e-35
+
+    [rows.metrics]
+    infidelity = 2.448443641758909e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.224221895815417e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.357879897817009e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0587911840678754e-21
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-50
+    projective_error = 5.293955920339377e-22
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 6.27174957882606e-19
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-50
+    projective_error = 3.13587478941303e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.4484436417651914e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.2242218958185582e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.357879897817009e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.448443641758909e-7
+    norm_drift = 9.481304630298837e-14
+    number_leakage = 8.357825891120685e-35
+    projective_error = 1.224221895815417e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.357879897817009e-35
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "current_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "95ab436c3f60ed41c88c15bc9a11972901700086737c47217208c606d6ddd192"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.2881728598383274e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 1.1440864299191637e-20
+    spin_leakage = 5.345529420184391e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.302454368743966e-10
+    norm_drift = 2.6978419498391304e-14
+    number_leakage = 7.035936563905241e-36
+    projective_error = 2.1512271846033719e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.036238148462558e-36
+
+    [rows.metrics]
+    infidelity = 4.302454368515225e-10
+    norm_drift = 2.6978419498391304e-14
+    number_leakage = 7.035936563905241e-36
+    projective_error = 2.1512271844890012e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.036238148462558e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.599721877830942e-24
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 3.799860938915471e-24
+    spin_leakage = 5.345529420184391e-51
+[[rows]]
+arm = "current"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "current_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "b71e2f9e0683788e184a7c55a8a4b6c51de881f89b7c6d2ad78aab985fa693c4"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.532388403730519e-21
+    norm_drift = 0.0
+    number_leakage = 2.0045735325691467e-51
+    projective_error = 1.266193797968476e-21
+    spin_leakage = 1.3363823550460978e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.266359269157791e-12
+    norm_drift = 9.414691248821327e-14
+    number_leakage = 3.346778885854294e-36
+    projective_error = 2.633179634582362e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.346804046970163e-36
+
+    [rows.metrics]
+    infidelity = 5.266359266622291e-12
+    norm_drift = 9.414691248821327e-14
+    number_leakage = 3.346778885854294e-36
+    projective_error = 2.633179633314612e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.346804046970163e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.1116208198772096e-24
+    norm_drift = 0.0
+    number_leakage = 2.0045735325691467e-51
+    projective_error = 1.556214306722078e-24
+    spin_leakage = 1.3363823550460978e-51
+[[rows]]
+arm = "current"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "current_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "7d74aafd8be96b8c958cd81f4b20d6b80733c498755482b9a50bfc33ad51662b"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1440521477374477e-20
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 1.0720260738687239e-20
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.9563654012962825e-7
+    norm_drift = 9.547918011776346e-15
+    number_leakage = 1.307182389412617e-34
+    projective_error = 9.781827484902157e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.3072541868729003e-34
+
+    [rows.metrics]
+    infidelity = 1.9563654012960572e-7
+    norm_drift = 9.547918011776346e-15
+    number_leakage = 1.307182389412617e-34
+    projective_error = 9.781827484901029e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.3072541868729003e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0852609636695723e-21
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 5.558653716356346e-22
+    spin_leakage = 2.1382117680737565e-50
+[[rows]]
+arm = "current"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "current_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "4962b0d0cd36f246e22d0a4e33b61f2435412d3ddcf2234b09576ea45cd0cc76"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.335655220567319e-16
+unfused_state_norm_residual = 2.8893926635217186e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 7.4859845436049e-22
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 3.74299227180245e-22
+    spin_leakage = 3.207317652110635e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.1296706299379626e-9
+    norm_drift = 7.038813976123492e-14
+    number_leakage = 5.945471409995504e-35
+    projective_error = 1.0648353155359185e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.945657654413605e-35
+
+    [rows.metrics]
+    infidelity = 2.129670629937149e-9
+    norm_drift = 7.038813976123492e-14
+    number_leakage = 5.945471409995504e-35
+    projective_error = 1.0648353155355117e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.945657654413605e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.493367808541267e-23
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 3.2466839042706336e-23
+    spin_leakage = 3.207317652110635e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 1.4798261158573665e-21
+    norm_drift = 5.662137425588298e-15
+    number_leakage = 3.498183613776135e-35
+    projective_error = 7.399130579286833e-22
+    spin_leakage = 3.4980959639472686e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.1296706299386938e-9
+    norm_drift = 7.605027718682322e-14
+    number_leakage = 9.443655023771643e-35
+    projective_error = 1.064835315536284e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 9.443753618360877e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.1296706299377835e-9
+    norm_drift = 7.605027718682322e-14
+    number_leakage = 9.443655023771643e-35
+    projective_error = 1.064835315535829e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 9.443753618360877e-35
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "first_r2_f1_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "0ed26d3b2ac761f83787eea252abc75781a943bceeba6f924cea84e5606cf0bb"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 4.566036981292713e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 2.2830184906463564e-20
+    spin_leakage = 2.6727647100921956e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.1824420119534195e-8
+    norm_drift = 1.3322676295501878e-15
+    number_leakage = 1.1193165184266837e-35
+    projective_error = 2.0912210278427366e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1193551922119816e-35
+
+    [rows.metrics]
+    infidelity = 4.182442011948852e-8
+    norm_drift = 1.3322676295501878e-15
+    number_leakage = 1.1193165184266837e-35
+    projective_error = 2.091221027840453e-8
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1193551922119816e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.3234889800848443e-23
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 6.617444900424222e-24
+    spin_leakage = 2.6727647100921956e-51
+[[rows]]
+arm = "first"
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = false
+name = "first_r2_f1_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "412e1041a8623759b77125254827fb9aefd1255dab954de8d45f7c0c4667606d"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.0787262368304034e-20
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 5.393631184152017e-21
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.606457316084342e-9
+    norm_drift = 1.0047518372857667e-13
+    number_leakage = 3.709892410816927e-36
+    projective_error = 2.303228660694602e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.709937992732269e-36
+
+    [rows.metrics]
+    infidelity = 4.606457316073554e-9
+    norm_drift = 1.0047518372857667e-13
+    number_leakage = 3.709892410816927e-36
+    projective_error = 2.303228660689208e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 3.709937992732269e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 8.271806125530277e-25
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 4.1359030627651384e-25
+    spin_leakage = 0.0
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 1
+independent_unfused_replay = false
+name = "first_r2_f1_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "1df4a0199f603f0becf55e3f2cda5a8449926bbe2e8e4844ef2a8b895b5bd63e"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.886765890008954e-18
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 9.43382945004477e-19
+    spin_leakage = 2.1382117680737565e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.33087440050323e-6
+    norm_drift = 5.551115123125783e-15
+    number_leakage = 6.414252289713253e-35
+    projective_error = 1.1654378793743405e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 6.414660093925609e-35
+
+    [rows.metrics]
+    infidelity = 2.330874400501343e-6
+    norm_drift = 5.551115123125783e-15
+    number_leakage = 6.414252289713253e-35
+    projective_error = 1.1654378793733969e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 6.414660093925609e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 4.235164736271502e-22
+    norm_drift = 0.0
+    number_leakage = 3.207317652110635e-50
+    projective_error = 2.117582368135751e-22
+    spin_leakage = 2.1382117680737565e-50
+[[rows]]
+arm = "first"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 1
+independent_unfused_replay = true
+name = "first_r2_f1_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "48809467e1c8046e029e9b601ad0236114c66aee786f33deffac50590615fb13"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 0.0
+unfused_state_norm_residual = 0.0
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.283396281850807e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.1416981409254034e-19
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.448443641765252e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958185883e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.348081476659226e-35
+
+    [rows.metrics]
+    infidelity = 2.448443641758962e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958154435e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.348081476659226e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.352747104407253e-22
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.1763735522036263e-22
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 6.283396281850807e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 3.1416981409254034e-19
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.448443641765252e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958185883e-7
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.348081476659226e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.448443641758962e-7
+    norm_drift = 9.281464485866309e-14
+    number_leakage = 5.347983722076247e-35
+    projective_error = 1.2242218958154435e-7
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.348081476659226e-35
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "first_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "0e6a85f9959e3c4505d161d78e23ca8bfef9f40e5d429dcd7427e27047878e79"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.2878419875933062e-20
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 1.1439209937966531e-20
+    spin_leakage = 4.0091470651382935e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.3024543687425853e-10
+    norm_drift = 2.5424107263916085e-14
+    number_leakage = 7.069159579546488e-36
+    projective_error = 2.1512271846026814e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.06945055875944e-36
+
+    [rows.metrics]
+    infidelity = 4.3024543685138486e-10
+    norm_drift = 2.5424107263916085e-14
+    number_leakage = 7.069159579546488e-36
+    projective_error = 2.151227184488313e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.06945055875944e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 4.756288522179909e-24
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-51
+    projective_error = 2.3781442610899546e-24
+    spin_leakage = 4.0091470651382935e-51
+[[rows]]
+arm = "first"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "first_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "f0a36e6f10e6c344c1728c96ef128b92c0348eebbb7f75a83f0d602ad17947e9"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.5332349713886786e-21
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 1.2666170817975558e-21
+    spin_leakage = 1.0022867662845734e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.266359269153441e-12
+    norm_drift = 9.348077867343818e-14
+    number_leakage = 2.9499753441204043e-36
+    projective_error = 2.633179634580187e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.950078920416382e-36
+
+    [rows.metrics]
+    infidelity = 5.266359266617803e-12
+    norm_drift = 9.348077867343818e-14
+    number_leakage = 2.9499753441204043e-36
+    projective_error = 2.633179633312368e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.950078920416382e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.4031858616652904e-24
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 1.2019968276161183e-24
+    spin_leakage = 1.0022867662845734e-51
+[[rows]]
+arm = "first"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "first_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "44bc75180def23e4b1d2a08251bccb3f061f879db1914d0b27196c29a80f8fc2"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.2128735747018596e-20
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-49
+    projective_error = 1.1064367873509298e-20
+    spin_leakage = 1.282927060844254e-49
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.956365401296253e-7
+    norm_drift = 1.0880185641326534e-14
+    number_leakage = 1.345516462121997e-34
+    projective_error = 9.78182748490201e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.3455331366637543e-34
+
+    [rows.metrics]
+    infidelity = 1.9563654012960265e-7
+    norm_drift = 1.0880185641326534e-14
+    number_leakage = 1.345516462121997e-34
+    projective_error = 9.781827484900875e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.3455331366637543e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.293955920339377e-22
+    norm_drift = 0.0
+    number_leakage = 1.0691058840368783e-49
+    projective_error = 2.779326858178173e-22
+    spin_leakage = 1.282927060844254e-49
+[[rows]]
+arm = "first"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "first_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "76db191363f5ed65fde79ad1f00a65e441c70a60274afb911ceeeae6debca421"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 8.047604424299234e-17
+unfused_state_norm_residual = 2.3554733058924586e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 9.016268676828002e-22
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 4.508134338414001e-22
+    spin_leakage = 5.345529420184391e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.129670629939147e-9
+    norm_drift = 7.4495964952348e-14
+    number_leakage = 8.053316308158518e-35
+    projective_error = 1.0648353155365107e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.053341331936162e-35
+
+    [rows.metrics]
+    infidelity = 2.129670629938167e-9
+    norm_drift = 7.4495964952348e-14
+    number_leakage = 8.053316308158518e-35
+    projective_error = 1.0648353155360206e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.053341331936162e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.858215819253763e-23
+    norm_drift = 0.0
+    number_leakage = 5.345529420184391e-50
+    projective_error = 3.9291079096268815e-23
+    spin_leakage = 5.345529420184391e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 8.503416697045124e-22
+    norm_drift = 4.440892098500626e-15
+    number_leakage = 4.949832798269752e-35
+    projective_error = 4.251708348522562e-22
+    spin_leakage = 4.949621262090725e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.1296706299390958e-9
+    norm_drift = 7.893685705084863e-14
+    number_leakage = 3.103483509888772e-35
+    projective_error = 1.064835315536485e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.1037200698454424e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.129670629938088e-9
+    norm_drift = 7.893685705084863e-14
+    number_leakage = 3.103483509888772e-35
+    projective_error = 1.0648353155359811e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.1037200698454424e-35
+[[rows]]
+arm = "pauli"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "pauli_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "a8dac9907d53ec0570d94c315fd34fdf35e893f5cd2e309923f1a99525239d81"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.3556811375803114e-20
+    norm_drift = 0.0
+    number_leakage = 3.1554436208840472e-30
+    projective_error = 1.1778379838507415e-20
+    spin_leakage = 3.1554436208840472e-30
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.3301759351122943e-10
+    norm_drift = 1.3322676295501878e-14
+    number_leakage = 9.64602909528327e-15
+    projective_error = 2.1650879677905275e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.64602909528327e-15
+
+    [rows.metrics]
+    infidelity = 4.3301759348766787e-10
+    norm_drift = 1.3322676295501878e-14
+    number_leakage = 9.64602909528327e-15
+    projective_error = 2.1650879676727197e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 9.64602909528327e-15
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 4.756288522179909e-24
+    norm_drift = 0.0
+    number_leakage = 3.1554436208840472e-30
+    projective_error = 2.4039936552322367e-24
+    spin_leakage = 3.1554436208840472e-30
+[[rows]]
+arm = "pauli"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "pauli_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "6b9f1df60cde8cf6710c10b7c486bd6b30ff8bd254321ab9b420add28ae2cb70"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.61015226703974e-21
+    norm_drift = 0.0
+    number_leakage = 4.930380657631324e-32
+    projective_error = 1.30507613351987e-21
+    spin_leakage = 4.930380657631324e-32
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.300729154619435e-12
+    norm_drift = 7.416289804496046e-14
+    number_leakage = 1.1864410443282983e-16
+    projective_error = 2.65036457731323e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1864410443282983e-16
+
+    [rows.metrics]
+    infidelity = 5.300729152006583e-12
+    norm_drift = 7.416289804496046e-14
+    number_leakage = 1.1864410443282983e-16
+    projective_error = 2.650364576006804e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.1864410443282983e-16
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.6996461007345884e-24
+    norm_drift = 0.0
+    number_leakage = 4.930380657631324e-32
+    projective_error = 1.3498230503672942e-24
+    spin_leakage = 4.930380657631324e-32
+[[rows]]
+arm = "pauli"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "pauli_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "da096e4b10b9d1a33164361372e4969ae7bf4ac253863ef300876485d04fc94d"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 3.272194154361769e-19
+    norm_drift = 0.0
+    number_leakage = 3.2311742677852644e-27
+    projective_error = 1.635964728282876e-19
+    spin_leakage = 3.2311742677852644e-27
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.9254555456380565e-7
+    norm_drift = 1.4432899320127035e-14
+    number_leakage = 2.1155369186675907e-11
+    projective_error = 9.627278191612708e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.1155369186675907e-11
+
+    [rows.metrics]
+    infidelity = 1.9254555456347809e-7
+    norm_drift = 1.4432899320127035e-14
+    number_leakage = 2.1155369186675907e-11
+    projective_error = 9.62727819159633e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.1155369186675907e-11
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.441071348220595e-22
+    norm_drift = 0.0
+    number_leakage = 3.2311742677852644e-27
+    projective_error = 1.852884572118782e-22
+    spin_leakage = 3.2311742677852644e-27
+[[rows]]
+arm = "pauli"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "pauli_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "a2de70ad45d6202260193974453a779a82792cbb8e05583ead7ac379e08385a8"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.2307889917545896e-16
+unfused_state_norm_residual = 1.1307089653545048e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 3.5091069536030817e-20
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 1.7545741563168547e-20
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.0936175722209417e-9
+    norm_drift = 9.392486788328824e-14
+    number_leakage = 2.529465428534143e-13
+    projective_error = 1.0468087866583752e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.529465428534143e-13
+
+    [rows.metrics]
+    infidelity = 2.0936175721859643e-9
+    norm_drift = 9.392486788328824e-14
+    number_leakage = 2.529465428534143e-13
+    projective_error = 1.0468087866408863e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.529465428534143e-13
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.137373342260413e-22
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 5.686866711302065e-23
+    spin_leakage = 0.0
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 3.501124660691945e-20
+    norm_drift = 2.3314683517128287e-15
+    number_leakage = 1.3575980634491525e-25
+    projective_error = 1.7505623303459725e-20
+    spin_leakage = 1.3575980634491525e-25
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.093617572220862e-9
+    norm_drift = 9.159339953157541e-14
+    number_leakage = 2.5294654285327853e-13
+    projective_error = 1.046808786658335e-9
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.5294654285327853e-13
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.093617572185899e-9
+    norm_drift = 9.159339953157541e-14
+    number_leakage = 2.5294654285327853e-13
+    projective_error = 1.0468087866408537e-9
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.5294654285327853e-13
+[[rows]]
+arm = "cubic"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "cubic_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "87673e47b4c47930f49ca878c7bcfa36ac03456f3fbcdd343e019e578523c3d1"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.9181439525703874e-20
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 9.590719762851937e-21
+    spin_leakage = 2.6727647100921956e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 3.631487339528267e-10
+    norm_drift = 3.597122599785507e-14
+    number_leakage = 6.150114758520362e-36
+    projective_error = 1.8157436699289798e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 6.15036770584152e-36
+
+    [rows.metrics]
+    infidelity = 3.6314873393363787e-10
+    norm_drift = 3.597122599785507e-14
+    number_leakage = 6.150114758520362e-36
+    projective_error = 1.8157436698330356e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 6.15036770584152e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 7.392926724692685e-24
+    norm_drift = 0.0
+    number_leakage = 2.6727647100921956e-51
+    projective_error = 3.6964633623463424e-24
+    spin_leakage = 2.6727647100921956e-51
+[[rows]]
+arm = "cubic"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "cubic_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "9281ac9cf5fe9e5148adb863cc63cdfd99095b9a230e1fa15f39dcc98d276897"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1286491400029154e-21
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 1.0643245700014577e-21
+    spin_leakage = 3.3409558876152446e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.445649296423335e-12
+    norm_drift = 1.0735856648125264e-13
+    number_leakage = 2.0717635518860604e-36
+    projective_error = 2.222824648214138e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.0718277075988467e-36
+
+    [rows.metrics]
+    infidelity = 4.445649294293634e-12
+    norm_drift = 1.0735856648125264e-13
+    number_leakage = 2.0717635518860604e-36
+    projective_error = 2.222824647149287e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.0718277075988467e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0525550177310499e-24
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 5.262775088655249e-25
+    spin_leakage = 3.3409558876152446e-52
+[[rows]]
+arm = "cubic"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "cubic_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "bfc530fea3a6c03c6f436a5b9d210af939e581034328c2a21c0de8f49e5b5cf5"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.8499728963625953e-19
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 9.249864481812977e-20
+    spin_leakage = 6.41463530422127e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.6798859758699794e-7
+    norm_drift = 1.1324274851176597e-14
+    number_leakage = 1.741035483449865e-34
+    projective_error = 8.399430232102038e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.7410853925102295e-34
+
+    [rows.metrics]
+    infidelity = 1.6798859758718325e-7
+    norm_drift = 1.1324274851176597e-14
+    number_leakage = 1.741035483449865e-34
+    projective_error = 8.399430232111304e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.7410853925102295e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 3.1763735522036263e-22
+    norm_drift = 0.0
+    number_leakage = 4.276423536147513e-50
+    projective_error = 1.5881867761018131e-22
+    spin_leakage = 6.41463530422127e-50
+[[rows]]
+arm = "cubic"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "cubic_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "0d27a8e293582391acad814fda687fe80e3750fa6003d32287870cfc5bd839cc"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 6.980057401902413e-17
+unfused_state_norm_residual = 3.1282144211173158e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1180166379573412e-20
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 1.0590186587363275e-20
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.8250472403432733e-9
+    norm_drift = 5.81756864903582e-14
+    number_leakage = 5.013526858450983e-35
+    projective_error = 9.125236205879863e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.013540368279708e-35
+
+    [rows.metrics]
+    infidelity = 1.8250472403643964e-9
+    norm_drift = 5.81756864903582e-14
+    number_leakage = 5.013526858450983e-35
+    projective_error = 9.125236205985479e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.013540368279708e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.707546226615891e-23
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-50
+    projective_error = 2.8641128709648583e-23
+    spin_leakage = 1.0691058840368783e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 2.157783345905828e-20
+    norm_drift = 6.106226635438361e-15
+    number_leakage = 9.180980097037722e-36
+    projective_error = 1.0789020127105709e-20
+    spin_leakage = 9.181499429330375e-36
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 1.8250472403428756e-9
+    norm_drift = 6.428191312579656e-14
+    number_leakage = 5.931624868154758e-35
+    projective_error = 9.125236205877875e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 5.931690311212747e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 1.8250472403640037e-9
+    norm_drift = 6.428191312579656e-14
+    number_leakage = 5.931624868154758e-35
+    projective_error = 9.125236205983515e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 5.931690311212747e-35
+[[rows]]
+arm = "window_sparse"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_sparse_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "624746b74b38b857b63ce77e7c88ad9a921eb71ab84583096dc5e8612c914e51"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.9184541453000948e-20
+    norm_drift = 0.0
+    number_leakage = 4.0091470651382935e-51
+    projective_error = 9.592270726500474e-21
+    spin_leakage = 5.345529420184391e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 3.6251640286172847e-10
+    norm_drift = 4.873879078104437e-14
+    number_leakage = 7.781710475486114e-36
+    projective_error = 1.812582014472915e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.782070813423214e-36
+
+    [rows.metrics]
+    infidelity = 3.62516402842542e-10
+    norm_drift = 4.873879078104437e-14
+    number_leakage = 7.781710475486114e-36
+    projective_error = 1.8125820143769827e-10
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 7.782070813423214e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.9128551665288765e-24
+    norm_drift = 0.0
+    number_leakage = 4.0091470651382935e-51
+    projective_error = 9.564275832644382e-25
+    spin_leakage = 5.345529420184391e-51
+[[rows]]
+arm = "window_sparse"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "window_sparse_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "f52807c2e0e8acb3ac071824ae35fdd0e45130fd5c3849f5f0768a523be64a3d"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.128817968858407e-21
+    norm_drift = 0.0
+    number_leakage = 8.352389719038111e-52
+    projective_error = 1.0644089844292036e-21
+    spin_leakage = 6.681911775230489e-52
+
+    [rows.independent_reference_metrics]
+    infidelity = 4.4378857621472375e-12
+    norm_drift = 8.970602038971265e-14
+    number_leakage = 1.1358522136162027e-36
+    projective_error = 2.2189428810760805e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.135876517035654e-36
+
+    [rows.metrics]
+    infidelity = 4.4378857600173985e-12
+    norm_drift = 8.970602038971265e-14
+    number_leakage = 1.1358522136162027e-36
+    projective_error = 2.218942880011161e-12
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 1.135876517035654e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.0210510686201435e-24
+    norm_drift = 0.0
+    number_leakage = 8.352389719038111e-52
+    projective_error = 5.105255343100718e-25
+    spin_leakage = 6.681911775230489e-52
+[[rows]]
+arm = "window_sparse"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_sparse_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "e955b8c304111f1aa4d3ed91d1b446add67efdb1105ed05d74e8d67fd329511e"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.9219706968792109e-19
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 9.609853484396054e-20
+    spin_leakage = 0.0
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.6756989025882035e-7
+    norm_drift = 1.9761969838327786e-14
+    number_leakage = 1.388175589017638e-34
+    projective_error = 8.378494863936899e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 1.3882234306330108e-34
+
+    [rows.metrics]
+    infidelity = 1.675698902590125e-7
+    norm_drift = 1.9761969838327786e-14
+    number_leakage = 1.388175589017638e-34
+    projective_error = 8.378494863946506e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 1.3882234306330108e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.293955920339377e-23
+    norm_drift = 0.0
+    number_leakage = 0.0
+    projective_error = 2.6469779601696886e-23
+    spin_leakage = 0.0
+[[rows]]
+arm = "window_sparse"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "window_sparse_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "8efaee0cd8f90a1eac11d83f59f5b43105de656d4fa2237f9838a4426fcbbef9"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.2962673461122612e-16
+unfused_state_norm_residual = 1.9151764873987776e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 2.1911600836223427e-20
+    norm_drift = 0.0
+    number_leakage = 7.483741188258148e-50
+    projective_error = 1.0955800418111713e-20
+    spin_leakage = 8.552847072295026e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 1.8200966389442742e-9
+    norm_drift = 5.5067062021407764e-14
+    number_leakage = 8.743636901521424e-35
+    projective_error = 9.100483198862312e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.743668930817631e-35
+
+    [rows.metrics]
+    infidelity = 1.8200966389661625e-9
+    norm_drift = 5.5067062021407764e-14
+    number_leakage = 8.743636901521424e-35
+    projective_error = 9.100483198971752e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.743668930817631e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 2.3367852304623032e-23
+    norm_drift = 0.0
+    number_leakage = 7.483741188258148e-50
+    projective_error = 1.1787323728880644e-23
+    spin_leakage = 8.552847072295026e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 2.2495383553532726e-20
+    norm_drift = 3.6637359812630166e-15
+    number_leakage = 1.9377645579924876e-35
+    projective_error = 1.1247795174342932e-20
+    spin_leakage = 1.9377320587060447e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 1.8200966389436904e-9
+    norm_drift = 5.873079800267078e-14
+    number_leakage = 6.805872343528944e-35
+    projective_error = 9.100483198859392e-10
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 6.805936872111594e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 1.8200966389656264e-9
+    norm_drift = 5.873079800267078e-14
+    number_leakage = 6.805872343528944e-35
+    projective_error = 9.100483198969071e-10
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 6.805936872111594e-35
+[[rows]]
+arm = "window_magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_magnitude_r2_f2_t0.4_b8"
+repetition = 2
+saved_actual_sha256 = "f47049bdeba8915db8397580bd99a275cf4fed0cb7af1d143859945e6050b28a"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.1529656968070376e-19
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 5.764828484035188e-20
+    spin_leakage = 2.0045735325691467e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 5.780979558676987e-9
+    norm_drift = 3.1530333899354446e-14
+    number_leakage = 5.9298171176895306e-36
+    projective_error = 2.8904897835159588e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 5.930247555598954e-36
+
+    [rows.metrics]
+    infidelity = 5.7809795585616964e-9
+    norm_drift = 3.1530333899354446e-14
+    number_leakage = 5.9298171176895306e-36
+    projective_error = 2.8904897834583134e-9
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 5.930247555598954e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 5.790264287871194e-24
+    norm_drift = 0.0
+    number_leakage = 6.681911775230489e-52
+    projective_error = 2.895132143935597e-24
+    spin_leakage = 2.0045735325691467e-51
+[[rows]]
+arm = "window_magnitude"
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = false
+name = "window_magnitude_r2_f2_t0.4_b24"
+repetition = 2
+saved_actual_sha256 = "99248c6ee3e4ff3c85774c0d5c3194a1b53ad044ba0c8d49a73519627167630b"
+status = "complete"
+time = 0.4
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 1.268527998259524e-20
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 6.34263999129762e-21
+    spin_leakage = 1.3363823550460978e-51
+
+    [rows.independent_reference_metrics]
+    infidelity = 7.022484408540903e-11
+    norm_drift = 8.537615059367454e-14
+    number_leakage = 2.3478207989854796e-36
+    projective_error = 3.511242204332095e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.347883936800353e-36
+
+    [rows.metrics]
+    infidelity = 7.022484407272388e-11
+    norm_drift = 8.537615059367454e-14
+    number_leakage = 2.3478207989854796e-36
+    projective_error = 3.511242203697838e-11
+    reference_norm_drift = 2.220446049250313e-16
+    spin_leakage = 2.347883936800353e-36
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2924697071141057e-25
+    norm_drift = 0.0
+    number_leakage = 1.0022867662845734e-51
+    projective_error = 6.462348535570529e-26
+    spin_leakage = 1.3363823550460978e-51
+[[rows]]
+arm = "window_magnitude"
+budget_multiplier = 8
+formula = 2
+independent_unfused_replay = false
+name = "window_magnitude_r2_f2_t1.6_b8"
+repetition = 2
+saved_actual_sha256 = "da445a28630da1d3791fe6e063d9635050abe96a382187d62f555effb6aabf3a"
+status = "complete"
+time = 1.6
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 8.34750969519113e-19
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-49
+    projective_error = 4.173754847595565e-19
+    spin_leakage = 2.1382117680737565e-49
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.3637245250968424e-6
+    norm_drift = 1.3766765505351941e-14
+    number_leakage = 3.108660881296375e-34
+    projective_error = 1.1818629609484503e-6
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 3.1086853046203106e-34
+
+    [rows.metrics]
+    infidelity = 2.3637245250960064e-6
+    norm_drift = 1.3766765505351941e-14
+    number_leakage = 3.108660881296375e-34
+    projective_error = 1.1818629609480323e-6
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 3.1086853046203106e-34
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 1.2705494208814505e-21
+    norm_drift = 0.0
+    number_leakage = 2.1382117680737565e-49
+    projective_error = 6.352747104407253e-22
+    spin_leakage = 2.1382117680737565e-49
+[[rows]]
+arm = "window_magnitude"
+auxiliary_unfused_primitive_pulses = 30936
+budget_multiplier = 24
+formula = 2
+independent_unfused_replay = true
+name = "window_magnitude_r2_f2_t1.6_b24"
+repetition = 2
+saved_actual_sha256 = "0cce7c9f85f2a1e2986cb8c993b5aae156be59cefed6fa205768ff7f0a34875e"
+status = "complete"
+time = 1.6
+unfused_phase_aligned_residual = 1.3382448257530102e-16
+unfused_state_norm_residual = 2.6518321920081972e-15
+
+    [rows.independent_reference_metric_discrepancies]
+    infidelity = 6.016580903465702e-20
+    norm_drift = 0.0
+    number_leakage = 1.6036588260553174e-50
+    projective_error = 3.008290451732851e-20
+    spin_leakage = 1.6036588260553174e-50
+
+    [rows.independent_reference_metrics]
+    infidelity = 2.2361867437710786e-8
+    norm_drift = 8.926193117986259e-14
+    number_leakage = 2.706472631703315e-35
+    projective_error = 1.1180933781362032e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 2.706536646781056e-35
+
+    [rows.metrics]
+    infidelity = 2.236186743765069e-8
+    norm_drift = 8.926193117986259e-14
+    number_leakage = 2.706472631703315e-35
+    projective_error = 1.1180933781331984e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 2.706536646781056e-35
+
+    [rows.saved_reference_metric_discrepancies]
+    infidelity = 6.948317145445432e-23
+    norm_drift = 0.0
+    number_leakage = 1.6036588260553174e-50
+    projective_error = 3.474158572722716e-23
+    spin_leakage = 1.6036588260553174e-50
+
+    [rows.unfused_independent_reference_metric_discrepancies]
+    infidelity = 5.870997115656369e-20
+    norm_drift = 4.773959005888173e-15
+    number_leakage = 5.893707684280839e-35
+    projective_error = 2.9354985578281846e-20
+    spin_leakage = 5.893709869534357e-35
+
+    [rows.unfused_independent_reference_metrics]
+    infidelity = 2.236186743770933e-8
+    norm_drift = 9.403589018575076e-14
+    number_leakage = 8.600180315984152e-35
+    projective_error = 1.1180933781361304e-8
+    reference_norm_drift = 8.881784197001252e-16
+    spin_leakage = 8.600246516315412e-35
+
+    [rows.unfused_saved_reference_metrics]
+    infidelity = 2.2361867437649727e-8
+    norm_drift = 9.403589018575076e-14
+    number_leakage = 8.600180315984152e-35
+    projective_error = 1.1180933781331503e-8
+    reference_norm_drift = 6.661338147750939e-16
+    spin_leakage = 8.600246516315412e-35

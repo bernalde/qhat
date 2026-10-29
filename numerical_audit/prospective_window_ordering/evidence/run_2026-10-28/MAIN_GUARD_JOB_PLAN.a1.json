@@ -1,0 +1,28 @@
+{
+  "root": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+  "cwd": "/tmp/qhat-normal-window-2026-10-28/worktree",
+  "frozen_UTC": "2026-10-29T03:32:11.273274+00:00",
+  "purpose": "Actual-data baseline and two targeted guard rejections; no scientific kernel rerun",
+  "driver_sha256": "68f059d199a20838032e6096f65e42f016be33b3b75bf0e17770a7e50fd74da8",
+  "original_report_sha256": "438fb0bdb444d9162f50ceeaeeed330e106304fb6d5f5f48045c231766474636",
+  "jobs": [
+    {
+      "label": "window-main-guards-H-a1",
+      "phase": "independent",
+      "cpu": 20,
+      "wall": 100,
+      "command": [
+        "/usr/bin/env",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/prove_main_guards.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "--report-sha256",
+        "438fb0bdb444d9162f50ceeaeeed330e106304fb6d5f5f48045c231766474636"
+      ]
+    }
+  ],
+  "all_original_caps_unchanged": true,
+  "logical_disk_bound_MiB": 256,
+  "temporary_fixture_one_at_a_time": true
+}

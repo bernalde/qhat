@@ -1,0 +1,300 @@
+{
+  "schema": "artifact-closeout-record-v1",
+  "frozen_UTC": "2026-10-29T04:21:29.486988+00:00",
+  "archive_copy_manifest_sha256": "2ab2e73b893e87986580ea5f8a3762db3803e99add382bf755405d5cff884764",
+  "archive_source_mapping_sha256": "54015231c1c310f6bcee918ff7a117ffcc2f6fd9bd163b96c31d0153bf47be19",
+  "payload_files": 3529,
+  "source_claim_complete": false,
+  "unrecovered_earliest_prototype_versions": 3,
+  "relocated_analyzer_exactly_equals_original": true,
+  "relocated_independent_exactly_equals_original": true,
+  "final_CPU_and_wall_figures_visually_inspected": true,
+  "all_owned_closed_job_totals_by_phase": {
+    "packaging": {
+      "jobs": 16,
+      "conservative_CPU_seconds": 41.04,
+      "absolute_guarded_wall_seconds": 115.31341710482957
+    },
+    "independent": {
+      "jobs": 13,
+      "conservative_CPU_seconds": 154.896,
+      "absolute_guarded_wall_seconds": 638.5791969789425
+    },
+    "identity_inputs": {
+      "jobs": 16,
+      "conservative_CPU_seconds": 58.378,
+      "absolute_guarded_wall_seconds": 262.37703022011556
+    },
+    "constructors": {
+      "jobs": 69,
+      "conservative_CPU_seconds": 385.5320000000002,
+      "absolute_guarded_wall_seconds": 1672.6002276660292
+    },
+    "physical": {
+      "jobs": 5,
+      "conservative_CPU_seconds": 131.159,
+      "absolute_guarded_wall_seconds": 535.3332658230211
+    },
+    "preflight": {
+      "jobs": 80,
+      "conservative_CPU_seconds": 515.0620000000001,
+      "absolute_guarded_wall_seconds": 2210.885570480139
+    }
+  },
+  "later_than_main_ledger_cutoff_jobs": [
+    {
+      "path": "jobs/window-archive-map-a1.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 2,
+      "charged_CPU_seconds": 2.005,
+      "absolute_guarded_wall_seconds": 9.113274175033439
+    },
+    {
+      "path": "jobs/window-archive-map-a2.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 1,
+      "charged_CPU_seconds": 20.0,
+      "absolute_guarded_wall_seconds": 3.0214243849623017
+    },
+    {
+      "path": "jobs/window-archive-map-a3.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 2,
+      "charged_CPU_seconds": 1.2839999999999998,
+      "absolute_guarded_wall_seconds": 6.0841873090248555
+    },
+    {
+      "path": "jobs/window-archive-relocated-analysis-a1.FINAL.json",
+      "phase": "independent",
+      "exit_code": 0,
+      "charged_CPU_seconds": 1.5239999999999998,
+      "absolute_guarded_wall_seconds": 6.092602889984846
+    },
+    {
+      "path": "jobs/window-archive-relocated-independent-a1.FINAL.json",
+      "phase": "independent",
+      "exit_code": 0,
+      "charged_CPU_seconds": 1.2369999999999999,
+      "absolute_guarded_wall_seconds": 6.094304784957785
+    },
+    {
+      "path": "jobs/window-main-analysis-H-a1.FINAL.json",
+      "phase": "independent",
+      "exit_code": 0,
+      "charged_CPU_seconds": 1.579,
+      "absolute_guarded_wall_seconds": 9.115241924999282
+    },
+    {
+      "path": "jobs/window-main-derived-check-H-a1.FINAL.json",
+      "phase": "independent",
+      "exit_code": 0,
+      "charged_CPU_seconds": 1.2209999999999999,
+      "absolute_guarded_wall_seconds": 6.080726635991596
+    },
+    {
+      "path": "jobs/window-main-guards-H-a1.FINAL.json",
+      "phase": "independent",
+      "exit_code": 0,
+      "charged_CPU_seconds": 4.365,
+      "absolute_guarded_wall_seconds": 18.234433674020693
+    },
+    {
+      "path": "jobs/window-main-index-finish-H-a1.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 0,
+      "charged_CPU_seconds": 0.334,
+      "absolute_guarded_wall_seconds": 3.0614207250182517
+    },
+    {
+      "path": "jobs/window-main-index-prepare-H-a1.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 0,
+      "charged_CPU_seconds": 0.296,
+      "absolute_guarded_wall_seconds": 3.0691318119643256
+    },
+    {
+      "path": "jobs/window-main-plots-H-a1.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 0,
+      "charged_CPU_seconds": 6.705,
+      "absolute_guarded_wall_seconds": 27.277984641958028
+    },
+    {
+      "path": "jobs/window-main-plots-H-a2.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 0,
+      "charged_CPU_seconds": 4.777,
+      "absolute_guarded_wall_seconds": 21.214966470957734
+    },
+    {
+      "path": "jobs/window-main-report-tables-H-a1.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 0,
+      "charged_CPU_seconds": 0.115,
+      "absolute_guarded_wall_seconds": 3.0301104999962263
+    },
+    {
+      "path": "jobs/window-public-archive-copy-a1.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 0,
+      "charged_CPU_seconds": 1.6409999999999998,
+      "absolute_guarded_wall_seconds": 12.106628370995168
+    },
+    {
+      "path": "jobs/window-public-archive-git-bytes-a1.FINAL.json",
+      "phase": "packaging",
+      "exit_code": 0,
+      "charged_CPU_seconds": 2.002,
+      "absolute_guarded_wall_seconds": 9.12623423995683
+    }
+  ],
+  "files": {
+    "jobs/window-archive-map-a3.PLAN.json": {
+      "original_root_relative": "jobs/window-archive-map-a3.PLAN.json",
+      "bytes": 1745,
+      "sha256": "0da2394f75b2277e7c9b3c80193e962bdc64ce373b75301d41d5eee1f8ab91f3"
+    },
+    "jobs/window-archive-map-a3.FINAL.json": {
+      "original_root_relative": "jobs/window-archive-map-a3.FINAL.json",
+      "bytes": 676,
+      "sha256": "a4c36081a0388db5131d4d8cecefdef311afe6a82ba3b7a1e123aeb9a52022ba"
+    },
+    "logs/window-archive-map-a3.log": {
+      "original_root_relative": "logs/window-archive-map-a3.log",
+      "bytes": 2124,
+      "sha256": "6a9ed819294c0dbaac3e07842209b29b51c97e9be771d6e1afe2543526fb343c"
+    },
+    "logs/window-archive-map-a3.resources.json": {
+      "original_root_relative": "logs/window-archive-map-a3.resources.json",
+      "bytes": 3530,
+      "sha256": "e5cfc1d8ebdbab768e31fcdacbd0ce60e903a4c4d7329bb81334003be34e0b88"
+    },
+    "jobs/window-archive-relocated-analysis-a1.PLAN.json": {
+      "original_root_relative": "jobs/window-archive-relocated-analysis-a1.PLAN.json",
+      "bytes": 1143,
+      "sha256": "7af9c71eb717338e638580649abec2055d4b1a1361708608eae6172ce90a7a01"
+    },
+    "jobs/window-archive-relocated-analysis-a1.FINAL.json": {
+      "original_root_relative": "jobs/window-archive-relocated-analysis-a1.FINAL.json",
+      "bytes": 690,
+      "sha256": "368c28c604737f259b8979ae14bc75fc52eba706a9a4468ffc1bea8a9445a15d"
+    },
+    "logs/window-archive-relocated-analysis-a1.log": {
+      "original_root_relative": "logs/window-archive-relocated-analysis-a1.log",
+      "bytes": 1583,
+      "sha256": "43b647dfcc140fc44bc64e2b3ce96db361cc57483e48719435078d6d0f4c81c2"
+    },
+    "logs/window-archive-relocated-analysis-a1.resources.json": {
+      "original_root_relative": "logs/window-archive-relocated-analysis-a1.resources.json",
+      "bytes": 2950,
+      "sha256": "62dffd43adb7338fdeb63af247ddc53bb0f14cafeac8a30580f9b12a0e4df86c"
+    },
+    "jobs/window-archive-relocated-independent-a1.PLAN.json": {
+      "original_root_relative": "jobs/window-archive-relocated-independent-a1.PLAN.json",
+      "bytes": 1132,
+      "sha256": "6bfa52c7300da546bacdd4dc8ac35ed6b2c176e5d1cdf6a03e44d00a321a5ad9"
+    },
+    "jobs/window-archive-relocated-independent-a1.FINAL.json": {
+      "original_root_relative": "jobs/window-archive-relocated-independent-a1.FINAL.json",
+      "bytes": 693,
+      "sha256": "79497e1250f8a3b82a7de10524c5600a62283976246166f87680f4e501856923"
+    },
+    "logs/window-archive-relocated-independent-a1.log": {
+      "original_root_relative": "logs/window-archive-relocated-independent-a1.log",
+      "bytes": 1591,
+      "sha256": "de8193b70afeb05f80f6667103907677827a471d9e9efd0b69e95f329e3063a7"
+    },
+    "logs/window-archive-relocated-independent-a1.resources.json": {
+      "original_root_relative": "logs/window-archive-relocated-independent-a1.resources.json",
+      "bytes": 2929,
+      "sha256": "1057e4a55fb25a730a9cd79e99b7b564726c36c730c0da282983fddbb1c3fffa"
+    },
+    "jobs/window-public-archive-copy-a1.PLAN.json": {
+      "original_root_relative": "jobs/window-public-archive-copy-a1.PLAN.json",
+      "bytes": 1126,
+      "sha256": "74bb13508287f7c40de605fd815e5c5f694aa32eb71c8425f25e7e52314eaa98"
+    },
+    "jobs/window-public-archive-copy-a1.FINAL.json": {
+      "original_root_relative": "jobs/window-public-archive-copy-a1.FINAL.json",
+      "bytes": 682,
+      "sha256": "e082a0ad8349f5c25d7e07c73bbe77a0309b1c2450cdf0901ce1ac9b020e1397"
+    },
+    "logs/window-public-archive-copy-a1.log": {
+      "original_root_relative": "logs/window-public-archive-copy-a1.log",
+      "bytes": 1575,
+      "sha256": "2965afbd6b63777da04e98f085bad1670eb5e32b7c11d9bb6d997554bbbc74f0"
+    },
+    "logs/window-public-archive-copy-a1.resources.json": {
+      "original_root_relative": "logs/window-public-archive-copy-a1.resources.json",
+      "bytes": 3392,
+      "sha256": "53ec6df069676e56cf7bb098f49530d9311ada5179410617516c92eb777f8137"
+    },
+    "jobs/window-public-archive-git-bytes-a1.PLAN.json": {
+      "original_root_relative": "jobs/window-public-archive-git-bytes-a1.PLAN.json",
+      "bytes": 1169,
+      "sha256": "af1574867f1de47ce6c418a10b5b38eea2ce46b095404e69183b45777cc3ca32"
+    },
+    "jobs/window-public-archive-git-bytes-a1.FINAL.json": {
+      "original_root_relative": "jobs/window-public-archive-git-bytes-a1.FINAL.json",
+      "bytes": 672,
+      "sha256": "40a6ff7a723c7cfb60d57e7a83d10a1ac6411576ac387147b0d7e555ac1b2cae"
+    },
+    "logs/window-public-archive-git-bytes-a1.log": {
+      "original_root_relative": "logs/window-public-archive-git-bytes-a1.log",
+      "bytes": 1696,
+      "sha256": "d2e67c46c05d7df078d662d9ecf43511d1c99c1ac8af4ed1428f712dec0e4d24"
+    },
+    "logs/window-public-archive-git-bytes-a1.resources.json": {
+      "original_root_relative": "logs/window-public-archive-git-bytes-a1.resources.json",
+      "bytes": 3192,
+      "sha256": "5ee89193338fc64ee2b1c127892db74235d1e7dfec79f207be5a5924248d2965"
+    },
+    "ARCHIVE_COPY_ALLOWANCE.a1.json": {
+      "original_root_relative": "ARCHIVE_COPY_ALLOWANCE.a1.json",
+      "bytes": 592,
+      "sha256": "814d429156ee71e8dce826de6a2d1623e331019eeaacd04aa1a004aee4c09ee1"
+    },
+    "ARCHIVE_COPY_JOB_PLAN.a1.json": {
+      "original_root_relative": "ARCHIVE_COPY_JOB_PLAN.a1.json",
+      "bytes": 1342,
+      "sha256": "f250030cd4b5fd9a7e61e6e27b8823b1c719adc85356ceca1a1f6ae63316eea1"
+    },
+    "ARCHIVE_REPLAY_JOB_PLAN.a1.json": {
+      "original_root_relative": "ARCHIVE_REPLAY_JOB_PLAN.a1.json",
+      "bytes": 1962,
+      "sha256": "6e3faf7e4113afe484c5a08bb88b77399439a499e478ab9de3486221da01c60c"
+    },
+    "ARCHIVE_GIT_JOB_PLAN.a1.json": {
+      "original_root_relative": "ARCHIVE_GIT_JOB_PLAN.a1.json",
+      "bytes": 1177,
+      "sha256": "6502dbbf3655848375909f94614b2cf4606f71e01eb1da3665d98e3b128ae0ce"
+    },
+    "tools/verify_staged_archive.py": {
+      "original_root_relative": "tools/verify_staged_archive.py",
+      "bytes": 4543,
+      "sha256": "1d815ae37be60a6bdb3c6fb2cc73fda66c924c0caa61300dcbece7badfbb404d"
+    },
+    "relocation-validation/ANALYSIS_RELOCATED.a1.json": {
+      "original_root_relative": "relocation-closeout/ANALYSIS_RELOCATED.a1.json",
+      "bytes": 6841238,
+      "sha256": "db2e4271d53fc140168352cf70a430d4cfecfe8b939db0ed2d7738477cf387f0"
+    },
+    "relocation-validation/INDEPENDENT_RELOCATED.a1.json": {
+      "original_root_relative": "relocation-closeout/INDEPENDENT_RELOCATED.a1.json",
+      "bytes": 518029,
+      "sha256": "438fb0bdb444d9162f50ceeaeeed330e106304fb6d5f5f48045c231766474636"
+    },
+    "relocation-validation/STAGED_ARCHIVE_GIT_CHECK.a1.json": {
+      "original_root_relative": "relocation-closeout/STAGED_ARCHIVE_GIT_CHECK.a1.json",
+      "bytes": 1179462,
+      "sha256": "d54d2725182a3b967d25feb2d95adc1a885663326873e12c52f459d5fb1e4335"
+    }
+  },
+  "limitations": [
+    "Original main184job ledger has its own fixed cutoff; these additional costs do not rewrite it.",
+    "Archive-map a2 could not access the sandbox systemd bus; worker never ran, raw CPU unavailable and full20CPU reservation conservatively charged. Successful a3 used established bus access.",
+    "Closure audit exit2 intentionally retains disclosed missing historical source versions; copy and replay passes do not close those gaps.",
+    "Review-client and future CI costs are separate from these local numerical/packaging totals.",
+    "This closeout manifest excludes itself."
+  ]
+}

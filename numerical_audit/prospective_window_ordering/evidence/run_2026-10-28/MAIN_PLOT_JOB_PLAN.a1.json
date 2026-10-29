@@ -1,0 +1,30 @@
+{
+  "root": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+  "cwd": "/tmp/qhat-normal-window-2026-10-28/worktree",
+  "jobs": [
+    {
+      "label": "window-main-plots-H-a1",
+      "phase": "packaging",
+      "cpu": 15,
+      "wall": 75,
+      "command": [
+        "/usr/bin/env",
+        "MPLCONFIGDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp/matplotlib-hard-a1",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/plot_main_hard.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "INDEPENDENT_DERIVED_INDEX.main.H.a1.json",
+        "INDEPENDENT_DERIVED_CHECK.main.H.a1.json",
+        "plots/main-hard.a1",
+        "--report-sha256",
+        "438fb0bdb444d9162f50ceeaeeed330e106304fb6d5f5f48045c231766474636",
+        "--checker-source",
+        "tools/independent_derived_check.py"
+      ]
+    }
+  ],
+  "plotter_sha256": "04b8b0557a1d0f7face8625c99207f4b902dae7f07cff366b748e6faa2748eb3",
+  "display_plan_sha256": "4e065653529c52f5c5b5f2255720b10016579debbfe0c78c7f57da7376a55243",
+  "postcutoff_costs_retained": true
+}
