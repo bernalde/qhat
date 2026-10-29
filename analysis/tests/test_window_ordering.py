@@ -23,6 +23,12 @@ from qhat.analysis import window_ordering as window
 from qhat.analysis.train_ordering import main
 
 
+# Numerical parity admits cold Julia startup/JIT. Dedicated watchdog tests
+# exercise deadline enforcement with controlled clocks and real child cleanup.
+JULIA_PARITY_CPU_SECONDS = 60
+JULIA_PARITY_WALL_SECONDS = 240
+
+
 def test_installed_asset_manifest_binds_the_product_target():
     tomllib=pytest.importorskip('tomllib')
     assets=window.asset_path().parent
@@ -595,8 +601,8 @@ def test_real_julia_normal_api_and_native_parity(duration,budget):
     if not julia: pytest.skip('pre-existing Julia binary unavailable')
     blocks=tiny_blocks();parent=(5,3,1,4,2,0)
     result=native.train_ordering(blocks,3,2,time=duration,rotation_budget=budget,
-        starts=[parent],max_moves=0,max_evaluations=300,cpu_seconds=12,method='window',
-        window_options=window.WindowOptions(width=4,parent_method='magnitude',julia_executable=julia,wall_seconds=48))
+        starts=[parent],max_moves=0,max_evaluations=300,cpu_seconds=JULIA_PARITY_CPU_SECONDS,method='window',
+        window_options=window.WindowOptions(width=4,parent_method='magnitude',julia_executable=julia,wall_seconds=JULIA_PARITY_WALL_SECONDS))
     assert result.stats['window_status'] in ('complete','verified_improvement','native_no_resolved_improvement')
     assert result.stats['child_returncode']==0
     context=native.SparseResponse(blocks,3,2,time=duration)
@@ -636,7 +642,7 @@ def test_installed_wheel_normal_cli_and_asset_discovery(tmp_path,witness):
         actual=subprocess.run([sys.executable,'-S','-m','qhat.analysis.train_ordering',str(model_path),
             '--method','window','--window-width','4','--window-parent','magnitude',
             '--time','.37','--rotation-budget','80','--julia-executable',str(julia),
-            '--cpu-seconds','12','--window-wall-seconds','48','--max-evaluations','300'],
+            '--cpu-seconds',str(JULIA_PARITY_CPU_SECONDS),'--window-wall-seconds',str(JULIA_PARITY_WALL_SECONDS),'--max-evaluations','300'],
             cwd=tmp_path,env=env,check=True,capture_output=True,text=True)
         trained=json.loads(actual.stdout)['training']
         assert trained['stats']['window_status'] in ('complete','verified_improvement','native_no_resolved_improvement')
