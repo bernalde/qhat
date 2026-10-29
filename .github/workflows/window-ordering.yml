@@ -49,6 +49,10 @@ jobs:
       PYTHONDONTWRITEBYTECODE: '1'
       QHAT_WINDOW_WHEEL: /tmp/qhat-wheel/qhat-0.1.0-py3-none-any.whl
     steps:
+      - name: Install Git before checkout
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
         with:
