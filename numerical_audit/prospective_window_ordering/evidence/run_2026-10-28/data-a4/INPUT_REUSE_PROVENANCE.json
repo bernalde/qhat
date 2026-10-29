@@ -1,0 +1,47 @@
+{
+  "schema": "prospective-chemistry-reuse-v1",
+  "original_generation_source_commit": "87da247744ed58b7a96759fd8af3a44235b6cb38",
+  "new_execution_source_commit": "03b8f990f3f67ef631e0888f742795454b1c02c4",
+  "original_protocol_sha256": "be8fe8c4bd0bb9cef7cc3fc8f095611f42d88cf87e3a12266be6090cfd8b602d",
+  "original_inventory_sha256": "a78a3ccc822c71a7901a1bbac18e23b2f9476aeae64cf319823d22836c53382e",
+  "new_protocol_sha256": "ced36a69b042dcad3fcc781411a93df9d7eceb14d42461056b4f2212b205b496",
+  "changed_sources": [
+    "analysis/julia_window/README.md",
+    "analysis/julia_window/ResponseCore.jl",
+    "analysis/julia_window/SOURCE.toml",
+    "analysis/julia_window/tests.jl",
+    "analysis/julia_window/worker.jl",
+    "analysis/window_ordering.py",
+    "numerical_audit/prospective_window_ordering/construct_campaign.py",
+    "numerical_audit/prospective_window_ordering/test/test_campaign.py"
+  ],
+  "all_generator_conversion_registry_environment_configuration_sources_unchanged": true,
+  "chemistry_rerun": false,
+  "original_payload_hashes": {
+    "LiH_r1p487_631g_14m4e": {
+      "model.json": "a98914135ae21ade581b480e6ef209f9c0511ba7fe3f2781f6d3968785ab08ee",
+      "model.toml": "8467a7625b67790cea46af821cfa8b88f47fbbcef60f5b620a6a2b3fc1677f5a",
+      "tensors.npz": "8447011e2a1514983f8841a9f0be4982ed5e2d4ef68890203e372b7f62f65d2d",
+      "orbitals.npz": "99122173674fac607720017dafc0ffe0fcb6f182dcaedb223c2fa8a381727921"
+    },
+    "LiH_r2p113_631g_14m4e": {
+      "model.json": "66010f0d6604fe8297b90e1c56a745d02509d17adb1718d28af45348c1a40fc5",
+      "model.toml": "a27930e4fb1afb0964fd13c67432ce9a4fea93ff02d14970def297d610c0a529",
+      "tensors.npz": "bf5d5f86df0258078579a0726d74c327631b551fe1109d57d5962c68df8617f7",
+      "orbitals.npz": "983a0f0f451bd5bdcc43576f0a878daac26872155e2b3ccef212685399d3055f"
+    },
+    "BeH2_r1p369_631g_14m4e": {
+      "model.json": "b1578b5dd6b5d1e571b546f33766b3a152e7dcfa682c6421f87540f22c3a784b",
+      "model.toml": "8d96a0f6d9de7fb1803acaa84c92b0a231e509c6ea52da61359663b77d99ca1d",
+      "tensors.npz": "b3a945082644e2703299cdf7db2ae590fe69c612a427b9dbb3d1a660a307b85c",
+      "orbitals.npz": "c59af1e0a4e8edf708cd7a32739b20cb59a9194f55dd71934414c593b38000f5"
+    },
+    "BeH2_r1p907_631g_14m4e": {
+      "model.json": "a95a7dac3a4cc159d342655b29795a8539200052be1804c4cbf0e4607b75b534",
+      "model.toml": "c484e82f0b4326a46a88e9575e1c6840f36eb2cad599e68320d26175ec22479b",
+      "tensors.npz": "95561267023c81b1698d56443eca7f7b4676d282f453ec62f2b35376e177d1aa",
+      "orbitals.npz": "6cdd876df07e092b6349986cd6899ecb9d9698bfa3aef4fbfa618f7fcc3c959f"
+    }
+  },
+  "reason": "Exact-local v2 deltas/cache and64Mworker before any physical metric values inspected; all failed preflights and original producer retained"
+}

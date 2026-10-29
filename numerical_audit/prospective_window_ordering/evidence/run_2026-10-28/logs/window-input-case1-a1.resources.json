@@ -1,0 +1,116 @@
+{
+  "unit": "fermionic-future-window-input-case1-a1-2812044",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "265",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/generate_inputs.py",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data",
+    "--case",
+    "LiH_r1p487_631g_14m4e"
+  ],
+  "exit_code": 2,
+  "supervisor_exit_code": 2,
+  "elapsed": 21.10231480502989,
+  "samples": [
+    {
+      "elapsed": 0.0013910609995946288,
+      "available_bytes": 24550572032,
+      "frozen": false,
+      "service": "MemoryCurrent=266240\nMemoryPeak=266240\nCPUUsageNSec=184000",
+      "output_bytes": 489830
+    },
+    {
+      "elapsed": 3.050087473995518,
+      "available_bytes": 24479485952,
+      "frozen": false,
+      "service": "MemoryCurrent=168411136\nMemoryPeak=168411136\nCPUUsageNSec=746039000",
+      "output_bytes": 489830
+    },
+    {
+      "elapsed": 6.057036521029659,
+      "available_bytes": 24413401088,
+      "frozen": false,
+      "service": "MemoryCurrent=271814656\nMemoryPeak=271814656\nCPUUsageNSec=1470074000",
+      "output_bytes": 489830
+    },
+    {
+      "elapsed": 9.065117594029289,
+      "available_bytes": 24408723456,
+      "frozen": false,
+      "service": "MemoryCurrent=298938368\nMemoryPeak=298938368\nCPUUsageNSec=2175576000",
+      "output_bytes": 489830
+    },
+    {
+      "elapsed": 12.07235822401708,
+      "available_bytes": 24407199744,
+      "frozen": false,
+      "service": "MemoryCurrent=328433664\nMemoryPeak=328433664\nCPUUsageNSec=2837828000",
+      "output_bytes": 489893
+    },
+    {
+      "elapsed": 15.080335968988948,
+      "available_bytes": 24378187776,
+      "frozen": false,
+      "service": "MemoryCurrent=390164480\nMemoryPeak=390164480\nCPUUsageNSec=3507082000",
+      "output_bytes": 655638
+    },
+    {
+      "elapsed": 18.08695368701592,
+      "available_bytes": 24381177856,
+      "frozen": false,
+      "service": "MemoryCurrent=231796736\nMemoryPeak=410370048\nCPUUsageNSec=4257885000",
+      "output_bytes": 671904
+    }
+  ],
+  "completed_utc": "2026-10-28T18:20:22.341149+00:00",
+  "budget": {
+    "cpu_seconds": 53.0,
+    "wall_seconds": 265,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-input-case1-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 3.71,
+    "system_cpu_seconds": 0.66,
+    "max_rss_kib": 239880.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 4.37,
+    "output_bytes": 673363,
+    "elapsed_seconds": 21.10231480502989,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

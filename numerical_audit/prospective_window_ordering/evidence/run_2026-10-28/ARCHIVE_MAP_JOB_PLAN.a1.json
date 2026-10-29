@@ -1,0 +1,43 @@
+{
+  "root": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+  "cwd": "/tmp/qhat-normal-window-2026-10-28/worktree",
+  "frozen_UTC": "2026-10-29T03:53:20.185200+00:00",
+  "source_sha256": "96247e0255e436edb2bc5794f52d9b0b3d66826cb4341b1d273008b7dce3f0e7",
+  "purpose": "First bounded byte/source closure audit; unbound historical helpers expected as explicit gaps, no completecopy permitted before resolution",
+  "jobs": [
+    {
+      "label": "window-archive-map-a1",
+      "phase": "packaging",
+      "cpu": 20,
+      "wall": 100,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tools/build_archive_map.py",
+        "--r",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28",
+        "--worktree",
+        "/tmp/qhat-normal-window-2026-10-28/worktree",
+        "--cutoff",
+        "2026-10-29T03:53:20.185200+00:00",
+        "--recovered",
+        "runs/integration_2026-10-28/source-closure-recovered-a1",
+        "--output-map",
+        "coordination/PUBLIC_ARCHIVE_COPY_MAP.a1.json",
+        "--worklist",
+        "coordination/normal_curation_v3_candidate/SOURCE_VERSION_KEYS.tsv",
+        "--minimum-jobs",
+        "184",
+        "--git-ref",
+        "c27fcd7337a965b879e41dc094ba8fb0f8b5bd8e",
+        "--git-ref",
+        "722013aa6d9a0a48776e26de5f356b5a441c3f61",
+        "--git-ref",
+        "a45e836458274a4ff2f37477951c2e92eabb218d",
+        "--git-ref",
+        "03b8f990f3f67ef631e0888f742795454b1c02c4",
+        "--git-ref",
+        "24b3bf5388dfd19196e4ef210ba73fa9c574a11e"
+      ]
+    }
+  ]
+}

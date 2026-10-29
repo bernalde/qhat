@@ -1,0 +1,126 @@
+{
+  "unit": "fermionic-future-window-integration-python-a2-2869148",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "200",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/tmp",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/check_product_api_a2.py"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 27.36369959800504,
+  "samples": [
+    {
+      "elapsed": 0.001145576999988407,
+      "available_bytes": 24503701504,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=68000",
+      "output_bytes": 38485387
+    },
+    {
+      "elapsed": 3.0578522389987484,
+      "available_bytes": 24463761408,
+      "frozen": false,
+      "service": "MemoryCurrent=70569984\nMemoryPeak=71847936\nCPUUsageNSec=770764000",
+      "output_bytes": 38509709
+    },
+    {
+      "elapsed": 6.0945802530040964,
+      "available_bytes": 24441823232,
+      "frozen": false,
+      "service": "MemoryCurrent=71434240\nMemoryPeak=72122368\nCPUUsageNSec=1519864000",
+      "output_bytes": 38533508
+    },
+    {
+      "elapsed": 9.13064069399843,
+      "available_bytes": 24457261056,
+      "frozen": false,
+      "service": "MemoryCurrent=71696384\nMemoryPeak=72122368\nCPUUsageNSec=2287519000",
+      "output_bytes": 38533508
+    },
+    {
+      "elapsed": 12.171981973981019,
+      "available_bytes": 24468553728,
+      "frozen": false,
+      "service": "MemoryCurrent=68341760\nMemoryPeak=72122368\nCPUUsageNSec=3043083000",
+      "output_bytes": 38534564
+    },
+    {
+      "elapsed": 15.206784681999125,
+      "available_bytes": 24460943360,
+      "frozen": false,
+      "service": "MemoryCurrent=71684096\nMemoryPeak=72122368\nCPUUsageNSec=3796621000",
+      "output_bytes": 38541460
+    },
+    {
+      "elapsed": 18.25239535100991,
+      "available_bytes": 24409849856,
+      "frozen": false,
+      "service": "MemoryCurrent=71716864\nMemoryPeak=72122368\nCPUUsageNSec=4571356000",
+      "output_bytes": 38541460
+    },
+    {
+      "elapsed": 21.294181770994328,
+      "available_bytes": 24456904704,
+      "frozen": false,
+      "service": "MemoryCurrent=71659520\nMemoryPeak=72122368\nCPUUsageNSec=5319363000",
+      "output_bytes": 38547617
+    },
+    {
+      "elapsed": 24.329649632971268,
+      "available_bytes": 24454529024,
+      "frozen": false,
+      "service": "MemoryCurrent=72650752\nMemoryPeak=113840128\nCPUUsageNSec=6074441000",
+      "output_bytes": 31226951
+    }
+  ],
+  "completed_utc": "2026-10-28T19:41:30.044687+00:00",
+  "budget": {
+    "cpu_seconds": 40.0,
+    "wall_seconds": 200,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/window-integration-python-a2.log",
+  "process_measurements": {
+    "user_cpu_seconds": 5.6,
+    "system_cpu_seconds": 0.5,
+    "max_rss_kib": 71624.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 6.1,
+    "output_bytes": 31228189,
+    "elapsed_seconds": 27.36369959800504,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

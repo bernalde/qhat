@@ -1,0 +1,158 @@
+{
+  "unit": "fermionic-future-window-preflight-objectives-a3-2972995",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "300",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=250M",
+    "numerical_audit/prospective_window_ordering/objective_check.jl",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-data-a3/inputs/LiH_r1p487_631g_14m4e_preflight_7over5/model.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-panel-a3/CANDIDATES.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-objectives-a3.toml"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 36.176757571985945,
+  "samples": [
+    {
+      "elapsed": 0.0011486220173537731,
+      "available_bytes": 24148422656,
+      "frozen": false,
+      "service": "MemoryCurrent=294912\nMemoryPeak=294912\nCPUUsageNSec=68000",
+      "output_bytes": 36404677
+    },
+    {
+      "elapsed": 3.0340810120105743,
+      "available_bytes": 23955042304,
+      "frozen": false,
+      "service": "MemoryCurrent=189427712\nMemoryPeak=189427712\nCPUUsageNSec=776150000",
+      "output_bytes": 36404677
+    },
+    {
+      "elapsed": 6.046418568992522,
+      "available_bytes": 23954419712,
+      "frozen": false,
+      "service": "MemoryCurrent=206635008\nMemoryPeak=206635008\nCPUUsageNSec=1524345000",
+      "output_bytes": 36404677
+    },
+    {
+      "elapsed": 9.061246050987393,
+      "available_bytes": 23985385472,
+      "frozen": false,
+      "service": "MemoryCurrent=175394816\nMemoryPeak=221736960\nCPUUsageNSec=2274742000",
+      "output_bytes": 36404677
+    },
+    {
+      "elapsed": 12.072305131005123,
+      "available_bytes": 23976005632,
+      "frozen": false,
+      "service": "MemoryCurrent=182018048\nMemoryPeak=221736960\nCPUUsageNSec=3026834000",
+      "output_bytes": 36406127
+    },
+    {
+      "elapsed": 15.083886409003753,
+      "available_bytes": 23975260160,
+      "frozen": false,
+      "service": "MemoryCurrent=182472704\nMemoryPeak=221736960\nCPUUsageNSec=3779040000",
+      "output_bytes": 36406127
+    },
+    {
+      "elapsed": 18.096898184041493,
+      "available_bytes": 23985823744,
+      "frozen": false,
+      "service": "MemoryCurrent=186875904\nMemoryPeak=221736960\nCPUUsageNSec=4539289000",
+      "output_bytes": 36406127
+    },
+    {
+      "elapsed": 21.111398278037086,
+      "available_bytes": 23977922560,
+      "frozen": false,
+      "service": "MemoryCurrent=193683456\nMemoryPeak=221736960\nCPUUsageNSec=5299517000",
+      "output_bytes": 36406127
+    },
+    {
+      "elapsed": 24.126746519003063,
+      "available_bytes": 24084037632,
+      "frozen": false,
+      "service": "MemoryCurrent=199110656\nMemoryPeak=221736960\nCPUUsageNSec=6051605000",
+      "output_bytes": 36407709
+    },
+    {
+      "elapsed": 27.138933982001618,
+      "available_bytes": 24075501568,
+      "frozen": false,
+      "service": "MemoryCurrent=248098816\nMemoryPeak=255078400\nCPUUsageNSec=6801113000",
+      "output_bytes": 36425875
+    },
+    {
+      "elapsed": 30.15184158401098,
+      "available_bytes": 24055689216,
+      "frozen": false,
+      "service": "MemoryCurrent=269012992\nMemoryPeak=269012992\nCPUUsageNSec=7551095000",
+      "output_bytes": 36425875
+    },
+    {
+      "elapsed": 33.163895672012586,
+      "available_bytes": 24058703872,
+      "frozen": false,
+      "service": "MemoryCurrent=269213696\nMemoryPeak=269213696\nCPUUsageNSec=8299226000",
+      "output_bytes": 36453075
+    }
+  ],
+  "completed_utc": "2026-10-28T21:29:09.505924+00:00",
+  "budget": {
+    "cpu_seconds": 60.0,
+    "wall_seconds": 300,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-preflight-objectives-a3.log",
+  "process_measurements": {
+    "user_cpu_seconds": 8.23,
+    "system_cpu_seconds": 0.33,
+    "max_rss_kib": 420488.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 8.56,
+    "output_bytes": 36564573,
+    "elapsed_seconds": 36.176757571985945,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

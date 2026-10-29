@@ -1,0 +1,200 @@
+Running as unit: fermionic-future-window-source-allocation-red-a1-3329451.service; invocation ID: 38d3b8acd5724204b1dd220860c4e16e
+.................................................................................................F.....................F                                                                       [100%]
+=================================== FAILURES ===================================
+_ TestAllocationRemainderContract.test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside (cpu=63.7500000005, wall=1.0) _
+
+self = <test_analyze_study.TestAllocationRemainderContract testMethod=test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside>
+
+    def test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside(self):
+        for cpu_cap, wall_cap, cpu, wall in (
+                (63.75+5e-10, 319., 63.75+5e-10, 1.),
+                (63.75, 319.+5e-10, 1., 319.+5e-10)):
+            with self.subTest(cpu=cpu, wall=wall), tempfile.TemporaryDirectory() as tmp:
+                args = self.fixture(Path(tmp), cpu_cap, wall_cap, cpu=cpu, wall=wall, inside=False)
+>               cost = A.panel_costs(*args, CASES[0], 1, {})[("cubic", 1)]
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+numerical_audit/prospective_window_ordering/evidence/tools/test_analyze_study.py:1134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+numerical_audit/prospective_window_ordering/evidence/tools/analyze_study.py:577: in panel_costs
+    require(cpu_cap>0 and wall_cap>0 and cpu_cap<=64-known_cpu and wall_cap<=320-known_wall,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False
+message = 'Constructor retry allocation silently extends the whole-call ceiling'
+
+    def require(condition,message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: Constructor retry allocation silently extends the whole-call ceiling
+
+numerical_audit/prospective_window_ordering/evidence/tools/analyze_study.py:44: ValueError
+_ TestAllocationRemainderContract.test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside (cpu=1.0, wall=319.0000000005) _
+
+self = <test_analyze_study.TestAllocationRemainderContract testMethod=test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside>
+
+    def test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside(self):
+        for cpu_cap, wall_cap, cpu, wall in (
+                (63.75+5e-10, 319., 63.75+5e-10, 1.),
+                (63.75, 319.+5e-10, 1., 319.+5e-10)):
+            with self.subTest(cpu=cpu, wall=wall), tempfile.TemporaryDirectory() as tmp:
+                args = self.fixture(Path(tmp), cpu_cap, wall_cap, cpu=cpu, wall=wall, inside=False)
+>               cost = A.panel_costs(*args, CASES[0], 1, {})[("cubic", 1)]
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+numerical_audit/prospective_window_ordering/evidence/tools/test_analyze_study.py:1134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+numerical_audit/prospective_window_ordering/evidence/tools/analyze_study.py:577: in panel_costs
+    require(cpu_cap>0 and wall_cap>0 and cpu_cap<=64-known_cpu and wall_cap<=320-known_wall,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False
+message = 'Constructor retry allocation silently extends the whole-call ceiling'
+
+    def require(condition,message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: Constructor retry allocation silently extends the whole-call ceiling
+
+numerical_audit/prospective_window_ordering/evidence/tools/analyze_study.py:44: ValueError
+_ TestAllocationRemainderContract.test_single_ulp_above_remainder_is_admitted_as_allocation_rounding _
+
+self = <test_analyze_study.TestAllocationRemainderContract testMethod=test_single_ulp_above_remainder_is_admitted_as_allocation_rounding>
+
+    def test_single_ulp_above_remainder_is_admitted_as_allocation_rounding(self):
+        cpu_cap, wall_cap = math.nextafter(63.75, math.inf), math.nextafter(319., math.inf)
+        self.assertGreater(cpu_cap, 64.-.25)
+        self.assertGreater(wall_cap, 320.-1.)
+        with tempfile.TemporaryDirectory() as tmp:
+>           result = A.panel_costs(*self.fixture(Path(tmp), cpu_cap, wall_cap), CASES[0], 1, {})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+numerical_audit/prospective_window_ordering/evidence/tools/test_analyze_study.py:1117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+numerical_audit/prospective_window_ordering/evidence/tools/analyze_study.py:577: in panel_costs
+    require(cpu_cap>0 and wall_cap>0 and cpu_cap<=64-known_cpu and wall_cap<=320-known_wall,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False
+message = 'Constructor retry allocation silently extends the whole-call ceiling'
+
+    def require(condition,message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: Constructor retry allocation silently extends the whole-call ceiling
+
+numerical_audit/prospective_window_ordering/evidence/tools/analyze_study.py:44: ValueError
+_ LiteralAllocationRemainder.test_actual_measured_cpu_and_wall_ceilings_remain_strict (cpu=63.7500000005, wall=1.0) _
+
+self = <test_independent_derived_check.LiteralAllocationRemainder testMethod=test_actual_measured_cpu_and_wall_ceilings_remain_strict>
+
+    def test_actual_measured_cpu_and_wall_ceilings_remain_strict(self):
+        for cpu_cap,wall_cap,cpu,wall in (
+                (63.75+5e-10,319.,63.75+5e-10,1.),
+                (63.75,319.+5e-10,1.,319.+5e-10)):
+            with self.subTest(cpu=cpu,wall=wall):
+>               cost=D.cost_inventory(*self.fixture(cpu_cap,wall_cap,cpu,wall,inside=False))[("literal-case","cubic",1)]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+numerical_audit/prospective_window_ordering/evidence/tools/test_independent_derived_check.py:281: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+numerical_audit/prospective_window_ordering/evidence/tools/independent_derived_check.py:474: in cost_inventory
+    need(job["plan"]["attempt_CPU_seconds"] <= 64-known_cpu and job["plan"]["attempt_wall_seconds"] <= 320-known_wall, "Retry extends original whole-call caps")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ok = False, message = 'Retry extends original whole-call caps'
+
+    def need(ok, message):
+        if not ok:
+>           raise ValueError(message)
+E           ValueError: Retry extends original whole-call caps
+
+numerical_audit/prospective_window_ordering/evidence/tools/independent_derived_check.py:54: ValueError
+_ LiteralAllocationRemainder.test_actual_measured_cpu_and_wall_ceilings_remain_strict (cpu=1.0, wall=319.0000000005) _
+
+self = <test_independent_derived_check.LiteralAllocationRemainder testMethod=test_actual_measured_cpu_and_wall_ceilings_remain_strict>
+
+    def test_actual_measured_cpu_and_wall_ceilings_remain_strict(self):
+        for cpu_cap,wall_cap,cpu,wall in (
+                (63.75+5e-10,319.,63.75+5e-10,1.),
+                (63.75,319.+5e-10,1.,319.+5e-10)):
+            with self.subTest(cpu=cpu,wall=wall):
+>               cost=D.cost_inventory(*self.fixture(cpu_cap,wall_cap,cpu,wall,inside=False))[("literal-case","cubic",1)]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+numerical_audit/prospective_window_ordering/evidence/tools/test_independent_derived_check.py:281: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+numerical_audit/prospective_window_ordering/evidence/tools/independent_derived_check.py:474: in cost_inventory
+    need(job["plan"]["attempt_CPU_seconds"] <= 64-known_cpu and job["plan"]["attempt_wall_seconds"] <= 320-known_wall, "Retry extends original whole-call caps")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ok = False, message = 'Retry extends original whole-call caps'
+
+    def need(ok, message):
+        if not ok:
+>           raise ValueError(message)
+E           ValueError: Retry extends original whole-call caps
+
+numerical_audit/prospective_window_ordering/evidence/tools/independent_derived_check.py:54: ValueError
+_ LiteralAllocationRemainder.test_single_ulp_remainder_slack_matches_producer_contract _
+
+self = <test_independent_derived_check.LiteralAllocationRemainder testMethod=test_single_ulp_remainder_slack_matches_producer_contract>
+
+    def test_single_ulp_remainder_slack_matches_producer_contract(self):
+        cpu_cap,wall_cap=math.nextafter(63.75,math.inf),math.nextafter(319.,math.inf)
+        self.assertGreater(cpu_cap,64.-.25);self.assertGreater(wall_cap,320.-1.)
+>       costs=D.cost_inventory(*self.fixture(cpu_cap,wall_cap))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+numerical_audit/prospective_window_ordering/evidence/tools/test_independent_derived_check.py:267: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+numerical_audit/prospective_window_ordering/evidence/tools/independent_derived_check.py:474: in cost_inventory
+    need(job["plan"]["attempt_CPU_seconds"] <= 64-known_cpu and job["plan"]["attempt_wall_seconds"] <= 320-known_wall, "Retry extends original whole-call caps")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ok = False, message = 'Retry extends original whole-call caps'
+
+    def need(ok, message):
+        if not ok:
+>           raise ValueError(message)
+E           ValueError: Retry extends original whole-call caps
+
+numerical_audit/prospective_window_ordering/evidence/tools/independent_derived_check.py:54: ValueError
+=========================== short test summary info ============================
+SUBFAILED(cpu=63.7500000005, wall=1.0) numerical_audit/prospective_window_ordering/evidence/tools/test_analyze_study.py::TestAllocationRemainderContract::test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside
+SUBFAILED(cpu=1.0, wall=319.0000000005) numerical_audit/prospective_window_ordering/evidence/tools/test_analyze_study.py::TestAllocationRemainderContract::test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside
+FAILED numerical_audit/prospective_window_ordering/evidence/tools/test_analyze_study.py::TestAllocationRemainderContract::test_single_ulp_above_remainder_is_admitted_as_allocation_rounding
+SUBFAILED(cpu=63.7500000005, wall=1.0) numerical_audit/prospective_window_ordering/evidence/tools/test_independent_derived_check.py::LiteralAllocationRemainder::test_actual_measured_cpu_and_wall_ceilings_remain_strict
+SUBFAILED(cpu=1.0, wall=319.0000000005) numerical_audit/prospective_window_ordering/evidence/tools/test_independent_derived_check.py::LiteralAllocationRemainder::test_actual_measured_cpu_and_wall_ceilings_remain_strict
+FAILED numerical_audit/prospective_window_ordering/evidence/tools/test_independent_derived_check.py::LiteralAllocationRemainder::test_single_ulp_remainder_slack_matches_producer_contract
+6 failed, 118 passed, 166 subtests passed in 10.19s
+Command exited with non-zero status 1
+	Command being timed: "/usr/bin/env PYTHONDONTWRITEBYTECODE=1 /home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python /home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/check_source_review_metadata_a4_red.py"
+	User time (seconds): 2.31
+	System time (seconds): 0.48
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:11.12
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 51368
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 19282
+	Voluntary context switches: 96
+	Involuntary context switches: 115
+	Swaps: 0
+	File system inputs: 2576
+	File system outputs: 34216
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 11.132s
+CPU time consumed: 2.806s
+Memory peak: 55.8M
+Memory swap peak: 0B

@@ -1,0 +1,84 @@
+{
+  "status": "frozen_before_corrected_SCF",
+  "source_commit": "87da247744ed58b7a96759fd8af3a44235b6cb38",
+  "generation_directory": "data-a2",
+  "jobs": [
+    {
+      "case": "LiH_r1p487_631g_14m4e",
+      "label": "window-input-case1-a2",
+      "phase": "identity_inputs",
+      "CPU_seconds": 50,
+      "wall_seconds": 250,
+      "command": [
+        "/usr/bin/env",
+        "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/generate_inputs.py",
+        "--output",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a2",
+        "--case",
+        "LiH_r1p487_631g_14m4e"
+      ]
+    },
+    {
+      "case": "LiH_r2p113_631g_14m4e",
+      "label": "window-input-case2-a1",
+      "phase": "identity_inputs",
+      "CPU_seconds": 50,
+      "wall_seconds": 250,
+      "command": [
+        "/usr/bin/env",
+        "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/generate_inputs.py",
+        "--output",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a2",
+        "--case",
+        "LiH_r2p113_631g_14m4e"
+      ]
+    },
+    {
+      "case": "BeH2_r1p369_631g_14m4e",
+      "label": "window-input-case3-a1",
+      "phase": "identity_inputs",
+      "CPU_seconds": 50,
+      "wall_seconds": 250,
+      "command": [
+        "/usr/bin/env",
+        "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/generate_inputs.py",
+        "--output",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a2",
+        "--case",
+        "BeH2_r1p369_631g_14m4e"
+      ]
+    },
+    {
+      "case": "BeH2_r1p907_631g_14m4e",
+      "label": "window-input-case4-a1",
+      "phase": "identity_inputs",
+      "CPU_seconds": 50,
+      "wall_seconds": 250,
+      "command": [
+        "/usr/bin/env",
+        "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/generate_inputs.py",
+        "--output",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a2",
+        "--case",
+        "BeH2_r1p907_631g_14m4e"
+      ]
+    }
+  ],
+  "finalize_CPU_wall": [
+    5,
+    25
+  ],
+  "resource_envelopes_changed": false,
+  "numerical_settings_changed": false,
+  "case_attempt_caps_reason": "50CPU/250wall each retains margin for alreadychargedmechanicalfailureandsecondsourceprepare insideunchanged240CPU/1200wallinputphase",
+  "old_case1_failure_retained": true,
+  "other_old_plan_calls": "notlaunched, superseded beforecomputation"
+}

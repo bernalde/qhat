@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "assertions": 73,
+  "testsets": [
+    {
+      "testset": "Run-wide objective refusals stop before any second unique checkpoint",
+      "passed": 42,
+      "total": 42
+    },
+    {
+      "testset": "Verified objective prefix survives later global refusal without completion",
+      "passed": 5,
+      "total": 5
+    },
+    {
+      "testset": "Objective unique cap is run-wide and only lower test limits are admitted",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "testset": "Objective checkpoint collisions halt once and preserve original bytes",
+      "passed": 14,
+      "total": 14
+    },
+    {
+      "testset": "Known per-check numerical refusal remains local under the new driver",
+      "passed": 4,
+      "total": 4
+    }
+  ],
+  "log_sha256": "646c31fbbac11e9879a0cec9e3a269245d32c08715c68276f01230c4f73d72b0",
+  "scope": "New driver-only refusal cohort; original1179 unchanged math assertions carried separately"
+}

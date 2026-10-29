@@ -1,0 +1,158 @@
+{
+  "unit": "fermionic-future-window-main-objectives-BeH2-r1p907-631g-14m4e-a1-3407592",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "300",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=250M",
+    "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/objective_check.jl",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/inputs/BeH2_r1p907_631g_14m4e/model.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/BeH2_r1p907_631g_14m4e/CANDIDATES.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-objectives/BeH2_r1p907_631g_14m4e.toml"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 36.327054987021256,
+  "samples": [
+    {
+      "elapsed": 0.001254539005458355,
+      "available_bytes": 14322462720,
+      "frozen": false,
+      "service": "MemoryCurrent=36864\nMemoryPeak=262144\nCPUUsageNSec=80000",
+      "output_bytes": 135596936
+    },
+    {
+      "elapsed": 3.0625476690474898,
+      "available_bytes": 14151643136,
+      "frozen": false,
+      "service": "MemoryCurrent=153317376\nMemoryPeak=153317376\nCPUUsageNSec=778827000",
+      "output_bytes": 135596936
+    },
+    {
+      "elapsed": 6.086407263006549,
+      "available_bytes": 14084075520,
+      "frozen": false,
+      "service": "MemoryCurrent=208850944\nMemoryPeak=208850944\nCPUUsageNSec=1545724000",
+      "output_bytes": 135596936
+    },
+    {
+      "elapsed": 9.10913687403081,
+      "available_bytes": 14111883264,
+      "frozen": false,
+      "service": "MemoryCurrent=204537856\nMemoryPeak=209113088\nCPUUsageNSec=2296638000",
+      "output_bytes": 135596936
+    },
+    {
+      "elapsed": 12.135958610044327,
+      "available_bytes": 14099668992,
+      "frozen": false,
+      "service": "MemoryCurrent=203255808\nMemoryPeak=217907200\nCPUUsageNSec=3047845000",
+      "output_bytes": 135596936
+    },
+    {
+      "elapsed": 15.159401264041662,
+      "available_bytes": 14136643584,
+      "frozen": false,
+      "service": "MemoryCurrent=203563008\nMemoryPeak=217907200\nCPUUsageNSec=3801069000",
+      "output_bytes": 135598394
+    },
+    {
+      "elapsed": 18.185725799005013,
+      "available_bytes": 14127452160,
+      "frozen": false,
+      "service": "MemoryCurrent=203685888\nMemoryPeak=217907200\nCPUUsageNSec=4572062000",
+      "output_bytes": 135598394
+    },
+    {
+      "elapsed": 21.21003009501146,
+      "available_bytes": 14129364992,
+      "frozen": false,
+      "service": "MemoryCurrent=207683584\nMemoryPeak=217907200\nCPUUsageNSec=5322473000",
+      "output_bytes": 135598394
+    },
+    {
+      "elapsed": 24.234457165992353,
+      "available_bytes": 14107729920,
+      "frozen": false,
+      "service": "MemoryCurrent=212692992\nMemoryPeak=217907200\nCPUUsageNSec=6072273000",
+      "output_bytes": 135598394
+    },
+    {
+      "elapsed": 27.256478889030404,
+      "available_bytes": 14083899392,
+      "frozen": false,
+      "service": "MemoryCurrent=212975616\nMemoryPeak=217907200\nCPUUsageNSec=6825313000",
+      "output_bytes": 135599636
+    },
+    {
+      "elapsed": 30.281027015007567,
+      "available_bytes": 14042214400,
+      "frozen": false,
+      "service": "MemoryCurrent=261402624\nMemoryPeak=261402624\nCPUUsageNSec=7597066000",
+      "output_bytes": 135614173
+    },
+    {
+      "elapsed": 33.304467269044835,
+      "available_bytes": 14037692416,
+      "frozen": false,
+      "service": "MemoryCurrent=249479168\nMemoryPeak=265871360\nCPUUsageNSec=8346148000",
+      "output_bytes": 135634954
+    }
+  ],
+  "completed_utc": "2026-10-29T03:10:00.840845+00:00",
+  "budget": {
+    "cpu_seconds": 60.0,
+    "wall_seconds": 300,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-main-objectives-BeH2-r1p907-631g-14m4e-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 8.69,
+    "system_cpu_seconds": 0.21,
+    "max_rss_kib": 415908.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 8.9,
+    "output_bytes": 135739917,
+    "elapsed_seconds": 36.327054987021256,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

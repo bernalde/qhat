@@ -1,0 +1,135 @@
+{
+  "unit": "fermionic-future-window-integration-primary-driver-a1-2745076",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "300",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=250M",
+    "--project=analysis/julia_window",
+    "numerical_audit/prospective_window_ordering/test/driver_tests.jl"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 27.13383383897599,
+  "samples": [
+    {
+      "elapsed": 0.0009707099525257945,
+      "available_bytes": 19019231232,
+      "frozen": false,
+      "service": "MemoryCurrent=32768\nMemoryPeak=262144\nCPUUsageNSec=96000",
+      "output_bytes": 6506287
+    },
+    {
+      "elapsed": 3.0437112579820678,
+      "available_bytes": 18865930240,
+      "frozen": false,
+      "service": "MemoryCurrent=151822336\nMemoryPeak=151822336\nCPUUsageNSec=775744000",
+      "output_bytes": 6506287
+    },
+    {
+      "elapsed": 6.054486757959239,
+      "available_bytes": 18760474624,
+      "frozen": false,
+      "service": "MemoryCurrent=172457984\nMemoryPeak=172457984\nCPUUsageNSec=1523953000",
+      "output_bytes": 6506287
+    },
+    {
+      "elapsed": 9.065151808958035,
+      "available_bytes": 18753503232,
+      "frozen": false,
+      "service": "MemoryCurrent=192425984\nMemoryPeak=194899968\nCPUUsageNSec=2272612000",
+      "output_bytes": 6506287
+    },
+    {
+      "elapsed": 12.075871736975387,
+      "available_bytes": 19223773184,
+      "frozen": false,
+      "service": "MemoryCurrent=193302528\nMemoryPeak=194899968\nCPUUsageNSec=3024714000",
+      "output_bytes": 6506529
+    },
+    {
+      "elapsed": 15.087497795990203,
+      "available_bytes": 19258961920,
+      "frozen": false,
+      "service": "MemoryCurrent=193167360\nMemoryPeak=194899968\nCPUUsageNSec=3772947000",
+      "output_bytes": 6513579
+    },
+    {
+      "elapsed": 18.0995301619987,
+      "available_bytes": 19147943936,
+      "frozen": false,
+      "service": "MemoryCurrent=193888256\nMemoryPeak=194899968\nCPUUsageNSec=4522637000",
+      "output_bytes": 6513579
+    },
+    {
+      "elapsed": 21.110274820995983,
+      "available_bytes": 19153563648,
+      "frozen": false,
+      "service": "MemoryCurrent=239353856\nMemoryPeak=239353856\nCPUUsageNSec=5288244000",
+      "output_bytes": 6513579
+    },
+    {
+      "elapsed": 24.122798742959276,
+      "available_bytes": 19170344960,
+      "frozen": false,
+      "service": "MemoryCurrent=221855744\nMemoryPeak=248754176\nCPUUsageNSec=6047571000",
+      "output_bytes": 7300011
+    }
+  ],
+  "completed_utc": "2026-10-28T16:49:36.538442+00:00",
+  "budget": {
+    "cpu_seconds": 60.0,
+    "wall_seconds": 300,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/window-integration-primary-driver-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 6.36,
+    "system_cpu_seconds": 0.23,
+    "max_rss_kib": 398492.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 6.590000000000001,
+    "output_bytes": 6509302,
+    "elapsed_seconds": 27.13383383897599,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

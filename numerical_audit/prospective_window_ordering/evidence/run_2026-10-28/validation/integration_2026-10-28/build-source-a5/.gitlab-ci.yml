@@ -1,0 +1,107 @@
+# Build QHAT on Darwin.
+
+default:
+  tags:
+    - darwin-slurm-shared
+  id_tokens:
+    SITE_ID_TOKEN:
+      aud: https://lisdi-git.lanl.gov
+
+stages:
+  - build
+  - test
+
+install-deps:
+  stage: build
+  script:
+    - hostname
+    - python3.11 -m venv .venv
+    - source .venv/bin/activate
+    - pip install --upgrade pip
+    - pip install .
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .venv/
+    policy: pull-push
+
+run-hamgen:
+  stage: test
+  script:
+    - hostname
+    - source .venv/bin/activate
+    - cd hamiltonian_generator
+    - python hamgen.py
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .venv/
+    policy: pull
+
+run-analysis-trotter:
+  stage: test
+  script:
+    - hostname
+    - source .venv/bin/activate
+    - module load gcc/13.2.0
+    - cd analysis
+    - python driver.py
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .venv/
+    policy: pull
+
+run-analysis-pauli-lcu:
+  stage: test
+  script:
+    - hostname
+    - source .venv/bin/activate
+    - module load gcc/13.2.0
+    - cd analysis
+    - python driver.py -p method=pauli-lcu
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .venv/
+    policy: pull
+
+run-analysis-dbl-fact:
+  stage: test
+  script:
+    - hostname
+    - source .venv/bin/activate
+    - module load gcc/13.2.0
+    - cd analysis
+    - python driver.py -p method=double-factorization
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .venv/
+    policy: pull
+
+run-common-tests:
+  stage: test
+  script:
+    - hostname
+    - source .venv/bin/activate
+    - cd common
+    - python3.11 -m pytest tests/ -v
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .venv/
+    policy: pull
+
+run-analysis-tests:
+  stage: test
+  script:
+    - hostname
+    - source .venv/bin/activate
+    - cd analysis
+    - python3.11 -m pytest tests/ -v
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .venv/
+    policy: pull

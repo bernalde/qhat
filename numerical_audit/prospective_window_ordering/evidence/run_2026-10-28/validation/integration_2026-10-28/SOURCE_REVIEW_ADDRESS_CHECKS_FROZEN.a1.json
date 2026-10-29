@@ -1,0 +1,31 @@
+{
+  "status": "frozen_before_new_checks",
+  "declared_UTC": "2026-10-29T00:14:07.293075+00:00",
+  "existing_pool_CPU_wall": [
+    240,
+    1200
+  ],
+  "prior_charged_CPU_wall": [
+    188.627087,
+    791.176552354882
+  ],
+  "output_MiB": 128,
+  "sequential_reservations": {
+    "wheel_a5": [
+      5,
+      35
+    ],
+    "full_normal_Julia_address_a1": [
+      20,
+      100
+    ],
+    "installed_API_a5": [
+      30,
+      150
+    ]
+  },
+  "admission": "Before each launch, actual prior all-attempt charges plus proposed cap must fit unchanged pool. Sum of requested maxima is not a new allowance; later jobs stay unperformed if insufficient actual remainder.",
+  "additional_glue_and_independent_tests": "Required where changed; not yet reserved. No borrowing from scientific pools or silent extension.",
+  "source_freeze": "PRODUCT_SOURCE_FREEZE.a8.json",
+  "all_old_attempts_retained": true
+}

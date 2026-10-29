@@ -1,0 +1,24 @@
+{
+  "schema": "prospective-source-continuation-evaluation-allocation-v1",
+  "declared_before_edit_UTC": "2026-10-28T19:43:40.870380+00:00",
+  "failure": "a1 sparseparent used2997/3000;revalidation+finalreserve leaveschild1, which cannot performfirstflatbaseline/trial",
+  "remedy": "Apply existingparent_fraction=.60 to evaluationpool after2nativeverificationreserves;minchild3(parentfullscore,flatbaseline,firsttrial), skipchildwhenN<6; absoluteN3000 unchanged",
+  "formula": "R2 Cmin3; N>=6 parent_cap=min(max(1,floor(f*(N-R))),N-R-Cmin); child=N-actual_parent-R afterparentrevalidation; N<6parentwithinN/nochild",
+  "paths": [
+    "analysis/window_ordering.py",
+    "analysis/tests/test_window_ordering.py",
+    "analysis/julia_window/README.md",
+    "analysis/julia_window/SOURCE.toml"
+  ],
+  "prior_SHA256": {
+    "analysis/window_ordering.py": "a2b36ca5b3dbc521902834eeca0f517fa776523c3f3266cfeb37f332b699d1c7",
+    "analysis/tests/test_window_ordering.py": "9dfe332a87bfda8ff1a50b2ed3cce4fa9916d802b7a9806885048a19ec058280",
+    "analysis/julia_window/README.md": "492ff35f51207cab05d3f66a1bce5635986e98b2eab5a14180afc0c0999ca213",
+    "analysis/julia_window/SOURCE.toml": "eacde80a8e96452bb12f3a860dbf3f3dd4da3d354c1806f6e7adfb4c3b2d1a17"
+  },
+  "numerical_training_geometry_basis_hyperparameters_unchanged": true,
+  "old_attempts_decisions_immutable": true,
+  "physical_errors_computed_or_used": false,
+  "all_cumulative_resource_pools_unchanged": true,
+  "required_evidence": "Realparenthitscap;serializedchildbudgetpermitsfirsttrial;realfinalnativeverify;N0/low/min/default/earlyparent cases;repeat8armpreflightbeforemain"
+}

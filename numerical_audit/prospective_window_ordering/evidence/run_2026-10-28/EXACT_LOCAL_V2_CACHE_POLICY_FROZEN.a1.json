@@ -1,0 +1,13 @@
+{
+  "schema": "exact-local-cache-resource-policy-v2",
+  "declared_before_edit_UTC": "2026-10-28T20:43:58.016350+00:00",
+  "exact_cache_accounted_byte_limit": 67108864,
+  "total_retained_amplitude_entry_limit": 100000,
+  "policy": "Exact-only local cache preferred. Iffloatcache retained, sharedcombinedentrycount. Stopinserting/recompute orrefuse whenbyte/count allowance reached. Accountretainedlimbcapacity (or safeconstantmaximum perentry), object/dictionary/resize overhead conservatively; currentbitlengthalone canunderstate BigIntallocatedcapacity.",
+  "no_global_RAM_guarantee": true,
+  "worker_heap_hint": "64M",
+  "owned_cgroup_preflight_limit_MiB": 400,
+  "hard_memory_max_MiB": 512,
+  "no_swap": true,
+  "all_existing_CPU_wall_limits_unchanged": true
+}

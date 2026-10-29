@@ -1,0 +1,86 @@
+{
+  "schema": "root-bounded-main-stage-plan-v1",
+  "root": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+  "cwd": "/tmp/qhat-normal-window-2026-10-28/worktree",
+  "execution_head": "c27fcd7337a965b879e41dc094ba8fb0f8b5bd8e",
+  "scientific_source_commit": "722013aa6d9a0a48776e26de5f356b5a441c3f61",
+  "main_plan_sha256": "61ac38b3b0fc88a72c51ed760220f4a91406bf294d047ec8cbc4b2a11b62d657",
+  "main_admission_sha256": "525327bd0e052f68d17504d63694eaa1a20c255deaf9819b96348528e6df62af",
+  "all_existing_pools_unchanged": true,
+  "frozen_UTC": "2026-10-29T02:19:49.052114+00:00",
+  "runner_sha256": "0e9e59fd2c99b4455f08764596f4d5177adda241b2c04ba44b823360749c33eb",
+  "conditions": [
+    "Verify2sourceconverged, MAIN_ADMISSION.a1 exists",
+    "All64plannedconstructorattempts have terminal PLAN/FINAL/receipt before freeze",
+    "No mainphysics untilall4PANELs authenticated"
+  ],
+  "jobs": [
+    {
+      "label": "window-main-freeze-a1",
+      "phase": "constructors",
+      "cpu": 5,
+      "wall": 25,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/construct_campaign.py",
+        "freeze",
+        "--root",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1",
+        "--plan",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-plan.a1.json",
+        "--output",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/ALL_ORDERS_FROZEN.main.a1.json",
+        "--attempt-tag",
+        "a1"
+      ]
+    },
+    {
+      "label": "window-main-panel-LiH-r1p487-631g-14m4e-a1",
+      "phase": "constructors",
+      "cpu": 10,
+      "wall": 50,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/panel.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-LiH_r1p487_631g_14m4e.PANEL_INVENTORY.json",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/LiH_r1p487_631g_14m4e"
+      ]
+    },
+    {
+      "label": "window-main-panel-LiH-r2p113-631g-14m4e-a1",
+      "phase": "constructors",
+      "cpu": 10,
+      "wall": 50,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/panel.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-LiH_r2p113_631g_14m4e.PANEL_INVENTORY.json",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/LiH_r2p113_631g_14m4e"
+      ]
+    },
+    {
+      "label": "window-main-panel-BeH2-r1p369-631g-14m4e-a1",
+      "phase": "constructors",
+      "cpu": 10,
+      "wall": 50,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/panel.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-BeH2_r1p369_631g_14m4e.PANEL_INVENTORY.json",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/BeH2_r1p369_631g_14m4e"
+      ]
+    },
+    {
+      "label": "window-main-panel-BeH2-r1p907-631g-14m4e-a1",
+      "phase": "constructors",
+      "cpu": 10,
+      "wall": 50,
+      "command": [
+        "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+        "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/panel.py",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-BeH2_r1p907_631g_14m4e.PANEL_INVENTORY.json",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/main-panel/BeH2_r1p907_631g_14m4e"
+      ]
+    }
+  ]
+}

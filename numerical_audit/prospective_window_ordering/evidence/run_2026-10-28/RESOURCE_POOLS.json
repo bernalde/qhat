@@ -1,0 +1,56 @@
+{
+  "status": "frozen_before_identity_or_molecular_execution",
+  "phases": {
+    "identity_inputs": {
+      "CPU_seconds": 240,
+      "wall_seconds": 1200
+    },
+    "preflight": {
+      "CPU_seconds": 900,
+      "wall_seconds": 4500
+    },
+    "constructors": {
+      "CPU_seconds": 5200,
+      "wall_seconds": 26000
+    },
+    "physical": {
+      "CPU_seconds": 4800,
+      "wall_seconds": 24000
+    },
+    "independent": {
+      "CPU_seconds": 2000,
+      "wall_seconds": 10000
+    },
+    "packaging": {
+      "CPU_seconds": 120,
+      "wall_seconds": 600
+    }
+  },
+  "output_MiB": 256,
+  "guard": {
+    "path": "/tmp/qhat-julia-ordering-publication-2026-10-28/worktree/numerical_audit/julia_cubic_feasibility/tools/resource_guard.py",
+    "sha256": "efb04bb911001afe178c9627047f68146fa41da54bfdfe86a971f92e5f2ca70b"
+  },
+  "existing_integration_pool": {
+    "CPU_seconds": 240,
+    "wall_seconds": 1200,
+    "separate_existing_ledger": "runs/integration_2026-10-28",
+    "reset": false
+  },
+  "combined_envelopes_CPU_wall": [
+    13500,
+    67500
+  ],
+  "resource_profile": {
+    "CPUQuota": "25%",
+    "MemoryHigh_MiB": 448,
+    "MemoryMax_MiB": 512,
+    "swap": 0,
+    "threads": 1,
+    "start_resume_available_GiB": 5.5,
+    "freeze_owned_worker_below_GiB": 5
+  },
+  "source_freeze_expected_sha256": "7821141ab10fa1f2cacdb5483f288558228890a68edd7b74b62686f4f91a406a",
+  "conditions": "All scientific sources committed before input prepare. Exact source/config/environment/basis recorded in DATA/INPUT_PROTOCOL_FROZEN.json. Source deltas require explicit versioned continuation; no silent retune/budget reset. Main requires successful resource-only altered-input preflight.",
+  "frozen_UTC": "2026-10-28T17:41:18.583099+00:00"
+}

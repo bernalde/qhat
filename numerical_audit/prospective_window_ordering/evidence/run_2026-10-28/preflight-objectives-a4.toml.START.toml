@@ -1,0 +1,23 @@
+absolute_tolerance = 1.0e-24
+all_scored_objectives_verified = false
+candidates_file = "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-panel-a4/CANDIDATES.toml"
+checks = []
+complete = false
+input_file = "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-data-a4/inputs/LiH_r1p487_631g_14m4e_preflight_7over5/model.toml"
+logical_rows = []
+new_physical_propagation = false
+numerical_comparison_only = true
+relative_tolerance = 1.0e-8
+schema = "prospective-window-objective-check-v1"
+scope = "Every supplied scored witness, deduplicated by exact partition/order/kind/score; unscored and floor/refused checks retained. No physical/interval/optimality certificate."
+status = "incomplete"
+training_budget_multiplier = 30
+training_time = 1.0
+unique_limit = 256
+
+[source_hashes]
+"../../analysis/sparse_response_ordering.py" = "022b634c74597a9443aae8d888969abbd658ef8f0c5864c9e20146798df94013"
+"../julia_cubic_feasibility/src/ResponseCore.jl" = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
+"../scalable_ordering/training.py" = "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+"objective_check.jl" = "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0"
+"src/WindowStudyIO.jl" = "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77"

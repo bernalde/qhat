@@ -1,0 +1,286 @@
+absolute_tolerance = 1.0e-24
+all_scored_objectives_verified = false
+candidates_file = "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-panel-a5/CANDIDATES.toml"
+candidates_sha256 = "66b2f3ca1f86c7ad60f454815b74dbecc8da08c409faa506b65e65c962791ec6"
+case = "LiH_r1p487_631g_14m4e_preflight_7over5"
+complete = false
+expected_logical_rows = 44
+hf = "15"
+input_file = "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/preflight-data-a5/inputs/LiH_r1p487_631g_14m4e_preflight_7over5/model.toml"
+input_sha256 = "4d8de9556b72dd76468869e9fb15cd47a8c866aeb45bd12ca4db22fe7a61f9c4"
+n = 14
+new_physical_propagation = false
+numerical_comparison_only = true
+original_words = 1289
+relative_tolerance = 1.0e-8
+schema = "prospective-window-objective-check-v1"
+scope = "Every supplied scored witness, deduplicated by exact partition/order/kind/score; unscored and floor/refused checks retained. No physical/interval/optimality certificate."
+status = "incomplete"
+training_budget_multiplier = 30
+training_rotation_budget = 38670
+training_time = 1.0
+unique_limit = 256
+
+[[checks]]
+absolute_difference = 4.0657581468206416e-20
+check_index = 1
+constructor_score = 0.00010965046372047048
+numerical_floor = false
+objective_sha256 = "fcc201d55fc554543e58f57dfe195fde564cc1dbf800fc53008bc2f8ef08a298"
+order = [11, 100, 91, 78, 60, 68, 12, 24, 25, 59, 69, 71, 86, 54, 62, 56, 64, 30, 42, 95, 73, 79, 53, 63, 55, 65, 72, 80, 193, 237, 141, 16, 3, 99, 81, 92, 66, 57, 74, 87, 98, 161, 4, 17, 97, 101, 75, 88, 58, 67, 82, 93, 102, 144, 167, 189, 229, 208, 259, 106, 107, 109, 113, 190, 231, 110, 39, 38, 33, 35, 32, 34, 115, 61, 49, 50, 43, 45, 44, 46, 31, 41, 140, 13, 6, 5, 47, 8, 10, 7, 9, 36, 159, 15, 26, 27, 18, 19, 37, 20, 22, 21, 23, 48, 277, 181, 28, 40, 129, 138, 286, 188, 187, 150, 96, 166, 223, 256, 279, 278, 269, 83, 94, 76, 84, 89, 108, 282, 285, 139, 186, 124, 77, 133, 90, 155, 174, 158, 177, 120, 51, 154, 173, 157, 176, 126, 128, 135, 137, 212, 265, 207, 247, 204, 244, 196, 233, 225, 258, 224, 257, 274, 276, 209, 2, 261, 111, 114, 191, 230, 183, 185, 117, 14, 218, 251, 214, 263, 194, 52, 239, 206, 246, 203, 243, 215, 248, 105, 281, 284, 195, 238, 272, 103, 217, 29, 104, 249, 220, 255, 222, 253, 179, 180, 210, 260, 201, 241, 178, 143, 162, 145, 169, 211, 264, 112, 116, 147, 163, 1, 219, 254, 148, 165, 226, 266, 273, 275, 228, 268, 280, 283, 149, 164, 152, 171, 125, 127, 134, 136, 122, 123, 131, 132, 198, 234, 200, 240, 192, 232, 227, 267, 213, 262, 270, 271, 146, 168, 153, 172, 156, 175, 142, 160, 197, 235, 221, 252, 118, 119, 121, 70, 130, 85, 151, 170, 202, 242, 205, 245, 216, 250, 199, 236, 182, 184]
+partition = "conserving"
+relative_difference = 3.7079260851877376e-16
+replayed_score = 0.00010965046372047044
+score_kind = "retained_first_order_response"
+status = "verified"
+steps = "not_used"
+tolerance = 1.096504637205705e-12
+verified = true
+within_tolerance = true
+
+    [checks.details]
+    destinations = 122
+    nonzero_pairs = 5154
+    pair_events = 40755
+    r_normalized = false
+    scope = "Exact-integer projected ordered pair action, independently rounded T=1 diagonal sinc norm; unit-modulus phase cancels in norm; NO r normalization"
+
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 1
+formula = 1
+name = "canonical_r1_f1_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 2
+formula = 1
+name = "canonical_r1_f1_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 3
+formula = 1
+name = "canonical_r1_f1_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 4
+formula = 1
+name = "canonical_r1_f1_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 5
+formula = 2
+name = "canonical_r1_f2_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 6
+formula = 2
+name = "canonical_r1_f2_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 8
+candidate_index = 7
+formula = 2
+name = "canonical_r1_f2_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "canonical"
+budget_multiplier = 24
+candidate_index = 8
+formula = 2
+name = "canonical_r1_f2_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 8
+candidate_index = 9
+formula = 2
+name = "magnitude_r1_f2_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 24
+candidate_index = 10
+formula = 2
+name = "magnitude_r1_f2_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 8
+candidate_index = 11
+formula = 2
+name = "magnitude_r1_f2_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "magnitude"
+budget_multiplier = 24
+candidate_index = 12
+formula = 2
+name = "magnitude_r1_f2_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 13
+formula = 1
+name = "current_r1_f1_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 14
+formula = 1
+name = "current_r1_f1_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 15
+formula = 1
+name = "current_r1_f1_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 16
+formula = 1
+name = "current_r1_f1_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 17
+formula = 2
+name = "current_r1_f2_t0.4_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 18
+formula = 2
+name = "current_r1_f2_t0.4_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 0.4
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 8
+candidate_index = 19
+formula = 2
+name = "current_r1_f2_t1.6_b8"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "current"
+budget_multiplier = 24
+candidate_index = 20
+formula = 2
+name = "current_r1_f2_t1.6_b24"
+partition = "conserving"
+reason = "No numeric constructor objective was supplied"
+repetition = 1
+status = "unscored_censored"
+time = 1.6
+[[logical_rows]]
+arm = "first"
+budget_multiplier = 8
+candidate_index = 21
+check_index = 1
+deduplicated = false
+formula = 1
+name = "first_r1_f1_t0.4_b8"
+partition = "conserving"
+repetition = 1
+status = "verified"
+time = 0.4
+
+[source_hashes]
+"../../analysis/sparse_response_ordering.py" = "022b634c74597a9443aae8d888969abbd658ef8f0c5864c9e20146798df94013"
+"../julia_cubic_feasibility/src/ResponseCore.jl" = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
+"../scalable_ordering/training.py" = "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+"objective_check.jl" = "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0"
+"src/WindowStudyIO.jl" = "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77"

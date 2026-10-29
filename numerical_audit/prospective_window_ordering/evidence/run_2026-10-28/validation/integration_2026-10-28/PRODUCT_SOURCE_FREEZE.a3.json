@@ -1,0 +1,36 @@
+{
+  "base": "24b3bf5388dfd19196e4ef210ba73fa9c574a11e",
+  "source_hashes": {
+    "analysis/window_ordering.py": "e8b059402fd6cf8277c338e0c76537f5674582fe719ab5d3f39578b34f9aac50",
+    "analysis/sparse_response_ordering.py": "52c6c095a752e9505c88fbb3d22db7201d2f0dd06b32f239114361be83bef421",
+    "analysis/strang_schedule.py": "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a",
+    "analysis/train_ordering.py": "56b2aa6eaf7637ff57d476db0c85478902089fb3dcb31ec1d109ee960e108abd",
+    "analysis/RESPONSE_ORDERING.md": "0c2b0a01074956fb6afc15d63b5275ec83ad673edbf9e6ce46d482f7a7d4b98e",
+    "analysis/tests/test_window_ordering.py": "fcd3d32996ee1fea3484c178f679d3e9f2782d7afd5b9c1072c392c7daf04e70",
+    "analysis/tests/test_sparse_response_ordering.py": "8a1ab3e8e63f6f92f89eb3c876ca4d89b9eb17bbd81bc73c1ece8d7fac6a76f6",
+    "analysis/tests/test_train_ordering_cli.py": "baeb300a2ea085a150e81a41430454753814042b9fa6a807795fd09a3914f33f",
+    "analysis/tests/test_sparse_ordering_updates.py": "eecf14c54b46b9c2d604eb585bf13efc4939e824a0f28aaf8ce880b4b6f876e9",
+    "analysis/tests/test_response_resolution.py": "d53341644615ba9e2786c69bc4b28ca2fcfede49523bc8e71a20c6ae8a8e32c0",
+    "pyproject.toml": "957d4a0dd5557d9ce4c36c0941482a4b7c3fec12dbbe6f37cf7aaca9976fffdd",
+    ".github/workflows/window-ordering.yml": "a2c841dd47c4ab7ee47b5b5adb1ac5d2bf017da81439221281203a9e900da05b",
+    "analysis/julia_window/Project.toml": "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d",
+    "analysis/julia_window/README.md": "69c2f8be207bd6dc7fca2918ba1cf25f9dca6ace0c7e19585ad5fedf1490cc95",
+    "analysis/julia_window/ResponseCore.jl": "8207a5496f5510cafa7aac6bd4eac337be07a8d64a7dbfdd1d5121a9dc51e80e",
+    "analysis/julia_window/SOURCE.toml": "7fa93a91f44da5f6a395ca443b6aff0cd80533aee88ee9e6c371fd9ecc7f75b2",
+    "analysis/julia_window/WindowSearch.jl": "bd6678e05077d2f6e33a72f9b23c6df24a456b7aa8c04053efc0d57e74232532",
+    "analysis/julia_window/tests.jl": "d14bfb1f41578a692461dc15f93188a32f998db2690897b10907127414b09c76",
+    "analysis/julia_window/worker.jl": "30915f35e079e8335bd8fd08242cb98f549fb9e5b2fd4ca9c86764f5be484e1a",
+    "analysis/tests/conftest.py": "9d088a4f71aab198e5554f83836bf124233c97a84aed02c21c9f106c94b63d44",
+    "numerical_audit/prospective_window_ordering/test/test_contracts.py": "8dc4bf5aaec6850db74b13e659cd3e8eb5ca7644ae47f5ba4310c125109ffb3c",
+    "numerical_audit/prospective_window_ordering/study_common.py": "76295f9c25aec054037b855e6f8fd40f45590b8c46b00cedd3d632c8fd9b0a0e",
+    "numerical_audit/scalable_ordering/common.py": "44d223e5bf6ce4706b11b4bdd9630b730d0c0631fcb6a5d2eed98aada2a8279b",
+    "numerical_audit/scalable_ordering/training.py": "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+  },
+  "scope": "Installed product and unchanged native regressions, plus rootserialization/retained-control import contracts. Independent checker authoring and bound source outside these executable dependencies.",
+  "attempt": "window-integration-python-a1",
+  "caps_CPU_wall": [
+    100,
+    500
+  ],
+  "delta": "CI-only: addNumPy/SciPy neededby retaineddense tests and matchtested250M heap hint; runtime/test/sourceassets unchanged."
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "prospective-source-continuation-addendum-v1",
+  "declared_before_edit_UTC": "2026-10-28T19:33:19.164153+00:00",
+  "reason": "Original sparse window cgroup peak448.25MiB exceeds frozen400MiB feasibility gate; owned Julia worker currently has no heap-size hint",
+  "repair": "Pass fixed250M Julia heap-size hint and check actual launch contract; no hard-memory/CPU cap or numerical setting change; new fullpreflight still must meet400MiB",
+  "paths": [
+    "analysis/window_ordering.py",
+    "analysis/tests/test_window_ordering.py"
+  ],
+  "prior_SHA256": {
+    "analysis/window_ordering.py": "e8b059402fd6cf8277c338e0c76537f5674582fe719ab5d3f39578b34f9aac50",
+    "analysis/tests/test_window_ordering.py": "fcd3d32996ee1fea3484c178f679d3e9f2782d7afd5b9c1072c392c7daf04e70"
+  },
+  "old_evidence_immutable": true,
+  "all_cumulative_pools_unchanged": true,
+  "physical_quality_computed": false
+}

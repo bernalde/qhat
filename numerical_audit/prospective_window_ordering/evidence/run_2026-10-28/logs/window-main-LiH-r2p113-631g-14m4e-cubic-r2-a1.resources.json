@@ -1,0 +1,118 @@
+{
+  "unit": "fermionic-future-window-main-LiH-r2p113-631g-14m4e-cubic-r2-a1-3364810",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "320",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/constructors.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/inputs/LiH_r2p113_631g_14m4e/model.json",
+    "66010f0d6604fe8297b90e1c56a745d02509d17adb1718d28af45348c1a40fc5",
+    "cubic",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/constructors-main/LiH_r2p113_631g_14m4e/r2/cubic.a1.json",
+    "--repetition",
+    "2",
+    "--julia-executable",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--source-freeze",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/INPUT_PROTOCOL_FROZEN.json"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 18.15334273298504,
+  "samples": [
+    {
+      "elapsed": 0.0009316480136476457,
+      "available_bytes": 15799554048,
+      "frozen": false,
+      "service": "MemoryCurrent=32768\nMemoryPeak=262144\nCPUUsageNSec=76000",
+      "output_bytes": 95036524
+    },
+    {
+      "elapsed": 3.052814898022916,
+      "available_bytes": 15752077312,
+      "frozen": false,
+      "service": "MemoryCurrent=42475520\nMemoryPeak=43151360\nCPUUsageNSec=770851000",
+      "output_bytes": 95036524
+    },
+    {
+      "elapsed": 6.074223857023753,
+      "available_bytes": 15753347072,
+      "frozen": false,
+      "service": "MemoryCurrent=49852416\nMemoryPeak=49852416\nCPUUsageNSec=1539847000",
+      "output_bytes": 95036524
+    },
+    {
+      "elapsed": 9.092150748008862,
+      "available_bytes": 15749926912,
+      "frozen": false,
+      "service": "MemoryCurrent=49852416\nMemoryPeak=49852416\nCPUUsageNSec=2295981000",
+      "output_bytes": 95036524
+    },
+    {
+      "elapsed": 12.112117119017057,
+      "available_bytes": 15745036288,
+      "frozen": false,
+      "service": "MemoryCurrent=49598464\nMemoryPeak=49852416\nCPUUsageNSec=3045883000",
+      "output_bytes": 95036524
+    },
+    {
+      "elapsed": 15.133924289024435,
+      "available_bytes": 15301812224,
+      "frozen": false,
+      "service": "MemoryCurrent=49598464\nMemoryPeak=49852416\nCPUUsageNSec=3794854000",
+      "output_bytes": 95037479
+    }
+  ],
+  "completed_utc": "2026-10-29T02:35:08.378709+00:00",
+  "budget": {
+    "cpu_seconds": 64.0,
+    "wall_seconds": 320,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-main-LiH-r2p113-631g-14m4e-cubic-r2-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 3.85,
+    "system_cpu_seconds": 0.53,
+    "max_rss_kib": 65272.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 4.38,
+    "output_bytes": 95046409,
+    "elapsed_seconds": 18.15334273298504,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

@@ -1,0 +1,20 @@
+version = 1
+authority = "installed qhat.analysis/julia_window assets"
+base_commit = "24b3bf5388dfd19196e4ef210ba73fa9c574a11e"
+ancestor_core = "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl"
+ancestor_core_sha256 = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
+ancestor_search = "numerical_audit/julia_cubic_feasibility/src/WindowSearch.jl"
+ancestor_search_sha256 = "ad8d4b80bd34b8ea078726bfc4f648ff2d4e5c68f3ff225bf883a3b3c8ce500c"
+aggregation = "exact_real_deltas_before_transport_v2"
+local_cache_accounted_byte_limit = 67108864
+local_cache_entry_limit = 100000
+local_cache_policy = "exact-only amplitudes plus kernels; allocated limb capacity; noinsert/recompute"
+certificate = "none; heuristic proposals require full Taylor and native verification"
+
+[files]
+"ResponseCore.jl" = "19eccecba10052461cc152140419ef8355168c4bfc557f0907ec61ec00c7c1cc"
+"WindowSearch.jl" = "5a6f1f4f8c43ecd953c6c002b390a5e50a7a0a7d53c113aa8d45725fc0fc71e1"
+"worker.jl" = "6f525a2f61a90f8f8ceed70ba331cb90df371d9a705245253bd785626cce0e84"
+"tests.jl" = "537b62ab5990034911c9635544310081f5afa3281dcc1b4cc3d1dea583525242"
+"Project.toml" = "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d"
+"README.md" = "43ff82279a30094815f8548a0d113345f1dcc98ea48c9f9c0a2af265016cc40b"

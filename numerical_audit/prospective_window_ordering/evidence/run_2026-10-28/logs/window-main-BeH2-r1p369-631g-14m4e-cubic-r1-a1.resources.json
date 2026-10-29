@@ -1,0 +1,104 @@
+{
+  "unit": "fermionic-future-window-main-BeH2-r1p369-631g-14m4e-cubic-r1-a1-3366349",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "320",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/tmp",
+    "JULIA_NUM_THREADS=1",
+    "JULIA_NUM_GC_THREADS=1",
+    "JULIA_PKG_OFFLINE=true",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-normal-window-2026-10-28/worktree/numerical_audit/prospective_window_ordering/constructors.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/inputs/BeH2_r1p369_631g_14m4e/model.json",
+    "b1578b5dd6b5d1e571b546f33766b3a152e7dcfa682c6421f87540f22c3a784b",
+    "cubic",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/constructors-main/BeH2_r1p369_631g_14m4e/r1/cubic.a1.json",
+    "--repetition",
+    "1",
+    "--julia-executable",
+    "/home/bernalde/.julia/juliaup/julia-1.10.11+0.x64.linux.gnu/bin/julia",
+    "--source-freeze",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/data-a6/INPUT_PROTOCOL_FROZEN.json"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 12.083914040995296,
+  "samples": [
+    {
+      "elapsed": 0.0010400809696875513,
+      "available_bytes": 14654398464,
+      "frozen": false,
+      "service": "MemoryCurrent=[not set]\nMemoryPeak=[not set]\nCPUUsageNSec=[not set]",
+      "output_bytes": 95216880
+    },
+    {
+      "elapsed": 3.0216022249660455,
+      "available_bytes": 14622904320,
+      "frozen": false,
+      "service": "MemoryCurrent=29212672\nMemoryPeak=29470720\nCPUUsageNSec=774034000",
+      "output_bytes": 95216880
+    },
+    {
+      "elapsed": 6.0431107099866495,
+      "available_bytes": 14621024256,
+      "frozen": false,
+      "service": "MemoryCurrent=29212672\nMemoryPeak=29470720\nCPUUsageNSec=1524030000",
+      "output_bytes": 95216880
+    },
+    {
+      "elapsed": 9.066399201983586,
+      "available_bytes": 14555602944,
+      "frozen": false,
+      "service": "MemoryCurrent=29212672\nMemoryPeak=29470720\nCPUUsageNSec=2274003000",
+      "output_bytes": 95216880
+    }
+  ],
+  "completed_utc": "2026-10-29T02:36:04.268727+00:00",
+  "budget": {
+    "cpu_seconds": 64.0,
+    "wall_seconds": 320,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/prospective_window_ordering_2026-10-28/a1/logs/window-main-BeH2-r1p369-631g-14m4e-cubic-r1-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 2.08,
+    "system_cpu_seconds": 0.32,
+    "max_rss_kib": 45512.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 2.4,
+    "output_bytes": 95224210,
+    "elapsed_seconds": 12.083914040995296,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

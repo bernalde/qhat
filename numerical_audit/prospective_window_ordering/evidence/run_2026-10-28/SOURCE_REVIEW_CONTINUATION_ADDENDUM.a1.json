@@ -1,0 +1,16 @@
+{
+  "schema": "prospective-source-review-continuation-addendum-v1",
+  "declared_before_edit_UTC": "2026-10-29T00:36:30.408505+00:00",
+  "base_declaration": "SOURCE_REVIEW_CONTINUATION_PLAN.a1.json",
+  "additional_allowed_changed_scientific_paths": [
+    "numerical_audit/prospective_window_ordering/preflight.py",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py"
+  ],
+  "prior_SHA256": {
+    "numerical_audit/prospective_window_ordering/preflight.py": "9012631a324408d79a3e2bdf71afed16f02961c47df738a3bb1cc0f04d20220b",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py": "82054d96a161a21fa83b7d453d959486fb93164deec98b3eb974cd18f03b8123"
+  },
+  "reason": "Real preflight producer omitted parent tensor/orbital provenance fields required by corrected S3 consumer; preserve parent links in the exact7/5 derived model and add real producer/consumer regression. No coefficients/geometry/selection/caps change.",
+  "physical_quality_inspected": false,
+  "all_old_artifacts_immutable": true
+}

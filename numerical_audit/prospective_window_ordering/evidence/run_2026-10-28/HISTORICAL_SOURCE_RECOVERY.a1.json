@@ -1,0 +1,60 @@
+{
+  "schema": "exact-historical-source-recovery-public-v1",
+  "status": "partial_exact_seven",
+  "source_claim_complete": false,
+  "files": [
+    {
+      "logical_path": "numerical_audit/prospective_window_ordering/study_common.py",
+      "sha256": "76295f9c25aec054037b855e6f8fd40f45590b8c46b00cedd3d632c8fd9b0a0e",
+      "bytes": 9408,
+      "kind": "exact_source_patch_payload",
+      "execution_status": "not_assumed"
+    },
+    {
+      "logical_path": "numerical_audit/prospective_window_ordering/test/driver_tests.jl",
+      "sha256": "a489842ac015c8aadafdc423f56fa19e77354c1f6da75c43c16414a65bbb0520",
+      "bytes": 2149,
+      "kind": "exact_source_patch_payload",
+      "execution_status": "not_assumed"
+    },
+    {
+      "logical_path": "numerical_audit/prospective_window_ordering/constructors.py",
+      "sha256": "574494363f7459ec839b561b6703f06d5c0846fa81867d9f52c4c7c4de3ffc9a",
+      "bytes": 8175,
+      "kind": "exact_source_patch_payload",
+      "execution_status": "not_assumed"
+    },
+    {
+      "logical_path": "numerical_audit/prospective_window_ordering/construct_campaign.py",
+      "sha256": "a18bbea8d7c442a933eb5cd63406664969f5655573bb141e331ef44cffb19bcd",
+      "bytes": 7442,
+      "kind": "exact_source_patch_payload",
+      "execution_status": "not_assumed"
+    },
+    {
+      "logical_path": "numerical_audit/prospective_window_ordering/test/test_campaign.py",
+      "sha256": "03650179038234209d6175ee5f38427b38b27cc4e9ae654e43bf447f1d78f274",
+      "bytes": 3437,
+      "kind": "exact_source_patch_payload",
+      "execution_status": "not_assumed"
+    },
+    {
+      "logical_path": "numerical_audit/prospective_window_ordering/test/test_panel.py",
+      "sha256": "82ef1d4eccbbd20ffdd1e1832ba4ace54e8aa446720959e26d337801e8bae81f",
+      "bytes": 37622,
+      "kind": "exact_retained_candidate_bytes"
+    },
+    {
+      "logical_path": "numerical_audit/prospective_window_ordering/generate_inputs.py",
+      "sha256": "8cadf36d3744369fd3fabef46c7f59b04da2aaeb51e5dd310e2c567c48ca8a12",
+      "bytes": 10341,
+      "kind": "exact_source_read_stdout"
+    }
+  ],
+  "remaining": [
+    ".github/workflows/window-ordering.yml",
+    "numerical_audit/prospective_window_ordering/panel.py",
+    "numerical_audit/prospective_window_ordering/test/test_panel.py SHA3b399"
+  ],
+  "scope": "Exact matching source bytes only; patch/read provenance does not establish execution. Original declarations retained, no raw history or task records published."
+}

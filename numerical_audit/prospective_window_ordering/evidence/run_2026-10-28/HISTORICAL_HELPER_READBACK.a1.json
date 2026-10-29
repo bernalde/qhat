@@ -1,0 +1,302 @@
+{
+  "schema": "historical-helper-source-readback-v1",
+  "recorded_UTC": "2026-10-29T04:03:08.986264+00:00",
+  "scope": "Sources for historical validation/build/resource diagnostic wrappers. The scientific43/product19 snapshots and full main numerical audit are separately hash-bound.",
+  "limitation": "These16 wrappers lacked an original helper-hash field in their retained execution records. The provided exact current bytes have mtime/ctime predating all explicit/estimated execution starts; receipt-derived starts are estimates. This is retrospective provenance, not cryptographic proof of runtime bytes or a newly frozen historical record.",
+  "bindings": [
+    {
+      "source": "coordination/exact_action_probe.jl",
+      "sha256": "aca0d04495024f7de17bc76ce0872bb10d3b8dabbe44e790fa1589f55efe970a",
+      "bytes": 501,
+      "mtime_UTC": "2026-10-28T19:31:26.376877+00:00",
+      "ctime_UTC": "2026-10-28T19:31:26.376877+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-exact-action-green-a1.resources.json",
+        "runs/integration_2026-10-28/logs/window-exact-action-red-a1.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-exact-action-green-a1.resources.json",
+          "start_UTC": "2026-10-28T19:39:13.240251+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        },
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-exact-action-red-a1.resources.json",
+          "start_UTC": "2026-10-28T19:31:26.460658+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/check_product_api.py",
+      "sha256": "aacc2b2821710df43e4d35fd834bfe9522e2e2577d984a755ee08d50f5faf134",
+      "bytes": 2537,
+      "mtime_UTC": "2026-10-28T16:22:26.435543+00:00",
+      "ctime_UTC": "2026-10-28T16:22:26.435543+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-python-a1.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-python-a1.resources.json",
+          "start_UTC": "2026-10-28T16:22:28.794176+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/check_product_api_a2.py",
+      "sha256": "ada343f5036f5f32a7d458d10671e7356a5a9c48b87ede8a371daf089aa632c8",
+      "bytes": 2537,
+      "mtime_UTC": "2026-10-28T19:40:26.114878+00:00",
+      "ctime_UTC": "2026-10-28T19:40:26.114878+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-python-a2.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-python-a2.resources.json",
+          "start_UTC": "2026-10-28T19:41:02.680987+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/check_product_api_a3.py",
+      "sha256": "a948ee6d2f724e2799c6f432fc6fb6280fad0626dd02ee96046ea3bc29a24b61",
+      "bytes": 2543,
+      "mtime_UTC": "2026-10-28T19:52:35.684789+00:00",
+      "ctime_UTC": "2026-10-28T19:52:35.684789+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-python-a3.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-python-a3.resources.json",
+          "start_UTC": "2026-10-28T19:52:54.045374+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/check_product_api_a4.py",
+      "sha256": "80347322eab6a088b72acbcb5b7542513315f753912609bc349c5750df5fd3d8",
+      "bytes": 2543,
+      "mtime_UTC": "2026-10-28T20:55:07.518123+00:00",
+      "ctime_UTC": "2026-10-28T20:55:07.518123+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-python-a4.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-python-a4.resources.json",
+          "start_UTC": "2026-10-28T21:08:18.890904+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/build_product_wheel.py",
+      "sha256": "42a400da055ef11a2a319e2da4750e0a1d6349512f55483d9de2dcd63f386504",
+      "bytes": 3827,
+      "mtime_UTC": "2026-10-28T16:15:46.349383+00:00",
+      "ctime_UTC": "2026-10-28T16:15:46.349383+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-wheel-a1.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-wheel-a1.resources.json",
+          "start_UTC": "2026-10-28T16:15:48.506679+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/build_product_wheel_a2.py",
+      "sha256": "36cc8669a953e98477a2766b08d9f3a1ba9e6618452705413508697f0088d279",
+      "bytes": 3827,
+      "mtime_UTC": "2026-10-28T19:40:26.114878+00:00",
+      "ctime_UTC": "2026-10-28T19:40:26.114878+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-wheel-a2.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-wheel-a2.resources.json",
+          "start_UTC": "2026-10-28T19:40:26.186817+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/build_product_wheel_a3.py",
+      "sha256": "c5ee0ac16441670c4c8854885367b7dddb7410edf633e14093342c1adfd673a8",
+      "bytes": 3827,
+      "mtime_UTC": "2026-10-28T19:52:35.684789+00:00",
+      "ctime_UTC": "2026-10-28T19:52:35.684789+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-wheel-a3.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-wheel-a3.resources.json",
+          "start_UTC": "2026-10-28T19:52:35.807559+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/build_product_wheel_a4.py",
+      "sha256": "aadec903ac3d69b9cf07549b3900606575cdc4af3d45e1f73d35104525cbce0c",
+      "bytes": 3827,
+      "mtime_UTC": "2026-10-28T20:55:07.518123+00:00",
+      "ctime_UTC": "2026-10-28T20:55:07.518123+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-wheel-a4.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-wheel-a4.resources.json",
+          "start_UTC": "2026-10-28T21:07:12.772589+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/build_product_wheel_a5.py",
+      "sha256": "a3853752f3771db21e8954b155235ede78fa5d07cd13a42f65d30ff3b85e6776",
+      "bytes": 3827,
+      "mtime_UTC": "2026-10-28T23:58:25.988521+00:00",
+      "ctime_UTC": "2026-10-28T23:58:25.988521+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-wheel-a5.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-wheel-a5.resources.json",
+          "start_UTC": "2026-10-29T00:14:10.286843+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/build_product_wheel_a6.py",
+      "sha256": "9cc36204fa620ffce17f744aec7bf0a0c3fda99a4e9f38319e22e83505f002ed",
+      "bytes": 3827,
+      "mtime_UTC": "2026-10-29T01:10:02.364586+00:00",
+      "ctime_UTC": "2026-10-29T01:10:02.364586+00:00",
+      "referenced_uses": [
+        "runs/integration_2026-10-28/logs/window-integration-wheel-a6.resources.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/integration_2026-10-28/logs/window-integration-wheel-a6.resources.json",
+          "start_UTC": "2026-10-29T01:10:05.505630+00:00",
+          "kind": "retrospective receipt completed_utc minus absolute elapsed estimate"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/reuse_inputs_source_review_a6.py",
+      "sha256": "9e0e2ff93cd1eb90b7585f5a04349fe3a147b73e7558b9599de7b7f566d6f137",
+      "bytes": 3817,
+      "mtime_UTC": "2026-10-29T01:21:03.039064+00:00",
+      "ctime_UTC": "2026-10-29T01:21:03.039064+00:00",
+      "referenced_uses": [
+        "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-heap32-input-reuse-a6.PLAN.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-heap32-input-reuse-a6.PLAN.json",
+          "start_UTC": "2026-10-29T01:26:49.815070+00:00",
+          "kind": "explicit PLAN start"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/check_preflight_gate_a4.py",
+      "sha256": "9fe24bb9c99f5e9f7e36bf4cf9e0a210d454331d597f65cca3df772ffbba0cd4",
+      "bytes": 5983,
+      "mtime_UTC": "2026-10-29T00:47:40.905015+00:00",
+      "ctime_UTC": "2026-10-29T00:47:40.905015+00:00",
+      "referenced_uses": [
+        "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-preflight-gate-a4.PLAN.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-preflight-gate-a4.PLAN.json",
+          "start_UTC": "2026-10-29T01:09:00.198630+00:00",
+          "kind": "explicit PLAN start"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/prepare_heap32_preflight_a5.py",
+      "sha256": "fbea21cfea9b741f9265aaf751b3e42989a74536315dfaf50a251cd124191ce0",
+      "bytes": 6826,
+      "mtime_UTC": "2026-10-29T01:33:32.582936+00:00",
+      "ctime_UTC": "2026-10-29T01:33:32.582936+00:00",
+      "referenced_uses": [
+        "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-preflight-setup-a5.PLAN.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-preflight-setup-a5.PLAN.json",
+          "start_UTC": "2026-10-29T01:34:44.576438+00:00",
+          "kind": "explicit PLAN start"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/capture_window_stderr_a2.py",
+      "sha256": "7a5a88781df0df2b15118035bae293e403c2b7251b7300f2bd1457b2c29c45d8",
+      "bytes": 1335,
+      "mtime_UTC": "2026-10-28T20:06:55.854586+00:00",
+      "ctime_UTC": "2026-10-28T20:06:55.854586+00:00",
+      "referenced_uses": [
+        "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-preflight-stderr-diagnostic-a2.PLAN.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-preflight-stderr-diagnostic-a2.PLAN.json",
+          "start_UTC": "2026-10-28T20:06:55.897857+00:00",
+          "kind": "explicit PLAN start"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    },
+    {
+      "source": "coordination/reuse_inputs_source_review_a5.py",
+      "sha256": "e242af1c1b8d3e6bd5ae633a2cb3f249d8fda4d9797b41c325bedac542a350da",
+      "bytes": 3703,
+      "mtime_UTC": "2026-10-29T00:37:58.585105+00:00",
+      "ctime_UTC": "2026-10-29T00:37:58.585105+00:00",
+      "referenced_uses": [
+        "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-source-review-input-reuse-a5.PLAN.json"
+      ],
+      "execution_clock_observations": [
+        {
+          "owner": "runs/prospective_window_ordering_2026-10-28/a1/jobs/window-source-review-input-reuse-a5.PLAN.json",
+          "start_UTC": "2026-10-29T00:45:37.184220+00:00",
+          "kind": "explicit PLAN start"
+        }
+      ],
+      "provenance_kind": "post-hoc exact file readback and filesystem continuity; not an original runtime hash attestation"
+    }
+  ]
+}

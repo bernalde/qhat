@@ -1,0 +1,36 @@
+{
+  "schema": "prospective-window-preflight-decision-v1",
+  "decision": "failed_window_procedure_gate",
+  "recorded_UTC": "2026-10-28T19:24:23.890364+00:00",
+  "gate_sha256": "b26c47f8741c683995680e814b26bd3515dcda196714c29145743d51440efb06",
+  "evidence": [
+    {
+      "arm": "window_magnitude",
+      "artifact": "constructors-preflight/LiH_r1p487_631g_14m4e_preflight_7over5/r1/window_magnitude.a1.json",
+      "sha256": "e9a6519b8d3e531235286159299d3ee828c40a1dc4c0d9db53b9cc4901305543",
+      "window_status": "child_numerical_limit",
+      "child_refusal": "numerical_limit",
+      "native_verifications": 0,
+      "fallback_preserved": true
+    },
+    {
+      "arm": "window_sparse",
+      "artifact": "constructors-preflight/LiH_r1p487_631g_14m4e_preflight_7over5/r1/window_sparse.a1.json",
+      "sha256": "b32b4d0ca604d20c006ae5ab74899fe5bc23bbeb9c418994692dd54bb2e27d1b",
+      "window_status": "child_numerical_limit",
+      "child_refusal": "numerical_limit",
+      "native_verifications": 0,
+      "fallback_preserved": true
+    }
+  ],
+  "physical_quality_computed": false,
+  "quality_used_in_decision": false,
+  "main_calls_performed": 0,
+  "main_expected_calls": 64,
+  "main_physical_rows_performed": 0,
+  "main_expected_physical_rows": 352,
+  "configuration_retuned": false,
+  "objective_check_complete": true,
+  "remaining_conditions": "not sufficient to reverse this failed condition; physical/independent projections not established",
+  "next": "Retain all inputs/calls/fallbacks; bounded same-source diagnostic may capture refusal detail; no easier case, relaxed guard, budget reset or claimed main comparison"
+}

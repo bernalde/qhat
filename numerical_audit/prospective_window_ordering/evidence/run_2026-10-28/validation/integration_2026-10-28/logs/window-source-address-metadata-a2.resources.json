@@ -1,0 +1,92 @@
+{
+  "unit": "fermionic-future-window-source-address-metadata-a2-3147354",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "30",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/env",
+    "TMPDIR=/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/tmp",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/coordination/check_source_review_metadata_a2.py"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 12.323063100979198,
+  "samples": [
+    {
+      "elapsed": 0.0010146109852939844,
+      "available_bytes": 21749399552,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=96000",
+      "output_bytes": 29267414
+    },
+    {
+      "elapsed": 3.1075442679575644,
+      "available_bytes": 21710491648,
+      "frozen": false,
+      "service": "MemoryCurrent=38084608\nMemoryPeak=38166528\nCPUUsageNSec=778121000",
+      "output_bytes": 30211028
+    },
+    {
+      "elapsed": 6.170626309001818,
+      "available_bytes": 21718183936,
+      "frozen": false,
+      "service": "MemoryCurrent=45842432\nMemoryPeak=45842432\nCPUUsageNSec=1552191000",
+      "output_bytes": 32273846
+    },
+    {
+      "elapsed": 9.234652257990092,
+      "available_bytes": 21509222400,
+      "frozen": false,
+      "service": "MemoryCurrent=51306496\nMemoryPeak=51707904\nCPUUsageNSec=2303123000",
+      "output_bytes": 33705272
+    }
+  ],
+  "completed_utc": "2026-10-29T00:43:45.944489+00:00",
+  "budget": {
+    "cpu_seconds": 5.0,
+    "wall_seconds": 30,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/ordering_completion_2026-10-28/runs/integration_2026-10-28/logs/window-source-address-metadata-a2.log",
+  "process_measurements": {
+    "user_cpu_seconds": 2.19,
+    "system_cpu_seconds": 0.71,
+    "max_rss_kib": 43596.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 2.9,
+    "output_bytes": 29479686,
+    "elapsed_seconds": 12.323063100979198,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}
