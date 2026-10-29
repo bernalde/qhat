@@ -11,6 +11,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import math
 from pathlib import Path
 import shutil
 import statistics
@@ -1087,6 +1088,68 @@ class TestObjectiveNumbersAndCaseFlags(unittest.TestCase):
             "independent_panel_complete", "objective_claims_complete", "graph_valid")))
         self.assertEqual(case["input_hash"], "retained")
         self.assertEqual(len(case["failures"]), 1)
+
+
+class TestAllocationRemainderContract(unittest.TestCase):
+    """Cost-only censored metadata; no scientific-success panel is fabricated."""
+
+    def fixture(self, root, cpu_cap, wall_cap, cpu=1., wall=1., inside=True):
+        panel, inventory = panel_receipt_fixture(root, CASES[0])
+        first = guard_receipt("remainder-first", .25, 1.)
+        first["budget"].update(cpu_seconds=64., wall_seconds=320.)
+        retry = guard_receipt("remainder-retry", cpu, wall)
+        retry["budget"].update(cpu_seconds=cpu_cap, wall_seconds=wall_cap)
+        refs = [bound_json(root, name + ".json", value)
+                for name, value in (("first", first), ("retry", retry))]
+        ledger = next(row for row in inventory["constructors"] if row["arm"] == "cubic")
+        shown = next(row for row in panel["constructors"] if row["arm"] == "cubic")
+        ledger["attempts"] = [dict(receipt=ref, record=None) for ref in refs]
+        shown.update(attempts=[dict(receipt=ref, constructor=None) for ref in refs],
+            guard_CPU_seconds=.25+cpu, guard_wall_seconds=1.+wall,
+            within_total_construction_ceiling=inside)
+        return A.Artifacts(root), panel, inventory
+
+    def test_single_ulp_above_remainder_is_admitted_as_allocation_rounding(self):
+        cpu_cap, wall_cap = math.nextafter(63.75, math.inf), math.nextafter(319., math.inf)
+        self.assertGreater(cpu_cap, 64.-.25)
+        self.assertGreater(wall_cap, 320.-1.)
+        with tempfile.TemporaryDirectory() as tmp:
+            result = A.panel_costs(*self.fixture(Path(tmp), cpu_cap, wall_cap), CASES[0], 1, {})
+            self.assertTrue(result[("cubic", 1)]["within_limits"])
+            self.assertEqual(result[("cubic", 1)]["CPU_seconds"], 1.25)
+
+    def test_remainder_excess_beyond_one_nanosecond_is_refused(self):
+        for cpu_cap, wall_cap in ((63.75+2e-9, 319.), (63.75, 319.+2e-9)):
+            with self.subTest(cpu=cpu_cap, wall=wall_cap), tempfile.TemporaryDirectory() as tmp:
+                args = self.fixture(Path(tmp), cpu_cap, wall_cap)
+                with self.assertRaisesRegex(ValueError, "retry allocation"):
+                    A.panel_costs(*args, CASES[0], 1, {})
+
+    def test_allocation_slack_never_makes_measured_cpu_or_wall_overshoot_inside(self):
+        for cpu_cap, wall_cap, cpu, wall in (
+                (63.75+5e-10, 319., 63.75+5e-10, 1.),
+                (63.75, 319.+5e-10, 1., 319.+5e-10)):
+            with self.subTest(cpu=cpu, wall=wall), tempfile.TemporaryDirectory() as tmp:
+                args = self.fixture(Path(tmp), cpu_cap, wall_cap, cpu=cpu, wall=wall, inside=False)
+                cost = A.panel_costs(*args, CASES[0], 1, {})[("cubic", 1)]
+                self.assertFalse(cost["within_limits"])
+                self.assertTrue(cost["CPU_seconds"]>64 or cost["wall_seconds"]>320)
+
+    def test_zero_or_negative_retry_caps_remain_refused(self):
+        for cpu_cap, wall_cap in ((0., 319.), (-1., 319.), (63.75, 0.), (63.75, -1.)):
+            with self.subTest(cpu=cpu_cap, wall=wall_cap), tempfile.TemporaryDirectory() as tmp:
+                args = self.fixture(Path(tmp), cpu_cap, wall_cap)
+                with self.assertRaises(ValueError):
+                    A.panel_costs(*args, CASES[0], 1, {})
+
+    def test_attempt_overcap_stays_outside_when_cumulative_measurements_fit(self):
+        for cpu, wall in ((2.+5e-10, 1.), (1., 3.+5e-10)):
+            with self.subTest(cpu=cpu, wall=wall), tempfile.TemporaryDirectory() as tmp:
+                args = self.fixture(Path(tmp), 2., 3., cpu=cpu, wall=wall, inside=False)
+                cost = A.panel_costs(*args, CASES[0], 1, {})[("cubic", 1)]
+                self.assertLess(cost["CPU_seconds"], 64)
+                self.assertLess(cost["wall_seconds"], 320)
+                self.assertFalse(cost["within_limits"])
 
 
 if __name__ == "__main__":

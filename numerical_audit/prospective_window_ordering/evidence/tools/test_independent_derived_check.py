@@ -231,5 +231,85 @@ class LiteralAccounting(unittest.TestCase):
                     store.path(path)
 
 
+class LiteralAllocationRemainder(unittest.TestCase):
+    """Exercise cost_inventory's sixteen cost-only censored call ledgers."""
+
+    def fixture(self, cpu_cap, wall_cap, cpu=1., wall=1., inside=True):
+        case="literal-case";entries=[];shown=[];receipts={};finals={};serial=0
+        for arm in ("canonical","magnitude","current","first","pauli","cubic","window_sparse","window_magnitude"):
+            for rep in (1,2):
+                attempts=[];jobs=[]
+                values=[(4.,20.,.25,1.)]
+                if (arm,rep)==("cubic",1):
+                    values=[(64.,320.,.25,1.),(cpu_cap,wall_cap,cpu,wall)]
+                for allocated_cpu,allocated_wall,measured_cpu,measured_wall in values:
+                    serial+=1;ref=dict(path=f"literal-{serial}.json",sha256=f"{serial:064x}")
+                    attempt=dict(receipt=ref,record=None);attempts.append(attempt)
+                    job=dict(descriptors=dict(receipt=ref),
+                        plan=dict(attempt_CPU_seconds=allocated_cpu,attempt_wall_seconds=allocated_wall),
+                        raw_complete=True,raw_cap_exceeded=measured_cpu>allocated_cpu or measured_wall>allocated_wall,
+                        raw_CPU_seconds=measured_cpu,raw_wall_seconds=measured_wall,
+                        charged_CPU_seconds=measured_cpu,charged_wall_seconds=measured_wall,
+                        conservative_cap_exceeded=measured_cpu>allocated_cpu or measured_wall>allocated_wall)
+                    receipts[ref["sha256"]]=job;jobs.append(job)
+                entries.append(dict(arm=arm,repetition=rep,attempts=attempts,selected_attempt=None))
+                shown.append(dict(arm=arm,repetition=rep,status="censored",cost_complete=True,
+                    attempts=[dict(receipt=a["receipt"],constructor=None) for a in attempts],
+                    guard_CPU_seconds=sum(j["raw_CPU_seconds"] for j in jobs),
+                    guard_wall_seconds=sum(j["raw_wall_seconds"] for j in jobs),
+                    within_total_construction_ceiling=inside if (arm,rep)==("cubic",1) else True))
+                finals[(case,arm,rep)]=dict(artifact=attempts[-1],record=None)
+        return None,dict(constructors=entries),dict(constructors=shown),case,receipts,finals
+
+    def test_single_ulp_remainder_slack_matches_producer_contract(self):
+        cpu_cap,wall_cap=math.nextafter(63.75,math.inf),math.nextafter(319.,math.inf)
+        self.assertGreater(cpu_cap,64.-.25);self.assertGreater(wall_cap,320.-1.)
+        costs=D.cost_inventory(*self.fixture(cpu_cap,wall_cap))
+        self.assertTrue(costs[("literal-case","cubic",1)]["within_raw"])
+        self.assertEqual(costs[("literal-case","cubic",1)]["cpu"],1.25)
+
+    def test_beyond_one_nanosecond_remainder_is_refused(self):
+        for cpu_cap,wall_cap in ((63.75+2e-9,319.),(63.75,319.+2e-9)):
+            with self.subTest(cpu=cpu_cap,wall=wall_cap),self.assertRaisesRegex(ValueError,"Retry extends"):
+                D.cost_inventory(*self.fixture(cpu_cap,wall_cap))
+
+    def test_actual_measured_cpu_and_wall_ceilings_remain_strict(self):
+        for cpu_cap,wall_cap,cpu,wall in (
+                (63.75+5e-10,319.,63.75+5e-10,1.),
+                (63.75,319.+5e-10,1.,319.+5e-10)):
+            with self.subTest(cpu=cpu,wall=wall):
+                cost=D.cost_inventory(*self.fixture(cpu_cap,wall_cap,cpu,wall,inside=False))[("literal-case","cubic",1)]
+                self.assertFalse(cost["within_raw"])
+                self.assertTrue(cost["cpu"]>64 or cost["wall"]>320)
+                self.assertTrue(cost["conservative_cap_exceeded"])
+
+    def test_positive_allocation_domain_is_not_relaxed(self):
+        for cpu_cap,wall_cap in ((0.,319.),(-1.,319.),(63.75,0.),(63.75,-1.)):
+            with self.subTest(cpu=cpu_cap,wall=wall_cap),self.assertRaises(ValueError):
+                D.cost_inventory(*self.fixture(cpu_cap,wall_cap))
+
+    def test_attempt_overcap_stays_outside_below_cumulative_limits(self):
+        for cpu,wall in ((2.+5e-10,1.),(1.,3.+5e-10)):
+            with self.subTest(cpu=cpu,wall=wall):
+                receipt=dict(unit="literal-retry",elapsed=wall,settings=dict(CPUQuota="25%",CPUWeight="5",
+                    IOWeight="10",Nice="19",MemoryHigh="448M",MemoryMax="512M",MemorySwapMax="0",
+                    CPUAccounting="yes",MemoryAccounting="yes"),final_accounting=dict(
+                    CPU_seconds=cpu,elapsed_seconds=wall,CPU_accounting_available=True,
+                    process_CPU_timing_available=True),guard_error=None,cleanup_errors=[])
+                measured=D.final_charge(dict(attempt_CPU_seconds=2.,attempt_wall_seconds=3.),receipt,
+                    dict(charged_CPU_seconds=cpu,absolute_guarded_wall_seconds=wall,final_service_snapshot={}),"")
+                self.assertTrue(measured["raw_cap_exceeded"])
+                args=self.fixture(2.,3.,cpu,wall,inside=False)
+                # Use the production strict attempt classification, not a
+                # hand-chosen flag, for the retry entering cost_inventory.
+                for job in args[4].values():
+                    if job["plan"]==dict(attempt_CPU_seconds=2.,attempt_wall_seconds=3.):
+                        job.update(measured)
+                cost=D.cost_inventory(*args)[("literal-case","cubic",1)]
+                self.assertLess(cost["cpu"],64);self.assertLess(cost["wall"],320)
+                self.assertFalse(cost["within_raw"])
+                self.assertTrue(cost["conservative_cap_exceeded"])
+
+
 if __name__ == "__main__":
     unittest.main()

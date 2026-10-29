@@ -574,7 +574,9 @@ def panel_costs(reader,panel,inventory,case,repetitions,global_map,owners=None,r
             owners.claim((case,arm,rep),measured)
             budget=measured['budget'];cpu_cap=finite(budget['cpu_seconds'],'constructor attempt CPU ceiling')
             wall_cap=finite(budget['wall_seconds'],'constructor attempt wall ceiling')
-            require(cpu_cap>0 and wall_cap>0 and cpu_cap<=64-known_cpu and wall_cap<=320-known_wall,
+            # Producer permits subtraction-rounding slack for allocation only.
+            # Per-attempt measurements and cumulative64/320 checks stay exact.
+            require(cpu_cap>0 and wall_cap>0 and cpu_cap<=64-known_cpu+1e-9 and wall_cap<=320-known_wall+1e-9,
                     'Constructor retry allocation silently extends the whole-call ceiling')
             within &= (measured['CPU_seconds'] is not None and measured['wall_seconds'] is not None and
                        measured['CPU_seconds']<=cpu_cap and measured['wall_seconds']<=wall_cap)

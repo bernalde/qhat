@@ -471,7 +471,11 @@ def cost_inventory(store, inventory, panel, case, receipts, global_calls):
             need(digest in receipts, "Attempt omitted from cumulative ledger")
             job = receipts[digest]
             need(job["descriptors"]["receipt"] == attempt["receipt"], "Receipt descriptor alias")
-            need(job["plan"]["attempt_CPU_seconds"] <= 64-known_cpu and job["plan"]["attempt_wall_seconds"] <= 320-known_wall, "Retry extends original whole-call caps")
+            cpu_cap=number(job["plan"]["attempt_CPU_seconds"]);wall_cap=number(job["plan"]["attempt_wall_seconds"])
+            # Match producer remainder slack only; actual raw/FINAL ceilings
+            # below retain their strict64/320 comparisons.
+            need(0 < cpu_cap <= 64-known_cpu+1e-9 and 0 < wall_cap <= 320-known_wall+1e-9,
+                 "Retry extends original whole-call caps")
             within = within and job["raw_complete"] and job["raw_cap_exceeded"] is False
             known_cpu += job["raw_CPU_seconds"] or 0.
             known_wall += job["raw_wall_seconds"] or 0.
