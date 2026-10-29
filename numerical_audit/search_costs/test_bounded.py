@@ -98,7 +98,7 @@ def test_initializer_charge_cannot_disappear():
 def test_objective_and_initializer_are_separate_factors():
     blocks,D=fixture()
     for objective in ('JD','J0'):
-        result=run_arm(blocks,D,0,7,objective,'placement',[2,1,0],2.,0.,.01,100,clock=lambda:0.)
+        result=run_arm(blocks,D,0,7,objective,'placement',[2,1,0],2.,0.,.01,100)
         assert result['objective']==objective and result['initialization']=='placement'
         assert result['inherited_placement_CPU_charge']==.01
         assert result['within_CPU_budget'] and result['starts'][0]['order']
