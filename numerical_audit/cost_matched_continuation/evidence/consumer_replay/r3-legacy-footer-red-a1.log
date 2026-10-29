@@ -1,0 +1,52 @@
+Running as unit: fermionic-future-r3-legacy-footer-red-a1-742350.service; invocation ID: d485e8b69dee4ba5a27c70c1e1aa5859
+FF
+======================================================================
+FAIL: test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs (test_analysis.ArchivedEvidenceTests.test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs) (scenario='legacy_present')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/validation/r3-red/source/test/test_analysis.py", line 400, in test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs
+    self.assertEqual(result['reconciled_jobs'], 5 if valid else 4)
+AssertionError: 4 != 5
+
+======================================================================
+FAIL: test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs (test_analysis.ArchivedEvidenceTests.test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs) (scenario='legacy_unknown_present')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/validation/r3-red/source/test/test_analysis.py", line 400, in test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs
+    self.assertEqual(result['reconciled_jobs'], 5 if valid else 4)
+AssertionError: 4 != 5
+
+----------------------------------------------------------------------
+Ran 1 test in 0.296s
+
+FAILED (failures=2)
+Command exited with non-zero status 1
+	Command being timed: "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python -m unittest test_analysis.ArchivedEvidenceTests.test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs"
+	User time (seconds): 0.15
+	System time (seconds): 0.04
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.78
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 29328
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 5690
+	Voluntary context switches: 45
+	Involuntary context switches: 7
+	Swaps: 0
+	File system inputs: 2000
+	File system outputs: 2064
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 791ms
+CPU time consumed: 205ms
+Memory peak: 780.0K
+Memory swap peak: 0B

@@ -1,0 +1,100 @@
+{
+  "unit": "fermionic-future-main-evidence-archive-a1-626522",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "180",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-cost-matched-continuation-2026-10-29/worktree/numerical_audit/cost_matched_continuation/evidence/tools/package_evidence.py",
+    "--task-root",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29",
+    "--output",
+    "/tmp/qhat-cost-matched-continuation-2026-10-29/worktree/numerical_audit/cost_matched_continuation/evidence"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 15.07853693101788,
+  "samples": [
+    {
+      "elapsed": 0.0009875259711407125,
+      "available_bytes": 16279343104,
+      "frozen": false,
+      "service": "MemoryCurrent=[not set]\nMemoryPeak=[not set]\nCPUUsageNSec=[not set]",
+      "output_bytes": 35289122
+    },
+    {
+      "elapsed": 3.018389621982351,
+      "available_bytes": 16241188864,
+      "frozen": false,
+      "service": "MemoryCurrent=32460800\nMemoryPeak=32460800\nCPUUsageNSec=763136000",
+      "output_bytes": 35289122
+    },
+    {
+      "elapsed": 6.031938584987074,
+      "available_bytes": 16107966464,
+      "frozen": false,
+      "service": "MemoryCurrent=47792128\nMemoryPeak=47792128\nCPUUsageNSec=1524796000",
+      "output_bytes": 35289122
+    },
+    {
+      "elapsed": 9.048169545014389,
+      "available_bytes": 16070868992,
+      "frozen": false,
+      "service": "MemoryCurrent=71933952\nMemoryPeak=71933952\nCPUUsageNSec=2278199000",
+      "output_bytes": 35289122
+    },
+    {
+      "elapsed": 12.059901855012868,
+      "available_bytes": 15967371264,
+      "frozen": false,
+      "service": "MemoryCurrent=93761536\nMemoryPeak=93761536\nCPUUsageNSec=3026759000",
+      "output_bytes": 35289122
+    }
+  ],
+  "completed_utc": "2026-10-29T21:04:42.865856+00:00",
+  "budget": {
+    "cpu_seconds": 30.0,
+    "wall_seconds": 180,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/logs/main-evidence-archive-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 3.16,
+    "system_cpu_seconds": 0.55,
+    "max_rss_kib": 30440.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 3.71,
+    "output_bytes": 35290615,
+    "elapsed_seconds": 15.07853693101788,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

@@ -36,6 +36,52 @@ _MIXED = [
 ]
 
 
+def test_later_restart_can_accept_multiple_moves_after_an_earlier_slice_expires(monkeypatch):
+    """A prior seed's stop flag must not truncate later local searches."""
+    from types import SimpleNamespace
+    from qhat.analysis import sparse_response_ordering as native
+
+    early = (3, 2, 1, 0)
+    start = (0, 1, 2, 3)
+    first_gain = (1, 0, 2, 3)
+    second_gain = (1, 0, 3, 2)
+    values = {early: 1., start: 10., first_gain: 8., second_gain: .5}
+
+    class Context:
+        stats = {}
+
+        def columns(self, order, deadline):
+            return order
+
+        def adjacent_columns(self, order, columns, position, deadline):
+            trial = list(order)
+            trial[position], trial[position+1] = trial[position+1], trial[position]
+            return tuple(trial), tuple(trial)
+
+        def affordable_steps(self, order, budget):
+            return 1
+
+        def score_columns(self, order, budget, columns, deadline):
+            return native.Score(values.get(order, 100.), 0., 1)
+
+        def score(self, order, budget, deadline):
+            return self.score_columns(order, budget, order, deadline)
+
+    def check(deadline):
+        if deadline < 20.:
+            raise native.SearchDeadline('first seed exhausted its own slice')
+
+    monkeypatch.setattr(native, '_time', SimpleNamespace(process_time=lambda: 0.))
+    monkeypatch.setattr(native, '_check', check)
+    best, score, _, moves, status = native._incremental_search(
+        Context(), [(early, native.Score(1., 0., 1)), (start, native.Score(10., 0., 1))],
+        100, 20., 1000, 5, early, native.Score(1., 0., 1), 0, 0.)
+    assert best == second_gain
+    assert score.value == .5
+    assert moves == 2
+    assert status == 'cpu_limit'  # Preserve the earlier truncation in metadata.
+
+
 def _dense_word(word, n_qubits):
     # Deliberately do not use sparse bit masks or the implementation's action.
     assert n_qubits <= 6, "dense oracle is restricted to small registers"
@@ -497,6 +543,52 @@ def test_incremental_reserved_last_evaluation_does_not_rebuild_other_seeds():
     assert result[2:5] == (2, 0, 'evaluation_limit')
     assert context.stats['incremental_candidates'] == 0
     assert context.stats['full_move_rescore_attempts'] == 0
+
+
+@pytest.mark.parametrize('seed_count,max_moves,expected', [
+    (2, 1, 'evaluation_limit'), (1, 1, 'complete'), (2, 0, 'complete'),
+])
+def test_complete_sweep_at_evaluation_boundary_reports_only_skipped_work(
+        monkeypatch, seed_count, max_moves, expected):
+    from qhat.analysis import sparse_response_ordering as native
+    context = _IncrementalBudgetContext()
+    monkeypatch.setattr(native, '_check', lambda deadline: None)
+    monkeypatch.setattr(native._time, 'process_time', lambda: 0.)
+    first, second = (0, 1), (1, 0)
+    seeds = [first, second][:seed_count]
+    candidates = 2 if max_moves else 0
+    result = native._incremental_search(context,
+        [(order, context.values[order]) for order in seeds], 10, 100.,
+        seed_count+candidates+1, max_moves, first, context.values[first], seed_count, 0.)
+    assert result[:2] == (first, context.values[first])
+    assert result[2:] == (seed_count+candidates, 0, expected)
+    assert context.columns_calls == ([first] if max_moves else [])
+    assert context.stats['incremental_candidates'] == candidates
+    assert context.stats['full_move_rescore_attempts'] == 0
+
+
+@pytest.mark.parametrize('exception,status', [
+    ('NumericalResolution', 'numerical_limit'), ('ResourceLimit', 'support_limit'),
+])
+def test_evaluation_boundary_preserves_full_rescore_failure(monkeypatch, exception, status):
+    from qhat.analysis import sparse_response_ordering as native
+    context = _IncrementalBudgetContext()
+    monkeypatch.setattr(native, '_check', lambda deadline: None)
+    monkeypatch.setattr(native._time, 'process_time', lambda: 0.)
+    seeds = [(0, 1, 2), (1, 0, 2), (2, 1, 0)]
+    context.values = {order: native.Score(float(index), float(index), 1)
+                      for index, order in enumerate(seeds, 1)}
+    context.score_columns = lambda order, *args: context.values.get(order, native.Score(4., 4., 1))
+    def refused_rescore(*args):
+        raise getattr(native, exception)('literal boundary refusal')
+    context.score = refused_rescore
+    result = native._incremental_search(context,
+        [(order, context.values[order]) for order in seeds], 10, 100., 16, 1,
+        seeds[0], context.values[seeds[0]], 3, 0.)
+    assert result[:2] == (seeds[0], context.values[seeds[0]])
+    assert result[2:] == (15, 0, status)
+    assert context.columns_calls == seeds[:2]
+    assert context.stats['full_move_rescore_attempts'] == 1
 
 
 def test_local_seed_slice_expiry_preserves_later_global_budget_allocation():

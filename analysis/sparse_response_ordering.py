@@ -559,6 +559,7 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
     for seed_index, (order, score) in enumerate(scored):
         end = min(search_end, start + (seed_index + 1) * slice_seconds)
         current, current_score = order, score
+        seed_stopped = False
         for _ in range(max_moves):
             proposal, proposal_score = current, current_score
             try:
@@ -590,10 +591,16 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
                                 proposal, proposal_score = trial, trial_score
                             at += direction
             except SearchDeadline:
-                status = 'evaluation_limit' if evaluations >= max_evaluations - 1 else 'cpu_limit'
+                seed_stopped = True
+                if evaluations >= max_evaluations - 1:
+                    status = 'evaluation_limit'
+                elif status == 'complete':
+                    status = 'cpu_limit'
             except NumericalResolution:
+                seed_stopped = True
                 status = 'numerical_limit'
             except ResourceLimit:
+                seed_stopped = True
                 status = 'support_limit'
             threshold = max(1e-30, abs(current_score.value) * 1e-12)
             if proposal_score.value >= current_score.value - threshold:
@@ -610,7 +617,8 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
                 status = 'numerical_limit'
                 break
             except SearchDeadline:
-                status = 'cpu_limit'
+                if status == 'complete':
+                    status = 'cpu_limit'
                 break
             except ResourceLimit:
                 status = 'support_limit'
@@ -621,16 +629,23 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
             moves += 1
             if (actual.value, proposal) < (best_score.value, best_order):
                 best_order, best_score = proposal, actual
-            if status != 'complete':
+            if seed_stopped:
                 break
         if evaluations >= max_evaluations - 1:
+            # A completed sweep can land exactly on the reserved-last-evaluation
+            # boundary. Report omitted seed work without erasing a prior refusal
+            # or relabeling a completed final seed (including max_moves=0).
+            if (max_moves > 0 and seed_index + 1 < len(scored)
+                    and status in ('complete', 'cpu_limit')):
+                status = 'evaluation_limit'
             break
         # A seed's local slice may expire while the next seed remains eligible.
         # Only the global CPU/wall check ends the remaining seed allocations.
         try:
             _check(deadline)
         except SearchDeadline:
-            status = 'cpu_limit'
+            if status == 'complete':
+                status = 'cpu_limit'
             break
     return best_order, best_score, evaluations, moves, status
 

@@ -1,0 +1,124 @@
+{
+  "unit": "fermionic-future-r3-consumer-replay-a1-743971",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "180",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/coordination/replay_consumer_r3.py"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 27.368612944032066,
+  "samples": [
+    {
+      "elapsed": 0.0011086040176451206,
+      "available_bytes": 18408652800,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=81000",
+      "output_bytes": 131148195
+    },
+    {
+      "elapsed": 3.068280287028756,
+      "available_bytes": 18063097856,
+      "frozen": false,
+      "service": "MemoryCurrent=91049984\nMemoryPeak=92254208\nCPUUsageNSec=772536000",
+      "output_bytes": 131148195
+    },
+    {
+      "elapsed": 6.106165502977092,
+      "available_bytes": 18360180736,
+      "frozen": false,
+      "service": "MemoryCurrent=92041216\nMemoryPeak=93913088\nCPUUsageNSec=1521679000",
+      "output_bytes": 131148195
+    },
+    {
+      "elapsed": 9.147856170020532,
+      "available_bytes": 18353471488,
+      "frozen": false,
+      "service": "MemoryCurrent=92020736\nMemoryPeak=93954048\nCPUUsageNSec=2296251000",
+      "output_bytes": 131148195
+    },
+    {
+      "elapsed": 12.186996821023058,
+      "available_bytes": 18354364416,
+      "frozen": false,
+      "service": "MemoryCurrent=87949312\nMemoryPeak=94679040\nCPUUsageNSec=3047808000",
+      "output_bytes": 133495511
+    },
+    {
+      "elapsed": 15.22307859302964,
+      "available_bytes": 18335973376,
+      "frozen": false,
+      "service": "MemoryCurrent=99094528\nMemoryPeak=99155968\nCPUUsageNSec=3800876000",
+      "output_bytes": 133495511
+    },
+    {
+      "elapsed": 18.26578606601106,
+      "available_bytes": 18242248704,
+      "frozen": false,
+      "service": "MemoryCurrent=99037184\nMemoryPeak=99319808\nCPUUsageNSec=4572264000",
+      "output_bytes": 133495511
+    },
+    {
+      "elapsed": 21.295938908995595,
+      "available_bytes": 18361073664,
+      "frozen": false,
+      "service": "MemoryCurrent=97513472\nMemoryPeak=99319808\nCPUUsageNSec=5319604000",
+      "output_bytes": 133495511
+    },
+    {
+      "elapsed": 24.328310240991414,
+      "available_bytes": 18318020608,
+      "frozen": false,
+      "service": "MemoryCurrent=101548032\nMemoryPeak=103288832\nCPUUsageNSec=6077088000",
+      "output_bytes": 135842827
+    }
+  ],
+  "completed_utc": "2026-10-29T22:22:10.505272+00:00",
+  "budget": {
+    "cpu_seconds": 30.0,
+    "wall_seconds": 180,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/logs/r3-consumer-replay-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 5.76,
+    "system_cpu_seconds": 0.58,
+    "max_rss_kib": 31680.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 6.34,
+    "output_bytes": 136568589,
+    "elapsed_seconds": 27.368612944032066,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}
