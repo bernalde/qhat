@@ -12,10 +12,22 @@ From the repository root, use a fresh output directory whose parent already exis
 python numerical_audit/cost_matched_continuation/evidence/tools/extract_evidence.py \
   --evidence numerical_audit/cost_matched_continuation/evidence \
   --output /tmp/qhat-cmc-evidence
+python /tmp/qhat-cmc-evidence/main-a1/data/source_snapshot/numerical_audit/cost_matched_continuation/analyze.py \
+  --root /tmp/qhat-cmc-evidence/main-a1/data \
+  --output /tmp/qhat-cmc-frozen-analysis.json
+```
+
+The extracted frozen analyzer is SHA-256 `ca1b9f5007f98581d52e4f4f20afd19d43902b4770d2e59dd6559ca10cd69686`; it is the consumer used for the original complete-output identity claim. To inspect the retained data with the maintained consumer, write a separate output:
+
+```sh
 python numerical_audit/cost_matched_continuation/analyze.py \
   --root /tmp/qhat-cmc-evidence/main-a1/data \
-  --output /tmp/qhat-cmc-replayed-analysis.json
+  --output /tmp/qhat-cmc-maintained-analysis.json
 ```
+
+The maintained consumer inventories optional unpinned legacy logs but uses only authenticated evidence for terminal CPU and memory accounting. Its output records the executing analyzer version, including the recursively replayed preflight version. Keep this later output separate from the original `RESULTS.json`, source freezes and archive manifest.
+
+[The post-review replay record](results/CONSUMER_REPLAY.json) authenticates all 2,174 extracted members before and after checking both consumers. The frozen consumer again reproduced the entire original result byte-for-byte. The maintained main result differs only at `analyzer_sha256` and `preflight_prerequisite.recomputed_analyzer_sha256`; a separate A3 replay differs only at `analyzer_sha256`. All other JSON values, including scientific outcomes, costs and admission gates, match. The record retains exact output hashes and separate regression/replay receipts; these later checks do not add numerical propagations to the study.
 
 Extraction validates archive hashes, complete regular-member inventories and all member bytes before writing its success record. Outputs are fresh and partial failure evidence is preserved. The extractor requires POSIX filesystem operations. The consumer uses Python's standard library (`tomllib` requires Python 3.11 or newer); the demonstrated environment is the recorded Python 3.12 research interpreter. Original absolute command paths remain provenance in the data.
 

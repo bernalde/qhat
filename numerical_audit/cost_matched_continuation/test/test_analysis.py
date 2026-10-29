@@ -354,7 +354,9 @@ class ArchivedEvidenceTests(unittest.TestCase):
             self.assertTrue(any('Unindexed/missing archived job' in issue['message'] for issue in audit.issues))
 
     def test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs(self):
-        for scenario in ('empty', 'missing', 'bad_digest', 'null_digest', 'new_unpinned', 'legacy_absent', 'unknown_missing', 'legacy_unknown'):
+        for scenario in ('empty', 'missing', 'bad_digest', 'null_digest', 'new_unpinned',
+                'legacy_absent', 'unknown_missing', 'legacy_unknown',
+                'legacy_present', 'legacy_unknown_present'):
             with self.subTest(scenario=scenario), tempfile.TemporaryDirectory() as folder:
                 root = Path(folder)
                 constructors = self.ledger_fixture(root)
@@ -370,19 +372,23 @@ class ArchivedEvidenceTests(unittest.TestCase):
                     log.write_text('Changed retained log.\n')
                 elif scenario == 'null_digest':
                     entry['log_sha256'] = None
-                if scenario in ('new_unpinned', 'unknown_missing', 'legacy_unknown'):
+                elif scenario in ('legacy_present', 'legacy_unknown_present'):
+                    log.write_text('CPU time consumed: 99s\nMemory peak: 999M\n')
+                if scenario in ('new_unpinned', 'unknown_missing', 'legacy_unknown', 'legacy_unknown_present'):
                     final = json.loads((root/entry['final_path']).read_text())
-                    unknown = scenario in ('unknown_missing', 'legacy_unknown')
+                    unknown = scenario in ('unknown_missing', 'legacy_unknown', 'legacy_unknown_present')
                     if unknown:
                         final['final_service_snapshot'].pop('CPUUsageNSec')
                         final['charged_CPU_seconds'] = 2.
-                    if scenario != 'legacy_unknown':
+                    if scenario == 'legacy_unknown_present':
+                        final['final_service_snapshot'].pop('MemoryPeak')
+                    if scenario not in ('legacy_unknown', 'legacy_unknown_present'):
                         final.update(raw_terminal_CPU_seconds=None if unknown else 1.,
                             terminal_CPU_measurement_available=not unknown, guard_reported_CPU_seconds=1.)
                     entry['final_sha256'] = write_json(root, entry['final_path'], final)
-                if scenario in ('legacy_absent', 'new_unpinned', 'legacy_unknown'):
+                if scenario in ('legacy_absent', 'new_unpinned', 'legacy_unknown', 'legacy_present', 'legacy_unknown_present'):
                     del entry['log_path'], entry['log_sha256']
-                if scenario == 'legacy_unknown':
+                if scenario in ('legacy_unknown', 'legacy_unknown_present'):
                     for row in constructors.values():
                         row['eligible'], row['analysis_eligible'] = False, False
                         row['costs']['prefix'].update(raw_CPU_seconds=None, charged_CPU_seconds=2.,
@@ -390,9 +396,9 @@ class ArchivedEvidenceTests(unittest.TestCase):
                 write_json(root, 'campaign/LEDGER_CUTOFF.json', cutoff)
                 audit = a.Audit(root)
                 result = audit.ledger(constructors)
-                valid = scenario in ('empty', 'legacy_absent', 'legacy_unknown')
+                valid = scenario in ('empty', 'legacy_absent', 'legacy_unknown', 'legacy_present', 'legacy_unknown_present')
                 self.assertEqual(result['reconciled_jobs'], 5 if valid else 4)
-                self.assertEqual(result['charged_CPU_seconds'], 42. if scenario in ('unknown_missing', 'legacy_unknown') else 41.)
+                self.assertEqual(result['charged_CPU_seconds'], 42. if scenario in ('unknown_missing', 'legacy_unknown', 'legacy_unknown_present') else 41.)
                 self.assertEqual(result['wall_seconds'], 164.)
                 self.assertEqual(len(result['phases']['constructors']['jobs']), 5)
                 self.assertEqual(result['jobs'][0]['reconciled'], valid)
@@ -400,12 +406,18 @@ class ArchivedEvidenceTests(unittest.TestCase):
                     self.assertEqual(audit.issues, [])
                 else:
                     self.assertTrue(any(issue['scope'] == 'ledger job:parent' for issue in audit.issues))
-                if scenario in ('empty', 'bad_digest', 'null_digest', 'new_unpinned'):
+                if scenario in ('empty', 'bad_digest', 'null_digest', 'new_unpinned', 'legacy_present', 'legacy_unknown_present'):
                     self.assertEqual(audit.inputs['campaign/logs/parent.log'], hashlib.sha256(log.read_bytes()).hexdigest())
-                if scenario in ('unknown_missing', 'legacy_unknown'):
+                if scenario in ('unknown_missing', 'legacy_unknown', 'legacy_unknown_present'):
                     self.assertIsNone(result['phases']['constructors']['jobs'][0]['raw_CPU_seconds'])
                     self.assertEqual(result['phases']['constructors']['unknown_raw_CPU_jobs'], 1)
                     self.assertEqual(result['jobs'][0]['terminal_accounting']['minimum_charged_CPU_seconds'], 2.)
+                if scenario in ('legacy_present', 'legacy_unknown_present'):
+                    known = scenario == 'legacy_present'
+                    self.assertEqual(result['jobs'][0]['terminal_accounting']['terminal_CPU_measurement_available'], known)
+                    self.assertEqual(result['phases']['constructors']['jobs'][0]['raw_CPU_seconds'], 1. if known else None)
+                    self.assertEqual(result['jobs'][0]['cgroup_peak_bytes_upper'], 1048576. if known else None)
+                    self.assertEqual(a.memory_diagnostic(result['jobs'], 'preflight', True)['passed'], known)
 
     def test_ledger_joins_once_per_actual_job_and_retains_failures(self):
         with tempfile.TemporaryDirectory() as folder:

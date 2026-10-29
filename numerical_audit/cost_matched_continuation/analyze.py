@@ -653,6 +653,9 @@ class Audit:
                         isinstance(entry.get('log_sha256'), str) and
                         re.fullmatch(r'[0-9a-f]{64}', entry['log_sha256']) is not None,
                         'Declared/new job needs authenticated terminal log pins')
+                # Legacy logs remain inventoried, but their unpinned footers
+                # cannot establish terminal CPU or memory evidence.
+                trusted_log = log if declared_log else ''
                 require(re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9-]{0,127}', label) is not None and
                     entry['plan_path'] == 'campaign/jobs/'+label+'.PLAN.json' and
                     entry['final_path'] == 'campaign/jobs/'+label+'.FINAL.json' and
@@ -668,7 +671,7 @@ class Audit:
                 require(plan['label'] == final['label'] == label and plan['phase'] == final['phase'] == phase and
                     plan['pools_sha256'] == ledger['resource_pools']['sha256'] and
                     final['receipt_sha256'] == entry['receipt_sha256'], 'Ledger identity/pool binding')
-                terminal = terminal_accounting(receipt, final, log, cpu_cap)
+                terminal = terminal_accounting(receipt, final, trusted_log, cpu_cap)
                 retained['terminal_accounting'] = terminal
                 measured['raw_CPU_seconds'] = terminal['raw_terminal_CPU_seconds']
                 measured['guard_reported_CPU_seconds'] = terminal['guard_reported_CPU_seconds']
@@ -686,7 +689,7 @@ class Audit:
                 require(type(final['exit_code']) is int and type(receipt['exit_code']) is int and
                         final['exit_code'] == receipt['exit_code'], 'Guard/FINAL exit code differs')
                 require(receipt['command'] == plan['command'], 'Receipt/PLAN command differs')
-                peak = cgroup_peak(receipt, final, log)
+                peak = cgroup_peak(receipt, final, trusted_log)
                 retained['cgroup_peak_bytes_upper'] = peak
                 retained['process_measurements'] = receipt.get('process_measurements', {})
                 if mode == 'preflight':
