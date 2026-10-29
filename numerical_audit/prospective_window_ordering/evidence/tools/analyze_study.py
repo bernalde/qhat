@@ -1,7 +1,7 @@
 """Authenticated descriptive analysis of the fixed prospective window panel.
 
-Usage: analyze_study.py ROOT NEW_SUMMARY_JSON [--mode main|preflight]
-Reads ROOT/ANALYSIS_INDEX.<mode>.json; every referenced artifact is hash bound.
+Usage: analyze_study.py ROOT NEW_SUMMARY_JSON [--mode main|preflight] [--index ROOT_RELATIVE_PATH]
+Defaults to ROOT/ANALYSIS_INDEX.<mode>.json; every referenced artifact is hash bound.
 No optimizer, chemistry, propagation, package installation or subprocess runs.
 This separate evidence tool does not alter the frozen scientific source map.
 """
@@ -991,9 +991,9 @@ def pareto_sets(raw,cases,repetitions):
     return output
 
 
-def analyze(root,mode):
+def analyze(root,mode,*,index_path=None):
     reader=Artifacts(root)
-    index_path=reader.path('ANALYSIS_INDEX.'+mode+'.json')
+    index_path=reader.path('ANALYSIS_INDEX.'+mode+'.json' if index_path is None else index_path)
     _,raw=reader.read_path(index_path);index=decode_json(raw)
     require(index.get('schema')==SCHEMA and index.get('mode')==mode,'Analysis index schema/mode')
     repetitions=2 if mode=='main' else 1
@@ -1155,8 +1155,9 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('root',type=Path);parser.add_argument('output',type=Path)
     parser.add_argument('--mode',choices=('main','preflight'),default='main')
+    parser.add_argument('--index',help='Optional root-relative versioned analysis-index path')
     args=parser.parse_args(argv)
-    result=analyze(args.root,args.mode);write_new(args.output,result)
+    result=analyze(args.root,args.mode,index_path=args.index);write_new(args.output,result)
     return 0 if result['status']=='complete_declared_panel' else 2
 
 

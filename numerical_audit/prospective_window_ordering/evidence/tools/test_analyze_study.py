@@ -16,6 +16,7 @@ import shutil
 import statistics
 import tempfile
 import unittest
+from unittest import mock
 
 _SPEC = importlib.util.spec_from_file_location(
     "prospective_analysis_contract_target", Path(__file__).with_name("analyze_study.py"))
@@ -341,6 +342,52 @@ class TestPairedContracts(unittest.TestCase):
 
 
 class TestAuthenticatedPartialGraph(unittest.TestCase):
+    def test_cli_versioned_index_binds_actual_bytes_and_preserves_default(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            index, _ = partial_graph(root)
+            original = (root / "ANALYSIS_INDEX.main.json").read_bytes()
+            relative = "indices/ANALYSIS_INDEX.main.a2.json"
+            versioned = root / relative
+            versioned.parent.mkdir()
+            raw = (json.dumps(index, indent=2) + "\n").encode()
+            versioned.write_bytes(raw)
+            digest = hashlib.sha256(raw).hexdigest()
+            self.assertNotEqual(digest, hashlib.sha256(original).hexdigest())
+            output = root / "summary.a2.json"
+            self.assertEqual(A.main([str(root), str(output), "--index", relative]), 2)
+            summary = json.loads(output.read_text())
+            self.assertEqual(len(summary["raw_rows"]), 352)
+            self.assertTrue(all(not row["physical_checked"] for row in summary["raw_rows"]))
+            self.assertFalse(summary["completion"]["complete_352_main_claim_allowed"])
+            self.assertEqual(summary["analysis_index_sha256"], digest)
+            self.assertEqual(summary["source_artifact_SHA256_map"][relative]["sha256"], digest)
+            self.assertNotIn("ANALYSIS_INDEX.main.json", summary["source_artifact_SHA256_map"])
+            self.assertEqual((root / "ANALYSIS_INDEX.main.json").read_bytes(), original)
+            default_output = root / "summary.default.json"
+            self.assertEqual(A.main([str(root), str(default_output)]), 2)
+            self.assertEqual(json.loads(default_output.read_text())["analysis_index_sha256"],
+                             hashlib.sha256(original).hexdigest())
+            with self.assertRaisesRegex(ValueError, "Append-only"):
+                A.main([str(root), str(output), "--index", relative])
+
+    def test_cli_unsafe_index_refused_before_artifact_read(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            parent = Path(tmp)
+            root = parent / "root"
+            root.mkdir()
+            partial_graph(root)
+            outside = parent / "outside.json"
+            outside.write_text("not an analysis index\n")
+            (root / "escape.json").symlink_to(outside)
+            output = root / "new-summary.json"
+            for spelling in (str(outside), "../outside.json", "escape.json"):
+                with self.subTest(index=spelling), mock.patch.object(A.Artifacts, "read_path") as read:
+                    with self.assertRaisesRegex(ValueError, "Artifact .*escape"):
+                        A.main([str(root), str(output), "--index", spelling])
+                    read.assert_not_called()
+                self.assertFalse(output.exists())
+
     def test_analyze_retains_352_cells_and_partial_cost_lower_bounds(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

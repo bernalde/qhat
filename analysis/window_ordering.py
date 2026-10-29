@@ -241,7 +241,7 @@ def _run_worker(executable, request, checkpoint, child_cap, wall_cap, check, sta
     if not worker.is_file():
         raise native.ResourceLimit('installed Julia worker assets are missing')
     argv = [executable, '--startup-file=no', '--history-file=no', '--threads=1', '--gcthreads=1',
-            '--heap-size-hint=64M', '--project=' + str(worker.parent),
+            '--heap-size-hint=32M', '--project=' + str(worker.parent),
             str(worker), str(request), str(checkpoint), repr(child_cap), repr(wall_cap)]
     env = os.environ.copy()
     env.update(JULIA_NUM_THREADS='1', JULIA_NUM_GC_THREADS='1', OPENBLAS_NUM_THREADS='1',

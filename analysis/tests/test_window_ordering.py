@@ -144,7 +144,7 @@ def test_opt_in_roundtrip_keeps_labels_lengths_cost_and_native_authority(tmp_pat
     assert Fraction(request['request']['time'])==Fraction(float(Fraction(37,100)))
     assert request['request']['budget']==80
     assert '--startup-file=no' in request['argv'] and '--threads=1' in request['argv']
-    assert '--heap-size-hint=64M' in request['argv']
+    assert '--heap-size-hint=32M' in request['argv']
     assert result.stats['aggregation']=='exact_real_deltas_before_transport_v2'
     assert result.stats['local_cache_policy']=='allocated_limb_capacity_noinsert_v2'
     assert result.stats['storage_caps']['local_cache_accounted_bytes']==64*1024**2

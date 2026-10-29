@@ -111,8 +111,9 @@ and the existing atom/action counter meanings. This is not a global RAM bound.
 The reader boundary test parses 1024 labels and 8192 words on 20 bits without
 running a large search. Every explicit numerical loop checks a separate scoped
 budget callback. Startup/JIT and non-cooperative allocations are covered by the
-parent's owned-PID watchdog. The normal worker's `--heap-size-hint=64M` guides Julia GC;
-the 512MiB/no-swap owning cgroup is the hard memory bound, and the continued
+parent's owned-PID watchdog. The normal worker's `--heap-size-hint=32M` guides Julia GC.
+This guidance is separate from the unchanged64MiB exact-local cache allowance.
+The 512MiB/no-swap owning cgroup is the hard memory bound, and the continued
 prospective preflight must still satisfy its 400MiB admission gate. The hint does
 not raise that gate or any numerical/resource limit; physical/independent drivers
 retain their separate250M guidance. The supported production path is single-threaded,
