@@ -36,6 +36,9 @@ jobs:
         python -V
         pip --version
 
+    - name: Test continuation accounting and decision rules
+      run: python -m unittest discover -s numerical_audit/cost_matched_continuation/test -p 'test_*.py' -v
+
     - name: Patch pyLIQTR wheel
       run: |
         set -euxo pipefail

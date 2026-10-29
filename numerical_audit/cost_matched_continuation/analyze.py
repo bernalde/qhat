@@ -185,6 +185,34 @@ class Audit:
         self.inputs[str(path.relative_to(self.root))] = actual
         require(actual == digest, 'Archived source digest differs: '+name)
 
+    def worker(self, constructor):
+        """Join finalized metadata to the retained worker's original witness."""
+        path, digest = constructor['worker_output_path'], constructor['worker_output_sha256']
+        fallback = constructor['controller_fallback']
+        require(type(fallback) is bool, 'Explicit controller fallback flag')
+        if digest is None:
+            require(fallback and not self.path(path).exists() and constructor['result'] is None,
+                    'Missing worker digest is inconsistent with retained evidence')
+            return dict(verified=False, reason='missing_worker_output', path=path)
+        require(isinstance(digest, str), 'Worker output digest spelling')
+        worker = self.load(path, digest)
+        require(worker['schema'] == 'cost-matched-worker-v1', 'Worker schema')
+        fields = ('case', 'repetition', 'arm', 'total_CPU_budget', 'model_json_sha256',
+                  'model_toml_sha256', 'protocol_sha256', 'source_freeze_sha256', 'parent_sha256')
+        require(all(worker[key] == constructor[key] for key in fields), 'Worker/canonical identity differs')
+        result = worker['result']
+        require(result == constructor['result'], 'Canonical native result differs from worker')
+        if fallback:
+            require(result is None or isinstance(result, dict) and result.get('score') is None,
+                    'Controller fallback contradicts a scored worker result')
+            return dict(verified=False, reason='worker_refusal' if worker.get('refusal') else
+                        'missing_worker_result' if result is None else 'unscored_worker_result',
+                        path=path, sha256=digest, refusal=worker.get('refusal'))
+        require(isinstance(result, dict) and isinstance(result.get('score'), dict), 'Unscored worker without fallback')
+        require(result['order'] == constructor['order'] and result['score'] == constructor['score'],
+                'Worker/canonical selected order or score differs')
+        return dict(verified=True, reason=None, path=path, sha256=digest)
+
     def ledger(self, constructors):
         ledger = self.load('campaign/LEDGER_CUTOFF.json')
         require(ledger['schema'] == 'cost-matched-ledger-v1' and ledger['cutoff_UTC'] and ledger['scope'],
@@ -224,6 +252,7 @@ class Audit:
                 # Keep measured charges even when a later gate rejects the job.
                 phases.setdefault(phase, []).append(dict(label=label, exit_code=final['exit_code'], raw_CPU_seconds=raw,
                     charged_CPU_seconds=charged, wall_seconds=wall, reserved_CPU_seconds=cpu_cap, reserved_wall_seconds=wall_cap))
+                self.hash_source('campaign/run_guarded_job.py', plan['dispatcher_sha256'])
                 require(plan['label'] == final['label'] == label and plan['phase'] == final['phase'] == phase and
                     plan['pools_sha256'] == ledger['resource_pools']['sha256'] and
                     final['receipt_sha256'] == entry['receipt_sha256'], 'Ledger identity/pool binding')
@@ -324,6 +353,8 @@ def analyze(root):
                 continue
             record = dict(record, analysis_eligible=False, artifact_path=entry['path'], artifact_sha256=entry['sha256'])
             retained.append(record)
+            record['worker_verification'] = audit.attempt('worker:'+entry['path'], lambda row=record: audit.worker(row),
+                dict(verified=False, reason='invalid_worker_evidence'))
             def admit(e=entry, row=record):
                 arm = 'parent' if name == 'PARENTS_FROZEN.json' else e['arm']
                 budget = 0 if arm == 'parent' else e['total_CPU_budget']
@@ -349,7 +380,8 @@ def analyze(root):
                 parent = row if arm == 'parent' else constructors[(row['case'], row['repetition'], 'parent', 0)]
                 require(arm == 'parent' or row['parent_sha256'] == parent['artifact_sha256'], 'Frozen parent hash differs')
                 cost_check(row, parent, config)
-                row['analysis_eligible'] = row['eligible'] is True and row['guard_exit_code'] == 0 and row['controller_fallback'] is False
+                row['analysis_eligible'] = (row['eligible'] is True and row['guard_exit_code'] == 0 and
+                    row['controller_fallback'] is False and row['worker_verification']['verified'] is True)
             audit.attempt('constructor admission:'+entry['path'], admit)
     audit.attempt('constructor grid', lambda: require(set(constructors) == expected and len(retained) == len(expected), 'Missing/extra frozen orders'))
     physical, verified, physical_rows, check_reports = {}, set(), [], []

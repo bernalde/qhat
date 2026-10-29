@@ -155,6 +155,95 @@ class AnalysisArithmeticTests(unittest.TestCase):
 
 
 class ArchivedEvidenceTests(unittest.TestCase):
+    def worker_fixture(self, root, arm='full', budget=32):
+        score = dict(value=1e-9, cubic_response=.001, steps=15)
+        result = dict(order=[0, 1, 2, 3, 4], score=score, accepted_moves=0, status='cpu_limit')
+        identity = dict(case='A', repetition=1, arm=arm, total_CPU_budget=budget,
+            model_json_sha256='a'*64, model_toml_sha256='b'*64, protocol_sha256='c'*64,
+            source_freeze_sha256='d'*64, parent_sha256=None if arm == 'parent' else 'e'*64)
+        worker = dict(identity, schema='cost-matched-worker-v1', result=copy.deepcopy(result), refusal=None)
+        path = 'workers/'+arm+str(budget)+'.json'
+        digest = write_json(root, path, worker)
+        constructor = dict(identity, controller_fallback=False, worker_output_path=path,
+            worker_output_sha256=digest, result=copy.deepcopy(result),
+            order=list(result['order']), score=copy.deepcopy(score))
+        return constructor, worker
+
+    def test_worker_file_binds_native_result_and_all_arm_identities(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            for arm, budget in [('parent', 0), ('full', 32), ('window', 64)]:
+                with self.subTest(arm=arm):
+                    constructor, _ = self.worker_fixture(root, arm, budget)
+                    audit = a.Audit(root)
+                    self.assertTrue(audit.worker(constructor)['verified'])
+                    self.assertEqual(audit.inputs[constructor['worker_output_path']], constructor['worker_output_sha256'])
+
+    def test_worker_header_identity_changes_are_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            constructor, _ = self.worker_fixture(root)
+            replacements = dict(case='B', repetition=2, arm='window', total_CPU_budget=64,
+                model_json_sha256='0'*64, model_toml_sha256='1'*64, protocol_sha256='2'*64,
+                source_freeze_sha256='3'*64, parent_sha256='4'*64)
+            for field, value in replacements.items():
+                with self.subTest(field=field):
+                    changed = copy.deepcopy(constructor)
+                    changed[field] = value
+                    with self.assertRaisesRegex(ValueError, 'Worker/canonical identity'):
+                        a.Audit(root).worker(changed)
+
+    def test_worker_selected_order_score_and_original_result_cannot_change(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            constructor, _ = self.worker_fixture(root)
+            order = copy.deepcopy(constructor)
+            order['order'] = [1, 0, 2, 3, 4]
+            score = copy.deepcopy(constructor)
+            score['score']['value'] *= 2
+            native = copy.deepcopy(constructor)
+            native['result']['accepted_moves'] = 99
+            for label, changed in [('order', order), ('score', score), ('native', native)]:
+                with self.subTest(change=label):
+                    with self.assertRaises(ValueError):
+                        a.Audit(root).worker(changed)
+
+    def test_worker_digest_mismatch_is_rejected_before_metadata_join(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            constructor, worker = self.worker_fixture(root)
+            worker['result']['score']['value'] *= 2
+            write_json(root, constructor['worker_output_path'], worker)
+            with self.assertRaisesRegex(ValueError, 'Input digest differs'):
+                a.Audit(root).worker(constructor)
+
+    def test_missing_unscored_and_refused_workers_keep_fallback_reasons(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            constructor, worker = self.worker_fixture(root)
+            constructor['controller_fallback'] = True
+            worker['result']['score'] = None
+            constructor['result'] = copy.deepcopy(worker['result'])
+            constructor['worker_output_sha256'] = write_json(root, constructor['worker_output_path'], worker)
+            unscored = a.Audit(root).worker(constructor)
+            self.assertFalse(unscored['verified'])
+            self.assertEqual(unscored['reason'], 'unscored_worker_result')
+            worker['result'] = constructor['result'] = None
+            worker['refusal'] = dict(type='SearchDeadline', message='retained worker refusal')
+            constructor['worker_output_sha256'] = write_json(root, constructor['worker_output_path'], worker)
+            refused = a.Audit(root).worker(constructor)
+            self.assertFalse(refused['verified'])
+            self.assertEqual(refused['reason'], 'worker_refusal')
+            self.assertEqual(refused['refusal'], worker['refusal'])
+            (root/constructor['worker_output_path']).unlink()
+            constructor['worker_output_sha256'] = None
+            missing = a.Audit(root).worker(constructor)
+            self.assertFalse(missing['verified'])
+            self.assertEqual(missing['reason'], 'missing_worker_output')
+            constructor['controller_fallback'] = False
+            with self.assertRaisesRegex(ValueError, 'Missing worker digest'):
+                a.Audit(root).worker(constructor)
+
     def test_digest_failure_keeps_actual_digest_and_never_uses_current_source(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
@@ -188,6 +277,9 @@ class ArchivedEvidenceTests(unittest.TestCase):
         guard.parent.mkdir(parents=True, exist_ok=True)
         guard.write_text('# Archived guard fixture; not executed.\n')
         guard_sha = hashlib.sha256(guard.read_bytes()).hexdigest()
+        dispatcher = root/'campaign/run_guarded_job.py'
+        dispatcher.write_text('# Archived dispatcher fixture; not executed.\n')
+        dispatcher_sha = hashlib.sha256(dispatcher.read_bytes()).hexdigest()
         pools_sha = write_json(root, 'campaign/RESOURCE_POOLS.json', dict(
             phases={'constructors': dict(CPU_seconds=100., wall_seconds=500.)},
             guard_path='campaign/resource_guard.py', guard_sha256=guard_sha))
@@ -208,7 +300,7 @@ class ArchivedEvidenceTests(unittest.TestCase):
                 absolute_guarded_wall_seconds=cpu*4, exit_code=2 if label == 'failed-attempt' else 0))
             plan_path = 'campaign/jobs/'+label+'.PLAN.json'
             plan_sha = write_json(root, plan_path, dict(label=label, phase='constructors', pools_sha256=pools_sha,
-                attempt_CPU_seconds=cpu+1, attempt_wall_seconds=cpu*4+5))
+                dispatcher_sha256=dispatcher_sha, attempt_CPU_seconds=cpu+1, attempt_wall_seconds=cpu*4+5))
             jobs.append(dict(reference, phase='constructors', plan_path=plan_path, plan_sha256=plan_sha))
             references[label] = dict(costs(cpu), **reference)
         write_json(root, 'campaign/LEDGER_CUTOFF.json', dict(schema='cost-matched-ledger-v1', cutoff_UTC='2026-10-29T00:00:00Z',
@@ -262,6 +354,19 @@ class ArchivedEvidenceTests(unittest.TestCase):
             self.assertEqual(len(result['jobs']), 5)
             self.assertFalse(result['jobs'][0]['reconciled'])
             self.assertTrue(any('exceeds reserved' in issue['message'] for issue in audit.issues))
+
+    def test_dispatcher_bytes_are_bound_to_each_plan_without_dropping_charges(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            constructors = self.ledger_fixture(root)
+            (root/'campaign/run_guarded_job.py').write_text('# Replaced dispatcher.\n')
+            audit = a.Audit(root)
+            result = audit.ledger(constructors)
+            self.assertEqual(result['charged_CPU_seconds'], 41.)
+            self.assertEqual(result['declared_jobs'], 5)
+            self.assertEqual(result['reconciled_jobs'], 0)
+            self.assertTrue(any('Archived source digest differs: campaign/run_guarded_job.py' in issue['message']
+                                for issue in audit.issues))
 
 
 if __name__ == '__main__':
