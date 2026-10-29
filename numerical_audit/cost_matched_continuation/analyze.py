@@ -125,11 +125,17 @@ def parse_json(raw):
     return json.loads(raw, object_pairs_hook=json_object, parse_constant=reject, parse_float=json_float)
 
 
-def command_flags(command, cwd, script, value_flags, switches=()):
-    """Parse one fixed Python producer grammar; never execute copied text."""
+def command_hygiene(command, cwd):
+    """Share argv/cwd bounds without restricting the recorded executable."""
     require(isinstance(command, list) and 2 <= len(command) <= 32 and
             all(isinstance(value, str) and 0 < len(value) <= 4096 and '\x00' not in value for value in command), 'Bounded command argv')
-    require(posixpath.isabs(cwd) and posixpath.normpath(cwd) == cwd and '\\' not in cwd, 'Absolute producer cwd')
+    require(isinstance(cwd, str) and 0 < len(cwd) <= 4096 and '\x00' not in cwd and
+            posixpath.isabs(cwd) and posixpath.normpath(cwd) == cwd and '\\' not in cwd, 'Absolute producer cwd')
+
+
+def command_flags(command, cwd, script, value_flags, switches=()):
+    """Parse one fixed Python producer grammar; never execute copied text."""
+    command_hygiene(command, cwd)
     expected = posixpath.normpath(cwd+'/numerical_audit/cost_matched_continuation/'+script)
     actual = posixpath.normpath(posixpath.join(cwd, command[1]))
     require(actual == expected, 'Wrong producer script')
@@ -358,6 +364,44 @@ def cgroup_peak(receipt, final, log):
     return max(values) if values else None
 
 
+def memory_diagnostic(jobs, mode, amendment_verified):
+    peaks = [job.get('cgroup_peak_bytes_upper') for job in jobs]
+    finite_peaks = [value for value in peaks if type(value) in (int, float) and math.isfinite(value)]
+    if mode == 'preflight':
+        passed = amendment_verified and bool(jobs) and len(finite_peaks) == len(jobs) and all(
+            0 < value <= 448*1024**2 for value in finite_peaks)
+    else:
+        passed = bool(jobs) and all(isinstance(job.get('settings'), dict) and
+            str(job['settings'].get('MemoryMax')) == '512M' and
+            str(job['settings'].get('MemorySwapMax')) == '0' for job in jobs)
+    return dict(scope='preflight' if mode == 'preflight' else 'main_hard_profile',
+        ceiling_MiB=448 if mode == 'preflight' else 512, passed=bool(passed),
+        maximum_observed_cgroup_peak_bytes_upper=max(finite_peaks, default=None))
+
+
+def finite_report(value, location):
+    """Scientific TOML diagnostics must be finite before whole-case admission."""
+    if isinstance(value, float):
+        require(math.isfinite(value), 'Nonfinite scientific TOML value: '+location)
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            finite_report(item, location+'.'+str(key))
+    elif isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            finite_report(item, location+'['+str(index)+']')
+
+
+def json_presentation(value):
+    """Copy nonfinite diagnostics to strings only after numerical admission."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return 'nonfinite:'+('NaN' if math.isnan(value) else '+Inf' if value > 0 else '-Inf')
+    if isinstance(value, dict):
+        return {key: json_presentation(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [json_presentation(item) for item in value]
+    return value
+
+
 def pair_grid(cases, repetitions, config, physical, constructors, verified):
     """Emit the entire grid, including unavailable or ineligible comparisons."""
     ambiguity, floor = config['physical']['ambiguity'], config['physical']['ratio_floor']
@@ -581,24 +625,34 @@ class Audit:
                 plan = self.load(entry['plan_path'], entry['plan_sha256'])
                 final = self.load(entry['final_path'], entry['final_sha256'])
                 receipt = self.load(entry['receipt_path'], entry['receipt_sha256'])
-                log_path = entry.get('log_path', 'campaign/logs/'+label+'.log')
-                log = self.load(log_path, entry.get('log_sha256'), text=True) if self.path(log_path).exists() else ''
-                if log:
-                    require(log_path not in log_paths, 'Reused job log')
-                    log_paths.add(log_path)
                 retained.update(plan=plan, final=final, raw_final_accounting=receipt.get('final_accounting'),
                     raw_elapsed=receipt.get('elapsed'), settings=receipt.get('settings'),
-                    cgroup_peak_bytes_upper=cgroup_peak(receipt, final, log),
+                    cgroup_peak_bytes_upper=cgroup_peak(receipt, final, ''),
                     process_measurements=receipt.get('process_measurements', {}))
                 phase = entry['phase']
-                raw = receipt.get('final_accounting', {}).get('CPU_seconds')
                 charged, wall = number(final['charged_CPU_seconds']), number(final['absolute_guarded_wall_seconds'])
                 cpu_cap, wall_cap = number(plan['attempt_CPU_seconds']), number(plan['attempt_wall_seconds'])
-                if raw is not None:
-                    number(raw)
-                # Keep measured charges even when a later gate rejects the job.
-                phases.setdefault(phase, []).append(dict(label=label, exit_code=final['exit_code'], raw_CPU_seconds=raw,
-                    charged_CPU_seconds=charged, wall_seconds=wall, reserved_CPU_seconds=cpu_cap, reserved_wall_seconds=wall_cap))
+                # Retain authenticated known charges before reading a possibly
+                # missing/damaged log. A partial guard sample is not terminal CPU.
+                measured = dict(label=label, exit_code=final['exit_code'], raw_CPU_seconds=None,
+                    charged_CPU_seconds=charged, wall_seconds=wall, reserved_CPU_seconds=cpu_cap, reserved_wall_seconds=wall_cap)
+                phases.setdefault(phase, []).append(measured)
+                terminal = terminal_accounting(receipt, final, '', cpu_cap)
+                measured['raw_CPU_seconds'] = terminal['raw_terminal_CPU_seconds']
+                measured['guard_reported_CPU_seconds'] = terminal['guard_reported_CPU_seconds']
+                retained['terminal_accounting'] = terminal
+                log_path = entry.get('log_path', 'campaign/logs/'+label+'.log')
+                declared_log = 'log_path' in entry or 'log_sha256' in entry
+                log = ''
+                if declared_log or 'raw_terminal_CPU_seconds' in final or self.path(log_path).exists():
+                    require(log_path not in log_paths, 'Reused job log')
+                    log_paths.add(log_path)  # Empty logs still belong to the inventory.
+                    log = self.load(log_path, entry.get('log_sha256'), text=True)
+                if declared_log or 'raw_terminal_CPU_seconds' in final:
+                    require(isinstance(entry.get('log_path'), str) and
+                        isinstance(entry.get('log_sha256'), str) and
+                        re.fullmatch(r'[0-9a-f]{64}', entry['log_sha256']) is not None,
+                        'Declared/new job needs authenticated terminal log pins')
                 require(re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9-]{0,127}', label) is not None and
                     entry['plan_path'] == 'campaign/jobs/'+label+'.PLAN.json' and
                     entry['final_path'] == 'campaign/jobs/'+label+'.FINAL.json' and
@@ -616,11 +670,9 @@ class Audit:
                     final['receipt_sha256'] == entry['receipt_sha256'], 'Ledger identity/pool binding')
                 terminal = terminal_accounting(receipt, final, log, cpu_cap)
                 retained['terminal_accounting'] = terminal
+                measured['raw_CPU_seconds'] = terminal['raw_terminal_CPU_seconds']
+                measured['guard_reported_CPU_seconds'] = terminal['guard_reported_CPU_seconds']
                 if 'raw_terminal_CPU_seconds' in final:
-                    phases[phase][-1]['raw_CPU_seconds'] = terminal['raw_terminal_CPU_seconds']
-                    phases[phase][-1]['guard_reported_CPU_seconds'] = raw
-                if 'raw_terminal_CPU_seconds' in final:
-                    require('log_path' in entry and 'log_sha256' in entry, 'New FINAL needs authenticated terminal log')
                     require(final['raw_terminal_CPU_seconds'] == terminal['raw_terminal_CPU_seconds'] and
                         final['terminal_CPU_measurement_available'] is terminal['terminal_CPU_measurement_available'] and
                         final['guard_reported_CPU_seconds'] == terminal['guard_reported_CPU_seconds'], 'FINAL terminal CPU evidence differs')
@@ -651,7 +703,11 @@ class Audit:
                     attributed.add(label)
                     require(all(cost[key] == entry[key] for key in ('final_path', 'final_sha256', 'receipt_path', 'receipt_sha256')),
                             'Constructor ledger artifact identity differs')
-                    raw_cpu = job['final'].get('raw_terminal_CPU_seconds', job['receipt'].get('final_accounting', {}).get('CPU_seconds'))
+                    # Legacy canonical files had no terminal field or log pin.
+                    # Require independent process/service evidence for their raw
+                    # CPU, rather than promoting an arbitrary last guard sample.
+                    raw_cpu = (job['final']['raw_terminal_CPU_seconds'] if 'raw_terminal_CPU_seconds' in job['final'] else
+                        terminal_accounting(job['receipt'], job['final'], '', job['plan']['attempt_CPU_seconds'])['raw_terminal_CPU_seconds'])
                     require(cost['raw_CPU_seconds'] == raw_cpu and
                         cost['charged_CPU_seconds'] == job['final']['charged_CPU_seconds'] and
                         cost['wall_seconds'] == job['final']['absolute_guarded_wall_seconds'], 'Constructor costs differ from OS evidence')
@@ -717,6 +773,7 @@ class Audit:
             return command_flags(plan['command'], plan['cwd'], script, flags, switches)
         def julia(plan, script, arguments):
             argv = plan['command']
+            command_hygiene(argv, plan['cwd'])
             expected = posixpath.normpath(plan['cwd']+'/numerical_audit/cost_matched_continuation/'+script)
             return (len(argv) == 4+len(arguments) and argv[1:3] == ['--startup-file=no', '--threads=1'] and
                 posixpath.normpath(posixpath.join(plan['cwd'], argv[3])) == expected and argv[4:] == arguments)
@@ -912,6 +969,8 @@ def analyze(root, preflight_only=False):
             audit.attempt('physical row:'+case+':'+str(row.get('name')), retain)
         def inspect_case():
             case_verified = set()
+            for name, producer in (('physical', report), ('independent', verify), ('objective', objective)):
+                finite_report(producer, name)
             entry = panels[case]
             panel = audit.load(entry['path'], entry['sha256'])
             panel_sha = audit.inputs[str(audit.path(entry['path']).relative_to(audit.root))]
@@ -1001,7 +1060,11 @@ def analyze(root, preflight_only=False):
     pairs = pair_grid(cases, repetitions, config, physical, constructors, verified)
     resources = audit.attempt('resource totals', lambda: resource_totals(constructors), {})
     resources['inventory_complete'] = set(constructors) == expected and len(retained) == len(expected)
-    all_gates = not audit.issues and all(row['analysis_eligible'] for row in constructors.values())
+    jobs = [] if ledger is None else ledger['jobs']
+    memory = memory_diagnostic(jobs, mode, amendment_verified)
+    audit.attempt('memory gate', lambda: require(memory['passed'],
+        'Preflight cgroup memory gate failed' if mode == 'preflight' else 'Main hard memory profile missing/differs'))
+    all_gates = memory['passed'] and not audit.issues and all(row['analysis_eligible'] for row in constructors.values())
     primary = primary_decision(pairs, cases, repetitions, config, all_gates)
     if mode == 'preflight':
         primary['decision'] = 'preflight_only' if all_gates else 'study_incomplete'
@@ -1012,12 +1075,7 @@ def analyze(root, preflight_only=False):
             counts={outcome: sum(row['outcome'] == outcome for row in rows) for outcome in ('win', 'tie', 'loss', 'unavailable')},
             median_paired_difference=statistics.median([row['difference'] for row in rows if row['difference'] is not None])
             if any(row['difference'] is not None for row in rows) else None))
-    jobs = [] if ledger is None else ledger['jobs']
-    peaks = [job.get('cgroup_peak_bytes_upper') for job in jobs]
-    memory_pass = (amendment_verified and bool(jobs) and all(value is not None and 0 < value <= 448*1024**2 for value in peaks)) if mode == 'preflight' else (
-        bool(jobs) and all(job.get('settings', {}).get('MemoryMax') == '512M' and
-                          job.get('settings', {}).get('MemorySwapMax') == '0' for job in jobs))
-    return dict(schema='cost-matched-continuation-analysis-v1', status='complete' if all_gates else 'qualified',
+    return json_presentation(dict(schema='cost-matched-continuation-analysis-v1', status='complete' if all_gates else 'qualified',
         study_complete=all_gates, mode=mode, cases=cases, repetitions=repetitions,
         analyzer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), protocol_sha256=protocol_sha,
         source_freeze_sha256=source_sha, input_digests=audit.inputs, issues=audit.issues,
@@ -1026,9 +1084,7 @@ def analyze(root, preflight_only=False):
         paired_rows=pairs, primary=primary, secondary=secondary, resources=resources,
         resource_scope='Frozen constructor records: actual shared executions versus attributed comparisons; missing inventory is qualified; physical rows never multiply costs',
         verification_reports=check_reports, scientific_cutoff_ledger=ledger, input_freeze=inputs,
-        preflight_prerequisite=prerequisite, memory_gate=dict(scope='preflight' if mode == 'preflight' else 'main_hard_profile',
-            ceiling_MiB=448 if mode == 'preflight' else 512, passed=bool(memory_pass),
-            maximum_observed_cgroup_peak_bytes_upper=max((value for value in peaks if value is not None), default=None)))
+        preflight_prerequisite=prerequisite, memory_gate=memory))
 
 
 def write_new(path, result):

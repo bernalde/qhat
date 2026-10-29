@@ -25,6 +25,7 @@ MAX_JSON = 32 * 1024**2
 MAX_MODEL = 8 * 1024**2
 COST_FIELDS = ('raw_CPU_seconds', 'charged_CPU_seconds', 'wall_seconds')
 HASH = re.compile(r'[0-9a-f]{64}')
+UNINDEXED = object()
 
 
 def require(condition, message):
@@ -75,18 +76,18 @@ class Artifacts:
         require(path.is_relative_to(self.root) and path.is_file(), 'Artifact escapes retained run or is not a file')
         return path
 
-    def raw(self, spelling, expected=None, maximum=MAX_JSON):
+    def raw(self, spelling, expected=UNINDEXED, maximum=MAX_JSON):
         path = self.path(spelling)
         require(path.stat().st_size <= maximum, 'Artifact byte cap: '+spelling)
         with path.open('rb') as stream:
             raw = stream.read(maximum+1)
         require(len(raw) <= maximum, 'Growing artifact byte cap: '+spelling)
         actual = hashlib.sha256(raw).hexdigest()
-        require(expected is None or digest(expected) == actual, 'Artifact hash differs: '+spelling)
+        require(expected is UNINDEXED or digest(expected) == actual, 'Artifact hash differs: '+spelling)
         self.digests[spelling] = actual
         return raw
 
-    def load(self, spelling, expected=None, maximum=MAX_JSON):
+    def load(self, spelling, expected=UNINDEXED, maximum=MAX_JSON):
         return json.loads(self.raw(spelling, expected, maximum), object_pairs_hook=unique_object,
                           parse_constant=reject_constant)
 
@@ -128,8 +129,13 @@ def cost_evidence(artifacts, cost, record, parent, worker, config):
     final = artifacts.load(cost['final_path'], cost['final_sha256'])
     receipt = artifacts.load(cost['receipt_path'], cost['receipt_sha256'])
     plan_path = 'campaign/jobs/'+name+'.PLAN.json'
-    require(cost.get('plan_path', plan_path) == plan_path, 'Canonical owning PLAN path')
-    plan = artifacts.load(plan_path, cost.get('plan_sha256'))
+    if 'plan_path' in cost or 'plan_sha256' in cost:
+        require(cost.get('plan_path') == plan_path and 'plan_sha256' in cost, 'Canonical owning PLAN pin pair')
+        plan = artifacts.load(plan_path, cost['plan_sha256'])
+    else:
+        # Original records omitted both PLAN fields; the independent ledger
+        # still authenticates that PLAN and its complete command grammar.
+        plan = artifacts.load(plan_path)
     require(final['phase'] == 'constructors' and final['label'] == name and
             final['receipt_sha256'] == cost['receipt_sha256'], 'Owning-job FINAL/receipt identity')
     require(cost['raw_CPU_seconds'] == raw_cpu(final, receipt) and
@@ -179,6 +185,24 @@ def cost_check(artifacts, record, parent, config, worker):
     cost_evidence(artifacts, costs['prefix'] if parent_arm else costs['continuation'], record, parent, worker, config)
 
 
+def parent_preparation(record):
+    """Verify the measured witness structurally; never generate new starts."""
+    plan = record.get('restarts')
+    if plan is None:
+        return
+    material = (record['case']+':'+str(record['repetition'])+':cost-matched-v1').encode('utf-8')
+    seed = int.from_bytes(hashlib.sha256(material).digest()[:8], 'big')
+    require(isinstance(plan, dict) and type(plan.get('seed')) is int and plan['seed'] == seed and
+            plan.get('interior_perturbation_counts') == [0, 1, 2, 4] and
+            all(type(value) is int for value in plan['interior_perturbation_counts']), 'Frozen parent restart seed/counts')
+    orders = plan.get('orders'); order = record['order']
+    require(isinstance(orders, list) and len(orders) == 4, 'Four measured parent starts')
+    for candidate in orders:
+        k.validate_order(candidate, len(order))
+        require(candidate[0] == order[0] and candidate[-1] == order[-1], 'Interior frozen parent starts')
+    require(orders[0] == order and len({tuple(value) for value in orders}) == 4, 'Distinct frozen parent starts')
+
+
 def worker_witness(artifacts, record, parent):
     spelling, expected = record['worker_output_path'], record['worker_output_sha256']
     relative(spelling)
@@ -199,6 +223,7 @@ def worker_witness(artifacts, record, parent):
                     'Selected incumbent differs from worker')
             if record['arm'] == 'parent':
                 require(worker.get('restarts') == record.get('restarts'), 'Measured restart preparation differs')
+                parent_preparation(record)
             else:
                 expected_starts = parent['restarts']['orders'] if record['arm'] == 'full' else [parent['order']]
                 require(worker['starts'] == expected_starts, 'Continuation input starts differ from frozen parent')

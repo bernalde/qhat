@@ -68,7 +68,33 @@ def raw_cpu(final, receipt):
         raw = final['raw_terminal_CPU_seconds']
         require((raw is None) == (not known), 'Unknown terminal CPU must remain null')
         return raw
-    return receipt.get('final_accounting', {}).get('CPU_seconds')
+    # Legacy guard CPU includes live polls. It is a lower-bound diagnostic
+    # until process timing or a successful post-exit service query is known.
+    def valid(value):
+        try:
+            return type(value) in (int, float) and math.isfinite(value) and value >= 0
+        except OverflowError:
+            return False
+    accounting = receipt.get('final_accounting', {})
+    process = receipt.get('process_measurements', {})
+    measured = []
+    if accounting.get('process_CPU_timing_available') is True:
+        user, system = process.get('user_cpu_seconds'), process.get('system_cpu_seconds')
+        if valid(user) and valid(system) and valid(user+system):
+            measured.append(user+system)
+    service = final.get('final_service_snapshot', {}).get('CPUUsageNSec')
+    if final.get('final_service_query_exit') == 0 and isinstance(service, str) and service.isascii() and service.isdigit():
+        try:
+            value = int(service)/1e9
+        except (ValueError, OverflowError):
+            value = None
+        if valid(value):
+            measured.append(value)
+    if not measured:
+        return None
+    guard = accounting.get('CPU_seconds')
+    require(guard is None or valid(guard), 'Finite nonnegative legacy guard CPU')
+    return max(measured+([] if guard is None else [guard]))
 
 
 def bind_worker(plan, receipt, owner, parent, worker, config):
@@ -81,6 +107,10 @@ def bind_worker(plan, receipt, owner, parent, worker, config):
     require(absolute(args['--raw']) == original_root/relative(owner['worker_output_path']),
             'PLAN writes a different worker output')
     parent_arm = owner['arm'] == 'parent'
+    if not parent_arm:
+        require(isinstance(parent, dict) and
+                (parent.get('case'), parent.get('repetition'), parent.get('arm')) ==
+                (owner['case'], owner['repetition'], 'parent'), 'Frozen parent identity differs from worker')
     expected_cpu = config['parent']['CPU_seconds'] if parent_arm else (
         owner['total_CPU_budget']-parent['costs']['total']['charged_CPU_seconds'])
     expected_wall = config['parent']['wall_seconds'] if parent_arm else math.floor(

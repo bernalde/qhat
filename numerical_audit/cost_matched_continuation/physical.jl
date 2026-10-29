@@ -127,6 +127,9 @@ function admit(input, candidates_path)
         require(hexhash(row["constructor_sha256"]) && hexhash(row["parent_sha256"]), "constructor/parent hashes")
         require(row["claimed_score"] isa AbstractFloat && isfinite(row["claimed_score"]) && row["claimed_score"] >= 0 &&
             row["score_kind"] == "diagonal_reference_cubic_response", "finite scored constructor witness")
+        require(haskey(row, "constructor_score") && row["constructor_score"] isa Real &&
+            !(row["constructor_score"] isa Bool) && isfinite(row["constructor_score"]) &&
+            row["constructor_score"] == row["claimed_score"], "matching constructor score aliases")
         oid = row["order_id"]; signature = order_identity(row)
         require(!haskey(orders, oid) || orders[oid] == signature, "order_id changes constructor identity/order")
         orders[oid] = signature; counts[oid] = get(counts, oid, 0) + 1

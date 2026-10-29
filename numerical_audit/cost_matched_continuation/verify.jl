@@ -76,6 +76,9 @@ function admit_candidates(model, candidates_path)
         require(hexhash(row["constructor_sha256"]) && hexhash(row["parent_sha256"]), "constructor and parent hash spelling")
         require(row["claimed_score"] isa AbstractFloat && isfinite(row["claimed_score"]) && row["claimed_score"] >= 0 &&
             row["score_kind"] == "diagonal_reference_cubic_response", "finite objective witness")
+        require(haskey(row, "constructor_score") && row["constructor_score"] isa Real &&
+            !(row["constructor_score"] isa Bool) && isfinite(row["constructor_score"]) &&
+            row["constructor_score"] == row["claimed_score"], "matching constructor score aliases")
         oid = row["order_id"]; sig = signature(row)
         require(!haskey(order_ids, oid) || order_ids[oid] == sig, "order_id changes constructor/order identity")
         order_ids[oid] = sig; counts[oid] = get(counts, oid, 0) + 1

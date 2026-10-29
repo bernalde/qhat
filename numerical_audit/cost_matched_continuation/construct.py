@@ -133,16 +133,22 @@ def worker(root, case, repetition, arm, budget, cpu_cap, wall_cap, output, julia
             cpu_seconds=available, max_evaluations=limits['max_evaluations'], max_moves=limits['max_moves'],
             max_entries=config['native']['max_entries'], max_cached_actions=config['native']['max_cached_actions'],
             starts=starts, **options)
-        result = asdict(trained)
-        result['order'] = list(result['order'])
-        k.validate_order(result['order'], len(units))
-        if result['score'] is not None:
-            k.require(all(math.isfinite(result['score'][key]) and result['score'][key] >= 0
+        candidate = asdict(trained)
+        candidate['order'] = list(candidate['order'])
+        k.validate_order(candidate['order'], len(units))
+        if candidate['score'] is not None:
+            k.require(all(type(candidate['score'][key]) in (int, float) and
+                math.isfinite(candidate['score'][key]) and candidate['score'][key] >= 0
                 for key in ('value', 'cubic_response')), 'Finite fully scored result')
-            if arm == 'parent':
-                phase = time.process_time()
-                restart_plan = restarts(result['order'], case, repetition)
-                restart_CPU = time.process_time()-phase
+            k.require(type(candidate['score']['steps']) is int and candidate['score']['steps'] > 0,
+                      'Positive integer scored steps')
+        # Promote only a validated incumbent. A later preparation refusal must
+        # retain this result even when no measured restart plan is available.
+        result = candidate
+        if result['score'] is not None and arm == 'parent':
+            phase = time.process_time()
+            restart_plan = restarts(result['order'], case, repetition)
+            restart_CPU = time.process_time()-phase
     except Exception as exc:
         refusal = dict(type=type(exc).__name__, message=str(exc))
     k.write_new(output, dict(schema='cost-matched-worker-v1', case=case, repetition=repetition,
@@ -211,6 +217,9 @@ def finalize(root, case, repetition, arm, budget, raw, campaign, label):
         score = None if parent is None else parent['score']
     else:
         order, score = result['order'], result['score']
+        if parent is not None:
+            expected_starts = parent['restarts']['orders'] if arm == 'full' else [parent['order']]
+            k.require(record.get('starts') == expected_starts, 'Continuation input starts differ from frozen parent')
     k.validate_order(order, len(model['blocks']))
     admission = execution_admission(arm, result,
         parent_order=None if parent is None else parent['order'],

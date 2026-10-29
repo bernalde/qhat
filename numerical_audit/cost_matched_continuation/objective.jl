@@ -6,6 +6,14 @@ using LinearAlgebra
 const ROOT = normpath(joinpath(@__DIR__, "..", ".."))
 include(joinpath(ROOT, "numerical_audit", "prospective_window_ordering", "objective_check.jl"))
 
+# Legacy replay also supports censored rows. This study supplies a score for
+# every logical row, while identical objectives may share one numerical check.
+function complete_scored_panel(result)
+    result["complete"] === true && result["all_scored_objectives_verified"] === true &&
+        result["unscored_rows"] == 0 &&
+        result["processed_logical_rows"] == result["scored_logical_rows"] == result["expected_logical_rows"]
+end
+
 function main(args=ARGS)
     length(args) == 3 || error("usage: objective.jl INPUT_MODEL.toml CANDIDATES.toml FRESH_OUTPUT_DIRECTORY")
     input, candidates, output = args
@@ -15,7 +23,7 @@ function main(args=ARGS)
     mkdir(output)
     result = ObjectiveCheck.run_check(input, candidates, joinpath(output, "OBJECTIVE.toml");
         cpu_limit=120.0, wall_limit=600.0)
-    result["complete"] ? 0 : 2
+    complete_scored_panel(result) ? 0 : 2
 end
 end
 

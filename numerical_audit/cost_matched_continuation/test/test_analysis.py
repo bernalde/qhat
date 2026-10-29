@@ -353,6 +353,60 @@ class ArchivedEvidenceTests(unittest.TestCase):
             audit.ledger(constructors)
             self.assertTrue(any('Unindexed/missing archived job' in issue['message'] for issue in audit.issues))
 
+    def test_log_admission_preserves_charges_and_indexes_empty_or_legacy_logs(self):
+        for scenario in ('empty', 'missing', 'bad_digest', 'null_digest', 'new_unpinned', 'legacy_absent', 'unknown_missing', 'legacy_unknown'):
+            with self.subTest(scenario=scenario), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                constructors = self.ledger_fixture(root)
+                cutoff = json.loads((root/'campaign/LEDGER_CUTOFF.json').read_text())
+                entry = cutoff['jobs'][0]
+                log = root/entry['log_path']
+                if scenario == 'empty':
+                    log.write_bytes(b'')
+                    entry['log_sha256'] = hashlib.sha256(b'').hexdigest()
+                elif scenario in ('missing', 'legacy_absent', 'unknown_missing', 'legacy_unknown'):
+                    log.unlink()
+                elif scenario == 'bad_digest':
+                    log.write_text('Changed retained log.\n')
+                elif scenario == 'null_digest':
+                    entry['log_sha256'] = None
+                if scenario in ('new_unpinned', 'unknown_missing', 'legacy_unknown'):
+                    final = json.loads((root/entry['final_path']).read_text())
+                    unknown = scenario in ('unknown_missing', 'legacy_unknown')
+                    if unknown:
+                        final['final_service_snapshot'].pop('CPUUsageNSec')
+                        final['charged_CPU_seconds'] = 2.
+                    if scenario != 'legacy_unknown':
+                        final.update(raw_terminal_CPU_seconds=None if unknown else 1.,
+                            terminal_CPU_measurement_available=not unknown, guard_reported_CPU_seconds=1.)
+                    entry['final_sha256'] = write_json(root, entry['final_path'], final)
+                if scenario in ('legacy_absent', 'new_unpinned', 'legacy_unknown'):
+                    del entry['log_path'], entry['log_sha256']
+                if scenario == 'legacy_unknown':
+                    for row in constructors.values():
+                        row['eligible'], row['analysis_eligible'] = False, False
+                        row['costs']['prefix'].update(raw_CPU_seconds=None, charged_CPU_seconds=2.,
+                            final_sha256=entry['final_sha256'])
+                write_json(root, 'campaign/LEDGER_CUTOFF.json', cutoff)
+                audit = a.Audit(root)
+                result = audit.ledger(constructors)
+                valid = scenario in ('empty', 'legacy_absent', 'legacy_unknown')
+                self.assertEqual(result['reconciled_jobs'], 5 if valid else 4)
+                self.assertEqual(result['charged_CPU_seconds'], 42. if scenario in ('unknown_missing', 'legacy_unknown') else 41.)
+                self.assertEqual(result['wall_seconds'], 164.)
+                self.assertEqual(len(result['phases']['constructors']['jobs']), 5)
+                self.assertEqual(result['jobs'][0]['reconciled'], valid)
+                if valid:
+                    self.assertEqual(audit.issues, [])
+                else:
+                    self.assertTrue(any(issue['scope'] == 'ledger job:parent' for issue in audit.issues))
+                if scenario in ('empty', 'bad_digest', 'null_digest', 'new_unpinned'):
+                    self.assertEqual(audit.inputs['campaign/logs/parent.log'], hashlib.sha256(log.read_bytes()).hexdigest())
+                if scenario in ('unknown_missing', 'legacy_unknown'):
+                    self.assertIsNone(result['phases']['constructors']['jobs'][0]['raw_CPU_seconds'])
+                    self.assertEqual(result['phases']['constructors']['unknown_raw_CPU_jobs'], 1)
+                    self.assertEqual(result['jobs'][0]['terminal_accounting']['minimum_charged_CPU_seconds'], 2.)
+
     def test_ledger_joins_once_per_actual_job_and_retains_failures(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
@@ -481,6 +535,24 @@ class ConsumerBoundaryTests(unittest.TestCase):
         self.assertLess(peak, 448*1024**2)
         self.assertGreater(a.cgroup_peak(receipt, {}, 'Memory peak: 450M\n'), 448*1024**2)
 
+    def test_memory_diagnostic_normalizes_zero_and_preserves_separate_main_ceiling(self):
+        for swap in ('0', 0):
+            with self.subTest(swap=swap):
+                jobs = [dict(settings=dict(MemoryMax='512M', MemorySwapMax=swap),
+                             cgroup_peak_bytes_upper=500*1024**2)]
+                main = a.memory_diagnostic(jobs, 'main', True)
+                self.assertTrue(main['passed'])
+                self.assertEqual(main['ceiling_MiB'], 512)
+                self.assertFalse(a.memory_diagnostic(jobs, 'preflight', True)['passed'])
+                jobs[0]['cgroup_peak_bytes_upper'] = 448*1024**2
+                self.assertTrue(a.memory_diagnostic(jobs, 'preflight', True)['passed'])
+                self.assertFalse(a.memory_diagnostic(jobs, 'preflight', False)['passed'])
+        for settings in (dict(MemoryMax='448M', MemorySwapMax='0'),
+                         dict(MemoryMax='512M', MemorySwapMax=1), {}, None):
+            with self.subTest(settings=settings):
+                self.assertFalse(a.memory_diagnostic([dict(settings=settings)], 'main', True)['passed'])
+        self.assertFalse(a.memory_diagnostic([], 'main', True)['passed'])
+
     def test_independent_execution_gate_rejects_masked_failure_and_keeps_checkpoint(self):
         parent = list(range(12))
         result = dict(order=[0, 2, 1]+list(range(3, 12)), score=dict(value=1e-9, cubic_response=1e-5, steps=10),
@@ -556,6 +628,21 @@ class ConsumerBoundaryTests(unittest.TestCase):
             self.assertTrue(result['global_pass'])
             self.assertEqual(result['verified_cases'], ['B'])
             self.assertTrue(any('Missing/ambiguous successful scientific guard' in issue['message'] for issue in audit.issues))
+            original = copy.deepcopy(audit.reconciled)
+            for cwd, executable in (('source', 'julia'), ('/source/.', 'julia'), ('/source\\tail', 'julia'),
+                                    ('/source', None), ('/source', 'julia\x00')):
+                with self.subTest(cwd=cwd, executable=executable):
+                    audit = a.Audit(folder)
+                    audit.original_roots = {'/old/data'}
+                    audit.reconciled = copy.deepcopy(original)
+                    plan = audit.reconciled['Bphysics']['plan']
+                    plan['cwd'], plan['command'][0] = cwd, executable
+                    # A relative script still resolves correctly under a valid
+                    # cwd; the rejection here must come from cwd/argv hygiene.
+                    plan['command'][3] = 'numerical_audit/cost_matched_continuation/physical.jl'
+                    result = audit.scientific_jobs('preflight', ['A', 'B'])
+                    self.assertTrue(result['global_pass'])
+                    self.assertEqual(result['verified_cases'], [])
 
     def test_restart_witness_and_full_start_graph_must_match(self):
         parent = self.graph_fixture()
@@ -741,38 +828,41 @@ class ConsumerBoundaryTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'does not admit'):
                     a.preflight_proof(a.Audit(root), main)
 
+    def incomplete_run_fixture(self, root):
+        config = json.loads((HERE/'PROTOCOL.json').read_text())
+        config['preflight']['case'] = 'A'
+        protocol = 'numerical_audit/cost_matched_continuation/PROTOCOL.json'
+        protocol_sha = write_json(root, 'source_snapshot/'+protocol, config)
+        amendment = 'numerical_audit/cost_matched_continuation/PREFLIGHT_RESOURCE_AMENDMENT.json'
+        amendment_sha = write_json(root, 'source_snapshot/'+amendment, json.loads((HERE/'PREFLIGHT_RESOURCE_AMENDMENT.json').read_text()))
+        source_sha = write_json(root, 'INPUT_PROTOCOL_FROZEN.json', dict(mode='preflight',
+            configuration=config, configuration_sha256=protocol_sha,
+            sources={protocol: protocol_sha, amendment: amendment_sha},
+            registry=dict(cases=[dict(case='X'), dict(case='Y')]), environment={}))
+        header = dict(mode='preflight', cases=['A'], repetitions=1, protocol_sha256=protocol_sha,
+            source_freeze_sha256=source_sha, protocol_path='source_snapshot/'+protocol,
+            source_freeze_path='INPUT_PROTOCOL_FROZEN.json', entries=[])
+        parents_sha = write_json(root, 'PARENTS_FROZEN.json', header)
+        constructors_sha = write_json(root, 'CONSTRUCTORS_FROZEN.json', header)
+        write_json(root, 'PANELS_FROZEN.json', dict(header, input_freeze_sha256='0'*64,
+            parents_freeze_sha256=parents_sha, constructors_freeze_sha256=constructors_sha))
+        rows = []
+        for arm in ('full', 'window'):
+            for budget in (32, 64):
+                for duration in (.65, 1.35):
+                    for cap in (8, 24):
+                        values = dict(arm=arm, repetition=1, cpu_budget=budget, time=duration,
+                            budget_multiplier=cap, name=arm+str(budget)+str(duration)+str(cap),
+                            projective_error=.02 if arm == 'window' else .01)
+                        rows.append('[[rows]]\n'+'\n'.join(key+'='+json.dumps(value) for key, value in values.items()))
+        target = root/'physical/A/PHYSICAL.toml'
+        target.parent.mkdir(parents=True)
+        target.write_text('\n'.join(rows)+'\n')
+
     def test_incomplete_analyze_requires_input_freeze_without_erasing_metrics(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
-            config = json.loads((HERE/'PROTOCOL.json').read_text())
-            config['preflight']['case'] = 'A'
-            protocol = 'numerical_audit/cost_matched_continuation/PROTOCOL.json'
-            protocol_sha = write_json(root, 'source_snapshot/'+protocol, config)
-            amendment = 'numerical_audit/cost_matched_continuation/PREFLIGHT_RESOURCE_AMENDMENT.json'
-            amendment_sha = write_json(root, 'source_snapshot/'+amendment, json.loads((HERE/'PREFLIGHT_RESOURCE_AMENDMENT.json').read_text()))
-            source_sha = write_json(root, 'INPUT_PROTOCOL_FROZEN.json', dict(mode='preflight',
-                configuration=config, configuration_sha256=protocol_sha,
-                sources={protocol: protocol_sha, amendment: amendment_sha},
-                registry=dict(cases=[dict(case='X'), dict(case='Y')]), environment={}))
-            header = dict(mode='preflight', cases=['A'], repetitions=1, protocol_sha256=protocol_sha,
-                source_freeze_sha256=source_sha, protocol_path='source_snapshot/'+protocol,
-                source_freeze_path='INPUT_PROTOCOL_FROZEN.json', entries=[])
-            parents_sha = write_json(root, 'PARENTS_FROZEN.json', header)
-            constructors_sha = write_json(root, 'CONSTRUCTORS_FROZEN.json', header)
-            write_json(root, 'PANELS_FROZEN.json', dict(header, input_freeze_sha256='0'*64,
-                parents_freeze_sha256=parents_sha, constructors_freeze_sha256=constructors_sha))
-            rows = []
-            for arm in ('full', 'window'):
-                for budget in (32, 64):
-                    for duration in (.65, 1.35):
-                        for cap in (8, 24):
-                            values = dict(arm=arm, repetition=1, cpu_budget=budget, time=duration,
-                                budget_multiplier=cap, name=arm+str(budget)+str(duration)+str(cap),
-                                projective_error=.02 if arm == 'window' else .01)
-                            rows.append('[[rows]]\n'+'\n'.join(key+'='+json.dumps(value) for key, value in values.items()))
-            target = root/'physical/A/PHYSICAL.toml'
-            target.parent.mkdir(parents=True)
-            target.write_text('\n'.join(rows)+'\n')
+            self.incomplete_run_fixture(root)
             result = a.analyze(root, preflight_only=True)
             self.assertFalse(result['study_complete'])
             self.assertEqual(result['primary']['decision'], 'study_incomplete')
@@ -781,6 +871,42 @@ class ConsumerBoundaryTests(unittest.TestCase):
             self.assertTrue(all(row['outcome'] == 'loss' and not row['eligible'] for row in result['paired_rows']))
             self.assertTrue(any(issue['scope'] == 'input freeze' for issue in result['issues']))
             self.assertFalse(result['resources']['inventory_complete'])
+            self.assertFalse(result['memory_gate']['passed'])
+            self.assertTrue(any(issue['scope'] == 'memory gate' for issue in result['issues']))
+
+    def test_nonfinite_toml_qualifies_case_but_retains_rows_losses_costs_and_digest(self):
+        for report in ('physical/A/PHYSICAL.toml', 'independent/A/VERIFY.toml', 'objective/A/OBJECTIVE.toml'):
+            with self.subTest(report=report), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                self.incomplete_run_fixture(root)
+                target = root/report
+                target.parent.mkdir(parents=True, exist_ok=True)
+                original = target.read_text() if target.exists() else ''
+                target.write_text('[diagnostic]\nnan_value=nan\npositive=+inf\nnegative=-inf\nfinite=0.25\n'+original)
+                digest = hashlib.sha256(target.read_bytes()).hexdigest()
+                retained_ledger = dict(jobs=[dict(settings=dict(MemoryMax='512M', MemorySwapMax=0),
+                    cgroup_peak_bytes_upper=1024**2)], charged_CPU_seconds=7., wall_seconds=28.,
+                    scientific_output_guards=dict(global_pass=True, verified_cases=['A']))
+                with mock.patch.object(a.Audit, 'ledger', return_value=retained_ledger):
+                    result = a.analyze(root, preflight_only=True)
+                self.assertEqual(result['status'], 'qualified')
+                self.assertFalse(result['study_complete'])
+                self.assertEqual(result['primary']['decision'], 'study_incomplete')
+                self.assertTrue(any(issue['scope'] == 'case:A' and 'Nonfinite scientific TOML value' in issue['message']
+                                    for issue in result['issues']))
+                self.assertEqual(result['input_digests'][report], digest)
+                self.assertEqual(len(result['physical_rows']), 16)
+                self.assertEqual(len(result['paired_rows']), 8)
+                self.assertTrue(all(row['outcome'] == 'loss' and not row['eligible'] for row in result['paired_rows']))
+                self.assertEqual(result['scientific_cutoff_ledger']['charged_CPU_seconds'], 7.)
+                kind = report.split('/')[0]
+                diagnostic = result['verification_reports'][0][kind]['diagnostic']
+                self.assertEqual(diagnostic, dict(nan_value='nonfinite:NaN', positive='nonfinite:+Inf',
+                    negative='nonfinite:-Inf', finite=.25))
+                output = root/'ANALYSIS.json'
+                a.write_new(output, result)
+                self.assertEqual(a.parse_json(output.read_bytes()), result)
+                self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), digest)
 
 
 if __name__ == '__main__':

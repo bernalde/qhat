@@ -632,6 +632,12 @@ def _incremental_search(context, scored, budget, deadline, max_evaluations, max_
             if seed_stopped:
                 break
         if evaluations >= max_evaluations - 1:
+            # A completed sweep can land exactly on the reserved-last-evaluation
+            # boundary. Report omitted seed work without erasing a prior refusal
+            # or relabeling a completed final seed (including max_moves=0).
+            if (max_moves > 0 and seed_index + 1 < len(scored)
+                    and status in ('complete', 'cpu_limit')):
+                status = 'evaluation_limit'
             break
         # A seed's local slice may expire while the next seed remains eligible.
         # Only the global CPU/wall check ends the remaining seed allocations.
