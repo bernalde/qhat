@@ -1,0 +1,96 @@
+{
+  "schema": "postreview-artifact-resolution-closure-v1",
+  "source_summary_head": "31c420d5f88c893d3ad44e915a6fff265696cd95",
+  "source_summary_sha256": "db2e4271d53fc140168352cf70a430d4cfecfe8b939db0ed2d7738477cf387f0",
+  "status": "producer_and_independent_exact_check_passed",
+  "changed_CPU_frontier_indices": [
+    24,
+    25,
+    26,
+    27
+  ],
+  "original_primary_artifacts_unchanged": true,
+  "groups": 32,
+  "points": 352,
+  "ordered_nonself_pairs_checked": 3520,
+  "independent_checker_producer_source_binding_checked": false,
+  "producer_source_binding_separately_verified_by_this_closure": true,
+  "files": {
+    "CPU_PARETO_SENSITIVITY.json": {
+      "original_ROOT_relative": "postreview-cpu-cost-sensitivity-a1/CPU_PARETO_SENSITIVITY.json",
+      "bytes": 293525,
+      "sha256": "ece011a2127bb019a23c3a4ff2acd6a292cc6c37897357fcd8fa6876d2814aea"
+    },
+    "CPU_PARETO_SENSITIVITY_CHECK.json": {
+      "original_ROOT_relative": "postreview-cpu-cost-sensitivity-a1/CPU_PARETO_SENSITIVITY_CHECK.json",
+      "bytes": 1122,
+      "sha256": "76ba8583c3432a00151e299760489f62cc1dc04ee3790ca19212f9be34cdaec4"
+    },
+    "pareto_cost_sensitivity.py": {
+      "original_ROOT_relative": "tools/pareto_cost_sensitivity.py",
+      "bytes": 3938,
+      "sha256": "f12fd31c707660a7c221d987a04f5e441bc62b2020ac734bdef06badcb0b722c"
+    },
+    "check_pareto_cost_sensitivity.py": {
+      "original_ROOT_relative": "tools/check_pareto_cost_sensitivity.py",
+      "bytes": 12688,
+      "sha256": "414325fd5f4903c5fcda2095ab7b314f2b1f1a678cfc20b10afd3871e9bbe3c3"
+    },
+    "CPU_PARETO_SENSITIVITY_FROZEN.a1.json": {
+      "original_ROOT_relative": "CPU_PARETO_SENSITIVITY_FROZEN.a1.json",
+      "bytes": 1716,
+      "sha256": "522218a78c8d1841d62a488a4a50a507465f44a16b3a4168780b5ab66ed03c63"
+    },
+    "CPU_PARETO_SENSITIVITY_JOB_PLAN.a1.json": {
+      "original_ROOT_relative": "CPU_PARETO_SENSITIVITY_JOB_PLAN.a1.json",
+      "bytes": 1357,
+      "sha256": "f6a348b99958d22d56a8dc9853f0e6db0548e3580b5986839bd0334de5ebe41a"
+    },
+    "CPU_PARETO_SENSITIVITY_CHECK_JOB_PLAN.a1.json": {
+      "original_ROOT_relative": "CPU_PARETO_SENSITIVITY_CHECK_JOB_PLAN.a1.json",
+      "bytes": 1574,
+      "sha256": "99ff840574768165829d6074f39469697a9c5e8b3dc5019d8d4461195c1ec372"
+    },
+    "jobs/window-postreview-cpu-pareto-sensitivity-a1.PLAN.json": {
+      "original_ROOT_relative": "jobs/window-postreview-cpu-pareto-sensitivity-a1.PLAN.json",
+      "bytes": 1146,
+      "sha256": "9938aa41248cf51ffb8d7d5aa82a4ecfc9874305f5780d124b15f36ef5b3db8d"
+    },
+    "jobs/window-postreview-cpu-pareto-sensitivity-a1.FINAL.json": {
+      "original_ROOT_relative": "jobs/window-postreview-cpu-pareto-sensitivity-a1.FINAL.json",
+      "bytes": 684,
+      "sha256": "6047d2aefedd40c434902718310aa1eaabf39cff3f5199c51adb803970f0ee9f"
+    },
+    "logs/window-postreview-cpu-pareto-sensitivity-a1.log": {
+      "original_ROOT_relative": "logs/window-postreview-cpu-pareto-sensitivity-a1.log",
+      "bytes": 1674,
+      "sha256": "303f9d001361e55e453a61044bd5f23db70bc408530e5df3ff11d199df2ef25c"
+    },
+    "logs/window-postreview-cpu-pareto-sensitivity-a1.resources.json": {
+      "original_ROOT_relative": "logs/window-postreview-cpu-pareto-sensitivity-a1.resources.json",
+      "bytes": 2714,
+      "sha256": "acd8c232b76fa1c30f0c89a0b81cf7e14d99aec65713d1dc9972eb48115eba3f"
+    },
+    "jobs/window-postreview-cpu-pareto-exact-check-a1.PLAN.json": {
+      "original_ROOT_relative": "jobs/window-postreview-cpu-pareto-exact-check-a1.PLAN.json",
+      "bytes": 1368,
+      "sha256": "2dca9c5771786d7068b3973980b1642255dd8724dc9ab609e0cab6c5701c5e70"
+    },
+    "jobs/window-postreview-cpu-pareto-exact-check-a1.FINAL.json": {
+      "original_ROOT_relative": "jobs/window-postreview-cpu-pareto-exact-check-a1.FINAL.json",
+      "bytes": 684,
+      "sha256": "791e9f121314758e28f928277fcd8bba7831eea8d91489477d12c31549d577c9"
+    },
+    "logs/window-postreview-cpu-pareto-exact-check-a1.log": {
+      "original_ROOT_relative": "logs/window-postreview-cpu-pareto-exact-check-a1.log",
+      "bytes": 1844,
+      "sha256": "f4004ae1ae38d9296ddab61d2fbc895581ce8c85d42c197262f1017697a02687"
+    },
+    "logs/window-postreview-cpu-pareto-exact-check-a1.resources.json": {
+      "original_ROOT_relative": "logs/window-postreview-cpu-pareto-exact-check-a1.resources.json",
+      "bytes": 2929,
+      "sha256": "49509d32fa99aacf02d7b83a8d471da3318d51c09a900cafa91e8a07b5a8bd07"
+    }
+  },
+  "scope": "Postreview costprecision supplement only; excludes unchanged primary archive and separately recorded review/packaging costs. Manifest excludes itself. Sources were hash-frozen before these executions and archived afterward without relabelling execution as the later integration commit."
+}
