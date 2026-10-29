@@ -1,0 +1,158 @@
+{
+  "schema": "cost-matched-main-scientific-admission-v1",
+  "UTC": "2026-10-29T21:12:56.711405+00:00",
+  "status": "admitted",
+  "source_commit": "d834e8853a617bad2c55fbd3fb360349f98ee67a",
+  "analysis_sha256": "0855a33c981b379d40d92853be38761b81e056dbca2dece9d62a8214eb3b899f",
+  "source_freeze_sha256": "1176a5fe6d29844f1dc3e697cd8d338eb34c7990c67b5c00bcce188ebada736e",
+  "orders": 20,
+  "logical_rows": 80,
+  "paired_rows": 32,
+  "primary": {
+    "decision": "full_advantage",
+    "per_case_median_paired_difference": {
+      "LiH_r1p70_631g_14m4e": 1.197552459746232e-08,
+      "BeH2_r1p60_631g_14m4e": 6.397779989296359e-08
+    },
+    "rows": [
+      {
+        "case": "LiH_r1p70_631g_14m4e",
+        "repetition": 1,
+        "total_CPU_budget": 64,
+        "time": 1.35,
+        "rotation_cap_multiplier": 8,
+        "full_error": 9.761260607563768e-08,
+        "window_error": 1.1202312396998652e-07,
+        "difference": 1.4410517894348847e-08,
+        "outcome": "loss",
+        "full_at_or_below_floor": false,
+        "window_at_or_below_floor": false,
+        "window_to_full_error_ratio": 1.1476296809777058,
+        "eligible": true
+      },
+      {
+        "case": "LiH_r1p70_631g_14m4e",
+        "repetition": 2,
+        "total_CPU_budget": 64,
+        "time": 1.35,
+        "rotation_cap_multiplier": 8,
+        "full_error": 1.0248259266941073e-07,
+        "window_error": 1.1202312396998652e-07,
+        "difference": 9.540531300575794e-09,
+        "outcome": "loss",
+        "full_at_or_below_floor": false,
+        "window_at_or_below_floor": false,
+        "window_to_full_error_ratio": 1.0930941641118674,
+        "eligible": true
+      },
+      {
+        "case": "BeH2_r1p60_631g_14m4e",
+        "repetition": 1,
+        "total_CPU_budget": 64,
+        "time": 1.35,
+        "rotation_cap_multiplier": 8,
+        "full_error": 1.2250890185845893e-07,
+        "window_error": 1.9628895487952813e-07,
+        "difference": 7.37800530210692e-08,
+        "outcome": "loss",
+        "full_at_or_below_floor": false,
+        "window_at_or_below_floor": false,
+        "window_to_full_error_ratio": 1.6022423832213535,
+        "eligible": true
+      },
+      {
+        "case": "BeH2_r1p60_631g_14m4e",
+        "repetition": 2,
+        "total_CPU_budget": 64,
+        "time": 1.35,
+        "rotation_cap_multiplier": 8,
+        "full_error": 1.4211340811467015e-07,
+        "window_error": 1.9628895487952813e-07,
+        "difference": 5.417554676485798e-08,
+        "outcome": "loss",
+        "full_at_or_below_floor": false,
+        "window_at_or_below_floor": false,
+        "window_to_full_error_ratio": 1.3812134793160697,
+        "eligible": true
+      }
+    ],
+    "all_primary_gates_pass": true,
+    "confidence_interval": null,
+    "repetition_scope": "Deterministic timing repetitions, not independent molecular samples; no confidence intervals"
+  },
+  "outcome_counts": {
+    "win": 0,
+    "tie": 0,
+    "loss": 32,
+    "unavailable": 0
+  },
+  "verification": [
+    {
+      "case": "LiH_r1p70_631g_14m4e",
+      "logical_rows": 40,
+      "independent_circuits": 20,
+      "independent_references": 2,
+      "unique_objectives": 5
+    },
+    {
+      "case": "BeH2_r1p60_631g_14m4e",
+      "logical_rows": 40,
+      "independent_circuits": 24,
+      "independent_references": 2,
+      "unique_objectives": 6
+    }
+  ],
+  "resources": {
+    "raw_CPU_seconds": {
+      "actual_shared_constructor_compute": 688.008,
+      "known_actual_shared_constructor_compute": 688.008,
+      "actual_shared_constructor_compute_unknown_components": 0,
+      "attributed_continuation_comparisons": 732.144,
+      "known_attributed_continuation_comparisons": 732.144,
+      "attributed_continuation_comparisons_unknown_components": 0,
+      "actual_parent_compute": 14.712,
+      "known_actual_parent_compute": 14.712,
+      "actual_parent_compute_unknown_components": 0,
+      "actual_continuation_compute": 673.296,
+      "known_actual_continuation_compute": 673.296,
+      "actual_continuation_compute_unknown_components": 0
+    },
+    "charged_CPU_seconds": {
+      "actual_shared_constructor_compute": 688.028,
+      "known_actual_shared_constructor_compute": 688.028,
+      "actual_shared_constructor_compute_unknown_components": 0,
+      "attributed_continuation_comparisons": 732.176,
+      "known_attributed_continuation_comparisons": 732.176,
+      "attributed_continuation_comparisons_unknown_components": 0,
+      "actual_parent_compute": 14.716000000000001,
+      "known_actual_parent_compute": 14.716000000000001,
+      "actual_parent_compute_unknown_components": 0,
+      "actual_continuation_compute": 673.312,
+      "known_actual_continuation_compute": 673.312,
+      "actual_continuation_compute_unknown_components": 0
+    },
+    "wall_seconds": {
+      "actual_shared_constructor_compute": 2782.9193710329127,
+      "known_actual_shared_constructor_compute": 2782.9193710329127,
+      "actual_shared_constructor_compute_unknown_components": 0,
+      "attributed_continuation_comparisons": 2982.081042708829,
+      "known_attributed_continuation_comparisons": 2982.081042708829,
+      "attributed_continuation_comparisons_unknown_components": 0,
+      "actual_parent_compute": 66.3872238919721,
+      "known_actual_parent_compute": 66.3872238919721,
+      "actual_parent_compute_unknown_components": 0,
+      "actual_continuation_compute": 2716.5321471409407,
+      "known_actual_continuation_compute": 2716.5321471409407,
+      "actual_continuation_compute_unknown_components": 0
+    },
+    "inventory_complete": true
+  },
+  "memory_gate": {
+    "scope": "main_hard_profile",
+    "ceiling_MiB": 512,
+    "passed": true,
+    "maximum_observed_cgroup_peak_bytes_upper": 440716492.8
+  },
+  "scientific_cutoff_jobs": 31,
+  "scope": "Root final scientific evidence inspection after original one-attempt prospective panel; artifact delivery/review/publication/merge remain separate pending obligations."
+}

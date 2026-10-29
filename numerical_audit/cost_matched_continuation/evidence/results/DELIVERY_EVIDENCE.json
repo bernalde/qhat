@@ -1,0 +1,148 @@
+{
+  "schema": "cost-matched-delivery-evidence-v1",
+  "UTC": "2026-10-29T21:21:49.871936+00:00",
+  "measured_scientific_source_commit": "d834e8853a617bad2c55fbd3fb360349f98ee67a",
+  "main_analysis_sha256": "0855a33c981b379d40d92853be38761b81e056dbca2dece9d62a8214eb3b899f",
+  "copy_manifest_sha256": "1b663180943cecac9e43fd1cca2ca48d29f7fb683f88ed2be45e45ae8be76924",
+  "report_sha256": "5a62344577f5e051478f3ed4f49c8b4792781d0afb660369c8504d9ece292c11",
+  "extraction": {
+    "status": "complete",
+    "report_sha256": "9c00a6bb657679e7601d250d70bb61d72b0dac2ee7626a1c3aafcfe904472ca0",
+    "archives": 5,
+    "member_count": 2174,
+    "extractor_source_sha256": "f5e7307cebc89c78b5dc1bbe15f8b6de1019ee7760a0b28f0840182992b8eb7d"
+  },
+  "relocated_analyzer": {
+    "status": "complete",
+    "original_sha256": "0855a33c981b379d40d92853be38761b81e056dbca2dece9d62a8214eb3b899f",
+    "replayed_sha256": "0855a33c981b379d40d92853be38761b81e056dbca2dece9d62a8214eb3b899f",
+    "complete_byte_identity": true,
+    "complete_JSON_semantic_identity": true,
+    "analyzer_sha256": "ca1b9f5007f98581d52e4f4f20afd19d43902b4770d2e59dd6559ca10cd69686",
+    "cwd": "/tmp",
+    "interpreter": "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "scope": "Fresh archive extraction and relocated consumer replay on the recorded machine/interpreter, separate from original independent numerical propagation"
+  },
+  "postcutoff_receipts": [
+    {
+      "label": "main-evidence-archive-a1",
+      "final": {
+        "phase": "packaging",
+        "label": "main-evidence-archive-a1",
+        "exit_code": 0,
+        "receipt_sha256": "b584a35e36ce32e79d9001860641984f19968ab07bebc3ba60d5187a188e71dd",
+        "raw_terminal_CPU_seconds": 3.727,
+        "terminal_CPU_measurement_available": true,
+        "charged_CPU_seconds": 3.7279999999999998,
+        "guard_reported_CPU_seconds": 3.71,
+        "partial_CPU_seconds": 3.71,
+        "CPU_rounding_allowance_seconds": 0.001,
+        "CPU_rounding_basis": "CPU time consumed footer: +0.001 seconds on charged CPU only",
+        "absolute_guarded_wall_seconds": 15.07853693101788,
+        "dispatcher_sha256": "47865b8b654b48eccebc6f3b5315aaf6d89f56076c76ad61b053c8b9fe93ff6d",
+        "dispatcher_archive_path": "campaign/dispatcher_versions/47865b8b654b48eccebc6f3b5315aaf6d89f56076c76ad61b053c8b9fe93ff6d.py",
+        "disk_accounting_scope": "cumulative RUN_ROOT including DATA_ROOT, jobs, logs, guards and dispatcher versions; not per-job output bytes",
+        "disk_accounting_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1",
+        "data_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/data",
+        "final_service_snapshot": {
+          "Result": "success",
+          "MemoryPeak": "[not set]",
+          "CPUUsageNSec": "[not set]",
+          "ActiveState": "inactive",
+          "SubState": "dead"
+        },
+        "final_service_query_exit": 0,
+        "accounting_scope": "Terminal process timing/footer/postexit service required; otherwise full reservation plus any partial overshoot; footer +.001 or process-only +.02 rounding affects conservative charge only",
+        "completed_UTC": "2026-10-29T21:04:42.881025+00:00"
+      },
+      "files": {
+        "closeout/jobs/main-evidence-archive-a1.PLAN.json": "4b6f80c8141430e72965cccbb1cfe209730469b43211f14648ad3001dee46cab",
+        "closeout/jobs/main-evidence-archive-a1.FINAL.json": "f61c75835353350bebe70ac0df9051114c225b61f7aa7c8610bc3363d34e0b0b",
+        "closeout/logs/main-evidence-archive-a1.resources.json": "b584a35e36ce32e79d9001860641984f19968ab07bebc3ba60d5187a188e71dd",
+        "closeout/logs/main-evidence-archive-a1.log": "22cba0953b245ca63c5952430e45311d58543436d76e4933648e4ce5a8cc791c"
+      }
+    },
+    {
+      "label": "main-evidence-extract-a1",
+      "final": {
+        "phase": "packaging",
+        "label": "main-evidence-extract-a1",
+        "exit_code": 0,
+        "receipt_sha256": "6e18bef71eab6877df80d6e1eeb1bd963eb7e419ce042c3a0cc381e55bbc530e",
+        "raw_terminal_CPU_seconds": 1.03,
+        "terminal_CPU_measurement_available": true,
+        "charged_CPU_seconds": 1.031,
+        "guard_reported_CPU_seconds": 1.02,
+        "partial_CPU_seconds": 1.02,
+        "CPU_rounding_allowance_seconds": 0.001,
+        "CPU_rounding_basis": "CPU time consumed footer: +0.001 seconds on charged CPU only",
+        "absolute_guarded_wall_seconds": 6.055838101019617,
+        "dispatcher_sha256": "47865b8b654b48eccebc6f3b5315aaf6d89f56076c76ad61b053c8b9fe93ff6d",
+        "dispatcher_archive_path": "campaign/dispatcher_versions/47865b8b654b48eccebc6f3b5315aaf6d89f56076c76ad61b053c8b9fe93ff6d.py",
+        "disk_accounting_scope": "cumulative RUN_ROOT including DATA_ROOT, jobs, logs, guards and dispatcher versions; not per-job output bytes",
+        "disk_accounting_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1",
+        "data_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/data",
+        "final_service_snapshot": {
+          "Result": "success",
+          "MemoryPeak": "[not set]",
+          "CPUUsageNSec": "[not set]",
+          "ActiveState": "inactive",
+          "SubState": "dead"
+        },
+        "final_service_query_exit": 0,
+        "accounting_scope": "Terminal process timing/footer/postexit service required; otherwise full reservation plus any partial overshoot; footer +.001 or process-only +.02 rounding affects conservative charge only",
+        "completed_UTC": "2026-10-29T21:13:31.462558+00:00"
+      },
+      "files": {
+        "closeout/jobs/main-evidence-extract-a1.PLAN.json": "b0cdd557e3fabe897b86c0ea680d6bd99b43d87a4c3b5d74ec7756c5b987e27c",
+        "closeout/jobs/main-evidence-extract-a1.FINAL.json": "5a5f1c9c4c8d30ebe05450e21fc58738945102b5e1e8967cadb497a996438b4f",
+        "closeout/logs/main-evidence-extract-a1.resources.json": "6e18bef71eab6877df80d6e1eeb1bd963eb7e419ce042c3a0cc381e55bbc530e",
+        "closeout/logs/main-evidence-extract-a1.log": "221a514bc9091a7accfe035cb87b312812a411b5ec452da588fa989cbdc90042"
+      }
+    },
+    {
+      "label": "main-evidence-replay-a1",
+      "final": {
+        "phase": "packaging",
+        "label": "main-evidence-replay-a1",
+        "exit_code": 0,
+        "receipt_sha256": "6b82710975840275e67d48ce337215fa13542f7556ce4698ea7c17aedf0d7d30",
+        "raw_terminal_CPU_seconds": 2.341,
+        "terminal_CPU_measurement_available": true,
+        "charged_CPU_seconds": 2.342,
+        "guard_reported_CPU_seconds": 2.33,
+        "partial_CPU_seconds": 2.33,
+        "CPU_rounding_allowance_seconds": 0.001,
+        "CPU_rounding_basis": "CPU time consumed footer: +0.001 seconds on charged CPU only",
+        "absolute_guarded_wall_seconds": 12.17240907996893,
+        "dispatcher_sha256": "47865b8b654b48eccebc6f3b5315aaf6d89f56076c76ad61b053c8b9fe93ff6d",
+        "dispatcher_archive_path": "campaign/dispatcher_versions/47865b8b654b48eccebc6f3b5315aaf6d89f56076c76ad61b053c8b9fe93ff6d.py",
+        "disk_accounting_scope": "cumulative RUN_ROOT including DATA_ROOT, jobs, logs, guards and dispatcher versions; not per-job output bytes",
+        "disk_accounting_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1",
+        "data_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/cost_matched_continuation_2026-10-29/runs/main-a1/data",
+        "final_service_snapshot": {
+          "Result": "success",
+          "MemoryPeak": "[not set]",
+          "CPUUsageNSec": "[not set]",
+          "ActiveState": "inactive",
+          "SubState": "dead"
+        },
+        "final_service_query_exit": 0,
+        "accounting_scope": "Terminal process timing/footer/postexit service required; otherwise full reservation plus any partial overshoot; footer +.001 or process-only +.02 rounding affects conservative charge only",
+        "completed_UTC": "2026-10-29T21:16:35.240673+00:00"
+      },
+      "files": {
+        "closeout/jobs/main-evidence-replay-a1.PLAN.json": "9f48b9fde26d3b44594d7b68d53470fffae55f734cf73b689e4c147ac7725efb",
+        "closeout/jobs/main-evidence-replay-a1.FINAL.json": "4c6c4f8ba209abf20fb2c17a6dcc928420d8594b85b2a079e2de913015d72f5f",
+        "closeout/logs/main-evidence-replay-a1.resources.json": "6b82710975840275e67d48ce337215fa13542f7556ce4698ea7c17aedf0d7d30",
+        "closeout/logs/main-evidence-replay-a1.log": "cf736266d578ba1c751ba2da334d869f71d4b1cea1959735491343445e6b0f2c"
+      }
+    }
+  ],
+  "cost_scope": "Only these three completed artifact jobs; original31-job scientific cutoff and prior attempts are separately preserved; later delivery/review/CI/merge work not included",
+  "limitations": [
+    "Numerical checks are not interval or formal proofs.",
+    "No claim of fresh physical propagation by archive extraction or analyzer replay.",
+    "The prospective README/protocol remain unchanged; measured scientific bytes and later packaging tools are separately identified."
+  ]
+}
