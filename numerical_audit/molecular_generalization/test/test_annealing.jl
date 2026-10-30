@@ -1,5 +1,7 @@
 using Test, LinearAlgebra, TOML, SHA
+println("START annealing module load");flush(stdout)
 include(joinpath(@__DIR__,"..","anneal.jl"))
+println("READY annealing module");flush(stdout)
 const W=MolecularAnnealingWorker
 const A=W.FullOrderAnnealing
 const R=A.ResponseCore
@@ -45,6 +47,7 @@ settings()=merge(copy(A.SETTINGS_DEFAULTS),Dict("calibrated"=>true,"calibration_
     "theta_start"=>.5,"theta_end"=>.005))
 starts()=[[1,2,3,4,5],[2,1,3,4,5],[1,3,4,2,5],[1,4,2,3,5]]
 
+println("START Complete full-order S3, transport, projection and endpoint fusion");flush(stdout)
 @testset "Complete full-order S3, transport, projection and endpoint fusion" begin
     units,matrices=fixtures();budget=180
     context=A.FullOrderContext(units,2,0,budget)
@@ -83,6 +86,7 @@ starts()=[[1,2,3,4,5],[2,1,3,4,5],[1,3,4,2,5],[1,4,2,3,5]]
     @test A.insertion(A.insertion([1,2,3,4,5],1,5),5,1)==collect(1:5)
 end
 
+println("START Caches preserve values, scratch ownership, exact scalar metadata");flush(stdout)
 @testset "Caches preserve values, scratch ownership, exact scalar metadata" begin
     units,_=fixtures();cached=A.FullOrderContext(units,2,0,180)
     uncached=A.FullOrderContext(units,2,0,180;max_cached_actions=0,cache_bytes=0)
@@ -109,6 +113,7 @@ end
     @test A.full_score!(A.FullOrderContext(commuting,1,0,30),[1]).value==0.
 end
 
+println("START Finite annealing, complete incumbents, CPU slices and seed replay");flush(stdout)
 @testset "Finite annealing, complete incumbents, CPU slices and seed replay" begin
     @test A.metropolis(-1.,.1,.9)
     @test A.metropolis(0.,.1,.9)
@@ -137,6 +142,7 @@ end
     @test_throws ArgumentError A.validate_settings(A.SETTINGS_DEFAULTS)
 end
 
+println("START Refusal paths and isolated callbacks");flush(stdout)
 @testset "Refusal paths and isolated callbacks" begin
     units,_=fixtures()
     @test_throws ArgumentError A.FullOrderContext(units,2,0,179)
@@ -171,6 +177,7 @@ function wire_request(units)
         "coefficients_sha256"=>W.coefficient_hash(rawunits),"settings"=>settings(),"units"=>rawunits,
         "source_sha256"=>Dict(name=>bytes2hex(sha256(read(joinpath(W.ROOT,name)))) for name in W.SOURCE_NAMES))
 end
+println("START Wire coefficients/source identity and atomic complete checkpoint");flush(stdout)
 @testset "Wire coefficients/source identity and atomic complete checkpoint" begin
     units,_=fixtures();data=wire_request(units)
     mktempdir() do directory

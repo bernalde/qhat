@@ -358,11 +358,23 @@ function _seeds(material)
     [foldl((a,b)->(a<<8)|UInt64(b),sha256(material*":molecular-generalization-sa-v1:chain"*string(k))[1:8];init=UInt64(0)) for k in 1:4]
 end
 
-"""Finite four-start whole-order insertion Metropolis search.
+"""CPU-balanced interleaved four-chain Metropolis search.
 
-cpu_deadline is an ABSOLUTE owned-process CPU ceiling after serialization
-reserve. A controlled clock can exercise slices without timing assertions.
-Only complete scores update state; checkpoint snapshots own all mutable data.
+This replaces the contiguous scheduling/cooling policy; it is not claimed to
+produce the same annealing trajectory. Scoring, proposals, seeds, Metropolis,
+global guards and wire fields remain those of FullOrderAnnealing.
+
+Each chain has a fixed quarter of CPU remaining after initialization. A quantum
+contains one proposal; the least-spent unexhausted chain runs next, ties by its
+original index. Cooling uses that chain's cumulative CPU/share at proposal time.
+An interrupted quantum consumes CPU and permanently exhausts its chain.
+
+Checkpoint serialization is charged to the selected chain after emission, so a
+later checkpoint includes that charge. The final checkpoint's own serialization
+remains whole-process/unattributed overhead, covered by the OS receipt. JIT or a
+long quantum can overshoot a share before a cooperative check. Interleaving
+reduces contiguous starvation; it cannot guarantee work when setup or one score
+does not fit. Whole-call receipts and native verification determine final eligibility.
 """
 function anneal(c, starts, rawsettings;seed_material::String,cpu_deadline::Real,
         parent_value=nothing,clock=cpu_seconds,check=noop,checkpoint=(_)->nothing)
@@ -377,7 +389,7 @@ function anneal(c, starts, rawsettings;seed_material::String,cpu_deadline::Real,
         "proposals"=>0,"accepted_moves"=>0,"uphill_attempts"=>0,"uphill_accepted"=>0,
         "chain_proposals"=>zeros(Int,4),"chain_accepted"=>zeros(Int,4),"chain_CPU_seconds"=>zeros(4),
         "seeds"=>string.(seeds),"stop_reason"=>"","kernel_stats"=>Dict{String,Int}())
-    best=nothing;best_order=Int[];scores=Any[];normalizer=0.0
+    best=nothing;best_order=Int[];scores=Any[]
     function global_check(kind=:loop,amount=1)
         check(kind,amount)
         clock()<cpu_deadline || throw(Limit("cpu_limit","owned process search CPU exhausted"))
@@ -409,23 +421,36 @@ function anneal(c, starts, rawsettings;seed_material::String,cpu_deadline::Real,
         parent_J=isnothing(parent_value) ? scores[1].value : Float64(parent_value)
         isfinite(parent_J) && parent_J>=0 || throw(ArgumentError("finite parent energy normalization"))
         normalizer=max(parent_J,settings["energy_floor"])
-        search_start=clock();slice=(cpu_deadline-search_start)/4
-        slice>0 || throw(Limit("cpu_limit","setup exhausted search allowance"))
-        for chain in 1:4
-            began=clock();ending=search_start+chain*slice
-            current=copy(orders[chain]);score=scores[chain];rng=Xoshiro(seeds[chain])
-            local_check=(kind=:loop,amount=1)->begin
-                global_check(kind,amount)
-                clock()<ending || throw(SliceExpired())
+        currents=[copy(order) for order in orders]
+        current_scores=copy(scores)
+        rngs=[Xoshiro(seed) for seed in seeds]
+        exhausted=falses(4)
+        spent=state["chain_CPU_seconds"]::Vector{Float64}
+        search_start=clock();share=(cpu_deadline-search_start)/4
+        share>0 || throw(Limit("cpu_limit","setup exhausted search allowance"))
+        while true
+            global_check()
+            selected=0;least=Inf
+            for chain in 1:4
+                spent[chain]>=share && (exhausted[chain]=true)
+                if !exhausted[chain] && spent[chain]<least
+                    selected=chain;least=spent[chain]
+                end
             end
-            try
-                while true
+            selected==0 && break
+            let chain=selected, before=spent[selected], began=clock()
+                local_check=(kind=:loop,amount=1)->begin
+                    global_check(kind,amount)
+                    before+max(0.0,clock()-began)<share || throw(SliceExpired())
+                end
+                try
                     local_check(:proposal)
                     state["proposals"]<settings["max_proposals"] || throw(Limit("proposal_limit","proposal ceiling"))
+                    current=currents[chain];score=current_scores[chain];rng=rngs[chain]
                     source=rand(rng,1:length(current));destination=rand(rng,1:length(current)-1)
                     destination>=source && (destination+=1)
                     proposal=insertion(current,source,destination)
-                    theta=temperature(settings,(clock()-(ending-slice))/slice)
+                    theta=temperature(settings,(before+max(0.0,clock()-began))/share)
                     state["proposals"]+=1
                     actual=candidate_score(proposal,local_check)
                     state["chain_proposals"][chain]+=1
@@ -434,35 +459,56 @@ function anneal(c, starts, rawsettings;seed_material::String,cpu_deadline::Real,
                     uphill=delta>0;uphill && (state["uphill_attempts"]+=1)
                     uniform=rand(rng);while iszero(uniform);uniform=rand(rng);end
                     if metropolis(delta,theta,uniform)
-                        current=proposal;score=actual
+                        currents[chain]=proposal;current_scores[chain]=actual
                         state["accepted_moves"]+=1;state["chain_accepted"][chain]+=1
                         uphill && (state["uphill_accepted"]+=1)
                     end
                     if actual.value<best.value || actual.value==best.value && _lexless(proposal,best_order)
-                        best=actual;best_order=copy(proposal);state["status"]="checked_update";publish()
+                        best=actual;best_order=copy(proposal);state["status"]="checked_update"
+                    else
+                        # Existing wire status: one interleaved CPU quantum has
+                        # completed, without claiming a better global order.
+                        state["status"]="slice_complete"
                     end
+                catch error
+                    if error isa SliceExpired
+                        exhausted[chain]=true
+                        state["status"]="slice_complete"
+                    else
+                        rethrow()
+                    end
+                finally
+                    spent[chain]=before+max(0.0,clock()-began)
                 end
-            catch e
-                e isa SliceExpired || rethrow()
-            finally
-                state["chain_CPU_seconds"][chain]=max(0.0,clock()-began)
+                spent[chain]>=share && (exhausted[chain]=true)
+                # Durable counters after every quantum protect early chain
+                # coverage when the owning Python/OS boundary stops the child.
+                publication_began=clock()
+                try
+                    publish()
+                finally
+                    spent[chain]+=max(0.0,clock()-publication_began)
+                end
+                spent[chain]>=share && (exhausted[chain]=true)
             end
-            state["status"]="slice_complete";publish()
         end
         state["status"]="complete"
-    catch e
-        if e isa Limit
-            state["status"]=e.status;state["stop_reason"]=e.reason
-        elseif e isa NumericalResolution
-            state["status"]="numerical_limit";state["stop_reason"]=sprint(showerror,e)
-        elseif e isa ArgumentError
-            state["status"]="support_or_admission_limit";state["stop_reason"]=sprint(showerror,e)
+    catch error
+        if error isa Limit
+            state["status"]=error.status;state["stop_reason"]=error.reason
+        elseif error isa NumericalResolution
+            state["status"]="numerical_limit";state["stop_reason"]=sprint(showerror,error)
+        elseif error isa ArgumentError
+            state["status"]="support_or_admission_limit";state["stop_reason"]=sprint(showerror,error)
         else
             rethrow()
         end
     end
+    # At most one partially scored proposal per exhausted chain, plus at most
+    # one final global interruption: proposals <= completed proposals + 4.
     publish()
     state
 end
+
 
 end # module
