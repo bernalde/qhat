@@ -58,6 +58,7 @@ end
 mutable struct FullOrderContext
     units::Vector{Unit}
     centered::Vector{Unit}
+    scalar_bases::Vector{Vector{UInt64}}
     hf::UInt64
     n::Int
     budget::Int
@@ -73,6 +74,49 @@ mutable struct FullOrderContext
     buffers::Vector{Column}
     response::Response
     stats::Dict{String,Int}
+end
+
+"""Deterministic GF(2) row basis spanning every stored centered parity mask.
+
+Input masks and coefficients are never reordered or rewritten. At most n<=14
+masks are retained per unit: <=112 KiB of meaningful UInt64 masks over 1024
+units, plus bounded vector capacity/containers. This static storage is separate from
+the existing 1024-byte-per-cache-entry accounting and does not enlarge its cap.
+"""
+function _parity_basis(parities::AbstractVector{UInt64}, n::Int)
+    1<=n<=14 || throw(ArgumentError("signature register cap"))
+    pivots=zeros(UInt64,n)
+    for mask in parities
+        ResponseCore.check_budget()
+        mask < UInt64(1)<<n || throw(ArgumentError("signature mask outside register"))
+        row=mask
+        # At most fourteen XOR/pivot steps between input-mask budget checks.
+        for bit in n-1:-1:0
+            iszero(row & (UInt64(1)<<bit)) && continue
+            if iszero(pivots[bit+1])
+                pivots[bit+1]=row
+                break
+            end
+            row ⊻= pivots[bit+1]
+        end
+    end
+    # Fixed descending pivot order; zero and dependent rows add no dimension.
+    basis=UInt64[]
+    for bit in n-1:-1:0
+        !iszero(pivots[bit+1]) && push!(basis,pivots[bit+1])
+    end
+    basis
+end
+
+function _scalar_signature(basis::AbstractVector{UInt64}, state::UInt64)
+    length(basis)<=14 || throw(ArgumentError("signature rank cap"))
+    # The caller's unit-action guard covers this bounded, allocation-free loop;
+    # no extra clock/callback per parity bit is needed.
+    signature=UInt64(0)
+    for (j,mask) in enumerate(basis)
+        signature |= UInt64(isodd(count_ones(mask&state))) << (j-1)
+    end
+    signature
 end
 
 function _permutation(order, m)
@@ -142,7 +186,12 @@ end
 function _value(c, i, state)
     ResponseCore.check_budget(:unit_action)
     c.stats["unit_actions"]+=1
-    key=(i,state)
+    # Equal signatures preserve every individual summand's parity sign, hence
+    # the unchanged ordered floating sum AND its guarded exact fallback. Only
+    # successful values enter the cache. Always use the same semantic key even
+    # if admission limits change or the table fills; raw states can collide
+    # numerically with packed signatures of different scalar values.
+    key=(i,_scalar_signature(c.scalar_bases[i],state))
     if haskey(c.actions,key)
         c.stats["cache_hits"]+=1
         return c.actions[key]
@@ -198,11 +247,12 @@ function FullOrderContext(units::AbstractVector{Unit}, n::Integer, hf::Integer, 
         _units(units,nn)
         b==30sum(length(u.coeff) for u in units) || throw(ArgumentError("training budget must be original 30U"))
         centered=ResponseCore.center_units(units,h)
+        scalar_bases=[_parity_basis(u.parity,nn) for u in centered]
         commuting=ResponseCore._all_commuting(centered)
         stats=Dict(k=>0 for k in ("unit_actions","cache_hits","cache_misses","cache_skipped",
             "cache_entries","cache_accounted_bytes","kernel_hits","kernel_misses",
             "peak_vector_entries","peak_working_entries","full_scores"))
-        c=FullOrderContext(collect(units),centered,UInt64(h),nn,b,t,max_entries,max_cached_actions,
+        c=FullOrderContext(collect(units),centered,scalar_bases,UInt64(h),nn,b,t,max_entries,max_cached_actions,
             cache_bytes,0,Dict{Tuple{Int,UInt64},Float64}(),Dict{UInt64,ComplexF64}(),Column(),commuting,
             [Column() for _ in 1:10],Response(),stats)
         if !commuting

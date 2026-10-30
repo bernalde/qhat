@@ -10,6 +10,8 @@ Current implementation checks pass 650 Julia mathematical assertions, 118 additi
 
 The first old-LiH preflight failed the annealing minimum-work gate at both CPU budgets. Its costs and outputs are retained. An old-only startup revision replaces large permutation tuple sets with vector comparisons, uses worker-module optimization level zero with the numerical module explicitly pinned to level two, and polls the owned child every 20 ms. Whole-method budget feasibility still requires a fresh old-case preflight; no prospective result or performance advantage is claimed.
 
+The scalar-action cache now uses signatures spanning every centered unit's parity masks. Its 601 additional assertions verify bitwise scalar agreement, cancellation/refusal handling, admission-limit changes, and full-column/score agreement with the unchanged recurrence. State vectors and transport keep full basis-state labels. A fixed-order old-LiH/native bridge and complete budget feasibility remain separate gates.
+
 [Calibration evidence](evidence/calibration_2026-10-30/README.md) preserves the original producer, both incomplete attempts, the missing-row continuation and all costs: 661.83 CPU seconds and 4,832.43 wall seconds in total. The final reference check used a declared 768 MiB memory limit; constructor comparisons retain their 512 MiB limit. No new-family physical error entered the calibration.
 
 See [REGISTRY.json](REGISTRY.json), [PROTOCOL.json](PROTOCOL.json) and [SCHEMA.md](SCHEMA.md) for the declared cases, methods, costs, row matrix, interfaces and admission limits. Existing study producers and production defaults are unchanged.
