@@ -82,6 +82,28 @@ function _permutation(order, m)
     sort(out)==collect(1:m) || throw(ArgumentError("order is not a permutation"))
     out
 end
+
+# Call only after the existing complete-permutation admission. Comparing the
+# four vectors by value avoids compiling order-length-specific tuple hashing.
+function _distinct_four_orders(orders::AbstractVector)
+    length(orders)==4 || return false
+    for a in 1:3, b in a+1:4
+        orders[a]==orders[b] && return false
+    end
+    true
+end
+
+# Integer-vector equivalent of isless(Tuple(a), Tuple(b)), including equality
+# and the prefix rule. Production orders have the same validated length.
+function _lexless(a::AbstractVector{<:Integer}, b::AbstractVector{<:Integer})
+    for j in 1:min(length(a),length(b))
+        if a[j]!=b[j]
+            return isless(a[j],b[j])
+        end
+    end
+    length(a)<length(b)
+end
+
 function _units(units, n)
     units isa AbstractVector{Unit} && 1<=length(units)<=1024 || throw(ArgumentError("original unit cap"))
     words=0; seen=Set{Tuple{UInt64,UInt64}}()
@@ -298,7 +320,7 @@ function anneal(c, starts, rawsettings;seed_material::String,cpu_deadline::Real,
     isfinite(cpu_deadline) && cpu_deadline>0 || throw(ArgumentError("finite CPU deadline required"))
     starts isa AbstractVector && length(starts)==4 || throw(ArgumentError("four starts required"))
     orders=[_permutation(p,length(c.units)) for p in starts]
-    length(Set(Tuple(p) for p in orders))==4 || throw(ArgumentError("four distinct starts required"))
+    _distinct_four_orders(orders) || throw(ArgumentError("four distinct starts required"))
     seeds=_seeds(seed_material)
     state=Dict{String,Any}("status"=>"initializing","order"=>Int[],"score"=>0.0,
         "cubic_response"=>0.0,"steps"=>0,"start_scores_completed"=>0,"evaluations"=>0,
@@ -329,7 +351,7 @@ function anneal(c, starts, rawsettings;seed_material::String,cpu_deadline::Real,
             global_check()
             score=candidate_score(order,global_check);push!(scores,score)
             state["start_scores_completed"]+=1
-            if isnothing(best) || score.value<best.value || score.value==best.value && isless(Tuple(order),Tuple(best_order))
+            if isnothing(best) || score.value<best.value || score.value==best.value && _lexless(order,best_order)
                 best=score;best_order=copy(order)
             end
             publish()
@@ -366,7 +388,7 @@ function anneal(c, starts, rawsettings;seed_material::String,cpu_deadline::Real,
                         state["accepted_moves"]+=1;state["chain_accepted"][chain]+=1
                         uphill && (state["uphill_accepted"]+=1)
                     end
-                    if actual.value<best.value || actual.value==best.value && isless(Tuple(proposal),Tuple(best_order))
+                    if actual.value<best.value || actual.value==best.value && _lexless(proposal,best_order)
                         best=actual;best_order=copy(proposal);state["status"]="checked_update";publish()
                     end
                 end

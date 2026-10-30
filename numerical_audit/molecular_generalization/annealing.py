@@ -43,6 +43,8 @@ DEFAULT_SETTINGS = dict(version=1, calibrated=False, calibration_sha256='',
     cache_bytes=64*1024**2, native_reserve_factor=2., native_reserve_min=.05,
     cleanup_CPU_seconds=.05)
 HEX = re.compile(r'[0-9a-f]{64}')
+# Limit parent monitoring CPU; complete-call overrun checks still enforce caps.
+OWNED_CHILD_POLL_SECONDS = .02
 
 
 class Refusal(ValueError):
@@ -287,7 +289,7 @@ def _run_worker(executable, request, checkpoint, child_cap, wall_cap, check, sta
                     termination = exc.code
             if termination is not None:
                 break
-            _time.sleep(.005)
+            _time.sleep(OWNED_CHILD_POLL_SECONDS)
     finally:
         if not reaped:
             try:

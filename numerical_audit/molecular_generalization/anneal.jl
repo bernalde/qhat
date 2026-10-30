@@ -3,6 +3,11 @@ using TOML, SHA
 include(joinpath(@__DIR__,"src","FullOrderAnnealing.jl"))
 using .FullOrderAnnealing
 
+# Module settings are inherited dynamically in pinned Julia 1.12.6. Pin the
+# numerical module (and its ResponseCore child) before lowering worker code.
+@eval FullOrderAnnealing Base.Experimental.@optlevel 2
+Base.Experimental.@optlevel 0
+
 const ROOT=normpath(joinpath(@__DIR__,"..",".."))
 const SOURCE_NAMES=("analysis/sparse_response_ordering.py","analysis/strang_schedule.py",
     "analysis/julia_window/ResponseCore.jl","analysis/julia_window/Project.toml",
@@ -111,7 +116,7 @@ function read_request(path,check=FullOrderAnnealing.noop)
     require(valid_order(order),"complete zero-based parent order")
     starts=data["starts"]
     require(starts isa Vector && length(starts)==4 && all(valid_order,starts) && starts[1]==order &&
-        length(Set(Tuple(p) for p in starts))==4,"four distinct parent-based starts")
+        FullOrderAnnealing._distinct_four_orders(starts),"four distinct parent-based starts")
     require(data["word_lengths"]==[length(u.coeff) for u in units] && all(x->x isa Integer && !(x isa Bool),data["word_lengths"]),"original lengths")
     require(budget==30sum(data["word_lengths"]),"original 30U budget")
     score=data["parent_score"];response=data["parent_cubic_response"]

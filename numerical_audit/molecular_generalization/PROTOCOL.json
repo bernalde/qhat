@@ -72,6 +72,14 @@
     "max_entries": 50000,
     "max_cached_actions": 100000,
     "max_cache_bytes": 67108864,
+    "implementation": {
+      "julia_command_line_optimization_level": 2,
+      "worker_module_optimization_level": 0,
+      "numerical_module_optimization_level": 2,
+      "owned_child_poll_wall_seconds": 0.02,
+      "order_comparisons": "Pairwise vector distinctness and integer-vector lexicographic ties; no order-length-specific tuple sets",
+      "scope": "Prospective old-only startup optimization; objective, temperatures, starts, proposals and scientific CPU allowances unchanged"
+    },
     "seed_suffix": ":molecular-generalization-sa-v1:chain",
     "cooling": "Geometric in each equal searchCPU slice;4starts,sharecontextonlywithinownedchild",
     "insertion_probes_per_old_case": 32,
@@ -144,10 +152,16 @@
   },
   "phase_resource_pools": {
     "old_preflight_total": {
-      "CPU_seconds": 2400,
-      "wall_seconds": 14000,
+      "CPU_seconds": 3200,
+      "wall_seconds": 20000,
       "disk_MiB": 1024,
-      "status": "Amendedbeforepartialverificationresume;allfailedcostsretained;32/64constructorcapsunchanged"
+      "status": "Prospectively amended after the failed old-case annealing preflight; calibration, failed constructors and engineering costs remain charged; scientific 32/64-second constructor caps unchanged"
+    },
+    "old_annealing_engineering": {
+      "cumulative_CPU_seconds": 420,
+      "cumulative_wall_seconds": 2100,
+      "disk_MiB": 128,
+      "scope": "Old-only diagnosis, implementation and feasibility checks; no new-family data, temperature retuning or scientific budget extensions"
     },
     "old_calibration_reference": {
       "cumulative_CPU_seconds": 840,
