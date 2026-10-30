@@ -1,0 +1,93 @@
+case = "CH4_r1p09"
+index = 4
+julia_version = "1.12.6"
+legacy_source_model_sha256 = "32aeb49b2e541088efa0604e90dae046e8be58e81259e027032b65fe2d779e37"
+model_sha256 = "00a283f3736e331b2c3bfc140213e1d5d1d3a62f119b34ab1450a1b091afbc97"
+order = [24, 69, 76, 1, 73, 62, 66, 60, 64, 3, 13, 5, 15, 59, 65, 70, 74, 61, 67, 26, 34, 2, 14, 4, 16, 25, 35, 126, 157, 94, 107, 208, 44, 273, 52, 97, 42, 47, 46, 113, 63, 50, 45, 51, 53, 54, 205, 28, 30, 29, 10, 27, 267, 33, 36, 38, 39, 22, 37, 204, 0, 7, 40, 6, 31, 265, 12, 11, 21, 17, 32, 18, 41, 127, 159, 120, 23, 334, 130, 49, 19, 48, 8, 165, 55, 9, 20, 188, 93, 105, 216, 58, 286, 326, 80, 191, 350, 249, 302, 125, 81, 85, 231, 56, 285, 147, 170, 138, 178, 89, 235, 312, 196, 226, 280, 117, 341, 203, 240, 315, 245, 296, 78, 79, 329, 140, 179, 189, 190, 71, 251, 300, 43, 82, 87, 146, 171, 129, 160, 122, 124, 246, 298, 342, 346, 118, 119, 210, 269, 95, 106, 337, 340, 253, 304, 92, 330, 332, 151, 173, 153, 177, 220, 292, 233, 294, 263, 324, 237, 313, 132, 161, 238, 317, 139, 180, 136, 167, 121, 123, 228, 284, 148, 172, 84, 88, 198, 201, 331, 333, 197, 200, 247, 297, 156, 187, 225, 278, 150, 176, 248, 299, 98, 114, 101, 110, 100, 111, 206, 266, 250, 303, 96, 108, 262, 323, 135, 164, 193, 195, 213, 272, 154, 185, 149, 175, 236, 314, 143, 181, 144, 182, 128, 158, 141, 183, 252, 301, 224, 279, 287, 103, 115, 327, 328, 241, 316, 142, 184, 244, 321, 256, 310, 259, 307, 260, 311, 261, 322, 134, 162, 133, 163, 131, 166, 345, 349, 152, 174, 219, 291, 223, 277, 217, 288, 218, 155, 186, 239, 318, 211, 271, 212, 270, 209, 274, 104, 116, 229, 281, 234, 295, 207, 268, 145, 169, 72, 192, 194, 68, 99, 109, 258, 306, 243, 320, 255, 309, 230, 282, 137, 168, 83, 86, 254, 308, 257, 305, 242, 319, 102, 112, 227, 75, 283, 77, 57, 264, 325, 344, 348, 215, 276, 336, 339, 222, 290, 335, 338, 90, 91, 214, 275, 232, 293, 343, 347, 221, 289, 199, 202]
+request_sha256 = "807912c1d8c2d4bd0ac1c9b7e82dc35c82817aa9faeaec2df59f249eb783d6f6"
+status = "complete"
+verified = true
+version = 1
+
+[archived_score]
+cubic_response = 0.00013500952273652294
+steps = 15
+value = 2.666854770104157e-9
+
+[full_order_score]
+cubic_response = 0.00013500952273652275
+steps = 15
+value = 2.666854770104153e-9
+
+[native_claim]
+cubic_response = 0.00013500952273652286
+steps = 15
+value = 2.6668547701041554e-9
+
+[parity.full_archived_cubic_response]
+absolute_difference = 1.8973538018496328e-19
+numerical_floor = false
+relative_difference = 1.4053481290741266e-15
+status = "verified"
+tolerance = 1.3500952273662295e-12
+verified = true
+within_tolerance = true
+
+[parity.full_archived_value]
+absolute_difference = 4.1359030627651384e-24
+numerical_floor = false
+relative_difference = 1.5508542531559025e-15
+status = "verified"
+tolerance = 2.6668548701041573e-17
+verified = true
+within_tolerance = true
+
+[parity.native_archived_cubic_response]
+absolute_difference = 8.131516293641283e-20
+numerical_floor = false
+relative_difference = 6.022920553174829e-16
+status = "verified"
+tolerance = 1.3500952273662295e-12
+verified = true
+within_tolerance = true
+
+[parity.native_archived_value]
+absolute_difference = 1.6543612251060553e-24
+numerical_floor = false
+relative_difference = 6.20341701262361e-16
+status = "verified"
+tolerance = 2.6668548701041573e-17
+verified = true
+within_tolerance = true
+
+[parity.native_full_cubic_response]
+absolute_difference = 1.0842021724855044e-19
+numerical_floor = false
+relative_difference = 8.030560737566443e-16
+status = "verified"
+tolerance = 1.3500952273662286e-12
+verified = true
+within_tolerance = true
+
+[parity.native_full_value]
+absolute_difference = 2.481541837659083e-24
+numerical_floor = false
+relative_difference = 9.30512551893542e-16
+status = "verified"
+tolerance = 2.6668548701041554e-17
+verified = true
+within_tolerance = true
+
+[source_sha256]
+"analysis/julia_window/Project.toml" = "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d"
+"analysis/julia_window/ResponseCore.jl" = "19eccecba10052461cc152140419ef8355168c4bfc557f0907ec61ec00c7c1cc"
+"analysis/sparse_response_ordering.py" = "957dc5eeeac955812a335afacb09bdff4165bac0c571a2c9f60299281897e4e6"
+"analysis/strang_schedule.py" = "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a"
+"numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl" = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
+"numerical_audit/molecular_generalization/anneal.jl" = "143bfdee010fa75ee0c3024b22de8953296a9b09f1b2b04064e90eb19c36d31b"
+"numerical_audit/molecular_generalization/annealing.py" = "d0f6e439288d50f1c705f3787e90ffbdea3c8ea86fcb972ca562b188eb9f7f3b"
+"numerical_audit/molecular_generalization/calibration.jl" = "ffcc95fedd62adaa10427612b9b9f58392fd6bf649ee0603722739fa528672fb"
+"numerical_audit/molecular_generalization/calibration.py" = "e2f156189912ce9d78b60cadfc7a977e93d3c7c813b3ac20bc9971acaac2ced2"
+"numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl" = "b24a87e334043105c7c6be38a67d057507542e9bef23e182127550d5ad5dcfbd"
+"numerical_audit/prospective_window_ordering/objective_check.jl" = "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0"
+"numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl" = "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77"

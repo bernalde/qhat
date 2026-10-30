@@ -1,0 +1,361 @@
+{
+  "schema": "calibration-resume-plan-v1",
+  "producer": {
+    "commit": "a680d23cc5ca10b1128f2d52395320773ccb51e5",
+    "files": {
+      "numerical_audit/molecular_generalization/calibration_resume.py": "2f1283a09500644c73092a6aff56dc558ba42fc1e355c7d1dbb28f81c90f7eaa",
+      "numerical_audit/molecular_generalization/calibration_resume.jl": "4af5970fc6d516e588c0199c6fa010cb6c4cdecb9226595eb1551b70dfbbe50d"
+    },
+    "python": {
+      "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_resume.py",
+      "sha256": "2f1283a09500644c73092a6aff56dc558ba42fc1e355c7d1dbb28f81c90f7eaa"
+    },
+    "julia": {
+      "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_resume.jl",
+      "sha256": "4af5970fc6d516e588c0199c6fa010cb6c4cdecb9226595eb1551b70dfbbe50d"
+    }
+  },
+  "prior_plan": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/PLAN.json",
+    "sha256": "6a807929eefbb7016318904fae92b68380bffaec63e0231d60e760331d96ead6"
+  },
+  "prior_work": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/COMPLETION_WORK.json",
+    "sha256": "2b985a0cbeaa1c9598057eebce23d0fbc0cbcde42552a16826ea3b3920cbcc26"
+  },
+  "prior_receipt": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-logs/molecular-calibration-completion-a1.resources.json",
+    "sha256": "cd04f3fce5409a0ea5ad4d6996018e6b183f4117eff90863fe25f302b4213acd"
+  },
+  "prior_costs": [
+    {
+      "raw_CPU_seconds": 238.071,
+      "charged_CPU_seconds": 238.072,
+      "wall_seconds": 952.4221892660717,
+      "output_bytes": 2031719,
+      "receipt": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/logs/molecular-old-calibration-a1.resources.json",
+        "sha256": "281ed24cd0940451d61b99ccfb957dcc5e5c4c433bda50505397535806549a95"
+      },
+      "log": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/logs/molecular-old-calibration-a1.log",
+        "sha256": "fd5c5b49a449821e4c077b33f29d8d4061d2db9b9ba29cbf5280a9f406e079dd"
+      },
+      "failed_attempt": true
+    },
+    {
+      "raw_CPU_seconds": 201.856,
+      "charged_CPU_seconds": 201.857,
+      "wall_seconds": 2991.4727479369612,
+      "output_bytes": 72494,
+      "receipt": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-logs/molecular-calibration-completion-a1.resources.json",
+        "sha256": "cd04f3fce5409a0ea5ad4d6996018e6b183f4117eff90863fe25f302b4213acd"
+      },
+      "log": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-logs/molecular-calibration-completion-a1.log",
+        "sha256": "c5e7b2eef9cced0d42e75580dad998601fc8a1de701540f5d7d9b821c5adc45e"
+      },
+      "failed_attempt": true
+    }
+  ],
+  "resources": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/resume-a1/RESOURCES.json",
+    "sha256": "c1f6476a61f06fbf5ee637e419dc1d62c7232371eeb7330e580e1b088147c185"
+  },
+  "cumulative_pool": {
+    "CPU_seconds": 840,
+    "wall_seconds": 6000,
+    "disk_MiB": 256
+  },
+  "attempt": {
+    "CPU_seconds": 360,
+    "wall_seconds": 1800,
+    "disk_MiB": 240
+  },
+  "guard_profile": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "640M",
+    "MemoryMax": "768M",
+    "MemorySwapMax": "0"
+  },
+  "reused_rows": [
+    {
+      "index": 0,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row000.toml",
+        "sha256": "2b846995d06238614ab199c015d58113d99ac0abf694d887f8a1b4a0499a4ed4"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 1,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row001.toml",
+        "sha256": "e751f4f3f540e1324bdd2876cdcaf24684d0ba9806a05bf4fdc61b96bd00d4ea"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 2,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row002.toml",
+        "sha256": "0a7aa86154a3716fb752ec83aebe954b8965c7261c743dbbf9dcc7dc0ff02fc2"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 3,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row003.toml",
+        "sha256": "6798dee0b8d2dde3214169cd4d8375892a23aaa330f0c03ba556ddc6b025b620"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 4,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row004.toml",
+        "sha256": "467dd44e8db5fb798f5c634114378e75b1103dbdc7e456ea52a746a2f14bf30c"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 5,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row005.toml",
+        "sha256": "73b8035b3929a84e347d97afe2e235c69143fcc395a856f3ce66298c12853fd9"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 6,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row006.toml",
+        "sha256": "40c86df18f59e7731e43b0811cf690c84f6a997d00192a83e4f49ac6747138e0"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 7,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row007.toml",
+        "sha256": "43d0d33e00faa0626eccb286f13df973c69a0264be06d6ee0e01c478aa3c7fe3"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 8,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row008.toml",
+        "sha256": "8794f125b641bd4551276ec9cf105902f88613c4b64dd683a22cacd33a9c140f"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 9,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row009.toml",
+        "sha256": "adc4b761917d42a90bd3d48e6b9ddc82446e5cfab5b037a27591634e96c0e813"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 10,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row010.toml",
+        "sha256": "1618ffb650381c2c4d3bc37de994b4b276edc52b9c5fbeb04b871d89b08afa5e"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 11,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row011.toml",
+        "sha256": "3bd3e4533f907228db8a787c566484a4be7f0a0ea7c6508b7d2c96cecab34a46"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    },
+    {
+      "index": 12,
+      "verified": true,
+      "artifact": {
+        "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09/row012.toml",
+        "sha256": "d5571846238cd983697283e9e1c85654ff3ec9efd27856fa26c55136ae2f6908"
+      },
+      "producer": {
+        "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+        "driver": {
+          "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+          "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+        },
+        "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+        "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+      },
+      "kind": "completion-a1"
+    }
+  ],
+  "missing_indices": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32
+  ],
+  "output": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/resume-a1/work",
+  "original_source_commit": "4ba93256e11aa89038b91c907189c875771c6870",
+  "prior_completion_producer": {
+    "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+    "driver": {
+      "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+      "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+    },
+    "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+    "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+  },
+  "work_command_prefix": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_resume.py",
+    "work"
+  ],
+  "no_native_or_CO_rescoring": true,
+  "physical_errors_read": false
+}

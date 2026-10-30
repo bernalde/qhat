@@ -56,9 +56,9 @@
   },
   "annealing": {
     "algorithm": "four-start unrestricted insertion Metropolis",
-    "temperature_fit": null,
-    "temperature_start": null,
-    "temperature_end": null,
+    "temperature_fit": "Pooled median of 38 positive native normalized deltas among 64 predeclared old-case insertions",
+    "temperature_start": 0.04155802571112692,
+    "temperature_end": 0.002013694406127226,
     "calibration_cases": [
       "CO_r1p13",
       "CH4_r1p09"
@@ -74,7 +74,8 @@
     "max_cache_bytes": 67108864,
     "seed_suffix": ":molecular-generalization-sa-v1:chain",
     "cooling": "Geometric in each equal searchCPU slice;4starts,sharecontextonlywithinownedchild",
-    "insertion_probes_per_old_case": 32
+    "insertion_probes_per_old_case": 32,
+    "calibration_sha256": "d96f209380241458f8dbadc8421cbc72547e36738de91d2d4d0cf2fc800585fb"
   },
   "cheap": {
     "construction_per_case_repetition": true,

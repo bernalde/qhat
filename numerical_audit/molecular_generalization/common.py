@@ -5,6 +5,7 @@ and verify the producer snapshot, rather than pretending to be that producer.
 """
 from __future__ import annotations
 
+from contextlib import contextmanager, ExitStack
 import hashlib
 import importlib.metadata
 import importlib.util
@@ -13,6 +14,7 @@ import math
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import sys
 
@@ -25,6 +27,10 @@ TIMES = (.65, 1.35)
 CAPS = (8, 24)
 MAX_TERMS, MAX_UNITS, MAX_MODEL_BYTES = 8192, 1024, 8*1024**2
 SCORE_KIND = 'diagonal_reference_cubic_response'
+MAX_CALIBRATION_FILES = 4096
+MAX_CALIBRATION_FILE_BYTES = 32*1024**2
+MAX_CALIBRATION_TOTAL_BYTES = 128*1024**2
+MAX_CALIBRATION_MANIFEST_BYTES = 1024**2
 
 
 def load_module(name, path):
@@ -135,10 +141,150 @@ def contained(root, relative):
     return path
 
 
+def _calibration_relative(value):
+    require(isinstance(value, str) and 0 < len(value) <= 4096 and '\\' not in value
+            and all(ord(c) >= 32 and ord(c) != 127 for c in value)
+            and not value.startswith('/') and len(value.split('/')) <= 64
+            and all(p not in ('', '.', '..') for p in value.split('/')),
+            'Canonical calibration evidence path')
+    return value.split('/')
+
+
+@contextmanager
+def _calibration_parent(root, relative, *, create=False):
+    """Walk only real directories beneath a trusted root, including at open time."""
+    parts = _calibration_relative(relative)
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    descriptor = None
+    try:
+        descriptor = os.open(root, flags)
+        for part in parts[:-1]:
+            if create:
+                try:
+                    os.mkdir(part, dir_fd=descriptor)
+                except FileExistsError:
+                    pass
+            child = os.open(part, flags, dir_fd=descriptor)
+            os.close(descriptor)
+            descriptor = child
+        yield descriptor, parts[-1]
+    except OSError as exc:
+        raise ValueError('Calibration evidence I/O refused: '+relative) from exc
+    finally:
+        if descriptor is not None:
+            os.close(descriptor)
+
+
+def _calibration_file(root, relative, *, declared=None, copy_to=None, capture=False,
+                      limit=MAX_CALIBRATION_FILE_BYTES):
+    """Stream a bounded regular file; a copy is published only after its checks."""
+    with ExitStack() as stack:
+        parent, name = stack.enter_context(_calibration_parent(root, relative))
+        descriptor = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+        stream = stack.enter_context(os.fdopen(descriptor, 'rb'))
+        info = os.fstat(stream.fileno())
+        require(stat.S_ISREG(info.st_mode) and 0 <= info.st_size <= limit,
+                'Bounded regular calibration evidence: '+relative)
+        require(declared is None or info.st_size == declared['bytes'],
+                'Calibration evidence size differs: '+relative)
+        output = None
+        if copy_to is not None:
+            dest, leaf = stack.enter_context(_calibration_parent(copy_to, relative, create=True))
+            descriptor = os.open(leaf+'.partial', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                 0o644, dir_fd=dest)
+            output = stack.enter_context(os.fdopen(descriptor, 'wb'))
+        digest, count, chunks = hashlib.sha256(), 0, []
+        while True:
+            chunk = stream.read(min(1024**2, limit-count+1))
+            if not chunk:
+                break
+            count += len(chunk)
+            require(count <= limit, 'Growing calibration evidence byte cap: '+relative)
+            digest.update(chunk)
+            if output is not None:
+                output.write(chunk)
+            if capture:
+                chunks.append(chunk)
+        actual = dict(bytes=count, sha256=digest.hexdigest())
+        require(count == info.st_size and (declared is None or
+                all(actual[key] == declared[key] for key in ('bytes', 'sha256'))),
+                'Calibration evidence hash/size differs: '+relative)
+        if output is not None:
+            output.flush()
+            os.link(leaf+'.partial', leaf, src_dir_fd=dest, dst_dir_fd=dest, follow_symlinks=False)
+            os.unlink(leaf+'.partial', dir_fd=dest)
+        return actual, b''.join(chunks) if capture else None
+
+
+def _calibration_json(raw):
+    def unique(items):
+        value = {}
+        for key, item in items:
+            require(key not in value, 'Duplicate calibration JSON key: '+key)
+            value[key] = item
+        return value
+    def reject(value):
+        raise ValueError('Nonfinite calibration JSON constant: '+value)
+    return json.loads(raw, object_pairs_hook=unique, parse_constant=reject)
+
+
+def calibration_evidence(study_root, expected_sha256, *, copy_to=None):
+    """Authenticate/copy only manifest members; historical locators are metadata.
+
+    Paths in the returned binding are relative to the archived study directory.
+    Copies preserve every original byte, including all provenance and locators.
+    """
+    def digest(value):
+        return isinstance(value, str) and len(value) == 64 and all(c in '0123456789abcdef' for c in value)
+    manifest_info, raw = _calibration_file(study_root, 'CALIBRATION_EVIDENCE.json',
+        capture=True, limit=MAX_CALIBRATION_MANIFEST_BYTES, copy_to=copy_to)
+    manifest = _calibration_json(raw)
+    require(isinstance(manifest, dict) and manifest.get('schema') == 'molecular-calibration-evidence-v1'
+            and isinstance(manifest.get('files'), dict) and
+            0 < len(manifest['files']) <= MAX_CALIBRATION_FILES, 'Bounded calibration manifest schema')
+    prefix = manifest.get('prefix')
+    require(len(_calibration_relative(prefix)) >= 2 and prefix.startswith('evidence/'),
+            'Contained calibration evidence prefix')
+    accepted = manifest.get('accepted_report')
+    _calibration_relative(accepted)
+    files = manifest['files']
+    require(digest(expected_sha256) and manifest.get('accepted_sha256') == expected_sha256
+            and accepted in files, 'Accepted calibration report declaration')
+    total = 0
+    for name, entry in files.items():
+        _calibration_relative(prefix+'/'+name)
+        require(isinstance(entry, dict) and set(entry) == {'bytes', 'sha256', 'original_locator'}
+                and type(entry['bytes']) is int and 0 <= entry['bytes'] <= MAX_CALIBRATION_FILE_BYTES
+                and digest(entry['sha256']) and isinstance(entry['original_locator'], str)
+                and 0 < len(entry['original_locator']) <= 16384, 'Calibration evidence entry: '+name)
+        total += entry['bytes']
+    require(total <= MAX_CALIBRATION_TOTAL_BYTES, 'Calibration evidence total byte cap')
+    require(files[accepted]['sha256'] == expected_sha256, 'Accepted report manifest digest')
+    accepted_raw = None
+    for name, entry in sorted(files.items()):
+        _, contents = _calibration_file(study_root, prefix+'/'+name, declared=entry,
+            copy_to=copy_to, capture=name == accepted)
+        if name == accepted:
+            accepted_raw = contents
+    report_info, report_raw = _calibration_file(study_root, 'CALIBRATION.json', copy_to=copy_to, capture=True)
+    require(report_info['sha256'] == expected_sha256 and report_raw == accepted_raw,
+            'Top calibration must equal the exact accepted evidence report')
+    report = _calibration_json(report_raw)
+    require(isinstance(report, dict) and report.get('complete') is True
+            and report.get('physical_errors_read') is False, 'Complete old-only calibration report')
+    return dict(schema='molecular-frozen-calibration-evidence-v1',
+        manifest='CALIBRATION_EVIDENCE.json', manifest_sha256=manifest_info['sha256'],
+        manifest_bytes=manifest_info['bytes'], prefix=prefix, accepted_report=accepted,
+        accepted_sha256=expected_sha256, report='CALIBRATION.json',
+        declared_files=len(files), declared_bytes=total)
+
+
 def source_paths():
-    own = [p for p in HERE.rglob('*') if p.is_file() and 'test' not in p.relative_to(HERE).parts
-           and 'evidence' not in p.relative_to(HERE).parts and '__pycache__' not in p.parts
-           and p.suffix in ('.py', '.jl', '.json', '.toml')]
+    own = []
+    for directory, directories, files in os.walk(HERE, followlinks=False):
+        directories[:] = [name for name in directories if name not in ('test', 'evidence', '__pycache__')]
+        own.extend(p for name in files if (p := Path(directory)/name).is_file()
+                   and p.suffix in ('.py', '.jl', '.json', '.toml'))
     # Retain authenticated numerical kernels and all their existing study dependencies.
     calibration_inputs = [ROOT/'numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic'/name
                           for name in ('CO_r1p13.toml', 'CH4_r1p09.toml')]
@@ -170,15 +316,27 @@ def freeze(data, *, mode):
         gate = read(HERE/'PREFLIGHT_ACCEPTED.json')
         require(gate['complete'] is True and gate['new_physical_errors_observed'] is False,
                 'Complete old-only end-to-end gate required')
+    evidence = calibration_evidence(HERE, config['annealing']['calibration_sha256'])
     head, sources = committed_sources(), source_map()
+    study = HERE.relative_to(ROOT)
+    calibration_sources = {str(study/'CALIBRATION_EVIDENCE.json'): evidence['manifest_sha256'],
+                           str(study/'CALIBRATION.json'): evidence['accepted_sha256']}
+    require(all(sources.get(name) == digest for name, digest in calibration_sources.items()),
+            'Calibration evidence joins committed producer sources')
     data.mkdir(parents=True)
     for name in sources:
+        if name in calibration_sources:
+            continue
         dest = data/'source_snapshot'/name
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT/name, dest)
+    snapshot = data/'source_snapshot'/study
+    snapshot.mkdir(parents=True, exist_ok=True)
+    require(calibration_evidence(HERE, evidence['accepted_sha256'], copy_to=snapshot) == evidence,
+            'Calibration evidence changed during freeze')
     write_new(data/'INPUT_PROTOCOL_FROZEN.json', dict(schema='molecular-source-freeze-v1',
         mode=mode, source_commit=head, producer_root=str(ROOT), producer_data_root=str(data.resolve()),
-        sources=sources, configuration=config,
+        sources=sources, configuration=config, calibration_evidence=evidence,
         registry=registry(), environment=prior.environment(), runtime=read(HERE/'ENVIRONMENT.json')))
 
 
@@ -189,6 +347,11 @@ def frozen(data, *, producer=False):
         require(sha(contained(data/'source_snapshot', name)) == digest, 'Producer snapshot changed: '+name)
     require(value['configuration'] == read(data/'source_snapshot'/HERE.relative_to(ROOT)/'PROTOCOL.json'),
             'Snapshot protocol/configuration join')
+    if str(HERE.relative_to(ROOT)/'CALIBRATION_EVIDENCE.json') in value['sources'] or 'calibration_evidence' in value:
+        require('calibration_evidence' in value and value['calibration_evidence'] == calibration_evidence(
+            data/'source_snapshot'/HERE.relative_to(ROOT),
+            value['configuration']['annealing']['calibration_sha256']),
+            'Frozen calibration evidence binding changed')
     if producer:
         require(value['sources'] == source_map() and value['configuration'] == configuration()
                 and value['registry'] == registry(), 'Producer differs from immutable freeze')

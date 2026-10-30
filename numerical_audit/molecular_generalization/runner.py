@@ -126,6 +126,7 @@ def validation(data, phase, cpu, wall):
     for case in h['cases']:
         model, panel = data/'inputs'/case/'model.toml', data/'panels'/(case+'.toml')
         folder = data/phase/case
+        folder.parent.mkdir(parents=True, exist_ok=True)
         command = base+[str(k.HERE/('verify.jl' if phase == 'independent' else phase+'.jl')),
                         str(model), str(panel)]
         if phase == 'independent':

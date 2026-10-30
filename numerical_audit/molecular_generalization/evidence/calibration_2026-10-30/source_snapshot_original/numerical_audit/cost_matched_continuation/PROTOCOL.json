@@ -1,0 +1,108 @@
+{
+  "schema": "cost-matched-continuation-v1",
+  "training_time": 1.0,
+  "training_rotation_multiplier": 30,
+  "total_CPU_budgets": [
+    32,
+    64
+  ],
+  "repetitions": 2,
+  "arms": [
+    "full",
+    "window"
+  ],
+  "parent": {
+    "CPU_seconds": 8,
+    "wall_seconds": 40,
+    "max_evaluations": 3000,
+    "max_moves": 5,
+    "starts": "Native default magnitude/reverse/canonical",
+    "cost": "Measured complete parent prefix, including imports/loading/checking/cleanup, charged once per logical arm; one actual shared execution per case/repetition"
+  },
+  "native": {
+    "max_evaluations": 1000000,
+    "max_moves": 1000,
+    "max_entries": 50000,
+    "max_cached_actions": 100000,
+    "restarts": {
+      "count": 4,
+      "insertions": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "seed": "SHA256(UTF8(case+\":\"+str(repetition)+\":cost-matched-v1\")), first 8 digest bytes big endian, Python random.Random",
+      "perturbations": "Interior insertion moves from frozen parent, fixed before continuation; unrestricted full-order insertion destinations during search"
+    }
+  },
+  "window": {
+    "width": 8,
+    "max_windows": 32,
+    "max_sweeps": 100,
+    "parent_method": "magnitude",
+    "parent_fraction": 0.6,
+    "max_entries": 50000,
+    "max_cached_actions": 100000,
+    "max_factor_entries": 250000,
+    "max_flat_entries": 1000000,
+    "max_actions": 2000000,
+    "max_atoms": 200000,
+    "scope": "One supplied frozen parent revalidated without extra native parent search; unused parent allocation flows to child; owned startup/JIT/check/cleanup charged"
+  },
+  "physical": {
+    "times": [
+      0.65,
+      1.35
+    ],
+    "rotation_cap_multipliers": [
+      8,
+      24
+    ],
+    "formula": 2,
+    "full_register_dimension": 16384,
+    "reference_sector_dimension_cap": 2000,
+    "ambiguity": 1e-12,
+    "ratio_floor": 1e-12,
+    "primary": {
+      "total_CPU_budget": 64,
+      "time": 1.35,
+      "rotation_cap_multiplier": 8,
+      "statistic": "Per-case median of two within-repetition physical-error differences(window minus full)",
+      "window_advantage": "Both case medians < -1e-12, no resolved loss in either primary repetition, and all cost/verification gates pass",
+      "full_advantage": "Symmetric positive-difference rule",
+      "otherwise": "Mixed/unresolved; no default-advantage claim"
+    },
+    "repetitions_scope": "Deterministic timing repetitions, not independent molecular samples; no confidence intervals"
+  },
+  "accounting": {
+    "continuation_allowance": "Total cap minus conservative measured frozen-parent prefix; subtract complete continuation setup and .25CPU cleanup reserve before API entry",
+    "strict_conservative_total": true,
+    "CPU_cleanup_reserve": 0.25,
+    "actual_vs_attributed": "Per four continuations actual parentCPU+sumcontinuation; comparison charges4*parentCPU+sumcontinuation; never multiply constructor costs by physical rows",
+    "total_wall_multiplier": 5,
+    "wall_cleanup_reserve": 5
+  },
+  "inventory": {
+    "cases": 2,
+    "parents": 4,
+    "continuations": 16,
+    "total_frozen_orders": 20,
+    "logical_physical_rows": 80
+  },
+  "preflight": {
+    "case": "LiH_r1p487_631g_14m4e",
+    "source": "Previously studied merged development input",
+    "repetitions": 1,
+    "total_CPU_budgets": [
+      32,
+      64
+    ],
+    "logical_physical_rows": 20,
+    "gate": "Complete source/order/cost/objective/primary/independent paths, no algorithm cap prematurely stopping intended CPU-limited continuation; amended owned-service cgroup MemoryPeak<=448MiB, enforced512MiB/no-swap profile unchanged; retain separate RSS diagnostics and original ambiguous400MiB estimate",
+    "resource_amendment": "PREFLIGHT_RESOURCE_AMENDMENT.json"
+  },
+  "failures": "Retain all attempts/costs/partial outputs; fully checked incumbents only; controller parent fallback explicit; no geometry substitution after input freeze; failed or unverified primary comparisons cannot support advantage",
+  "scope": "Cost/quality allocation on two fixed new geometries and two CPU allowances, not global ordering/approximation/hardware claim",
+  "attempt_policy": "One invocation per frozen main parent or continuation identity. No fresh-budget retry. A failed continuation retains all costs and an explicit ineligible parent fallback; preflight repairs precede holdout outcomes and retain all attempts."
+}

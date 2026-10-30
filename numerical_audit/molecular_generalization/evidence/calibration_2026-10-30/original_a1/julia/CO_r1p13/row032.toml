@@ -1,0 +1,93 @@
+case = "CO_r1p13"
+index = 32
+julia_version = "1.12.6"
+legacy_source_model_sha256 = "8a9f89166544f72f9ecae892ad664a3f110f1a2c534fceef22359aaa1fcbdbe8"
+model_sha256 = "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52"
+order = [187, 185, 193, 191, 168, 145, 178, 155, 188, 186, 192, 190, 146, 177, 154, 137, 135, 129, 114, 164, 75, 149, 174, 159, 138, 136, 128, 113, 165, 169, 150, 173, 158, 116, 102, 92, 86, 126, 108, 118, 103, 90, 85, 162, 142, 161, 141, 93, 87, 120, 105, 172, 151, 181, 160, 94, 88, 119, 104, 82, 81, 139, 123, 110, 80, 183, 182, 77, 166, 147, 176, 157, 170, 143, 180, 153, 189, 194, 167, 148, 175, 156, 8, 95, 133, 48, 134, 99, 171, 144, 152, 33, 97, 21, 96, 124, 112, 121, 109, 79, 78, 125, 106, 132, 131, 62, 73, 71, 184, 25, 16, 72, 57, 26, 15, 18, 6, 39, 29, 44, 54, 65, 59, 51, 47, 36, 28, 19, 9, 61, 74, 31, 22, 14, 2, 58, 69, 32, 1, 122, 35, 4, 68, 63, 34, 5, 52, 46, 45, 53, 67, 70, 41, 179, 10, 11, 24, 111, 17, 7, 38, 64, 66, 13, 3, 127, 30, 107, 60, 98, 130, 89, 83, 117, 101, 50, 55, 49, 163, 42, 140, 91, 84, 115, 100, 37, 27, 20, 56, 40, 43, 23, 12, 0, 76]
+request_sha256 = "abd3682979493571a7fac6b8506ece96fd4b2d026e9ce57d7962185bd8eaccf5"
+status = "complete"
+verified = true
+version = 1
+
+[archived_score]
+cubic_response = 0.0009796457081631099
+steps = 15
+value = 1.935102633408612e-8
+
+[full_order_score]
+cubic_response = 0.0009796457081631103
+steps = 15
+value = 1.935102633408613e-8
+
+[native_claim]
+cubic_response = 0.0009796457081631088
+steps = 15
+value = 1.93510263340861e-8
+
+[parity.full_archived_cubic_response]
+absolute_difference = 4.336808689942018e-19
+numerical_floor = false
+relative_difference = 4.4269154183033915e-16
+status = "verified"
+tolerance = 9.796457081632103e-12
+verified = true
+within_tolerance = true
+
+[parity.full_archived_value]
+absolute_difference = 9.926167350636332e-24
+numerical_floor = false
+relative_difference = 5.129530175436612e-16
+status = "verified"
+tolerance = 1.935102643408613e-16
+verified = true
+within_tolerance = true
+
+[parity.native_archived_cubic_response]
+absolute_difference = 1.0842021724855044e-18
+numerical_floor = false
+relative_difference = 1.1067288545758484e-15
+status = "verified"
+tolerance = 9.796457081632099e-12
+verified = true
+within_tolerance = true
+
+[parity.native_archived_value]
+absolute_difference = 1.9852334701272664e-23
+numerical_floor = false
+relative_difference = 1.0259060350873228e-15
+status = "verified"
+tolerance = 1.935102643408612e-16
+verified = true
+within_tolerance = true
+
+[parity.native_full_cubic_response]
+absolute_difference = 1.5178830414797062e-18
+numerical_floor = false
+relative_difference = 1.5494203964061871e-15
+status = "verified"
+tolerance = 9.796457081632103e-12
+verified = true
+within_tolerance = true
+
+[parity.native_full_value]
+absolute_difference = 2.9778502051908996e-23
+numerical_floor = false
+relative_difference = 1.5388590526309835e-15
+status = "verified"
+tolerance = 1.935102643408613e-16
+verified = true
+within_tolerance = true
+
+[source_sha256]
+"analysis/julia_window/Project.toml" = "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d"
+"analysis/julia_window/ResponseCore.jl" = "19eccecba10052461cc152140419ef8355168c4bfc557f0907ec61ec00c7c1cc"
+"analysis/sparse_response_ordering.py" = "957dc5eeeac955812a335afacb09bdff4165bac0c571a2c9f60299281897e4e6"
+"analysis/strang_schedule.py" = "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a"
+"numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl" = "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605"
+"numerical_audit/molecular_generalization/anneal.jl" = "143bfdee010fa75ee0c3024b22de8953296a9b09f1b2b04064e90eb19c36d31b"
+"numerical_audit/molecular_generalization/annealing.py" = "d0f6e439288d50f1c705f3787e90ffbdea3c8ea86fcb972ca562b188eb9f7f3b"
+"numerical_audit/molecular_generalization/calibration.jl" = "ffcc95fedd62adaa10427612b9b9f58392fd6bf649ee0603722739fa528672fb"
+"numerical_audit/molecular_generalization/calibration.py" = "e2f156189912ce9d78b60cadfc7a977e93d3c7c813b3ac20bc9971acaac2ced2"
+"numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl" = "b24a87e334043105c7c6be38a67d057507542e9bef23e182127550d5ad5dcfbd"
+"numerical_audit/prospective_window_ordering/objective_check.jl" = "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0"
+"numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl" = "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77"

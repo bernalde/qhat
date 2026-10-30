@@ -1,0 +1,107 @@
+{
+  "unit": "fermionic-future-molecular-calibration-prepare-a1-1818359",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "50",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "numerical_audit/molecular_generalization/calibration_completion.py",
+    "prepare",
+    "--completion-tree",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree",
+    "--completion-commit",
+    "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+    "--scorer-root",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree",
+    "--original",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/a1",
+    "--original-source",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/calibration-a1.SOURCE.json",
+    "--original-receipt",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/logs/molecular-old-calibration-a1.resources.json",
+    "--original-wrapper",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/run_calibration_a1.py",
+    "--launch-declaration",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/COMPLETION_RESOURCES.json",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work",
+    "--plan",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/PLAN.json",
+    "--a1-quiescent",
+    "--cumulative-cpu",
+    "840",
+    "--cumulative-wall",
+    "4200",
+    "--attempt-cpu",
+    "600",
+    "--attempt-wall",
+    "3000",
+    "--disk-mib",
+    "256"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 6.027677759993821,
+  "samples": [
+    {
+      "elapsed": 0.0012544660130515695,
+      "available_bytes": 19647283200,
+      "frozen": false,
+      "service": "MemoryCurrent=[not set]\nMemoryPeak=[not set]\nCPUUsageNSec=[not set]",
+      "output_bytes": 0
+    },
+    {
+      "elapsed": 3.0098048580111936,
+      "available_bytes": 19639017472,
+      "frozen": false,
+      "service": "MemoryCurrent=[not set]\nMemoryPeak=[not set]\nCPUUsageNSec=[not set]",
+      "output_bytes": 378407
+    }
+  ],
+  "completed_utc": "2026-10-30T15:20:18.576343+00:00",
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 50,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-logs/molecular-calibration-prepare-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 0.49,
+    "system_cpu_seconds": 0.23,
+    "max_rss_kib": 25336.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 0.72,
+    "output_bytes": 378407,
+    "elapsed_seconds": 6.027677759993821,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

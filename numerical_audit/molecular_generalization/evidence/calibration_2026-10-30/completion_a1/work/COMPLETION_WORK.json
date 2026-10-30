@@ -1,0 +1,54 @@
+{
+  "schema": "calibration-completion-work-v1",
+  "plan_sha256": "6a807929eefbb7016318904fae92b68380bffaec63e0231d60e760331d96ead6",
+  "complete_numerical": false,
+  "original_producer": "4ba93256e11aa89038b91c907189c875771c6870",
+  "completion_producer": {
+    "commit": "0233dc6a1493c351cedcf9d0681875f88247ea7e",
+    "driver": {
+      "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration_completion.py",
+      "sha256": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823"
+    },
+    "repository_path": "numerical_audit/molecular_generalization/calibration_completion.py",
+    "tree": "/tmp/qhat-molecular-generalization-2026-10-30/worktree"
+  },
+  "jobs": [
+    {
+      "case": "CH4_r1p09",
+      "raw_CPU_seconds": 173.227117,
+      "stop": "child_wall_limit",
+      "command": [
+        "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia",
+        "--startup-file=no",
+        "--history-file=no",
+        "--threads=1",
+        "--gcthreads=1",
+        "--heap-size-hint=32M",
+        "--project=/tmp/qhat-molecular-generalization-2026-10-30/worktree/analysis/julia_window",
+        "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/calibration.jl",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/a1/inputs/CH4_r1p09.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/a1/CH4_r1p09.REQUEST.toml",
+        "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09",
+        "597.614636371",
+        "2987.480455512996"
+      ],
+      "reaped": true,
+      "stderr_path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/completion-a1/work/julia/CH4_r1p09.stderr.log",
+      "returncode": -9,
+      "peak_RSS_KiB": 647788,
+      "wall_seconds": 2988.3018433270045
+    }
+  ],
+  "failures": [
+    {
+      "type": "Refusal",
+      "message": "Completion child failed: retain outputs/costs"
+    }
+  ],
+  "native_scores_computed": 0,
+  "CO_scores_computed": 0,
+  "physical_errors_read": false,
+  "observed_Python_plus_Julia_CPU_before_output": 201.559431829,
+  "cost_scope": "External guard owns all Git verification children, Python, owned Julia startup/JIT and teardown",
+  "external_guard_receipt_required": true
+}
