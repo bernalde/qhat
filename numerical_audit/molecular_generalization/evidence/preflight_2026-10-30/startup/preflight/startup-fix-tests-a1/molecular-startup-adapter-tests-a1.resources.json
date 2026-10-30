@@ -1,0 +1,69 @@
+{
+  "unit": "fermionic-future-molecular-startup-adapter-tests-a1-1945636",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "60",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/startup-fix-tests-a1/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/startup-fix-tests-a1/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/check_startup_adapter_a1.py"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 3.0612766289850697,
+  "samples": [
+    {
+      "elapsed": 0.0014177989214658737,
+      "available_bytes": 20931051520,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=145000",
+      "output_bytes": 5370
+    }
+  ],
+  "completed_utc": "2026-10-30T18:37:20.938731+00:00",
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 60,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/startup-fix-tests-a1/molecular-startup-adapter-tests-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 0.22,
+    "system_cpu_seconds": 0.05,
+    "max_rss_kib": 26496.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 0.27,
+    "output_bytes": 8905,
+    "elapsed_seconds": 3.0612766289850697,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

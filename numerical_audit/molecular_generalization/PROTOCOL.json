@@ -1,7 +1,7 @@
 {
   "schema": "molecular-generalization-v1",
-  "protocol_state": "old-case_preflight_development",
-  "main_execution_allowed": false,
+  "protocol_state": "frozen_main",
+  "main_execution_allowed": true,
   "training_time": 1.0,
   "training_rotation_multiplier": 30,
   "total_CPU_budgets": [
@@ -195,8 +195,77 @@
       "MemoryHigh_MiB": 448,
       "MemoryMax_MiB": 512,
       "status": "Prospectively amended before the progress-instrumented regression; both interrupted attempts retained; scientific constructor budgets unchanged"
+    },
+    "main_total": {
+      "CPU_seconds": 4500,
+      "wall_seconds": 24000,
+      "disk_MiB": 2048
     }
   },
   "attempt_policy": "One invocation per frozenmainconstructoridentity;retainfailedcosts/scoredincumbents/capacitystops, nofreshscientificbudgetretry. Oldpreflightr epairsremainexplicitversioneddevelopment.",
-  "scope": "Twoadditionalcubic-development-heldoutfamilies,HFreference,twoCPUpoints,implementationend-to-endcomparison;no globalwinner/ratio/hardware/defaultswitchclaim"
+  "scope": "Twoadditionalcubic-development-heldoutfamilies,HFreference,twoCPUpoints,implementationend-to-endcomparison;no globalwinner/ratio/hardware/defaultswitchclaim",
+  "main_phase_limits": {
+    "inputs": {
+      "CPU_seconds": 240,
+      "wall_seconds": 1200,
+      "disk_MiB": 512
+    },
+    "constructors": {
+      "CPU_seconds": 1500,
+      "wall_seconds": 8000,
+      "disk_MiB": 512
+    },
+    "panels": {
+      "CPU_seconds": 60,
+      "wall_seconds": 300,
+      "disk_MiB": 512
+    },
+    "physical": {
+      "CPU_seconds": 400,
+      "wall_seconds": 2000,
+      "disk_MiB": 512
+    },
+    "independent": {
+      "CPU_seconds": 600,
+      "wall_seconds": 3000,
+      "disk_MiB": 512
+    },
+    "objective": {
+      "CPU_seconds": 400,
+      "wall_seconds": 2000,
+      "disk_MiB": 512
+    },
+    "analysis": {
+      "CPU_seconds": 80,
+      "wall_seconds": 400,
+      "disk_MiB": 512
+    },
+    "package": {
+      "CPU_seconds": 1000,
+      "wall_seconds": 5000,
+      "disk_MiB": 1024
+    }
+  },
+  "main_per_case_dispatch": {
+    "input": [
+      120,
+      600
+    ],
+    "physical": [
+      180,
+      1000
+    ],
+    "independent": [
+      240,
+      1200
+    ],
+    "objective": [
+      180,
+      900
+    ]
+  },
+  "old_preflight_acceptance": {
+    "path": "PREFLIGHT_ACCEPTED.json",
+    "sha256": "33bdc2e31f8e7cecba796eed6ab8c2321615961194bed4e01702690ebd5936a3"
+  }
 }

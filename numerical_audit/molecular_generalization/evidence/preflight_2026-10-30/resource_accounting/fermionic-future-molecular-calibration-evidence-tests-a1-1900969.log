@@ -1,0 +1,48 @@
+Running as unit: fermionic-future-molecular-calibration-evidence-tests-a1-1900969.service; invocation ID: 1a20fc8a22114a33a845724653c7f64d
+test_changed_member_size_or_hash_is_refused_before_output_creation (test_calibration_evidence.CalibrationEvidenceTests.test_changed_member_size_or_hash_is_refused_before_output_creation) ... ok
+test_copy_failure_never_publishes_freeze_marker (test_calibration_evidence.CalibrationEvidenceTests.test_copy_failure_never_publishes_freeze_marker) ... ok
+test_copy_refuses_overwrite_and_changed_snapshot_is_detected (test_calibration_evidence.CalibrationEvidenceTests.test_copy_refuses_overwrite_and_changed_snapshot_is_detected) ... ok
+test_duplicate_json_and_declared_resource_overflow_are_refused (test_calibration_evidence.CalibrationEvidenceTests.test_duplicate_json_and_declared_resource_overflow_are_refused) ... ok
+test_freeze_copies_only_declared_bytes_and_replays_without_original_tree (test_calibration_evidence.CalibrationEvidenceTests.test_freeze_copies_only_declared_bytes_and_replays_without_original_tree) ... ok
+test_new_freeze_cannot_drop_its_evidence_binding (test_calibration_evidence.CalibrationEvidenceTests.test_new_freeze_cannot_drop_its_evidence_binding) ... ok
+test_nonregular_file_and_missing_member_are_refused (test_calibration_evidence.CalibrationEvidenceTests.test_nonregular_file_and_missing_member_are_refused) ... ok
+test_paths_reject_traversal_absolute_empty_and_backslash_components (test_calibration_evidence.CalibrationEvidenceTests.test_paths_reject_traversal_absolute_empty_and_backslash_components) ... ok
+test_self_consistent_incomplete_or_physical_report_is_still_refused (test_calibration_evidence.CalibrationEvidenceTests.test_self_consistent_incomplete_or_physical_report_is_still_refused) ... ok
+test_source_scan_excludes_evidence_and_test_subtrees (test_calibration_evidence.CalibrationEvidenceTests.test_source_scan_excludes_evidence_and_test_subtrees) ... ok
+test_symlink_file_and_directory_are_refused_even_with_matching_bytes (test_calibration_evidence.CalibrationEvidenceTests.test_symlink_file_and_directory_are_refused_even_with_matching_bytes) ... ok
+test_top_report_must_be_the_exact_accepted_report (test_calibration_evidence.CalibrationEvidenceTests.test_top_report_must_be_the_exact_accepted_report) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.391s
+
+OK
+REAL_CALIBRATION_EVIDENCE_VERIFIED {'schema': 'molecular-frozen-calibration-evidence-v1', 'manifest': 'CALIBRATION_EVIDENCE.json', 'manifest_sha256': '9fbdb589ac946a57dccee7fb24840391412fe3f643fd19cd9e6c10bd204fd343', 'manifest_bytes': 87530, 'prefix': 'evidence/calibration_2026-10-30', 'accepted_report': 'resume_a1/work/CALIBRATION.json', 'accepted_sha256': 'd96f209380241458f8dbadc8421cbc72547e36738de91d2d4d0cf2fc800585fb', 'report': 'CALIBRATION.json', 'declared_files': 262, 'declared_bytes': 5630782}
+	Command being timed: "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python /home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/check_calibration_evidence_a1.py"
+	User time (seconds): 0.24
+	System time (seconds): 0.11
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.40
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 28872
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 5877
+	Voluntary context switches: 8
+	Involuntary context switches: 14
+	Swaps: 0
+	File system inputs: 256
+	File system outputs: 1112
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 1.404s
+CPU time consumed: 364ms
+Memory peak: 1004.0K
+Memory swap peak: 0B

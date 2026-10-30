@@ -1,0 +1,159 @@
+{
+  "unit": "fermionic-future-molecular-python-contracts-a1-1786541",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "150",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/kernel-tests/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/kernel-tests/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "numerical_audit/molecular_generalization/test",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 39.233907097019255,
+  "samples": [
+    {
+      "elapsed": 0.002054193988442421,
+      "available_bytes": 19091165184,
+      "frozen": false,
+      "service": "MemoryCurrent=32768\nMemoryPeak=524288\nCPUUsageNSec=923000",
+      "output_bytes": 12410
+    },
+    {
+      "elapsed": 3.076049503055401,
+      "available_bytes": 19131469824,
+      "frozen": false,
+      "service": "MemoryCurrent=62533632\nMemoryPeak=62705664\nCPUUsageNSec=754003000",
+      "output_bytes": 16357
+    },
+    {
+      "elapsed": 6.087361152982339,
+      "available_bytes": 19065507840,
+      "frozen": false,
+      "service": "MemoryCurrent=112238592\nMemoryPeak=112959488\nCPUUsageNSec=1505097000",
+      "output_bytes": 16357
+    },
+    {
+      "elapsed": 9.098555272095837,
+      "available_bytes": 18939826176,
+      "frozen": false,
+      "service": "MemoryCurrent=164745216\nMemoryPeak=164839424\nCPUUsageNSec=2258065000",
+      "output_bytes": 16357
+    },
+    {
+      "elapsed": 12.11026521900203,
+      "available_bytes": 18857598976,
+      "frozen": false,
+      "service": "MemoryCurrent=221753344\nMemoryPeak=221753344\nCPUUsageNSec=3017316000",
+      "output_bytes": 16357
+    },
+    {
+      "elapsed": 15.126995825092308,
+      "available_bytes": 19302592512,
+      "frozen": false,
+      "service": "MemoryCurrent=255758336\nMemoryPeak=255758336\nCPUUsageNSec=3779422000",
+      "output_bytes": 16357
+    },
+    {
+      "elapsed": 18.14158022508491,
+      "available_bytes": 19335614464,
+      "frozen": false,
+      "service": "MemoryCurrent=264265728\nMemoryPeak=264486912\nCPUUsageNSec=4534309000",
+      "output_bytes": 16357
+    },
+    {
+      "elapsed": 21.155020912992768,
+      "available_bytes": 19315281920,
+      "frozen": false,
+      "service": "MemoryCurrent=275034112\nMemoryPeak=275234816\nCPUUsageNSec=5286723000",
+      "output_bytes": 16420
+    },
+    {
+      "elapsed": 24.16890120599419,
+      "available_bytes": 19314311168,
+      "frozen": false,
+      "service": "MemoryCurrent=310607872\nMemoryPeak=310607872\nCPUUsageNSec=6029638000",
+      "output_bytes": 182165
+    },
+    {
+      "elapsed": 27.17793075903319,
+      "available_bytes": 19258138624,
+      "frozen": false,
+      "service": "MemoryCurrent=335482880\nMemoryPeak=336072704\nCPUUsageNSec=6779970000",
+      "output_bytes": 182165
+    },
+    {
+      "elapsed": 30.187598386080936,
+      "available_bytes": 19081695232,
+      "frozen": false,
+      "service": "MemoryCurrent=371105792\nMemoryPeak=371560448\nCPUUsageNSec=7528980000",
+      "output_bytes": 183347
+    },
+    {
+      "elapsed": 33.20270789798815,
+      "available_bytes": 19054948352,
+      "frozen": false,
+      "service": "MemoryCurrent=371634176\nMemoryPeak=372367360\nCPUUsageNSec=8298201000",
+      "output_bytes": 183782
+    },
+    {
+      "elapsed": 36.218543746043,
+      "available_bytes": 18881847296,
+      "frozen": false,
+      "service": "MemoryCurrent=371765248\nMemoryPeak=372367360\nCPUUsageNSec=9065138000",
+      "output_bytes": 183782
+    }
+  ],
+  "completed_utc": "2026-10-30T14:35:07.967592+00:00",
+  "budget": {
+    "cpu_seconds": 30.0,
+    "wall_seconds": 150,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/kernel-tests/molecular-python-contracts-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 7.81,
+    "system_cpu_seconds": 1.76,
+    "max_rss_kib": 201848.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 9.57,
+    "output_bytes": 184855,
+    "elapsed_seconds": 39.233907097019255,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

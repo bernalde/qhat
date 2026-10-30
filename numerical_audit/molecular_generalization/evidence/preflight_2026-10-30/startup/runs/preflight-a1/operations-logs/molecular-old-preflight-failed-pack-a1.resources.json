@@ -1,0 +1,79 @@
+{
+  "unit": "fermionic-future-molecular-old-preflight-failed-pack-a1-1919355",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "120",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a1/operations-logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a1/operations-logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "numerical_audit/molecular_generalization/package.py",
+    "pack",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a1/data",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a1/failed-old-preflight-a1.tar.gz"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 6.110419848002493,
+  "samples": [
+    {
+      "elapsed": 0.006462235935032368,
+      "available_bytes": 21558407168,
+      "frozen": false,
+      "service": "MemoryCurrent=442368\nMemoryPeak=442368\nCPUUsageNSec=2328000",
+      "output_bytes": 10895373
+    },
+    {
+      "elapsed": 3.0896752319531515,
+      "available_bytes": 21559869440,
+      "frozen": false,
+      "service": "MemoryCurrent=15179776\nMemoryPeak=15179776\nCPUUsageNSec=777554000",
+      "output_bytes": 11735848
+    }
+  ],
+  "completed_utc": "2026-10-30T18:01:30.306212+00:00",
+  "budget": {
+    "cpu_seconds": 20.0,
+    "wall_seconds": 120,
+    "disk_mib": 512
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a1/operations-logs/molecular-old-preflight-failed-pack-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 0.98,
+    "system_cpu_seconds": 0.09,
+    "max_rss_kib": 24292.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 1.07,
+    "output_bytes": 12235592,
+    "elapsed_seconds": 6.110419848002493,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

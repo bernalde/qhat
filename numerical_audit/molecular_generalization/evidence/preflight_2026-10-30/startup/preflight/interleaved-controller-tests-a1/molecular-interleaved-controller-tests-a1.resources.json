@@ -1,0 +1,103 @@
+{
+  "unit": "fermionic-future-molecular-interleaved-controller-tests-a1-1978100",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "90",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/interleaved-controller-tests-a1/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/interleaved-controller-tests-a1/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=32M",
+    "--project=/tmp/qhat-molecular-generalization-2026-10-30/worktree/analysis/julia_window",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/test/test_anneal_interleaved.jl"
+  ],
+  "exit_code": 1,
+  "supervisor_exit_code": 1,
+  "elapsed": 15.131399675970897,
+  "samples": [
+    {
+      "elapsed": 0.00395141402259469,
+      "available_bytes": 21092593664,
+      "frozen": false,
+      "service": "MemoryCurrent=1400832\nMemoryPeak=1400832\nCPUUsageNSec=10902000",
+      "output_bytes": 141
+    },
+    {
+      "elapsed": 3.073322893003933,
+      "available_bytes": 20846444544,
+      "frozen": false,
+      "service": "MemoryCurrent=159309824\nMemoryPeak=159309824\nCPUUsageNSec=777171000",
+      "output_bytes": 141
+    },
+    {
+      "elapsed": 6.090436473023146,
+      "available_bytes": 20886712320,
+      "frozen": false,
+      "service": "MemoryCurrent=182128640\nMemoryPeak=182362112\nCPUUsageNSec=1538879000",
+      "output_bytes": 141
+    },
+    {
+      "elapsed": 9.10481038200669,
+      "available_bytes": 20842983424,
+      "frozen": false,
+      "service": "MemoryCurrent=190099456\nMemoryPeak=191279104\nCPUUsageNSec=2287567000",
+      "output_bytes": 141
+    },
+    {
+      "elapsed": 12.121736211003736,
+      "available_bytes": 20901875712,
+      "frozen": false,
+      "service": "MemoryCurrent=190099456\nMemoryPeak=191279104\nCPUUsageNSec=3037935000",
+      "output_bytes": 141
+    }
+  ],
+  "completed_utc": "2026-10-30T19:38:15.379265+00:00",
+  "budget": {
+    "cpu_seconds": 15.0,
+    "wall_seconds": 90,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/interleaved-controller-tests-a1/molecular-interleaved-controller-tests-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 2.99,
+    "system_cpu_seconds": 0.21,
+    "max_rss_kib": 407940.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 3.2,
+    "output_bytes": 2072,
+    "elapsed_seconds": 15.131399675970897,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

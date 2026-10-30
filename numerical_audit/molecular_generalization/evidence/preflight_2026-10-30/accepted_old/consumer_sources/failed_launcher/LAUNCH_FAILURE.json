@@ -1,0 +1,15 @@
+{
+  "schema": "molecular-pre-dispatch-control-failure-v1",
+  "stage": "Python launcher import, before main or any guarded package job",
+  "exit_code": 1,
+  "failure": "operator.py in the script directory shadowed Python stdlib operator during argparse/re/enum imports",
+  "original_launcher_sha256": "149874816110ce0d0b1b56a4e09f492f3dfd7885fd68bfd8c5b477ac00c7daab",
+  "guarded_jobs_started": 0,
+  "scientific_identity_attempted": false,
+  "package_guarded_pool_spent_CPU": 0,
+  "coordinator_CPU_measurement": "not separately measured; conservative shared-control allowance4CPU/4wall based on encompassing tool elapsed3.2s; not a scientific-method timing",
+  "shared_control_CPU_charge": 4,
+  "shared_control_wall_charge": 4,
+  "preserved_source": "failed_launcher/operator.py",
+  "remedy": "Preserve old file in a subdirectory; execute identical bytes as replay_dispatch.py so it cannot shadow stdlib for itself or metadata_consumer.py"
+}

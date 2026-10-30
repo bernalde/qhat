@@ -1,0 +1,64 @@
+{
+  "unit": "fermionic-future-molecular-prior-use-a1-2",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "360",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/prior_use_scan/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/prior_use_scan/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/PRIOR_USE_SCAN.py"
+  ],
+  "exit_code": 1,
+  "supervisor_exit_code": 1,
+  "elapsed": 3.019219277019147,
+  "samples": [
+    {
+      "elapsed": 0.0027637940365821123,
+      "available_bytes": 20205068288,
+      "frozen": false,
+      "service": "",
+      "output_bytes": 11302
+    }
+  ],
+  "completed_utc": "2026-10-30T06:19:52.985862+00:00",
+  "budget": {
+    "cpu_seconds": 60.0,
+    "wall_seconds": 360,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/prior_use_scan/molecular-prior-use-a1.log",
+  "process_measurements": {},
+  "final_accounting": {
+    "CPU_seconds": null,
+    "output_bytes": 11302,
+    "elapsed_seconds": 3.019219277019147,
+    "process_CPU_timing_available": false,
+    "CPU_accounting_available": false
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

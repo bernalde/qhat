@@ -1,0 +1,59 @@
+{
+  "purpose": "Prospective retained-old-resource sizing; not current-runtime proof",
+  "historical_archive": "numerical_audit/cost_matched_continuation/evidence/archives/preflight-a3.tar.gz",
+  "historical_source": "d834e8853a617bad2c55fbd3fb360349f98ee67a",
+  "historical_julia": "1.10.11",
+  "historical_counts": {
+    "orders": 5,
+    "logical_rows": 20,
+    "unique_circuits": 16,
+    "reference_checks": 2,
+    "unique_objectives": 4
+  },
+  "next_counts": {
+    "orders": 9,
+    "logical_rows": 36
+  },
+  "historical_phases": {
+    "physical": {
+      "charged_CPU": 16.39,
+      "wall": 66.3131,
+      "cgroup_peak_bytes": 249188352
+    },
+    "independent": {
+      "charged_CPU": 32.102,
+      "wall": 129.5995,
+      "cgroup_peak_bytes": 381685760
+    },
+    "objective": {
+      "charged_CPU": 9.273,
+      "wall": 39.1914,
+      "cgroup_peak_bytes": 248578048
+    }
+  },
+  "phase_limits": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/OLD_PREFLIGHT_LIMITS.a1.json",
+  "phase_limits_sha256": "d355250bdb1d2bb4a82ca06cd79284df7165b2f59a2ef56c15b89a26ad96c271",
+  "package_split": {
+    "archive_extract_analysis": [
+      30,
+      200
+    ],
+    "relocated_independent": [
+      200,
+      1000
+    ],
+    "relocated_objective": [
+      120,
+      600
+    ]
+  },
+  "historical_relocated_replay_limitation": "Retained closeout ran analyzer only; fresh numerical verify/objective regeneration remains mandatory",
+  "CPU_global_before": {
+    "deduplicated_receipt_raw": 1662.218099,
+    "conservative_margin_to_next_full_caps": 197.78190100000006
+  },
+  "global_CPU_cap": 3200,
+  "global_wall_cap": 20000,
+  "all_failed_costs_retained": true,
+  "new_family_errors_observed": false
+}

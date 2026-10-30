@@ -1,0 +1,554 @@
+ Count  Overhead File                                                Line Function
+ =====  ======== ====                                                ==== ========
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_116MachineScheduler20runOnMachineFunctionERN4llvm15MachineF…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_120MachineSchedulerBase15scheduleRegionsERN4llvm17ScheduleD…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm19TargetSubtargetInfo18enableAtomicExpandEv
+     1         0 @Compiler/src/ssair/ir.jl                          2152 compact!
+     1         0 @Compiler/src/ssair/ir.jl                          2152 compact!(code::Compiler.IRCode, allow_cfg_transforms::Bool)
+     1         0 @Compiler/src/ssair/ir.jl                           807 IncrementalCompact
+     1         0 @julialib/julia/sys.so                                ? j_IncrementalCompact_81347.1
+     1         0 @julialib/julia/sys.so                                ? tojlinvoke84383.1
+     1         0 @julialib/julia/sys.so                                ? jfptr_IncrementalCompact_51101.1
+     1         0 @Compiler/src/ssair/ir.jl                           782 Compiler.IncrementalCompact(code::Compiler.IRCode, cfg_transform::Compiler.…
+     1         0 @Compiler/src/ssair/ir.jl                           365 NewNodeStream
+     1         0 @Compiler/src/ssair/ir.jl                           270 Compiler.InstructionStream(len::Int64)
+     1         0 @Base/array.jl                                      540 fill
+     1         0 @Base/array.jl                                      542 fill
+     1         0 @Base/boot.jl                                       660 Array
+     1         0 @juliasrc/gc-stock.c                                776 ijl_gc_small_alloc
+     1         0 @juliasrc/gc-stock.c                                739 jl_gc_small_alloc_inner
+     1         1 @juliasrc/gc-stock.h                                332 gc_page_data
+     1         0 …26-10-30/planning/profile_annealing_startup_a1.jl   54 write_new_toml(path::String, value::Dict{String, Real})
+     1         0 @TOML/src/print.jl                                  233 print
+     1         0 @TOML/src/print.jl                                  233 #print#11
+     1         0 @TOML/src/print.jl                                  149 print_table
+     1         0 @TOML/src/print.jl                                  207 print_table(f::Nothing, io::IOBuffer, a::Dict{String, Real}, ks::Vector{Str…
+     1         0 @juliasrc/jitlayers.cpp                             621 jl_compile_codeinst_now
+     1         0 /workspace/srcdir/libuv/src/unix/core.c             134 uv_hrtime
+     1         0 /workspace/srcdir/libuv/src/unix/linux.c           1591 uv__hrtime
+     1         0 /lib/x86_64-linux-gnu/libc.so.6                       ? clock_gettime
+     1         1 linux-vdso.so.1                                       ? clock_gettime
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_116X86PreTileConfigD0Ev
+     1         0 @juliasrc/jitlayers.cpp                             677 jl_compile_codeinst_now
+     1         0 @juliasrc/jitlayers.cpp                            2101 findSymbols
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc16ExecutionSession6lookupERKSt6vectorISt4pairIPNS0_8JITDylibENS…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc16ExecutionSession6lookupENS0_10LookupKindERKSt6vectorISt4pairI…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc16ExecutionSession19OL_applyQueryPhase1ESt10unique_ptrINS0_21In…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc25InProgressFullLookupState8completeESt10unique_ptrINS0_21InPro…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc16ExecutionSession17OL_completeLookupESt10unique_ptrINS0_21InPr…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc16ExecutionSession22dispatchOutstandingMUsEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6detail18UniqueFunctionBaseIvJSt10unique_ptrINS_3orc4TaskESt14defau…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc19MaterializationTask3runEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc35BasicObjectLayerMaterializationUnit11materializeESt10unique_p…
+     1         0 @juliasrc/jitlayers.h                               423 emit
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc24RTDyldObjectLinkingLayer4emitESt10unique_ptrINS0_29Materializ…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13jitLinkForORCENS_6object12OwningBinaryINS0_10ObjectFileEEERNS_11R…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15RuntimeDyldImpl13finalizeAsyncESt10unique_ptrIS0_St14default_dele…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_127JITDylibSearchOrderResolver6lookupERKSt3setIN4llvm9Strin…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6detail18UniqueFunctionBaseINS_5ErrorEJRKNS_6object10ObjectFileERNS…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc24RTDyldObjectLinkingLayer9onObjLoadERNS0_29MaterializationResp…
+     1         0 @juliasrc/jitlayers.cpp                            1260 registerRTDyldJITObject
+     1         0 @juliasrc/debuginfo.cpp                             398 jl_register_jit_object
+     1         0 @juliasrc/debuginfo.cpp                             339 registerJITObject
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11compression4zlib8compressENS_8ArrayRefIhEERNS_15SmallVectorImplIh…
+     1         0 @julialib/julia/libz.so.1                             ? compress2
+     1         0 @julialib/julia/libz.so.1                             ? deflate
+     1         1 @julialib/julia/libz.so.1                             ? deflate_slow
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN15LiveDebugValues16InstrRefBasedLDV12ExtendRangesERN4llvm15MachineFuncti…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN15LiveDebugValues16InstrRefBasedLDV27produceMLocTransferFunctionERN4llvm…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN15LiveDebugValues16InstrRefBasedLDV19transferRegisterDefERN4llvm12Machin…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6legacy11PassManagerD1Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6legacy15PassManagerImplD0Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17PMTopLevelManagerD1Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZThn32_N12_GLOBAL__N_113MPPassManagerD0Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13PMDataManagerD1Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13FPPassManagerD0Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_130UnreachableBlockElimLegacyPassD0Ev
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm4PassD1Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm7GVNPass19processNonLocalLoadEPNS_8LoadInstE.part.0
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm23MemoryDependenceResults28getNonLocalPointerDependencyEPNS_11Instr…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm23MemoryDependenceResults27getNonLocalPointerDepFromBBEPNS_11Instru…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm23MemoryDependenceResults23getNonLocalInfoForBlockEPNS_11Instructio…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm23MemoryDependenceResults24getPointerDependencyFromERKNS_14MemoryLo…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm23MemoryDependenceResults30getSimplePointerDependencyFromERKNS_14Me…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13BasicAAResult22DecomposeGEPExpressionEPKNS_5ValueERKNS_10DataLayo…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12RegAllocBase16allocatePhysRegsEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8RAGreedy13selectOrSplitERKNS_12LiveIntervalERNS_15SmallVectorImplI…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8RAGreedy17selectOrSplitImplERKNS_12LiveIntervalERNS_15SmallVectorI…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8RAGreedy8tryEvictERKNS_12LiveIntervalERNS_15AllocationOrderERNS_15…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm22DefaultEvictionAdvisor24tryFindEvictionCandidateERKNS_12LiveInte…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm22DefaultEvictionAdvisor31canEvictInterferenceBasedOnCostERKNS_12L…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17LiveIntervalUnion5Query23collectInterferingVRegsEj
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16TargetPassConfig20addOptimizedRegAllocEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_113X86PassConfig31addRegAssignAndRewriteOptimizedEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17PMTopLevelManager16findAnalysisPassEPKv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13PMDataManager16findAnalysisPassEPKvb
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16DenseMapIteratorIPKvPNS_4PassENS_12DenseMapInfoIS2_vEENS_6detail1…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15ScalarEvolution14getSCEVAtScopeEPNS_5ValueEPKNS_4LoopE
+     1         1 @juliasrc/codegen.cpp                              9157 emit_function
+     1         0 @Compiler/src/ssair/inlining.jl                    1401 handle_call!
+     1         0 @Compiler/src/ssair/inlining.jl                    1369 compute_inlining_cases(info::Compiler.CallInfo, flag::UInt32, sig::Compiler…
+     1         0 @Compiler/src/ssair/inlining.jl                    1297 handle_any_const_result!
+     1         0 @Compiler/src/ssair/inlining.jl                    1309 handle_any_const_result!(cases::Vector{Compiler.InliningCase}, result::Any,…
+     1         0 @Compiler/src/ssair/inlining.jl                    1409 handle_match!
+     1         0 @Compiler/src/ssair/inlining.jl                    1417 handle_match!(cases::Vector{Compiler.InliningCase}, match::Core.MethodMatch…
+     1         0 @Compiler/src/ssair/inlining.jl                     921 analyze_method!
+     1         0 @Compiler/src/ssair/inlining.jl                     954 analyze_method!(match::Core.MethodMatch, argtypes::Vector{Any}, info::Compi…
+     1         0 @Compiler/src/ssair/inlining.jl                     873 resolve_todo(mi::Core.MethodInstance, result::Nothing, info::Compiler.CallI…
+     1         0 @julialib/julia/sys.so                                ? j_retrieve_ir_for_inlining_79072.1
+     1         0 @julialib/julia/sys.so                                ? tojlinvoke84792.1
+     1         0 @julialib/julia/sys.so                                ? jfptr_retrieve_ir_for_inlining_26330.1
+     1         0 @Compiler/src/ssair/inlining.jl                     959 retrieve_ir_for_inlining(cached_result::Core.CodeInstance, src::String)
+     1         0 @Compiler/src/ssair/legacy.jl                        20 inflate_ir!(ci::Core.CodeInfo, mi::Core.MethodInstance)
+     1         0 @Compiler/src/ssair/legacy.jl                        46 inflate_ir!(ci::Core.CodeInfo, sptypes::Vector{Compiler.VarState}, argtypes…
+     1         0 @Base/array.jl                                      405 getindex
+     1         0 @Compiler/src/abstractinterpretation.jl             167 (::Compiler.var"#infercalls#abstract_call_gf_by_type##0"{Compiler.ArgInfo, …
+     1         0 @Compiler/src/abstractinterpretation.jl             735 abstract_call_method(interp::Compiler.NativeInterpreter, method::Method, si…
+     1         0 @Compiler/src/typeinfer.jl                          956 typeinf_edge(interp::Compiler.NativeInterpreter, method::Method, atype::Any…
+     1         0 @Compiler/src/inferencestate.jl                     602 Compiler.InferenceState(result::Compiler.InferenceResult, cache_mode::UInt8…
+     1         0 @Compiler/src/utilities.jl                          128 retrieve_code_info(mi::Core.MethodInstance, world::UInt64)
+     1         0 @juliasrc/ircode.c                                 1181 ijl_uncompress_ir
+     1         0 @juliasrc/ircode.c                                 1323 ijl_uncompress_argnames
+     1         0 @juliasrc/symbol.c                                   88 _jl_symbol
+     1         0 @juliasrc/symbol.c                                   60 symtab_lookup
+     1         1 @juliasrc/julia.h                                  1536 jl_symbol_name_
+     1         1 @juliasrc/flisp/flisp.c                            1376 apply_cl
+     1         0 @juliasrc/flisp/flisp.c                            1775 apply_cl
+     1         0 @juliasrc/flisp/flisp.c                             359 alloc_words
+     1         0 @juliasrc/flisp/flisp.c                             597 gc
+     1         0 @juliasrc/flisp/cvalues.c                            60 sweep_finalizers
+     1         0 @juliasrc/flisp/flisp.c                            2276 fl_foreach
+     1         0 @juliasrc/flisp/flisp.c                             679 _applyn
+     1         1 @juliasrc/flisp/flisp.c                            1235 apply_cl
+     1         1 @juliasrc/flisp/flisp.c                            1129 apply_cl
+     1         1 @juliasrc/flisp/flisp.c                            1321 apply_cl
+     1         1 @juliasrc/flisp/flisp.c                            1051 apply_cl
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12SelectionDAG10LegalizeOpEPNS_6SDNodeERNS_14SmallSetVectorIS2_Lj16…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_120SelectionDAGLegalize10LegalizeOpEPN4llvm6SDNodeE
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm17X86TargetLowering14LowerOperationENS_7SDValueERNS_12SelectionDAGE
+     1         0 @Compiler/src/ssair/passes.jl                      1486 sroa_pass!(ir::Compiler.IRCode, inlining::Compiler.InliningState{Compiler.N…
+     1         0 @Compiler/src/ssair/passes.jl                       413 lift_leaves(compact::Compiler.IncrementalCompact, field::Int64, leaves::Vec…
+     1         1 @julialib/julia/sys.so                                ? tojlinvoke84260.1
+     1         1 @juliasrc/flisp/flisp.c                            1412 apply_cl
+     1         1 @juliasrc/flisp/flisp.c                            1659 apply_cl
+     1         0 @juliasrc/ast.c                                     918 jl_call_scm_on_ast_and_loc
+     1         0 @juliasrc/ast.c                                     472 scm_to_julia
+     1         0 @juliasrc/ast.c                                     646 scm_to_julia_
+     1         0 @juliasrc/ast.c                                     618 scm_to_julia_
+     1         0 @juliasrc/module.c                                 1139 ijl_module_globalref
+     1         0 @juliasrc/module.c                                 1530 jl_get_module_binding
+     1         0 @juliasrc/smallintset.c                             137 jl_smallintset_lookup
+     1         0 @juliasrc/module.c                                 1515 bindingkey_eq
+     1         1 @juliasrc/module.c                                 1521 bindingkey_eq
+     1         1 @juliasrc/flisp/flisp.c                            1680 apply_cl
+     1         1 @juliasrc/flisp/flisp.c                            1369 apply_cl
+     1         0 @juliasrc/interpreter.c                             354 eval_value
+     1         0 @juliasrc/interpreter.c                              96 eval_methoddef
+     1         0 @juliasrc/method.c                                 1152 ijl_declare_const_gf
+     1         0 @juliasrc/gf.c                                     4350 jl_new_generic_function_with_supertype
+     1         0 @juliasrc/gf.c                                     4341 jl_gf_supertype_name
+     1         0 @juliasrc/symbol.c                                  105 ijl_symbol
+     1         0 @juliasrc/symbol.c                                   88 _jl_symbol
+     1         1 @juliasrc/symbol.c                                   68 symtab_lookup
+     1         0 @juliasrc/gc-stock.c                               3189 _jl_gc_collect
+     1         0 @juliasrc/gc-stock.c                               1467 gc_sweep_perm_alloc
+     1         1 @juliasrc/staticdata.c                             2347 gc_sweep_sysimg
+     1         0 @juliasrc/gc-stock.c                               3187 _jl_gc_collect
+     1         0 @juliasrc/gc-stock.c                               1394 gc_sweep_pool
+     1         0 @juliasrc/gc-stock.c                               1275 gc_sweep_pool_parallel
+     1         0 @juliasrc/gc-stock.c                                983 gc_sweep_pool_page
+     1         1 @juliasrc/gc-stock.c                                913 gc_sweep_page
+     1         1 @juliasrc/gc-stock.c                               2240 gc_mark_outrefs
+     1         0 @juliasrc/ast.c                                    1262 ijl_macroexpand
+     1         0 @juliasrc/ast.c                                     901 jl_call_scm_on_ast
+     1         0 @juliasrc/ast.c                                     684 julia_to_scm
+     1         0 @juliasrc/ast.c                                     792 julia_to_scm_
+     1         0 @juliasrc/ast.c                                     697 array_to_list
+     1         0 @juliasrc/ast.c                                     723 julia_to_scm_
+     1         0 @juliasrc/ast.c                                     793 julia_to_scm_
+     1         0 @juliasrc/flisp/flisp.c                             260 symbol
+     1         0 @juliasrc/flisp/flisp.c                             247 symtab_lookup
+     1         0 @juliasrc/ast.c                                    1261 ijl_macroexpand
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_111DAGCombiner7combineEPN4llvm6SDNodeE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_111DAGCombiner16visitTokenFactorEPN4llvm6SDNodeE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12SelectionDAG14getTokenFactorERKNS_5SDLocERNS_15SmallVectorImplINS…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12SelectionDAG7getNodeEjRKNS_5SDLocENS_3EVTENS_8ArrayRefINS_7SDValu…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm14FoldingSetBase10InsertNodeEPNS0_4NodeEPvRKNS0_14FoldingSetInfoE
+     1         0 @juliasrc/ast.c                                    1212 jl_expand_macros
+     1         0 @juliasrc/ast.c                                    1186 jl_expand_macros
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15SmallVectorImplINS_10MCRegisterEEaSEOS2_.isra.0
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm18ScheduleDAGSDNodes12EmitScheduleERNS_26MachineInstrBundleIterator…
+     1         1 @juliasrc/flisp/flisp.c                            1047 apply_cl
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm19SmallPtrSetImplBase13FindBucketForEPKv
+     1         0 …lia-release-1-dot-12/base/JuliaSyntax/src/expr.jl  575 (::Base.JuliaSyntax.var"#105#106"{Vector{Base.JuliaSyntax.SyntaxHead}, Vect…
+     1         0 …lia-release-1-dot-12/base/JuliaSyntax/src/expr.jl  538 _internal_node_to_Expr(source::Base.JuliaSyntax.SourceFile, srcrange::UnitR…
+     1         0 @Base/boot.jl                                       293 Expr(::Any, ::Vararg{Any})
+     1         0 @Base/path.jl                                       346 joinpath(::String, ::String, ::Vararg{String})
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17RegisterClassInfo20runOnMachineFunctionERKNS_15MachineFunctionE
+     1         1 @juliasrc/flisp/flisp.c                            1795 apply_cl
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_110MachineCSE20runOnMachineFunctionERN4llvm15MachineFunctio…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_110MachineCSE10PerformCSEEPN4llvm15DomTreeNodeBaseINS1_17Ma…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_110MachineCSE15ProcessBlockCSEEPN4llvm17MachineBasicBlockE
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_110MachineCSE17isProfitableToCSEEN4llvm8RegisterES2_PNS1_17…
+     1         0 …lia-release-1-dot-12/base/JuliaSyntax/src/expr.jl  571 (::Base.JuliaSyntax.var"#105#106"{Vector{Base.JuliaSyntax.SyntaxHead}, Vect…
+     1         0 @Base/array.jl                                      986 setindex!
+     1         1 @Base/array.jl                                      991 _setindex!
+     1         0 …26-10-30/planning/profile_annealing_startup_a1.jl   64 measured_phase(operation::var"#main##0#main##1"{String}, name::String, phas…
+     1         0 @Base/coreio.jl                                       6 println(x1::String, x2::String)
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15InstCombinePass3runERNS_8FunctionERNS_15AnalysisManagerIS1_JEEE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL31combineInstructionsOverFunctionRN4llvm8FunctionERNS_19InstructionWorkl…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16InstCombinerImpl3runEv
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16InstCombinerImpl8visitAddERNS_14BinaryOperatorE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_115MachineLICMBase20runOnMachineFunctionERN4llvm15MachineFu…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_115MachineLICMBase5HoistEPN4llvm12MachineInstrEPNS1_17Machi…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_115MachineLICMBase19IsProfitableToHoistERN4llvm12MachineIns…
+     1         0 …elease-1-dot-12/usr/include/llvm/IR/PassManager.h  540 run
+     1         0 …-dot-12/usr/include/llvm/IR/PassInstrumentation.h  236 runBeforePass<llvm::Function, llvm::detail::PassConcept<llvm::Function, llv…
+     1         0 …se-1-dot-12/usr/include/llvm/ADT/FunctionExtras.h  387 operator()
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6detail18UniqueFunctionBaseIbJNS_9StringRefENS_3AnyEEE8CallImplIZNS…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm22OptNoneInstrumentation9shouldRunENS_9StringRefENS_3AnyE
+     1         0 …julia-release-1-dot-12/usr/include/llvm/ADT/Any.h   50 clone
+     1         0 …_64-linux-gnu/include/c++/9.1.0/bits/unique_ptr.h  853 make_unique<llvm::Any::StorageImpl<const llvm::Function*>, const llvm::Func…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm7DSEPass3runERNS_8FunctionERNS_15AnalysisManagerIS1_JEEE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_1L19eliminateDeadStoresERN4llvm8FunctionERNS0_9AAResultsERN…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_18DSEState15getDomMemoryDefEPN4llvm9MemoryDefEPNS1_12Memory…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_18DSEState11isOverwriteEPKN4llvm11InstructionES4_RKNS1_14Me…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11SlotIndexes20runOnMachineFunctionERNS_15MachineFunctionE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15SimplifyCFGPass3runERNS_8FunctionERNS_15AnalysisManagerIS1_JEEE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL23simplifyFunctionCFGImplRN4llvm8FunctionERKNS_19TargetTransformInfoEPNS…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL22iterativelySimplifyCFGRN4llvm8FunctionERKNS_19TargetTransformInfoEPNS_…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11simplifyCFGEPNS_10BasicBlockERKNS_19TargetTransformInfoEPNS_14Dom…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL19FoldTwoEntryPHINodePN4llvm7PHINodeERKNS_19TargetTransformInfoEPNS_14Do…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL19dominatesMergePointPN4llvm5ValueEPNS_10BasicBlockERNS_15SmallPtrSetImp…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm38isSafeToSpeculativelyExecuteWithOpcodeEjPKNS_11InstructionES2_PNS…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm34isDereferenceableAndAlignedPointerEPKNS_5ValueEPNS_4TypeENS_5Alig…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL34isDereferenceableAndAlignedPointerPKN4llvm5ValueENS_5AlignERKNS_5APInt…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm11GEPOperator24accumulateConstantOffsetERKNS_10DataLayoutERNS_5API…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11GEPOperator24accumulateConstantOffsetEPNS_4TypeENS_8ArrayRefIPKNS…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm10DataLayout12getAlignmentEPNS_4TypeEb
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_115VirtRegRewriter20runOnMachineFunctionERN4llvm15MachineFu…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13LiveIntervals12addKillFlagsEPKNS_10VirtRegMapE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm28createSourceListDAGSchedulerEPNS_16SelectionDAGISelENS_15CodeGenO…
+     1         0 @juliasrc/llvm-remove-addrspaces.cpp                450 run
+     1         0 @juliasrc/llvm-remove-addrspaces.cpp                424 run
+     1         0 @juliasrc/llvm-remove-addrspaces.cpp                382 removeAddrspaces
+     1         0 …a-release-1-dot-12/usr/include/llvm/IR/Function.h  702 deleteBody
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8Function14deleteBodyImplEb
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm10BasicBlock15eraseFromParentEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm10BasicBlockD1Ev
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm5Value11deleteValueEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm5ValueD1Ev
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15ValueHandleBase14ValueIsDeletedEPNS_5ValueE
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12PatternMatch14cstval_pred_tyINS0_11is_zero_intENS_11ConstantIntEE…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16SelectionDAGISel22DoInstructionSelectionEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_115X86DAGToDAGISel6SelectEPN4llvm6SDNodeE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16SelectionDAGISel16SelectCodeCommonEPNS_6SDNodeEPKhj
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16SelectionDAGISel9MorphNodeEPNS_6SDNodeEjNS_8SDVTListENS_8ArrayRef…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12SelectionDAG11MorphNodeToEPNS_6SDNodeEjNS_8SDVTListENS_8ArrayRefI…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm14FoldingSetBase10RemoveNodeEPNS0_4NodeE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15AnalysisManagerINS_6ModuleEJEE10invalidateERS1_RKNS_17PreservedAn…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6detail19AnalysisResultModelINS_6ModuleENS_21LazyCallGraphAnalysisE…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13LazyCallGraphD1Ev
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16DAGTypeLegalizer28PromoteIntRes_SimpleIntBinOpEPNS_6SDNodeE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15AnalysisManagerINS_8FunctionEJEE13getResultImplEPNS_11AnalysisKey…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6detail17AnalysisPassModelINS_8FunctionENS_17MemorySSAAnalysisENS_1…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17MemorySSAAnalysis3runERNS_8FunctionERNS_15AnalysisManagerIS1_JEEE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm9MemorySSAC1ERNS_8FunctionEPNS_9AAResultsEPNS_13DominatorTreeE
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm9MemorySSA14buildMemorySSAERNS_14BatchAAResultsE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11PassManagerINS_4LoopENS_15AnalysisManagerIS1_JRNS_27LoopStandardA…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11PassManagerINS_4LoopENS_15AnalysisManagerIS1_JRNS_27LoopStandardA…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11PassManagerINS_4LoopENS_15AnalysisManagerIS1_JRNS_27LoopStandardA…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm18LoopFullUnrollPass3runERNS_4LoopERNS_15AnalysisManagerIS1_JRNS_27…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL15tryToUnrollLoopPN4llvm4LoopERNS_13DominatorTreeEPNS_8LoopInfoERNS_15Sc…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm18computeUnrollCountEPNS_4LoopERKNS_19TargetTransformInfoERNS_13Dom…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16computePeelCountEPNS_4LoopEjRNS_19TargetTransformInfo18PeelingPre…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_111PhiAnalyzer9calculateERKN4llvm5ValueE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12SelectionDAG13LegalizeTypesEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16DAGTypeLegalizer3runEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16DAGTypeLegalizer14AnalyzeNewNodeEPNS_6SDNodeE.part.0
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16DAGTypeLegalizer15AnalyzeNewValueERNS_7SDValueE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16DAGTypeLegalizer10getTableIdENS_7SDValueE
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13SmallDenseMapINS_7SDValueEjLj8ENS_12DenseMapInfoIS1_vEENS_6detail…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm23SmallVectorTemplateBaseIjLb1EE9push_backEj
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8SCCPPass3runERNS_8FunctionERNS_15AnalysisManagerIS1_JEEE
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm15SCCPInstVisitor5solveEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_113X86PassConfig14addPreEmitPassEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13PMDataManager3addEPNS_4PassEb
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17PMTopLevelManager11setLastUserENS_8ArrayRefIPNS_4PassEEES3_
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8DenseMapIPNS_4PassENS_11SmallPtrSetIS2_Lj8EEENS_12DenseMapInfoIS2_…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13X86AsmPrinter20runOnMachineFunctionERNS_15MachineFunctionE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm10AsmPrinter16emitFunctionBodyEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm10AsmPrinter18emitFunctionHeaderEv
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNK4llvm27TargetLoweringObjectFileELF22SelectSectionForGlobalEPKNS_12Globa…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL25selectELFSectionForGlobalRN4llvm9MCContextEPKNS_12GlobalObjectENS_11Se…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm9MCContext13getELFSectionERKNS_5TwineEjjjPKNS_11MCSymbolELFEbjS6_
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm9MCContext29recordELFMergeableSectionInfoENS_9StringRefEjjj
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZNSt8_Rb_treeIN4llvm9MCContext15ELFEntrySizeKeyESt4pairIKS2_jESt10_Select1…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm19simplifyInstructionEPNS_11InstructionERKNS_13SimplifyQueryE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL31simplifyInstructionWithOperandsPN4llvm11InstructionENS_8ArrayRefIPNS_5…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL16threadCmpOverPHIN4llvm7CmpInst9PredicateEPNS_5ValueES3_RKNS_13Simplify…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL16simplifyICmpInstjPN4llvm5ValueES1_RKNS_13SimplifyQueryEj
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm14isKnownNonZeroEPKNS_5ValueERKNS_10DataLayoutEjPNS_15AssumptionCac…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL14isKnownNonZeroPKN4llvm5ValueERKNS_5APIntEjRKNS_13SimplifyQueryE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL26isKnownNonZeroFromOperatorPKN4llvm8OperatorERKNS_5APIntEjRKNS_13Simpli…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL16computeKnownBitsPKN4llvm5ValueERKNS_5APIntERNS_9KnownBitsEjRKNS_13Simp…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL28computeKnownBitsFromOperatorPKN4llvm8OperatorERKNS_5APIntERNS_9KnownBi…
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16computeKnownBitsEPKNS_5ValueERNS_9KnownBitsEjRKNS_13SimplifyQueryE
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL22computeKnownBitsAddSubbPKN4llvm5ValueES2_bRKNS_5APIntERNS_9KnownBitsES…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm21matchSimpleRecurrenceEPKNS_7PHINodeERPNS_14BinaryOperatorERPNS_5V…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16computeKnownBitsEPKNS_5ValueERKNS_10DataLayoutEjPNS_15AssumptionC…
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12GlobalObject18copyAttributesFromEPKS0_
+     1         0 @juliasrc/jitlayers.cpp                             607 jl_compile_codeinst_now
+     1         0 @juliasrc/jitlayers.cpp                            2052 addModule
+     1         0 …_64-linux-gnu/include/c++/9.1.0/bits/unique_ptr.h  255 unique_ptr
+     1         0 …_64-linux-gnu/include/c++/9.1.0/bits/unique_ptr.h  151 __uniq_ptr_impl<std::default_delete<llvm::MemoryBuffer> >
+     1         0 …sr/local/x86_64-linux-gnu/include/c++/9.1.0/tuple  969 tuple<llvm::MemoryBuffer*&, std::default_delete<llvm::MemoryBuffer> >
+     1         0 …sr/local/x86_64-linux-gnu/include/c++/9.1.0/tuple  218 _Tuple_impl<llvm::MemoryBuffer*&, std::default_delete<llvm::MemoryBuffer> >
+     1         1 …sr/local/x86_64-linux-gnu/include/c++/9.1.0/tuple  133 _Head_base<llvm::MemoryBuffer*&>
+     1         0 @juliasrc/codegen.cpp                              9371 emit_function
+     1         0 @juliasrc/codegen.cpp                              6197 emit_stmtpos
+     1         0 @juliasrc/codegen.cpp                              5894 emit_ssaval_assign
+     1         0 @juliasrc/codegen.cpp                              6390 emit_expr
+     1         0 @juliasrc/codegen.cpp                              5257 emit_invoke
+     1         0 @juliasrc/codegen.cpp                              5359 emit_invoke
+     1         0 @juliasrc/codegen.cpp                              5239 emit_call_specfun_boxed
+     1         0 @juliasrc/codegen.cpp                              5002 emit_jlcall
+     1         0 @juliasrc/cgutils.cpp                              3804 boxed
+     1         0 @juliasrc/cgutils.cpp                               569 literal_pointer_val
+     1         0 @juliasrc/cgutils.cpp                               559 maybe_mark_load_dereferenceable
+     1         0 @juliasrc/cgutils.cpp                               539 maybe_mark_load_dereferenceable
+     1         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm5Value11setMetadataEjPNS_6MDNodeE
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8DenseMapIPKNS_5ValueENS_13MDAttachmentsENS_12DenseMapInfoIS3_vEENS…
+     1         0 @Compiler/src/ssair/inlining.jl                     683 batch_inline!(ir::Compiler.IRCode, todo::Vector{Pair{Int64, Any}}, propagat…
+     1         0 @Compiler/src/ssair/ir.jl                          1954 iterate_compact(compact::Compiler.IncrementalCompact)
+     1         0 @Compiler/src/ssair/ir.jl                           335 setindex!
+     1         1 @Base/essentials.jl                                 926 setindex!
+     1         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16UnaryInstructionC2EPNS_4TypeEjPNS_5ValueEPNS_11InstructionE
+     1         0 @Compiler/src/ssair/inlining.jl                     364 ir_inline_item!(compact::Compiler.IncrementalCompact, idx::Int64, argexprs:…
+     1         0 @Compiler/src/ssair/inlining.jl                     326 ir_prepare_inlining!(insert_node!::Compiler.InsertHere, inline_target::Comp…
+     1         1 @Compiler/src/ssair/inlining.jl                       ? ir_inline_linetable!
+     1         0 @Compiler/src/ssair/inlining.jl                     399 ir_inline_item!(compact::Compiler.IncrementalCompact, idx::Int64, argexprs:…
+     1         0 @Compiler/src/ssair/ir.jl                          1955 iterate_compact(compact::Compiler.IncrementalCompact)
+     1         0 @Compiler/src/ssair/ir.jl                          1601 process_node!(compact::Compiler.IncrementalCompact, result_idx::Int64, inst…
+     1         0 @julialib/julia/sys.so                                ? j_renumber_ssa2NOT._80597.1
+     1         0 @julialib/julia/sys.so                                ? tojlinvoke84512.1
+     1         0 @julialib/julia/sys.so                                ? jfptr_renumber_ssa2NOT._46245.1
+     1         0 @Compiler/src/ssair/ir.jl                          1347 renumber_ssa2!(stmt::Any, ssanums::Vector{Any}, used_ssas::Vector{Int64}, n…
+     1         1 @Compiler/src/ssair/ir.jl                          1319 renumber_ssa2(val::Core.SSAValue, ssanums::Vector{Any}, used_ssas::Vector{I…
+     1         0 @Compiler/src/typeinfer.jl                          205 finish_nocycle(::Compiler.NativeInterpreter, frame::Compiler.InferenceState…
+     1         0 @julialib/julia/sys.so                                ? jfptr_finishNOT._80056.1
+     1         0 @Compiler/src/typeinfer.jl                           98 finish!(interp::Compiler.NativeInterpreter, caller::Compiler.InferenceState…
+     1         0 @Compiler/src/optimize.jl                           230 ir_to_codeinf!
+     1         0 @Compiler/src/optimize.jl                           238 ir_to_codeinf!
+     1         0 @Compiler/src/ssair/legacy.jl                        91 replace_code_newstyle!(ci::Core.CodeInfo, ir::Compiler.IRCode)
+     1         0 @Compiler/src/ssair/ir.jl                           207 DebugInfo
+     1         1 @juliasrc/ircode.c                                 1477 jl_compress_codelocs
+     1         0 @Compiler/src/ssair/inlining.jl                    1404 handle_call!
+     1         0 @Compiler/src/typeutils.jl                           55 argtypes_to_type(argtypes::Vector{Any})
+     1         0 @Compiler/src/abstractinterpretation.jl            4406 typeinf_local(interp::Compiler.NativeInterpreter, frame::Compiler.Inference…
+     1         0 @Compiler/src/abstractinterpretation.jl            4071 update_bbstate!
+     1         0 @Compiler/src/typelattice.jl                        727 stupdate!(lattice::Compiler.InferenceLattice{Compiler.ConditionalsLattice{C…
+     1         0 @Compiler/src/typelattice.jl                        708 schanged
+     1         0 @juliasrc/gf.c                                     3991 _jl_invoke
+     2         0 …26-10-30/planning/profile_annealing_startup_a1.jl  149 macro expansion
+     2         1 @Base/boot.jl                                       648 Array
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm7GVNPass3runERNS_8FunctionERNS_15AnalysisManagerIS1_JEEE
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm7GVNPass7runImplERNS_8FunctionERNS_15AssumptionCacheERNS_13Dominato…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm7GVNPass12processBlockEPNS_10BasicBlockE
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm7GVNPass18processInstructionEPNS_11InstructionE
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm9AAResults5aliasERKNS_14MemoryLocationES3_RNS_11AAQueryInfoEPKNS_11…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13BasicAAResult5aliasERKNS_14MemoryLocationES3_RNS_11AAQueryInfoEPK…
+     2         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13BasicAAResult10aliasCheckEPKNS_5ValueENS_12LocationSizeES3_S4_RNS…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13BasicAAResult19aliasCheckRecursiveEPKNS_5ValueENS_12LocationSizeE…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13BasicAAResult8aliasGEPEPKNS_11GEPOperatorENS_12LocationSizeEPKNS_…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm8RAGreedy20runOnMachineFunctionERNS_15MachineFunctionE
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17LLVMTargetMachine17addPassesToEmitMCERNS_6legacy15PassManagerBase…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZL23addPassesToGenerateCodeRN4llvm17LLVMTargetMachineERNS_6legacy15PassMan…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16TargetPassConfig16addMachinePassesEv
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16TargetPassConfig7addPassEPNS_4PassE
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm17PMTopLevelManager12schedulePassEPNS_4PassE
+     2         0 @Compiler/src/typeinfer.jl                         1433 add_codeinsts_to_jit!(interp::Compiler.NativeInterpreter, ci::Core.CodeInst…
+     2         0 @juliasrc/gf.c                                     3376 jl_add_codeinst_to_jit
+     2         0 @juliasrc/jitlayers.cpp                             770 jl_emit_codeinst_to_jit_impl
+     2         0 @juliasrc/codegen.cpp                              9821 jl_emit_codeinst
+     2         0 @juliasrc/codegen.cpp                              9750 jl_emit_code
+     2         0 @Compiler/src/ssair/inlining.jl                      76 ssa_inlining_pass!
+     2         0 @Compiler/src/ssair/inlining.jl                    1652 assemble_inline_todo!(ir::Compiler.IRCode, state::Compiler.InliningState{Co…
+     2         2 /lib/x86_64-linux-gnu/libc.so.6                       ? __libc_free
+     2         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12SelectionDAG8LegalizeEv
+     2         0 @juliasrc/gc-stock.c                               1837 gc_mark_objarray
+     2         2 @juliasrc/gc-stock.c                               1684 gc_try_claim_and_push
+     2         0 @Base/boot.jl                                       715 var"@doc"(__source__::LineNumberNode, __module__::Module, x::Vararg{Any})
+     2         0 @julialib/julia/sys.so                                ? jfptr_docm_53330.1
+     2         0 @Base/docs/Docs.jl                                  643 docm(source::LineNumberNode, mod::Module, meta::Any, ex::Any)
+     2         0 @Base/docs/Docs.jl                                  643 docm
+     2         0 @Base/expr.jl                                       124 macroexpand
+     2         0 @Base/expr.jl                                       126 #macroexpand#22
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_122MachineCopyPropagation20runOnMachineFunctionERN4llvm15Ma…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_122MachineCopyPropagation25ForwardCopyPropagateBlockERN4llv…
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_111CopyTracker9trackCopyEPN4llvm12MachineInstrERKNS1_18Targ…
+     2         0 @Base/loading.jl                                   2860 include_string(mapexpr::typeof(identity), mod::Module, code::String, filena…
+     2         0 @Base/meta.jl                                       293 parseall
+     2         0 @Base/meta.jl                                       294 #parseall#5
+     2         0 @Base/meta.jl                                       200 _parse_string(text::String, filename::String, lineno::Int64, index::Int64, …
+     2         0 …ia-release-1-dot-12/base/JuliaSyntax/src/hooks.jl  116 (::Base.JuliaSyntax.var"#invoke_fixedworld#fix_world_age##2"{Base.JuliaSynt…
+     2         0 …ia-release-1-dot-12/base/JuliaSyntax/src/hooks.jl  117 (::Base.JuliaSyntax.var"#invoke_fixedworld#fix_world_age##2"{Base.JuliaSynt…
+     2         0 @juliasrc/builtins.c                                900 jl_f_invoke_in_world
+     2         0 @julialib/julia/sys.so                                ? jfptr_core_parser_hook_72574.1
+     2         0 …ia-release-1-dot-12/base/JuliaSyntax/src/hooks.jl  236 core_parser_hook(code::String, filename::String, lineno::Int64, offset::Int…
+     2         0 …lia-release-1-dot-12/base/JuliaSyntax/src/expr.jl  552 build_tree
+     2         0 …lia-release-1-dot-12/base/JuliaSyntax/src/expr.jl  559 build_tree(::Type{Expr}, stream::Base.JuliaSyntax.ParseStream; filename::St…
+     2         0 …ase-1-dot-12/base/JuliaSyntax/src/parse_stream.jl 1141 build_tree
+     2         0 …ase-1-dot-12/base/JuliaSyntax/src/parse_stream.jl 1189 build_tree(make_node::Base.JuliaSyntax.var"#105#106"{Vector{Base.JuliaSynta…
+     2         0 @juliasrc/gf.c                                     4210 ijl_apply_generic
+     2         0 @juliasrc/gf.c                                     4141 jl_lookup_generic_
+     2         0 @juliasrc/gf.c                                     3072 lookup_arg_type_tuple
+     2         0 @juliasrc/jltypes.c                                1139 lookup_typevalue
+     2         2 @juliasrc/jltypes.c                                1067 lookup_type_setvalue
+     2         0 …rcdir/gcc-14.2.0/libstdc++-v3/libsupc++/new_op.cc   50 operator new
+     2         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm25FunctionToLoopPassAdaptor3runERNS_8FunctionERNS_15AnalysisManager…
+     2         0 …cdir/gcc-14.2.0/libstdc++-v3/libsupc++/new_opa.cc  149 operator new
+     2         0 …cdir/gcc-14.2.0/libstdc++-v3/libsupc++/new_opa.cc   78 aligned_alloc
+     2         0 /lib/x86_64-linux-gnu/libc.so.6                       ? posix_memalign
+     2         0 @Compiler/src/ssair/ir.jl                          1877 iterate
+     2         0 @Compiler/src/ssair/inlining.jl                     663 batch_inline!(ir::Compiler.IRCode, todo::Vector{Pair{Int64, Any}}, propagat…
+     3         0 @juliasrc/ast.c                                    1249 jl_expand_macros
+     3         0 @juliasrc/ast.c                                    1200 jl_expand_macros
+     3         0 @Compiler/src/ssair/inlining.jl                      79 ssa_inlining_pass!
+     4         0 @Compiler/src/abstractinterpretation.jl             252 (::Compiler.var"#infercalls#abstract_call_gf_by_type##0"{Compiler.ArgInfo, …
+     4         0 @Compiler/src/abstractinterpretation.jl             178 (::Compiler.var"#handle1#abstract_call_gf_by_type##1"{Int64, Compiler.Futur…
+     4         0 @Compiler/src/abstractinterpretation.jl             868 abstract_call_method_with_const_args(interp::Compiler.NativeInterpreter, re…
+     4         0 @Compiler/src/abstractinterpretation.jl             899 abstract_call_method_with_const_args(interp::Compiler.NativeInterpreter, re…
+     4         0 @Compiler/src/abstractinterpretation.jl            1353 const_prop_call(interp::Compiler.NativeInterpreter, mi::Core.MethodInstance…
+     4         0 @juliasrc/ast.c                                    1249 jl_expand_macros
+     4         0 @juliasrc/ast.c                                    1200 jl_expand_macros
+     4         1 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm12SelectionDAG7CombineENS_12CombineLevelEPNS_9AAResultsENS_15CodeGe…
+     4         4 @juliasrc/gc-stock.c                               1806 gc_mark_objarray
+     4         1 /lib/x86_64-linux-gnu/libc.so.6                       ? malloc
+     5         0 @Compiler/src/typeinfer.jl                         1439 typeinf_ext_toplevel
+     5         0 @Compiler/src/abstractinterpretation.jl            4356 typeinf_local(interp::Compiler.NativeInterpreter, frame::Compiler.Inference…
+     5         0 @Compiler/src/abstractinterpretation.jl            3806 abstract_eval_basic_statement
+     5         0 @Compiler/src/abstractinterpretation.jl            3849 abstract_eval_basic_statement
+     5         0 @Compiler/src/abstractinterpretation.jl            3403 abstract_eval_statement_expr(interp::Compiler.NativeInterpreter, e::Expr, s…
+     5         0 @Compiler/src/abstractinterpretation.jl            3074 abstract_eval_call
+     5         0 @Compiler/src/abstractinterpretation.jl            3056 abstract_call(interp::Compiler.NativeInterpreter, arginfo::Compiler.ArgInfo…
+     5         0 @Compiler/src/abstractinterpretation.jl            2896 abstract_call
+     5         0 @Compiler/src/abstractinterpretation.jl            2903 abstract_call(interp::Compiler.NativeInterpreter, arginfo::Compiler.ArgInfo…
+     5         0 @Compiler/src/abstractinterpretation.jl            2796 abstract_call_known(interp::Compiler.NativeInterpreter, f::Any, arginfo::Co…
+     5         0 @Compiler/src/abstractinterpretation.jl             338 abstract_call_gf_by_type(interp::Compiler.NativeInterpreter, func::Any, arg…
+     5         0 @juliasrc/flisp/flisp.c                            1174 apply_cl
+     5         0 @juliasrc/flisp/flisp.c                            2217 fl_map1
+     5         0 @juliasrc/flisp/flisp.c                            1224 apply_cl
+     5         0 @juliasrc/gf.c                                     4021 ijl_invoke
+     5         0 @juliasrc/gf.c                                     3552 jl_compile_method_internal
+     5         0 @juliasrc/jitlayers.cpp                             875 jl_generate_fptr_for_unspecialized_impl
+     5         0 @juliasrc/builtins.c                                868 jl_f__apply_iterate
+     5         0 @Compiler/src/typeinfer.jl                         1407 add_codeinsts_to_jit!(interp::Compiler.NativeInterpreter, ci::Core.CodeInst…
+     6         0 @Compiler/src/abstractinterpretation.jl            4514 typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.InferenceState)
+     6         0 @julialib/julia/sys.so                                ? jfptr_typeinf_local_82127.1
+     6         0 @juliasrc/ast.c                                    1361 ijl_expand_stmt_with_loc
+     6         0 @juliasrc/ast.c                                    1138 jl_invoke_julia_macro
+     6         0 @juliasrc/gc-stock.c                               2273 gc_mark_outrefs
+     7         0 @Compiler/src/typeinfer.jl                          202 finish_nocycle(::Compiler.NativeInterpreter, frame::Compiler.InferenceState…
+     7         0 @julialib/julia/sys.so                                ? jfptr_optimize_82364.1
+     7         0 @Compiler/src/optimize.jl                          1002 optimize(interp::Compiler.NativeInterpreter, opt::Compiler.OptimizationStat…
+     7         0 @Compiler/src/optimize.jl                          1027 run_passes_ipo_safe
+     7         0 @Compiler/src/optimize.jl                          1013 run_passes_ipo_safe(ci::Core.CodeInfo, sv::Compiler.OptimizationState{Compi…
+     7         0 @Compiler/src/typeinfer.jl                         1440 typeinf_ext_toplevel
+     7         0 @juliasrc/flisp/flisp.c                            2192 fl_map1
+     7         0 @juliasrc/flisp/flisp.c                            2204 fl_map1
+     8         0 @Compiler/src/abstractinterpretation.jl            4521 typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.InferenceState)
+     8         0 @julialib/julia/sys.so                                ? jfptr_finish_nocycle_82210.1
+     8         0 …elease-1-dot-12/usr/include/llvm/IR/PassManager.h  543 run
+     8         0 @juliasrc/gc-stock.c                               2463 gc_mark_outrefs
+     8         8 @juliasrc/gc-stock.c                               1704 gc_mark_obj8
+     9         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm27ModuleToFunctionPassAdaptor3runERNS_6ModuleERNS_15AnalysisManager…
+    10         0 @Compiler/src/typeinfer.jl                         1256 typeinf_ext(interp::Compiler.NativeInterpreter, mi::Core.MethodInstance, so…
+    10         0 …26-10-30/planning/profile_annealing_startup_a1.jl   83 measured_phase(operation::var"#main##0#main##1"{String}, name::String, phas…
+    10         0 …-dot-12/usr/include/llvm/IR/PassManagerInternal.h   89 run
+    10         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN12_GLOBAL__N_115X86DAGToDAGISel20runOnMachineFunctionERN4llvm15MachineFu…
+    10         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16SelectionDAGISel20runOnMachineFunctionERNS_15MachineFunctionE.par…
+    10         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16SelectionDAGISel20SelectAllBasicBlocksERKNS_8FunctionE
+    10         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm16SelectionDAGISel17CodeGenAndEmitDAGEv
+    11         0 @juliasrc/jitlayers.cpp                            2031 addModule
+    11         0 @juliasrc/jitlayers.cpp                            1572 operator()
+    11         0 @juliasrc/jitlayers.cpp                            1420 operator()
+    11         0 …clude/llvm/ExecutionEngine/Orc/ThreadSafeModule.h  136 withModuleDo<(anonymous namespace)::sizedOptimizerT<N>::operator()(llvm::or…
+    11         0 @juliasrc/jitlayers.cpp                            1459 operator()
+    11         0 @juliasrc/pipeline.cpp                              741 run
+    11         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm11PassManagerINS_6ModuleENS_15AnalysisManagerIS1_JEEEJEE3runERS1_RS…
+    12         0 @juliasrc/gf.c                                     3516 jl_compile_method_internal
+    12         0 @juliasrc/gf.c                                      466 jl_type_infer
+    12         0 @julialib/julia/sys.so                                ? jfptr_typeinf_ext_toplevel_80206.1
+    12         0 @Compiler/src/typeinfer.jl                         1448 typeinf_ext_toplevel(mi::Core.MethodInstance, world::UInt64, source_mode::U…
+    12         0 @juliasrc/ast.c                                     916 jl_call_scm_on_ast_and_loc
+    12         0 @juliasrc/flisp/flisp.c                             719 fl_applyn
+    12         0 @juliasrc/flisp/flisp.c                             679 _applyn
+    12         0 @juliasrc/flisp/flisp.c                            1804 apply_cl
+    12         0 @juliasrc/flisp/flisp.c                             895 do_trycatch
+    13         0 @juliasrc/ast.c                                    1362 ijl_expand_stmt_with_loc
+    15         0 @juliasrc/gc-stock.c                               3074 _jl_gc_collect
+    15         0 @juliasrc/gc-stock.c                               2730 gc_mark_loop
+    15         0 @juliasrc/gc-stock.c                               2542 gc_mark_loop_serial
+    15         0 @juliasrc/gc-stock.c                               2519 gc_mark_loop_serial_
+    17         0 @juliasrc/interpreter.c                             630 eval_body
+    17         0 @juliasrc/interpreter.c                             108 eval_methoddef
+    17         0 @juliasrc/method.c                                 1317 ijl_method_def
+    17         0 @juliasrc/method.c                                  884 jl_method_set_source
+    17         0 @juliasrc/array.c                                   149 ijl_alloc_array_1d
+    17         0 @juliasrc/array.c                                    86 new_array
+    17         0 @juliasrc/array.c                                    64 _new_array
+    17         0 @juliasrc/gc-stock.c                                799 jl_gc_alloc_
+    17         0 @juliasrc/gc-stock.c                                785 jl_gc_small_alloc_noinline
+    17         0 @juliasrc/gc-stock.c                                727 jl_gc_small_alloc_inner
+    17         0 @juliasrc/gc-stock.c                                351 maybe_collect
+    17         0 @juliasrc/gc-stock.c                               3475 ijl_gc_collect
+    19         0 @juliasrc/toplevel.c                                195 jl_eval_module_expr
+    21         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+    21         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+    21         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+    21         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+    24         0 @juliasrc/jitlayers.cpp                            2044 addModule
+    24         0 @juliasrc/jitlayers.cpp                            1561 operator()
+    24         0 @julialib/julia/libLLVM.so.18.1jl                     ? _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+    33         0 @juliasrc/gf.c                                     3528 jl_compile_method_internal
+    33         0 @juliasrc/jitlayers.cpp                             824 jl_compile_codeinst_impl
+    35         0 @juliasrc/jitlayers.cpp                             626 jl_compile_codeinst_now
+    39         0 @juliasrc/toplevel.c                                197 jl_eval_module_expr
+    39         0 @julialib/julia/sys.so                                ? jfptr_IncludeInto_61448.1
+    39         0 @Base/Base.jl                                       308 (::Base.IncludeInto)(fname::String)
+    39         0 @Base/Base.jl                                       307 include(mapexpr::Function, mod::Module, _path::String)
+    42         0 @juliasrc/toplevel.c                                814 jl_toplevel_eval_flex
+    43         0 …26-10-30/planning/profile_annealing_startup_a1.jl   72 measured_phase(operation::var"#main##0#main##1"{String}, name::String, phas…
+    43         0 …26-10-30/planning/profile_annealing_startup_a1.jl  147 #main##0
+    45         0 @juliasrc/gf.c                                     4214 ijl_apply_generic
+    50         0 @juliasrc/gf.c                                     4006 _jl_invoke
+    82         0 …26-10-30/planning/profile_annealing_startup_a1.jl  146 macro expansion
+    84         0 …e/srcdir/glibc-2.17/csu/../sysdeps/x86_64/start.S  123 [unknown function]
+    84         0 /lib/x86_64-linux-gnu/libc.so.6                       ? __libc_start_main
+    84         4 /lib/x86_64-linux-gnu/libc.so.6                       ? [unknown function]
+    84         0 …julialang/julia-release-1-dot-12/cli/loader_exe.c   58 main
+    84         0 @juliasrc/jlapi.c                                  1139 jl_repl_entrypoint
+    84         0 @juliasrc/jlapi.c                                   971 true_main
+    84         0 @juliasrc/julia.h                                  2391 jl_apply
+    84         0 @julialib/julia/sys.so                                ? jfptr__start_63319.1
+    84         0 @Base/client.jl                                     550 _start()
+    84         0 @Base/client.jl                                     317 exec_options(opts::Base.JLOptions)
+    84         0 @Base/Base.jl                                       306 include(mod::Module, _path::String)
+    84         0 @Base/loading.jl                                   2934 _include(mapexpr::Function, mod::Module, _path::String)
+    84         0 @Base/loading.jl                                   2874 include_string(mapexpr::typeof(identity), mod::Module, code::String, filena…
+    84         0 @Base/boot.jl                                       489 eval(m::Module, e::Any)
+    84         0 @juliasrc/toplevel.c                               1092 ijl_toplevel_eval_in
+    84         0 @juliasrc/toplevel.c                               1047 ijl_toplevel_eval
+    84         0 @juliasrc/toplevel.c                                975 jl_toplevel_eval_flex
+    84         0 @juliasrc/toplevel.c                               1035 jl_toplevel_eval_flex
+    84         0 @juliasrc/interpreter.c                             898 jl_interpret_toplevel_thunk
+    84         0 @juliasrc/interpreter.c                             707 eval_body
+    84         0 @juliasrc/interpreter.c                             194 eval_stmt_value
+    84         0 @juliasrc/interpreter.c                             243 eval_value
+    84         0 @juliasrc/interpreter.c                             123 do_call
+    84         0 …26-10-30/planning/profile_annealing_startup_a1.jl  111 main()
+    84         0 …26-10-30/planning/profile_annealing_startup_a1.jl  145 main(args::Vector{String})
+    84         0 @Profile/src/Profile.jl                              60 macro expansion
+    87         0 [any unknown stackframes]
+Total snapshots: 93. Utilization: 100% across all threads and tasks. Use the `groupby` kwarg to break down by thread and/or task.

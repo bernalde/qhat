@@ -1,0 +1,534 @@
+{
+  "schema": "molecular-panel-consumer-v1",
+  "complete": true,
+  "mode": "preflight",
+  "cases": [
+    "LiH_r1p487_631g_14m4e"
+  ],
+  "repetitions": 1,
+  "protocol_sha256": "82d1f0065a21be92a36d900d7f541608141eea05dc20dd98b59cf99a8903ef58",
+  "source_freeze_sha256": "679df7485d8adbcce184213a21ae23199c2320d955e0ce81fa98a894fe1797fb",
+  "protocol_path": "source_snapshot/numerical_audit/molecular_generalization/PROTOCOL.json",
+  "source_freeze_path": "INPUT_PROTOCOL_FROZEN.json",
+  "cases_metadata": [
+    {
+      "case": "LiH_r1p487_631g_14m4e",
+      "constructors": [
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "parent",
+          "cpu_budget": 0,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.parent.B0.json",
+          "sha256": "bb52c5463c4fe0a355f09e3b9769a46c171b93161d7764254784503c6b50d62f",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "total": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            }
+          },
+          "status": "evaluation_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "canonical",
+          "cpu_budget": 0,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.canonical.B0.json",
+          "sha256": "4a787e827ff32900d9b7d345c545cbe8d78f3adaca34771e35f1ca547565ded8",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 1.3299999999999998,
+              "charged_CPU_seconds": 1.3409999999999997,
+              "wall_seconds": 6.0603097199928015
+            },
+            "total": {
+              "raw_CPU_seconds": 1.3299999999999998,
+              "charged_CPU_seconds": 1.3409999999999997,
+              "wall_seconds": 6.0603097199928015
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "magnitude",
+          "cpu_budget": 0,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.magnitude.B0.json",
+          "sha256": "b172c271214d3a2183c124f98983ed6525481334503a813d6be5c86ee3f26780",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 1.27,
+              "charged_CPU_seconds": 1.281,
+              "wall_seconds": 6.09328266303055
+            },
+            "total": {
+              "raw_CPU_seconds": 1.27,
+              "charged_CPU_seconds": 1.281,
+              "wall_seconds": 6.09328266303055
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "full",
+          "cpu_budget": 32,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.full.B32.json",
+          "sha256": "f50fae084dc65e231210eb0f56b954e984778a2d0c44982e076bb74a50a174dc",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            },
+            "continuation": {
+              "raw_CPU_seconds": 27.07,
+              "charged_CPU_seconds": 27.081,
+              "wall_seconds": 108.72945421293844
+            },
+            "total": {
+              "raw_CPU_seconds": 31.32,
+              "charged_CPU_seconds": 31.342,
+              "wall_seconds": 126.82074717688374
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "full",
+          "cpu_budget": 64,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.full.B64.json",
+          "sha256": "b22130c610f3455a3899d25b31cd268a1cb21429f79943fc75b8c075fc3f0ec0",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            },
+            "continuation": {
+              "raw_CPU_seconds": 59.019999999999996,
+              "charged_CPU_seconds": 59.031,
+              "wall_seconds": 238.6120977050159
+            },
+            "total": {
+              "raw_CPU_seconds": 63.269999999999996,
+              "charged_CPU_seconds": 63.292,
+              "wall_seconds": 256.7033906689612
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "window",
+          "cpu_budget": 32,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.window.B32.json",
+          "sha256": "5621a8502631f3c681b2552b058348f86648c5be37b93e896d70b6a736c4cfed",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            },
+            "continuation": {
+              "raw_CPU_seconds": 26.560000000000002,
+              "charged_CPU_seconds": 26.571,
+              "wall_seconds": 108.80291397601832
+            },
+            "total": {
+              "raw_CPU_seconds": 30.810000000000002,
+              "charged_CPU_seconds": 30.832,
+              "wall_seconds": 126.89420693996362
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "window",
+          "cpu_budget": 64,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.window.B64.json",
+          "sha256": "88cc64b0cd64b33807258bddb9059091a343c0468d895b39079e4d3b0cc103c5",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            },
+            "continuation": {
+              "raw_CPU_seconds": 58.49,
+              "charged_CPU_seconds": 58.501000000000005,
+              "wall_seconds": 235.50913885689806
+            },
+            "total": {
+              "raw_CPU_seconds": 62.74,
+              "charged_CPU_seconds": 62.76200000000001,
+              "wall_seconds": 253.60043182084337
+            }
+          },
+          "status": "complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "annealing",
+          "cpu_budget": 32,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.annealing.B32.json",
+          "sha256": "a7a8a074040943937ead567c0f72efba71f2240546c868c8cb873de3ceadbd78",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            },
+            "continuation": {
+              "raw_CPU_seconds": 26.68,
+              "charged_CPU_seconds": 26.691,
+              "wall_seconds": 108.42818244802766
+            },
+            "total": {
+              "raw_CPU_seconds": 30.93,
+              "charged_CPU_seconds": 30.951999999999998,
+              "wall_seconds": 126.51947541197296
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "LiH_r1p487_631g_14m4e",
+          "repetition": 1,
+          "arm": "annealing",
+          "cpu_budget": 64,
+          "path": "constructors/LiH_r1p487_631g_14m4e.rep1.annealing.B64.json",
+          "sha256": "05ea41559a8ae1fca5fad9891c0acf2fad0e659c7a888ae03f41863546c94ec9",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 4.25,
+              "charged_CPU_seconds": 4.261,
+              "wall_seconds": 18.091292963945307
+            },
+            "continuation": {
+              "raw_CPU_seconds": 58.96,
+              "charged_CPU_seconds": 58.971000000000004,
+              "wall_seconds": 238.21093302301597
+            },
+            "total": {
+              "raw_CPU_seconds": 63.21,
+              "charged_CPU_seconds": 63.232000000000006,
+              "wall_seconds": 256.3022259869613
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        }
+      ],
+      "constructor_count": 9,
+      "expected_logical_rows": 36,
+      "raw_claims": 3,
+      "all_constructor_eligible": true
+    }
+  ],
+  "original_frozen_sources": {
+    "analysis/__init__.py": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/julia_window/Project.toml": "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d",
+    "analysis/julia_window/README.md": "43ff82279a30094815f8548a0d113345f1dcc98ea48c9f9c0a2af265016cc40b",
+    "analysis/julia_window/ResponseCore.jl": "19eccecba10052461cc152140419ef8355168c4bfc557f0907ec61ec00c7c1cc",
+    "analysis/julia_window/SOURCE.toml": "e9132f9c0c27a32780fb4004e0204a84ae046ccece4075a8dea50852ca870728",
+    "analysis/julia_window/WindowSearch.jl": "04a26a61662546feac71e3d076b5afdda7018de22b403dc0e7d49928198292c1",
+    "analysis/julia_window/tests.jl": "e46c90125abb91a046a33d10b45368a7c80d996da5739ce64e1bd83135194bcf",
+    "analysis/julia_window/worker.jl": "6f525a2f61a90f8f8ceed70ba331cb90df371d9a705245253bd785626cce0e84",
+    "analysis/sparse_response_ordering.py": "957dc5eeeac955812a335afacb09bdff4165bac0c571a2c9f60299281897e4e6",
+    "analysis/strang_schedule.py": "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a",
+    "analysis/train_ordering.py": "56b2aa6eaf7637ff57d476db0c85478902089fb3dcb31ec1d109ee960e108abd",
+    "analysis/window_ordering.py": "93d967def472654e32c7c8cac7dda82bd3c23c59f09463e1cc4c04447b260bec",
+    "numerical_audit/__init__.py": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca",
+    "numerical_audit/cost_matched_continuation/PREFLIGHT_RESOURCE_AMENDMENT.json": "3d4f3909b97d32228df680008ca6ceac9b105428c4142e4eaed42196405c805a",
+    "numerical_audit/cost_matched_continuation/PROTOCOL.json": "b140ab6b3d01a4bcffbfb0edd5da56f08dc639176048c78c28ac137f464dfe8a",
+    "numerical_audit/cost_matched_continuation/README.md": "f2ca8b0b272d129ece4f2493e78dca865fa4df17dc68180ef2139d43e46336fb",
+    "numerical_audit/cost_matched_continuation/REGISTRY.json": "792cd8548e1824beb17082f28afdf04a32c87bc4f17a450d0a0366330be6416d",
+    "numerical_audit/cost_matched_continuation/admission.py": "abeda1eccbf17327a474277b4ea7f2a975f14ef4835b505677b1288f38968b74",
+    "numerical_audit/cost_matched_continuation/analyze.py": "1bd054d817a168f14d3cdd7efe720e9b685ba5e8303d23c53094e70cedefd8c8",
+    "numerical_audit/cost_matched_continuation/common.py": "4438f82b6f0e0d34f766256ea5eda99fad41c34ae61ad15768338709c0f93ea0",
+    "numerical_audit/cost_matched_continuation/construct.py": "122f5456d6ec52da7f4fc2f2c2a886b21e7dabda1ae2d001f46e67c7015f65ee",
+    "numerical_audit/cost_matched_continuation/generate_inputs.py": "2a39b796a921eba73b4bc3d671c8e7b3ea37f5c18be5e3cc004dc8819ed5364b",
+    "numerical_audit/cost_matched_continuation/ledger.py": "2a10500c86c182756404eddaf48c08c1c5fbb12a02437dbb40be1d9377ff1c76",
+    "numerical_audit/cost_matched_continuation/objective.jl": "f27b19b9e1d26d6f4248bb2cfee72b48b4cbdbd16ba5acb8209dc374d36e5d55",
+    "numerical_audit/cost_matched_continuation/panels.py": "f543fab069897def62fb3083372ade4c90a7ed48fe36e6c6b54c894f3b1b81f0",
+    "numerical_audit/cost_matched_continuation/physical.jl": "c0f4555351696efc5918db17ab52a3dbb2467c04e3b1dc8b386bb67132529507",
+    "numerical_audit/cost_matched_continuation/preflight.py": "63cc3ef2c030acbb942ff44fa09dc9c9a8d3bf0a05ea036fe5ba7c32270f19e9",
+    "numerical_audit/cost_matched_continuation/provenance.py": "d52898546022fa92c9a57be27afc09ca9eb75e6551810f39a321af2c5eb5d03e",
+    "numerical_audit/cost_matched_continuation/verify.jl": "bd63cfcd824d601dfa68cb200a6361dee7ff703ebe5410acc897e11bab1f7e26",
+    "numerical_audit/followup_classes/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CH4_r1p09.toml": "00a283f3736e331b2c3bfc140213e1d5d1d3a62f119b34ab1450a1b091afbc97",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CO_r1p13.toml": "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52",
+    "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl": "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605",
+    "numerical_audit/molecular_generalization/CALIBRATION.json": "d96f209380241458f8dbadc8421cbc72547e36738de91d2d4d0cf2fc800585fb",
+    "numerical_audit/molecular_generalization/CALIBRATION_EVIDENCE.json": "9fbdb589ac946a57dccee7fb24840391412fe3f643fd19cd9e6c10bd204fd343",
+    "numerical_audit/molecular_generalization/ENVIRONMENT.json": "0bace62277606cca67708948912f3bb76a623b57844307fc97531f7f6399bf8f",
+    "numerical_audit/molecular_generalization/PRIOR_USE.json": "ce61796112e5ac711e14ab6eeed908bf57a6614e624ae2236035aaaffaaa69e6",
+    "numerical_audit/molecular_generalization/PROTOCOL.json": "82d1f0065a21be92a36d900d7f541608141eea05dc20dd98b59cf99a8903ef58",
+    "numerical_audit/molecular_generalization/REGISTRY.json": "4636f83255fa816981f1b2fa787f471a4290ef59e11aea783f0aa5b7266b2b14",
+    "numerical_audit/molecular_generalization/__init__.py": "4a4f7600554df53096add22e75ac264a88dac3d4bbe829a9ff09568ede329153",
+    "numerical_audit/molecular_generalization/analyze.py": "e4a597f8ecf0c10438b6f1af47f8c84e883dce6ddac34996b59b56cac2aa7048",
+    "numerical_audit/molecular_generalization/anneal.jl": "4a77ab1b30c4e364f87fa2343f5dc2d990073cb2a96567a7802a4cc7e716fffd",
+    "numerical_audit/molecular_generalization/annealing.py": "96d7a4a7d1dfaec5b58b7f7cf4c068620a0e091059341cf66abb6094561f81a4",
+    "numerical_audit/molecular_generalization/calibration.jl": "ffcc95fedd62adaa10427612b9b9f58392fd6bf649ee0603722739fa528672fb",
+    "numerical_audit/molecular_generalization/calibration.py": "e2f156189912ce9d78b60cadfc7a977e93d3c7c813b3ac20bc9971acaac2ced2",
+    "numerical_audit/molecular_generalization/calibration_completion.py": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823",
+    "numerical_audit/molecular_generalization/calibration_resume.jl": "4af5970fc6d516e588c0199c6fa010cb6c4cdecb9226595eb1551b70dfbbe50d",
+    "numerical_audit/molecular_generalization/calibration_resume.py": "2f1283a09500644c73092a6aff56dc558ba42fc1e355c7d1dbb28f81c90f7eaa",
+    "numerical_audit/molecular_generalization/common.py": "603f047aa10392526d87b1f93da755b1be3ddd811cf310abd31863fb3ab1ae0a",
+    "numerical_audit/molecular_generalization/construct.py": "e21619803f019381509860a34f529eb7b16a3eda67a5afd9e6382e3906696e2f",
+    "numerical_audit/molecular_generalization/generate_inputs.py": "e99dc79f53237fb0249a7ebc300baa5805ae6fa2be960873b6d89dc8102797fc",
+    "numerical_audit/molecular_generalization/objective.jl": "4a02dd902328e2f1d033a673955db18880bea0d12cd9ea8c2b9a168cb264647f",
+    "numerical_audit/molecular_generalization/package.py": "bc080d9ff48aa3af5cc7109e18d85446fad2c10cc8f1189526bfd22b31d4c981",
+    "numerical_audit/molecular_generalization/panels.py": "7fbe5846b8e1652d97f862076990ea2cdf9d305de87e46b3b2a24816ceb4171a",
+    "numerical_audit/molecular_generalization/physical.jl": "e1885df306efd22f9b0f79d7e2f72bf0e860be90eb00013159d4bbc8b1926542",
+    "numerical_audit/molecular_generalization/plot.py": "852e6436c45c0943629ba59f818adb157fbced0c8e355e6113782942dcb9c4ca",
+    "numerical_audit/molecular_generalization/runner.py": "6567387b3bc7bea1723eb07cf3c9447524b66fb332071ce005e692ed56715d17",
+    "numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl": "8d0c6d4f3c3459890107de7d1831346a8869633d260916506e603416dc47f616",
+    "numerical_audit/molecular_generalization/src/GeneralizationIndependent.jl": "da9b73c796c8305417109ab70ac84a30743ac8dbace9e65172dcb33e339ad9f5",
+    "numerical_audit/molecular_generalization/src/GeneralizationPhysical.jl": "608011b148c0c846158f8343c075b50275e92f6a127ea4a674419dda3b434de5",
+    "numerical_audit/molecular_generalization/tools/resource_guard.py": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+    "numerical_audit/molecular_generalization/verify.jl": "43cef89e609d29f00482b094d59bd862b7f43b0f12febba1f753007faf501bac",
+    "numerical_audit/prospective_window_ordering/PROTOCOL.md": "4987dbd2672d93077da5c81727325f8690e600fc210fd34237504d66d270f548",
+    "numerical_audit/prospective_window_ordering/README.md": "d62374563e81ddcdce1dfb2c6eab934a99f6fa7f9e8e663f6ba22eb2c510f90c",
+    "numerical_audit/prospective_window_ordering/REGISTRY.json": "42c101dacdc537b154ce835699d5bd101a18d8fb214eab0b7596f5984175f825",
+    "numerical_audit/prospective_window_ordering/SOURCE_ORIGINS.json": "71495b64429177cdc65a332afcaccf44371af9f6825f9de7e30f4068cf7b6769",
+    "numerical_audit/prospective_window_ordering/construct_campaign.py": "bbbcc3a096ce83f51747842dd6ea9c1b9940d17f95d7766354dcfaa0c98374fe",
+    "numerical_audit/prospective_window_ordering/constructors.py": "ba1cc0e2ee3b64eb4a4f22df6bed1d828bbf52f1a7d8ea057f7588cf02f5c27e",
+    "numerical_audit/prospective_window_ordering/generate_inputs.py": "af9366d1b32056159dd94d33bf140ef621f4e9092849880fb2ae3c9521e04389",
+    "numerical_audit/prospective_window_ordering/identity.py": "ec324925e8bb408e39b032656f07a7ea9b892a3cb16df64a8355312ae7e5dd05",
+    "numerical_audit/prospective_window_ordering/independent.jl": "ef0b74f7349e82b6054ba1a3fd279115bf8278e3bad4a2beb5ac4cc89fc4cef2",
+    "numerical_audit/prospective_window_ordering/objective_check.jl": "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0",
+    "numerical_audit/prospective_window_ordering/panel.py": "4dc194ca4793d02aaf03dc8b8e3b0f520bf13a5b5c28ffbc26dd0b8513de94a6",
+    "numerical_audit/prospective_window_ordering/physical.jl": "f7653d3685f619efdf44a785793bd5057a2e037c372ad2c4bf8ec69a7225c6e8",
+    "numerical_audit/prospective_window_ordering/preflight.py": "f9777cda978a603b933fd39a25749e9e308de62009f5066f55d7c0cf779614d1",
+    "numerical_audit/prospective_window_ordering/src/WindowPhysical.jl": "c6452aab650e30dff83376a3a21151210e76b1089fc8828fb32740c27689487b",
+    "numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl": "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77",
+    "numerical_audit/prospective_window_ordering/study_common.py": "3cd92614801ab47e2c7583ad5fe7c5f84b8ef3991d78a3d7f3944c3a3f3a0a0f",
+    "numerical_audit/prospective_window_ordering/test/driver_tests.jl": "24013ff0f7898a203fda43c302e4c140dd5fb4c1176f501b2ea04cdaeb9d5812",
+    "numerical_audit/prospective_window_ordering/test/independent_tests.jl": "1ee4b602db0f4862151dca21e1ea1d9395ee5ea93fb1daa9755e3f0ad72a5dd1",
+    "numerical_audit/prospective_window_ordering/test/objective_tests.jl": "d86ecee8d31c50917149d0acc4e8ddb76fbb8280f0e137be3bbb7452aca498af",
+    "numerical_audit/prospective_window_ordering/test/physical_tests.jl": "2eacfea3df1438babaf49064e4315fef87bd1c36877be8eb610798f7ed73bddf",
+    "numerical_audit/prospective_window_ordering/test/test_campaign.py": "ca82e5de5f744aad08524708ea696601c9af330d95eedf9734c363655b0087b3",
+    "numerical_audit/prospective_window_ordering/test/test_contracts.py": "8dc4bf5aaec6850db74b13e659cd3e8eb5ca7644ae47f5ba4310c125109ffb3c",
+    "numerical_audit/prospective_window_ordering/test/test_input_boundary.py": "80eed2013d8e06b89e38166c629b005b08dc6d1287a386862c997aca388f74cd",
+    "numerical_audit/prospective_window_ordering/test/test_panel.py": "082048c04c9a823e6837a80ef91e71a03611dcb0ca59dfbf17b6c64f4e5f7df8",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py": "c51a0a6d57f3c553d42ee445a093b0c12fb4011da456fe07fdbae0f43d6dc224",
+    "numerical_audit/scalable_ordering/common.py": "44d223e5bf6ce4706b11b4bdd9630b730d0c0631fcb6a5d2eed98aada2a8279b",
+    "numerical_audit/scalable_ordering/training.py": "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+  },
+  "current_consumer_sources": {
+    "analysis/__init__.py": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/julia_window/Project.toml": "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d",
+    "analysis/julia_window/README.md": "43ff82279a30094815f8548a0d113345f1dcc98ea48c9f9c0a2af265016cc40b",
+    "analysis/julia_window/ResponseCore.jl": "19eccecba10052461cc152140419ef8355168c4bfc557f0907ec61ec00c7c1cc",
+    "analysis/julia_window/SOURCE.toml": "e9132f9c0c27a32780fb4004e0204a84ae046ccece4075a8dea50852ca870728",
+    "analysis/julia_window/WindowSearch.jl": "04a26a61662546feac71e3d076b5afdda7018de22b403dc0e7d49928198292c1",
+    "analysis/julia_window/tests.jl": "e46c90125abb91a046a33d10b45368a7c80d996da5739ce64e1bd83135194bcf",
+    "analysis/julia_window/worker.jl": "6f525a2f61a90f8f8ceed70ba331cb90df371d9a705245253bd785626cce0e84",
+    "analysis/sparse_response_ordering.py": "957dc5eeeac955812a335afacb09bdff4165bac0c571a2c9f60299281897e4e6",
+    "analysis/strang_schedule.py": "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a",
+    "analysis/train_ordering.py": "56b2aa6eaf7637ff57d476db0c85478902089fb3dcb31ec1d109ee960e108abd",
+    "analysis/window_ordering.py": "93d967def472654e32c7c8cac7dda82bd3c23c59f09463e1cc4c04447b260bec",
+    "numerical_audit/__init__.py": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca",
+    "numerical_audit/cost_matched_continuation/PREFLIGHT_RESOURCE_AMENDMENT.json": "3d4f3909b97d32228df680008ca6ceac9b105428c4142e4eaed42196405c805a",
+    "numerical_audit/cost_matched_continuation/PROTOCOL.json": "b140ab6b3d01a4bcffbfb0edd5da56f08dc639176048c78c28ac137f464dfe8a",
+    "numerical_audit/cost_matched_continuation/README.md": "f2ca8b0b272d129ece4f2493e78dca865fa4df17dc68180ef2139d43e46336fb",
+    "numerical_audit/cost_matched_continuation/REGISTRY.json": "792cd8548e1824beb17082f28afdf04a32c87bc4f17a450d0a0366330be6416d",
+    "numerical_audit/cost_matched_continuation/admission.py": "abeda1eccbf17327a474277b4ea7f2a975f14ef4835b505677b1288f38968b74",
+    "numerical_audit/cost_matched_continuation/analyze.py": "1bd054d817a168f14d3cdd7efe720e9b685ba5e8303d23c53094e70cedefd8c8",
+    "numerical_audit/cost_matched_continuation/common.py": "4438f82b6f0e0d34f766256ea5eda99fad41c34ae61ad15768338709c0f93ea0",
+    "numerical_audit/cost_matched_continuation/construct.py": "122f5456d6ec52da7f4fc2f2c2a886b21e7dabda1ae2d001f46e67c7015f65ee",
+    "numerical_audit/cost_matched_continuation/generate_inputs.py": "2a39b796a921eba73b4bc3d671c8e7b3ea37f5c18be5e3cc004dc8819ed5364b",
+    "numerical_audit/cost_matched_continuation/ledger.py": "2a10500c86c182756404eddaf48c08c1c5fbb12a02437dbb40be1d9377ff1c76",
+    "numerical_audit/cost_matched_continuation/objective.jl": "f27b19b9e1d26d6f4248bb2cfee72b48b4cbdbd16ba5acb8209dc374d36e5d55",
+    "numerical_audit/cost_matched_continuation/panels.py": "f543fab069897def62fb3083372ade4c90a7ed48fe36e6c6b54c894f3b1b81f0",
+    "numerical_audit/cost_matched_continuation/physical.jl": "c0f4555351696efc5918db17ab52a3dbb2467c04e3b1dc8b386bb67132529507",
+    "numerical_audit/cost_matched_continuation/preflight.py": "63cc3ef2c030acbb942ff44fa09dc9c9a8d3bf0a05ea036fe5ba7c32270f19e9",
+    "numerical_audit/cost_matched_continuation/provenance.py": "d52898546022fa92c9a57be27afc09ca9eb75e6551810f39a321af2c5eb5d03e",
+    "numerical_audit/cost_matched_continuation/verify.jl": "bd63cfcd824d601dfa68cb200a6361dee7ff703ebe5410acc897e11bab1f7e26",
+    "numerical_audit/followup_classes/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CH4_r1p09.toml": "00a283f3736e331b2c3bfc140213e1d5d1d3a62f119b34ab1450a1b091afbc97",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CO_r1p13.toml": "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52",
+    "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl": "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605",
+    "numerical_audit/molecular_generalization/CALIBRATION.json": "d96f209380241458f8dbadc8421cbc72547e36738de91d2d4d0cf2fc800585fb",
+    "numerical_audit/molecular_generalization/CALIBRATION_EVIDENCE.json": "9fbdb589ac946a57dccee7fb24840391412fe3f643fd19cd9e6c10bd204fd343",
+    "numerical_audit/molecular_generalization/ENVIRONMENT.json": "0bace62277606cca67708948912f3bb76a623b57844307fc97531f7f6399bf8f",
+    "numerical_audit/molecular_generalization/PRIOR_USE.json": "ce61796112e5ac711e14ab6eeed908bf57a6614e624ae2236035aaaffaaa69e6",
+    "numerical_audit/molecular_generalization/PROTOCOL.json": "82d1f0065a21be92a36d900d7f541608141eea05dc20dd98b59cf99a8903ef58",
+    "numerical_audit/molecular_generalization/REGISTRY.json": "4636f83255fa816981f1b2fa787f471a4290ef59e11aea783f0aa5b7266b2b14",
+    "numerical_audit/molecular_generalization/__init__.py": "4a4f7600554df53096add22e75ac264a88dac3d4bbe829a9ff09568ede329153",
+    "numerical_audit/molecular_generalization/analyze.py": "e4a597f8ecf0c10438b6f1af47f8c84e883dce6ddac34996b59b56cac2aa7048",
+    "numerical_audit/molecular_generalization/anneal.jl": "4a77ab1b30c4e364f87fa2343f5dc2d990073cb2a96567a7802a4cc7e716fffd",
+    "numerical_audit/molecular_generalization/annealing.py": "96d7a4a7d1dfaec5b58b7f7cf4c068620a0e091059341cf66abb6094561f81a4",
+    "numerical_audit/molecular_generalization/calibration.jl": "ffcc95fedd62adaa10427612b9b9f58392fd6bf649ee0603722739fa528672fb",
+    "numerical_audit/molecular_generalization/calibration.py": "e2f156189912ce9d78b60cadfc7a977e93d3c7c813b3ac20bc9971acaac2ced2",
+    "numerical_audit/molecular_generalization/calibration_completion.py": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823",
+    "numerical_audit/molecular_generalization/calibration_resume.jl": "4af5970fc6d516e588c0199c6fa010cb6c4cdecb9226595eb1551b70dfbbe50d",
+    "numerical_audit/molecular_generalization/calibration_resume.py": "2f1283a09500644c73092a6aff56dc558ba42fc1e355c7d1dbb28f81c90f7eaa",
+    "numerical_audit/molecular_generalization/common.py": "603f047aa10392526d87b1f93da755b1be3ddd811cf310abd31863fb3ab1ae0a",
+    "numerical_audit/molecular_generalization/construct.py": "e21619803f019381509860a34f529eb7b16a3eda67a5afd9e6382e3906696e2f",
+    "numerical_audit/molecular_generalization/generate_inputs.py": "e99dc79f53237fb0249a7ebc300baa5805ae6fa2be960873b6d89dc8102797fc",
+    "numerical_audit/molecular_generalization/objective.jl": "4a02dd902328e2f1d033a673955db18880bea0d12cd9ea8c2b9a168cb264647f",
+    "numerical_audit/molecular_generalization/package.py": "bc080d9ff48aa3af5cc7109e18d85446fad2c10cc8f1189526bfd22b31d4c981",
+    "numerical_audit/molecular_generalization/panels.py": "7fbe5846b8e1652d97f862076990ea2cdf9d305de87e46b3b2a24816ceb4171a",
+    "numerical_audit/molecular_generalization/physical.jl": "e1885df306efd22f9b0f79d7e2f72bf0e860be90eb00013159d4bbc8b1926542",
+    "numerical_audit/molecular_generalization/plot.py": "852e6436c45c0943629ba59f818adb157fbced0c8e355e6113782942dcb9c4ca",
+    "numerical_audit/molecular_generalization/runner.py": "6567387b3bc7bea1723eb07cf3c9447524b66fb332071ce005e692ed56715d17",
+    "numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl": "8d0c6d4f3c3459890107de7d1831346a8869633d260916506e603416dc47f616",
+    "numerical_audit/molecular_generalization/src/GeneralizationIndependent.jl": "da9b73c796c8305417109ab70ac84a30743ac8dbace9e65172dcb33e339ad9f5",
+    "numerical_audit/molecular_generalization/src/GeneralizationPhysical.jl": "608011b148c0c846158f8343c075b50275e92f6a127ea4a674419dda3b434de5",
+    "numerical_audit/molecular_generalization/tools/resource_guard.py": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+    "numerical_audit/molecular_generalization/verify.jl": "43cef89e609d29f00482b094d59bd862b7f43b0f12febba1f753007faf501bac",
+    "numerical_audit/prospective_window_ordering/PROTOCOL.md": "4987dbd2672d93077da5c81727325f8690e600fc210fd34237504d66d270f548",
+    "numerical_audit/prospective_window_ordering/README.md": "d62374563e81ddcdce1dfb2c6eab934a99f6fa7f9e8e663f6ba22eb2c510f90c",
+    "numerical_audit/prospective_window_ordering/REGISTRY.json": "42c101dacdc537b154ce835699d5bd101a18d8fb214eab0b7596f5984175f825",
+    "numerical_audit/prospective_window_ordering/SOURCE_ORIGINS.json": "71495b64429177cdc65a332afcaccf44371af9f6825f9de7e30f4068cf7b6769",
+    "numerical_audit/prospective_window_ordering/construct_campaign.py": "bbbcc3a096ce83f51747842dd6ea9c1b9940d17f95d7766354dcfaa0c98374fe",
+    "numerical_audit/prospective_window_ordering/constructors.py": "ba1cc0e2ee3b64eb4a4f22df6bed1d828bbf52f1a7d8ea057f7588cf02f5c27e",
+    "numerical_audit/prospective_window_ordering/generate_inputs.py": "af9366d1b32056159dd94d33bf140ef621f4e9092849880fb2ae3c9521e04389",
+    "numerical_audit/prospective_window_ordering/identity.py": "ec324925e8bb408e39b032656f07a7ea9b892a3cb16df64a8355312ae7e5dd05",
+    "numerical_audit/prospective_window_ordering/independent.jl": "ef0b74f7349e82b6054ba1a3fd279115bf8278e3bad4a2beb5ac4cc89fc4cef2",
+    "numerical_audit/prospective_window_ordering/objective_check.jl": "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0",
+    "numerical_audit/prospective_window_ordering/panel.py": "4dc194ca4793d02aaf03dc8b8e3b0f520bf13a5b5c28ffbc26dd0b8513de94a6",
+    "numerical_audit/prospective_window_ordering/physical.jl": "f7653d3685f619efdf44a785793bd5057a2e037c372ad2c4bf8ec69a7225c6e8",
+    "numerical_audit/prospective_window_ordering/preflight.py": "f9777cda978a603b933fd39a25749e9e308de62009f5066f55d7c0cf779614d1",
+    "numerical_audit/prospective_window_ordering/src/WindowPhysical.jl": "c6452aab650e30dff83376a3a21151210e76b1089fc8828fb32740c27689487b",
+    "numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl": "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77",
+    "numerical_audit/prospective_window_ordering/study_common.py": "3cd92614801ab47e2c7583ad5fe7c5f84b8ef3991d78a3d7f3944c3a3f3a0a0f",
+    "numerical_audit/prospective_window_ordering/test/driver_tests.jl": "24013ff0f7898a203fda43c302e4c140dd5fb4c1176f501b2ea04cdaeb9d5812",
+    "numerical_audit/prospective_window_ordering/test/independent_tests.jl": "1ee4b602db0f4862151dca21e1ea1d9395ee5ea93fb1daa9755e3f0ad72a5dd1",
+    "numerical_audit/prospective_window_ordering/test/objective_tests.jl": "d86ecee8d31c50917149d0acc4e8ddb76fbb8280f0e137be3bbb7452aca498af",
+    "numerical_audit/prospective_window_ordering/test/physical_tests.jl": "2eacfea3df1438babaf49064e4315fef87bd1c36877be8eb610798f7ed73bddf",
+    "numerical_audit/prospective_window_ordering/test/test_campaign.py": "ca82e5de5f744aad08524708ea696601c9af330d95eedf9734c363655b0087b3",
+    "numerical_audit/prospective_window_ordering/test/test_contracts.py": "8dc4bf5aaec6850db74b13e659cd3e8eb5ca7644ae47f5ba4310c125109ffb3c",
+    "numerical_audit/prospective_window_ordering/test/test_input_boundary.py": "80eed2013d8e06b89e38166c629b005b08dc6d1287a386862c997aca388f74cd",
+    "numerical_audit/prospective_window_ordering/test/test_panel.py": "082048c04c9a823e6837a80ef91e71a03611dcb0ca59dfbf17b6c64f4e5f7df8",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py": "c51a0a6d57f3c553d42ee445a093b0c12fb4011da456fe07fdbae0f43d6dc224",
+    "numerical_audit/scalable_ordering/common.py": "44d223e5bf6ce4706b11b4bdd9630b730d0c0631fcb6a5d2eed98aada2a8279b",
+    "numerical_audit/scalable_ordering/training.py": "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+  },
+  "artifact_hashes": {
+    "INPUTS_FROZEN.json": "6b1f507a4998b7cb02c675f300fc5ed26aaa31518bfd618aca455ccdbb9b43bc",
+    "PARENTS_FROZEN.json": "fddd6d81a17555bfca2a9d07267bb7f4f463f9faff2bed497df830b6d722df86",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.parent.B0.json": "bb52c5463c4fe0a355f09e3b9769a46c171b93161d7764254784503c6b50d62f",
+    "CONSTRUCTORS_FROZEN.json": "1d9a5cae77657550512a798f377d83e11b9eb8f998cb0faaf042e8101b618e43",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.canonical.B0.json": "4a787e827ff32900d9b7d345c545cbe8d78f3adaca34771e35f1ca547565ded8",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.magnitude.B0.json": "b172c271214d3a2183c124f98983ed6525481334503a813d6be5c86ee3f26780",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.full.B32.json": "f50fae084dc65e231210eb0f56b954e984778a2d0c44982e076bb74a50a174dc",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.full.B64.json": "b22130c610f3455a3899d25b31cd268a1cb21429f79943fc75b8c075fc3f0ec0",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.window.B32.json": "5621a8502631f3c681b2552b058348f86648c5be37b93e896d70b6a736c4cfed",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.window.B64.json": "88cc64b0cd64b33807258bddb9059091a343c0468d895b39079e4d3b0cc103c5",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.annealing.B32.json": "a7a8a074040943937ead567c0f72efba71f2240546c868c8cb873de3ceadbd78",
+    "constructors/LiH_r1p487_631g_14m4e.rep1.annealing.B64.json": "05ea41559a8ae1fca5fad9891c0acf2fad0e659c7a888ae03f41863546c94ec9",
+    "jobs/mg-independent-lih-r1p487-631g-14m4e.PLAN.json": "64ad9b6bfa749be2dde4e93430ffaf6b7eb2aecef0707cce6eae53d5b62456a9",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-canonical-b0.PLAN.json": "fe947a9632d2957e2f64afd7a316b92e2828b7b8f8c4a2a4f18c1270af02cc37",
+    "jobs/mg-old-preflight-panels-a4.PLAN.json": "109deb9cad3c7923c0f9d4fa3cb4a81dc765f1e594ebdc86d5f49f331ffe5273",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-full-b64.PLAN.json": "9c864240028e2ff0bf4abc9343266ece12b0f7c97e8678320f5957bdef7a61ff",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-full-b32.PLAN.json": "6cd3902d22b4b972e813030ae00f5e5a387d8a04bea50ebde438bcb8b5ce9c25",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-window-b32.PLAN.json": "507ab210fabb5ce80b49ab9151c79301c4ba0cd95588a7974543b543433ac404",
+    "jobs/mg-objective-lih-r1p487-631g-14m4e.PLAN.json": "42593bf8870e7dff46f5995efc857da7a2cc1e8ab4d6516b8bc4c11687b5299d",
+    "jobs/mg-physical-lih-r1p487-631g-14m4e.PLAN.json": "0472a9e222df6794a4da0af808dfe2fa2c0c704921985e456927269842c1cf66",
+    "jobs/mg-old-preflight-analysis-a4.PLAN.json": "663a67f844223bc46440253ceb877611eb33c3028b72966deece2bd03509144f",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-window-b64.PLAN.json": "872f0a0a3995b7b40ad9d4b12ec6e5d296cf8f8169dc4785f2a1591428d969e4",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-parent-b0.PLAN.json": "85d7af72bffd7b6a5e35137dd54afc7420e86fbd09c87e1cec8af715cbf72746",
+    "jobs/mg-old-preflight-figures-a4.PLAN.json": "d0ae81a97d098d82b7d7fb3248965f17fad0b6a2a76759a05329e8a95203d73b",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-annealing-b32.PLAN.json": "eb12bba29cd5cd2cfe859be7b73a5ff1826f1bb051dfbd9081ee8aad3cdfb978",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-annealing-b64.PLAN.json": "79a7ea097da87f0738c6a1f6b4bf64173e11ef881b5d18aab09a6f094c2e9ac6",
+    "jobs/mg-lih-r1p487-631g-14m4e-r1-magnitude-b0.PLAN.json": "0d18811c2b96c8e2aec11711e7e18b7a4edf3abb2fb6d3fa2df63500ae981454",
+    "inputs/LiH_r1p487_631g_14m4e/model.json": "a98914135ae21ade581b480e6ef209f9c0511ba7fe3f2781f6d3968785ab08ee",
+    "inputs/LiH_r1p487_631g_14m4e/model.toml": "8467a7625b67790cea46af821cfa8b88f47fbbcef60f5b620a6a2b3fc1677f5a",
+    "inputs/LiH_r1p487_631g_14m4e/orbitals.npz": "99122173674fac607720017dafc0ffe0fcb6f182dcaedb223c2fa8a381727921",
+    "inputs/LiH_r1p487_631g_14m4e/tensors.npz": "8447011e2a1514983f8841a9f0be4982ed5e2d4ef68890203e372b7f62f65d2d",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-parent-b0.resources.json": "c194d72a0a66c6ecec97f2cdce1101f5e5f3939b32e5515ec14b3bbaa61008a6",
+    "source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-parent-b0.json": "a4a40be445df2cef22e581c37b6c68187bbcf04e98ca0be149e3ac250e949e44",
+    "INPUT_PROTOCOL_FROZEN.json": "679df7485d8adbcce184213a21ae23199c2320d955e0ce81fa98a894fe1797fb",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-canonical-b0.resources.json": "963a43da6a8652136ab711ac142696e579cddbd9227d0fc5b803337ba9a8ba2c",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-canonical-b0.json": "3353abdfb2a5df078926e6d7b1589eef018c6ccefafdedfc16bb81f9fcb98e33",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-magnitude-b0.resources.json": "1a9dd8ecc6c56e912e96c92962e72c504d16607a0bec4329b007581731f82534",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-magnitude-b0.json": "a969a2d1b69f76d7ec3038bc2ea23c612b93467409aef53af53dbf73a3ead06b",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-full-b32.resources.json": "0260225631f7f0ac8d1735628d1230d7d4e9ff273c71a2ca3dfe3fda78c98314",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-full-b32.json": "52e19554e7b5d7c6266aee5c331db6fb3ce7a04b52658b5658ceedcc4c580161",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-full-b64.resources.json": "c9155aea956b84b1bab4debb7e96d211af18f0c27867e48d1386c5960255215c",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-full-b64.json": "746ddc6a2a099555b3264f557f6cb911aea205774e4323d888d95ba2fdcf26cb",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-window-b32.resources.json": "2be8390ebda811a1910f44da0fa296087e0f486cb1746ec80c65b3ba5d86e19b",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-window-b32.json": "115676bb77d57f4998322d9cd469ca9f279dc4bf76d7e3b2f343b2c4e9a2ea5d",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-window-b64.resources.json": "6bd171035191b90621522749a364103811101d75a1f4f26fab35c78384e9f220",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-window-b64.json": "7655e82443c78580aebfee98c46267ed70d339abee609157a7d895f64572bb41",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-annealing-b32.resources.json": "ff432b5bba8d4d2d686a734ff4f8cfe99a2156ddb554b47ba1fc9f6876de4fbf",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-annealing-b32.json": "0777ea5ce0c2f22c8a61a83c592da9f3f091c3e56c13b52c30f3f9de9469733b",
+    "logs/mg-lih-r1p487-631g-14m4e-r1-annealing-b64.resources.json": "c23d00fa4e1ec67b58df3dcf93ccb47060dccdd2eb09d9ef7ed518c5755fbf02",
+    "workers/mg-lih-r1p487-631g-14m4e-r1-annealing-b64.json": "dfabe072c59f3bcbe1f52fa226280e11fdb8381039c8dff703a4e36270c9d6d6",
+    "panels/LiH_r1p487_631g_14m4e.toml": "348061ee688cc402739183b37fd517e25f520290554a7a7996f74f796c544b12",
+    "witnesses/LiH_r1p487_631g_14m4e.toml": "18edc2c28ead757075518fcf6e5708e3dc9af59a0eb336491af7d9697e227eef"
+  },
+  "raw_inventory_independently_confirmed": true
+}

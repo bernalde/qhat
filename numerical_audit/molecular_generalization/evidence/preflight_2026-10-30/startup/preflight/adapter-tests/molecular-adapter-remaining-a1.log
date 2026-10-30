@@ -1,0 +1,42 @@
+Running as unit: fermionic-future-molecular-adapter-remaining-a1-1812334.service; invocation ID: acfc82470556441eaa22596d3165024f
+START physical admission: observed-size hash/TOML reads
+Test Summary:                 | Pass  Total  Time
+observed-size hash/TOML reads |   10     10  0.2s
+START physical admission: artifact bytes after allocation cleanup
+Test Summary:                      | Pass  Total  Time
+artifact bytes and safe DATA paths |    5      5  2.1s
+START physical admission: old-case abort retention
+Test Summary:                                                    | Pass  Total     Time
+old-case admission abort retains every logical row and reference |   17     17  2m31.2s
+START objective admission: persisted witnesses, native refusal and score floor
+Test Summary:                                                         | Pass  Total  Time
+all persisted proposed-best witnesses, native refusal and score floor |   15     15  1.4s
+	Command being timed: "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python /home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/adapter-tests/remaining_tests.py"
+	User time (seconds): 40.96
+	System time (seconds): 0.62
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:46.34
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 464300
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5
+	Minor (reclaiming a frame) page faults: 119223
+	Voluntary context switches: 16
+	Involuntary context switches: 2068
+	Swaps: 0
+	File system inputs: 440
+	File system outputs: 528
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 2min 46.347s
+CPU time consumed: 41.604s
+Memory peak: 286.3M
+Memory swap peak: 0B

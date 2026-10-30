@@ -1,0 +1,49 @@
+{
+  "schema": "molecular-old-scalar-cache-bridge-plan-v2",
+  "source_commit": "a00f7ceaecd4c73cd3ef01ef56cc26672aaa3c44",
+  "old_source_commit": "3144b251452632c7971a8ad203cfb4605c8cd7b8",
+  "old_snapshot_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a2/data/source_snapshot",
+  "project": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/analysis/julia_window",
+  "julia": "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia",
+  "old_kernel": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a2/data/source_snapshot/numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl",
+  "new_kernel": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl",
+  "request": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a2/data/workers/mg-lih-r1p487-631g-14m4e-r1-annealing-b32.annealing.toml.request.toml",
+  "model": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a2/data/inputs/LiH_r1p487_631g_14m4e/model.json",
+  "julia_operator": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/scalar_cache_bridge_a2.jl",
+  "python_operator": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/scalar_cache_bridge_a2.py",
+  "fresh_output": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/scalar-cache-bridge-a2/work",
+  "CPU_seconds": 60,
+  "wall_seconds": 360,
+  "disk_MiB": 128,
+  "MemoryHigh_MiB": 640,
+  "MemoryMax_MiB": 768,
+  "scope": "OLD fixed measuredparent/canonical columns andscores against3144andunchangednative;no search,new-family data or physical errors",
+  "column_tolerances": {
+    "abs": 3e-14,
+    "rel": 1e-10
+  },
+  "score_tolerances": {
+    "abs": 1e-28,
+    "rel": 1e-08
+  },
+  "resource_reason": "Scoped two-version reference verification; existing640/768guardprofile avoids known reference memory thrashing. Constructors remain512MiB and32/64CPU;allverificationcosts charged separately.",
+  "guard_profile_name": "calibration-reference",
+  "old_kernel_sha256": "b13c6ae72d1a37ed8e7f75d34dbeb986f642058fac21b620627c329394f1bf98",
+  "new_kernel_sha256": "5bf212de7a5b542b3f28026ae1eb403b05e1b875c5cb64143c33e54a97c7ad2a",
+  "request_sha256": "c83339c4a09a8ba9fd0e9ad4ed31689187e638944c5d6b2b0391becb6844a31d",
+  "model_sha256": "a98914135ae21ade581b480e6ef209f9c0511ba7fe3f2781f6d3968785ab08ee",
+  "julia_operator_sha256": "9d860827d6a11d32d97028cb8390896edb6676dba4949349b8d09574b51f1343",
+  "python_operator_sha256": "c5f6019a660232ecd4a6a2918b2c428e968558776747088177b57ee06037babb",
+  "prior_attempt": {
+    "receipt": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/scalar-cache-bridge-a1/logs/molecular-scalar-cache-bridge-a1.resources.json",
+    "charged_CPU_seconds": 25.181,
+    "wall_seconds": 102.47159228508826,
+    "reason": "Generator syntax error in comparison harness; no comparison rows produced; numerical source unchanged"
+  },
+  "cumulative_CPU_seconds": 120,
+  "cumulative_wall_seconds": 720,
+  "attempt_CPU_seconds": 60,
+  "attempt_wall_seconds": 360,
+  "syntax_gate": "Whole-script Meta.parseall and error-node traversal BEFORE loading modules/contexts",
+  "unchanged_tolerances": true
+}

@@ -1,0 +1,430 @@
+Overhead ╎ [+additional indent] Count File:Line  Function
+=========================================================
+1╎1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_116X86PreTileConfigD0Ev
+1╎1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm12GlobalObject18copyAttributesFromEPKS0_
+1╎1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm12PatternMatch14cstval_pred_tyINS0_11is_zero_intENS_11ConstantIntEE5matchINS_5ValueEEEbPT_.isra.0
+1╎1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16DAGTypeLegalizer28PromoteIntRes_SimpleIntBinOpEPNS_6SDNodeE
+1╎1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16computeKnownBitsEPKNS_5ValueERKNS_10DataLayoutEjPNS_15AssumptionCacheEPKNS_11InstructionEPKNS_13D…
+1╎1  @julialib/julia/libLLVM.so.18.1jl:?  _ZNK4llvm19TargetSubtargetInfo18enableAtomicExpandEv
+ ╎84 …ce/srcdir/glibc-2.17/csu/../sysdeps/x86_64/start.S:123  
+ ╎ 84 /lib/x86_64-linux-gnu/libc.so.6:?  __libc_start_main
+ ╎  84 /lib/x86_64-linux-gnu/libc.so.6:?  
+ ╎   84 …/julialang/julia-release-1-dot-12/cli/loader_exe.c:58  main
+ ╎    84 @juliasrc/jlapi.c:1139  jl_repl_entrypoint
+ ╎     84 @juliasrc/jlapi.c:971  true_main
+ ╎    ╎ 84 @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎  84 @julialib/julia/sys.so:?  jfptr__start_63319.1
+ ╎    ╎   84 @Base/client.jl:550  _start()
+ ╎    ╎    84 @Base/client.jl:317  exec_options(opts::Base.JLOptions)
+ ╎    ╎     84 @Base/Base.jl:306  include(mod::Module, _path::String)
+ ╎    ╎    ╎ 84 @Base/loading.jl:2934  _include(mapexpr::Function, mod::Module, _path::String)
+ ╎    ╎    ╎  2  @Base/loading.jl:2860  include_string(mapexpr::typeof(identity), mod::Module, code::String, filename::String)
+ ╎    ╎    ╎   2  @Base/meta.jl:293  parseall
+ ╎    ╎    ╎    2  @Base/meta.jl:294  #parseall#5
+ ╎    ╎    ╎     2  @Base/meta.jl:200  _parse_string(text::String, filename::String, lineno::Int64, index::Int64, options::Symbol)
+ ╎    ╎    ╎    ╎ 2  …lease-1-dot-12/base/JuliaSyntax/src/hooks.jl:116  (::Base.JuliaSyntax.var"#invoke_fixedworld#fix_world_age##2"{Base.JuliaSyntax…
+ ╎    ╎    ╎    ╎  2  @juliasrc/builtins.c:868  jl_f__apply_iterate
+ ╎    ╎    ╎    ╎   2  @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    1  @Base/boot.jl:293  Expr(::Any, ::Vararg{Any})
+ ╎    ╎    ╎    ╎     1  @juliasrc/gf.c:4210  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gf.c:4141  jl_lookup_generic_
+ ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gf.c:3072  lookup_arg_type_tuple
+ ╎    ╎    ╎    ╎    ╎   1  @juliasrc/jltypes.c:1139  lookup_typevalue
+1╎    ╎    ╎    ╎    ╎    1  @juliasrc/jltypes.c:1067  lookup_type_setvalue
+ ╎    ╎    ╎    ╎    2  …ease-1-dot-12/base/JuliaSyntax/src/hooks.jl:117  (::Base.JuliaSyntax.var"#invoke_fixedworld#fix_world_age##2"{Base.JuliaSynt…
+ ╎    ╎    ╎    ╎    2  @juliasrc/builtins.c:900  jl_f_invoke_in_world
+ ╎    ╎    ╎    ╎     2  @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    ╎ 2  @julialib/julia/sys.so:?  jfptr_core_parser_hook_72574.1
+ ╎    ╎    ╎    ╎    ╎  2  …ase-1-dot-12/base/JuliaSyntax/src/hooks.jl:236  core_parser_hook(code::String, filename::String, lineno::Int64, offset::I…
+ ╎    ╎    ╎    ╎    ╎   2  …ase-1-dot-12/base/JuliaSyntax/src/expr.jl:552  build_tree
+ ╎    ╎    ╎    ╎    ╎    2  …ase-1-dot-12/base/JuliaSyntax/src/expr.jl:559  build_tree(::Type{Expr}, stream::Base.JuliaSyntax.ParseStream; filename:…
+ ╎    ╎    ╎    ╎    ╎     2  …-12/base/JuliaSyntax/src/parse_stream.jl:1141  build_tree
+ ╎    ╎    ╎    ╎    ╎    ╎ 2  …-12/base/JuliaSyntax/src/parse_stream.jl:1189  build_tree(make_node::Base.JuliaSyntax.var"#105#106"{Vector{Base.Julia…
+ ╎    ╎    ╎    ╎    ╎    ╎  1  …se-1-dot-12/base/JuliaSyntax/src/expr.jl:571  (::Base.JuliaSyntax.var"#105#106"{Vector{Base.JuliaSyntax.SyntaxHead},…
+ ╎    ╎    ╎    ╎    ╎    ╎   1  @Base/array.jl:986  setindex!
+1╎    ╎    ╎    ╎    ╎    ╎    1  @Base/array.jl:991  _setindex!
+ ╎    ╎    ╎    ╎    ╎    ╎  1  …se-1-dot-12/base/JuliaSyntax/src/expr.jl:575  (::Base.JuliaSyntax.var"#105#106"{Vector{Base.JuliaSyntax.SyntaxHead},…
+ ╎    ╎    ╎    ╎    ╎    ╎   1  …e-1-dot-12/base/JuliaSyntax/src/expr.jl:538  _internal_node_to_Expr(source::Base.JuliaSyntax.SourceFile, srcrange::…
+ ╎    ╎    ╎  84 @Base/loading.jl:2874  include_string(mapexpr::typeof(identity), mod::Module, code::String, filename::String)
+ ╎    ╎    ╎   84 @Base/boot.jl:489  eval(m::Module, e::Any)
+ ╎    ╎    ╎    84 @juliasrc/toplevel.c:1092  ijl_toplevel_eval_in
+ ╎    ╎    ╎     84 @juliasrc/toplevel.c:1047  ijl_toplevel_eval
+ ╎    ╎    ╎    ╎ 84 @juliasrc/toplevel.c:975  jl_toplevel_eval_flex
+ ╎    ╎    ╎    ╎  42 @juliasrc/toplevel.c:814  jl_toplevel_eval_flex
+ ╎    ╎    ╎    ╎   19 @juliasrc/toplevel.c:195  jl_eval_module_expr
+ ╎    ╎    ╎    ╎    6  @juliasrc/ast.c:1361  ijl_expand_stmt_with_loc
+ ╎    ╎    ╎    ╎     3  @juliasrc/ast.c:1200  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎ 3  @juliasrc/ast.c:1138  jl_invoke_julia_macro
+ ╎    ╎    ╎    ╎    ╎  2  @Base/boot.jl:715  var"@doc"(__source__::LineNumberNode, __module__::Module, x::Vararg{Any})
+ ╎    ╎    ╎    ╎    ╎   2  @juliasrc/builtins.c:868  jl_f__apply_iterate
+ ╎    ╎    ╎    ╎    ╎    2  @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    ╎     2  @julialib/julia/sys.so:?  jfptr_docm_53330.1
+ ╎    ╎    ╎    ╎    ╎    ╎ 2  @Base/docs/Docs.jl:643  docm(source::LineNumberNode, mod::Module, meta::Any, ex::Any)
+ ╎    ╎    ╎    ╎    ╎    ╎  2  @Base/docs/Docs.jl:643  docm
+ ╎    ╎    ╎    ╎    ╎    ╎   2  @Base/expr.jl:124  macroexpand
+ ╎    ╎    ╎    ╎    ╎    ╎    2  @Base/expr.jl:126  #macroexpand#22
+ ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/ast.c:1261  ijl_macroexpand
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/ast.c:1249  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/ast.c:1249  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/ast.c:1200  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/ast.c:1262  ijl_macroexpand
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/ast.c:901  jl_call_scm_on_ast
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/ast.c:684  julia_to_scm
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/ast.c:792  julia_to_scm_
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/ast.c:697  array_to_list
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/ast.c:723  julia_to_scm_
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/ast.c:793  julia_to_scm_
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/flisp/flisp.c:260  symbol
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:247  symtab_lookup
+1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  /lib/x86_64-linux-gnu/libc.so.6:?  
+ ╎    ╎    ╎    ╎    ╎  2  @juliasrc/gf.c:4021  ijl_invoke
+ ╎    ╎    ╎    ╎    ╎   2  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    2  @juliasrc/gf.c:3552  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎     2  @juliasrc/jitlayers.cpp:875  jl_generate_fptr_for_unspecialized_impl
+ ╎    ╎    ╎    ╎    ╎    ╎ 2  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎  2  @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎   2  @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎     2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_115X86DAGToDAGISel20runOnMachineFunctionERN4llvm15Machine…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel20runOnMachineFunctionERNS_15MachineFunctionE.…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel20SelectAllBasicBlocksERKNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel17CodeGenAndEmitDAGEv
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm12SelectionDAG7CombineENS_12CombineLevelEPNS_9AAResultsENS_15…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_111DAGCombiner7combineEPN4llvm6SDNodeE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_111DAGCombiner16visitTokenFactorEPN4llvm6SDNodeE
+1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm18ScheduleDAGSDNodes12EmitScheduleERNS_26MachineInstrBundleIt…
+ ╎    ╎    ╎    ╎     1  @juliasrc/ast.c:1212  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/ast.c:1186  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎  1  @juliasrc/ast.c:1249  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎   1  @juliasrc/ast.c:1200  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎    1  @juliasrc/ast.c:1138  jl_invoke_julia_macro
+ ╎    ╎    ╎    ╎    ╎     1  @juliasrc/gf.c:4021  ijl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gf.c:3552  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/jitlayers.cpp:875  jl_generate_fptr_for_unspecialized_impl
+ ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_122MachineCopyPropagation20runOnMachineFunctionERN4llv…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_122MachineCopyPropagation25ForwardCopyPropagateBlockE…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_111CopyTracker9trackCopyEPN4llvm12MachineInstrERKNS1…
+1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm15SmallVectorImplINS_10MCRegisterEEaSEOS2_.isra.0
+ ╎    ╎    ╎    ╎     2  @juliasrc/ast.c:1249  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎ 2  @juliasrc/ast.c:1249  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎  2  @juliasrc/ast.c:1200  jl_expand_macros
+ ╎    ╎    ╎    ╎    ╎   2  @juliasrc/ast.c:1138  jl_invoke_julia_macro
+ ╎    ╎    ╎    ╎    ╎    2  @juliasrc/gf.c:4021  ijl_invoke
+ ╎    ╎    ╎    ╎    ╎     2  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎ 2  @juliasrc/gf.c:3552  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎  2  @juliasrc/jitlayers.cpp:875  jl_generate_fptr_for_unspecialized_impl
+ ╎    ╎    ╎    ╎    ╎    ╎   2  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    2  @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎     2  @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_110MachineCSE20runOnMachineFunctionERN4llvm15MachineFun…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_110MachineCSE10PerformCSEEPN4llvm15DomTreeNodeBaseINS1…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_110MachineCSE15ProcessBlockCSEEPN4llvm17MachineBasicB…
+1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_110MachineCSE17isProfitableToCSEEN4llvm8RegisterES2_…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_115X86DAGToDAGISel20runOnMachineFunctionERN4llvm15Machi…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel20runOnMachineFunctionERNS_15MachineFunction…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel20SelectAllBasicBlocksERKNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel17CodeGenAndEmitDAGEv
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm12SelectionDAG7CombineENS_12CombineLevelEPNS_9AAResultsENS_…
+ ╎    ╎    ╎    ╎    13 @juliasrc/ast.c:1362  ijl_expand_stmt_with_loc
+ ╎    ╎    ╎    ╎     12 @juliasrc/ast.c:916  jl_call_scm_on_ast_and_loc
+ ╎    ╎    ╎    ╎    ╎ 12 @juliasrc/flisp/flisp.c:719  fl_applyn
+ ╎    ╎    ╎    ╎    ╎  12 @juliasrc/flisp/flisp.c:679  _applyn
+1╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1051  apply_cl
+ ╎    ╎    ╎    ╎    ╎   2  @juliasrc/flisp/flisp.c:1224  apply_cl
+1╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1321  apply_cl
+1╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1376  apply_cl
+1╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1412  apply_cl
+1╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1659  apply_cl
+1╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1680  apply_cl
+ ╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1775  apply_cl
+ ╎    ╎    ╎    ╎    ╎    1  @juliasrc/flisp/flisp.c:359  alloc_words
+ ╎    ╎    ╎    ╎    ╎     1  @juliasrc/flisp/flisp.c:597  gc
+ ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/flisp/cvalues.c:60  sweep_finalizers
+1╎    ╎    ╎    ╎    ╎    ╎  1  /lib/x86_64-linux-gnu/libc.so.6:?  __libc_free
+ ╎    ╎    ╎    ╎    ╎   12 @juliasrc/flisp/flisp.c:1804  apply_cl
+ ╎    ╎    ╎    ╎    ╎    12 @juliasrc/flisp/flisp.c:895  do_trycatch
+1╎    ╎    ╎    ╎    ╎     1  @juliasrc/flisp/flisp.c:1047  apply_cl
+1╎    ╎    ╎    ╎    ╎     1  @juliasrc/flisp/flisp.c:1129  apply_cl
+ ╎    ╎    ╎    ╎    ╎     5  @juliasrc/flisp/flisp.c:1174  apply_cl
+ ╎    ╎    ╎    ╎    ╎    ╎ 5  @juliasrc/flisp/flisp.c:2192  fl_map1
+ ╎    ╎    ╎    ╎    ╎    ╎  5  @juliasrc/flisp/flisp.c:2204  fl_map1
+ ╎    ╎    ╎    ╎    ╎    ╎  5  @juliasrc/flisp/flisp.c:2217  fl_map1
+ ╎    ╎    ╎    ╎    ╎     3  @juliasrc/flisp/flisp.c:1224  apply_cl
+ ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/flisp/flisp.c:2276  fl_foreach
+ ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/flisp/flisp.c:679  _applyn
+1╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/flisp/flisp.c:1235  apply_cl
+ ╎    ╎    ╎    ╎    ╎    ╎ 2  @juliasrc/flisp/flisp.c:2192  fl_map1
+ ╎    ╎    ╎    ╎    ╎    ╎  2  @juliasrc/flisp/flisp.c:2204  fl_map1
+1╎    ╎    ╎    ╎    ╎     1  @juliasrc/flisp/flisp.c:1369  apply_cl
+1╎    ╎    ╎    ╎    ╎     1  @juliasrc/flisp/flisp.c:1795  apply_cl
+ ╎    ╎    ╎    ╎     1  @juliasrc/ast.c:918  jl_call_scm_on_ast_and_loc
+ ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/ast.c:472  scm_to_julia
+ ╎    ╎    ╎    ╎    ╎  1  @juliasrc/ast.c:646  scm_to_julia_
+ ╎    ╎    ╎    ╎    ╎   1  @juliasrc/ast.c:618  scm_to_julia_
+ ╎    ╎    ╎    ╎    ╎    1  @juliasrc/module.c:1139  ijl_module_globalref
+ ╎    ╎    ╎    ╎    ╎     1  @juliasrc/module.c:1530  jl_get_module_binding
+ ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/smallintset.c:137  jl_smallintset_lookup
+ ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/module.c:1515  bindingkey_eq
+1╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/module.c:1521  bindingkey_eq
+ ╎    ╎    ╎    ╎   39 @juliasrc/toplevel.c:197  jl_eval_module_expr
+ ╎    ╎    ╎    ╎  84 @juliasrc/toplevel.c:1035  jl_toplevel_eval_flex
+ ╎    ╎    ╎    ╎   84 @juliasrc/interpreter.c:898  jl_interpret_toplevel_thunk
+ ╎    ╎    ╎    ╎    17 @juliasrc/interpreter.c:630  eval_body
+ ╎    ╎    ╎    ╎     17 @juliasrc/interpreter.c:108  eval_methoddef
+ ╎    ╎    ╎    ╎    ╎ 17 @juliasrc/method.c:1317  ijl_method_def
+ ╎    ╎    ╎    ╎    ╎  17 @juliasrc/method.c:884  jl_method_set_source
+ ╎    ╎    ╎    ╎    ╎   17 @juliasrc/array.c:149  ijl_alloc_array_1d
+ ╎    ╎    ╎    ╎    ╎    17 @juliasrc/array.c:86  new_array
+ ╎    ╎    ╎    ╎    ╎     17 @juliasrc/array.c:64  _new_array
+ ╎    ╎    ╎    ╎    ╎    ╎ 17 @juliasrc/gc-stock.c:799  jl_gc_alloc_
+ ╎    ╎    ╎    ╎    ╎    ╎  17 @juliasrc/gc-stock.c:785  jl_gc_small_alloc_noinline
+ ╎    ╎    ╎    ╎    ╎    ╎   17 @juliasrc/gc-stock.c:727  jl_gc_small_alloc_inner
+ ╎    ╎    ╎    ╎    ╎    ╎    17 @juliasrc/gc-stock.c:351  maybe_collect
+ ╎    ╎    ╎    ╎    ╎    ╎     17 @juliasrc/gc-stock.c:3475  ijl_gc_collect
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 15 @juliasrc/gc-stock.c:3074  _jl_gc_collect
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  15 @juliasrc/gc-stock.c:2730  gc_mark_loop
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   15 @juliasrc/gc-stock.c:2542  gc_mark_loop_serial
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    15 @juliasrc/gc-stock.c:2519  gc_mark_loop_serial_
+1╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/gc-stock.c:2240  gc_mark_outrefs
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     6  @juliasrc/gc-stock.c:2273  gc_mark_outrefs
+4╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 4  @juliasrc/gc-stock.c:1806  gc_mark_objarray
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 2  @juliasrc/gc-stock.c:1837  gc_mark_objarray
+2╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  2  @juliasrc/gc-stock.c:1684  gc_try_claim_and_push
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     8  @juliasrc/gc-stock.c:2463  gc_mark_outrefs
+8╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 8  @juliasrc/gc-stock.c:1704  gc_mark_obj8
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gc-stock.c:3187  _jl_gc_collect
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gc-stock.c:1394  gc_sweep_pool
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/gc-stock.c:1275  gc_sweep_pool_parallel
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/gc-stock.c:983  gc_sweep_pool_page
+1╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/gc-stock.c:913  gc_sweep_page
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gc-stock.c:3189  _jl_gc_collect
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gc-stock.c:1467  gc_sweep_perm_alloc
+1╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/staticdata.c:2347  gc_sweep_sysimg
+ ╎    ╎    ╎    ╎    84 @juliasrc/interpreter.c:707  eval_body
+ ╎    ╎    ╎    ╎     84 @juliasrc/interpreter.c:194  eval_stmt_value
+ ╎    ╎    ╎    ╎    ╎ 84 @juliasrc/interpreter.c:243  eval_value
+ ╎    ╎    ╎    ╎    ╎  84 @juliasrc/interpreter.c:123  do_call
+ ╎    ╎    ╎    ╎    ╎   84 @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    ╎    1  @Base/path.jl:346  joinpath(::String, ::String, ::Vararg{String})
+ ╎    ╎    ╎    ╎    ╎     1  @juliasrc/gf.c:4214  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gf.c:3528  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/jitlayers.cpp:824  jl_compile_codeinst_impl
+ ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm8RAGreedy20runOnMachineFunctionERNS_15MachineFunctionE
+1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm17RegisterClassInfo20runOnMachineFunctionERKNS_15MachineFunct…
+ ╎    ╎    ╎    ╎    ╎    3  @juliasrc/gf.c:4214  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎     3  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gf.c:3516  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gf.c:466  jl_type_infer
+ ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/sys.so:?  jfptr_typeinf_ext_toplevel_80206.1
+ ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/src/typeinfer.jl:1448  typeinf_ext_toplevel(mi::Core.MethodInstance, world::UInt64, source_mode::UInt8, …
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @Compiler/src/typeinfer.jl:1439  typeinf_ext_toplevel
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @Compiler/src/typeinfer.jl:1256  typeinf_ext(interp::Compiler.NativeInterpreter, mi::Core.MethodInstance, source…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @Compiler/src/abstractinterpretation.jl:4521  typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.Infer…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/sys.so:?  jfptr_finish_nocycle_82210.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/src/typeinfer.jl:202  finish_nocycle(::Compiler.NativeInterpreter, frame::Compiler.InferenceState, …
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @julialib/julia/sys.so:?  jfptr_optimize_82364.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @Compiler/src/optimize.jl:1002  optimize(interp::Compiler.NativeInterpreter, opt::Compiler.OptimizationStat…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @Compiler/src/optimize.jl:1027  run_passes_ipo_safe
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @Compiler/src/optimize.jl:1013  run_passes_ipo_safe(ci::Core.CodeInfo, sv::Compiler.OptimizationState{Com…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/src/ssair/passes.jl:1486  sroa_pass!(ir::Compiler.IRCode, inlining::Compiler.InliningState{Com…
+ ╎    ╎    ╎    ╎    ╎    ╎ 2  @juliasrc/gf.c:3528  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎  2  @juliasrc/jitlayers.cpp:824  jl_compile_codeinst_impl
+ ╎    ╎    ╎    ╎    ╎    ╎   2  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    2  @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎     2  @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_115X86DAGToDAGISel20runOnMachineFunctionERN4llvm15Machi…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel20runOnMachineFunctionERNS_15MachineFunction…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel20SelectAllBasicBlocksERKNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16SelectionDAGISel17CodeGenAndEmitDAGEv
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm12SelectionDAG7CombineENS_12CombineLevelEPNS_9AAResultsENS_…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm12SelectionDAG8LegalizeEv
+ ╎    ╎    ╎    ╎    ╎    39 @julialib/julia/sys.so:?  jfptr_IncludeInto_61448.1
+ ╎    ╎    ╎    ╎    ╎     39 @Base/Base.jl:308  (::Base.IncludeInto)(fname::String)
+ ╎    ╎    ╎    ╎    ╎    ╎ 39 @Base/Base.jl:307  include(mapexpr::Function, mod::Module, _path::String)
+ ╎    ╎    ╎    ╎    ╎    84 [unknown stackframe]
+ ╎    ╎    ╎    ╎    ╎     84 …planning/profile_annealing_startup_a1.jl:111  main()
+ ╎    ╎    ╎    ╎    ╎    ╎ 84 …planning/profile_annealing_startup_a1.jl:145  main(args::Vector{String})
+ ╎    ╎    ╎    ╎    ╎    ╎  84 @Profile/src/Profile.jl:60  macro expansion
+ ╎    ╎    ╎    ╎    ╎    ╎   82 …lanning/profile_annealing_startup_a1.jl:146  macro expansion
+ ╎    ╎    ╎    ╎    ╎    ╎    28 @juliasrc/gf.c:4214  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎    ╎     28 @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 7  @juliasrc/gf.c:3516  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  7  @juliasrc/gf.c:466  jl_type_infer
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   7  @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    7  @julialib/julia/sys.so:?  jfptr_typeinf_ext_toplevel_80206.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     7  @Compiler/src/typeinfer.jl:1448  typeinf_ext_toplevel(mi::Core.MethodInstance, world::UInt64, source_mode::UI…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @Compiler/src/typeinfer.jl:1439  typeinf_ext_toplevel
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @Compiler/src/typeinfer.jl:1256  typeinf_ext(interp::Compiler.NativeInterpreter, mi::Core.MethodInstance, s…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @Compiler/…/abstractinterpretation.jl:4514  typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.In…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/sys.so:?  jfptr_typeinf_local_82127.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/…abstractinterpretation.jl:4406  typeinf_local(interp::Compiler.NativeInterpreter, frame::Comp…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 6  @Compiler/src/typeinfer.jl:1440  typeinf_ext_toplevel
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  5  @Compiler/src/typeinfer.jl:1407  add_codeinsts_to_jit!(interp::Compiler.NativeInterpreter, ci::Core.CodeIns…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   5  @Compiler/src/typeinfer.jl:1256  typeinf_ext(interp::Compiler.NativeInterpreter, mi::Core.MethodInstance, …
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    3  @Compiler/…abstractinterpretation.jl:4514  typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.In…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     3  @julialib/julia/sys.so:?  jfptr_typeinf_local_82127.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    2  @Compiler/…abstractinterpretation.jl:4521  typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.In…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     2  @julialib/julia/sys.so:?  jfptr_finish_nocycle_82210.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @Compiler/src/typeinfer.jl:1433  add_codeinsts_to_jit!(interp::Compiler.NativeInterpreter, ci::Core.CodeIns…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/gf.c:3376  jl_add_codeinst_to_jit
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/jitlayers.cpp:770  jl_emit_codeinst_to_jit_impl
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/codegen.cpp:9821  jl_emit_codeinst
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 21 @juliasrc/gf.c:3528  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  21 @juliasrc/jitlayers.cpp:824  jl_compile_codeinst_impl
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/jitlayers.cpp:607  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/jitlayers.cpp:2052  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  …/include/c++/9.1.0/bits/unique_ptr.h:255  unique_ptr
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  …/include/c++/9.1.0/bits/unique_ptr.h:151  __uniq_ptr_impl<std::default_delete<llvm::MemoryBuffer> >
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  …64-linux-gnu/include/c++/9.1.0/tuple:969  tuple<llvm::MemoryBuffer*&, std::default_delete<llvm::MemoryBuff…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  …4-linux-gnu/include/c++/9.1.0/tuple:218  _Tuple_impl<llvm::MemoryBuffer*&, std::default_delete<llvm::Memo…
+1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  …4-linux-gnu/include/c++/9.1.0/tuple:133  _Head_base<llvm::MemoryBuffer*&>
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   20 @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    9  @juliasrc/jitlayers.cpp:2031  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     9  @juliasrc/jitlayers.cpp:1572  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 9  @juliasrc/jitlayers.cpp:1420  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  9  …ecutionEngine/Orc/ThreadSafeModule.h:136  withModuleDo<(anonymous namespace)::sizedOptimizerT<N>::operator…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   9  @juliasrc/jitlayers.cpp:1459  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    9  @juliasrc/pipeline.cpp:741  run
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     9  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm11PassManagerINS_6ModuleENS_15AnalysisManagerIS1_JEEEJEE3ru…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    11 @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     11 @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 11 @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm17LLVMTargetMachine17addPassesToEmitMCERNS_6legacy15PassManage…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZL23addPassesToGenerateCodeRN4llvm17LLVMTargetMachineERNS_6legacy15P…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16TargetPassConfig16addMachinePassesEv
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN12_GLOBAL__N_113X86PassConfig14addPreEmitPassEv
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  10 @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   10 @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    10 @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     10 @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+ ╎    ╎    ╎    ╎    ╎    ╎    54 [unknown stackframe]
+ ╎    ╎    ╎    ╎    ╎    ╎     1  …lanning/profile_annealing_startup_a1.jl:64  measured_phase(operation::var"#main##0#main##1"{String}, name::String…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @Base/coreio.jl:6  println(x1::String, x2::String)
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gf.c:4214  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/gf.c:3528  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/jitlayers.cpp:824  jl_compile_codeinst_impl
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/jitlayers.cpp:2031  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/jitlayers.cpp:1572  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/jitlayers.cpp:1420  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  …utionEngine/Orc/ThreadSafeModule.h:136  withModuleDo<(anonymous namespace)::sizedOptimizerT<N>::operato…
+ ╎    ╎    ╎    ╎    ╎    ╎     43 …lanning/profile_annealing_startup_a1.jl:72  measured_phase(operation::var"#main##0#main##1"{String}, name::String…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 43 …anning/profile_annealing_startup_a1.jl:147  #main##0
+ ╎    ╎    ╎    ╎    ╎    ╎     10 …lanning/profile_annealing_startup_a1.jl:83  measured_phase(operation::var"#main##0#main##1"{String}, name::String…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 9  @juliasrc/gf.c:4214  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  9  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   3  @juliasrc/gf.c:3516  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    3  @juliasrc/gf.c:466  jl_type_infer
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     3  @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 3  @julialib/julia/sys.so:?  jfptr_typeinf_ext_toplevel_80206.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  3  @Compiler/src/typeinfer.jl:1448  typeinf_ext_toplevel(mi::Core.MethodInstance, world::UInt64, source_mode::…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   2  @Compiler/src/typeinfer.jl:1439  typeinf_ext_toplevel
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    2  @Compiler/src/typeinfer.jl:1256  typeinf_ext(interp::Compiler.NativeInterpreter, mi::Core.MethodInstance,…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/…abstractinterpretation.jl:4514  typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.I…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/…abstractinterpretation.jl:4521  typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.I…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @Compiler/src/typeinfer.jl:1440  typeinf_ext_toplevel
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @Compiler/src/typeinfer.jl:1433  add_codeinsts_to_jit!(interp::Compiler.NativeInterpreter, ci::Core.CodeI…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/gf.c:3376  jl_add_codeinst_to_jit
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   6  @juliasrc/gf.c:3528  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    6  @juliasrc/jitlayers.cpp:824  jl_compile_codeinst_impl
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     5  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/jitlayers.cpp:2031  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/jitlayers.cpp:1572  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/jitlayers.cpp:1420  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  …cutionEngine/Orc/ThreadSafeModule.h:136  withModuleDo<(anonymous namespace)::sizedOptimizerT<N>::operato…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/jitlayers.cpp:1459  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 4  @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  4  @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   4  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm17LLVMTargetMachine17addPassesToEmitMCERNS_6legacy15PassMana…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZL23addPassesToGenerateCodeRN4llvm17LLVMTargetMachineERNS_6legacy1…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy11PassManagerD1Ev
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImplD0Ev
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     2  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/jitlayers.cpp:677  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/jitlayers.cpp:2101  findSymbols
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc16ExecutionSession6lookupERKSt6vectorISt4pairIPNS0_8JITDyl…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc16ExecutionSession6lookupENS0_10LookupKindERKSt6vectorISt…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc16ExecutionSession19OL_applyQueryPhase1ESt10unique_ptrIN…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc25InProgressFullLookupState8completeESt10unique_ptrINS0…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  [unknown stackframe]
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  …anning/profile_annealing_startup_a1.jl:54  write_new_toml(path::String, value::Dict{String, Real})
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @TOML/src/print.jl:233  print
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @TOML/src/print.jl:233  #print#11
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @TOML/src/print.jl:149  print_table
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @TOML/src/print.jl:149  print_table
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @TOML/src/print.jl:207  print_table(f::Nothing, io::IOBuffer, a::Dict{String, Real}, ks::Vector{String}; in…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/gf.c:4214  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/gf.c:3528  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎   2  …lanning/profile_annealing_startup_a1.jl:149  macro expansion
+ ╎    ╎    ╎    ╎    ╎    ╎    2  @juliasrc/gf.c:4214  ijl_apply_generic
+ ╎    ╎    ╎    ╎    ╎    ╎     2  @juliasrc/gf.c:4006  _jl_invoke
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gf.c:3516  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/gf.c:466  jl_type_infer
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/julia.h:2391  jl_apply
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/sys.so:?  jfptr_typeinf_ext_toplevel_80206.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/src/typeinfer.jl:1448  typeinf_ext_toplevel(mi::Core.MethodInstance, world::UInt64, source_mode::UI…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @Compiler/src/typeinfer.jl:1439  typeinf_ext_toplevel
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @Compiler/src/typeinfer.jl:1256  typeinf_ext(interp::Compiler.NativeInterpreter, mi::Core.MethodInstance, s…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @Compiler/…/abstractinterpretation.jl:4514  typeinf(interp::Compiler.NativeInterpreter, frame::Compiler.In…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/sys.so:?  jfptr_typeinf_local_82127.1
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @Compiler/…abstractinterpretation.jl:4356  typeinf_local(interp::Compiler.NativeInterpreter, frame::Comp…
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/gf.c:3528  jl_compile_method_internal
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/jitlayers.cpp:824  jl_compile_codeinst_impl
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/jitlayers.cpp:626  jl_compile_codeinst_now
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @juliasrc/jitlayers.cpp:2044  addModule
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @juliasrc/jitlayers.cpp:1561  operator()
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm3orc14SimpleCompilerclERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm6legacy15PassManagerImpl3runERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager11runOnModuleERNS_6ModuleE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm13FPPassManager13runOnFunctionERNS_8FunctionE
+ ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm19MachineFunctionPass13runOnFunctionERNS_8FunctionE.part.0
+ ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/interpreter.c:354  eval_value
+ ╎    ╎    ╎    ╎    ╎  1  @juliasrc/interpreter.c:96  eval_methoddef
+ ╎    ╎    ╎    ╎    ╎   1  @juliasrc/method.c:1152  ijl_declare_const_gf
+ ╎    ╎    ╎    ╎    ╎    1  @juliasrc/gf.c:4350  jl_new_generic_function_with_supertype
+ ╎    ╎    ╎    ╎    ╎     1  @juliasrc/gf.c:4341  jl_gf_supertype_name
+ ╎    ╎    ╎    ╎    ╎    ╎ 1  @juliasrc/symbol.c:105  ijl_symbol
+ ╎    ╎    ╎    ╎    ╎    ╎  1  @juliasrc/symbol.c:88  _jl_symbol
+1╎    ╎    ╎    ╎    ╎    ╎   1  @juliasrc/symbol.c:68  symtab_lookup
+ ╎3  [unknown stackframe]
+1╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm15ScalarEvolution14getSCEVAtScopeEPNS_5ValueEPKNS_4LoopE
+1╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm16UnaryInstructionC2EPNS_4TypeEjPNS_5ValueEPNS_11InstructionE
+1╎ 1  @julialib/julia/libLLVM.so.18.1jl:?  _ZN4llvm23SmallVectorTemplateBaseIjLb1EE9push_backEj
+Total snapshots: 93. Utilization: 100% across all threads and tasks. Use the `groupby` kwarg to break down by thread and/or task.
