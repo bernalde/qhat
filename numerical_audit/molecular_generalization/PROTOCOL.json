@@ -81,7 +81,9 @@
       "scalar_signature_rank_cap": 14,
       "basis_storage": "Bounded model preprocessing: at most 14 UInt64 masks per unit, plus bounded containers; separate from conservative 1024-byte admitted-entry accounting; constructor RAM cap remains 512 MiB",
       "order_comparisons": "Pairwise vector distinctness and integer-vector lexicographic ties; no order-length-specific tuple sets",
-      "scope": "Prospective old-only exact-cache/startup and CPU-balanced scheduling revision; objective, temperatures, starts, proposals and scientific CPU allowances unchanged"
+      "scope": "Prospective old-only exact-cache/startup and CPU-balanced scheduling revision; objective, temperatures, starts, proposals and scientific CPU allowances unchanged",
+      "julia_heap_size_hint_MiB": 256,
+      "entry_dispatch": "Single Base.invokelatest call from main to the same run function; no shared process or free compilation; all guards and numerical module settings retained"
     },
     "seed_suffix": ":molecular-generalization-sa-v1:chain",
     "cooling": "After four scored starts and chain initialization, fix each chain share to one quarter of remaining child CPU. Run one proposal for the least cumulative CPU chain, ties by original index; geometric temperature uses that chain cumulative CPU/share. Charge interrupted work and checkpoint CPU; permanently exhaust a chain at its cooperative share limit. Global CPU/wall/evaluation/proposal/action limits still stop the worker.",

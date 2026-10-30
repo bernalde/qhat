@@ -253,7 +253,7 @@ def _proc_cpu(pid):
 def _run_worker(executable, request, checkpoint, child_cap, wall_cap, check, stats):
     worker = HERE/'anneal.jl'
     argv = [executable, '--startup-file=no', '--history-file=no', '--threads=1', '--gcthreads=1',
-        '--heap-size-hint=32M', '--project='+str(ROOT/'analysis/julia_window'), str(worker),
+        '--heap-size-hint=256M', '--project='+str(ROOT/'analysis/julia_window'), str(worker),
         str(request), str(checkpoint), repr(child_cap), repr(wall_cap)]
     stats['child_command'] = list(argv)
     env = os.environ.copy()

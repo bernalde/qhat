@@ -194,7 +194,9 @@ end
 function main(args=ARGS)
     length(args)==4 || error("usage: anneal.jl REQUEST.toml FRESH_CHECKPOINT.toml CPU_CAP WALL_CAP")
     try
-        run(args[1],args[2],parse(Float64,args[3]),parse(Float64,args[4]))
+        # One inference boundary at process entry; the numerical kernels keep
+        # their optimization level and every owned startup cost remains charged.
+        Base.invokelatest(run,args[1],args[2],parse(Float64,args[3]),parse(Float64,args[4]))
     catch e
         reason=e isa Limit ? e.status : e isa FullOrderAnnealing.NumericalResolution ? "numerical_limit" :
             e isa ArgumentError ? "admission_or_support_limit" : "worker_failure"
