@@ -59,7 +59,6 @@
     "temperature_fit": null,
     "temperature_start": null,
     "temperature_end": null,
-    "positive_delta_probes_per_old_case": 32,
     "calibration_cases": [
       "CO_r1p13",
       "CH4_r1p09"
@@ -74,13 +73,15 @@
     "max_cached_actions": 100000,
     "max_cache_bytes": 67108864,
     "seed_suffix": ":molecular-generalization-sa-v1:chain",
-    "cooling": "Geometric in each equal searchCPU slice;4starts,sharecontextonlywithinownedchild"
+    "cooling": "Geometric in each equal searchCPU slice;4starts,sharecontextonlywithinownedchild",
+    "insertion_probes_per_old_case": 32
   },
   "cheap": {
     "construction_per_case_repetition": true,
     "CPU_ceiling": 8,
     "wall_ceiling": 40,
-    "cost": "Own complete startup/loading/order-generation/native-check/serialization/teardown; no measured-parentprefix"
+    "cost": "Own complete startup/loading/order-generation/native-check/serialization/teardown; no measured-parentprefix",
+    "ordering_definition": "Canonical uses original unit labels; magnitude sorts descending exact rational sum of absolute Pauli coefficients, with original-label ties; no insertion moves"
   },
   "physical": {
     "times": [
@@ -142,10 +143,20 @@
   },
   "phase_resource_pools": {
     "old_preflight_total": {
-      "CPU_seconds": 2000,
-      "wall_seconds": 10000,
+      "CPU_seconds": 2400,
+      "wall_seconds": 14000,
       "disk_MiB": 1024,
-      "status": "Amendedbeforecompletionfrommeasuredfailedcosts;reuseoldcalibrationoutputs;32/64scientificcapsunchanged"
+      "status": "Amendedbeforepartialverificationresume;allfailedcostsretained;32/64constructorcapsunchanged"
+    },
+    "old_calibration_reference": {
+      "cumulative_CPU_seconds": 840,
+      "cumulative_wall_seconds": 6000,
+      "resume_CPU_seconds": 360,
+      "resume_wall_seconds": 1800,
+      "MemoryHigh_MiB": 640,
+      "MemoryMax_MiB": 768,
+      "MemorySwapMax": 0,
+      "scope": "OLDcalibrationreferenceverificationonly;constructorarms448/512MiB"
     }
   },
   "attempt_policy": "One invocation per frozenmainconstructoridentity;retainfailedcosts/scoredincumbents/capacitystops, nofreshscientificbudgetretry. Oldpreflightr epairsremainexplicitversioneddevelopment.",

@@ -59,6 +59,8 @@ def main(argv=None):
     parser.add_argument('--cpu-seconds', type=float, required=True)
     parser.add_argument('--wall-seconds', type=int, required=True)
     parser.add_argument('--disk-mib', type=int, required=True)
+    parser.add_argument('--memory-profile', choices=('numerical', 'calibration-reference'),
+                        default='numerical', help='Reference-only extension requires a declared allowance')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('command', nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
@@ -75,8 +77,10 @@ def main(argv=None):
     while available() <= 5.5 * 1024**3:
         print('WAITING FOR MEMORY HEADROOM', available(), flush=True)
         time.sleep(15)
+    high, maximum = (('640M', '768M') if args.memory_profile == 'calibration-reference'
+                     else ('448M', '512M'))
     settings = dict(CPUQuota='25%', CPUWeight='5', IOWeight='10', Nice='19',
-                    MemoryHigh='448M', MemoryMax='512M', MemorySwapMax='0',
+                    MemoryHigh=high, MemoryMax=maximum, MemorySwapMax='0',
                     TasksMax='32', MemoryAccounting='yes', CPUAccounting='yes',
                     RuntimeMaxSec=str(args.wall_seconds), TimeoutStopSec='5s')
     invocation = ['systemd-run', '--user', '--wait', '--pipe', '--unit', unit,
@@ -203,7 +207,7 @@ def main(argv=None):
                 termination = 'Wall budget exhausted'
         status = (supervisor_status if supervisor_status not in (None, 0) else
                   0 if supervisor_status == 0 and termination is None else 1)
-        record = {'unit': unit, 'settings': settings, 'environment': env,
+        record = {'unit': unit, 'settings': settings, 'memory_profile': args.memory_profile, 'environment': env,
                   'command': command, 'exit_code': status, 'supervisor_exit_code': supervisor_status,
                   'elapsed': elapsed, 'samples': samples,
                   'completed_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
