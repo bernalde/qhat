@@ -53,6 +53,12 @@ function check_objective_witness_admission()
     end
 end
 
-println("START objective admission: persisted witnesses, native refusal and score floor")
-flush(stdout)
-check_objective_witness_admission()
+function run_objective_admission_tests()
+    println("START objective admission: persisted witnesses, native refusal and score floor")
+    flush(stdout)
+    check_objective_witness_admission()
+end
+
+if abspath(PROGRAM_FILE)==abspath(@__FILE__)
+    run_objective_admission_tests()
+end

@@ -206,19 +206,44 @@ function check_incomplete_inventory()
     end
 end
 
-physical_test_start("primary main roster")
-@test length(Primary.expected_grid("main"))==72
-check_main_roster(Primary.admit_manifest,"primary main roster and parent/cheap graph")
-physical_test_start("independent main roster")
-check_main_roster(Check.admit_manifest,"independent main roster and parent/cheap graph")
-physical_test_start("primary preflight roster/count")
-check_preflight_roster(Primary.admit_manifest,"primary preflight roster/count")
-physical_test_start("independent preflight roster/count")
-@test length(Check.expected_grid("preflight"))==36
-check_preflight_roster(Check.admit_manifest,"independent preflight roster/count")
-physical_test_start("artifact bytes and safe DATA paths")
-check_artifact_bytes()
-physical_test_start("full-register propagation, complete N reference and leakage visibility")
-check_full_register()
-physical_test_start("old-case admission abort retains every logical row and reference")
-check_incomplete_inventory()
+function check_bounded_reads()
+    @testset "observed-size hash/TOML reads" begin
+        mktempdir() do root
+            path=joinpath(root,"tiny.toml");raw=Vector{UInt8}(codeunits("n = 4\n"));write(path,raw)
+            digest=bytes2hex(sha256(raw))
+            for adapter in (Primary,Check)
+                @test adapter.bounded_hash(path)==digest
+                parsed=adapter.bounded_toml(path)
+                @test parsed.sha256==digest && parsed.data==Dict("n"=>4)
+                @test adapter.observed_read(IOBuffer(copy(raw)),length(raw))==raw
+                @test_throws ArgumentError adapter.observed_read(IOBuffer(raw[1:end-1]),length(raw))
+                @test_throws ArgumentError adapter.observed_read(IOBuffer(vcat(raw,UInt8[0])),length(raw))
+            end
+        end
+    end
+end
+
+function run_physical_admission_tests()
+    physical_test_start("primary main roster")
+    @test length(Primary.expected_grid("main"))==72
+    check_main_roster(Primary.admit_manifest,"primary main roster and parent/cheap graph")
+    physical_test_start("independent main roster")
+    check_main_roster(Check.admit_manifest,"independent main roster and parent/cheap graph")
+    physical_test_start("primary preflight roster/count")
+    check_preflight_roster(Primary.admit_manifest,"primary preflight roster/count")
+    physical_test_start("independent preflight roster/count")
+    @test length(Check.expected_grid("preflight"))==36
+    check_preflight_roster(Check.admit_manifest,"independent preflight roster/count")
+    physical_test_start("artifact bytes and safe DATA paths")
+    check_artifact_bytes()
+    physical_test_start("full-register propagation, complete N reference and leakage visibility")
+    check_full_register()
+    physical_test_start("old-case admission abort retains every logical row and reference")
+    check_incomplete_inventory()
+    physical_test_start("observed-size hash/TOML reads")
+    check_bounded_reads()
+end
+
+if abspath(PROGRAM_FILE)==abspath(@__FILE__)
+    run_physical_admission_tests()
+end

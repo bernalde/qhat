@@ -39,11 +39,22 @@ function data_root(input,case)
         "canonical DATA/inputs/case/model.toml required")
     root
 end
+function observed_read(io,observed,check=require)
+    check(observed isa Integer && !(observed isa Bool) && 0 <= observed <= MAX_BYTES,"artifact byte cap")
+    raw=read(io,observed+1)
+    check(length(raw) == observed && eof(io),"artifact grew or shrank during read")
+    raw
+end
+function bounded_bytes(path,check=require)
+    check(isfile(path),"bounded regular artifact required")
+    observed=filesize(path)
+    check(0 <= observed <= MAX_BYTES,"artifact byte cap")
+    open(path,"r") do io
+        observed_read(io,observed,check)
+    end
+end
 function bounded_hash(path)
-    require(isfile(path) && filesize(path) <= MAX_BYTES,"artifact byte cap")
-    bytes=open(path,"r") do io; read(io,MAX_BYTES+1); end
-    require(length(bytes) <= MAX_BYTES,"artifact grew beyond cap")
-    bytes2hex(sha256(bytes))
+    bytes2hex(sha256(bounded_bytes(path)))
 end
 
 function bind_artifacts(input,manifest)
@@ -80,9 +91,7 @@ function bind_artifacts(input,manifest)
         scope="Julia binds exact model/candidate TOML and actual protocol/freeze/modelJSON/constructorJSON bytes. Independent Python consumer separately checks raw JSON semantic order/score/identity joins.")
 end
 function bounded_toml(path)
-    require(isfile(path) && filesize(path) <= MAX_BYTES, "bounded TOML file required")
-    raw = open(path, "r") do io; read(io, MAX_BYTES + 1); end
-    require(length(raw) <= MAX_BYTES, "TOML grew beyond admission cap")
+    raw=bounded_bytes(path)
     # Bound nesting before parsing; scientific strings are single-line.
     quotechar = UInt8(0); escaped = false; comment = false; stack = UInt8[]
     for (index, byte) in enumerate(raw)

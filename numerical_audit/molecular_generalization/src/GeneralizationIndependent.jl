@@ -21,13 +21,64 @@ function data_root(input,case)
         "canonical DATA/inputs/case/model.toml required")
     root
 end
+function observed_read(io,observed,check=require)
+    check(observed isa Integer && !(observed isa Bool) && 0 <= observed <= MAX_BYTES,"artifact byte cap")
+    raw=read(io,observed+1)
+    check(length(raw) == observed && eof(io),"artifact grew or shrank during read")
+    raw
+end
+function bounded_bytes(path,check=require)
+    check(isfile(path),"bounded regular artifact required")
+    observed=filesize(path)
+    check(0 <= observed <= MAX_BYTES,"artifact byte cap")
+    open(path,"r") do io
+        observed_read(io,observed,check)
+    end
+end
 function bounded_hash(path)
-    require(isfile(path) && filesize(path) <= MAX_BYTES,"artifact byte cap")
-    bytes=open(path,"r") do io; read(io,MAX_BYTES+1); end
-    require(length(bytes) <= MAX_BYTES,"artifact grew beyond cap")
-    bytes2hex(sha256(bytes))
+    bytes2hex(sha256(bounded_bytes(path)))
 end
 
+
+function bounded_toml(path)
+    check=IndependentPhysical.require
+    raw=bounded_bytes(path,check)
+    # Admit only shallow scientific tables/arrays before invoking the parser.
+    quote_char=UInt8(0);escaped=false;comment=false;nesting=UInt8[]
+    for (index,byte) in enumerate(raw)
+        if comment
+            byte in (0x0a,0x0d) && (comment=false)
+        elseif quote_char!=0
+            # Basic and literal strings in this schema are single-line.
+            # Check this before consuming an escaped character.
+            check(!(byte in (0x0a,0x0d)),"raw newline in TOML string")
+            if escaped
+                escaped=false
+            elseif quote_char==UInt8('"') && byte==UInt8('\\')
+                escaped=true
+            elseif byte==quote_char
+                quote_char=0
+            end
+        elseif byte==UInt8('#')
+            # Quote and bracket bytes in a line comment are not TOML syntax.
+            comment=true
+        elseif byte in (UInt8('"'),UInt8('\''))
+            check(!(index+2<=length(raw) && raw[index+1]==byte && raw[index+2]==byte),
+                "multiline TOML strings are outside schema")
+            quote_char=byte
+        elseif byte==UInt8('[') || byte==UInt8('{')
+            check(length(nesting)<8,"TOML nesting admission bound")
+            push!(nesting,byte)
+        elseif byte==UInt8(']') || byte==UInt8('}')
+            opening=byte==UInt8(']') ? UInt8('[') : UInt8('{')
+            check(!isempty(nesting) && last(nesting)==opening,"malformed TOML nesting")
+            pop!(nesting)
+        end
+    end
+    check(quote_char==0 && !escaped,"unterminated TOML string")
+    check(isempty(nesting),"unterminated TOML nesting")
+    (data=TOML.parse(String(copy(raw))),sha256=bytes2hex(sha256(raw)))
+end
 function bind_artifacts(input,manifest)
     root=data_root(input,manifest["case"])
     require(get(manifest,"protocol_path",nothing) == "source_snapshot/numerical_audit/molecular_generalization/PROTOCOL.json" &&
@@ -191,7 +242,7 @@ end
 
 function admit_candidates(model,candidates_path;input)
     require(model.partition == "conserving" && binomial(model.n,model.electrons) <= 2000,"independent conserving model/fixed-N cap")
-    parsed=IndependentPhysical.bounded_toml(candidates_path)
+    parsed=bounded_toml(candidates_path)
     m=admit_manifest(parsed.data,length(model.units))
     require(m["input_sha256"] == model.input_sha256 && m["source_json_sha256"] == model.source_json_sha256 &&
         m["case"] == model.case && m["n"] == model.n && m["electrons"] == model.electrons,"independent candidate/model byte identity")
@@ -249,7 +300,7 @@ function run(input, candidates_path, primary_dir, output; cpu_limit=600.0, wall_
         end
         entries_by_name=Dict(entry["name"]=>entry for entry in report["rows"])
         primary_path = joinpath(primary_dir, "PHYSICAL.toml")
-        parsed = IndependentPhysical.bounded_toml(primary_path); primary = parsed.data
+        parsed = bounded_toml(primary_path); primary = parsed.data
         report["input_sha256"] = model.input_sha256; report["source_json_sha256"] = model.source_json_sha256
         report["candidates_sha256"] = candidate.sha256; report["physical_sha256"] = parsed.sha256
         report["case"] = model.case
