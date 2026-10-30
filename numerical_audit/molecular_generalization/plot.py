@@ -135,8 +135,8 @@ def write_csv(path, points):
 def plot_case(plt, Line2D, case, points, source, output):
     with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 9, "axes.labelsize": 10,
                          "axes.titlesize": 11, "svg.fonttype": "none", "savefig.dpi": 300}):
-        fig, (ax, table) = plt.subplots(1, 2, figsize=(11, 6.4), gridspec_kw={"width_ratios": [2.2, 1]})
-        fig.subplots_adjust(left=.085, right=.985, top=.86, bottom=.25, wspace=.15)
+        fig, (ax, table) = plt.subplots(1, 2, figsize=(11, 9), gridspec_kw={"width_ratios": [2.2, 1]})
+        fig.subplots_adjust(left=.085, right=.985, top=.84, bottom=.30, wspace=.15)
         fig.suptitle(case+" — T = 1.35, rotation cap = 8U", fontsize=12, y=.965)
         fig.text(.085, .90, "Source analysis status: "+str(source.get("status", "unavailable"))+
                  "; complete = "+str(source.get("complete", False)), fontsize=9)
@@ -144,8 +144,8 @@ def plot_case(plt, Line2D, case, points, source, output):
             x, y, arm = point["complete_construction_charged_CPU_seconds"], point["raw_projective_error"], point["arm"]
             label = arm+(f" B{point['cpu_budget']}" if arm in ("full", "window", "annealing") else "")+f" / r{point['repetition']}"
             status = ", ".join(point["flags"]) or "recorded"
-            table.text(0, .98-(index-1)*.047, f"{index:2}. {label}\n     {status}", fontsize=7.1,
-                       va="top", linespacing=1.1)
+            table.text(0, .98-(index-1)*(.98/len(points)), f"{index:2}. {label}\n     {status}", fontsize=8,
+                       va="top", linespacing=1.05)
             if not (finite_nonnegative(x) and finite_nonnegative(y)):
                 continue  # No fabricated coordinate for a missing value.
             size = {0: 42, 32: 55, 64: 90}[point["cpu_budget"]]
@@ -155,7 +155,10 @@ def plot_case(plt, Line2D, case, points, source, output):
                 ax.scatter(x, y, s=size+20, marker="x", color="black", linewidths=1.0, zorder=5)
             if point["floor"]:
                 ax.scatter(x, y, s=25, marker="v", facecolors="none", edgecolors="black", linewidths=.8, zorder=6)
-            ax.annotate(str(index), (x, y), xytext=(4, 5 if point["repetition"] == 1 else -10),
+            # Offset text only: coincident raw coordinates remain unchanged.
+            level = (index-1) % 3
+            label_y = 6+12*level if point["repetition"] == 1 else -12-12*level
+            ax.annotate(str(index), (x, y), xytext=(4, label_y),
                         textcoords="offset points", fontsize=7)
         ax.set_yscale("symlog", linthresh=FLOOR, linscale=1, base=10)
         ax.set_ylim(bottom=0); ax.set_xlim(left=0)
@@ -168,10 +171,10 @@ def plot_case(plt, Line2D, case, points, source, output):
         ax.spines[["top", "right"]].set_visible(False); table.axis("off")
         handles = [Line2D([], [], color=COLORS[arm], marker=MARKERS[arm], linestyle="none", label=arm)
                    for arm in COLORS]
-        ax.legend(handles=handles, ncol=3, loc="upper center", bbox_to_anchor=(.5, -.18), frameon=False, fontsize=8)
-        fig.text(.085, .105, "Filled/open: repetition 1/2. Small/large optimized markers: B32/B64. ×: ineligible or eligibility unavailable. ▽: floor.", fontsize=8)
-        fig.text(.085, .069, "Optimized x includes the measured common parent prefix plus continuation. Parent and cheap controls use complete own costs.", fontsize=8)
-        fig.text(.085, .035, "Shared parent spending is counted once in study totals. Exact raw coordinates are retained; missing values have no invented location. No confidence bands.", fontsize=8)
+        fig.legend(handles=handles, ncol=6, loc="center", bbox_to_anchor=(.52, .19), frameon=False, fontsize=8)
+        fig.text(.085, .13, "Filled/open: repetition 1/2. Small/large optimized markers: B32/B64. ×: ineligible or eligibility unavailable. ▽: floor.", fontsize=8)
+        fig.text(.085, .09, "Optimized x includes the measured common parent prefix plus continuation. Parent and cheap controls use complete own costs.", fontsize=8)
+        fig.text(.085, .05, "Shared parent spending is counted once in study totals. Exact raw coordinates are retained; missing values have no invented location. No confidence bands.", fontsize=8)
         for extension in ("svg", "png"):
             target = output/(case+".primary_quality_cost."+extension)
             require(not target.exists(), "Fresh figure output required")
