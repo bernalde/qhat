@@ -1,0 +1,153 @@
+{
+  "schema": "molecular-generalization-v1",
+  "protocol_state": "old-case_preflight_development",
+  "main_execution_allowed": false,
+  "training_time": 1.0,
+  "training_rotation_multiplier": 30,
+  "total_CPU_budgets": [
+    32,
+    64
+  ],
+  "repetitions": 2,
+  "optimized_arms": [
+    "full",
+    "window",
+    "annealing"
+  ],
+  "cheap_arms": [
+    "canonical",
+    "magnitude"
+  ],
+  "parent": {
+    "CPU_seconds": 8,
+    "wall_seconds": 40,
+    "max_evaluations": 3000,
+    "max_moves": 5,
+    "starts": "Native default magnitude/reverse/canonical"
+  },
+  "native": {
+    "max_evaluations": 1000000,
+    "max_moves": 1000,
+    "max_entries": 50000,
+    "max_cached_actions": 100000,
+    "restarts": {
+      "count": 4,
+      "insertions": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "seed_suffix": ":cost-matched-v1"
+    }
+  },
+  "window": {
+    "width": 8,
+    "max_windows": 32,
+    "max_sweeps": 100,
+    "parent_method": "magnitude",
+    "parent_fraction": 0.6,
+    "max_entries": 50000,
+    "max_cached_actions": 100000,
+    "max_factor_entries": 250000,
+    "max_flat_entries": 1000000,
+    "max_actions": 2000000,
+    "max_atoms": 200000
+  },
+  "annealing": {
+    "algorithm": "four-start unrestricted insertion Metropolis",
+    "temperature_fit": null,
+    "temperature_start": null,
+    "temperature_end": null,
+    "positive_delta_probes_per_old_case": 32,
+    "calibration_cases": [
+      "CO_r1p13",
+      "CH4_r1p09"
+    ],
+    "p_start": 0.8,
+    "p_end": 0.01,
+    "energy_scale_parent_floor": 1e-30,
+    "max_evaluations": 1000000,
+    "max_proposals": 1000000,
+    "max_actions": 100000000,
+    "max_entries": 50000,
+    "max_cached_actions": 100000,
+    "max_cache_bytes": 67108864,
+    "seed_suffix": ":molecular-generalization-sa-v1:chain",
+    "cooling": "Geometric in each equal searchCPU slice;4starts,sharecontextonlywithinownedchild"
+  },
+  "cheap": {
+    "construction_per_case_repetition": true,
+    "CPU_ceiling": 8,
+    "wall_ceiling": 40,
+    "cost": "Own complete startup/loading/order-generation/native-check/serialization/teardown; no measured-parentprefix"
+  },
+  "physical": {
+    "times": [
+      0.65,
+      1.35
+    ],
+    "rotation_cap_multipliers": [
+      8,
+      24
+    ],
+    "formula": 2,
+    "max_modes": 14,
+    "max_full_dimension": 16384,
+    "reference_sector_dimension_cap": 2000,
+    "reference": "CheckedfixedNexactH;fullregistercircuitpropagation",
+    "ambiguity": 1e-12,
+    "ratio_floor": 1e-12,
+    "primary": {
+      "total_CPU_budget": 64,
+      "time": 1.35,
+      "rotation_cap_multiplier": 8,
+      "questions": [
+        "window_minus_full",
+        "annealing_minus_full"
+      ],
+      "case_summary": "Median of2within-repetitionrawerror differences",
+      "candidate_advantage": "Bothcase medians<-1e-12,noresolvedoppositerepetition,allcost/objective/physical/independentgatespass",
+      "full_advantage": "Symmetricpositive rule",
+      "otherwise": "Mixed/unresolved;missing/ineligibleevidence=>incomplete",
+      "confidence_intervals": false
+    }
+  },
+  "accounting": {
+    "CPU_cleanup_reserve": 0.25,
+    "wall_cleanup_reserve": 5,
+    "total_wall_multiplier": 5,
+    "parent_actual_once_per_case_rep": true,
+    "optimized_attributed_prefix_per_arm_budget": true,
+    "cheap_parent_prefix": 0,
+    "physical_rows_do_not_multiply_constructor_costs": true
+  },
+  "inventory": {
+    "cases": 2,
+    "parents": 4,
+    "optimized_orders": 24,
+    "cheap_orders": 8,
+    "total_order_records": 36,
+    "logical_physical_rows": 144,
+    "logical_rows_per_case_rep": 36,
+    "primary_pairs": 8,
+    "complete_grid_named_pairs": 64
+  },
+  "preflight": {
+    "case": "LiH_r1p487_631g_14m4e",
+    "repetitions": 1,
+    "order_records": 9,
+    "logical_physical_rows": 36,
+    "requires_full_pipeline_and_credible_annealing_work": true
+  },
+  "phase_resource_pools": {
+    "old_preflight_total": {
+      "CPU_seconds": 1600,
+      "wall_seconds": 8000,
+      "disk_MiB": 1024,
+      "status": "Amended_before_old_only_retry_under_standing_resource_authorization;scientific32/64unchanged"
+    }
+  },
+  "attempt_policy": "One invocation per frozenmainconstructoridentity;retainfailedcosts/scoredincumbents/capacitystops, nofreshscientificbudgetretry. Oldpreflightr epairsremainexplicitversioneddevelopment.",
+  "scope": "Twoadditionalcubic-development-heldoutfamilies,HFreference,twoCPUpoints,implementationend-to-endcomparison;no globalwinner/ratio/hardware/defaultswitchclaim"
+}

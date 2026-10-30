@@ -1,0 +1,168 @@
+{
+  "schema": "molecular-generalization-registry-v1",
+  "base_commit": "ddb0538fe29accf61dcfc5c6b0db3ff63d99f371",
+  "selected_before_new_chemistry_training_or_physical_errors": true,
+  "basis": "6-31g",
+  "unit": "Angstrom",
+  "charge": 0,
+  "spin": 0,
+  "symmetry": false,
+  "cases": [
+    {
+      "case": "HF_r1p00_631g_12m8e",
+      "family": "HF",
+      "geometry": [
+        [
+          "F",
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        [
+          "H",
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      ],
+      "n": 12,
+      "electrons": 8,
+      "total_electrons": 10,
+      "expected_AOs": 11,
+      "frozen_spatial": [
+        0
+      ],
+      "active_spatial": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "prior_use": "No molecular use located in scoped corpus; no universal never-used claim."
+    },
+    {
+      "case": "H2S_r1p40_a96_631g_12m8e",
+      "family": "H2S",
+      "geometry": [
+        [
+          "S",
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        [
+          "H",
+          [
+            0.0,
+            0.0,
+            1.4
+          ]
+        ],
+        [
+          "H",
+          [
+            1.392330653515583,
+            0.0,
+            -0.146339848574715
+          ]
+        ]
+      ],
+      "n": 12,
+      "electrons": 8,
+      "total_electrons": 18,
+      "expected_AOs": 17,
+      "frozen_spatial": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "active_spatial": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "prior_use": "Held out from current cubic development; older first-order JD development and retained-order Strang evaluation disclosed."
+    }
+  ],
+  "fallback_cases": [
+    {
+      "case": "HCl_r1p30_631g_12m8e",
+      "family": "HCl",
+      "geometry": [
+        [
+          "Cl",
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        [
+          "H",
+          [
+            0.0,
+            0.0,
+            1.3
+          ]
+        ]
+      ],
+      "n": 12,
+      "electrons": 8,
+      "total_electrons": 18,
+      "expected_AOs": 15,
+      "frozen_spatial": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "active_spatial": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "prior_use": "No molecular use located in scoped corpus; no universal never-used claim."
+    }
+  ],
+  "active_space_rationale": "Each primary retains all8valenceelectrons in4occupied+2lowestvirtualcanonicalorbitals afterdeepcorefreezing. Equal12mode/8electron dimensions followthisboundedvalencechoice, not an assertion of identical chemistry; totalbasisAOs,total electrons andcorecounts differ. ExactclosedfixedNreference uses495determinants, not225fixed-spin projection; allcircuitsuse4096amplitudes.",
+  "geometry_scope": "Fixed prospective geometries, not optimized/equilibrium claims. OldabsoluteH2Sgeometrynoveltyunknown; familyheldoutscopeiscurrentcubicdevelopment.",
+  "replacement_policy": {
+    "allowed_before_any_new_physical_error_only": true,
+    "fallback_order": [
+      "HCl_r1p30_631g_12m8e"
+    ],
+    "max_replacements": 1,
+    "allowed_reasons": [
+      "Authenticated prior cubic-development use",
+      "FixedpolicyRHFnonconvergence orinvalidoccupation/AOcount",
+      "Exacttensor/partitionadmissionfailure",
+      "Declaredinputresource/representationrefusal beforephysicalerrors"
+    ],
+    "forbidden_reasons": [
+      "Loss orunfavorableranking",
+      "Small/floorlimitedsignal",
+      "Weakmethodseparation",
+      "Anynewphysicalerroralreadyobserved"
+    ],
+    "preserve_original_attempts_and_costs": true,
+    "no_silent_active_space_reduction": true,
+    "insufficient_cases_remain_incomplete": true
+  }
+}

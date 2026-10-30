@@ -1,0 +1,412 @@
+{
+  "schema": "molecular-generalization-prior-use-v1",
+  "source_commit": "ddb0538fe29accf61dcfc5c6b0db3ff63d99f371",
+  "scope": "Currentretainedcubicdevelopmentcorpusincludingarchivedmetadata;notuniversalprojecthistoryabsenceproof",
+  "classification": [
+    {
+      "families": [
+        "CH4",
+        "CO"
+      ],
+      "role": "Explicit cubic development/calibration",
+      "evidence_paths": [
+        "numerical_audit/julia_cubic_feasibility/PROTOCOL.md",
+        "numerical_audit/scalable_ordering/REGISTRY.json"
+      ],
+      "disposition": "Exclude all geometries; retained CH4/CO cubic pilot and altered CH4 resource probes are development, not prospective holdouts."
+    },
+    {
+      "families": [
+        "N2"
+      ],
+      "role": "Sparse cubic method development/larger-case comparison",
+      "evidence_paths": [
+        "numerical_audit/scalable_ordering/PROTOCOL.md",
+        "numerical_audit/scalable_ordering/REGISTRY.json"
+      ],
+      "disposition": "Exclude conservatively: same campaign implements/adjusts sparse cubic search and benchmarks both N2 geometries; not a new family for this method."
+    },
+    {
+      "families": [
+        "Li2",
+        "F2",
+        "H2O"
+      ],
+      "role": "Current cubic objective/search development; also older first-order and exact-DP use",
+      "evidence_paths": [
+        "numerical_audit/symmetric_response/PROTOCOL.md",
+        "numerical_audit/practical_accuracy/PROTOCOL.md",
+        "numerical_audit/julia_cubic_feasibility/PROTOCOL.md"
+      ],
+      "disposition": "Exclude due to symmetric cubic and practical-accuracy development. First-order exact-DP use alone would not establish this classification."
+    },
+    {
+      "families": [
+        "LiH",
+        "BeH2"
+      ],
+      "role": "Earlier cubic transfer validation followed by window/CPU-bounded continuation development/comparison",
+      "evidence_paths": [
+        "numerical_audit/transfer_holdouts/PROTOCOL.md",
+        "numerical_audit/prospective_window_ordering/PROTOCOL.md",
+        "numerical_audit/cost_matched_continuation/REGISTRY.json"
+      ],
+      "disposition": "Exclude all geometries. Fresh 6-31G/14-mode instances remain seen families."
+    },
+    {
+      "families": [
+        "NH3"
+      ],
+      "role": "Older first-order prospective validation and restricted first-order windows; later cubic/coherent-state transfer validation with generalized adapter implementation",
+      "evidence_paths": [
+        "numerical_audit/transfer_holdouts/PROTOCOL.md",
+        "numerical_audit/transfer_holdouts/REGISTRY.json"
+      ],
+      "disposition": "Already seen in cubic transfer. Avoid for this first additional-family panel; evidence does not justify relabeling original transfer as cubic tuning or an entirely unseen family."
+    },
+    {
+      "families": [
+        "H2S",
+        "HCN",
+        "CH2O",
+        "SiH4"
+      ],
+      "role": "Older first-order ownership/J_D development; symmetric propagation of retained first-order orders",
+      "evidence_paths": [
+        "numerical_audit/followup_classes/protocol.md",
+        "numerical_audit/ordering_mechanism/diagonal_response/PROTOCOL.md",
+        "numerical_audit/ordering_mechanism/diagonal_refinement/PROTOCOL.md",
+        "numerical_audit/ordering_benchmark_extension/review_revision/source/strang_controls/PROTOCOL.md"
+      ],
+      "disposition": "No located cubic-objective development/tuning use. H2S is eligible for current-cubic-development heldout scope, with explicit older-study disclosure; no never-studied/first-Strang claim."
+    },
+    {
+      "families": [
+        "H2"
+      ],
+      "role": "Generic generator library and four-mode real HamLib loader test; many false-positive H2 Taylor-variable names",
+      "evidence_paths": [
+        "hamiltonian_generator/build_config_L_sweep.py",
+        "analysis/tests/test_hamlib_loader.py"
+      ],
+      "disposition": "These primary positives do not establish cubic tuning. Not recommended: tiny chemistry and generic prior use give weak generalization stress."
+    },
+    {
+      "families": [
+        "HeH / HeH+"
+      ],
+      "role": "He-H pair appears in generic generator library; charge-specific HeH+ study not located",
+      "evidence_paths": [
+        "hamiltonian_generator/build_config_L_sweep.py"
+      ],
+      "disposition": "Do not claim no family use from absent HeH+ token; ionization changes identity. Not preferred over neutral HF/H2S."
+    }
+  ],
+  "excluded_cubic_development_families": [
+    "CH4",
+    "CO",
+    "N2",
+    "Li2",
+    "F2",
+    "H2O",
+    "LiH",
+    "BeH2"
+  ],
+  "already_cubic_validated_avoided": [
+    "NH3"
+  ],
+  "evidence": [
+    {
+      "path": "numerical_audit/scalable_ordering/PROTOCOL.md",
+      "sha256": "913230bd0d8bcfa4879feac70777471d326976bf734ff6c36b19db4b1e9b0f32"
+    },
+    {
+      "path": "numerical_audit/scalable_ordering/REGISTRY.json",
+      "sha256": "46f8a08ffd647c3168ac560d3f231eb38b162b47e0b3fd6f26c00031980f9549"
+    },
+    {
+      "path": "numerical_audit/symmetric_response/PROTOCOL.md",
+      "sha256": "1bdc53b25c9ff69a10cbe996346af3591e9f02c1d527b29d0fac41f5c995b126"
+    },
+    {
+      "path": "numerical_audit/practical_accuracy/PROTOCOL.md",
+      "sha256": "da31c5395f8322a2a6cb84e080a384010079410203bd5d37f39d83b7440100f7"
+    },
+    {
+      "path": "numerical_audit/transfer_holdouts/PROTOCOL.md",
+      "sha256": "de93b45f6e83e5bf5a9e9593e1b7eb9e0bc60093a99ac237e3d3d34435df18cd"
+    },
+    {
+      "path": "numerical_audit/transfer_holdouts/REGISTRY.json",
+      "sha256": "6a788afdb06af8a35a5bf9b073b92ff84012c26311b5608059b9fa03898285bb"
+    },
+    {
+      "path": "numerical_audit/cost_matched_continuation/PROTOCOL.json",
+      "sha256": "b140ab6b3d01a4bcffbfb0edd5da56f08dc639176048c78c28ac137f464dfe8a"
+    },
+    {
+      "path": "numerical_audit/cost_matched_continuation/REGISTRY.json",
+      "sha256": "792cd8548e1824beb17082f28afdf04a32c87bc4f17a450d0a0366330be6416d"
+    },
+    {
+      "path": "numerical_audit/prospective_window_ordering/PROTOCOL.md",
+      "sha256": "4987dbd2672d93077da5c81727325f8690e600fc210fd34237504d66d270f548"
+    },
+    {
+      "path": "numerical_audit/julia_cubic_feasibility/PROTOCOL.md",
+      "sha256": "bbf77c65ee8ca0d565511de0e07b6990a08bb780d8f9dc8607e9cacc2bf32770"
+    },
+    {
+      "path": "numerical_audit/ordering_mechanism/diagonal_response/PROTOCOL.md",
+      "sha256": "507b5888a2b770fa68b8c80c043e0212eca31fd55e6760c3a44e05395284fd28"
+    },
+    {
+      "path": "numerical_audit/ordering_mechanism/diagonal_refinement/PROTOCOL.md",
+      "sha256": "2aecac517ccf1bc9aedd4f3057e0f9734a1ea89a404c76a803b28f702d570111"
+    },
+    {
+      "path": "numerical_audit/followup_classes/protocol.md",
+      "sha256": "5802b5a6885024327cd31ec1ed8ce7dbb2c87b0a835bd1eefa49dd1cbecccabc"
+    },
+    {
+      "path": "numerical_audit/ordering_benchmark_extension/review_revision/source/strang_controls/PROTOCOL.md",
+      "sha256": "34d2c3faa935b9e675773dae8ddf8c9aaa25f502f88e56a7e6bceb7860b1944e"
+    },
+    {
+      "path": "numerical_audit/ordering_benchmark_extension/source/common.py",
+      "sha256": "481be83cc9bdcd83b85ae8f990ed030c3cac7400fb8e030ef2bd2d2d1e822c19"
+    },
+    {
+      "path": "hamiltonian_generator/build_config_L_sweep.py",
+      "sha256": "3d17e25a98ba8dad5971e9db6b2d8586cca0d6d0464ef1db03ffb5f9ab99bb2c"
+    },
+    {
+      "path": "analysis/tests/test_hamlib_loader.py",
+      "sha256": "aa9b38903e6a76a55e5cd9af9145109e8e24b5a15898e0512dabd0a9ee9d5357"
+    },
+    {
+      "path": "numerical_audit/ordering_mechanism/dependency_inventory.json",
+      "sha256": "02ea3c5be867c7aa9b1bf152e2fac9ca2939bc9091a4624f5604b6c59837d902"
+    },
+    {
+      "path": "numerical_audit/fixtures/manifest.json",
+      "sha256": "cf3b2b126af479233792eb03eac342e21a0b9438eb23cbb884db76f6a2679b22"
+    }
+  ],
+  "historical_pins": {
+    "older_fixture_study_commit": "89c701652c4c64918825e279e84a7bea5924822a",
+    "older_first_order_dependency": "0be7d4857537668eec957dabaa8438ea5c0d33f2",
+    "symmetric_response_source_commit": "2b087e8bccf9debc5facacd889397ccccadd28a0",
+    "transfer_inputs_source_commit": "7c8c64acf0f13703df10b0335e0017da84e94f9b",
+    "prospective_window_final_inputs_source_commit": "722013aa6d9a0a48776e26de5f356b5a441c3f61",
+    "cost_matched_baseline_merge": "ddb0538fe29accf61dcfc5c6b0db3ff63d99f371"
+  },
+  "archives": [
+    {
+      "path": "numerical_audit/compiled_accuracy/calibration/delivery.tar.gz",
+      "compressed_bytes": 1272223,
+      "sha256": "0d37b19d94ad0e8f63c0f02ab477fbf3fbe8d9bc9374b95defc01c42ade58e9f",
+      "members": 367
+    },
+    {
+      "path": "numerical_audit/cost_matched_continuation/evidence/archives/main-a1.tar.gz",
+      "compressed_bytes": 2752734,
+      "sha256": "d896d0ea60997e0dd809cdeee1ca793502c6a9080fb7547533808441bb8c085a",
+      "members": 759
+    },
+    {
+      "path": "numerical_audit/cost_matched_continuation/evidence/archives/operators.tar.gz",
+      "compressed_bytes": 7998,
+      "sha256": "316d6d840fb6bca4820b57763d768ac49c67fa966069e1b1ffd7afbee2f9a9c2",
+      "members": 5
+    },
+    {
+      "path": "numerical_audit/cost_matched_continuation/evidence/archives/preflight-a1.tar.gz",
+      "compressed_bytes": 906591,
+      "sha256": "8d592b15becf2dbe7c4cdb7872cc5653ab3c14eafd44f5749200d6655444b021",
+      "members": 342
+    },
+    {
+      "path": "numerical_audit/cost_matched_continuation/evidence/archives/preflight-a2.tar.gz",
+      "compressed_bytes": 1753042,
+      "sha256": "0697af4e41d89d89efb41341db09221a3e36a5284cd0f0f71afc898e5fae755b",
+      "members": 417
+    },
+    {
+      "path": "numerical_audit/cost_matched_continuation/evidence/archives/preflight-a3.tar.gz",
+      "compressed_bytes": 2617286,
+      "sha256": "79358065cd9c17c54689da3eebc6f2af3436e9795d8b6c83e4c46a8a743e8e4f",
+      "members": 651
+    },
+    {
+      "path": "numerical_audit/molecular_guard/evidence/verification/certificate.zip",
+      "compressed_bytes": 244636,
+      "sha256": "be03694a2fb1b7e38db4926d655587da9cc6e68dad4116df45289a43f66c8427",
+      "members": 164
+    },
+    {
+      "path": "numerical_audit/ordering_mechanism/heldout/heldout_validation.zip",
+      "compressed_bytes": 6312180,
+      "sha256": "dbd7fb66dfc77e9a5d5138834d36635dade7bf47d233bf88267e1f500ba732c5",
+      "members": 95
+    },
+    {
+      "path": "numerical_audit/practical_accuracy/delivery.tar.gz",
+      "compressed_bytes": 19737297,
+      "sha256": "b7a6928b1be761b04a4ffb8256f4c6147ac24258eb03df50ef58c3b21c144ae4",
+      "members": 5542
+    },
+    {
+      "path": "numerical_audit/scalable_ordering/evidence/main-study.tar.gz",
+      "compressed_bytes": 25645234,
+      "sha256": "cc68a149e4fa6a15fb6184f4fabfb3bc93cd6e5a11a818c5c3646316f34be383",
+      "members": 400
+    },
+    {
+      "path": "numerical_audit/scalable_ordering/evidence/retained-attempts.tar.gz",
+      "compressed_bytes": 10010596,
+      "sha256": "7333f4feab900ac95aeb1d701dc19f4f3aaec2b0df088127f2c6c08d58027378",
+      "members": 263
+    },
+    {
+      "path": "numerical_audit/transfer_holdouts/delivery.tar.gz",
+      "compressed_bytes": 10524989,
+      "sha256": "5873fbd34ffb369c7a4294724d213795f6ed358d3e5342a5fc2157cb9b6ac5e7",
+      "members": 8537
+    }
+  ],
+  "coverage": {
+    "archives": 12,
+    "archive_members_listed": 17542,
+    "compressed_bytes": 81784806,
+    "current_tree_bytes_read": 66016837,
+    "current_tree_metadata_records_with_formula": 85,
+    "current_tree_source_records_with_formula": 490,
+    "current_tree_selected_files_skipped": [],
+    "archive_first_pass_metadata_bytes": 16776826,
+    "archive_supplement_metadata_bytes": 17282157,
+    "initial_archive_subcap_gap": "First 16MiB text subcap was consumed by repeated model arrays; late metadata omissions were recorded. Supplemental pass covered all omitted selected members in both scalable archives and transfer delivery; no remaining selected metadata skip in those supplemental archives.",
+    "selected_archive_metadata_rule": "Model/registry/protocol frozen JSON; legacy/archive model TOML; protocol/campaign/generate_inputs/model/study source text, per-member <=2MiB. Parse/prune identity fields, never dump coefficient arrays.",
+    "supplemental_small_read": {
+      "archive": "numerical_audit/ordering_mechanism/heldout/heldout_validation.zip",
+      "member": "run_validation.py",
+      "bytes": 15783,
+      "sha256": "fe251387cec9a89a5ab2935e14d63779773fd238c8e824b18aaa23a51efcc608",
+      "role_evidence": [
+        {
+          "line": 176,
+          "text": "require(subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()=='0be7d4857537668eec957dabaa8438ea5c0d33f2','Wrong QHAT revision')"
+        },
+        {
+          "line": 178,
+          "text": "fixtures=json.loads((ROOT/'numerical_audit/fixtures/manifest.json').read_text());families=('li2','f2','nh3')"
+        }
+      ]
+    },
+    "extra_static_alias_checks": [
+      "all .config atoms",
+      "Unicode/LaTeX H2/H2S and hydrogen fluoride/sulfide/sulphide/chloride/helium hydride aliases in text sources",
+      "explicit F/Cl/He geometry literals; found F2 and generic He-H only"
+    ],
+    "known_positive_coverage_checks": [
+      {
+        "inventory_path": "numerical_audit/scalable_ordering/evidence/main-study.tar.gz.inventory.json",
+        "inventory_sha256": "227d8aaf29480edbe8083904aa3aa84dc9d253282c9fc09ebc270d9d3951fb60",
+        "archive_sha256_matches": true,
+        "model_checks": [
+          {
+            "member": "study-a2/chemistry/inputs/CH4_r1p09/model.json",
+            "sha256": "32aeb49b2e541088efa0604e90dae046e8be58e81259e027032b65fe2d779e37",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "study-a2/chemistry/inputs/CO_r1p13/model.json",
+            "sha256": "8a9f89166544f72f9ecae892ad664a3f110f1a2c534fceef22359aaa1fcbdbe8",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "study-a2/chemistry/inputs/N2_r1p10/model.json",
+            "sha256": "0890ba74f177b7e609e9714b92e0a0712c6520f41c3dbeca90c9a1acf5b03c23",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "study-a2/chemistry/inputs/N2_r2p00/model.json",
+            "sha256": "20858a5b34b7f45ebc68da025c439a626762c29385d41e01c53b3f0c58f963e8",
+            "matches_retained_inventory": true
+          }
+        ]
+      },
+      {
+        "inventory_path": "numerical_audit/scalable_ordering/evidence/retained-attempts.tar.gz.inventory.json",
+        "inventory_sha256": "27ec06b6fcfe366300fcfea490148884c8aaba1b2f6c1caeaa4800dd0ae2f481",
+        "archive_sha256_matches": true,
+        "model_checks": [
+          {
+            "member": "inputs-a2/inputs/CH4_r1p09/model.json",
+            "sha256": "32aeb49b2e541088efa0604e90dae046e8be58e81259e027032b65fe2d779e37",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "inputs-a2/inputs/CO_r1p13/model.json",
+            "sha256": "8a9f89166544f72f9ecae892ad664a3f110f1a2c534fceef22359aaa1fcbdbe8",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "inputs-a2/inputs/N2_r1p10/model.json",
+            "sha256": "0890ba74f177b7e609e9714b92e0a0712c6520f41c3dbeca90c9a1acf5b03c23",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "inputs-a2/inputs/N2_r2p00/model.json",
+            "sha256": "20858a5b34b7f45ebc68da025c439a626762c29385d41e01c53b3f0c58f963e8",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "preflight-a1/model.json",
+            "sha256": "489bb2d73fddeaeda1bc7711963c058779376e379b5775f3e56f19e96872d965",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "preflight-a2/model.json",
+            "sha256": "489bb2d73fddeaeda1bc7711963c058779376e379b5775f3e56f19e96872d965",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "study-a1/chemistry/inputs/CH4_r1p09/model.json",
+            "sha256": "32aeb49b2e541088efa0604e90dae046e8be58e81259e027032b65fe2d779e37",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "study-a1/chemistry/inputs/CO_r1p13/model.json",
+            "sha256": "8a9f89166544f72f9ecae892ad664a3f110f1a2c534fceef22359aaa1fcbdbe8",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "study-a1/chemistry/inputs/N2_r1p10/model.json",
+            "sha256": "0890ba74f177b7e609e9714b92e0a0712c6520f41c3dbeca90c9a1acf5b03c23",
+            "matches_retained_inventory": true
+          },
+          {
+            "member": "study-a1/chemistry/inputs/N2_r2p00/model.json",
+            "sha256": "20858a5b34b7f45ebc68da025c439a626762c29385d41e01c53b3f0c58f963e8",
+            "matches_retained_inventory": true
+          }
+        ]
+      }
+    ],
+    "omissions": [
+      "Not a proof of never-used anywhere: no external repositories, unretained studies, historical Git objects, email, PDFs/images/notebooks or raw HDF5/NPZ molecular integral decoding.",
+      "Current-tree JSON scan is deliberately metadata/config driven, not every physical result/array JSON; complete source/protocol text plus filename inventories supply role context.",
+      "Archived large exact-design arrays and physical results are not decoded, and arbitrary unrecognized archive source filenames are not all content-scanned. Retained protocols, source drivers, model identities and member inventories are audited instead.",
+      "Old H2S absolute geometry coordinates are not authenticated by scale-only fixtures; do not assert that an illustrative prospective geometry has never been used.",
+      "Historical report excerpts and diagnostics were encountered during role inspection; none of their numerical outcomes informed candidate ranking, geometry or active-space recommendations.",
+      "No runtime chemistry or constructor feasibility has been established."
+    ]
+  },
+  "limitations": [
+    "No externalrepositories/unretainedGitobjects/email/rawHDF5NPZ/PDFimage/notebookhistory decoded.",
+    "HF means hydrogenfluorideonlywhenmolecularidentitysupports it;HFdeterminantlabels excluded.",
+    "H2Soldfirstorder/symmetricuse is disclosed; no never-studied or first-Strang claim."
+  ],
+  "new_physical_errors_used_for_selection": false
+}
