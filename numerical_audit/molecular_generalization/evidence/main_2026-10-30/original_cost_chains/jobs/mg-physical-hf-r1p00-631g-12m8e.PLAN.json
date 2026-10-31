@@ -1,0 +1,29 @@
+{
+  "schema": "molecular-job-plan-v1",
+  "label": "mg-physical-hf-r1p00-631g-12m8e",
+  "phase": "physical",
+  "command": [
+    "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=256M",
+    "--project=/tmp/qhat-molecular-generalization-2026-10-30/worktree/analysis/julia_window",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/physical.jl",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/inputs/HF_r1p00_631g_12m8e/model.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/panels/HF_r1p00_631g_12m8e.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/physical/HF_r1p00_631g_12m8e"
+  ],
+  "cpu_cap": 180,
+  "wall_cap": 1000,
+  "disk_mib": 512,
+  "source_freeze_sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+  "guard_sha256": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+  "producer_root": "/tmp/qhat-molecular-generalization-2026-10-30/worktree",
+  "producer_data_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+  "identity": {
+    "case": "HF_r1p00_631g_12m8e"
+  },
+  "expected_raw": null
+}

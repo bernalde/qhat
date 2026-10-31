@@ -1,0 +1,795 @@
+{
+  "unit": "fermionic-future-mg-h2s-r1p40-a96-631g-12m8e-r2-window-b64-2124092",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "310",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/construct.py",
+    "--data",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+    "--worker",
+    "--case",
+    "H2S_r1p40_a96_631g_12m8e",
+    "--repetition",
+    "2",
+    "--arm",
+    "window",
+    "--budget",
+    "64",
+    "--cpu-cap",
+    "62.149",
+    "--wall-cap",
+    "310",
+    "--raw",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/workers/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b64.json",
+    "--julia-executable",
+    "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 307.36926154396497,
+  "samples": [
+    {
+      "elapsed": 0.0015577760059386492,
+      "available_bytes": 22347685888,
+      "frozen": false,
+      "service": "MemoryCurrent=[not set]\nMemoryPeak=[not set]\nCPUUsageNSec=[not set]",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 3.0152942989952862,
+      "available_bytes": 22266945536,
+      "frozen": false,
+      "service": "MemoryCurrent=206024704\nMemoryPeak=206024704\nCPUUsageNSec=745395000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 6.027674664976075,
+      "available_bytes": 22202884096,
+      "frozen": false,
+      "service": "MemoryCurrent=270827520\nMemoryPeak=273723392\nCPUUsageNSec=1493788000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 9.040693151997402,
+      "available_bytes": 22208155648,
+      "frozen": false,
+      "service": "MemoryCurrent=276713472\nMemoryPeak=276713472\nCPUUsageNSec=2259894000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 12.054348375997506,
+      "available_bytes": 22202744832,
+      "frozen": false,
+      "service": "MemoryCurrent=284442624\nMemoryPeak=284442624\nCPUUsageNSec=3021924000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 15.0670876839431,
+      "available_bytes": 22194266112,
+      "frozen": false,
+      "service": "MemoryCurrent=292474880\nMemoryPeak=292474880\nCPUUsageNSec=3770665000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 18.079005962936208,
+      "available_bytes": 22199033856,
+      "frozen": false,
+      "service": "MemoryCurrent=293523456\nMemoryPeak=293523456\nCPUUsageNSec=4522497000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 21.093115718918853,
+      "available_bytes": 22187831296,
+      "frozen": false,
+      "service": "MemoryCurrent=300339200\nMemoryPeak=300339200\nCPUUsageNSec=5272111000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 24.106230295961723,
+      "available_bytes": 22179942400,
+      "frozen": false,
+      "service": "MemoryCurrent=307843072\nMemoryPeak=307847168\nCPUUsageNSec=6023380000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 27.118998221936636,
+      "available_bytes": 22173036544,
+      "frozen": false,
+      "service": "MemoryCurrent=316485632\nMemoryPeak=319234048\nCPUUsageNSec=6769954000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 30.13176919997204,
+      "available_bytes": 22162272256,
+      "frozen": false,
+      "service": "MemoryCurrent=316940288\nMemoryPeak=319234048\nCPUUsageNSec=7524015000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 33.14450767496601,
+      "available_bytes": 22162993152,
+      "frozen": false,
+      "service": "MemoryCurrent=317202432\nMemoryPeak=319234048\nCPUUsageNSec=8288252000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 36.16056801297236,
+      "available_bytes": 22158000128,
+      "frozen": false,
+      "service": "MemoryCurrent=321142784\nMemoryPeak=324923392\nCPUUsageNSec=9046464000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 39.17284731892869,
+      "available_bytes": 22143844352,
+      "frozen": false,
+      "service": "MemoryCurrent=322715648\nMemoryPeak=324923392\nCPUUsageNSec=9795121000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 42.18504110793583,
+      "available_bytes": 22141157376,
+      "frozen": false,
+      "service": "MemoryCurrent=322981888\nMemoryPeak=324923392\nCPUUsageNSec=10548260000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 45.19687819702085,
+      "available_bytes": 22146199552,
+      "frozen": false,
+      "service": "MemoryCurrent=322981888\nMemoryPeak=324923392\nCPUUsageNSec=11296372000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 48.2094262939645,
+      "available_bytes": 22157602816,
+      "frozen": false,
+      "service": "MemoryCurrent=323166208\nMemoryPeak=324923392\nCPUUsageNSec=12045336000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 51.22358891996555,
+      "available_bytes": 22155055104,
+      "frozen": false,
+      "service": "MemoryCurrent=323170304\nMemoryPeak=324923392\nCPUUsageNSec=12794867000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 54.238715518964455,
+      "available_bytes": 22129532928,
+      "frozen": false,
+      "service": "MemoryCurrent=225579008\nMemoryPeak=324923392\nCPUUsageNSec=13569434000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 57.28335680090822,
+      "available_bytes": 22125776896,
+      "frozen": false,
+      "service": "MemoryCurrent=225579008\nMemoryPeak=324923392\nCPUUsageNSec=14320599000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 60.29614239791408,
+      "available_bytes": 22124216320,
+      "frozen": false,
+      "service": "MemoryCurrent=225841152\nMemoryPeak=324923392\nCPUUsageNSec=15071330000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 63.31052410893608,
+      "available_bytes": 22124896256,
+      "frozen": false,
+      "service": "MemoryCurrent=227151872\nMemoryPeak=324923392\nCPUUsageNSec=15819923000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 66.32824445294682,
+      "available_bytes": 22124199936,
+      "frozen": false,
+      "service": "MemoryCurrent=227147776\nMemoryPeak=324923392\nCPUUsageNSec=16571816000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 69.34231152595021,
+      "available_bytes": 22135463936,
+      "frozen": false,
+      "service": "MemoryCurrent=227213312\nMemoryPeak=324923392\nCPUUsageNSec=17335623000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 72.3530935839517,
+      "available_bytes": 22127022080,
+      "frozen": false,
+      "service": "MemoryCurrent=227475456\nMemoryPeak=324923392\nCPUUsageNSec=18095894000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 75.36440196097828,
+      "available_bytes": 22133325824,
+      "frozen": false,
+      "service": "MemoryCurrent=227217408\nMemoryPeak=324923392\nCPUUsageNSec=18845130000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 78.3756739560049,
+      "available_bytes": 22136860672,
+      "frozen": false,
+      "service": "MemoryCurrent=227569664\nMemoryPeak=324923392\nCPUUsageNSec=19596520000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 81.38868831994478,
+      "available_bytes": 22147874816,
+      "frozen": false,
+      "service": "MemoryCurrent=228220928\nMemoryPeak=324923392\nCPUUsageNSec=20346325000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 84.40349118493032,
+      "available_bytes": 22146531328,
+      "frozen": false,
+      "service": "MemoryCurrent=229392384\nMemoryPeak=324923392\nCPUUsageNSec=21094996000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 87.41899372590706,
+      "available_bytes": 22143139840,
+      "frozen": false,
+      "service": "MemoryCurrent=229392384\nMemoryPeak=324923392\nCPUUsageNSec=21844295000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 90.43104021192994,
+      "available_bytes": 22146322432,
+      "frozen": false,
+      "service": "MemoryCurrent=233062400\nMemoryPeak=324923392\nCPUUsageNSec=22598453000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 93.4437492499128,
+      "available_bytes": 22132801536,
+      "frozen": false,
+      "service": "MemoryCurrent=236732416\nMemoryPeak=324923392\nCPUUsageNSec=23361736000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 96.45847767591476,
+      "available_bytes": 22131781632,
+      "frozen": false,
+      "service": "MemoryCurrent=239091712\nMemoryPeak=324923392\nCPUUsageNSec=24119004000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 99.46960762701929,
+      "available_bytes": 21865775104,
+      "frozen": false,
+      "service": "MemoryCurrent=243826688\nMemoryPeak=324923392\nCPUUsageNSec=24870090000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 102.48102194292005,
+      "available_bytes": 21912842240,
+      "frozen": false,
+      "service": "MemoryCurrent=247341056\nMemoryPeak=324923392\nCPUUsageNSec=25619410000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 105.4918930279091,
+      "available_bytes": 21910855680,
+      "frozen": false,
+      "service": "MemoryCurrent=242679808\nMemoryPeak=324923392\nCPUUsageNSec=26369105000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 108.5035083820112,
+      "available_bytes": 21860249600,
+      "frozen": false,
+      "service": "MemoryCurrent=255434752\nMemoryPeak=324923392\nCPUUsageNSec=27118181000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 111.51507200999185,
+      "available_bytes": 21909303296,
+      "frozen": false,
+      "service": "MemoryCurrent=263561216\nMemoryPeak=324923392\nCPUUsageNSec=27869682000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 114.53078097791877,
+      "available_bytes": 21893390336,
+      "frozen": false,
+      "service": "MemoryCurrent=267653120\nMemoryPeak=324923392\nCPUUsageNSec=28624532000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 117.54545873391908,
+      "available_bytes": 21874315264,
+      "frozen": false,
+      "service": "MemoryCurrent=274186240\nMemoryPeak=324923392\nCPUUsageNSec=29386996000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 120.55816725001205,
+      "available_bytes": 21866950656,
+      "frozen": false,
+      "service": "MemoryCurrent=276488192\nMemoryPeak=324923392\nCPUUsageNSec=30143349000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 123.5701496800175,
+      "available_bytes": 21871063040,
+      "frozen": false,
+      "service": "MemoryCurrent=282734592\nMemoryPeak=324923392\nCPUUsageNSec=30892973000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 126.58330142893828,
+      "available_bytes": 21867929600,
+      "frozen": false,
+      "service": "MemoryCurrent=285618176\nMemoryPeak=324923392\nCPUUsageNSec=31644834000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 129.59632728190627,
+      "available_bytes": 21870899200,
+      "frozen": false,
+      "service": "MemoryCurrent=290529280\nMemoryPeak=324923392\nCPUUsageNSec=32395022000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 132.6110615269281,
+      "available_bytes": 21872353280,
+      "frozen": false,
+      "service": "MemoryCurrent=290263040\nMemoryPeak=324923392\nCPUUsageNSec=33143219000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 135.62416601495352,
+      "available_bytes": 21865615360,
+      "frozen": false,
+      "service": "MemoryCurrent=300486656\nMemoryPeak=324923392\nCPUUsageNSec=33893040000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 138.63866292894818,
+      "available_bytes": 21860159488,
+      "frozen": false,
+      "service": "MemoryCurrent=307302400\nMemoryPeak=324923392\nCPUUsageNSec=34655932000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 141.65108166600112,
+      "available_bytes": 21853851648,
+      "frozen": false,
+      "service": "MemoryCurrent=307822592\nMemoryPeak=324923392\nCPUUsageNSec=35417859000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 144.6633088689996,
+      "available_bytes": 21843267584,
+      "frozen": false,
+      "service": "MemoryCurrent=309911552\nMemoryPeak=324923392\nCPUUsageNSec=36168275000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 147.6761907109758,
+      "available_bytes": 21844361216,
+      "frozen": false,
+      "service": "MemoryCurrent=318595072\nMemoryPeak=324923392\nCPUUsageNSec=36917897000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 150.69016274693422,
+      "available_bytes": 21838987264,
+      "frozen": false,
+      "service": "MemoryCurrent=322764800\nMemoryPeak=324923392\nCPUUsageNSec=37669277000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 153.70566710096318,
+      "available_bytes": 21835063296,
+      "frozen": false,
+      "service": "MemoryCurrent=326942720\nMemoryPeak=341639168\nCPUUsageNSec=38417539000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 156.72230244800448,
+      "available_bytes": 21827137536,
+      "frozen": false,
+      "service": "MemoryCurrent=334544896\nMemoryPeak=341639168\nCPUUsageNSec=39167461000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 159.73554183496162,
+      "available_bytes": 21809627136,
+      "frozen": false,
+      "service": "MemoryCurrent=342806528\nMemoryPeak=342933504\nCPUUsageNSec=39928178000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 162.74757219990715,
+      "available_bytes": 21751455744,
+      "frozen": false,
+      "service": "MemoryCurrent=352026624\nMemoryPeak=352030720\nCPUUsageNSec=40690285000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 165.7605380070163,
+      "available_bytes": 21677920256,
+      "frozen": false,
+      "service": "MemoryCurrent=357527552\nMemoryPeak=357789696\nCPUUsageNSec=41441996000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 168.77232421096414,
+      "available_bytes": 21669322752,
+      "frozen": false,
+      "service": "MemoryCurrent=365518848\nMemoryPeak=365518848\nCPUUsageNSec=42192018000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 171.7846814179793,
+      "available_bytes": 21670281216,
+      "frozen": false,
+      "service": "MemoryCurrent=371789824\nMemoryPeak=371789824\nCPUUsageNSec=42945388000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 174.7964146049926,
+      "available_bytes": 21659086848,
+      "frozen": false,
+      "service": "MemoryCurrent=374145024\nMemoryPeak=374149120\nCPUUsageNSec=43691750000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 177.81018407992087,
+      "available_bytes": 21657387008,
+      "frozen": false,
+      "service": "MemoryCurrent=380993536\nMemoryPeak=381222912\nCPUUsageNSec=44441735000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 180.82284778996836,
+      "available_bytes": 21646131200,
+      "frozen": false,
+      "service": "MemoryCurrent=386396160\nMemoryPeak=386498560\nCPUUsageNSec=45191756000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 183.83712103497237,
+      "available_bytes": 21643739136,
+      "frozen": false,
+      "service": "MemoryCurrent=394645504\nMemoryPeak=394645504\nCPUUsageNSec=45953956000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 186.85257488593925,
+      "available_bytes": 21627543552,
+      "frozen": false,
+      "service": "MemoryCurrent=399187968\nMemoryPeak=399437824\nCPUUsageNSec=46716561000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 189.8642612589756,
+      "available_bytes": 21624668160,
+      "frozen": false,
+      "service": "MemoryCurrent=405540864\nMemoryPeak=405540864\nCPUUsageNSec=47466778000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 192.87582744192332,
+      "available_bytes": 21617246208,
+      "frozen": false,
+      "service": "MemoryCurrent=414982144\nMemoryPeak=414982144\nCPUUsageNSec=48220034000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 195.8882112239953,
+      "available_bytes": 21604442112,
+      "frozen": false,
+      "service": "MemoryCurrent=415150080\nMemoryPeak=415244288\nCPUUsageNSec=48967085000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 198.89878793200478,
+      "available_bytes": 21607604224,
+      "frozen": false,
+      "service": "MemoryCurrent=422576128\nMemoryPeak=422813696\nCPUUsageNSec=49720594000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 201.91244582401123,
+      "available_bytes": 21594791936,
+      "frozen": false,
+      "service": "MemoryCurrent=433897472\nMemoryPeak=434102272\nCPUUsageNSec=50466729000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 204.92432387999725,
+      "available_bytes": 21655244800,
+      "frozen": false,
+      "service": "MemoryCurrent=435113984\nMemoryPeak=435126272\nCPUUsageNSec=51222422000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 207.9603369339602,
+      "available_bytes": 21659750400,
+      "frozen": false,
+      "service": "MemoryCurrent=439664640\nMemoryPeak=439832576\nCPUUsageNSec=51991686000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 210.97321111394558,
+      "available_bytes": 21636837376,
+      "frozen": false,
+      "service": "MemoryCurrent=450695168\nMemoryPeak=450936832\nCPUUsageNSec=52741766000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 213.98438637400977,
+      "available_bytes": 21579489280,
+      "frozen": false,
+      "service": "MemoryCurrent=458756096\nMemoryPeak=458756096\nCPUUsageNSec=53491938000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 216.99798932601698,
+      "available_bytes": 21571284992,
+      "frozen": false,
+      "service": "MemoryCurrent=469270528\nMemoryPeak=469532672\nCPUUsageNSec=54241314000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 220.00906030694023,
+      "available_bytes": 21612179456,
+      "frozen": false,
+      "service": "MemoryCurrent=474030080\nMemoryPeak=474542080\nCPUUsageNSec=54995109000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 223.02089478296693,
+      "available_bytes": 21601824768,
+      "frozen": false,
+      "service": "MemoryCurrent=479797248\nMemoryPeak=480018432\nCPUUsageNSec=55659187000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 226.03216979897115,
+      "available_bytes": 21550465024,
+      "frozen": false,
+      "service": "MemoryCurrent=489254912\nMemoryPeak=489259008\nCPUUsageNSec=55809725000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 229.04781262692995,
+      "available_bytes": 21544058880,
+      "frozen": false,
+      "service": "MemoryCurrent=492683264\nMemoryPeak=492683264\nCPUUsageNSec=55865505000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 232.05896787100937,
+      "available_bytes": 21534236672,
+      "frozen": false,
+      "service": "MemoryCurrent=495587328\nMemoryPeak=495845376\nCPUUsageNSec=55927307000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 235.0711011479143,
+      "available_bytes": 21519970304,
+      "frozen": false,
+      "service": "MemoryCurrent=495898624\nMemoryPeak=496414720\nCPUUsageNSec=55941693000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 238.08351766096894,
+      "available_bytes": 21534027776,
+      "frozen": false,
+      "service": "MemoryCurrent=496476160\nMemoryPeak=496979968\nCPUUsageNSec=55958419000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 241.0953144999221,
+      "available_bytes": 21538918400,
+      "frozen": false,
+      "service": "MemoryCurrent=496537600\nMemoryPeak=496979968\nCPUUsageNSec=55966959000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 244.10701787890866,
+      "available_bytes": 21543419904,
+      "frozen": false,
+      "service": "MemoryCurrent=498135040\nMemoryPeak=498393088\nCPUUsageNSec=55996413000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 247.12068817799445,
+      "available_bytes": 21526487040,
+      "frozen": false,
+      "service": "MemoryCurrent=499216384\nMemoryPeak=499474432\nCPUUsageNSec=56031333000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 250.13322884391528,
+      "available_bytes": 21530443776,
+      "frozen": false,
+      "service": "MemoryCurrent=500809728\nMemoryPeak=500809728\nCPUUsageNSec=56059920000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 253.14688261400443,
+      "available_bytes": 21534457856,
+      "frozen": false,
+      "service": "MemoryCurrent=502140928\nMemoryPeak=502403072\nCPUUsageNSec=56069010000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 256.1615715759108,
+      "available_bytes": 21531467776,
+      "frozen": false,
+      "service": "MemoryCurrent=504500224\nMemoryPeak=504500224\nCPUUsageNSec=56075197000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 259.17419590801,
+      "available_bytes": 21531918336,
+      "frozen": false,
+      "service": "MemoryCurrent=506081280\nMemoryPeak=506081280\nCPUUsageNSec=56081131000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 262.1869097480085,
+      "available_bytes": 21534826496,
+      "frozen": false,
+      "service": "MemoryCurrent=507916288\nMemoryPeak=507916288\nCPUUsageNSec=56087259000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 265.1988028839696,
+      "available_bytes": 21463322624,
+      "frozen": false,
+      "service": "MemoryCurrent=508461056\nMemoryPeak=508710912\nCPUUsageNSec=56092195000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 268.21120667492505,
+      "available_bytes": 21511745536,
+      "frozen": false,
+      "service": "MemoryCurrent=508227584\nMemoryPeak=508723200\nCPUUsageNSec=56096492000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 271.22433132701553,
+      "available_bytes": 21517942784,
+      "frozen": false,
+      "service": "MemoryCurrent=508772352\nMemoryPeak=508772352\nCPUUsageNSec=56101098000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 274.2397482719971,
+      "available_bytes": 21517258752,
+      "frozen": false,
+      "service": "MemoryCurrent=509059072\nMemoryPeak=509317120\nCPUUsageNSec=56106247000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 277.25135085498914,
+      "available_bytes": 21252071424,
+      "frozen": false,
+      "service": "MemoryCurrent=509083648\nMemoryPeak=509341696\nCPUUsageNSec=56109936000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 280.263261957909,
+      "available_bytes": 21534060544,
+      "frozen": false,
+      "service": "MemoryCurrent=509366272\nMemoryPeak=509624320\nCPUUsageNSec=56114147000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 283.27579696895555,
+      "available_bytes": 21532622848,
+      "frozen": false,
+      "service": "MemoryCurrent=510169088\nMemoryPeak=510169088\nCPUUsageNSec=56119007000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 286.28787897899747,
+      "available_bytes": 21469642752,
+      "frozen": false,
+      "service": "MemoryCurrent=510193664\nMemoryPeak=510193664\nCPUUsageNSec=56122657000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 289.29925490997266,
+      "available_bytes": 21474873344,
+      "frozen": false,
+      "service": "MemoryCurrent=511250432\nMemoryPeak=511508480\nCPUUsageNSec=56127304000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 292.3115153720137,
+      "available_bytes": 21523271680,
+      "frozen": false,
+      "service": "MemoryCurrent=511275008\nMemoryPeak=511533056\nCPUUsageNSec=56131082000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 295.32386669691186,
+      "available_bytes": 21444747264,
+      "frozen": false,
+      "service": "MemoryCurrent=511811584\nMemoryPeak=511815680\nCPUUsageNSec=56134205000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 298.3355131719727,
+      "available_bytes": 21139243008,
+      "frozen": false,
+      "service": "MemoryCurrent=512094208\nMemoryPeak=512352256\nCPUUsageNSec=56138014000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 301.34755637298804,
+      "available_bytes": 21034856448,
+      "frozen": false,
+      "service": "MemoryCurrent=512630784\nMemoryPeak=512892928\nCPUUsageNSec=56141930000",
+      "output_bytes": 12065764
+    },
+    {
+      "elapsed": 304.35854853794444,
+      "available_bytes": 21187641344,
+      "frozen": false,
+      "service": "MemoryCurrent=512655360\nMemoryPeak=512913408\nCPUUsageNSec=56145003000",
+      "output_bytes": 12065764
+    }
+  ],
+  "completed_utc": "2026-10-30T23:09:37.924734+00:00",
+  "budget": {
+    "cpu_seconds": 62.149,
+    "wall_seconds": 310,
+    "disk_mib": 512
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/logs/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b64.log",
+  "process_measurements": {
+    "user_cpu_seconds": 48.34,
+    "system_cpu_seconds": 7.84,
+    "max_rss_kib": 654520.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 56.18000000000001,
+    "output_bytes": 12075876,
+    "elapsed_seconds": 307.36926154396497,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

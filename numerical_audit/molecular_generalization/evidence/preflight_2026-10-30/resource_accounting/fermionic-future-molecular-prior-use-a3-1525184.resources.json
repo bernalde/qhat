@@ -1,0 +1,124 @@
+{
+  "unit": "fermionic-future-molecular-prior-use-a3-1525184",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "352",
+    "TimeoutStopSec": "5s"
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/prior_use_scan/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/prior_use_scan/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/usr/bin/python3",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/PRIOR_USE_SCAN.py"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 27.216289357980713,
+  "samples": [
+    {
+      "elapsed": 0.0021670180140063167,
+      "available_bytes": 20048629760,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=203000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 3.076126411964651,
+      "available_bytes": 20576534528,
+      "frozen": false,
+      "service": "MemoryCurrent=53678080\nMemoryPeak=56365056\nCPUUsageNSec=776860000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 6.090957003994845,
+      "available_bytes": 20576608256,
+      "frozen": false,
+      "service": "MemoryCurrent=54968320\nMemoryPeak=59379712\nCPUUsageNSec=1525572000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 9.108384274994023,
+      "available_bytes": 20511797248,
+      "frozen": false,
+      "service": "MemoryCurrent=54972416\nMemoryPeak=59379712\nCPUUsageNSec=2276931000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 12.128835910989437,
+      "available_bytes": 20557643776,
+      "frozen": false,
+      "service": "MemoryCurrent=28348416\nMemoryPeak=59379712\nCPUUsageNSec=3027158000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 15.144755863002501,
+      "available_bytes": 20212002816,
+      "frozen": false,
+      "service": "MemoryCurrent=56561664\nMemoryPeak=59379712\nCPUUsageNSec=3791058000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 18.163042865984607,
+      "available_bytes": 20333027328,
+      "frozen": false,
+      "service": "MemoryCurrent=62550016\nMemoryPeak=64221184\nCPUUsageNSec=4547737000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 21.18066794500919,
+      "available_bytes": 20458688512,
+      "frozen": false,
+      "service": "MemoryCurrent=63332352\nMemoryPeak=64225280\nCPUUsageNSec=5300798000",
+      "output_bytes": 16713
+    },
+    {
+      "elapsed": 24.196135655976832,
+      "available_bytes": 20177702912,
+      "frozen": false,
+      "service": "MemoryCurrent=63070208\nMemoryPeak=64225280\nCPUUsageNSec=6050622000",
+      "output_bytes": 16713
+    }
+  ],
+  "completed_utc": "2026-10-30T06:21:59.348682+00:00",
+  "budget": {
+    "cpu_seconds": 58.9,
+    "wall_seconds": 352,
+    "disk_mib": 256
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/prior_use_scan/molecular-prior-use-a3.log",
+  "process_measurements": {
+    "user_cpu_seconds": 5.66,
+    "system_cpu_seconds": 0.85,
+    "max_rss_kib": 69752.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 6.51,
+    "output_bytes": 768494,
+    "elapsed_seconds": 27.216289357980713,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

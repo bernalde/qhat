@@ -1,0 +1,62 @@
+{
+  "schema": "molecular-later-plot-plan-v1",
+  "label": "mg-old-preflight-layout-consumer-a1",
+  "phase": "analysis",
+  "role": "later_plot_consumer",
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/plot.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/data/ANALYSIS.json",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/figure-consumer-a1/figures",
+    "--preflight"
+  ],
+  "guard_command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/data/source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py",
+    "--label",
+    "mg-old-preflight-layout-consumer-a1",
+    "--logs",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/figure-consumer-a1/logs",
+    "--cpu-seconds",
+    "10",
+    "--wall-seconds",
+    "60",
+    "--disk-mib",
+    "512",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4",
+    "--",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/plot.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/data/ANALYSIS.json",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/figure-consumer-a1/figures",
+    "--preflight"
+  ],
+  "cpu_cap": 10,
+  "wall_cap": 60,
+  "disk_mib": 512,
+  "source_freeze_sha256": "679df7485d8adbcce184213a21ae23199c2320d955e0ce81fa98a894fe1797fb",
+  "producer_source_commit": "79eff7fe5d2aa7a159d718fa3bd32f77b54eda95",
+  "source_plot_sha256": "2ecea1ef63635dbcf655e477fbd9834c5abf97ae841011dbe076e52301746ddf",
+  "analysis_sha256": "9f95c39a37cebb7995ae3b2deb930df37aec6b9739b77e374c08159f398867bc",
+  "unchanged_raw_data_required": true,
+  "prior_analysis_jobs": [
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/data/jobs/mg-old-preflight-analysis-a4.FINAL.json",
+      "sha256": "4f213f3204ec1bc50692d2e3f59d738f366c495f6eb081ae0939e72fe8c72efe",
+      "CPU": 0.491,
+      "wall": 3.041218167054467
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4/data/jobs/mg-old-preflight-figures-a4.FINAL.json",
+      "sha256": "3608ee9b94a3be20a017f9ca4d4b9a383dc056172dc62e1cb6c7e01a17568056",
+      "CPU": 2.4010000000000002,
+      "wall": 12.076499314978719
+    }
+  ],
+  "analysis_pool": {
+    "CPU": 20,
+    "wall": 100
+  },
+  "monitor_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/preflight-a4"
+}

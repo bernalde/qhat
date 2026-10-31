@@ -1,0 +1,1477 @@
+{
+  "schema": "molecular-panel-consumer-v1",
+  "complete": true,
+  "mode": "main",
+  "cases": [
+    "HF_r1p00_631g_12m8e",
+    "H2S_r1p40_a96_631g_12m8e"
+  ],
+  "repetitions": 2,
+  "protocol_sha256": "7ba8979b2291caf75b315acaced548fd2eda0f4662b3c9ed18c404739304cfc4",
+  "source_freeze_sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+  "protocol_path": "source_snapshot/numerical_audit/molecular_generalization/PROTOCOL.json",
+  "source_freeze_path": "INPUT_PROTOCOL_FROZEN.json",
+  "cases_metadata": [
+    {
+      "case": "HF_r1p00_631g_12m8e",
+      "constructors": [
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "parent",
+          "cpu_budget": 0,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.parent.B0.json",
+          "sha256": "c945a71e8225eb907143b8e860cb63cef4156ba6335cb74ea55bf869ca99e973",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "total": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            }
+          },
+          "status": "evaluation_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "canonical",
+          "cpu_budget": 0,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.canonical.B0.json",
+          "sha256": "57e41286e9aa97e2a1f4167cc3ae12be2eebebdc7cdf029acfbe90422660ea10",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.35,
+              "charged_CPU_seconds": 0.361,
+              "wall_seconds": 3.062212737975642
+            },
+            "total": {
+              "raw_CPU_seconds": 0.35,
+              "charged_CPU_seconds": 0.361,
+              "wall_seconds": 3.062212737975642
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "magnitude",
+          "cpu_budget": 0,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.magnitude.B0.json",
+          "sha256": "4f3de6de6fdfe5a340811e9047be2d295f69bbc92613cf1d070e532e98ebee62",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.36,
+              "charged_CPU_seconds": 0.371,
+              "wall_seconds": 3.037620842922479
+            },
+            "total": {
+              "raw_CPU_seconds": 0.36,
+              "charged_CPU_seconds": 0.371,
+              "wall_seconds": 3.037620842922479
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "full",
+          "cpu_budget": 32,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.full.B32.json",
+          "sha256": "0c39c711ad9f1fb8abe1e03b8e41f7b60c14ab1ad417202f4258dd4fa2f196b9",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.8,
+              "charged_CPU_seconds": 29.811,
+              "wall_seconds": 120.5092780480627
+            },
+            "total": {
+              "raw_CPU_seconds": 31.68,
+              "charged_CPU_seconds": 31.701999999999998,
+              "wall_seconds": 129.58272421802394
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "full",
+          "cpu_budget": 64,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.full.B64.json",
+          "sha256": "4e15182955624e5d64a9e95389b63e6d8a5e9a719e378efe36cf4213d320b428",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.78,
+              "charged_CPU_seconds": 61.791000000000004,
+              "wall_seconds": 249.96874441194814
+            },
+            "total": {
+              "raw_CPU_seconds": 63.660000000000004,
+              "charged_CPU_seconds": 63.682,
+              "wall_seconds": 259.0421905819094
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "window",
+          "cpu_budget": 32,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.window.B32.json",
+          "sha256": "20d5ccc582ab4798487ed0a9990c41c69ead4b4648abc6da88f79820d39b50bf",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.79,
+              "charged_CPU_seconds": 29.801,
+              "wall_seconds": 120.48829059395939
+            },
+            "total": {
+              "raw_CPU_seconds": 31.669999999999998,
+              "charged_CPU_seconds": 31.691999999999997,
+              "wall_seconds": 129.56173676392063
+            }
+          },
+          "status": "complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "window",
+          "cpu_budget": 64,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.window.B64.json",
+          "sha256": "c951fd9aa49ce0e77ab73ecfe1d940727b92a17949a7fe9b30dff3cec01e1cef",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            },
+            "continuation": {
+              "raw_CPU_seconds": 55.11,
+              "charged_CPU_seconds": 55.121,
+              "wall_seconds": 307.2252658880316
+            },
+            "total": {
+              "raw_CPU_seconds": 56.99,
+              "charged_CPU_seconds": 57.012,
+              "wall_seconds": 316.2987120579928
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "annealing",
+          "cpu_budget": 32,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.annealing.B32.json",
+          "sha256": "fb65adae6ff2e0e6d8e8efdaad4b87b325bc53501910c18c1c34eed851befe22",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.7,
+              "charged_CPU_seconds": 29.711,
+              "wall_seconds": 120.48919152398594
+            },
+            "total": {
+              "raw_CPU_seconds": 31.58,
+              "charged_CPU_seconds": 31.601999999999997,
+              "wall_seconds": 129.56263769394718
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 1,
+          "arm": "annealing",
+          "cpu_budget": 64,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep1.annealing.B64.json",
+          "sha256": "3cd5cd148fd6bec9d0ad9cd235ce296d078d689b78a211522993bb20853fa27e",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.88,
+              "charged_CPU_seconds": 1.8909999999999998,
+              "wall_seconds": 9.073446169961244
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.68,
+              "charged_CPU_seconds": 61.691,
+              "wall_seconds": 246.99103094392922
+            },
+            "total": {
+              "raw_CPU_seconds": 63.56,
+              "charged_CPU_seconds": 63.582,
+              "wall_seconds": 256.06447711389046
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "parent",
+          "cpu_budget": 0,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.parent.B0.json",
+          "sha256": "a761d74fdc0336b29fa4b7cd9b25ef3a815763925efa3a2753e40c5baaec98ff",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "total": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            }
+          },
+          "status": "evaluation_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "canonical",
+          "cpu_budget": 0,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.canonical.B0.json",
+          "sha256": "3ed5b68001b11a1aede0e37d7b6a8ed0bb9a36ce93ba097ba9a86d0cb312ef45",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.37,
+              "charged_CPU_seconds": 0.381,
+              "wall_seconds": 3.0428199770394713
+            },
+            "total": {
+              "raw_CPU_seconds": 0.37,
+              "charged_CPU_seconds": 0.381,
+              "wall_seconds": 3.0428199770394713
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "magnitude",
+          "cpu_budget": 0,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.magnitude.B0.json",
+          "sha256": "c1b7265287bc54dbe536941d1d6abfecffec6c6b9d628766536891e9c3d906c3",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.36,
+              "charged_CPU_seconds": 0.371,
+              "wall_seconds": 3.050377217005007
+            },
+            "total": {
+              "raw_CPU_seconds": 0.36,
+              "charged_CPU_seconds": 0.371,
+              "wall_seconds": 3.050377217005007
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "full",
+          "cpu_budget": 32,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.full.B32.json",
+          "sha256": "b9d8e1ab9d7dd09f70bab8b20a4b5088b3860c7283c681dbcfc348de6c94b120",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.79,
+              "charged_CPU_seconds": 29.801,
+              "wall_seconds": 120.50975481804926
+            },
+            "total": {
+              "raw_CPU_seconds": 31.68,
+              "charged_CPU_seconds": 31.701999999999998,
+              "wall_seconds": 129.57678685314022
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "full",
+          "cpu_budget": 64,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.full.B64.json",
+          "sha256": "c3d2f46a74ce4921361e1f1c85620fa1577cc41c20878e7a73fc05b6a6cf4f9c",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.79,
+              "charged_CPU_seconds": 61.801,
+              "wall_seconds": 250.00865363294724
+            },
+            "total": {
+              "raw_CPU_seconds": 63.68,
+              "charged_CPU_seconds": 63.702000000000005,
+              "wall_seconds": 259.0756856680382
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "window",
+          "cpu_budget": 32,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.window.B32.json",
+          "sha256": "8a364aefb192f70cb886f4dd415ad98747011ea3138e74fb464f012d002bef68",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.77,
+              "charged_CPU_seconds": 29.781,
+              "wall_seconds": 120.4981588460505
+            },
+            "total": {
+              "raw_CPU_seconds": 31.66,
+              "charged_CPU_seconds": 31.682,
+              "wall_seconds": 129.56519088114146
+            }
+          },
+          "status": "complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "window",
+          "cpu_budget": 64,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.window.B64.json",
+          "sha256": "85b6be7158a4d214662a515c095c625d6a3337a7b5efc703ebb3ce17e506cf15",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            },
+            "continuation": {
+              "raw_CPU_seconds": 57.49,
+              "charged_CPU_seconds": 57.501000000000005,
+              "wall_seconds": 307.26304427010473
+            },
+            "total": {
+              "raw_CPU_seconds": 59.38,
+              "charged_CPU_seconds": 59.40200000000001,
+              "wall_seconds": 316.3300763051957
+            }
+          },
+          "status": "complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "annealing",
+          "cpu_budget": 32,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.annealing.B32.json",
+          "sha256": "b486b85a5698b90b7055d7d476f0f7cca0348255c843150ce9dc28da7bfd6f2c",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.67,
+              "charged_CPU_seconds": 29.681,
+              "wall_seconds": 120.45936775195878
+            },
+            "total": {
+              "raw_CPU_seconds": 31.560000000000002,
+              "charged_CPU_seconds": 31.582,
+              "wall_seconds": 129.52639978704974
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "HF_r1p00_631g_12m8e",
+          "repetition": 2,
+          "arm": "annealing",
+          "cpu_budget": 64,
+          "path": "constructors/HF_r1p00_631g_12m8e.rep2.annealing.B64.json",
+          "sha256": "035b1bf1a058638be3bd001e885fc6f2bd324a5ab29dc030c98c2e0c23252c3b",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8900000000000001,
+              "charged_CPU_seconds": 1.901,
+              "wall_seconds": 9.06703203509096
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.68,
+              "charged_CPU_seconds": 61.691,
+              "wall_seconds": 247.0582454400137
+            },
+            "total": {
+              "raw_CPU_seconds": 63.57,
+              "charged_CPU_seconds": 63.592000000000006,
+              "wall_seconds": 256.12527747510467
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        }
+      ],
+      "constructor_count": 18,
+      "expected_logical_rows": 72,
+      "raw_claims": 7,
+      "all_constructor_eligible": true
+    },
+    {
+      "case": "H2S_r1p40_a96_631g_12m8e",
+      "constructors": [
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "parent",
+          "cpu_budget": 0,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.parent.B0.json",
+          "sha256": "752b8bd0470b4266e5d32cbb826d9abe1f0745e10aa29ceb0e282afa08b0a36e",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "total": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            }
+          },
+          "status": "evaluation_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "canonical",
+          "cpu_budget": 0,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.canonical.B0.json",
+          "sha256": "f9d23ab43d5a7c700da922cf0a8ac0c0feee4cff550b049a74f2fee5e9985156",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.36,
+              "charged_CPU_seconds": 0.371,
+              "wall_seconds": 3.054594457964413
+            },
+            "total": {
+              "raw_CPU_seconds": 0.36,
+              "charged_CPU_seconds": 0.371,
+              "wall_seconds": 3.054594457964413
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "magnitude",
+          "cpu_budget": 0,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.magnitude.B0.json",
+          "sha256": "c76124926154a2d249ca223fd5afd3cb0ed4971370778e6b51c71f396e3d9990",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.37,
+              "charged_CPU_seconds": 0.381,
+              "wall_seconds": 3.0396142010577023
+            },
+            "total": {
+              "raw_CPU_seconds": 0.37,
+              "charged_CPU_seconds": 0.381,
+              "wall_seconds": 3.0396142010577023
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "full",
+          "cpu_budget": 32,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.full.B32.json",
+          "sha256": "df05978edffcaeba5b8959ffe565c97bcb514d1af25680d51cf0d9e49e8b94b3",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.86,
+              "charged_CPU_seconds": 29.871,
+              "wall_seconds": 120.534116972005
+            },
+            "total": {
+              "raw_CPU_seconds": 31.689999999999998,
+              "charged_CPU_seconds": 31.712,
+              "wall_seconds": 129.60675968101714
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "full",
+          "cpu_budget": 64,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.full.B64.json",
+          "sha256": "82107e0c1c2323e41da1ee65cb3a09ccee1f4646edb264978794cb87acef6641",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.84,
+              "charged_CPU_seconds": 61.851000000000006,
+              "wall_seconds": 250.04137125099078
+            },
+            "total": {
+              "raw_CPU_seconds": 63.67,
+              "charged_CPU_seconds": 63.69200000000001,
+              "wall_seconds": 259.1140139600029
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "window",
+          "cpu_budget": 32,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.window.B32.json",
+          "sha256": "dd5c50e363d5c4dae6ff356558d8ba25a797428c5e2c1171a853bb10ee389ef9",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.84,
+              "charged_CPU_seconds": 29.851,
+              "wall_seconds": 120.53677747806069
+            },
+            "total": {
+              "raw_CPU_seconds": 31.67,
+              "charged_CPU_seconds": 31.692,
+              "wall_seconds": 129.60942018707283
+            }
+          },
+          "status": "complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "window",
+          "cpu_budget": 64,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.window.B64.json",
+          "sha256": "8ffe102466d12fe424b880110bcf32880a56a11acc4933b7f00a4469f9423588",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            },
+            "continuation": {
+              "raw_CPU_seconds": 57.55,
+              "charged_CPU_seconds": 57.561,
+              "wall_seconds": 237.99709412502125
+            },
+            "total": {
+              "raw_CPU_seconds": 59.379999999999995,
+              "charged_CPU_seconds": 59.402,
+              "wall_seconds": 247.0697368340334
+            }
+          },
+          "status": "complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "annealing",
+          "cpu_budget": 32,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.annealing.B32.json",
+          "sha256": "6588cdc9332e37ad9ce8610234a5e4f4ab2978451457b097df1ed8b5c6d1309d",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.73,
+              "charged_CPU_seconds": 29.741,
+              "wall_seconds": 120.49202687002253
+            },
+            "total": {
+              "raw_CPU_seconds": 31.560000000000002,
+              "charged_CPU_seconds": 31.582,
+              "wall_seconds": 129.56466957903467
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 1,
+          "arm": "annealing",
+          "cpu_budget": 64,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep1.annealing.B64.json",
+          "sha256": "88a2fb65b6e7fb75520c0af389c54e56c7bd88814700b492d79603e93dcc6c03",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.83,
+              "charged_CPU_seconds": 1.841,
+              "wall_seconds": 9.072642709012143
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.739999999999995,
+              "charged_CPU_seconds": 61.751,
+              "wall_seconds": 247.08497789804824
+            },
+            "total": {
+              "raw_CPU_seconds": 63.56999999999999,
+              "charged_CPU_seconds": 63.592,
+              "wall_seconds": 256.1576206070604
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "parent",
+          "cpu_budget": 0,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.parent.B0.json",
+          "sha256": "14ba77b78827c1a848bff0fbcb2774f2c53c90953187a0640214213db4f4f779",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "total": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            }
+          },
+          "status": "evaluation_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "canonical",
+          "cpu_budget": 0,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.canonical.B0.json",
+          "sha256": "64ea3ab00e9faa485c023d3c7032d2e473833a525506941ce544b5147c06ceb2",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.38,
+              "charged_CPU_seconds": 0.391,
+              "wall_seconds": 3.049658540985547
+            },
+            "total": {
+              "raw_CPU_seconds": 0.38,
+              "charged_CPU_seconds": 0.391,
+              "wall_seconds": 3.049658540985547
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "magnitude",
+          "cpu_budget": 0,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.magnitude.B0.json",
+          "sha256": "85f58b3df15602ed4b3b9f20e8f06f65b317400c29bd757fef421d2201265897",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 0.0,
+              "charged_CPU_seconds": 0.0,
+              "wall_seconds": 0.0
+            },
+            "continuation": {
+              "raw_CPU_seconds": 0.37,
+              "charged_CPU_seconds": 0.381,
+              "wall_seconds": 3.0505471350625157
+            },
+            "total": {
+              "raw_CPU_seconds": 0.37,
+              "charged_CPU_seconds": 0.381,
+              "wall_seconds": 3.0505471350625157
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "full",
+          "cpu_budget": 32,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.full.B32.json",
+          "sha256": "c83e947e90102e48d65c28e5604ab198f9bc3a25141b3f17d3be58659a5a19b3",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.84,
+              "charged_CPU_seconds": 29.851,
+              "wall_seconds": 120.49346835399047
+            },
+            "total": {
+              "raw_CPU_seconds": 31.68,
+              "charged_CPU_seconds": 31.701999999999998,
+              "wall_seconds": 129.54806459799875
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "full",
+          "cpu_budget": 64,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.full.B64.json",
+          "sha256": "97e0f6c1a620ad4c3bed6bf73c819f4c84ebad47a62da392ab9a3f3de20ca173",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.82,
+              "charged_CPU_seconds": 61.831,
+              "wall_seconds": 250.07523212593514
+            },
+            "total": {
+              "raw_CPU_seconds": 63.66,
+              "charged_CPU_seconds": 63.682,
+              "wall_seconds": 259.1298283699434
+            }
+          },
+          "status": "cpu_limit",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "window",
+          "cpu_budget": 32,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.window.B32.json",
+          "sha256": "9db8f8e8ee718a03132b513c74d7a6774301b3c5e4d3a750e4c903f777ee8321",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.82,
+              "charged_CPU_seconds": 29.831,
+              "wall_seconds": 120.55521573498845
+            },
+            "total": {
+              "raw_CPU_seconds": 31.66,
+              "charged_CPU_seconds": 31.682,
+              "wall_seconds": 129.60981197899673
+            }
+          },
+          "status": "complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "window",
+          "cpu_budget": 64,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.window.B64.json",
+          "sha256": "7a02fc7285f0f317334280ef6d6031d3758d3edc73dcff3c72d82dd69450a3a2",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            },
+            "continuation": {
+              "raw_CPU_seconds": 56.18000000000001,
+              "charged_CPU_seconds": 56.19100000000001,
+              "wall_seconds": 307.36926154396497
+            },
+            "total": {
+              "raw_CPU_seconds": 58.02000000000001,
+              "charged_CPU_seconds": 58.04200000000001,
+              "wall_seconds": 316.42385778797325
+            }
+          },
+          "status": "complete",
+          "raw_claims": 0,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "annealing",
+          "cpu_budget": 32,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.annealing.B32.json",
+          "sha256": "9347327c4bb564172e33128bad0d555b1214dad1fe2762841881825985e2e805",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            },
+            "continuation": {
+              "raw_CPU_seconds": 29.74,
+              "charged_CPU_seconds": 29.750999999999998,
+              "wall_seconds": 120.5042252719868
+            },
+            "total": {
+              "raw_CPU_seconds": 31.58,
+              "charged_CPU_seconds": 31.601999999999997,
+              "wall_seconds": 129.55882151599508
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        },
+        {
+          "case": "H2S_r1p40_a96_631g_12m8e",
+          "repetition": 2,
+          "arm": "annealing",
+          "cpu_budget": 64,
+          "path": "constructors/H2S_r1p40_a96_631g_12m8e.rep2.annealing.B64.json",
+          "sha256": "dbc4d6a40293efbfe2282815b3887227da56cb92efc22832b9b401e21aad42e3",
+          "eligible": true,
+          "analysis_eligible": true,
+          "costs": {
+            "prefix": {
+              "raw_CPU_seconds": 1.8399999999999999,
+              "charged_CPU_seconds": 1.8509999999999998,
+              "wall_seconds": 9.05459624400828
+            },
+            "continuation": {
+              "raw_CPU_seconds": 61.7,
+              "charged_CPU_seconds": 61.711000000000006,
+              "wall_seconds": 247.07567200798076
+            },
+            "total": {
+              "raw_CPU_seconds": 63.540000000000006,
+              "charged_CPU_seconds": 63.562000000000005,
+              "wall_seconds": 256.13026825198904
+            }
+          },
+          "status": "slice_complete",
+          "raw_claims": 1,
+          "refusal": null
+        }
+      ],
+      "constructor_count": 18,
+      "expected_logical_rows": 72,
+      "raw_claims": 7,
+      "all_constructor_eligible": true
+    }
+  ],
+  "original_frozen_sources": {
+    "analysis/__init__.py": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/julia_window/Project.toml": "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d",
+    "analysis/julia_window/README.md": "43ff82279a30094815f8548a0d113345f1dcc98ea48c9f9c0a2af265016cc40b",
+    "analysis/julia_window/ResponseCore.jl": "19eccecba10052461cc152140419ef8355168c4bfc557f0907ec61ec00c7c1cc",
+    "analysis/julia_window/SOURCE.toml": "e9132f9c0c27a32780fb4004e0204a84ae046ccece4075a8dea50852ca870728",
+    "analysis/julia_window/WindowSearch.jl": "04a26a61662546feac71e3d076b5afdda7018de22b403dc0e7d49928198292c1",
+    "analysis/julia_window/tests.jl": "e46c90125abb91a046a33d10b45368a7c80d996da5739ce64e1bd83135194bcf",
+    "analysis/julia_window/worker.jl": "6f525a2f61a90f8f8ceed70ba331cb90df371d9a705245253bd785626cce0e84",
+    "analysis/sparse_response_ordering.py": "957dc5eeeac955812a335afacb09bdff4165bac0c571a2c9f60299281897e4e6",
+    "analysis/strang_schedule.py": "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a",
+    "analysis/train_ordering.py": "56b2aa6eaf7637ff57d476db0c85478902089fb3dcb31ec1d109ee960e108abd",
+    "analysis/window_ordering.py": "93d967def472654e32c7c8cac7dda82bd3c23c59f09463e1cc4c04447b260bec",
+    "numerical_audit/__init__.py": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca",
+    "numerical_audit/cost_matched_continuation/PREFLIGHT_RESOURCE_AMENDMENT.json": "3d4f3909b97d32228df680008ca6ceac9b105428c4142e4eaed42196405c805a",
+    "numerical_audit/cost_matched_continuation/PROTOCOL.json": "b140ab6b3d01a4bcffbfb0edd5da56f08dc639176048c78c28ac137f464dfe8a",
+    "numerical_audit/cost_matched_continuation/README.md": "f2ca8b0b272d129ece4f2493e78dca865fa4df17dc68180ef2139d43e46336fb",
+    "numerical_audit/cost_matched_continuation/REGISTRY.json": "792cd8548e1824beb17082f28afdf04a32c87bc4f17a450d0a0366330be6416d",
+    "numerical_audit/cost_matched_continuation/admission.py": "abeda1eccbf17327a474277b4ea7f2a975f14ef4835b505677b1288f38968b74",
+    "numerical_audit/cost_matched_continuation/analyze.py": "1bd054d817a168f14d3cdd7efe720e9b685ba5e8303d23c53094e70cedefd8c8",
+    "numerical_audit/cost_matched_continuation/common.py": "4438f82b6f0e0d34f766256ea5eda99fad41c34ae61ad15768338709c0f93ea0",
+    "numerical_audit/cost_matched_continuation/construct.py": "122f5456d6ec52da7f4fc2f2c2a886b21e7dabda1ae2d001f46e67c7015f65ee",
+    "numerical_audit/cost_matched_continuation/generate_inputs.py": "2a39b796a921eba73b4bc3d671c8e7b3ea37f5c18be5e3cc004dc8819ed5364b",
+    "numerical_audit/cost_matched_continuation/ledger.py": "2a10500c86c182756404eddaf48c08c1c5fbb12a02437dbb40be1d9377ff1c76",
+    "numerical_audit/cost_matched_continuation/objective.jl": "f27b19b9e1d26d6f4248bb2cfee72b48b4cbdbd16ba5acb8209dc374d36e5d55",
+    "numerical_audit/cost_matched_continuation/panels.py": "f543fab069897def62fb3083372ade4c90a7ed48fe36e6c6b54c894f3b1b81f0",
+    "numerical_audit/cost_matched_continuation/physical.jl": "c0f4555351696efc5918db17ab52a3dbb2467c04e3b1dc8b386bb67132529507",
+    "numerical_audit/cost_matched_continuation/preflight.py": "63cc3ef2c030acbb942ff44fa09dc9c9a8d3bf0a05ea036fe5ba7c32270f19e9",
+    "numerical_audit/cost_matched_continuation/provenance.py": "d52898546022fa92c9a57be27afc09ca9eb75e6551810f39a321af2c5eb5d03e",
+    "numerical_audit/cost_matched_continuation/verify.jl": "bd63cfcd824d601dfa68cb200a6361dee7ff703ebe5410acc897e11bab1f7e26",
+    "numerical_audit/followup_classes/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CH4_r1p09.toml": "00a283f3736e331b2c3bfc140213e1d5d1d3a62f119b34ab1450a1b091afbc97",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CO_r1p13.toml": "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52",
+    "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl": "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605",
+    "numerical_audit/molecular_generalization/CALIBRATION.json": "d96f209380241458f8dbadc8421cbc72547e36738de91d2d4d0cf2fc800585fb",
+    "numerical_audit/molecular_generalization/CALIBRATION_EVIDENCE.json": "9fbdb589ac946a57dccee7fb24840391412fe3f643fd19cd9e6c10bd204fd343",
+    "numerical_audit/molecular_generalization/ENVIRONMENT.json": "0bace62277606cca67708948912f3bb76a623b57844307fc97531f7f6399bf8f",
+    "numerical_audit/molecular_generalization/PREFLIGHT_ACCEPTED.json": "5e2308d5c5ba3629d768e797a6f9cdc2ba4e251b651cd80502938858edad7579",
+    "numerical_audit/molecular_generalization/PRIOR_USE.json": "ce61796112e5ac711e14ab6eeed908bf57a6614e624ae2236035aaaffaaa69e6",
+    "numerical_audit/molecular_generalization/PROTOCOL.json": "7ba8979b2291caf75b315acaced548fd2eda0f4662b3c9ed18c404739304cfc4",
+    "numerical_audit/molecular_generalization/REGISTRY.json": "4636f83255fa816981f1b2fa787f471a4290ef59e11aea783f0aa5b7266b2b14",
+    "numerical_audit/molecular_generalization/__init__.py": "4a4f7600554df53096add22e75ac264a88dac3d4bbe829a9ff09568ede329153",
+    "numerical_audit/molecular_generalization/analyze.py": "e4a597f8ecf0c10438b6f1af47f8c84e883dce6ddac34996b59b56cac2aa7048",
+    "numerical_audit/molecular_generalization/anneal.jl": "4a77ab1b30c4e364f87fa2343f5dc2d990073cb2a96567a7802a4cc7e716fffd",
+    "numerical_audit/molecular_generalization/annealing.py": "96d7a4a7d1dfaec5b58b7f7cf4c068620a0e091059341cf66abb6094561f81a4",
+    "numerical_audit/molecular_generalization/calibration.jl": "ffcc95fedd62adaa10427612b9b9f58392fd6bf649ee0603722739fa528672fb",
+    "numerical_audit/molecular_generalization/calibration.py": "e2f156189912ce9d78b60cadfc7a977e93d3c7c813b3ac20bc9971acaac2ced2",
+    "numerical_audit/molecular_generalization/calibration_completion.py": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823",
+    "numerical_audit/molecular_generalization/calibration_resume.jl": "4af5970fc6d516e588c0199c6fa010cb6c4cdecb9226595eb1551b70dfbbe50d",
+    "numerical_audit/molecular_generalization/calibration_resume.py": "2f1283a09500644c73092a6aff56dc558ba42fc1e355c7d1dbb28f81c90f7eaa",
+    "numerical_audit/molecular_generalization/common.py": "603f047aa10392526d87b1f93da755b1be3ddd811cf310abd31863fb3ab1ae0a",
+    "numerical_audit/molecular_generalization/construct.py": "e21619803f019381509860a34f529eb7b16a3eda67a5afd9e6382e3906696e2f",
+    "numerical_audit/molecular_generalization/generate_inputs.py": "e99dc79f53237fb0249a7ebc300baa5805ae6fa2be960873b6d89dc8102797fc",
+    "numerical_audit/molecular_generalization/objective.jl": "4a02dd902328e2f1d033a673955db18880bea0d12cd9ea8c2b9a168cb264647f",
+    "numerical_audit/molecular_generalization/package.py": "bc080d9ff48aa3af5cc7109e18d85446fad2c10cc8f1189526bfd22b31d4c981",
+    "numerical_audit/molecular_generalization/panels.py": "7fbe5846b8e1652d97f862076990ea2cdf9d305de87e46b3b2a24816ceb4171a",
+    "numerical_audit/molecular_generalization/physical.jl": "e1885df306efd22f9b0f79d7e2f72bf0e860be90eb00013159d4bbc8b1926542",
+    "numerical_audit/molecular_generalization/plot.py": "2ecea1ef63635dbcf655e477fbd9834c5abf97ae841011dbe076e52301746ddf",
+    "numerical_audit/molecular_generalization/runner.py": "6567387b3bc7bea1723eb07cf3c9447524b66fb332071ce005e692ed56715d17",
+    "numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl": "8d0c6d4f3c3459890107de7d1831346a8869633d260916506e603416dc47f616",
+    "numerical_audit/molecular_generalization/src/GeneralizationIndependent.jl": "da9b73c796c8305417109ab70ac84a30743ac8dbace9e65172dcb33e339ad9f5",
+    "numerical_audit/molecular_generalization/src/GeneralizationPhysical.jl": "608011b148c0c846158f8343c075b50275e92f6a127ea4a674419dda3b434de5",
+    "numerical_audit/molecular_generalization/tools/resource_guard.py": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+    "numerical_audit/molecular_generalization/verify.jl": "43cef89e609d29f00482b094d59bd862b7f43b0f12febba1f753007faf501bac",
+    "numerical_audit/prospective_window_ordering/PROTOCOL.md": "4987dbd2672d93077da5c81727325f8690e600fc210fd34237504d66d270f548",
+    "numerical_audit/prospective_window_ordering/README.md": "d62374563e81ddcdce1dfb2c6eab934a99f6fa7f9e8e663f6ba22eb2c510f90c",
+    "numerical_audit/prospective_window_ordering/REGISTRY.json": "42c101dacdc537b154ce835699d5bd101a18d8fb214eab0b7596f5984175f825",
+    "numerical_audit/prospective_window_ordering/SOURCE_ORIGINS.json": "71495b64429177cdc65a332afcaccf44371af9f6825f9de7e30f4068cf7b6769",
+    "numerical_audit/prospective_window_ordering/construct_campaign.py": "bbbcc3a096ce83f51747842dd6ea9c1b9940d17f95d7766354dcfaa0c98374fe",
+    "numerical_audit/prospective_window_ordering/constructors.py": "ba1cc0e2ee3b64eb4a4f22df6bed1d828bbf52f1a7d8ea057f7588cf02f5c27e",
+    "numerical_audit/prospective_window_ordering/generate_inputs.py": "af9366d1b32056159dd94d33bf140ef621f4e9092849880fb2ae3c9521e04389",
+    "numerical_audit/prospective_window_ordering/identity.py": "ec324925e8bb408e39b032656f07a7ea9b892a3cb16df64a8355312ae7e5dd05",
+    "numerical_audit/prospective_window_ordering/independent.jl": "ef0b74f7349e82b6054ba1a3fd279115bf8278e3bad4a2beb5ac4cc89fc4cef2",
+    "numerical_audit/prospective_window_ordering/objective_check.jl": "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0",
+    "numerical_audit/prospective_window_ordering/panel.py": "4dc194ca4793d02aaf03dc8b8e3b0f520bf13a5b5c28ffbc26dd0b8513de94a6",
+    "numerical_audit/prospective_window_ordering/physical.jl": "f7653d3685f619efdf44a785793bd5057a2e037c372ad2c4bf8ec69a7225c6e8",
+    "numerical_audit/prospective_window_ordering/preflight.py": "f9777cda978a603b933fd39a25749e9e308de62009f5066f55d7c0cf779614d1",
+    "numerical_audit/prospective_window_ordering/src/WindowPhysical.jl": "c6452aab650e30dff83376a3a21151210e76b1089fc8828fb32740c27689487b",
+    "numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl": "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77",
+    "numerical_audit/prospective_window_ordering/study_common.py": "3cd92614801ab47e2c7583ad5fe7c5f84b8ef3991d78a3d7f3944c3a3f3a0a0f",
+    "numerical_audit/prospective_window_ordering/test/driver_tests.jl": "24013ff0f7898a203fda43c302e4c140dd5fb4c1176f501b2ea04cdaeb9d5812",
+    "numerical_audit/prospective_window_ordering/test/independent_tests.jl": "1ee4b602db0f4862151dca21e1ea1d9395ee5ea93fb1daa9755e3f0ad72a5dd1",
+    "numerical_audit/prospective_window_ordering/test/objective_tests.jl": "d86ecee8d31c50917149d0acc4e8ddb76fbb8280f0e137be3bbb7452aca498af",
+    "numerical_audit/prospective_window_ordering/test/physical_tests.jl": "2eacfea3df1438babaf49064e4315fef87bd1c36877be8eb610798f7ed73bddf",
+    "numerical_audit/prospective_window_ordering/test/test_campaign.py": "ca82e5de5f744aad08524708ea696601c9af330d95eedf9734c363655b0087b3",
+    "numerical_audit/prospective_window_ordering/test/test_contracts.py": "8dc4bf5aaec6850db74b13e659cd3e8eb5ca7644ae47f5ba4310c125109ffb3c",
+    "numerical_audit/prospective_window_ordering/test/test_input_boundary.py": "80eed2013d8e06b89e38166c629b005b08dc6d1287a386862c997aca388f74cd",
+    "numerical_audit/prospective_window_ordering/test/test_panel.py": "082048c04c9a823e6837a80ef91e71a03611dcb0ca59dfbf17b6c64f4e5f7df8",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py": "c51a0a6d57f3c553d42ee445a093b0c12fb4011da456fe07fdbae0f43d6dc224",
+    "numerical_audit/scalable_ordering/common.py": "44d223e5bf6ce4706b11b4bdd9630b730d0c0631fcb6a5d2eed98aada2a8279b",
+    "numerical_audit/scalable_ordering/training.py": "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+  },
+  "current_consumer_sources": {
+    "analysis/__init__.py": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c",
+    "analysis/fermionic_coefficients.py": "e7a851a3f62dbda9fe6da23fee545fd4631b311630e28c8e77384d3da9a5f3fd",
+    "analysis/julia_window/Project.toml": "511ef44fa4eb796f2b04aa5245cb9658a8a243882f6d560ec651618733e31b4d",
+    "analysis/julia_window/README.md": "43ff82279a30094815f8548a0d113345f1dcc98ea48c9f9c0a2af265016cc40b",
+    "analysis/julia_window/ResponseCore.jl": "19eccecba10052461cc152140419ef8355168c4bfc557f0907ec61ec00c7c1cc",
+    "analysis/julia_window/SOURCE.toml": "e9132f9c0c27a32780fb4004e0204a84ae046ccece4075a8dea50852ca870728",
+    "analysis/julia_window/WindowSearch.jl": "04a26a61662546feac71e3d076b5afdda7018de22b403dc0e7d49928198292c1",
+    "analysis/julia_window/tests.jl": "e46c90125abb91a046a33d10b45368a7c80d996da5739ce64e1bd83135194bcf",
+    "analysis/julia_window/worker.jl": "6f525a2f61a90f8f8ceed70ba331cb90df371d9a705245253bd785626cce0e84",
+    "analysis/sparse_response_ordering.py": "957dc5eeeac955812a335afacb09bdff4165bac0c571a2c9f60299281897e4e6",
+    "analysis/strang_schedule.py": "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a",
+    "analysis/train_ordering.py": "56b2aa6eaf7637ff57d476db0c85478902089fb3dcb31ec1d109ee960e108abd",
+    "analysis/window_ordering.py": "93d967def472654e32c7c8cac7dda82bd3c23c59f09463e1cc4c04447b260bec",
+    "numerical_audit/__init__.py": "caa548aa196396dc72284450504099f042ddc2c9400ba04491c5abae51e938ca",
+    "numerical_audit/cost_matched_continuation/PREFLIGHT_RESOURCE_AMENDMENT.json": "3d4f3909b97d32228df680008ca6ceac9b105428c4142e4eaed42196405c805a",
+    "numerical_audit/cost_matched_continuation/PROTOCOL.json": "b140ab6b3d01a4bcffbfb0edd5da56f08dc639176048c78c28ac137f464dfe8a",
+    "numerical_audit/cost_matched_continuation/README.md": "f2ca8b0b272d129ece4f2493e78dca865fa4df17dc68180ef2139d43e46336fb",
+    "numerical_audit/cost_matched_continuation/REGISTRY.json": "792cd8548e1824beb17082f28afdf04a32c87bc4f17a450d0a0366330be6416d",
+    "numerical_audit/cost_matched_continuation/admission.py": "abeda1eccbf17327a474277b4ea7f2a975f14ef4835b505677b1288f38968b74",
+    "numerical_audit/cost_matched_continuation/analyze.py": "1bd054d817a168f14d3cdd7efe720e9b685ba5e8303d23c53094e70cedefd8c8",
+    "numerical_audit/cost_matched_continuation/common.py": "4438f82b6f0e0d34f766256ea5eda99fad41c34ae61ad15768338709c0f93ea0",
+    "numerical_audit/cost_matched_continuation/construct.py": "122f5456d6ec52da7f4fc2f2c2a886b21e7dabda1ae2d001f46e67c7015f65ee",
+    "numerical_audit/cost_matched_continuation/generate_inputs.py": "2a39b796a921eba73b4bc3d671c8e7b3ea37f5c18be5e3cc004dc8819ed5364b",
+    "numerical_audit/cost_matched_continuation/ledger.py": "2a10500c86c182756404eddaf48c08c1c5fbb12a02437dbb40be1d9377ff1c76",
+    "numerical_audit/cost_matched_continuation/objective.jl": "f27b19b9e1d26d6f4248bb2cfee72b48b4cbdbd16ba5acb8209dc374d36e5d55",
+    "numerical_audit/cost_matched_continuation/panels.py": "f543fab069897def62fb3083372ade4c90a7ed48fe36e6c6b54c894f3b1b81f0",
+    "numerical_audit/cost_matched_continuation/physical.jl": "c0f4555351696efc5918db17ab52a3dbb2467c04e3b1dc8b386bb67132529507",
+    "numerical_audit/cost_matched_continuation/preflight.py": "63cc3ef2c030acbb942ff44fa09dc9c9a8d3bf0a05ea036fe5ba7c32270f19e9",
+    "numerical_audit/cost_matched_continuation/provenance.py": "d52898546022fa92c9a57be27afc09ca9eb75e6551810f39a321af2c5eb5d03e",
+    "numerical_audit/cost_matched_continuation/verify.jl": "bd63cfcd824d601dfa68cb200a6361dee7ff703ebe5410acc897e11bab1f7e26",
+    "numerical_audit/followup_classes/exact_blocks.py": "708f0882b243efcba17afa84ebc17102c1ce8663c699c09ba16b6c1508049ba3",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CH4_r1p09.toml": "00a283f3736e331b2c3bfc140213e1d5d1d3a62f119b34ab1450a1b091afbc97",
+    "numerical_audit/julia_cubic_feasibility/evidence/inputs/cubic/CO_r1p13.toml": "b78921326c04f331a0d95b8fadf1be600bb6bfd0caa65e464d24c7aa6de5fe52",
+    "numerical_audit/julia_cubic_feasibility/src/ResponseCore.jl": "da0183a4157546012f7ccdb378daac0164a23fd9082a410af20050c32bbf0605",
+    "numerical_audit/molecular_generalization/CALIBRATION.json": "d96f209380241458f8dbadc8421cbc72547e36738de91d2d4d0cf2fc800585fb",
+    "numerical_audit/molecular_generalization/CALIBRATION_EVIDENCE.json": "9fbdb589ac946a57dccee7fb24840391412fe3f643fd19cd9e6c10bd204fd343",
+    "numerical_audit/molecular_generalization/ENVIRONMENT.json": "0bace62277606cca67708948912f3bb76a623b57844307fc97531f7f6399bf8f",
+    "numerical_audit/molecular_generalization/PREFLIGHT_ACCEPTED.json": "5e2308d5c5ba3629d768e797a6f9cdc2ba4e251b651cd80502938858edad7579",
+    "numerical_audit/molecular_generalization/PRIOR_USE.json": "ce61796112e5ac711e14ab6eeed908bf57a6614e624ae2236035aaaffaaa69e6",
+    "numerical_audit/molecular_generalization/PROTOCOL.json": "7ba8979b2291caf75b315acaced548fd2eda0f4662b3c9ed18c404739304cfc4",
+    "numerical_audit/molecular_generalization/REGISTRY.json": "4636f83255fa816981f1b2fa787f471a4290ef59e11aea783f0aa5b7266b2b14",
+    "numerical_audit/molecular_generalization/__init__.py": "4a4f7600554df53096add22e75ac264a88dac3d4bbe829a9ff09568ede329153",
+    "numerical_audit/molecular_generalization/analyze.py": "e4a597f8ecf0c10438b6f1af47f8c84e883dce6ddac34996b59b56cac2aa7048",
+    "numerical_audit/molecular_generalization/anneal.jl": "4a77ab1b30c4e364f87fa2343f5dc2d990073cb2a96567a7802a4cc7e716fffd",
+    "numerical_audit/molecular_generalization/annealing.py": "96d7a4a7d1dfaec5b58b7f7cf4c068620a0e091059341cf66abb6094561f81a4",
+    "numerical_audit/molecular_generalization/calibration.jl": "ffcc95fedd62adaa10427612b9b9f58392fd6bf649ee0603722739fa528672fb",
+    "numerical_audit/molecular_generalization/calibration.py": "e2f156189912ce9d78b60cadfc7a977e93d3c7c813b3ac20bc9971acaac2ced2",
+    "numerical_audit/molecular_generalization/calibration_completion.py": "ff301d28fc5cc7767d5608a7ed5efff2e0c7c245065543d881218b9fc34c3823",
+    "numerical_audit/molecular_generalization/calibration_resume.jl": "4af5970fc6d516e588c0199c6fa010cb6c4cdecb9226595eb1551b70dfbbe50d",
+    "numerical_audit/molecular_generalization/calibration_resume.py": "2f1283a09500644c73092a6aff56dc558ba42fc1e355c7d1dbb28f81c90f7eaa",
+    "numerical_audit/molecular_generalization/common.py": "603f047aa10392526d87b1f93da755b1be3ddd811cf310abd31863fb3ab1ae0a",
+    "numerical_audit/molecular_generalization/construct.py": "e21619803f019381509860a34f529eb7b16a3eda67a5afd9e6382e3906696e2f",
+    "numerical_audit/molecular_generalization/generate_inputs.py": "e99dc79f53237fb0249a7ebc300baa5805ae6fa2be960873b6d89dc8102797fc",
+    "numerical_audit/molecular_generalization/objective.jl": "4a02dd902328e2f1d033a673955db18880bea0d12cd9ea8c2b9a168cb264647f",
+    "numerical_audit/molecular_generalization/package.py": "bc080d9ff48aa3af5cc7109e18d85446fad2c10cc8f1189526bfd22b31d4c981",
+    "numerical_audit/molecular_generalization/panels.py": "7fbe5846b8e1652d97f862076990ea2cdf9d305de87e46b3b2a24816ceb4171a",
+    "numerical_audit/molecular_generalization/physical.jl": "e1885df306efd22f9b0f79d7e2f72bf0e860be90eb00013159d4bbc8b1926542",
+    "numerical_audit/molecular_generalization/plot.py": "2ecea1ef63635dbcf655e477fbd9834c5abf97ae841011dbe076e52301746ddf",
+    "numerical_audit/molecular_generalization/runner.py": "6567387b3bc7bea1723eb07cf3c9447524b66fb332071ce005e692ed56715d17",
+    "numerical_audit/molecular_generalization/src/FullOrderAnnealing.jl": "8d0c6d4f3c3459890107de7d1831346a8869633d260916506e603416dc47f616",
+    "numerical_audit/molecular_generalization/src/GeneralizationIndependent.jl": "da9b73c796c8305417109ab70ac84a30743ac8dbace9e65172dcb33e339ad9f5",
+    "numerical_audit/molecular_generalization/src/GeneralizationPhysical.jl": "608011b148c0c846158f8343c075b50275e92f6a127ea4a674419dda3b434de5",
+    "numerical_audit/molecular_generalization/tools/resource_guard.py": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+    "numerical_audit/molecular_generalization/verify.jl": "43cef89e609d29f00482b094d59bd862b7f43b0f12febba1f753007faf501bac",
+    "numerical_audit/prospective_window_ordering/PROTOCOL.md": "4987dbd2672d93077da5c81727325f8690e600fc210fd34237504d66d270f548",
+    "numerical_audit/prospective_window_ordering/README.md": "d62374563e81ddcdce1dfb2c6eab934a99f6fa7f9e8e663f6ba22eb2c510f90c",
+    "numerical_audit/prospective_window_ordering/REGISTRY.json": "42c101dacdc537b154ce835699d5bd101a18d8fb214eab0b7596f5984175f825",
+    "numerical_audit/prospective_window_ordering/SOURCE_ORIGINS.json": "71495b64429177cdc65a332afcaccf44371af9f6825f9de7e30f4068cf7b6769",
+    "numerical_audit/prospective_window_ordering/construct_campaign.py": "bbbcc3a096ce83f51747842dd6ea9c1b9940d17f95d7766354dcfaa0c98374fe",
+    "numerical_audit/prospective_window_ordering/constructors.py": "ba1cc0e2ee3b64eb4a4f22df6bed1d828bbf52f1a7d8ea057f7588cf02f5c27e",
+    "numerical_audit/prospective_window_ordering/generate_inputs.py": "af9366d1b32056159dd94d33bf140ef621f4e9092849880fb2ae3c9521e04389",
+    "numerical_audit/prospective_window_ordering/identity.py": "ec324925e8bb408e39b032656f07a7ea9b892a3cb16df64a8355312ae7e5dd05",
+    "numerical_audit/prospective_window_ordering/independent.jl": "ef0b74f7349e82b6054ba1a3fd279115bf8278e3bad4a2beb5ac4cc89fc4cef2",
+    "numerical_audit/prospective_window_ordering/objective_check.jl": "07174664c6872de5aa514935205c1acfa9ba474357e36bba485581c0db585ba0",
+    "numerical_audit/prospective_window_ordering/panel.py": "4dc194ca4793d02aaf03dc8b8e3b0f520bf13a5b5c28ffbc26dd0b8513de94a6",
+    "numerical_audit/prospective_window_ordering/physical.jl": "f7653d3685f619efdf44a785793bd5057a2e037c372ad2c4bf8ec69a7225c6e8",
+    "numerical_audit/prospective_window_ordering/preflight.py": "f9777cda978a603b933fd39a25749e9e308de62009f5066f55d7c0cf779614d1",
+    "numerical_audit/prospective_window_ordering/src/WindowPhysical.jl": "c6452aab650e30dff83376a3a21151210e76b1089fc8828fb32740c27689487b",
+    "numerical_audit/prospective_window_ordering/src/WindowStudyIO.jl": "86d7246e66cc021e40008af57a3154ef2a569692a56d85aa788663ff228f2e77",
+    "numerical_audit/prospective_window_ordering/study_common.py": "3cd92614801ab47e2c7583ad5fe7c5f84b8ef3991d78a3d7f3944c3a3f3a0a0f",
+    "numerical_audit/prospective_window_ordering/test/driver_tests.jl": "24013ff0f7898a203fda43c302e4c140dd5fb4c1176f501b2ea04cdaeb9d5812",
+    "numerical_audit/prospective_window_ordering/test/independent_tests.jl": "1ee4b602db0f4862151dca21e1ea1d9395ee5ea93fb1daa9755e3f0ad72a5dd1",
+    "numerical_audit/prospective_window_ordering/test/objective_tests.jl": "d86ecee8d31c50917149d0acc4e8ddb76fbb8280f0e137be3bbb7452aca498af",
+    "numerical_audit/prospective_window_ordering/test/physical_tests.jl": "2eacfea3df1438babaf49064e4315fef87bd1c36877be8eb610798f7ed73bddf",
+    "numerical_audit/prospective_window_ordering/test/test_campaign.py": "ca82e5de5f744aad08524708ea696601c9af330d95eedf9734c363655b0087b3",
+    "numerical_audit/prospective_window_ordering/test/test_contracts.py": "8dc4bf5aaec6850db74b13e659cd3e8eb5ca7644ae47f5ba4310c125109ffb3c",
+    "numerical_audit/prospective_window_ordering/test/test_input_boundary.py": "80eed2013d8e06b89e38166c629b005b08dc6d1287a386862c997aca388f74cd",
+    "numerical_audit/prospective_window_ordering/test/test_panel.py": "082048c04c9a823e6837a80ef91e71a03611dcb0ca59dfbf17b6c64f4e5f7df8",
+    "numerical_audit/prospective_window_ordering/test/test_preflight.py": "c51a0a6d57f3c553d42ee445a093b0c12fb4011da456fe07fdbae0f43d6dc224",
+    "numerical_audit/scalable_ordering/common.py": "44d223e5bf6ce4706b11b4bdd9630b730d0c0631fcb6a5d2eed98aada2a8279b",
+    "numerical_audit/scalable_ordering/training.py": "cbb901f0e41dab750464c94c49fe0a79f9a0d32a6dc63155231939329cb1a9e4"
+  },
+  "artifact_hashes": {
+    "source_snapshot/numerical_audit/molecular_generalization/PREFLIGHT_ACCEPTED.json": "5e2308d5c5ba3629d768e797a6f9cdc2ba4e251b651cd80502938858edad7579",
+    "source_snapshot/numerical_audit/molecular_generalization/CALIBRATION.json": "d96f209380241458f8dbadc8421cbc72547e36738de91d2d4d0cf2fc800585fb",
+    "INPUTS_FROZEN.json": "7e9987fbc23bfa2beb90fd27725cf582dc5693b4103326dbe3bfe3f819422706",
+    "PARENTS_FROZEN.json": "86bee4d21b7f0fd845d208f7c3925d88d870b7fdf5d73cd48ccafa800e063fa4",
+    "constructors/HF_r1p00_631g_12m8e.rep1.parent.B0.json": "c945a71e8225eb907143b8e860cb63cef4156ba6335cb74ea55bf869ca99e973",
+    "constructors/HF_r1p00_631g_12m8e.rep2.parent.B0.json": "a761d74fdc0336b29fa4b7cd9b25ef3a815763925efa3a2753e40c5baaec98ff",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.parent.B0.json": "752b8bd0470b4266e5d32cbb826d9abe1f0745e10aa29ceb0e282afa08b0a36e",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.parent.B0.json": "14ba77b78827c1a848bff0fbcb2774f2c53c90953187a0640214213db4f4f779",
+    "CONSTRUCTORS_FROZEN.json": "73da8934a539ecc12d2c3fe39762e3c844ee93b79273c032be6f0bb047725132",
+    "constructors/HF_r1p00_631g_12m8e.rep1.canonical.B0.json": "57e41286e9aa97e2a1f4167cc3ae12be2eebebdc7cdf029acfbe90422660ea10",
+    "constructors/HF_r1p00_631g_12m8e.rep1.magnitude.B0.json": "4f3de6de6fdfe5a340811e9047be2d295f69bbc92613cf1d070e532e98ebee62",
+    "constructors/HF_r1p00_631g_12m8e.rep2.canonical.B0.json": "3ed5b68001b11a1aede0e37d7b6a8ed0bb9a36ce93ba097ba9a86d0cb312ef45",
+    "constructors/HF_r1p00_631g_12m8e.rep2.magnitude.B0.json": "c1b7265287bc54dbe536941d1d6abfecffec6c6b9d628766536891e9c3d906c3",
+    "constructors/HF_r1p00_631g_12m8e.rep1.full.B32.json": "0c39c711ad9f1fb8abe1e03b8e41f7b60c14ab1ad417202f4258dd4fa2f196b9",
+    "constructors/HF_r1p00_631g_12m8e.rep1.full.B64.json": "4e15182955624e5d64a9e95389b63e6d8a5e9a719e378efe36cf4213d320b428",
+    "constructors/HF_r1p00_631g_12m8e.rep1.window.B32.json": "20d5ccc582ab4798487ed0a9990c41c69ead4b4648abc6da88f79820d39b50bf",
+    "constructors/HF_r1p00_631g_12m8e.rep1.window.B64.json": "c951fd9aa49ce0e77ab73ecfe1d940727b92a17949a7fe9b30dff3cec01e1cef",
+    "constructors/HF_r1p00_631g_12m8e.rep1.annealing.B32.json": "fb65adae6ff2e0e6d8e8efdaad4b87b325bc53501910c18c1c34eed851befe22",
+    "constructors/HF_r1p00_631g_12m8e.rep1.annealing.B64.json": "3cd5cd148fd6bec9d0ad9cd235ce296d078d689b78a211522993bb20853fa27e",
+    "constructors/HF_r1p00_631g_12m8e.rep2.full.B32.json": "b9d8e1ab9d7dd09f70bab8b20a4b5088b3860c7283c681dbcfc348de6c94b120",
+    "constructors/HF_r1p00_631g_12m8e.rep2.full.B64.json": "c3d2f46a74ce4921361e1f1c85620fa1577cc41c20878e7a73fc05b6a6cf4f9c",
+    "constructors/HF_r1p00_631g_12m8e.rep2.window.B32.json": "8a364aefb192f70cb886f4dd415ad98747011ea3138e74fb464f012d002bef68",
+    "constructors/HF_r1p00_631g_12m8e.rep2.window.B64.json": "85b6be7158a4d214662a515c095c625d6a3337a7b5efc703ebb3ce17e506cf15",
+    "constructors/HF_r1p00_631g_12m8e.rep2.annealing.B32.json": "b486b85a5698b90b7055d7d476f0f7cca0348255c843150ce9dc28da7bfd6f2c",
+    "constructors/HF_r1p00_631g_12m8e.rep2.annealing.B64.json": "035b1bf1a058638be3bd001e885fc6f2bd324a5ab29dc030c98c2e0c23252c3b",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.canonical.B0.json": "f9d23ab43d5a7c700da922cf0a8ac0c0feee4cff550b049a74f2fee5e9985156",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.magnitude.B0.json": "c76124926154a2d249ca223fd5afd3cb0ed4971370778e6b51c71f396e3d9990",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.canonical.B0.json": "64ea3ab00e9faa485c023d3c7032d2e473833a525506941ce544b5147c06ceb2",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.magnitude.B0.json": "85f58b3df15602ed4b3b9f20e8f06f65b317400c29bd757fef421d2201265897",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.full.B32.json": "df05978edffcaeba5b8959ffe565c97bcb514d1af25680d51cf0d9e49e8b94b3",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.full.B64.json": "82107e0c1c2323e41da1ee65cb3a09ccee1f4646edb264978794cb87acef6641",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.window.B32.json": "dd5c50e363d5c4dae6ff356558d8ba25a797428c5e2c1171a853bb10ee389ef9",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.window.B64.json": "8ffe102466d12fe424b880110bcf32880a56a11acc4933b7f00a4469f9423588",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.annealing.B32.json": "6588cdc9332e37ad9ce8610234a5e4f4ab2978451457b097df1ed8b5c6d1309d",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep1.annealing.B64.json": "88a2fb65b6e7fb75520c0af389c54e56c7bd88814700b492d79603e93dcc6c03",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.full.B32.json": "c83e947e90102e48d65c28e5604ab198f9bc3a25141b3f17d3be58659a5a19b3",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.full.B64.json": "97e0f6c1a620ad4c3bed6bf73c819f4c84ebad47a62da392ab9a3f3de20ca173",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.window.B32.json": "9db8f8e8ee718a03132b513c74d7a6774301b3c5e4d3a750e4c903f777ee8321",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.window.B64.json": "7a02fc7285f0f317334280ef6d6031d3758d3edc73dcff3c72d82dd69450a3a2",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.annealing.B32.json": "9347327c4bb564172e33128bad0d555b1214dad1fe2762841881825985e2e805",
+    "constructors/H2S_r1p40_a96_631g_12m8e.rep2.annealing.B64.json": "dbc4d6a40293efbfe2282815b3887227da56cb92efc22832b9b401e21aad42e3",
+    "jobs/mg-physical-h2s-r1p40-a96-631g-12m8e.PLAN.json": "6f9cbf03a833ba06c523680151e0ea279f292d31811a13edef7f4b6aab85fdb0",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-annealing-b32.PLAN.json": "1d5e74d692552648fdeec1d2511fa7889b5111aa6e38a06bfb846172f266add7",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-parent-b0.PLAN.json": "97dc38d7dd283eabeca2b741abbe18cb9fba43b2feb4bfcc6a936d92b9b45dbb",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-magnitude-b0.PLAN.json": "3810910d6a0700286ce0ba968eb86e0136f18ad75d8d122fb4bd6ebc063b0075",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-window-b64.PLAN.json": "47876c2593f3cce8e5c2cb19b130a3379650559e84a6df3d59b7ab190c675995",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-window-b64.PLAN.json": "ed7149d327669bf1c558c2cba119367266efcc78d772f0a90d978ea046f2f639",
+    "jobs/mg-input-hf-r1p00-631g-12m8e.PLAN.json": "8de42e72af20ab62ee33cf75298c8d15f3de7372ae144519412082bc8aaab8e6",
+    "jobs/mg-independent-h2s-r1p40-a96-631g-12m8e.PLAN.json": "39597354d01ff11ed8879dd24a6f6b0e33608d55087366c206b816a5c109148e",
+    "jobs/mg-independent-hf-r1p00-631g-12m8e.PLAN.json": "4ebe9af5cabc32af8fcaa55b87dbbdd3d6acdf5a2bb7195941dacb61944a9faf",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-annealing-b32.PLAN.json": "9f79a6f8a0704f4b23903b0dac7f121b36a5755a7cdacec7cb29b63fa42bd1e9",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-annealing-b64.PLAN.json": "f24946b3a4cbd396f13cb9ea56e67f4fccb4ff250febe664e6823941a4d2fe30",
+    "jobs/mg-objective-h2s-r1p40-a96-631g-12m8e.PLAN.json": "e495e2d746fd52425b84d8e3e0e33ca2639843a6ae2d08bd8220b33d8bb00052",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-canonical-b0.PLAN.json": "b55dfec7b10591d401bb506032d0eeee32b6a7d2d8a69fe7068fb99f76b8ad35",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-magnitude-b0.PLAN.json": "69e212fd331d4b033ae9360f506a6db9b17f3a557e7916c664f36a72334ed8cc",
+    "jobs/mg-objective-hf-r1p00-631g-12m8e.PLAN.json": "6e1316d4824fd23a470bfae85fbe86d5a4d52b0a04eed5f1a75f351ed7014c56",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-annealing-b64.PLAN.json": "bc808cd83995ac609073ada904ee02b63f55f3ed28ce3d8b5236b84b854cf269",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-annealing-b32.PLAN.json": "5e2fc14e88a0b6f40930932bdc584cd5198a1d269d3b1f7a19e9317b815a5912",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-full-b64.PLAN.json": "862686e086cf0ec12887f7467f0fb99c56c5e716b642744c6cde3a4fedd0b215",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-window-b32.PLAN.json": "3707103eeb8ff93ae6d7b71ff0e6902f98521691cdbb1bd5045bad831bb26759",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b32.PLAN.json": "79233524d42ebab14ab0274b5169afb809b9af17487cd2db8630a4d226c00e2c",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-annealing-b32.PLAN.json": "bfcc00c4594c9c9e51ca53d7aaa3e69cfdcc1a201d6ebdf88208adcbddd28787",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-canonical-b0.PLAN.json": "82e9be7a810c8d05cb7c6315608b3d199f5e5988060421ed401e7938be461c8f",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-full-b64.PLAN.json": "81b5df2cdba2327c40283d4a0d88e95f59b096bd11950a8809734147f13da2e3",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-full-b32.PLAN.json": "4429a6476ed7c2829f94c809ba0a3494dfced062db1108b0d4195f3f58f185b4",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-full-b32.PLAN.json": "48cfafbb5cd5d7ef9f30b4c5dcac22075b4896fdea95e37354588949a1a1527e",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-window-b32.PLAN.json": "3fbae02153af11be3aae7f19f0d9d61502edd6699836fa6a8809cb0b66a99154",
+    "jobs/mg-main-panels-a1.PLAN.json": "e6152f781883622d41f2e31de958a7e591f13c801b0669647a33a17f022dd079",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-full-b64.PLAN.json": "5efda09b07331090c9121f2fc34f0f138eef429d545fd45e0fd1798ef1a93c9b",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-parent-b0.PLAN.json": "ca4de692938da9b0d1462a8a29ba1f80caa88d6e9cbc96731c910c6902bcfe29",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-parent-b0.PLAN.json": "e55ae5f7f3ab13664973495f16411bfce39ef3c4d6b8981f426cadc25ffeb0ac",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-annealing-b64.PLAN.json": "c4762185c92e0acd66ac0d9403d4c191b389f339d2a2bcc67a33067aeaacd2bf",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-full-b32.PLAN.json": "60735c9be7d9428062acd316206235a60ce6e82233b8cfd9eedcb9f7e05c0088",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b64.PLAN.json": "8c0c5b3b8d1eac313b570b3239837d538a60f0db00c5a253b3ab32858c84f620",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b32.PLAN.json": "327ce79515c7603feb12fbb40eddf909fdbb45ff5bdb96f62714be03b44d0fe9",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-full-b64.PLAN.json": "82518b4228452efdedfdff65c5ee78644df3387985511cb5792b0238d5bcf4fb",
+    "jobs/mg-main-analysis-a1.PLAN.json": "e1108d8c102c1413a42710e86bc143e4383418f7c3a68c98ff7f70721ce41a2e",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-parent-b0.PLAN.json": "c58d2f9f7af9fb2edb2b1be5ac38837eeef4fe1291714fdffe933e18ffb82cdd",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-canonical-b0.PLAN.json": "10073f1b14e80e7666ffa714a231c0d2633644fde6ca4ee0638612a48ceaf40f",
+    "jobs/mg-hf-r1p00-631g-12m8e-r1-canonical-b0.PLAN.json": "383ccb8861b84673f1700d58ecb3222a844cbd02bf7cde0341a9bfcdba00d8f8",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-full-b32.PLAN.json": "2b11a68a2913465ca5afc28d360b58fd45a38c0571768e854c77347828ba45d2",
+    "jobs/mg-input-h2s-r1p40-a96-631g-12m8e.PLAN.json": "0355627cbf6cd112e1d2236328d2acd0af6954e134518876a17de1d7fa5613e9",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b64.PLAN.json": "7e003912fd6495f0400d7f4badaf6c0de31693e2960636657f6142702fdaab45",
+    "jobs/mg-hf-r1p00-631g-12m8e-r2-magnitude-b0.PLAN.json": "656421e81233f31edbb7ee27cdf62730d32a6c655cd5e2f6ecf9b5c5665cc92b",
+    "jobs/mg-main-figures-a1.PLAN.json": "5d95dc12e17cb1d896b7598f9228d9bef82e1c5ad3b85289ab4c333a1f4a5e1a",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r2-magnitude-b0.PLAN.json": "c1e66632b3796e3bb824570d53e6ec8bd3f72f96c18abb0fdbdb4a788c4b6740",
+    "jobs/mg-h2s-r1p40-a96-631g-12m8e-r1-annealing-b64.PLAN.json": "c193de781707da6d3931bd4874f8c521ce1e6686917138081198f81e93a29c1e",
+    "jobs/mg-physical-hf-r1p00-631g-12m8e.PLAN.json": "675637b962c298719e52655ab618b1239c58fb1dfc23ca03cbcadc538af0a968",
+    "inputs/HF_r1p00_631g_12m8e/model.json": "b8bfaa3d0ea90324f5935ea008bcd507714020c31d5209ed3d009575b14b52aa",
+    "inputs/HF_r1p00_631g_12m8e/model.toml": "9bf5f3046b33e116b6b10fd5d24cf82cc13676025be967064f2cdcb4a4b01874",
+    "inputs/HF_r1p00_631g_12m8e/orbitals.npz": "eb9901389ec4a3a8fa980fb9d897156ec0f376579e2c686184a335dff46baf3e",
+    "inputs/HF_r1p00_631g_12m8e/tensors.npz": "28dedb8493ff25e61bbcc4384a22caed3344ce1271079e4711bd6880fb827cc9",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-parent-b0.resources.json": "afc3a32cac53a86d10986b60875b6511b4641bb1edf5eda5bb5151418cb3c1e9",
+    "source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-parent-b0.json": "29780ed0da345485062028b0dcf39fc763c7f378c6de6cf37d04c2097633ec1c",
+    "INPUT_PROTOCOL_FROZEN.json": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-canonical-b0.resources.json": "f9db3ce2f0d576b8cea93fe1b6b5c94ead94defab53ef8150a5f041dc20380ce",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-canonical-b0.json": "e5b2abdb7db32dbfc6041d0a771cf1423dabd30a35a36dd05233d89a1702fdf7",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-magnitude-b0.resources.json": "135db6414e35d050767d9091a8832e6a0f237f7f5c58d62eb74a4e1d801c0087",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-magnitude-b0.json": "cc37ad8daf9558344efe5997ef4ec1e043b17eec1449e6de4c8681bf26bb3282",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-full-b32.resources.json": "afcbefea4162b17ed98f656dea0c0fc04d221f78d3d626357443c0743464bd19",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-full-b32.json": "45c2256c6b81bb425d0e3f5f5e13ade16a780dde188db0eab7db436aaa632d93",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-full-b64.resources.json": "5d621a5afc2de948d12dfff19ccdf1ebe6e1f75ff3d5977df4583755669b9fe4",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-full-b64.json": "5c87803f1e8ae4407e1035c7f859853c1e9a9bb8c03015890a6812ec5a633dd8",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-window-b32.resources.json": "e616ed20406d5d3d36a97f2742d0a431f3c4e76c06b66d774301fa13d1f17636",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-window-b32.json": "b589d7a60e1dba4d0d35b595dd6b15225288b9fa5d560c2e7f5012e304dc7122",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-window-b64.resources.json": "cfe2d903b35f64802e31ee9c03ca3cb78e3a52d542c9549016d31606f712448f",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-window-b64.json": "065a23df24df231ea51506fd66b87a21065da30da01c44ede5433662b921831f",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-annealing-b32.resources.json": "17e4842aba92c56b841bc21f32067009da6bda7aad05c4e5e71f6fc897454112",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-annealing-b32.json": "f5815fe39e5f79d1ad01bd3c60cfda9d13712bc51a6225b3ea4a2331986e3ac2",
+    "logs/mg-hf-r1p00-631g-12m8e-r1-annealing-b64.resources.json": "0d2ed662e45965693f2d0efdebc982e7531db4f0ba295de58e523521f09bd6b6",
+    "workers/mg-hf-r1p00-631g-12m8e-r1-annealing-b64.json": "3a31c86d30b4ae5de7bb621b31daf874d568b30002156eda30cc170e7af53a41",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-parent-b0.resources.json": "c446bb0e7030db410ce938027fc7d22a387331d339f1e04a0ce1bb106fdb0574",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-parent-b0.json": "9b82d4e73ca6ba6a9e10f93c03a364d5e2f714819a384ee25967bd7198731c69",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-canonical-b0.resources.json": "209fd671a76c170971922379fc8f7ecb279ae5910a06381a3cb8510447d474bb",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-canonical-b0.json": "206f8a1e086f808ea8a65ca7590cf3da43600740c39c2a12e78c292f93812db1",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-magnitude-b0.resources.json": "206cd13450bfe11570396a22dc656352986b925a15b8fdb6200d260e89793553",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-magnitude-b0.json": "696f83dc3e8ae7c1a7d0370b93366e23e3e103d453188e07f6e33bcfe36b144f",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-full-b32.resources.json": "ea511da7168d6af64022a27bd2a48a65afed46623a1e2d08a49cf6828b24ca8d",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-full-b32.json": "5844d9d482eb7916a9e5cc79160f66a013830f37b69efbc6f19eebb06195df0b",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-full-b64.resources.json": "eee6869557c19a40d2f58cf82c3e2dc9ee4797f5694028e686ce08023e6c37df",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-full-b64.json": "79ef0a08dbe946e7a64a491723ab4ac33cbb6c1053d62e40d70b861425507582",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-window-b32.resources.json": "892d4071d7e7762ec8cc006dd6e066d9733c740e3c1a3c5c7b79d1d66db2b69f",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-window-b32.json": "6d5acbd40b8979fdea6366783af61e932e8a29e5cf2069392c4b29a0dc870f24",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-window-b64.resources.json": "c7a9861cadc0dc89dde3055aa10cf51e9de6c14b80fb31723a92f1e667a58c3b",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-window-b64.json": "6a4fd506364f89ddaba41a74fa4411c2b4b2aa61b671ecf1945f403f07a7e128",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-annealing-b32.resources.json": "37588c8d44308e6f17d2f77fedf6fc250bbb4816d3e63811625f097a827d35e8",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-annealing-b32.json": "35f4c3e4cfa2bfcb3db4b7ee81e9fe1c9010574690580a59f9fe05427b5f2c23",
+    "logs/mg-hf-r1p00-631g-12m8e-r2-annealing-b64.resources.json": "839c2cfce4d629f87d4670061dd261c74356937845b6386fc26641398e1002bf",
+    "workers/mg-hf-r1p00-631g-12m8e-r2-annealing-b64.json": "410bf984d4f44d5f0313db847e704351af6d1fedcd1e33da87218c08d9630ad3",
+    "panels/HF_r1p00_631g_12m8e.toml": "35fbdf75d76463ab218f00ecb479c26d0c2028da4961347b0e27910421527486",
+    "witnesses/HF_r1p00_631g_12m8e.toml": "0cb33cc54e42bd0a07d1d739f6d96661245d3fc929b4545392819118d6c31548",
+    "inputs/H2S_r1p40_a96_631g_12m8e/model.json": "5d26f3124e6ca092e84125fdde2ec7309885f25184033c0617795884bb273808",
+    "inputs/H2S_r1p40_a96_631g_12m8e/model.toml": "5c654b1d5f6ebae7019ce578c4cd45247b1a3d2b77630a5494c4abecd8129bf0",
+    "inputs/H2S_r1p40_a96_631g_12m8e/orbitals.npz": "002b2615209c1465ff4fe9e0871137ec2955b54656b489b19c5c0cf11655bdd2",
+    "inputs/H2S_r1p40_a96_631g_12m8e/tensors.npz": "f40b81702fdfc47a07a923fb6df0a09e4412b57a8ad6f7a404fac10209abacb8",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-parent-b0.resources.json": "9d26964b2298db935541696abc64709532144a16ddd79f4dadef9511823b96c0",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-parent-b0.json": "f25d3d7946f05978f7620d54f631b8abaccbebbc530487abbee115a8b7c9d166",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-canonical-b0.resources.json": "60eada284e1242b92d406f687a88e82046fc0be1b5c4bbc3e9ccea17c98bf144",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-canonical-b0.json": "5f508997ae42dd74bce051aec75fa5cf919a2603798cfe63766738b0d8d19771",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-magnitude-b0.resources.json": "33043618ad061aca167c192dbdf47c488e94826ce8cea02ead83969cdd0ff70d",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-magnitude-b0.json": "aebc03bbbdd3091da8d0c70dfa270df53c65a1eb4b1af88025fc4f205974f85c",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-full-b32.resources.json": "b60ddf78a62ffa8ae64493ff170be7460bb4a733dfa2f612b10f7e09d58653ac",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-full-b32.json": "5e97f10e06e958c980da9cccf9bc95da00da98e24a5ce62f561ee9946ac06ff3",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-full-b64.resources.json": "15115ade5307f3ce8af93e7bf30532fe3615e9cc27a2fe771ac718a165d19280",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-full-b64.json": "6e2b046121cde428d22782c4ae4398ca312a50e3fd63d2d00bdeeecb65a33ad7",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b32.resources.json": "d65f74352ed5b69918817f2d075e088827854914eae48c67fb31bcfe35248ad2",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b32.json": "2d0e2fdd797a6d7f97555c01f1105d00729c0290e387ec9ee7820059c252b55d",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b64.resources.json": "d6372603e09710182fa3fe6df4f51f090bbf5b6c7c898c9ada95e98c4e64a235",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b64.json": "c90be4439009117ed268d7db78726504103b11998ccf108deb8025118e2ce11a",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-annealing-b32.resources.json": "05964597670a93b5155ddab4e8b8f32c9af8de54e39a7e3c1d059b1e71c3c7fd",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-annealing-b32.json": "c3a443bfca9f952613af644d883c262a0803410de0157b4a3e2d164fbb425497",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r1-annealing-b64.resources.json": "2654eed93897ce79b4947a5d4e4b09b069c8e1e273425e7ea4d48f06903be342",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-annealing-b64.json": "a5e69d5dfe188b98dffffae5db086012288aba54360f283b081b551b9b33924a",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-parent-b0.resources.json": "c50e768bc94b17021b4cdb1491729bed1382bacddaf2baad57e94b29e495879d",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-parent-b0.json": "a069d33e201cdeedad12605936b15611f1da46f1df0650637a508f8fb19e3846",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-canonical-b0.resources.json": "34e8e13931c717e0dad802e905ab5edecbf8557249637abb4c9202d0b3b2fb34",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-canonical-b0.json": "3a460257baf8667e08369aff5b92ed7accf38da9b884a08c9ba6b48fa298ed18",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-magnitude-b0.resources.json": "45735349f27c701927b7677af58e7325bbc42b4447e534be64b5ffed4f9c5150",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-magnitude-b0.json": "ef604adfd039fd45e14c345716289fc37cc9438d4e84185d22f2ebf2c45bce60",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-full-b32.resources.json": "53352aa0be0534100ea4514c58f63cc99e71dfd73d2f09349f75f685b9418de5",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-full-b32.json": "f1433405340435e630f4cc2658eeae5da9c69061edc49da137512cc896a27bed",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-full-b64.resources.json": "b6bbf620f1b4644dd57f648207ea5541dd45c309abb02eeedfa4abee4e527eb9",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-full-b64.json": "521de0d8bac445d4493072bdea374a216d4afdddb3f6d0dceab99c7bed0dd709",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b32.resources.json": "1090ae2329b4d92e20a2ebe3f209429ceede82225e1a8dc4c34496725b3c7132",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b32.json": "adb390ac33a54311ff157979d850e69fb6c8c95abda0e7a5b16bd9bb897558f9",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b64.resources.json": "5799cc3abc1e60f09af178c8f72ba24a95c130ab0bd99a92d901bc20ca8d62e6",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-window-b64.json": "7d44837ec45f336f398f9f2bed2d41bcf40e9ea7a90698dfaeb183d566137835",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-annealing-b32.resources.json": "6132f13787c0c29ff0325aa7ba572db9f361d235ce76aa817c626261cfceed5a",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-annealing-b32.json": "88b6bae7a0ca37433fa67726eb44b78721b5c5292cf05dc55a2db9183ce60458",
+    "logs/mg-h2s-r1p40-a96-631g-12m8e-r2-annealing-b64.resources.json": "e068992ec92710ce692391f5ed52c1aad7430b4540f7a4e432e58a2fe526de4f",
+    "workers/mg-h2s-r1p40-a96-631g-12m8e-r2-annealing-b64.json": "5831bb917b95d48e8dd0ad5e6ce4a61e25f9dbef751d1335a88fb6c32746d6a4",
+    "panels/H2S_r1p40_a96_631g_12m8e.toml": "01131a80ca1724f760772c54aed732c49380e8090fb07453a4a3cabb19a06729",
+    "witnesses/H2S_r1p40_a96_631g_12m8e.toml": "5bf0cefbd4f777d5e95e4371c68813bd619d808928cdd5568824b602b6af62e7"
+  },
+  "raw_inventory_independently_confirmed": true
+}

@@ -1,0 +1,131 @@
+{
+  "schema": "molecular-external-replay-plan-v1",
+  "label": "main-replay-verify-hf",
+  "phase": "package",
+  "subphase": "verify-hf",
+  "role": "later_relocated_numerical_consumer",
+  "command": [
+    "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=256M",
+    "--project=/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/source_snapshot/analysis/julia_window",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/source_snapshot/numerical_audit/molecular_generalization/verify.jl",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/inputs/HF_r1p00_631g_12m8e/model.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/panels/HF_r1p00_631g_12m8e.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/physical/HF_r1p00_631g_12m8e",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/consumer/independent/HF_r1p00_631g_12m8e"
+  ],
+  "guard_command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py",
+    "--label",
+    "main-replay-verify-hf",
+    "--logs",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/logs",
+    "--cpu-seconds",
+    "240",
+    "--wall-seconds",
+    "1200",
+    "--disk-mib",
+    "1024",
+    "--memory-profile",
+    "numerical",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1",
+    "--",
+    "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=256M",
+    "--project=/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/source_snapshot/analysis/julia_window",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/source_snapshot/numerical_audit/molecular_generalization/verify.jl",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/inputs/HF_r1p00_631g_12m8e/model.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/panels/HF_r1p00_631g_12m8e.toml",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/physical/HF_r1p00_631g_12m8e",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/consumer/independent/HF_r1p00_631g_12m8e"
+  ],
+  "cpu_cap": 240,
+  "wall_cap": 1200,
+  "disk_mib": 1024,
+  "source_freeze_sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+  "expected_payload_exit_code": 0,
+  "scientific_gate_complete": false,
+  "original_producer_root": "/tmp/qhat-molecular-generalization-2026-10-30/worktree",
+  "original_producer_data_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+  "execution_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/source_snapshot",
+  "monitor_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1",
+  "bound_inputs": [
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/INPUT_PROTOCOL_FROZEN.json",
+      "sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/PRODUCER_VISUAL_GATE.json",
+      "sha256": "499962888f113ace3c3a48b465c0054657270c558c64e6b2c5444d1f9f919536"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/ANALYSIS.json",
+      "sha256": "f3ed8ebc084507bab3b6a159c97e287f0dcbbbb094533439da3b98a8c5c0e6fa"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py",
+      "sha256": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/replay_main_censored_adopted/censor_contract.py",
+      "sha256": "0b67608585c2e4e09726264f1db397f21d05ba9b7bb8266dfe2e0a4355724156"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/replay_main_censored_adopted/EXPECTED_OUTCOMES.json",
+      "sha256": "551b65e47f1a924c033129ff344558808566dff0535e91c2fceffc93e26242a5"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/jobs/mg-main-figures-a1.PLAN.json",
+      "sha256": "5d95dc12e17cb1d896b7598f9228d9bef82e1c5ad3b85289ab4c333a1f4a5e1a"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/inputs/HF_r1p00_631g_12m8e/model.toml",
+      "sha256": "9bf5f3046b33e116b6b10fd5d24cf82cc13676025be967064f2cdcb4a4b01874"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/inputs/HF_r1p00_631g_12m8e/model.json",
+      "sha256": "b8bfaa3d0ea90324f5935ea008bcd507714020c31d5209ed3d009575b14b52aa"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/panels/HF_r1p00_631g_12m8e.toml",
+      "sha256": "35fbdf75d76463ab218f00ecb479c26d0c2028da4961347b0e27910421527486"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/witnesses/HF_r1p00_631g_12m8e.toml",
+      "sha256": "0cb33cc54e42bd0a07d1d739f6d96661245d3fc929b4545392819118d6c31548"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/physical/HF_r1p00_631g_12m8e/PHYSICAL.toml",
+      "sha256": "52b7ac087a93375ef143fe4ac589d312e07a44665876b5ca7053da94ab0dd133"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/EVIDENCE_INVENTORY.json",
+      "sha256": "00bf1155a36dba6517edfab25755cb18d27a63c0f99d765dcf160934b9fb7bc9"
+    },
+    {
+      "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data/source_snapshot/numerical_audit/molecular_generalization/verify.jl",
+      "sha256": "43cef89e609d29f00482b094d59bd862b7f43b0f12febba1f753007faf501bac"
+    }
+  ],
+  "guard_sha256": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+  "operator": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/replay_main_censored_adopted/replay_dispatch.py",
+    "sha256": "934177e2b168ffb2f8147441a5f74acf85691263503defe4427bcc6ab1cfb495"
+  },
+  "identity": {
+    "case": "HF_r1p00_631g_12m8e",
+    "repetitions": 2
+  },
+  "prior_package_CPU_seconds": 3.062,
+  "prior_package_wall_seconds": 15.184331685071811
+}

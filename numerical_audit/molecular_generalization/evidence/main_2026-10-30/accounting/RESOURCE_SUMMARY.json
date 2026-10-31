@@ -1,0 +1,55 @@
+{
+  "schema": "molecular-main-final-resource-summary-v1",
+  "source_commit": "aea354e287f2277d8b11cc51695a6d49f7e84537",
+  "before_curation": {
+    "path": "SERVICE_RESOURCE_ACCOUNTING.before_curation.json",
+    "sha256": "d28d02c677ce1d2d46b96132c989772666bbfa5dc5bcd454f8b29cec4711324d",
+    "services": 58,
+    "raw_CPU_seconds": 1361.25,
+    "charged_CPU_seconds": 1361.888,
+    "wall_seconds": 5778.800948864315,
+    "unknown_CPU_costs": 0,
+    "nonzero_exit_services": 4
+  },
+  "curation": {
+    "plan": "../curation/PLAN.json",
+    "receipt": "../curation/receipt.json",
+    "final": "../curation/FINAL.json",
+    "unit": "fermionic-future-mg-main-evidence-curation-a1-2193684",
+    "raw_CPU_seconds": 0.39,
+    "charged_CPU_seconds": 0.401,
+    "wall_seconds": 3.0428758340422064
+  },
+  "main_incremental_final": {
+    "services": 59,
+    "raw_CPU_seconds": 1361.64,
+    "charged_CPU_seconds": 1362.289,
+    "wall_seconds": 5781.843824698357,
+    "unknown_CPU_costs": 0,
+    "nonzero_exit_services": 4
+  },
+  "package_pool_final": {
+    "charged_CPU_seconds": 113.578,
+    "wall_seconds": 466.27814946114086,
+    "CPU_cap": 1000,
+    "wall_cap": 5000
+  },
+  "old_published_carry_forward": {
+    "artifact": {
+      "path": "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/evidence/preflight_2026-10-30/RESOURCE_ACCOUNTING.json",
+      "bytes": 68269,
+      "sha256": "0f2e724c6a4cd4de422f5f73961736f5dea7a553d88eed5bcbf2f42ed5975657"
+    },
+    "charged_CPU_seconds": 2336.248,
+    "wall_seconds": 11417.502078455931,
+    "already_includes_calibration_CPU_seconds": 661.83,
+    "recomputed": false
+  },
+  "old_plus_main_numerical": {
+    "charged_CPU_seconds": 3698.537,
+    "wall_seconds": 17199.345903154288,
+    "old_already_includes_calibration": true
+  },
+  "exclusions": "Cloud review reasoning, reviewer clients/discovery, light coordinator/Git work and separate conservative old control allowance are outside numerical service ledger; no invented zero costs",
+  "scientific_gate_complete": false
+}

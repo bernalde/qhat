@@ -1,0 +1,56 @@
+{
+  "schema": "molecular-later-presentation-plan-v1",
+  "declared_UTC": "2026-10-30T23:36:20.345541+00:00",
+  "phase": "analysis",
+  "label": "mg-main-figure-consumer-a1",
+  "role": "later_presentation_only_consumer",
+  "source_freeze_sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+  "input_analysis_sha256": "f3ed8ebc084507bab3b6a159c97e287f0dcbbbb094533439da3b98a8c5c0e6fa",
+  "original_plot_sha256": "2ecea1ef63635dbcf655e477fbd9834c5abf97ae841011dbe076e52301746ddf",
+  "later_plot_path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/figure-consumer-a1/source/plot.py",
+  "later_plot_sha256": "78b2fea5dc0f465967443d5639976ba8691bdf68200985829f0315d9290e72f2",
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/figure-consumer-a1/source/plot.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/ANALYSIS.json",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/figure-consumer-a1/figures"
+  ],
+  "guard_command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py",
+    "--label",
+    "mg-main-figure-consumer-a1",
+    "--logs",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/logs",
+    "--cpu-seconds",
+    "10",
+    "--wall-seconds",
+    "60",
+    "--disk-mib",
+    "128",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers",
+    "--",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/figure-consumer-a1/source/plot.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/ANALYSIS.json",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/figure-consumer-a1/figures"
+  ],
+  "cpu_cap": 10,
+  "wall_cap": 60,
+  "disk_mib": 128,
+  "original_phase_pool": {
+    "CPU_seconds": 80,
+    "wall_seconds": 400
+  },
+  "prior_original_guarded_CPU_seconds": 4.062,
+  "prior_original_guarded_wall_seconds": 18.179236333002336,
+  "scope": "Publication readability only: linear zero-based axis with headroom, unclipped markers; all36rawcoordinates/costs/statuses/data retained; sourceanalysisfalse/primaryincomplete explicit; preserveoriginalfigures",
+  "no_numerical_evaluation": true,
+  "required_after": [
+    "RawPLOT_DATA_JSONequal_original",
+    "RawCSVbyteequal_original",
+    "ViewbothactualPNG",
+    "TerminalreceiptandcostFINAL"
+  ]
+}

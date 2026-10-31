@@ -1,0 +1,110 @@
+{
+  "unit": "fermionic-future-molecular-startup-semantics-tests-a1-1944340",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "60",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/startup-fix-tests-a1/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/startup-fix-tests-a1/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia",
+    "--startup-file=no",
+    "--history-file=no",
+    "--threads=1",
+    "--gcthreads=1",
+    "--heap-size-hint=32M",
+    "--project=/tmp/qhat-molecular-generalization-2026-10-30/worktree/analysis/julia_window",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/test/test_startup_order.jl"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 18.131655631004833,
+  "samples": [
+    {
+      "elapsed": 0.0015692920424044132,
+      "available_bytes": 20642668544,
+      "frozen": false,
+      "service": "MemoryCurrent=0\nMemoryPeak=0\nCPUUsageNSec=0",
+      "output_bytes": 136
+    },
+    {
+      "elapsed": 3.0617213590303436,
+      "available_bytes": 20486631424,
+      "frozen": false,
+      "service": "MemoryCurrent=123117568\nMemoryPeak=123322368\nCPUUsageNSec=773091000",
+      "output_bytes": 136
+    },
+    {
+      "elapsed": 6.077770940028131,
+      "available_bytes": 20489293824,
+      "frozen": false,
+      "service": "MemoryCurrent=139747328\nMemoryPeak=139747328\nCPUUsageNSec=1525490000",
+      "output_bytes": 136
+    },
+    {
+      "elapsed": 9.090543444035575,
+      "available_bytes": 20408242176,
+      "frozen": false,
+      "service": "MemoryCurrent=157831168\nMemoryPeak=157859840\nCPUUsageNSec=2273037000",
+      "output_bytes": 136
+    },
+    {
+      "elapsed": 12.107224885956384,
+      "available_bytes": 20376653824,
+      "frozen": false,
+      "service": "MemoryCurrent=167456768\nMemoryPeak=167579648\nCPUUsageNSec=3023158000",
+      "output_bytes": 136
+    },
+    {
+      "elapsed": 15.12108706694562,
+      "available_bytes": 20332810240,
+      "frozen": false,
+      "service": "MemoryCurrent=168542208\nMemoryPeak=168615936\nCPUUsageNSec=3776041000",
+      "output_bytes": 136
+    }
+  ],
+  "completed_utc": "2026-10-30T18:36:06.040997+00:00",
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 60,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/startup-fix-tests-a1/molecular-startup-semantics-tests-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 3.71,
+    "system_cpu_seconds": 0.36,
+    "max_rss_kib": 347256.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 4.07,
+    "output_bytes": 1757,
+    "elapsed_seconds": 18.131655631004833,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

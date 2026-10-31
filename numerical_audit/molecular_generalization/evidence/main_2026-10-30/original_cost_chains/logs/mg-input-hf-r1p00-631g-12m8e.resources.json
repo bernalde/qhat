@@ -1,0 +1,108 @@
+{
+  "unit": "fermionic-future-mg-input-hf-r1p00-631g-12m8e-2069721",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "600",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/generate_inputs.py",
+    "--data",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+    "--case",
+    "HF_r1p00_631g_12m8e"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 18.092634893022478,
+  "samples": [
+    {
+      "elapsed": 0.0009483150206506252,
+      "available_bytes": 21775749120,
+      "frozen": false,
+      "service": "MemoryCurrent=36864\nMemoryPeak=266240\nCPUUsageNSec=71000",
+      "output_bytes": 8364469
+    },
+    {
+      "elapsed": 3.041185033041984,
+      "available_bytes": 21729943552,
+      "frozen": false,
+      "service": "MemoryCurrent=113127424\nMemoryPeak=113127424\nCPUUsageNSec=763574000",
+      "output_bytes": 8364469
+    },
+    {
+      "elapsed": 6.051637678989209,
+      "available_bytes": 21664522240,
+      "frozen": false,
+      "service": "MemoryCurrent=238174208\nMemoryPeak=238174208\nCPUUsageNSec=1522632000",
+      "output_bytes": 8364469
+    },
+    {
+      "elapsed": 9.061537111992948,
+      "available_bytes": 21633798144,
+      "frozen": false,
+      "service": "MemoryCurrent=290934784\nMemoryPeak=290934784\nCPUUsageNSec=2270553000",
+      "output_bytes": 8364469
+    },
+    {
+      "elapsed": 12.071501546073705,
+      "available_bytes": 21644152832,
+      "frozen": false,
+      "service": "MemoryCurrent=328417280\nMemoryPeak=328417280\nCPUUsageNSec=3020429000",
+      "output_bytes": 8364532
+    },
+    {
+      "elapsed": 15.080861289054155,
+      "available_bytes": 21596901376,
+      "frozen": false,
+      "service": "MemoryCurrent=393125888\nMemoryPeak=393146368\nCPUUsageNSec=3766103000",
+      "output_bytes": 8540231
+    }
+  ],
+  "completed_utc": "2026-10-30T21:51:53.273311+00:00",
+  "budget": {
+    "cpu_seconds": 120.0,
+    "wall_seconds": 600,
+    "disk_mib": 512
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/logs/mg-input-hf-r1p00-631g-12m8e.log",
+  "process_measurements": {
+    "user_cpu_seconds": 3.72,
+    "system_cpu_seconds": 0.57,
+    "max_rss_kib": 234012.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 4.29,
+    "output_bytes": 9342800,
+    "elapsed_seconds": 18.092634893022478,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

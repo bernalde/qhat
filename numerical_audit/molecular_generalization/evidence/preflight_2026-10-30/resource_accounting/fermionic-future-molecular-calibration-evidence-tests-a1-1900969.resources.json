@@ -1,0 +1,69 @@
+{
+  "unit": "fermionic-future-molecular-calibration-evidence-tests-a1-1900969",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "30",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/evidence-test-logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/evidence-test-logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/check_calibration_evidence_a1.py"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 3.0543481040513143,
+  "samples": [
+    {
+      "elapsed": 0.0016496659955009818,
+      "available_bytes": 21367799808,
+      "frozen": false,
+      "service": "MemoryCurrent=266240\nMemoryPeak=524288\nCPUUsageNSec=579000",
+      "output_bytes": 139
+    }
+  ],
+  "completed_utc": "2026-10-30T17:36:05.479175+00:00",
+  "budget": {
+    "cpu_seconds": 5.0,
+    "wall_seconds": 30,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/calibration/evidence-test-logs/molecular-calibration-evidence-tests-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 0.24,
+    "system_cpu_seconds": 0.11,
+    "max_rss_kib": 28872.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 0.35,
+    "output_bytes": 4014,
+    "elapsed_seconds": 3.0543481040513143,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

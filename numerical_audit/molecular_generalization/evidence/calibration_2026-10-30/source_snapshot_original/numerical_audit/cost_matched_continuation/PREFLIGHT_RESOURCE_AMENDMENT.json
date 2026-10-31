@@ -1,0 +1,94 @@
+{
+  "schema": "cost-matched-preflight-resource-amendment-v1",
+  "declared_UTC": "2026-10-29T15:58:37.960740+00:00",
+  "prior_protocol_sha256": "dc11dfff6cfdd0dfab908cb3eb8876a1310987ddf00927e3d88c37e540eb1609",
+  "prior_gate": "memory upper<=400MiB; metric unspecified",
+  "prior_gate_status": "Not established as written: process RSS reaches544.171875MiB while cgroup peak isabout388MiB",
+  "admission": {
+    "metric": "Owned service cgroup MemoryPeak, maximum of exact samples and rounded-up systemd footer",
+    "ceiling_MiB": 448,
+    "enforced_MemoryMax_MiB": 512,
+    "MemoryHigh_MiB": 448,
+    "MemorySwapMax": 0,
+    "CPUQuota": "25%",
+    "threads": 1
+  },
+  "RSS_role": "Retained separately; not the cgroup charge or an aggregate process-tree upper bound",
+  "basis_sources": [
+    "https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html#memory-ownership",
+    "https://man7.org/linux/man-pages/man2/getrusage.2.html"
+  ],
+  "change_scope": "Resource admission estimate only, using existing standing resource authorization; no change to numerical jobs hard profile, totalCPU/wall/rotation allowances, inputs, orders, quality thresholds or failure retention; declared before any new holdout input or error",
+  "preflight_receipts": [
+    {
+      "label": "pf-analysis-a1",
+      "receipt_sha256": "89db46188cfe006c85b1d126952591486ad6cecd1f4da75fbdfcd7017f487dba",
+      "cgroup_peak_bytes_conservative": 696422.4,
+      "largest_process_RSS_KiB": 27688.0,
+      "exit_code": 2
+    },
+    {
+      "label": "pf-full-c1-r1-b32-a1",
+      "receipt_sha256": "90f97a60edd8be2247d9137e63760d3dbd9d23b657edfcaa6c605aa72272ab14",
+      "cgroup_peak_bytes_conservative": 45193625.6,
+      "largest_process_RSS_KiB": 53836.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-full-c1-r1-b64-a1",
+      "receipt_sha256": "0eadc96218bce42b6acb537b1d01830ad0875dc63c4c293c947783ef7f9a617c",
+      "cgroup_peak_bytes_conservative": 44879052.800000004,
+      "largest_process_RSS_KiB": 53332.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-independent-c1-a1",
+      "receipt_sha256": "6e59cd69f088e424c9b5a09f8ebe3ef94a201b54a017909d30f2903ebf6564c6",
+      "cgroup_peak_bytes_conservative": 406847488.0,
+      "largest_process_RSS_KiB": 557232.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-objective-c1-a1",
+      "receipt_sha256": "f3bb055f3f829e7c8c32043b6e5a2a9c247032616627fc9dc3f637f9bd3067e4",
+      "cgroup_peak_bytes_conservative": 259312844.79999998,
+      "largest_process_RSS_KiB": 407732.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-panels-a1",
+      "receipt_sha256": "85f9efacd45cf9ca3f846ce811dd321951442907aef8aa7616b669e900db200f",
+      "cgroup_peak_bytes_conservative": 700518.4,
+      "largest_process_RSS_KiB": 29368.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-parent-c1-r1-a1",
+      "receipt_sha256": "5075b25f67f5d0e7d5af83a90adf2036689fb7121256b014fc9d5ac9e5c209ea",
+      "cgroup_peak_bytes_conservative": 46871347.2,
+      "largest_process_RSS_KiB": 52896.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-physical-c1-a1",
+      "receipt_sha256": "5d50c34b1d0d56a2a58ec22d90568ce079f2c2e4ba61a82131d0cef9c35b1deb",
+      "cgroup_peak_bytes_conservative": 256691404.79999998,
+      "largest_process_RSS_KiB": 402080.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-window-c1-r1-b32-a1",
+      "receipt_sha256": "2bf1eec43d55c1863b21071eb83fd9d43ba385b4f726f566e7cfed5c381620a9",
+      "cgroup_peak_bytes_conservative": 314992230.40000004,
+      "largest_process_RSS_KiB": 425600.0,
+      "exit_code": 0
+    },
+    {
+      "label": "pf-window-c1-r1-b64-a1",
+      "receipt_sha256": "28999d787ec01cf28b8677e5ef0a110403ff637d42d7e5c631a8ef2c19e72d0f",
+      "cgroup_peak_bytes_conservative": 338375475.20000005,
+      "largest_process_RSS_KiB": 447600.0,
+      "exit_code": 0
+    }
+  ]
+}

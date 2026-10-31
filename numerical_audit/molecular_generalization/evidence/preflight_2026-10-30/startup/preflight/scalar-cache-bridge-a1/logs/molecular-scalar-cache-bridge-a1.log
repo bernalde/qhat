@@ -1,0 +1,47 @@
+Running as unit: fermionic-future-molecular-scalar-cache-bridge-a1-1973064.service; invocation ID: e377a30c22c9428a9e77f3ae913ca156
+ERROR: LoadError: ParseError:
+# Error @ /home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/scalar_cache_bridge_a1.jl:45:36
+    destinations=sort!(collect(union(keys(before),keys(after))))
+    oldvalues=[get(before,state,0.)for state in destinations]
+#                                  └ ── Expected space before `for` in generator
+Stacktrace:
+ [1] top-level scope
+   @ ~/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/scalar_cache_bridge_a1.jl:45
+ [2] include(mod::Module, _path::String)
+   @ Base ./Base.jl:306
+ [3] exec_options(opts::Base.JLOptions)
+   @ Base ./client.jl:317
+ [4] _start()
+   @ Base ./client.jl:550
+in expression starting at /home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/scalar_cache_bridge_a1.jl:45
+OLD_NATIVE_CACHE_BRIDGE_COMPLETE False
+Command exited with non-zero status 2
+	Command being timed: "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python /home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/planning/scalar_cache_bridge_a1.py /home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/scalar-cache-bridge-a1/PLAN.json"
+	User time (seconds): 24.82
+	System time (seconds): 0.35
+	Percent of CPU this job got: 25%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:40.63
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 427848
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 868
+	Minor (reclaiming a frame) page faults: 66681
+	Voluntary context switches: 700
+	Involuntary context switches: 1190
+	Swaps: 0
+	File system inputs: 57552
+	File system outputs: 24
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 2
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=2
+Service runtime: 1min 40.641s
+CPU time consumed: 25.187s
+Memory peak: 237.6M
+Memory swap peak: 0B
