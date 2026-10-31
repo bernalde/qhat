@@ -19,13 +19,14 @@ MG_ARCHIVE="$MG_BUNDLE/archive/main-a1.data.tar.gz"
 sha256sum "$MG_ARCHIVE"
 mkdir "$MG_REPLAY"
 mkdir "$MG_REPLAY/logs"
+mkdir "$MG_REPLAY/independent" "$MG_REPLAY/objective"
 ```
 
 Compare the printed SHA-256 to the value above and the delivery manifest before extraction. The following guard function uses the executed dispatcher's actual guard CLI and numerical profile. Record prospective caps and a fresh immutable plan before dispatch; keep every failed cost. The original replay reserved 900 CPU/4510 wall seconds in a 1000/5000 package pool for seven stages. A new verification attempt has its own plans/receipts/costs and does not overwrite or reset the original campaign. Keep a finite cumulative allowance; these individual caps are not unlimited retries. The guard's numerical profile preserves quarter-core quota, 448/512 MiB RAM and no swap.
 
 ```bash
 mg_guard() {
-    local mg_label="$1" mg_cpu="$2" mg_wall="$3"
+    local mg_label="${1//_/-}" mg_cpu="$2" mg_wall="$3"
     shift 3
     "$MG_PYTHON" "$MG_BOOT/tools/resource_guard.py" \
         --label "$mg_label" --logs "$MG_REPLAY/logs" \
@@ -43,7 +44,7 @@ MG_SNAPSHOT="$MG_DATA/source_snapshot"
 MG_STUDY="$MG_SNAPSHOT/numerical_audit/molecular_generalization"
 ```
 
-Require a successful extraction and its authenticated inventory before continuing. Run the following for **each** fixed case, first `HF_r1p00_631g_12m8e`, then `H2S_r1p40_a96_631g_12m8e`, sequentially. Each output directory is fresh and outside extracted DATA. These are the exact positional interfaces used in the executed dispatcher's `commands` map: `verify.jl MODEL CANDIDATES PRIMARY_DIRECTORY OUTPUT` and `objective.jl MODEL CANDIDATES OUTPUT WITNESSES`.
+Require a successful extraction and its authenticated inventory before continuing. The guard function converts underscores to hyphens only in service labels; scientific case identifiers and paths remain unchanged. Run the following for **each** fixed case, first `HF_r1p00_631g_12m8e`, then `H2S_r1p40_a96_631g_12m8e`, sequentially. Each output directory is fresh and outside extracted DATA. These are the exact positional interfaces used in the executed dispatcher's `commands` map: `verify.jl MODEL CANDIDATES PRIMARY_DIRECTORY OUTPUT` and `objective.jl MODEL CANDIDATES OUTPUT WITNESSES`.
 
 ```bash
 MG_CASE=HF_r1p00_631g_12m8e

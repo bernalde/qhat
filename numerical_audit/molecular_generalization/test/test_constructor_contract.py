@@ -62,10 +62,13 @@ class ContractTests(unittest.TestCase):
             k.blocks(model)
 
     def test_main_is_refused_before_output_creation(self):
+        disabled = dict(k.configuration(), main_execution_allowed=False,
+                        protocol_state='old-case_preflight_development')
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp)/'main'
-            with self.assertRaisesRegex(ValueError, 'Main disabled'):
-                k.freeze(output, mode='main')
+            with patch.object(k, 'configuration', return_value=disabled):
+                with self.assertRaisesRegex(ValueError, 'Main disabled'):
+                    k.freeze(output, mode='main')
             self.assertFalse(output.exists())
 
     def test_contained_artifact_rejects_traversal_and_symlink_escape(self):

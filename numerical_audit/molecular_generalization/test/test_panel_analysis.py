@@ -126,6 +126,25 @@ def bundle(root):
 
 
 class MetadataTests(unittest.TestCase):
+    def test_checked_annealing_cap_stops_require_execution_proofs(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            bundle(root)
+            prefix = root/'constructors'/CASE
+            parent = p.k.read(prefix.with_name(CASE+'.rep1.parent.B0.json'))
+            original = p.k.read(prefix.with_name(CASE+'.rep1.annealing.B32.json'))
+            for status in ('evaluation_limit', 'proposal_limit'):
+                with self.subTest(status=status):
+                    record = copy.deepcopy(original)
+                    record['result']['status'] = status
+                    self.assertTrue(p.execution_admitted(record, parent))
+                    missing_native = copy.deepcopy(record)
+                    missing_native['result']['raw_julia_candidate']['native_score'] = None
+                    self.assertFalse(p.execution_admitted(missing_native, parent))
+                    missing_chain = copy.deepcopy(record)
+                    missing_chain['result']['raw_julia_candidate']['witness']['chain_proposals'][0] = 0
+                    self.assertFalse(p.execution_admitted(missing_chain, parent))
+
     def test_real_byte_bindings_roster_raw_claims_and_relocated_paths(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); context = bundle(root)

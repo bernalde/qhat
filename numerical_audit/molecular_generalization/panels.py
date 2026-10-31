@@ -364,7 +364,8 @@ def execution_admitted(record, parent):
     stats = result.get('stats', {}); raw = result.get('raw_julia_candidate')
     witness = raw.get('witness', {}) if isinstance(raw, dict) else {}
     return (result.get('eligible') is True and result.get('status') in
-        ('complete', 'checked_update', 'slice_complete', 'cpu_limit', 'wall_limit', 'action_limit') and
+        ('complete', 'checked_update', 'slice_complete', 'cpu_limit', 'wall_limit',
+         'evaluation_limit', 'proposal_limit', 'action_limit') and
         stats.get('four_chain_coverage') is True and stats.get('native_parent_revalidated') is True and
         stats.get('native_verifications') == 1 and witness.get('start_scores_completed') == 4 and
         isinstance(witness.get('chain_proposals'), list) and len(witness['chain_proposals']) == 4 and
