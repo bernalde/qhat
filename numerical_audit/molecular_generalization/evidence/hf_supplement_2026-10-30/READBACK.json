@@ -1,0 +1,100 @@
+{
+  "schema": "molecular-hf-later-native-readback-v1",
+  "metadata_only": true,
+  "numerical_calls": 0,
+  "created_UTC": "2026-10-31T03:41:49.826552+00:00",
+  "readback_source": {
+    "path": "readback.py",
+    "bytes": 11540,
+    "sha256": "6fa957776d9a224b7d25119ace10db9a306165ce02c9615a442e9bbdf8ead7e8"
+  },
+  "plan": {
+    "path": "PLAN.a1.json",
+    "bytes": 6456,
+    "sha256": "3853b2c8adfe3383fff493adf35b15b13ca068290c7f1628efd34bee9af2d581"
+  },
+  "runner": {
+    "path": "native_validate.py",
+    "bytes": 12337,
+    "sha256": "0f8385c3286992f6a496503cbb46fba8bd0f1ea4f078216484cbf2eccddcdf1a"
+  },
+  "result": {
+    "path": "work/RESULT.json",
+    "bytes": 7050,
+    "sha256": "ef8513743ae891677877a59ddab922d91ad90f4608428264f9699a08c5827884"
+  },
+  "receipt": {
+    "path": "logs/mg-hf-native-supplement-a1.resources.json",
+    "bytes": 2654,
+    "sha256": "923b96af532635dcbaf104c9c2c7a04c13510239f8e61214dfdd9368f641c336"
+  },
+  "log": {
+    "path": "logs/mg-hf-native-supplement-a1.log",
+    "bytes": 1718,
+    "sha256": "c992a655624c48d0443c35d2dcc0a793c9ae62c1696172327196af48eedcb327"
+  },
+  "complete": true,
+  "checks_passed": true,
+  "failures": [],
+  "native_score": {
+    "value": 4.203343909840468e-08,
+    "cubic_response": 0.002127942854356737,
+    "steps": 15
+  },
+  "independently_read_back_comparisons": {
+    "original_julia": {
+      "value": {
+        "verified": true,
+        "within_tolerance": true,
+        "numerical_floor": false,
+        "absolute_difference": 2.6469779601696886e-23,
+        "tolerance": 4.2033439198404687e-16
+      },
+      "cubic_response": {
+        "verified": true,
+        "within_tolerance": true,
+        "numerical_floor": false,
+        "absolute_difference": 1.3010426069826053e-18,
+        "tolerance": 2.127942854356837e-11
+      },
+      "steps_match": true
+    },
+    "archived_independent": {
+      "value": {
+        "verified": true,
+        "within_tolerance": true,
+        "numerical_floor": false,
+        "absolute_difference": 1.3234889800848443e-23,
+        "tolerance": 4.2033439198404687e-16
+      },
+      "cubic_response": {
+        "verified": true,
+        "within_tolerance": true,
+        "numerical_floor": false,
+        "absolute_difference": 8.673617379884035e-19,
+        "tolerance": 2.127942854356837e-11
+      },
+      "steps_match": true
+    }
+  },
+  "original_window_tolerance_verified": true,
+  "original_inventory_sha256": "00bf1155a36dba6517edfab25755cb18d27a63c0f99d765dcf160934b9fb7bc9",
+  "original_files_verified": 1111,
+  "original_FILE_set_unchanged": true,
+  "all_original_bytes_unchanged": true,
+  "original_native_refusal_preserved": true,
+  "original_scientific_gate_complete": false,
+  "original_primary_decisions_both": "incomplete",
+  "costs": {
+    "raw_GNU_CPU_seconds": 0.85,
+    "existing_main_methodology_charge_CPU_seconds": 0.861,
+    "terminal_cgroup_CPU_seconds": 0.863,
+    "charged_CPU_seconds": 0.864,
+    "charge_policy": "One conservative charge: max(GNU user+sys+.011, sampled cgroup CPU, terminal cgroup display plus one display quantum), rounded up to milliseconds; alternative bases are not extra spending",
+    "wall_seconds": 6.166641355000138,
+    "guarded_output_bytes": 1252312,
+    "GNU_peak_RSS_KiB": 32964.0,
+    "cgroup_sampled_memory_peak_bytes": 91262976
+  },
+  "metadata_closeout_scope": "Light coordinator readback; no scorer import, new numerical work, test or rerun; not a formal Review/Verify round"
+}

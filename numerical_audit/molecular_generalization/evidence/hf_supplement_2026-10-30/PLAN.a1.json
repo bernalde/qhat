@@ -1,0 +1,158 @@
+{
+  "schema": "molecular-hf-later-native-plan-v1",
+  "declared_before_use": true,
+  "prepared_UTC": "2026-10-31T03:38:46.823044+00:00",
+  "original_data": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+  "original_inventory_sha256": "00bf1155a36dba6517edfab25755cb18d27a63c0f99d765dcf160934b9fb7bc9",
+  "original_producer_commit": "aea354e287f2277d8b11cc51695a6d49f7e84537",
+  "original_source_freeze_sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+  "original_protocol_sha256": "7ba8979b2291caf75b315acaced548fd2eda0f4662b3c9ed18c404739304cfc4",
+  "runtime": {
+    "version": "3.12.12 (main, Feb 12 2026, 00:42:14) [Clang 21.1.4 ]",
+    "executable": "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "resolved_executable": "/home/bernalde/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/bin/python3.12",
+    "executable_sha256": "3008abbb48c1e2b0fa3072ae72334b9b352e1346ea3a20d34126a455f0c7bc66"
+  },
+  "runner_sha256": "0f8385c3286992f6a496503cbb46fba8bd0f1ea4f078216484cbf2eccddcdf1a",
+  "guard_sha256": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+  "inputs": {
+    "inputs/INPUT_PROTOCOL_FROZEN.json": {
+      "bytes": 28764,
+      "sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3"
+    },
+    "inputs/CONSTRUCTOR.json": {
+      "bytes": 34054,
+      "sha256": "85b6be7158a4d214662a515c095c625d6a3337a7b5efc703ebb3ce17e506cf15"
+    },
+    "inputs/WORKER.json": {
+      "bytes": 48935,
+      "sha256": "6a4fd506364f89ddaba41a74fa4411c2b4b2aa61b671ecf1945f403f07a7e128"
+    },
+    "inputs/REQUEST.toml": {
+      "bytes": 38622,
+      "sha256": "0f6d1b02b9d7ace82f8a16bf14b51fa6a1dc83f85a0f2973f2910bd139c8e16c"
+    },
+    "inputs/CHECKPOINT.toml": {
+      "bytes": 4219,
+      "sha256": "07300ffad230a40dd070d370d64fdffd65ed6b5d6e882147e254d42192b21ded"
+    },
+    "inputs/model.json": {
+      "bytes": 756877,
+      "sha256": "b8bfaa3d0ea90324f5935ea008bcd507714020c31d5209ed3d009575b14b52aa"
+    },
+    "inputs/model.toml": {
+      "bytes": 44400,
+      "sha256": "9bf5f3046b33e116b6b10fd5d24cf82cc13676025be967064f2cdcb4a4b01874"
+    },
+    "inputs/OBJECTIVE.toml": {
+      "bytes": 162181,
+      "sha256": "2b5433b4e35c32fd891c1988bb33264a3b0a6d9c3491013bb0b00d47147bf252"
+    },
+    "INPUTS_PROVENANCE.json": {
+      "bytes": 4166,
+      "sha256": "95d742217e7932217153438329955c90e2e2e6a87ef0142a27dc05ad0085577d"
+    }
+  },
+  "sources": {
+    "numerical_audit/molecular_generalization/common.py": {
+      "bytes": 20361,
+      "sha256": "603f047aa10392526d87b1f93da755b1be3ddd811cf310abd31863fb3ab1ae0a"
+    },
+    "numerical_audit/prospective_window_ordering/study_common.py": {
+      "bytes": 10756,
+      "sha256": "3cd92614801ab47e2c7583ad5fe7c5f84b8ef3991d78a3d7f3944c3a3f3a0a0f"
+    },
+    "numerical_audit/cost_matched_continuation/common.py": {
+      "bytes": 8073,
+      "sha256": "4438f82b6f0e0d34f766256ea5eda99fad41c34ae61ad15768338709c0f93ea0"
+    },
+    "analysis/__init__.py": {
+      "bytes": 47,
+      "sha256": "fd0b99b3e05df5b5d3c8eb450af7eb64a846fd1340f48b93931fb8943494d60c"
+    },
+    "analysis/sparse_response_ordering.py": {
+      "bytes": 40321,
+      "sha256": "957dc5eeeac955812a335afacb09bdff4165bac0c571a2c9f60299281897e4e6"
+    },
+    "analysis/strang_schedule.py": {
+      "bytes": 6451,
+      "sha256": "3c608a0dafa7b94157b002f1b93f0ff65a061283874061d44ee50f6aa48def2a"
+    }
+  },
+  "target": {
+    "case": "HF_r1p00_631g_12m8e",
+    "name": "rep2.window.B64.raw1",
+    "role": "raw_proposed_best",
+    "selected": false,
+    "order_sha256": "a1f3444f0650193cf378f5875485eae080a10ea472a86a09c8420b8eeb798e25",
+    "julia_claim": {
+      "value": 4.2033439098404656e-08,
+      "cubic_response": 0.002127942854356736,
+      "steps": 15
+    },
+    "archived_claim": {
+      "value": 4.203343909840467e-08,
+      "cubic_response": 0.0021279428543567363,
+      "steps": 15
+    },
+    "native_refusal": {
+      "type": "SearchDeadline",
+      "message": "whole-call window allowance exhausted"
+    },
+    "native_score_absent": true,
+    "original_status": "native_refusal_censored"
+  },
+  "resource_pool": {
+    "CPU_seconds": 20,
+    "wall_seconds": 120,
+    "output_MiB": 64,
+    "cooperative_CPU_seconds": 18,
+    "cooperative_wall_seconds": 110,
+    "CPUQuota": "25%",
+    "Nice": 19,
+    "MemoryHigh_MiB": 448,
+    "MemoryMax_MiB": 512,
+    "MemorySwapMax": 0,
+    "workers": 1
+  },
+  "output": "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/work",
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "-B",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/native_validate.py",
+    "--plan",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/PLAN.a1.json",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/work"
+  ],
+  "guard_command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "-B",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/tools/resource_guard.py",
+    "--label",
+    "mg-hf-native-supplement-a1",
+    "--logs",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/logs",
+    "--cpu-seconds",
+    "20",
+    "--wall-seconds",
+    "120",
+    "--disk-mib",
+    "64",
+    "--memory-profile",
+    "numerical",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf",
+    "--",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "-B",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/native_validate.py",
+    "--plan",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/PLAN.a1.json",
+    "--output",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/publication_synthesis_2026-10-30/hf/work"
+  ],
+  "attempt": 1,
+  "attempt_policy": "Exactly one later fixed-order scoring call; no automatic retry or resource extension; all failures retained",
+  "scientific_scope": "Supplement only; original censor/selection/costs/manifests/ANALYSIS/primary decisions unchanged"
+}
