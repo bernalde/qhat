@@ -1,0 +1,92 @@
+{
+  "unit": "fermionic-future-mg-main-figure-consumer-a1-2147408",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "60",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/figure-consumer-a1/source/plot.py",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/ANALYSIS.json",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/figure-consumer-a1/figures"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 12.063391595962457,
+  "samples": [
+    {
+      "elapsed": 0.0009642129298299551,
+      "available_bytes": 20141629440,
+      "frozen": false,
+      "service": "MemoryCurrent=106496\nMemoryPeak=368640\nCPUUsageNSec=76000",
+      "output_bytes": 17057
+    },
+    {
+      "elapsed": 3.0435524659696966,
+      "available_bytes": 20089356288,
+      "frozen": false,
+      "service": "MemoryCurrent=42528768\nMemoryPeak=42528768\nCPUUsageNSec=774413000",
+      "output_bytes": 526786
+    },
+    {
+      "elapsed": 6.05073876096867,
+      "available_bytes": 20078206976,
+      "frozen": false,
+      "service": "MemoryCurrent=50888704\nMemoryPeak=50888704\nCPUUsageNSec=1523442000",
+      "output_bytes": 692531
+    },
+    {
+      "elapsed": 9.057021796004847,
+      "available_bytes": 19995156480,
+      "frozen": false,
+      "service": "MemoryCurrent=90705920\nMemoryPeak=90705920\nCPUUsageNSec=2275272000",
+      "output_bytes": 1195512
+    }
+  ],
+  "completed_utc": "2026-10-30T23:36:46.303344+00:00",
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 60,
+    "disk_mib": 128
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/analysis_consumers/logs/mg-main-figure-consumer-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 2.62,
+    "system_cpu_seconds": 0.11,
+    "max_rss_kib": 112756.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 2.73,
+    "output_bytes": 1667199,
+    "elapsed_seconds": 12.063391595962457,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

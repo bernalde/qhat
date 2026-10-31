@@ -1,0 +1,42 @@
+{
+  "schema": "molecular-job-plan-v1",
+  "label": "mg-h2s-r1p40-a96-631g-12m8e-r1-window-b32",
+  "phase": "constructors",
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/construct.py",
+    "--data",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+    "--worker",
+    "--case",
+    "H2S_r1p40_a96_631g_12m8e",
+    "--repetition",
+    "1",
+    "--arm",
+    "window",
+    "--budget",
+    "32",
+    "--cpu-cap",
+    "30.159",
+    "--wall-cap",
+    "150",
+    "--raw",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/workers/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b32.json",
+    "--julia-executable",
+    "/home/bernalde/.julia/juliaup/julia-1.12.6+0.x64.linux.gnu/bin/julia"
+  ],
+  "cpu_cap": 30.159,
+  "wall_cap": 150,
+  "disk_mib": 512,
+  "source_freeze_sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+  "guard_sha256": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74",
+  "producer_root": "/tmp/qhat-molecular-generalization-2026-10-30/worktree",
+  "producer_data_root": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+  "identity": {
+    "case": "H2S_r1p40_a96_631g_12m8e",
+    "repetition": 1,
+    "arm": "window",
+    "cpu_budget": 32
+  },
+  "expected_raw": "workers/mg-h2s-r1p40-a96-631g-12m8e-r1-window-b32.json"
+}

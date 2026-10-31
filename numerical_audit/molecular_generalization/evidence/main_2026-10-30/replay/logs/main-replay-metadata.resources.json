@@ -1,0 +1,104 @@
+{
+  "unit": "fermionic-future-main-replay-metadata-2157255",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "150",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/replay_main_censored_adopted/metadata_consumer.py",
+    "--producer-data",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data",
+    "--data",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/extracted/data",
+    "--consumer-root",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/consumer",
+    "--numerical-root",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/consumer",
+    "--producer-analysis",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/ANALYSIS.json",
+    "--producer-visual-gate",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/PRODUCER_VISUAL_GATE.json",
+    "--metadata-plan",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/jobs/main-replay-metadata.PLAN.json"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 12.147210414987057,
+  "samples": [
+    {
+      "elapsed": 0.0009615169838070869,
+      "available_bytes": 19341217792,
+      "frozen": false,
+      "service": "MemoryCurrent=266240\nMemoryPeak=266240\nCPUUsageNSec=66000",
+      "output_bytes": 158283300
+    },
+    {
+      "elapsed": 3.063443327904679,
+      "available_bytes": 19343446016,
+      "frozen": false,
+      "service": "MemoryCurrent=21794816\nMemoryPeak=25772032\nCPUUsageNSec=775832000",
+      "output_bytes": 158283300
+    },
+    {
+      "elapsed": 6.088765948894434,
+      "available_bytes": 19208843264,
+      "frozen": false,
+      "service": "MemoryCurrent=31064064\nMemoryPeak=31252480\nCPUUsageNSec=1524126000",
+      "output_bytes": 158367663
+    },
+    {
+      "elapsed": 9.11794323194772,
+      "available_bytes": 19288240128,
+      "frozen": false,
+      "service": "MemoryCurrent=41136128\nMemoryPeak=41140224\nCPUUsageNSec=2278935000",
+      "output_bytes": 160447620
+    }
+  ],
+  "completed_utc": "2026-10-30T23:49:49.450298+00:00",
+  "budget": {
+    "cpu_seconds": 30.0,
+    "wall_seconds": 150,
+    "disk_mib": 1024
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/logs/main-replay-metadata.log",
+  "process_measurements": {
+    "user_cpu_seconds": 2.33,
+    "system_cpu_seconds": 0.22,
+    "max_rss_kib": 48148.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 2.5500000000000003,
+    "output_bytes": 160521839,
+    "elapsed_seconds": 12.147210414987057,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}

@@ -1,0 +1,99 @@
+{
+  "schema": "molecular-main-curation-plan-v1",
+  "status": "FROZEN_UNEXECUTED",
+  "label": "mg-main-evidence-curation-a1",
+  "phase": "package",
+  "role": "exact_byte_curation_and_streaming_member_proof",
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/curate_main.py",
+    "--inventory",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/SOURCE_TARGET_INVENTORY.json",
+    "--inventory-sha256",
+    "8f207a9f94d4eb5ce28beacbca4c11a9ed8159c032fd93679aae8b068633c06d",
+    "--expected-operator-sha256",
+    "1c6bba0621c9f2668b18df4feb86bfc60badeb7cacbe713ee1341d4d39aae308",
+    "--target",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/evidence/main_2026-10-30"
+  ],
+  "guard_command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py",
+    "--label",
+    "mg-main-evidence-curation-a1",
+    "--logs",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/curation/logs",
+    "--cpu-seconds",
+    "20",
+    "--wall-seconds",
+    "120",
+    "--disk-mib",
+    "512",
+    "--memory-profile",
+    "numerical",
+    "--output",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/evidence/main_2026-10-30",
+    "--",
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/curate_main.py",
+    "--inventory",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/SOURCE_TARGET_INVENTORY.json",
+    "--inventory-sha256",
+    "8f207a9f94d4eb5ce28beacbca4c11a9ed8159c032fd93679aae8b068633c06d",
+    "--expected-operator-sha256",
+    "1c6bba0621c9f2668b18df4feb86bfc60badeb7cacbe713ee1341d4d39aae308",
+    "--target",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/evidence/main_2026-10-30"
+  ],
+  "cpu_cap": 20,
+  "wall_cap": 120,
+  "disk_mib": 512,
+  "MemoryHigh": "448M",
+  "MemoryMax": "512M",
+  "MemorySwapMax": 0,
+  "CPUQuota": "25%",
+  "one_heavy_worker": true,
+  "source_freeze_sha256": "f3ed635ac7831edcb3feb51d96e6116c2c95f7ad9e2b169b006ca862006776e3",
+  "source_commit": "aea354e287f2277d8b11cc51695a6d49f7e84537",
+  "inventory": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/SOURCE_TARGET_INVENTORY.json",
+    "sha256": "8f207a9f94d4eb5ce28beacbca4c11a9ed8159c032fd93679aae8b068633c06d",
+    "files": 333,
+    "bytes": 19603789
+  },
+  "operator": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/curate_main.py",
+    "sha256": "1c6bba0621c9f2668b18df4feb86bfc60badeb7cacbe713ee1341d4d39aae308"
+  },
+  "guard": {
+    "path": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/data/source_snapshot/numerical_audit/molecular_generalization/tools/resource_guard.py",
+    "sha256": "0d826524b8443f28b6f33253fba31d31f3ac9e51ef1812be50dc5bace832ef74"
+  },
+  "prior_actual_package": {
+    "charged_CPU_seconds": 113.177,
+    "wall_seconds": 463.23527362709865,
+    "summary": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/relocated-replay-a1/REPLAY_FINAL.json",
+    "sha256": "09dd048316b353248c0ba948837d333a45065647b3c851126319e0f9c1e14cb9"
+  },
+  "original_package_pool": {
+    "CPU_seconds": 1000,
+    "wall_seconds": 5000
+  },
+  "curation_actual_cost": null,
+  "closed_precuration_main_services": {
+    "count": 58,
+    "charged_CPU_seconds": 1361.888,
+    "wall_seconds": 5778.800948864315
+  },
+  "sealed_data_read_only": true,
+  "no_J_no_physical_no_tests_no_client": true,
+  "expected_exit_code": 0,
+  "post_close": "Root must bind actual adopted PLAN/guardlog/receipt/FINAL and actual costs plusREPORT/topmanifest outside fixedpayload; do not self-hash or alter sealedDATA",
+  "scientific_gate_complete": false,
+  "source_analysis_complete": false,
+  "source_primary_decisions": {
+    "window_minus_full": "incomplete",
+    "annealing_minus_full": "incomplete"
+  },
+  "frozen_utc": "2026-10-31T00:25:06.157190+00:00"
+}

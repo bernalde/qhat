@@ -1,6 +1,8 @@
 # Molecular family generalization — report template
 
-**Status: prospective draft. Main results do not exist. Every bracketed entry below is a placeholder.**
+**Reusable reporting template. The recorded main results are in [REPORT.md](REPORT.md); bracketed entries below are template fields, not claims that the completed evidence is missing.**
+
+For this closed main run, source analysis `complete=false` and both primary decisions `incomplete` must be copied unchanged. The unpromoted HF `rep2.window.B64.raw1` retains its original `SearchDeadline` / “whole-call window allowance exhausted” native refusal. Complete archive processing, physical/selected-score checks or CSV delivery do not supply the absent original native score.
 
 This study compares the frozen full-order control, width-eight window refinement and full-order annealing on the declared HF and H2S cases, with canonical and magnitude orders as context. The scope is the retained implementations, Hartree–Fock reference, two CPU allowances and two paired timing/seed repetitions. It does not establish a universal ordering method or an approximation guarantee. Older H2S first-order/Strang use is disclosed in `PRIOR_USE.json`.
 
@@ -42,11 +44,11 @@ At the same primary condition, use `error_annealing − error_full`.
 
 ## Quality and complete measured construction cost
 
-[Insert one standalone SVG/PNG per case at T = 1.35 and 8U; figures pending.]
+[Link the retained standalone SVG/PNG per case at T = 1.35 and 8U, with its actual provenance and visual-inspection record.]
 
 Plot every parent, canonical, magnitude, full, window and annealing record, including both repetitions and optimized B32/B64 points. Optimized x coordinates are the measured common parent prefix plus continuation charged CPU; parent and cheap points use their complete measured own CPU. The shared parent is counted once in actual study spending, while each optimized comparison includes its attributed prefix. The label B0 is an identity for parent/cheap controls, not a zero-cost claim.
 
-Use raw projective error on y. A symlog scale with a linear region below 1e−12 retains exact zeros. Preserve floor and ineligible markers and list missing coordinates without fabricating a position. Do not clip or replace raw values, join independent budget runs into a claimed search trajectory, rank methods retrospectively, or add confidence bands. The figure remains diagnostic when the analysis is incomplete.
+Use raw projective error on y. The recorded main presentation uses zero-based linear axes with headroom and visible marker bounds; record any alternative scaling explicitly and preserve zeros and floor flags. Preserve floor and ineligible markers and list missing coordinates without fabricating a position. Do not clip or replace raw values, join independent budget runs into a claimed search trajectory, rank methods retrospectively, or add confidence bands. The figure remains diagnostic when the analysis is incomplete.
 
 | Plot artifact / companion | Hash / status |
 |---|---|
@@ -55,7 +57,7 @@ Use raw projective error on y. A symlog scale with a linear region below 1e−12
 | Input result hash and `PLOT_PROVENANCE.json` | [pending] |
 | Later plotting source hash, Python and Matplotlib versions | [pending] |
 
-The private `plot_draft.py` is an unexecuted draft. When real analysis exists, run it in a fresh directory under the declared plotting/audit resource allowance. Review the rendered figures before publication. Its provenance must preserve the original producer map, analysis-consumer map and later plotting-consumer identity separately. A plot cannot complete a missing scientific gate.
+Bind the actual executed plotting consumer and rendered-artifact inspection, preserving original producer, analysis-consumer and later presentation-consumer identities separately. The closed main evidence retains the later inspected figures and identical raw plot JSON/CSV alongside the original producer plots. A presentation correction cannot complete a missing scientific gate.
 
 ## Cheap controls and the complete grid
 
@@ -107,4 +109,4 @@ Physical conditions never multiply constructor costs. Report cumulative phase li
 | Merge commit and merge verification | [pending] | [pending] |
 | Postmerge installed-path / exact-head checks | [pending] | [pending] |
 
-Close with the measured scope and unresolved limitations. Main evidence remains pending until the frozen pipeline and all required gates finish. Missing evidence, capacity failures and adverse outcomes remain part of the report.
+Close with the measured scope and unresolved limitations. State delivery/replay completeness separately from the unchanged scientific gate and named decisions. Complete delivery can retain an incomplete scientific outcome. Missing original evidence, capacity failures and adverse outcomes remain part of the report; do not infer formal review or publication acceptance from numerical replay.

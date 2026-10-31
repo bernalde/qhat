@@ -1,0 +1,77 @@
+{
+  "unit": "fermionic-future-mg-main-evidence-curation-a1-2193684",
+  "settings": {
+    "CPUQuota": "25%",
+    "CPUWeight": "5",
+    "IOWeight": "10",
+    "Nice": "19",
+    "MemoryHigh": "448M",
+    "MemoryMax": "512M",
+    "MemorySwapMax": "0",
+    "TasksMax": "32",
+    "MemoryAccounting": "yes",
+    "CPUAccounting": "yes",
+    "RuntimeMaxSec": "120",
+    "TimeoutStopSec": "5s"
+  },
+  "memory_profile": "numerical",
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "NUMBA_CACHE_DIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/curation/logs/numba-cache",
+    "MPLCONFIGDIR": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/curation/logs/matplotlib-cache",
+    "LC_ALL": "C"
+  },
+  "command": [
+    "/home/bernalde/repos/fermionic-ordering-research/benchmark-venv-py312/bin/python",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/curate_main.py",
+    "--inventory",
+    "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/preflight/main_curation_adopted/SOURCE_TARGET_INVENTORY.json",
+    "--inventory-sha256",
+    "8f207a9f94d4eb5ce28beacbca4c11a9ed8159c032fd93679aae8b068633c06d",
+    "--expected-operator-sha256",
+    "1c6bba0621c9f2668b18df4feb86bfc60badeb7cacbe713ee1341d4d39aae308",
+    "--target",
+    "/tmp/qhat-molecular-generalization-2026-10-30/worktree/numerical_audit/molecular_generalization/evidence/main_2026-10-30"
+  ],
+  "exit_code": 0,
+  "supervisor_exit_code": 0,
+  "elapsed": 3.0428758340422064,
+  "samples": [
+    {
+      "elapsed": 0.0008567530894652009,
+      "available_bytes": 19492921344,
+      "frozen": false,
+      "service": "MemoryCurrent=262144\nMemoryPeak=262144\nCPUUsageNSec=66000",
+      "output_bytes": 0
+    }
+  ],
+  "completed_utc": "2026-10-31T00:25:16.613918+00:00",
+  "budget": {
+    "cpu_seconds": 20.0,
+    "wall_seconds": 120,
+    "disk_mib": 512
+  },
+  "termination": null,
+  "log": "/home/bernalde/repos/Fermionic_Trotterization/dist/molecular_generalization_2026-10-30/runs/main-a1/curation/logs/mg-main-evidence-curation-a1.log",
+  "process_measurements": {
+    "user_cpu_seconds": 0.31,
+    "system_cpu_seconds": 0.08,
+    "max_rss_kib": 28248.0
+  },
+  "final_accounting": {
+    "CPU_seconds": 0.39,
+    "output_bytes": 20078368,
+    "elapsed_seconds": 3.0428758340422064,
+    "process_CPU_timing_available": true,
+    "CPU_accounting_available": true
+  },
+  "frozen_seconds": 0.0,
+  "guard_error": null,
+  "cleanup_errors": []
+}
