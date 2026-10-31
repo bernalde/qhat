@@ -1,0 +1,838 @@
+"""Bounded ordering from a sparse symmetric-step cubic response.
+
+Qubit zero is the least significant occupation bit. Input units are sums of
+commuting Hermitian Pauli words; coefficients are real, in the same energy units
+as inverse evolution time (hbar=1). No array indexed by the Hilbert space, exact
+time propagation, or validation error is used during training.
+
+The response is a diagonal-reference approximation, not a finite-error bound.
+``conservative_steps`` separately bounds the ideal product formula by a Taylor
+tail and unitary telescoping. It makes no claim about SCF, synthesis or hardware.
+"""
+from __future__ import annotations
+
+from collections import OrderedDict
+from contextvars import ContextVar
+from dataclasses import dataclass
+from fractions import Fraction
+import math
+import time as _time
+from typing import Mapping, Sequence
+
+from qhat.analysis.strang_schedule import plan_strang_schedule
+
+Word = tuple[tuple[int, str], ...]
+Vector = dict[int, complex]
+
+# The opt-in process bridge installs a call-scoped whole-call CPU/wall check.
+# ContextVar keeps unrelated trainers in other embedding threads independent.
+_EXTERNAL_BUDGET_CHECK = ContextVar('qhat_ordering_budget_check', default=None)
+
+
+class ResourceLimit(RuntimeError):
+    """The declared reachable-support or cache resource domain was exceeded."""
+
+
+class NumericalResolution(ResourceLimit):
+    """Floating subtraction cannot resolve the supplied cubic response."""
+
+
+class SearchDeadline(RuntimeError):
+    """A candidate was interrupted; it must not be reported as a full score."""
+
+
+def _check(deadline):
+    external = _EXTERNAL_BUDGET_CHECK.get()
+    if external is not None:
+        external()
+    if _time.process_time() >= deadline:
+        raise SearchDeadline('ordering CPU deadline reached')
+
+
+def _integer(value, name, minimum=0, maximum=None):
+    if type(value) is not int or value < minimum or (maximum is not None and value > maximum):
+        raise ValueError(f'{name} is outside its integer domain')
+    return value
+
+
+def _finite(value, name, *, positive=False):
+    if isinstance(value, bool):
+        raise ValueError(f'{name} must be a finite real number')
+    try:
+        result = float(value)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError(f'{name} must be a finite real number') from exc
+    if not math.isfinite(result) or (positive and result <= 0):
+        raise ValueError(f'{name} must be finite' + (' and positive' if positive else ''))
+    return result
+
+
+def _compile(blocks, n_qubits, deadline=float('inf')):
+    _integer(n_qubits, 'n_qubits', 1, 4096)
+    if len(blocks) > 4096:
+        raise ResourceLimit('too many units')
+    result = []
+    total = 0
+    for block in blocks:
+        _check(deadline)
+        if not isinstance(block, Mapping):
+            raise ValueError('every unit must be a Pauli-word mapping')
+        total += len(block)
+        if total > 50000:
+            raise ResourceLimit('too many Pauli terms')
+        words = []
+        for word, coefficient in block.items():
+            _check(deadline)
+            if isinstance(coefficient, complex):
+                if coefficient.imag != 0:
+                    raise ValueError('Pauli coefficients must be real for Hermiticity')
+                coefficient = coefficient.real
+            c = _finite(coefficient, 'coefficient')
+            flip = parity = ys = 0
+            seen = set()
+            for q, letter in word:
+                _integer(q, 'Pauli index', 0, n_qubits - 1)
+                if q in seen or letter not in ('X', 'Y', 'Z'):
+                    raise ValueError('Pauli word has a repeated index or invalid letter')
+                seen.add(q)
+                if letter in ('X', 'Y'):
+                    flip |= 1 << q
+                if letter in ('Z', 'Y'):
+                    parity |= 1 << q
+                ys += letter == 'Y'
+            if not c and coefficient != 0:
+                raise ValueError('nonzero coefficient underflows response arithmetic')
+            if c:
+                words.append((flip, parity, (1., 1j, -1., -1j)[ys % 4] * c, Fraction(coefficient)))
+        # A unit is exponentiated as a whole, or as commuting Pauli rotations.
+        # Rejecting a noncommuting block protects both the formula and its cost.
+        for i, (x, z, _, _) in enumerate(words):
+            _check(deadline)
+            for y, w, _, _ in words[:i]:
+                if ((x & w).bit_count() + (z & y).bit_count()) % 2:
+                    raise ValueError('terms within a unit must commute')
+        result.append(tuple(words))
+    return tuple(result)
+
+
+def _reference(reference, n_qubits, maximum):
+    if type(reference) is int:
+        reference = {reference: 1.}
+    if not isinstance(reference, Mapping) or not 0 < len(reference) <= 16:
+        raise ValueError('reference must have 1..16 explicitly supplied components')
+    result = {}
+    for key, value in reference.items():
+        if type(key) is not int or key < 0 or key.bit_length() > n_qubits:
+            raise ValueError('reference occupation is outside the register')
+        value = complex(value)
+        if not math.isfinite(value.real) or not math.isfinite(value.imag):
+            raise ValueError('reference amplitudes must be finite')
+        if value:
+            result[key] = value
+    norm = sum(x.real * x.real + x.imag * x.imag for x in result.values())
+    if not math.isfinite(norm) or abs(norm - 1.) > 1e-12:
+        raise ValueError('reference must be normalized')
+    if len(result) > maximum:
+        raise ResourceLimit('reference exceeds max_entries')
+    return result
+
+
+def molecular_units(terms, n_qubits):
+    """Group a real molecular Pauli expansion by flip mask, keeping Z terms.
+
+    ``terms`` may be an OpenFermion ``QubitOperator.terms`` mapping. The
+    resulting deterministic units retain every supplied coefficient. Molecular
+    equal-flip terms must commute; a mixed noncommuting group is rejected rather
+    than being silently exponentiated as a product. No optional backend import
+    is needed. The identity, if supplied, is retained as a singleton unit.
+    """
+    _integer(n_qubits, 'n_qubits', 1, 4096)
+    if not isinstance(terms, Mapping):
+        raise ValueError('terms must be a Pauli-word mapping')
+    if len(terms) > 50000:
+        raise ResourceLimit('too many Pauli terms')
+    diagonal, groups = [], {}
+    for word, coefficient in terms.items():
+        # Validate each word independently before using its bit mask. Cross-unit
+        # noncommutation is expected and must not be rejected at this stage.
+        unit = _compile([{word: coefficient}], n_qubits)[0]
+        if not unit:
+            continue
+        mask = unit[0][0]
+        normalized = tuple(sorted(word))
+        if not mask:
+            diagonal.append({normalized: coefficient})
+        else:
+            group = groups.setdefault(mask, {})
+            group[normalized] = group.get(normalized, 0) + coefficient
+    diagonal.sort(key=lambda unit: next(iter(unit)))
+    output = diagonal + [dict(sorted(groups[k].items())) for k in sorted(groups)]
+    _compile(output, n_qubits)
+    return tuple(output)
+
+
+def _permutation(order, size):
+    order = tuple(order)
+    if len(order) != size or any(type(i) is not int for i in order) or set(order) != set(range(size)):
+        raise ValueError('order must be a complete unit permutation')
+    return order
+
+
+def _stages(order):
+    if not order:
+        return ()
+    return tuple((i, .5) for i in order[:-1]) + ((order[-1], 1.),) + tuple((i, .5) for i in reversed(order[:-1]))
+
+
+def _add(target, source, factor, maximum, stats=None):
+    for key, value in source.items():
+        _accumulate(target, key, factor * value, maximum, stats)
+
+
+def _accumulate(target, key, value, maximum, stats=None):
+    value = target.get(key, 0j) + value
+    if value:
+        if key not in target and len(target) >= maximum:
+            raise ResourceLimit('reachable vector exceeds max_entries')
+        if not math.isfinite(value.real) or not math.isfinite(value.imag):
+            raise ValueError('nonfinite response arithmetic')
+        target[key] = value
+        if stats is not None:
+            stats['peak_vector_entries'] = max(stats['peak_vector_entries'], len(target))
+    else:
+        target.pop(key, None)
+
+
+def _norm(vector):
+    return math.hypot(*(abs(value) for value in vector.values()))
+
+
+def _resolved(value_norm, scale):
+    # Keep a substantial margin below binary64's 53-bit significand. This is
+    # a cancellation refusal, not a forward-error or interval certificate.
+    if not math.isfinite(value_norm) or not math.isfinite(scale) or (scale and value_norm < scale * 2.**-24):
+        raise NumericalResolution('cubic subtraction is not numerically resolved')
+
+
+def _commuting_response(units, deadline):
+    words = set((x, z) for unit in units for x, z, _, _ in unit if x or z)
+    if all(not x for x, z in words) or all(not z for x, z in words):
+        return True
+    seen = []
+    for x, z in words:
+        _check(deadline)
+        for y, w in seen:
+            if ((x & w).bit_count() + (z & y).bit_count()) % 2:
+                return False
+        seen.append((x, z))
+    return True
+
+
+@dataclass(frozen=True)
+class Score:
+    value: float
+    cubic_response: float
+    steps: int
+
+
+class SparseResponse:
+    """Sparse third-degree columns and coherent diagonal-reference transport.
+
+    Storage follows reached configurations, capped explicitly. A bounded LRU
+    caches a unit's action on one occupation bit string, not its full matrix.
+    The default at most 16 reference components covers HF and sparse coherent
+    references without implying efficient quantum state preparation.
+    """
+    def __init__(self, blocks, n_qubits, reference, *, time=1., max_entries=50000,
+                 max_cached_actions=50000, deadline=float('inf')):
+        self.time = _finite(time, 'time', positive=True)
+        self.max_entries = _integer(max_entries, 'max_entries', 1, 1000000)
+        self.max_cached_actions = _integer(max_cached_actions, 'max_cached_actions', 0, 1000000)
+        self.units = _compile(blocks, n_qubits, deadline)
+        self.n_qubits = n_qubits
+        self.reference = _reference(reference, n_qubits, self.max_entries)
+        self.lengths = tuple(len(u) for u in self.units)
+        self.active_units = tuple(i for i, unit in enumerate(self.units) if unit)
+        # Scalar phases factor identically from both product and exact
+        # evolution. Center each response unit at one fixed occupation, using
+        # exact supplied coefficients before converting that scalar to float.
+        # Public apply() and original rotation lengths retain the full units.
+        origin = min(self.reference)
+        centered = []
+        for unit in self.units:
+            body = [term for term in unit if term[0] or term[1]]
+            center = sum((c * (-1 if (z & origin).bit_count() % 2 else 1)
+                          for x, z, _, c in body if not x), Fraction(0))
+            if center:
+                try:
+                    scalar = float(center)
+                except OverflowError as error:
+                    raise NumericalResolution('response centering overflows') from error
+                if not math.isfinite(scalar) or not scalar:
+                    raise NumericalResolution('response centering is outside floating resolution')
+                body.append((0, 0, -scalar, -center))
+            centered.append(tuple(body))
+        self.response_units = tuple(centered)
+        self.exact_response = _commuting_response(self.response_units, deadline)
+        self.diagonal_words = tuple((parity, phase) for unit in self.units
+                                    for flip, parity, phase, _ in unit if not flip)
+        self.diagonal_coefficients = tuple((parity, coefficient) for unit in self.units
+            for flip, parity, _, coefficient in unit if not flip and parity)
+        self.cache = OrderedDict()
+        self.cache_entries = 0
+        self.stats = dict(action_evaluations=0, cache_hits=0, peak_vector_entries=len(self.reference),
+                          peak_cached_actions=0, reference_column_entries=0)
+        self.reference_cubic = {}
+        self.last_order = None
+        self.last_columns = None
+        self.transport_cache = OrderedDict()
+        self.exact_time = Fraction(self.time)
+        self.resolution_order = None
+        self.resolution_scales = {}
+        self.last_resolution_scales = {}
+
+    def _reference_column(self, source, deadline):
+        if source not in self.reference_cubic:
+            column = {source: 1. + 0j}
+            for _ in range(3):
+                column = self._response_action(column, deadline)
+            column = {k: v / 6 for k, v in column.items()}
+            if self.stats['reference_column_entries'] + len(column) > self.max_entries:
+                raise ResourceLimit('cached reference columns exceed max_entries')
+            self.reference_cubic[source] = column
+            self.stats['reference_column_entries'] += len(column)
+        return self.reference_cubic[source]
+
+    def _unit_column(self, index, source, deadline, response=False):
+        _check(deadline)
+        key = response, index, source
+        if key in self.cache:
+            self.stats['cache_hits'] += 1
+            value = self.cache.pop(key)
+            self.cache[key] = value
+            return value
+        grouped = {}
+        for flip, parity, phase, _ in (self.response_units[index] if response else self.units[index]):
+            destination = source ^ flip
+            value = phase * (-1 if (source & parity).bit_count() % 2 else 1)
+            if destination not in grouped:
+                if len(grouped) >= self.max_entries:
+                    raise ResourceLimit('reachable unit column exceeds max_entries')
+                grouped[destination] = ([], [])
+            if value.real:
+                grouped[destination][0].append(value.real)
+            if value.imag:
+                grouped[destination][1].append(value.imag)
+        self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(grouped))
+        output = {}
+        for destination, (real, imag) in grouped.items():
+            try:
+                value = complex(math.fsum(real), math.fsum(imag))
+            except OverflowError as error:
+                raise NumericalResolution('unit action sum overflows') from error
+            _accumulate(output, destination, value, self.max_entries, self.stats)
+        result = tuple(output.items())
+        self.stats['action_evaluations'] += 1
+        cost = max(1, len(result))
+        if cost <= self.max_cached_actions:
+            while self.cache and self.cache_entries + cost > self.max_cached_actions:
+                _, removed = self.cache.popitem(last=False)
+                self.cache_entries -= max(1, len(removed))
+            self.cache[key] = result
+            self.cache_entries += cost
+            self.stats['peak_cached_actions'] = max(self.stats['peak_cached_actions'], self.cache_entries)
+        return result
+
+    def apply(self, unit, vector, deadline=float('inf'), *, _response=False):
+        output = {}
+        for source, amplitude in vector.items():
+            _check(deadline)
+            for destination, value in self._unit_column(unit, source, deadline, _response):
+                _accumulate(output, destination, value * amplitude, self.max_entries, self.stats)
+        self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(output))
+        return output
+
+    def _apply_response(self, unit, vector, deadline):
+        return self.apply(unit, vector, deadline, _response=True)
+
+    def _response_action(self, vector, deadline):
+        output = {}
+        for unit in range(len(self.units)):
+            _add(output, self._apply_response(unit, vector, deadline), 1., self.max_entries, self.stats)
+        return output
+
+    def hamiltonian_action(self, vector, deadline=float('inf')):
+        output = {}
+        for unit in range(len(self.units)):
+            _add(output, self.apply(unit, vector, deadline), 1., self.max_entries, self.stats)
+        self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(output))
+        return output
+
+    def diagonal_energy(self, source, deadline=float('inf')):
+        result = 0j
+        for parity, phase in self.diagonal_words:
+            _check(deadline)
+            result += phase * (-1 if (source & parity).bit_count() % 2 else 1)
+        if abs(result.imag) > 1e-12 or not math.isfinite(result.real):
+            raise ValueError('invalid real diagonal energy')
+        return result.real
+
+    def _transport(self, source, destination, deadline):
+        key = source, destination
+        if key in self.transport_cache:
+            value = self.transport_cache.pop(key)
+            self.transport_cache[key] = value
+            return value
+        gap = Fraction(0)
+        for parity, coefficient in self.diagonal_coefficients:
+            _check(deadline)
+            left = -1 if (destination & parity).bit_count() % 2 else 1
+            right = -1 if (source & parity).bit_count() % 2 else 1
+            if left != right:
+                gap += (left - right) * coefficient
+        try:
+            phase = float(self.exact_time * gap / 2)
+        except OverflowError as error:
+            raise NumericalResolution('diagonal response phase overflows') from error
+        if not math.isfinite(phase):
+            raise NumericalResolution('nonfinite diagonal response phase')
+        value = self.time * (math.sin(phase) / phase if phase else 1.) * complex(math.cos(phase), math.sin(phase))
+        if len(self.transport_cache) >= self.max_entries:
+            self.transport_cache.popitem(last=False)
+        self.transport_cache[key] = value
+        self.stats['peak_transport_entries'] = max(self.stats.get('peak_transport_entries', 0), len(self.transport_cache))
+        return value
+
+    def cubic_column(self, order, source, deadline=float('inf')):
+        """Coefficient of h^3 in S2(h)-exp(hH); common physical i is stripped."""
+        order = _permutation(order, len(self.units))
+        if source not in self.reference:
+            raise ValueError('source must belong to the supplied reference support')
+        _check(deadline)
+        if self.resolution_order != order:
+            self.resolution_order, self.resolution_scales = order, {}
+        if self.exact_response:
+            self.resolution_scales[source] = 0.
+            return {}
+        reference = self._reference_column(source, deadline)
+        q = [{source: 1. + 0j}, {}, {}, {}]
+        for unit, tau in _stages(order):
+            _check(deadline)
+            out = [dict(a) for a in q]
+            powers = list(q)
+            factor = 1.
+            for degree in range(1, 4):
+                factor *= tau / degree
+                for k in range(4 - degree):
+                    powers[k] = self._apply_response(unit, powers[k], deadline)
+                    _add(out[k + degree], powers[k], factor, self.max_entries, self.stats)
+            q = out
+            self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], *(len(a) for a in q))
+        scale = _norm(q[3]) + _norm(reference)
+        _add(q[3], reference, -1., self.max_entries, self.stats)
+        _resolved(_norm(q[3]), scale)
+        self.resolution_scales[source] = scale
+        self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(q[3]))
+        return q[3]
+
+    def affordable_steps(self, order, rotation_budget):
+        order = _permutation(order, len(self.units))
+        _integer(rotation_budget, 'rotation_budget')
+        lengths = tuple(self.lengths[i] for i in order if self.lengths[i])
+        if not lengths:
+            return 1
+        plan = plan_strang_schedule(lengths, rotation_budget)
+        if not plan.feasible:
+            raise ValueError('rotation budget cannot afford one symmetric step')
+        return plan.steps
+
+    def columns(self, order, deadline=float('inf')):
+        order = _permutation(order, len(self.units))
+        if order == self.last_order and self.last_columns is not None:
+            _check(deadline)
+            self.resolution_order = order
+            self.resolution_scales = dict(self.last_resolution_scales)
+            return {source: dict(column) for source, column in self.last_columns.items()}
+        columns = {source: self.cubic_column(order, source, deadline)
+                   for source in self.reference}
+        if sum(map(len, columns.values())) > self.max_entries:
+            raise ResourceLimit('combined cubic columns exceed max_entries')
+        return columns
+
+    def adjacent_columns(self, order, columns, position, deadline=float('inf')):
+        """Swap adjacent A,B: delta C=[(A+B)/8+suffix/4,[A,B]].
+
+        This is an exact algebraic update of the cubic coefficient, evaluated
+        numerically on each reference column before diagonal transport. Accepted
+        search moves are checked again through the full Taylor recurrence.
+        """
+        order = _permutation(order, len(self.units))
+        _integer(position, 'adjacent position', 0, len(order) - 2)
+        a, b = order[position:position + 2]
+        suffix = order[position + 2:]
+        def commutator(vector):
+            left = self._apply_response(a, self._apply_response(b, vector, deadline), deadline)
+            _add(left, self._apply_response(b, self._apply_response(a, vector, deadline), deadline), -1., self.max_entries, self.stats)
+            return left
+        def linear(vector):
+            out = {}
+            for unit, factor in ((a, .125), (b, .125)):
+                _add(out, self._apply_response(unit, vector, deadline), factor, self.max_entries, self.stats)
+            for unit in suffix:
+                _add(out, self._apply_response(unit, vector, deadline), .25, self.max_entries, self.stats)
+            return out
+        result = {}
+        for source in self.reference:
+            initial = {source: 1. + 0j}
+            delta = linear(commutator(initial))
+            _add(delta, commutator(linear(initial)), -1., self.max_entries, self.stats)
+            column = dict(columns[source])
+            _add(column, delta, 1., self.max_entries, self.stats)
+            result[source] = column
+            self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(delta), len(column))
+        if sum(map(len, result.values())) > self.max_entries:
+            raise ResourceLimit('updated cubic columns exceed max_entries')
+        new_order = list(order)
+        new_order[position:position + 2] = [b, a]
+        return tuple(new_order), result
+
+    def score_columns(self, order, rotation_budget, columns, deadline=float('inf')):
+        _check(deadline)
+        order = _permutation(order, len(self.units))
+        steps = self.affordable_steps(order, rotation_budget)
+        if set(columns) != set(self.reference):
+            raise ValueError('cubic columns must cover the reference support')
+        action = {}
+        for source, amplitude in self.reference.items():
+            for destination, coefficient in columns[source].items():
+                _check(deadline)
+                kernel = self._transport(source, destination, deadline)
+                _add(action, {destination: coefficient * amplitude * kernel}, 1., self.max_entries, self.stats)
+                self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(action))
+        projection = sum(a.conjugate() * action.get(k, 0j) for k, a in self.reference.items())
+        _add(action, self.reference, -projection, self.max_entries, self.stats)
+        self.stats['peak_vector_entries'] = max(self.stats['peak_vector_entries'], len(action))
+        response = sum(x.real * x.real + x.imag * x.imag for x in action.values())
+        value = response / steps ** 4
+        if not math.isfinite(value) or not math.isfinite(response):
+            raise ValueError('nonfinite cubic response score')
+        return Score(value=value, cubic_response=response, steps=steps)
+
+    def score(self, order, rotation_budget, deadline=float('inf')):
+        _check(deadline)
+        order = _permutation(order, len(self.units))
+        self.affordable_steps(order, rotation_budget)
+        columns = self.columns(order, deadline)
+        result = self.score_columns(order, rotation_budget, columns, deadline)
+        scale = self.time * sum(abs(amplitude) * self.resolution_scales[source]
+                                for source, amplitude in self.reference.items())
+        _resolved(math.sqrt(result.cubic_response), scale)
+        self.last_order, self.last_columns = order, columns
+        self.last_resolution_scales = dict(self.resolution_scales)
+        return result
+
+
+@dataclass(frozen=True)
+class TrainingResult:
+    order: tuple[int, ...]
+    score: Score | None
+    CPU_seconds: float
+    evaluations: int
+    accepted_moves: int
+    status: str
+    stats: dict
+
+
+def _incremental_search(context, scored, budget, deadline, max_evaluations, max_moves,
+                        best_order, best_score, evaluations, reserve, seed_columns=None):
+    """Visit insertion destinations by adjacent updates; retain rescored gains."""
+    moves = 0
+    status = 'complete'
+    start = _time.process_time()
+    search_end = deadline - reserve
+    slice_seconds = max(0., search_end - start) / max(1, len(scored))
+    scored = sorted(scored, key=lambda item: (item[1].value, item[0]))
+    seed_columns = seed_columns or {}
+    context.stats['incremental_candidates'] = 0
+    context.stats['full_move_rescores'] = 0
+    context.stats['full_move_rescore_attempts'] = 0
+    for seed_index, (order, score) in enumerate(scored):
+        end = min(search_end, start + (seed_index + 1) * slice_seconds)
+        current, current_score = order, score
+        seed_stopped = False
+        for _ in range(max_moves):
+            proposal, proposal_score = current, current_score
+            try:
+                _check(end)
+                if evaluations >= max_evaluations - 1:
+                    raise SearchDeadline('evaluation limit reached')
+                columns = seed_columns.get(current)
+                if columns is None:
+                    columns = context.columns(current, end)
+                for source in range(len(current)):
+                    for direction in (-1, 1):
+                        trial, trial_columns = current, columns
+                        at = source
+                        while 0 <= at + direction < len(current):
+                            _check(end)
+                            if evaluations >= max_evaluations - 1:
+                                raise SearchDeadline('evaluation limit reached')
+                            position = at - 1 if direction < 0 else at
+                            trial, trial_columns = context.adjacent_columns(trial, trial_columns, position, end)
+                            try:
+                                context.affordable_steps(trial, budget)
+                            except ValueError:
+                                at += direction
+                                continue
+                            trial_score = context.score_columns(trial, budget, trial_columns, end)
+                            evaluations += 1
+                            context.stats['incremental_candidates'] += 1
+                            if (trial_score.value, trial) < (proposal_score.value, proposal):
+                                proposal, proposal_score = trial, trial_score
+                            at += direction
+            except SearchDeadline:
+                seed_stopped = True
+                if evaluations >= max_evaluations - 1:
+                    status = 'evaluation_limit'
+                elif status == 'complete':
+                    status = 'cpu_limit'
+            except NumericalResolution:
+                seed_stopped = True
+                status = 'numerical_limit'
+            except ResourceLimit:
+                seed_stopped = True
+                status = 'support_limit'
+            threshold = max(1e-30, abs(current_score.value) * 1e-12)
+            if proposal_score.value >= current_score.value - threshold:
+                break
+            try:
+                if evaluations >= max_evaluations:
+                    status = 'evaluation_limit'
+                    break
+                context.stats['full_move_rescore_attempts'] += 1
+                actual = context.score(proposal, budget, deadline)
+                evaluations += 1
+                context.stats['full_move_rescores'] += 1
+            except NumericalResolution:
+                status = 'numerical_limit'
+                break
+            except SearchDeadline:
+                if status == 'complete':
+                    status = 'cpu_limit'
+                break
+            except ResourceLimit:
+                status = 'support_limit'
+                break
+            if actual.value >= current_score.value - threshold:
+                break
+            current, current_score = proposal, actual
+            moves += 1
+            if (actual.value, proposal) < (best_score.value, best_order):
+                best_order, best_score = proposal, actual
+            if seed_stopped:
+                break
+        if evaluations >= max_evaluations - 1:
+            # A completed sweep can land exactly on the reserved-last-evaluation
+            # boundary. Report omitted seed work without erasing a prior refusal
+            # or relabeling a completed final seed (including max_moves=0).
+            if (max_moves > 0 and seed_index + 1 < len(scored)
+                    and status in ('complete', 'cpu_limit')):
+                status = 'evaluation_limit'
+            break
+        # A seed's local slice may expire while the next seed remains eligible.
+        # Only the global CPU/wall check ends the remaining seed allocations.
+        try:
+            _check(deadline)
+        except SearchDeadline:
+            if status == 'complete':
+                status = 'cpu_limit'
+            break
+    return best_order, best_score, evaluations, moves, status
+
+
+def train_ordering(blocks, n_qubits, reference, *, time=1., rotation_budget,
+                   cpu_seconds=2., max_evaluations=3000, max_moves=5,
+                   max_entries=50000, max_cached_actions=50000, starts=None,
+                   method='sparse', window_options=None):
+    """Return the best fully scored candidate under a cooperative CPU allowance.
+
+    If context/seed work exhausts the cap, a valid initializer is returned with
+    score=None. Admission interrupted before a valid initializer exists raises
+    SearchDeadline explicitly. Deadline/support failures never become a zero or
+    partial score.
+    A score is a response heuristic, not an actual finite-state-error certificate.
+    Callers needing strict total construction accounting must time the complete
+    call, including input loading and object cleanup, as the benchmark does.
+    Opt-in method='window' uses the Julia conditioned-window backend and charges
+    owned child startup/JIT/user/system CPU in the same whole-call allowance.
+    See WindowOptions in qhat.analysis.window_ordering for its narrower domain.
+    """
+    if method == 'window':
+        began, wall_began = _time.process_time(), _time.monotonic()
+        from qhat.analysis.window_ordering import train_window
+        return train_window(blocks, n_qubits, reference, time=time,
+            rotation_budget=rotation_budget, cpu_seconds=cpu_seconds,
+            max_evaluations=max_evaluations, max_moves=max_moves, max_entries=max_entries,
+            max_cached_actions=max_cached_actions, starts=starts, window_options=window_options,
+            _began=began, _wall_began=wall_began)
+    if method != 'sparse':
+        raise ValueError('method must be sparse or window')
+    if window_options is not None:
+        raise ValueError('window_options requires method=window')
+    began = _time.process_time()
+    allowance = _finite(cpu_seconds, 'cpu_seconds', positive=True)
+    _integer(max_evaluations, 'max_evaluations', 0, 1000000)
+    _integer(max_moves, 'max_moves', 0, 1000)
+    _integer(rotation_budget, 'rotation_budget')
+    deadline = began + allowance
+    # Materialize and validate once; even an interrupted search returns a valid
+    # permutation of the caller's units. Interrupted admission raises explicitly;
+    # no unvalidated initializer is returned.
+    _integer(max_entries, 'max_entries', 1, 1000000)
+    _integer(max_cached_actions, 'max_cached_actions', 0, 1000000)
+    _finite(time, 'time', positive=True)
+    reference = _reference(reference, _integer(n_qubits, 'n_qubits', 1, 4096), max_entries)
+    compiled = _compile(blocks, n_qubits, deadline)
+    canonical = tuple(range(len(compiled)))
+    magnitude = tuple(sorted(canonical, key=lambda i: (-sum(abs(c) for _, _, c, _ in compiled[i]), i)))
+    seeds = [magnitude, tuple(reversed(magnitude)), canonical] if starts is None else list(starts)
+    if not seeds:
+        raise ValueError('at least one seed is required')
+    seeds = list(dict.fromkeys(_permutation(order, len(compiled)) for order in seeds))
+    def affordable(order):
+        lengths = [len(compiled[i]) for i in order if compiled[i]]
+        return not lengths or plan_strang_schedule(lengths, rotation_budget).feasible
+    seeds = [order for order in seeds if affordable(order)]
+    if not seeds:
+        fallback = tuple(sorted(canonical, key=lambda i: (len(compiled[i]), i)))
+        if not affordable(fallback):
+            raise ValueError('rotation budget cannot afford one symmetric step')
+        seeds = [fallback]
+    best_order, best_score = seeds[0], None
+    evaluations = moves = 0
+    seed_attempts = seed_evaluations = 0
+    best_seed_columns = {}
+    context = None
+    status = 'complete'
+    try:
+        context = SparseResponse(blocks, n_qubits, reference, time=time, max_entries=max_entries,
+                                 max_cached_actions=max_cached_actions, deadline=deadline)
+        scored = []
+        longest_seed = 0.
+        for order in seeds:
+            if evaluations >= max_evaluations:
+                status = 'evaluation_limit'
+                break
+            seed_began = _time.process_time()
+            seed_attempts += 1
+            score = context.score(order, rotation_budget, deadline)
+            longest_seed = max(longest_seed, _time.process_time() - seed_began)
+            evaluations += 1
+            seed_evaluations += 1
+            scored.append((order, score))
+            if best_score is None or (score.value, order) < (best_score.value, best_order):
+                best_order, best_score = order, score
+                # Retain only one bounded snapshot, not one per start. The
+                # mutable update path always constructs new column mappings.
+                best_seed_columns = {order: context.last_columns}
+        if len(compiled) > 8 and scored:
+            best_order, best_score, evaluations, moves, status = _incremental_search(
+                context, scored, rotation_budget, deadline, max_evaluations, max_moves,
+                best_order, best_score, evaluations, max(.02, longest_seed * 1.25),
+                seed_columns=best_seed_columns)
+            stats = dict(context.stats)
+            stats.update(seed_attempts=seed_attempts, seed_evaluations=seed_evaluations,
+                retained_seed_column_entries=sum(len(column) for columns in best_seed_columns.values() for column in columns.values()))
+            stats['response_is_error_bound'] = False
+            del context
+            return TrainingResult(best_order, best_score, _time.process_time() - began,
+                                  evaluations, moves, status, stats)
+        for order, score in scored:
+            current, current_score = order, score
+            for _ in range(max_moves):
+                candidate, candidate_score = current, current_score
+                for source in range(len(current)):
+                    for destination in range(len(current)):
+                        if source == destination:
+                            continue
+                        if evaluations >= max_evaluations:
+                            raise SearchDeadline('evaluation limit reached')
+                        trial = list(current)
+                        trial.insert(destination, trial.pop(source))
+                        trial = tuple(trial)
+                        _check(deadline)
+                        if not affordable(trial):
+                            continue
+                        trial_score = context.score(trial, rotation_budget, deadline)
+                        evaluations += 1
+                        if (trial_score.value, trial) < (candidate_score.value, candidate):
+                            candidate, candidate_score = trial, trial_score
+                        # A completed candidate remains usable if a later sweep
+                        # is interrupted, without inventing an accepted move.
+                        if (trial_score.value, trial) < (best_score.value, best_order):
+                            best_order, best_score = trial, trial_score
+                threshold = max(1e-30, abs(current_score.value) * 1e-12)
+                if candidate_score.value >= current_score.value - threshold:
+                    break
+                current, current_score = candidate, candidate_score
+                moves += 1
+    except SearchDeadline:
+        status = 'evaluation_limit' if evaluations >= max_evaluations else 'cpu_limit'
+    except NumericalResolution:
+        status = 'numerical_limit'
+    except ResourceLimit:
+        status = 'support_limit'
+    stats = dict(context.stats) if context is not None else {}
+    stats.update(seed_attempts=seed_attempts, seed_evaluations=seed_evaluations,
+        retained_seed_column_entries=sum(len(column) for columns in best_seed_columns.values() for column in columns.values()))
+    stats['response_is_error_bound'] = False
+    del context
+    return TrainingResult(best_order, best_score, _time.process_time() - began,
+                          evaluations, moves, status, stats)
+
+
+@dataclass(frozen=True)
+class StepCertificate:
+    steps: int
+    operator_error_bound: Fraction
+    metric: str
+    error_bound: Fraction
+
+
+def conservative_steps(blocks, n_qubits, *, time, error_tolerance,
+                       metric='operator', max_steps=10**9):
+    """Exact-rational upper bound for an ideal symmetric product formula.
+
+    Let a=|T| sum|c| and r>=2a. Both degree>=3 Taylor tails are bounded
+    by x^3/[6(1-x/4)], x=a/r<=1/2. Unitary telescoping therefore gives
+    ||S2(T/r)^r-exp(-iTH)|| <= (2/3)*a^3/r^2. The loose 2/3 constant is
+    deliberate. For normalized states, 1-|overlap| <= delta^2/2 and
+    1-|overlap|^2 <= delta^2. Arithmetic here is rational, not a floating
+    interval assertion. Input floats denote their exact supplied dyadics.
+    """
+    _finite(time, 'time')
+    _finite(error_tolerance, 'error_tolerance', positive=True)
+    _integer(max_steps, 'max_steps', 1)
+    if metric not in ('operator', 'infidelity', 'squared_infidelity'):
+        raise ValueError('unknown error metric')
+    units = _compile(blocks, n_qubits)
+    a = abs(Fraction(time)) * sum((abs(c) for unit in units for _, _, _, c in unit), Fraction(0))
+    target = Fraction(error_tolerance)
+    if not a or sum(bool(unit) for unit in units) <= 1:
+        return StepCertificate(1, Fraction(0), metric, Fraction(0))
+    lower = max(1, (2 * a.numerator + a.denominator - 1) // a.denominator)
+    def bounds(r):
+        delta = min(Fraction(2), Fraction(2, 3) * a**3 / r**2)
+        error = delta if metric == 'operator' else delta**2 / (2 if metric == 'infidelity' else 1)
+        return delta, error
+    if lower > max_steps or bounds(max_steps)[1] > target:
+        raise ResourceLimit('conservative target requires more than max_steps')
+    lo, hi = lower, max_steps
+    while lo < hi:
+        middle = (lo + hi) // 2
+        if bounds(middle)[1] <= target:
+            hi = middle
+        else:
+            lo = middle + 1
+    delta, error = bounds(lo)
+    return StepCertificate(lo, delta, metric, error)

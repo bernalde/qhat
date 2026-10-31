@@ -1,0 +1,55 @@
+{
+  "schema": "molecular-hf-later-native-final-v1",
+  "completed": true,
+  "status": "verified_later_native_only",
+  "role": "later_supplementary_native_validation",
+  "plan": {
+    "path": "PLAN.a1.json",
+    "bytes": 6456,
+    "sha256": "3853b2c8adfe3383fff493adf35b15b13ca068290c7f1628efd34bee9af2d581"
+  },
+  "result": {
+    "path": "work/RESULT.json",
+    "bytes": 7050,
+    "sha256": "ef8513743ae891677877a59ddab922d91ad90f4608428264f9699a08c5827884"
+  },
+  "receipt": {
+    "path": "logs/mg-hf-native-supplement-a1.resources.json",
+    "bytes": 2654,
+    "sha256": "923b96af532635dcbaf104c9c2c7a04c13510239f8e61214dfdd9368f641c336"
+  },
+  "log": {
+    "path": "logs/mg-hf-native-supplement-a1.log",
+    "bytes": 1718,
+    "sha256": "c992a655624c48d0443c35d2dcc0a793c9ae62c1696172327196af48eedcb327"
+  },
+  "independent_metadata_readback": {
+    "path": "READBACK.json",
+    "bytes": 3458,
+    "sha256": "29231025e3666a05c41cab34b3628bbe922dccdc707154fef3fcb67162d40904"
+  },
+  "native_score": {
+    "value": 4.203343909840468e-08,
+    "cubic_response": 0.002127942854356737,
+    "steps": 15
+  },
+  "costs": {
+    "raw_GNU_CPU_seconds": 0.85,
+    "existing_main_methodology_charge_CPU_seconds": 0.861,
+    "terminal_cgroup_CPU_seconds": 0.863,
+    "charged_CPU_seconds": 0.864,
+    "charge_policy": "One conservative charge: max(GNU user+sys+.011, sampled cgroup CPU, terminal cgroup display plus one display quantum), rounded up to milliseconds; alternative bases are not extra spending",
+    "wall_seconds": 6.166641355000138,
+    "guarded_output_bytes": 1252312,
+    "GNU_peak_RSS_KiB": 32964.0,
+    "cgroup_sampled_memory_peak_bytes": 91262976
+  },
+  "original_scientific_gate_complete": false,
+  "original_source_analysis_complete": false,
+  "original_primary_decisions_both": "incomplete",
+  "original_censor_repaired": false,
+  "original_constructor_promoted": false,
+  "original_32_64_costs_changed": false,
+  "original_DATA_unchanged": true,
+  "no_automatic_retry": true
+}
